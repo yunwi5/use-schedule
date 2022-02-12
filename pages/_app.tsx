@@ -3,7 +3,7 @@ import { UserProvider } from "@auth0/nextjs-auth0";
 import Head from "next/head";
 import Header from "../components/layout/Header";
 import SideNav from "../components/layout/SideNav";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import { useState } from 'react';
 
 function MyApp ({ Component, pageProps }: AppProps) {

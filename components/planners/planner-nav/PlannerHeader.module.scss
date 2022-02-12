@@ -1,0 +1,15 @@
+@import "../../../styles/abstract/variables";
+
+.header {
+	position: relative;
+	&::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		width: 94%;
+		height: 2px;
+		transform: translate(-50%, 1px);
+		background-color: rgba($color-grey-dark-1, .7);
+	}
+}

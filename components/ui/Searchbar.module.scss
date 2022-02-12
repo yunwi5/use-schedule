@@ -1,0 +1,25 @@
+@import "../../styles/abstract/variables";
+
+.search {
+	display: flex;
+	align-items: center;
+	color: $color-primary-dark-4;
+	padding: .5rem .8rem;
+	border-radius: 25px;
+	border: 1px solid $color-primary-light-4;
+
+	&:focus-within {
+		border: 2px solid $color-primary;
+	}
+
+	.icon {
+		font-size: 1.3rem;
+		margin-right: 1rem;
+	}
+
+	input {
+		&:focus {
+			outline: none;
+		}
+	}
+}

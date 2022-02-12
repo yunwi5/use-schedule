@@ -1,0 +1,20 @@
+@import "../../styles/abstract/variables";
+
+.btn {
+	border-radius: 5px;
+}
+
+.btn-primary {
+	color: $color-primary-light-2;
+	background-color: $color-primary-dark-2;
+
+	&:hover {
+		color: #fff;
+		background-color: $color-primary-dark-1;
+	}
+}
+
+.btn-medium {
+	font-size: 1.15rem;
+	padding: .5rem .9rem;
+}
