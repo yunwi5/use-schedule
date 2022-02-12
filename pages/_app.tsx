@@ -20,8 +20,10 @@ function MyApp ({ Component, pageProps }: AppProps) {
 			</Head>
 			<div className="app">
 				<Header onToggleSidebar={() => setShowSidebar(prev => !prev)} />
-				<SideNav onToggleSidebar={() => setShowSidebar(prev => !prev)} showSidebar={showSidebar} />
-				<Component {...pageProps} />
+				<div>
+					<SideNav onToggleSidebar={() => setShowSidebar(prev => !prev)} showSidebar={showSidebar} />
+					<Component {...pageProps} />
+				</div>
 			</div>
 		</UserProvider>
 	);

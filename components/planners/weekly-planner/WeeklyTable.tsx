@@ -2,11 +2,17 @@ import React from "react";
 import TableNav from "../planner-nav/TableNav";
 import WeekdayList from "./WeekdayList";
 
-const WeeklyTable: React.FC = () => {
+interface Props {
+	weekBeginning: Date;
+}
+
+const WeeklyTable: React.FC<Props> = (props) => {
+	const { weekBeginning } = props;
+
 	return (
 		<div>
-			<TableNav />
-			<WeekdayList />
+			<TableNav weekBeginning={weekBeginning} />
+			<WeekdayList weekBeginning={weekBeginning} />
 		</div>
 	);
 };

@@ -14,7 +14,7 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
 	const isLoggedIn = user && !isLoading;
 
 	return (
-		<header className="flex items-center py-4 pl-4 pr-4 justify-between text-slate-700 bg-slate-200">
+		<header className="flex fixed top-0 z-10 w-full items-center py-4 pl-4 pr-4 justify-between text-slate-700 bg-slate-200">
 			<FontAwesomeIcon
 				icon={faBars}
 				className="max-w-[1.5rem] text-2xl cursor-pointer"

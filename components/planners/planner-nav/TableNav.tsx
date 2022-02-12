@@ -1,13 +1,29 @@
 import { faCaretLeft, faCaretRight } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { getWeekEnding } from "../../../utilities/time-utils/date-get";
+import { getMonth } from "../../../utilities/time-utils/month-util";
 
-const TableNav: React.FC = () => {
+interface Props {
+	weekBeginning: Date;
+}
+
+const TableNav: React.FC<Props> = (props) => {
+	const { weekBeginning } = props;
+	const weekEnding = getWeekEnding(weekBeginning);
+
+	const beginDate = weekBeginning.getDate();
+	const beginMonth = getMonth(weekBeginning);
+	const endDate = weekEnding.getDate();
+	const endMonth = getMonth(weekEnding);
+
 	return (
 		<div className="mt-2 ml-2 flex items-center justify-between p-3">
 			<div className="flex items-center gap-1 text-xl">
 				<FontAwesomeIcon className="text-4xl cursor-pointer" icon={faCaretLeft} />
-				<p>7/Feb ~ 13/Feb</p>
+				<p>
+					{beginDate}/{beginMonth} ~ {endDate}/{endMonth}
+				</p>
 				<FontAwesomeIcon className="text-4xl cursor-pointer" icon={faCaretRight} />
 			</div>
 

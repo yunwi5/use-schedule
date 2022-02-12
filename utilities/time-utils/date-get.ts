@@ -1,13 +1,19 @@
 import { resetHoursAndMinutes } from "./date-control";
-import { WeekDay, WeekDayArray } from "../../models/date-models/WeekDay";
+import { WeekDay, WeekDayList } from "../../models/date-models/WeekDay";
 import { mod } from "../gen-utils/calc-util";
 
 const NUM_DAYS_PER_WEEK = 7;
 
 export function getDayOffset (weekDay: WeekDay): number {
-	const index = WeekDayArray.indexOf(weekDay);
+	const index = WeekDayList.indexOf(weekDay);
 	const offset = mod(index - 1, NUM_DAYS_PER_WEEK);
 	return offset;
+}
+
+export function getCurrentWeekBeginning () {
+	const current = new Date();
+	const currentWeekBeginning = getWeekBeginning(current);
+	return currentWeekBeginning;
 }
 
 export function getWeekBeginning (date: Date): Date {
