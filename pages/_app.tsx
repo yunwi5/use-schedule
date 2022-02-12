@@ -4,8 +4,11 @@ import Head from "next/head";
 import Header from "../components/layout/Header";
 import SideNav from "../components/layout/SideNav";
 import "../styles/globals.css";
+import { useState } from 'react';
 
 function MyApp ({ Component, pageProps }: AppProps) {
+	const [showSidebar, setShowSidebar] = useState(true);
+
 	return (
 		<UserProvider>
 			<Head>
@@ -16,8 +19,8 @@ function MyApp ({ Component, pageProps }: AppProps) {
 				/>
 			</Head>
 			<div className="app">
-				<Header />
-				<SideNav />
+				<Header onToggleSidebar={() => setShowSidebar(prev => !prev)} />
+				<SideNav onToggleSidebar={() => setShowSidebar(prev => !prev)} showSidebar={showSidebar} />
 				<Component {...pageProps} />
 			</div>
 		</UserProvider>
