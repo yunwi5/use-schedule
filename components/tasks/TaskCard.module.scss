@@ -4,17 +4,136 @@
 	display: flex;
 	flex-direction: column;
 	background-color: rgba($color-primary-light-1, 1);
-	width: clamp(50%, 65rem, 75rem);
+	width: clamp(50%, 66rem, 75rem);
+	padding: .8rem 1.5rem;
+	gap: 3.2rem;
+	font-size: 1.15rem;
+	box-shadow: $shadow-light;
 
 	&__heading,
 	&__body {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+
+		& > * {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	&__heading {
 	}
 
+	&__name {
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: $color-primary-dark-3;
+	}
+
+	&__time {
+		margin-left: 1.7rem;
+		margin-right: auto;
+	}
+
+	&__select {
+		border-radius: 3px;
+		padding: .5rem .6rem;
+		font-size: inherit;
+	}
+
+	.icon {
+		font-size: 120%;
+		margin-right: 5px;
+		color: $color-primary-dark-3;
+	}
+
+	&__icon_small {
+		font-size: 30%;
+		margin: 0 5px;
+	}
+
 	&__body {
+		font-size: inherit;
+	}
+
+	&__category {
+		display: flex;
+		align-items: center;
+		padding-right: 1rem;
+		border-right: 2.5px solid $color-primary-dark-3;
+
+		.icon {
+			margin-right: .5rem;
+			color: rgb(29, 78, 216);
+		}
+	}
+
+	&__importance {
+		margin-left: 1rem;
+		padding-right: 1rem;
+		border-right: 2.5px solid $color-primary-dark-3;
+		.icon {
+			color: $color-amber-dark-1;
+		}
+	}
+
+	&__status {
+		margin-left: 1rem;
+		margin-right: auto;
+
+		.icon {
+			color: inherit;
+		}
+	}
+
+	.status-open {
+		color: rgb(15, 118, 110);
+	}
+
+	.status-completed {
+		color: $color-secondary-dark-3;
+	}
+
+	.status-inprogress {
+		color: rgb(67, 56, 202);
+	}
+
+	.status-overdue {
+		color: rgb(225, 29, 72);
+	}
+
+	&__detail,
+	&__edit {
+		padding: .3rem .6rem;
+		border-radius: 3.5px;
+		min-width: 5.5rem;
+
+		.icon {
+			color: inherit;
+		}
+	}
+
+	&__detail {
+		margin-right: 1rem;
+		border: 2px solid rgb(2, 132, 199);
+		background-color: rgba(224, 242, 254, .7);
+		color: $color-secondary-dark-4;
+
+		&:hover {
+			background-color: rgb(2, 132, 199);
+			color: $color-secondary-light-1;
+		}
+	}
+
+	&__edit {
+		border: 2px solid rgb(219, 39, 119);
+		background-color: rgba(251, 231, 243, .7);
+		color: rgb(157, 23, 77);
+
+		&:hover {
+			background-color: rgb(219, 39, 119);
+			color: rgb(253, 242, 248);
+		}
 	}
 }
