@@ -21,3 +21,11 @@ export enum TaskStatus {
 	COMPLETED = "Completed",
 	OVERDUE = "Overdue"
 }
+
+export const TaskStatusList = [
+	TaskStatus.OPEN,
+	TaskStatus.CANCELLED,
+	TaskStatus.IN_PROGRESS,
+	TaskStatus.COMPLETED,
+	TaskStatus.OVERDUE
+];

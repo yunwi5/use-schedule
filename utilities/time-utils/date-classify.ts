@@ -1,8 +1,8 @@
 import { getWeekEnding } from "./date-get";
-import { WeekDay, WeekDayArray } from "../../models/date-models/WeekDay";
+import { WeekDay, WeekDayList } from "../../models/date-models/WeekDay";
 
 export function isSameDay (weekDay: WeekDay, date: Date): boolean {
-	const day = WeekDayArray[date.getDay()];
+	const day = WeekDayList[date.getDay()];
 	return weekDay === day;
 }
 

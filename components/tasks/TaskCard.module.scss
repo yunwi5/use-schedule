@@ -1,0 +1,20 @@
+@import "../../styles/abstract/variables";
+
+.task {
+	display: flex;
+	flex-direction: column;
+	background-color: rgba($color-primary-light-1, 1);
+	width: clamp(50%, 65rem, 75rem);
+
+	&__heading,
+	&__body {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__heading {
+	}
+
+	&__body {
+	}
+}

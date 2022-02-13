@@ -4,6 +4,11 @@ import { mod } from "../gen-utils/calc-util";
 
 const NUM_DAYS_PER_WEEK = 7;
 
+export function getDayName (offset: number): WeekDay {
+	offset = offset % 7;
+	return WeekDayList[offset];
+}
+
 export function getDayOffset (weekDay: WeekDay): number {
 	const index = WeekDayList.indexOf(weekDay);
 	const offset = mod(index - 1, NUM_DAYS_PER_WEEK);

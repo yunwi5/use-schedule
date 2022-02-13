@@ -1,3 +1,9 @@
+export function addMinutes (date: Date, minutes: number) {
+	const dateCopy = new Date(date);
+	dateCopy.setMinutes(dateCopy.getMinutes() + minutes);
+	return dateCopy;
+}
+
 export function addDays (date: Date, numDays: number = 1): Date {
 	const dateCopy = new Date(date);
 	dateCopy.setDate(dateCopy.getDate() + numDays);

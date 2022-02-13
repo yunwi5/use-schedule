@@ -1,7 +1,0 @@
-@import "../../styles/abstract/variables";
-
-.task {
-	display: grid;
-	grid-template-rows: repeat(2, 1fr);
-	grid-template-columns: repeat(4, minmax(50px, 1fr));
-}

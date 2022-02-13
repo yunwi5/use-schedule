@@ -1,12 +1,8 @@
 import type { NextPage } from 'next'
-import { useUser } from "@auth0/nextjs-auth0";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-	const {user, isLoading} = useUser();
-	console.log("user:", user);
-
 	return (
 		<div className={styles.container}>
 			<Head>

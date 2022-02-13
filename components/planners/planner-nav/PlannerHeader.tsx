@@ -17,10 +17,10 @@ const PlannerHeader: React.FC = () => {
 					<option>Status</option>
 				</select>
 			</div>
-			<div className="mr-auto ml-8">
+			<div className="flex items-center mr-auto ml-8">
 				Filter
-				<button className="bg-slate-600 text-white ml-2  w-10 h-10 rounded-full">
-					<FontAwesomeIcon icon={faBarsFilter} className="text-xl" />
+				<button className="flex justify-center items-center bg-slate-600 hover:bg-slate-500 text-white ml-2  w-11 h-11 rounded-full">
+					<FontAwesomeIcon icon={faBarsFilter} className="max-w-[1.3rem] text-xl" />
 				</button>
 			</div>
 			<Searchbar
