@@ -22,10 +22,11 @@ import classes from "./TaskCard.module.scss";
 interface Props {
 	task: PlannerTask;
 	beginningPeriod: Date;
+	onMutate: () => void;
 }
 
 const PlannerTaskCard: React.FC<Props> = (props) => {
-	const { task: initialTask, beginningPeriod } = props;
+	const { task: initialTask, beginningPeriod, onMutate } = props;
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
 
@@ -41,20 +42,31 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		const taskCopy = copyClassObject(task);
 		taskCopy.status = newStatus;
 		setTask(taskCopy);
-		// API call
-		updateTaskStatus(task.id, newStatus);
+		updateStatusHandler(newStatus);
 	};
 
-	const editTaskHandler = (newTask: PlannerTask) => {
-		console.log("editted task:", newTask);
+	const updateStatusHandler = async (newStatus: TaskStatus) => {
+		// API call
+		await updateTaskStatus(task.id, newStatus);
+		onMutate();
 	};
+
+	const updateTaskHandler = () => onMutate();
+
+	// Whenever there is a global update of tasks, update card as well.
+	useEffect(
+		() => {
+			setTask(initialTask);
+		},
+		[ initialTask ]
+	);
 
 	return (
 		<li className={`${classes.task}`}>
 			{isEditing && (
 				<PlannerTaskEdit
 					onClose={() => setIsEditing(false)}
-					onEditTask={editTaskHandler}
+					onUpdate={updateTaskHandler}
 					beginningPeriod={beginningPeriod}
 					initialTask={task}
 				/>

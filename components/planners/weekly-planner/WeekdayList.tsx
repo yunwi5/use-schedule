@@ -6,10 +6,11 @@ import TaskList from "../../tasks/TaskList";
 interface Props {
 	weekBeginning: Date;
 	planner: WeeklyPlanner;
+	onMutate: () => void;
 }
 
 const WeekdayList: React.FC<Props> = (props) => {
-	const { weekBeginning, planner } = props;
+	const { weekBeginning, planner, onMutate } = props;
 
 	return (
 		<div className="">
@@ -20,6 +21,7 @@ const WeekdayList: React.FC<Props> = (props) => {
 					weekBeginning={weekBeginning}
 					planner={planner}
 					index={idx}
+					onMutate={onMutate}
 				/>
 			))}
 		</div>

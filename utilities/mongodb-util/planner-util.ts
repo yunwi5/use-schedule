@@ -4,7 +4,7 @@ import { Task } from "../../models/task-models/Task";
 export async function getTasks (client: MongoClient, collection: string, userId: string) {
 	const db = client.db();
 	const data = await db.collection(collection).find({ userId }).toArray();
-	console.log(data);
+	// console.log(data);
 	return data;
 }
 

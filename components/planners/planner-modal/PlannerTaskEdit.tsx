@@ -8,13 +8,13 @@ import { updateTask } from "../../../lib/planners/weekly-planner-api";
 
 interface Props {
 	onClose: () => void;
-	onEditTask: (newTask: PlannerTask) => void;
+	onUpdate: () => void;
 	beginningPeriod: Date;
 	initialTask: Task;
 }
 
 const PlannerTaskAdd: React.FC<Props> = (props) => {
-	const { onClose, onEditTask, beginningPeriod, initialTask } = props;
+	const { onClose, onUpdate, beginningPeriod, initialTask } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
 
@@ -38,12 +38,13 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			alert("Update went wrong...");
 		}
 
-		onEditTask(newPlannerTask);
+		onUpdate();
 		onClose();
 	};
 
 	const taskDeleteHandler = async () => {
 		console.log("Delete the task", initialTask.name);
+		onUpdate();
 	};
 
 	return (

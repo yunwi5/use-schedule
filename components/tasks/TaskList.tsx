@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import PlannerTaskCard from "./PlannerTaskCard";
 import { WeekDay } from "../../models/date-models/WeekDay";
 import { WeeklyPlanner } from "../../models/planner-models/Planner";
@@ -14,6 +14,7 @@ interface Props {
 	planner: WeeklyPlanner;
 	day: WeekDay;
 	index: number;
+	onMutate: () => void;
 }
 
 function sortTaskByTime (taskA: PlannerTask, taskB: PlannerTask) {
@@ -21,7 +22,7 @@ function sortTaskByTime (taskA: PlannerTask, taskB: PlannerTask) {
 }
 
 const TaskList: React.FC<Props> = (props) => {
-	const { weekBeginning, planner, day, index } = props;
+	const { weekBeginning, planner, day, index, onMutate } = props;
 	const [ isShrinked, setIsShrinked ] = useState(false);
 
 	const taskList = planner.getTasks(day);
@@ -31,7 +32,6 @@ const TaskList: React.FC<Props> = (props) => {
 		},
 		[ taskList ]
 	);
-	// const sortedTasksList = taskList.sort(sortTaskByTime);
 
 	const curr = addDays(weekBeginning, index);
 	const currMonth = getMonth(curr);
@@ -62,6 +62,7 @@ const TaskList: React.FC<Props> = (props) => {
 							key={task.id}
 							task={task}
 							beginningPeriod={weekBeginning}
+							onMutate={onMutate}
 						/>
 					))}
 				</ul>

@@ -7,15 +7,14 @@ import { Theme, Size } from "../../../models/design-models";
 import classes from "./PlannerHeader.module.scss";
 import PlannerFilter from "../planner-support/PlannerFilter";
 import GroupSelect from "../planner-support/GroupSelect";
-import { PlannerTask, Task } from "../../../models/task-models/Task";
 
 interface Props {
 	beginningPeriod: Date;
-	onAddTask: (newTask: PlannerTask) => void;
+	onMutate: () => void;
 }
 
 const PlannerHeader: React.FC<Props> = (props) => {
-	const { beginningPeriod, onAddTask } = props;
+	const { beginningPeriod, onMutate } = props;
 	const [ isAdding, setIsAdding ] = useState(false);
 
 	return (
@@ -24,7 +23,7 @@ const PlannerHeader: React.FC<Props> = (props) => {
 			{isAdding && (
 				<PlannerTaskAdd
 					onClose={() => setIsAdding(false)}
-					onAddTask={onAddTask}
+					onAddTask={onMutate}
 					beginningPeriod={beginningPeriod}
 				/>
 			)}
