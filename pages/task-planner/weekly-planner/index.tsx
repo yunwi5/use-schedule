@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import { useUser } from '@auth0/nextjs-auth0';
-import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
+import { getSession } from '@auth0/nextjs-auth0';
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import WeeklyPlannerMain from "../../../components/planners/weekly-planner/WeeklyPlanner";
 import { Task } from '../../../models/task-models/Task';
+import useSWR from 'swr';
 
 interface Props { 
     userId: string;
@@ -15,7 +16,9 @@ const WeeklyPlanner: NextPage<Props> = (props) => {
     const { userId, weeklyTasks} = props;
     const { user, isLoading } = useUser();
 
-    console.log('weekly tasks:', weeklyTasks);
+    // useSWR() to fetch the data.
+    const {data, mutate} =  useSWR("/api/planners/weekly-planners", (url) => fetch(url).then(res => res.json()));
+    console.log('swr data:', data);
 
 	return (
 		<div>
