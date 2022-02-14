@@ -5,21 +5,23 @@ import classes from "./Button.module.scss";
 interface Props {
 	size: Size;
 	theme: Theme;
+	onClick?: () => void;
 	className?: string;
 	type?: string;
-	onClick?: () => void;
+	disabled?: boolean;
 }
 
 const Button: React.FC<Props> = (props) => {
-	const { size, theme, type, onClick, className } = props;
+	const { size, theme, type, onClick, className, disabled } = props;
 
 	return (
 		<button
 			className={`${classes.btn} ${classes["btn-" + theme]} ${classes[
 				"btn-" + size
 			]} ${className}`}
-			type={type ? "button" : type as any}
+			type={type ? type : "button" as any}
 			onClick={onClick}
+			disabled={disabled}
 		>
 			{props.children}
 		</button>

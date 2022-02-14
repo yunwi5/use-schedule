@@ -1,3 +1,5 @@
+import { getISODateFormat } from "./date-format";
+
 export function addMinutes (date: Date, minutes: number) {
 	const dateCopy = new Date(date);
 	dateCopy.setMinutes(dateCopy.getMinutes() + minutes);
@@ -24,7 +26,8 @@ export function addMonths (date: Date, numMonths: number = 1): Date {
 
 // Reset day time to 0:0
 export function resetHoursAndMinutes (date: Date): Date {
-	const dateCpy = new Date(date);
+	const onlyDate = getISODateFormat(date);
+	const dateCpy = new Date(onlyDate);
 	dateCpy.setHours(0);
 	dateCpy.setMinutes(0);
 	return dateCpy;

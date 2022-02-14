@@ -1,42 +1,53 @@
 import React from "react";
-import { Task } from "../../../models/task-models/Task";
-import Modal from "../../ui/modal/Modal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/pro-light-svg-icons";
-import classes from "./PlannerModal.module.scss";
+import { useUser } from "@auth0/nextjs-auth0";
+import { v4 as uuidv4 } from "uuid";
+
+import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
+import TaskForm from "./TaskForm";
+import PlannerModal from "./PlannerModal";
+import { postTask } from "../../../lib/planners/weekly-planner-api";
 
 interface Props {
 	onClose: () => void;
-	onAddTask: (newTask: Task) => void;
+	onAddTask: (newTask: PlannerTask) => void;
+	beginningPeriod: Date;
 }
 
 const PlannerTaskAdd: React.FC<Props> = (props) => {
-	const { onClose, onAddTask } = props;
+	const { onClose, onAddTask, beginningPeriod } = props;
+	const { user } = useUser();
+	const userId = user ? user.sub : null;
 
-	const submitHandler = (e: React.FormEvent) => {
-		e.preventDefault();
+	const taskAddHandler = async (newFormTask: FormTaskObject) => {
+		if (!userId) {
+			alert("User is not logged in!");
+			return;
+		}
+		console.log("new form task:", newFormTask);
+		const newTask: Task = {
+			...newFormTask,
+			id: uuidv4(),
+			userId
+		};
+
+		const newPlannerTask = new PlannerTask(newTask);
+
+		const { isSuccess, insertedId } = await postTask(newPlannerTask);
+		if (isSuccess) {
+			alert("Post Task successful");
+		} else {
+			alert("Post Task went wrong");
+		}
+
+		if (insertedId) newPlannerTask.id = insertedId;
+		onAddTask(newPlannerTask);
+		onClose();
 	};
 
 	return (
-		<Modal onClose={onClose} classes="fixed top-[2.5rem] right-[-.5rem] h-[100vh] w-[40vw]">
-			<form className={classes.modal} onSubmit={submitHandler}>
-				<div className={classes.heading}>
-					<FontAwesomeIcon
-						onClick={onClose}
-						icon={faArrowRight}
-						className={`${classes.icon}`}
-					/>
-					<h3>Add New Task!</h3>
-				</div>
-
-				<div className={classes.body}>
-					<div className={classes.name}>
-						<label htmlFor="name">Name</label>
-						<input type="text" id="name" />
-					</div>
-				</div>
-			</form>
-		</Modal>
+		<PlannerModal onClose={onClose} title={"Add New Task"}>
+			<TaskForm onSubmit={taskAddHandler} beginningPeriod={beginningPeriod} />
+		</PlannerModal>
 	);
 };
 

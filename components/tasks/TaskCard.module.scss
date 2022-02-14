@@ -44,11 +44,13 @@
 
 	.icon {
 		font-size: 120%;
+		max-width: 22.5px;
 		margin-right: 5px;
 		color: $color-primary-dark-3;
 	}
 
 	&__icon_small {
+		max-width: .35rem;
 		font-size: 30%;
 		margin: 0 5px;
 	}
@@ -110,6 +112,7 @@
 		min-width: 5.5rem;
 
 		.icon {
+			display: inline-block;
 			color: inherit;
 		}
 	}

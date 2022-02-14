@@ -1,10 +1,27 @@
-export const Importance = {
-	EXTRA: { name: "Extra", value: 1 },
-	TRIVIAL: { name: "Trivial", value: 2 },
-	NICE_TO_HAVE: { name: "Nice to have", value: 3 },
-	IMPORTANT: { name: "Important", value: 4 },
-	CRUCIAL: { name: "Crucial", value: 5 }
-};
+export function getImportanceValue (importance: string) {
+	switch (importance) {
+		case Importance.EXTRA:
+			return 1;
+		case Importance.TRIVIAL:
+			return 2;
+		case Importance.NICE_TO_HAVE:
+			return 3;
+		case Importance.IMPORTANT:
+			return 4;
+		case Importance.CRUCIAL:
+			return 5;
+		default:
+			return -1;
+	}
+}
+
+export enum Importance {
+	EXTRA = "Extra",
+	TRIVIAL = "Trivial",
+	NICE_TO_HAVE = "Nice to have",
+	IMPORTANT = "Important",
+	CRUCIAL = "Crucial"
+}
 
 export const ImportanceList = [
 	Importance.EXTRA,

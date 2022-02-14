@@ -1,4 +1,4 @@
-export function getSubCategory (category: Category): string[] {
+export function getSubCategory (category: Category): SubCategory[] {
 	switch (category) {
 		case Category.HOME:
 			return HomeCategoryList;
@@ -8,6 +8,8 @@ export function getSubCategory (category: Category): string[] {
 			return SchoolCategoryList;
 		case Category.WORK:
 			return WorkCategoryList;
+		default:
+			return [];
 	}
 }
 // Can be fixed afterwards
@@ -17,6 +19,13 @@ export enum Category {
 	WORK = "Work",
 	SCHOOL_UNIVERSITY = "School / University"
 }
+
+export const CategoryList = [
+	Category.HOME,
+	Category.LEISURE,
+	Category.WORK,
+	Category.SCHOOL_UNIVERSITY
+];
 
 export enum HomeCategory {
 	SHOPPING = "Shopping",
@@ -38,6 +47,7 @@ export enum LeisureCategory {
 	MOVIES = "Movies",
 	FRIENDS = "Friends",
 	GAMES = "Games",
+	SPORTS = "Sports",
 	TRIPS = "Trips",
 	SOCIAL_MEDIA = "Social Media"
 }
@@ -46,6 +56,7 @@ export const LeisureCategoryList = [
 	LeisureCategory.MOVIES,
 	LeisureCategory.FRIENDS,
 	LeisureCategory.GAMES,
+	LeisureCategory.SPORTS,
 	LeisureCategory.TRIPS,
 	LeisureCategory.SOCIAL_MEDIA
 ];
@@ -83,3 +94,5 @@ export const SchoolCategoryList = [
 	SchoolCategory.LAB,
 	SchoolCategory.REPRESENTATIVES
 ];
+
+export type SubCategory = HomeCategory | LeisureCategory | WorkCategory | SchoolCategory;

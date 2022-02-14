@@ -2,19 +2,54 @@
 
 .btn {
 	border-radius: 5px;
+	max-width: 8rem;
+	transition: all .35s ease;
+
+	&:hover {
+		border-radius: 30px;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: .6;
+
+		&:hover {
+			border-radius: 5px;
+		}
+	}
 }
 
 .btn-primary {
 	color: $color-primary-light-2;
-	background-color: $color-primary-dark-2;
+	background-color: $color-primary-dark-1;
 
 	&:hover {
 		color: #fff;
-		background-color: $color-primary-dark-1;
+		background-color: $color-primary-dark-2;
+	}
+}
+
+.btn-danger {
+	color: $color-rose-light-2;
+	background-color: lighten($color-rose-dark-1, 10%);
+
+	&:hover {
+		color: #fff;
+		background-color: $color-rose-dark-1;
 	}
 }
 
 .btn-medium {
-	font-size: 1.15rem;
+	font-size: 1.2rem;
 	padding: .5rem .9rem;
+}
+
+.btn-medium-large {
+	font-size: 1.3rem;
+	padding: .7rem 1.35rem;
+}
+
+.btn-large {
+	font-size: 1.6rem;
+	padding: .7rem;
 }

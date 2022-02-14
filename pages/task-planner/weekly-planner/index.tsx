@@ -16,7 +16,6 @@ const WeeklyPlanner: NextPage<Props> = (props) => {
     const { user, isLoading } = useUser();
 
     console.log('weekly tasks:', weeklyTasks);
-    console.log(userId);
 
 	return (
 		<div>

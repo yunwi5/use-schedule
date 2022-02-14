@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import PlannerTaskAdd from "../planner-modal/PlannerTaskAdd";
 import Searchbar from "../../ui/Searchbar";
 import Button from "../../ui/Button";
@@ -6,20 +7,26 @@ import { Theme, Size } from "../../../models/design-models";
 import classes from "./PlannerHeader.module.scss";
 import PlannerFilter from "../planner-support/PlannerFilter";
 import GroupSelect from "../planner-support/GroupSelect";
-import { Task } from "../../../models/task-models/Task";
+import { PlannerTask, Task } from "../../../models/task-models/Task";
 
-const PlannerHeader: React.FC = () => {
+interface Props {
+	beginningPeriod: Date;
+	onAddTask: (newTask: PlannerTask) => void;
+}
+
+const PlannerHeader: React.FC<Props> = (props) => {
+	const { beginningPeriod, onAddTask } = props;
 	const [ isAdding, setIsAdding ] = useState(false);
-
-	const taskAddHandler = (newTask: Task) => {
-		console.log("new task:", newTask);
-	};
 
 	return (
 		<nav className={`${classes.header} flex items-center justify-between p-4 w-full`}>
 			{/* Task Add Modal */}
 			{isAdding && (
-				<PlannerTaskAdd onClose={() => setIsAdding(false)} onAddTask={taskAddHandler} />
+				<PlannerTaskAdd
+					onClose={() => setIsAdding(false)}
+					onAddTask={onAddTask}
+					beginningPeriod={beginningPeriod}
+				/>
 			)}
 
 			<GroupSelect />

@@ -1,10 +1,4 @@
-import React, { Fragment, useState } from "react";
-import { PlannerTask } from "../../models/task-models/Task";
-import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
-import { addMinutes } from "../../utilities/time-utils/date-control";
-import { copyClassObject } from "../../utilities/gen-utils/object-util";
-import { getDateFormat, getTimeFormat } from "../../utilities/time-utils/date-format";
-import classes from "./TaskCard.module.scss";
+import React, { Fragment, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faAlarmClock,
@@ -16,13 +10,24 @@ import {
 } from "@fortawesome/pro-duotone-svg-icons";
 import { faCircle } from "@fortawesome/pro-solid-svg-icons";
 
+import { PlannerTask } from "../../models/task-models/Task";
+import PlannerTaskEdit from "../planners/planner-modal/PlannerTaskEdit";
+import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
+import { addMinutes } from "../../utilities/time-utils/date-control";
+import { copyClassObject } from "../../utilities/gen-utils/object-util";
+import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
+import { updateTaskStatus } from "../../lib/planners/weekly-planner-api";
+import classes from "./TaskCard.module.scss";
+
 interface Props {
 	task: PlannerTask;
+	beginningPeriod: Date;
 }
 
 const PlannerTaskCard: React.FC<Props> = (props) => {
-	const { task: initialTask } = props;
+	const { task: initialTask, beginningPeriod } = props;
 	const [ task, setTask ] = useState(initialTask);
+	const [ isEditing, setIsEditing ] = useState(false);
 
 	let endTime: null | Date = null;
 	if (task.duration) {
@@ -36,10 +41,25 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		const taskCopy = copyClassObject(task);
 		taskCopy.status = newStatus;
 		setTask(taskCopy);
+		// API call
+		updateTaskStatus(task.id, newStatus);
+	};
+
+	const editTaskHandler = (newTask: PlannerTask) => {
+		console.log("editted task:", newTask);
 	};
 
 	return (
 		<li className={`${classes.task}`}>
+			{isEditing && (
+				<PlannerTaskEdit
+					onClose={() => setIsEditing(false)}
+					onEditTask={editTaskHandler}
+					beginningPeriod={beginningPeriod}
+					initialTask={task}
+				/>
+			)}
+
 			{/* Heading */}
 			<div className={`${classes.task__heading}`}>
 				{/* Task Name */}
@@ -47,11 +67,11 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 				{/* Planned Time */}
 				<div className={classes.task__time}>
 					<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
-					<span>{getTimeFormat(task.dateTime)}</span>
+					<span>{getISOTimeFormat(task.dateTime)}</span>
 					{endTime && (
 						<Fragment>
 							<span>~</span>
-							<span>{getTimeFormat(endTime)}</span>
+							<span>{getISOTimeFormat(endTime)}</span>
 						</Fragment>
 					)}
 				</div>
@@ -101,7 +121,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 						/>
 						Detail
 					</button>
-					<button className={classes.task__edit}>
+					<button className={classes.task__edit} onClick={() => setIsEditing(true)}>
 						<FontAwesomeIcon icon={faPenToSquare} className={`${classes.icon}`} />
 						Edit
 					</button>

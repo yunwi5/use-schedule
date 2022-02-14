@@ -49,7 +49,7 @@ export class WeeklyPlanner {
 			case WeekDay.WEDNESDAY:
 				return this.wednesdayTasks;
 			case WeekDay.THURSDAY:
-				return this.tuesdayTasks;
+				return this.thursdayTasks;
 			case WeekDay.FRIDAY:
 				return this.fridayTasks;
 			case WeekDay.SATURDAY:

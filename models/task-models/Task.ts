@@ -12,7 +12,22 @@ export interface Task {
 	status: string;
 	userId: string;
 	importance: string;
+
+	dueDateString?: string;
 }
+
+export type FormTaskObject = {
+	name: string;
+	timeString: string;
+	description: string;
+	category: string;
+	subCategory: string;
+	status: string;
+	importance: string;
+
+	duration: number;
+	dueDateString?: string;
+};
 
 export class PlannerTask implements Task {
 	id: string;
