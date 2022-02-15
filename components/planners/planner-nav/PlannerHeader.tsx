@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
 
 import PlannerTaskAdd from "../planner-modal/PlannerTaskAdd";
 import Searchbar from "../../ui/Searchbar";
@@ -16,6 +18,10 @@ interface Props {
 const PlannerHeader: React.FC<Props> = (props) => {
 	const { beginningPeriod, onMutate } = props;
 	const [ isAdding, setIsAdding ] = useState(false);
+
+	const foldTasksHandler = () => {
+		console.log("Fold all tasks list on the page!");
+	};
 
 	return (
 		<nav className={`${classes.header} flex items-center justify-between p-4 w-full`}>
@@ -35,6 +41,14 @@ const PlannerHeader: React.FC<Props> = (props) => {
 				placeholder="Search Task"
 				onSearch={(text: string) => console.log(text)}
 			/>
+			<Button
+				className="mr-4"
+				theme={Theme.TERTIARY}
+				size={Size.MEDIUM}
+				onClick={foldTasksHandler}
+			>
+				<FontAwesomeIcon className="mr-2" icon={faFolderOpen as any} /> Fold All
+			</Button>
 			<Button
 				theme={Theme.PRIMARY}
 				size={Size.MEDIUM}

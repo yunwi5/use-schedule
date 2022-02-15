@@ -9,6 +9,7 @@
 	gap: 3.2rem;
 	font-size: 1.15rem;
 	box-shadow: $shadow-light;
+	border-radius: 3px;
 
 	&__heading,
 	&__body {
@@ -33,7 +34,19 @@
 
 	&__time {
 		margin-left: 1.7rem;
+		font-weight: 650;
+	}
+
+	&__dueDate {
+		margin-left: .7rem;
 		margin-right: auto;
+		transform: translateY(-2px);
+		font-weight: 600;
+	}
+
+	&__time,
+	&__dueDate {
+		color: rgba($color-primary-dark-1, .8);
 	}
 
 	&__select {

@@ -1,7 +1,16 @@
 import { WeekDay } from "../date-models/WeekDay";
 import { Task, PlannerTask } from "../task-models/Task";
 
-export class WeeklyPlanner {
+export interface Planner {
+	allTasks: Task[];
+	anyTimeTasks: Task[];
+
+	addTasks(newTask: Task): void;
+	getTasks(period: string): Task[];
+	copy(): Planner;
+}
+
+export class WeeklyPlanner implements Planner {
 	public allTasks: PlannerTask[] = [];
 	public mondayTasks: PlannerTask[] = [];
 	public tuesdayTasks: PlannerTask[] = [];
@@ -10,6 +19,8 @@ export class WeeklyPlanner {
 	public fridayTasks: PlannerTask[] = [];
 	public saturdayTasks: PlannerTask[] = [];
 	public sundayTasks: PlannerTask[] = [];
+	// Task scheduled at "Any time", but within this week.
+	public anyTimeTasks: PlannerTask[] = [];
 
 	constructor (public weekBeginning: Date) {}
 
@@ -37,6 +48,8 @@ export class WeeklyPlanner {
 			case WeekDay.SUNDAY:
 				this.sundayTasks.push(newTask);
 				break;
+			default:
+				this.anyTimeTasks.push(newTask);
 		}
 	}
 
@@ -56,6 +69,10 @@ export class WeeklyPlanner {
 				return this.saturdayTasks;
 			case WeekDay.SUNDAY:
 				return this.sundayTasks;
+			case WeekDay.ANY:
+				return this.anyTimeTasks;
+			default:
+				throw new Error("Invalid Weekday received by weekly planner");
 		}
 	}
 

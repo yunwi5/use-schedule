@@ -5,7 +5,8 @@ export enum WeekDay {
 	THURSDAY = "Thursday",
 	FRIDAY = "Friday",
 	SATURDAY = "Saturday",
-	SUNDAY = "Sunday"
+	SUNDAY = "Sunday",
+	ANY = "Any"
 }
 // Do not fix this.
 export const WeekDayList = [
@@ -18,6 +19,8 @@ export const WeekDayList = [
 	WeekDay.SATURDAY
 ];
 
+// This is for user interface
+// This includes any
 export const WeekDayListFromMonday = [
 	WeekDay.MONDAY,
 	WeekDay.TUESDAY,
@@ -25,5 +28,6 @@ export const WeekDayListFromMonday = [
 	WeekDay.THURSDAY,
 	WeekDay.FRIDAY,
 	WeekDay.SATURDAY,
-	WeekDay.SUNDAY
+	WeekDay.SUNDAY,
+	WeekDay.ANY
 ];

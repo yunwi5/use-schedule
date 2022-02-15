@@ -6,6 +6,8 @@ const api = axios.create({
 	baseURL: "http://localhost:3000/"
 });
 
+const API_DOMIN = "/api/planners";
+
 export async function postTask (newTask: PlannerTask) {
 	let insertedId: null | string = null;
 	let res;
@@ -70,6 +72,24 @@ export async function updateTaskStatus (taskId: string, newStatus: string) {
 		});
 		const data = await res.json();
 		console.log("update data:", data);
+	} catch (err) {
+		console.error(err);
+	}
+
+	if (!res || !res.ok) {
+		return { isSuccess: false };
+	}
+	return { isSuccess: true };
+}
+
+export async function deleteTask (taskId: string) {
+	let res;
+	try {
+		res = await fetch(`${API_DOMIN}/weekly-planners/${taskId}`, {
+			method: "DELETE"
+		});
+		const data = await res.json();
+		console.log("Delete data:", data);
 	} catch (err) {
 		console.error(err);
 	}

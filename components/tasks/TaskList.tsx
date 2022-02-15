@@ -1,16 +1,17 @@
 import React, { useState, useMemo } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
+
 import PlannerTaskCard from "./PlannerTaskCard";
 import { WeekDay } from "../../models/date-models/WeekDay";
 import { WeeklyPlanner } from "../../models/planner-models/Planner";
 import { addDays } from "../../utilities/time-utils/date-control";
 import { getMonth } from "../../utilities/time-utils/month-util";
 import { getShortDayName } from "../../utilities/time-utils/weekday-util";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
-import { PlannerTask, Task } from "../../models/task-models/Task";
+import { PlannerTask } from "../../models/task-models/Task";
 
 interface Props {
-	weekBeginning: Date;
+	beginningPeriod: Date;
 	planner: WeeklyPlanner;
 	day: WeekDay;
 	index: number;
@@ -22,7 +23,7 @@ function sortTaskByTime (taskA: PlannerTask, taskB: PlannerTask) {
 }
 
 const TaskList: React.FC<Props> = (props) => {
-	const { weekBeginning, planner, day, index, onMutate } = props;
+	const { beginningPeriod, planner, day, index, onMutate } = props;
 	const [ isShrinked, setIsShrinked ] = useState(false);
 
 	const taskList = planner.getTasks(day);
@@ -33,10 +34,12 @@ const TaskList: React.FC<Props> = (props) => {
 		[ taskList ]
 	);
 
-	const curr = addDays(weekBeginning, index);
-	const currMonth = getMonth(curr);
-	const currDate = curr.getDate();
 	const shortDay = getShortDayName(day);
+	const curr = addDays(beginningPeriod, index);
+	const currMonth = getMonth(curr);
+
+	const isDateAny = day === WeekDay.ANY;
+	let currDate = !isDateAny ? curr.getDate().toString() : "?";
 
 	return (
 		<div className="ml-4 my-4">
@@ -61,7 +64,7 @@ const TaskList: React.FC<Props> = (props) => {
 						<PlannerTaskCard
 							key={task.id}
 							task={task}
-							beginningPeriod={weekBeginning}
+							beginningPeriod={beginningPeriod}
 							onMutate={onMutate}
 						/>
 					))}

@@ -29,6 +29,16 @@
 	}
 }
 
+.btn-tertiary {
+	color: $color-tertiary-light-2;
+	background-color: $color-tertiary-dark-1;
+
+	&:hover {
+		color: #fff;
+		background-color: $color-tertiary-dark-2;
+	}
+}
+
 .btn-danger {
 	color: $color-rose-light-2;
 	background-color: lighten($color-rose-dark-1, 10%);

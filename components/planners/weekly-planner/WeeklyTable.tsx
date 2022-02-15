@@ -1,7 +1,6 @@
-import React from "react";
-import { WeeklyPlanner } from "../../../models/planner-models/Planner";
 import TableNav from "../planner-nav/TableNav";
 import WeekdayList from "./WeekdayList";
+import { WeeklyPlanner } from "../../../models/planner-models/Planner";
 
 interface Props {
 	weekBeginning: Date;
@@ -16,7 +15,7 @@ const WeeklyTable: React.FC<Props> = (props) => {
 	return (
 		<div>
 			<TableNav weekBeginning={weekBeginning} planner={planner} onChangeWeek={onChangeWeek} />
-			<WeekdayList weekBeginning={weekBeginning} planner={planner} onMutate={onMutate} />
+			<WeekdayList beginningPeriod={weekBeginning} planner={planner} onMutate={onMutate} />
 		</div>
 	);
 };

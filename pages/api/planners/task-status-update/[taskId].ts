@@ -7,7 +7,7 @@ import { updateTaskStatus } from "../../../../utilities/mongodb-util/planner-uti
 
 type Data = { message: string };
 
-export default async function handler (
+export default withApiAuthRequired( async function handler (
 	req: NextApiRequest,
 	res: NextApiResponse<Data>
 ) {
@@ -40,4 +40,4 @@ export default async function handler (
 	}
 
 	client.close();
-};
+});

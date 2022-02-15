@@ -1,6 +1,7 @@
 export enum Theme {
 	PRIMARY = "primary",
 	SECONDARY = "secondary",
+	TERTIARY = "tertiary",
 	WARNING = "warning",
 	ERROR = "error",
 	DANGER = "danger"

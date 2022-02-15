@@ -24,7 +24,6 @@ export type FormTaskObject = {
 	subCategory: string;
 	status: string;
 	importance: string;
-
 	duration: number;
 	dueDateString?: string;
 };
@@ -54,6 +53,7 @@ export class PlannerTask implements Task {
 		this.status = taskObj.status;
 		this.userId = taskObj.userId;
 		this.importance = taskObj.importance;
+		this.dueDateString = taskObj.dueDateString;
 	}
 
 	get dateTime () {
