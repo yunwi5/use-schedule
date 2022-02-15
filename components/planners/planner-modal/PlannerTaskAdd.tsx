@@ -6,6 +6,7 @@ import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/T
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
 import { postTask } from "../../../lib/planners/weekly-planner-api";
+import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	onClose: () => void;
@@ -32,7 +33,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
 		const newPlannerTask = new PlannerTask(newTask);
 
-		const { isSuccess, insertedId } = await postTask(newPlannerTask);
+		const { isSuccess, insertedId } = await postTask(newPlannerTask, PlannerMode.WEEKLY);
 		if (isSuccess) {
 			alert("Post Task successful");
 		} else {

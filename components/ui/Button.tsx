@@ -14,8 +14,9 @@ interface Props {
 const Button: React.FC<Props> = (props) => {
 	const { size, theme, type, onClick, className, disabled } = props;
 
-	const sizeClass = size ? size : Size.MEDIUM;
+	// default theme and size
 	const themeClass = theme ? theme : Theme.PRIMARY;
+	const sizeClass = size ? size : Size.MEDIUM;
 
 	return (
 		<button

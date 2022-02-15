@@ -5,11 +5,14 @@ import { getSession } from '@auth0/nextjs-auth0';
 import useSWR from 'swr';
 
 import WeeklyPlannerMain from "../../../components/planners/weekly-planner/WeeklyPlanner";
-import { useEffect } from 'react';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+
+const API_DOMIN = "/api/planners";
+const plannerMode = PlannerMode.WEEKLY;
 
 const WeeklyPlanner: NextPage = () => {
     // useSWR() to fetch the data.
-    const {data, error, mutate } =  useSWR("/api/planners/weekly-planners", (url) => fetch(url).then(res => res.json()));
+    const {data, error, mutate } =  useSWR(`${API_DOMIN}/${plannerMode}`, (url) => fetch(url).then(res => res.json()));
     if (error) console.error(error);
 
     let tasks = [];
@@ -34,6 +37,7 @@ const WeeklyPlanner: NextPage = () => {
 
 export default WeeklyPlanner;
 
+
 // Need this?
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { req, res } = context;
@@ -47,12 +51,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-     const response = await fetch("http://localhost:3000/api/planners/weekly-planners", {
-      headers: {
-        cookie: req.headers.cookie || "",
-      },
-    });
-    const data = await response.json();
+    //  const response = await fetch("http://localhost:3000/api/planners/weekly-planners", {
+    //   headers: {
+    //     cookie: req.headers.cookie || "",
+    //   },
+    // });
+    // const data = await response.json();
 
     return {
         props: {

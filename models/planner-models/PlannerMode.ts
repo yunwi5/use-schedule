@@ -1,8 +1,8 @@
 export enum PlannerMode {
-	WEEKLY = "weekly",
-	MONTLY = "monly",
-	YEARLY = "yearly",
-	TEMPLATE = "template"
+	WEEKLY = "weekly-planner",
+	MONTLY = "monly-planner",
+	YEARLY = "yearly-planner",
+	TEMPLATE = "template-planner"
 }
 
 export const PlannerModeList = [

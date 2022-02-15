@@ -27,6 +27,14 @@ export async function replaceTask (client: MongoClient, collection: string, task
 	return res;
 }
 
+export async function deleteTask (client: MongoClient, collection: string, taskId: string) {
+	const db = client.db();
+	const res = await db.collection(collection).deleteOne({ _id: new ObjectId(taskId) });
+
+	console.log("Delete result:", res);
+	return res;
+}
+
 export async function updateTaskStatus (
 	client: MongoClient,
 	collection: string,

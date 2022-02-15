@@ -47,19 +47,19 @@ const TableNav: React.FC<Props> = (props) => {
 			</div>
 
 			<div className="flex gap-5 text-lg">
-				<span className="py-2 px-4 rounded-full bg-slate-200 hover:bg-slate-300 hover:text-slate-50 text-slate-600">
+				<span className="py-2 px-4 rounded-full bg-slate-50 hover:bg-slate-400 hover:text-slate-50 text-slate-600">
 					{totalTasks} Tasks Total
 				</span>
-				<span className="py-2 px-4 rounded-full bg-teal-100 hover:bg-teal-200 text-teal-600 hover:text-teal-50">
+				<span className="py-2 px-4 rounded-full bg-teal-50 hover:bg-teal-400 text-teal-600 hover:text-teal-50">
 					{openedTasks} Tasks Opened
 				</span>
-				<span className="py-2 px-4 rounded-full bg-sky-100 hover:bg-sky-200 text-sky-600 hover:text-sky-50">
+				<span className="py-2 px-4 rounded-full bg-sky-50 hover:bg-sky-400 text-sky-600 hover:text-sky-50">
 					{completedTasks} Tasks Completed
 				</span>
-				<span className="py-2 px-4 rounded-full bg-indigo-100 hover:bg-indigo-200 text-indigo-600 hover:text-indigo-50">
+				<span className="py-2 px-4 rounded-full bg-indigo-50 hover:bg-indigo-400 text-indigo-600 hover:text-indigo-50">
 					{progressTasks} Tasks In Progress
 				</span>
-				<span className="py-2 px-4 rounded-full bg-red-200 hover:bg-red-300 text-red-600 hover:text-red-50">
+				<span className="py-2 px-4 rounded-full bg-red-50 hover:bg-red-400 text-red-600 hover:text-red-50">
 					{overDueTasks} Tasks Overdue
 				</span>
 			</div>

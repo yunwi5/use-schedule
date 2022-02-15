@@ -4,7 +4,8 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
-import { updateTask } from "../../../lib/planners/weekly-planner-api";
+import { deleteTask, updateTask } from "../../../lib/planners/weekly-planner-api";
+import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	onClose: () => void;
@@ -31,7 +32,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
 		const newPlannerTask = new PlannerTask(newTask);
 
-		const { isSuccess } = await updateTask(initialTask.id, newPlannerTask);
+		const { isSuccess } = await updateTask(initialTask.id, newPlannerTask, PlannerMode.WEEKLY);
 		if (isSuccess) {
 			alert("Update Successful!");
 		} else {
@@ -44,6 +45,12 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
 	const taskDeleteHandler = async () => {
 		console.log("Delete the task", initialTask.name);
+		const { isSuccess } = await deleteTask(initialTask.id, PlannerMode.WEEKLY);
+		if (isSuccess) {
+			alert("Delete task successful!");
+		} else {
+			alert("Delete task went wrong");
+		}
 		onUpdate();
 	};
 

@@ -16,7 +16,7 @@ import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
 import { addMinutes } from "../../utilities/time-utils/date-control";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
-import { deleteTask, updateTaskStatus } from "../../lib/planners/weekly-planner-api";
+import { updateTaskStatus } from "../../lib/planners/weekly-planner-api";
 import classes from "./TaskCard.module.scss";
 
 interface Props {
@@ -52,18 +52,6 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	};
 
 	const updateTaskHandler = () => onMutate();
-
-
-	const deleteTaskHandler = async () => {
-		// Api call for DELETE request
-		const {isSuccess } = await deleteTask(task.id);
-		if (isSuccess) {
-			alert('Delete task successful!');
-		} else {
-			alert('Delete task went wrong');
-		}
-		onMutate();
-	}
 
 	// Whenever there is a global update of tasks, update card as well.
 	useEffect(
@@ -101,7 +89,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 				</div>
 				{/* Due Date */}
 				<p className={classes.task__dueDate}>
-					{dueDate && <>(due {getDateFormat(dueDate)})</>}
+					{dueDate && <Fragment>(due {getDateFormat(dueDate)})</Fragment>}
 				</p>
 				{/* Status Control */}
 				<select
@@ -140,7 +128,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 					{status}
 				</p>
 				<div>
-					<button className={classes.task__detail} onClick={deleteTaskHandler}>
+					<button className={classes.task__detail}>
 						<FontAwesomeIcon
 							icon={faMagnifyingGlassPlus}
 							className={`${classes.icon}`}

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
+import { faChartPie, faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
 
 import PlannerTaskAdd from "../planner-modal/PlannerTaskAdd";
 import Searchbar from "../../ui/Searchbar";
+import PlannerFilter from "../planner-support/PlannerFilter";
+import GroupSelect from "../planner-support/GroupSelect";
 import Button from "../../ui/Button";
 import { Theme, Size } from "../../../models/design-models";
 import classes from "./PlannerHeader.module.scss";
-import PlannerFilter from "../planner-support/PlannerFilter";
-import GroupSelect from "../planner-support/GroupSelect";
 
 interface Props {
 	beginningPeriod: Date;
@@ -29,7 +29,7 @@ const PlannerHeader: React.FC<Props> = (props) => {
 			{isAdding && (
 				<PlannerTaskAdd
 					onClose={() => setIsAdding(false)}
-					onAddTask={onMutate}
+					onAddTask={() => onMutate()}
 					beginningPeriod={beginningPeriod}
 				/>
 			)}
@@ -42,12 +42,22 @@ const PlannerHeader: React.FC<Props> = (props) => {
 				onSearch={(text: string) => console.log(text)}
 			/>
 			<Button
-				className="mr-4"
+				className="mr-4 flex items-center"
+				theme={Theme.SECONDARY}
+				size={Size.MEDIUM}
+				onClick={foldTasksHandler}
+			>
+				<FontAwesomeIcon className="mr-2 max-w-[1.3rem]" icon={faChartPie as any} />{" "}
+				Statistics
+			</Button>
+			<Button
+				className="mr-4 flex items-center"
 				theme={Theme.TERTIARY}
 				size={Size.MEDIUM}
 				onClick={foldTasksHandler}
 			>
-				<FontAwesomeIcon className="mr-2" icon={faFolderOpen as any} /> Fold All
+				<FontAwesomeIcon className="mr-2 max-w-[1.3rem]" icon={faFolderOpen as any} /> Fold
+				All
 			</Button>
 			<Button
 				theme={Theme.PRIMARY}
