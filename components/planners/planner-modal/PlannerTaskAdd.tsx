@@ -7,6 +7,8 @@ import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
 import { postTask } from "../../../lib/planners/weekly-planner-api";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import { NotifStatus } from "../../ui/Notification";
+import useNotification from "../../../hooks/useNotification";
 
 interface Props {
 	onClose: () => void;
@@ -18,6 +20,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { onClose, onAddTask, beginningPeriod } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
+
+	const { setNotification } = useNotification();
 
 	const taskAddHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
@@ -33,11 +37,12 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
 		const newPlannerTask = new PlannerTask(newTask);
 
+		setNotification(NotifStatus.PENDING);
 		const { isSuccess, insertedId } = await postTask(newPlannerTask, PlannerMode.WEEKLY);
 		if (isSuccess) {
-			alert("Post Task successful");
+			setNotification(NotifStatus.SUCCESS);
 		} else {
-			alert("Post Task went wrong");
+			setNotification(NotifStatus.ERROR);
 		}
 
 		if (insertedId) newPlannerTask.id = insertedId;

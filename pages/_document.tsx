@@ -6,7 +6,6 @@ class MyDocument extends Document {
 			<Html lang="en">
 				<Head />
 				<body>
-					<div id="notification" />
 					<div id="modal" />
 					<Main />
 					<NextScript />

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 
-import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
+import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import { deleteTask, updateTask } from "../../../lib/planners/weekly-planner-api";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import { NotifStatus } from "../../ui/Notification";
+import useNotification from "../../../hooks/useNotification";
 
 interface Props {
 	onClose: () => void;
@@ -18,6 +20,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { onClose, onUpdate, beginningPeriod, initialTask } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
+
+	const { setNotification } = useNotification();
 
 	const taskEditHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
@@ -32,11 +36,12 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
 		const newPlannerTask = new PlannerTask(newTask);
 
+		setNotification(NotifStatus.PENDING, `Currently editing task ${newPlannerTask.name}`);
 		const { isSuccess } = await updateTask(initialTask.id, newPlannerTask, PlannerMode.WEEKLY);
 		if (isSuccess) {
-			alert("Update Successful!");
+			setNotification(NotifStatus.SUCCESS, `Editing task was successful!`);
 		} else {
-			alert("Update went wrong...");
+			setNotification(NotifStatus.ERROR, "Sorry, editing task went wrong...");
 		}
 
 		onUpdate();
@@ -44,12 +49,12 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	};
 
 	const taskDeleteHandler = async () => {
-		console.log("Delete the task", initialTask.name);
+		setNotification(NotifStatus.PENDING);
 		const { isSuccess } = await deleteTask(initialTask.id, PlannerMode.WEEKLY);
 		if (isSuccess) {
-			alert("Delete task successful!");
+			setNotification(NotifStatus.SUCCESS, "Delete task successful!");
 		} else {
-			alert("Delete task went wrong");
+			setNotification(NotifStatus.ERROR, "Delete task went wrong");
 		}
 		onUpdate();
 	};
