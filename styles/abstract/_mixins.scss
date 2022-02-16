@@ -1,0 +1,9 @@
+@mixin after-underline ($color-1, $color-2) {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -5px;
+	width: 100%;
+	height: 3px;
+	background-image: linear-gradient(to right, $color-1, $color-2);
+}

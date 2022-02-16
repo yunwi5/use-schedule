@@ -21,6 +21,24 @@ export function getCurrentWeekBeginning () {
 	return currentWeekBeginning;
 }
 
+// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
+export function getCurrentMonthWeekBeginning (): Date {
+	const current = new Date();
+	return getMonthWeekBeginning(current);
+}
+
+export function getCurrentMonthBeginning () {
+	const current = new Date();
+	const currentWeekBeginning = getWeekBeginning(current);
+	return currentWeekBeginning;
+}
+
+export function getCurrentYearBeginning () {
+	const current = new Date();
+	const currentYearBeginning = getYearBeginning(current);
+	return currentYearBeginning;
+}
+
 export function getWeekBeginning (date: Date): Date {
 	const curr = new Date(date);
 	let weekBeginning: Date;
@@ -46,6 +64,45 @@ export function getWeekEnding (date: Date): Date {
 	weekEnding.setHours(23);
 	weekEnding.setMinutes(59);
 	return weekEnding;
+}
+
+// Needs to be tested
+export function getMonthBeginning (date: Date): Date {
+	const firstday = new Date(date.getFullYear(), date.getMonth(), 1);
+	return firstday;
+}
+
+export function getMonthEnding (date: Date): Date {
+	const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+	lastDay.setHours(23);
+	lastDay.setMinutes(59);
+	return lastDay;
+}
+
+// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
+export function getMonthWeekBeginning (date: Date): Date {
+	const monthBeginning = getMonthBeginning(date);
+	const monthWeekBegin = getWeekBeginning(monthBeginning);
+	return monthWeekBegin;
+}
+
+// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
+export function getMonthWeekEnding (date: Date): Date {
+	const monthEnding = getMonthEnding(date);
+	const monthWeekEnd = getWeekEnding(monthEnding);
+	return monthWeekEnd;
+}
+
+export function getYearBeginning (date: Date): Date {
+	const firstYearDay = new Date(date.getFullYear(), 0, 1);
+	return firstYearDay;
+}
+
+export function getYearEnding (date: Date): Date {
+	const lastYearDay = new Date(date.getFullYear(), 12, 0);
+	lastYearDay.setHours(23);
+	lastYearDay.setMinutes(59);
+	return lastYearDay;
 }
 
 export function getTaskPlanTime (

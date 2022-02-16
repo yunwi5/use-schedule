@@ -19,6 +19,7 @@
 	}
 
 	input {
+		background-color: inherit;
 		&:focus {
 			outline: none;
 		}

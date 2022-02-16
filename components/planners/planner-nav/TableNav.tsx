@@ -1,32 +1,58 @@
 import React from "react";
-import { WeeklyPlanner } from "../../../models/planner-models/Planner";
-import { TaskStatus } from "../../../models/task-models/Status";
-import { getWeekEnding } from "../../../utilities/time-utils/date-get";
+import { Planner } from "../../../models/planner-models/Planner";
+import {
+	getMonthWeekBeginning,
+	getMonthWeekEnding,
+	getWeekEnding,
+	getYearEnding
+} from "../../../utilities/time-utils/date-get";
 import { getMonth } from "../../../utilities/time-utils/month-util";
 import { getTaskStatusCount } from "../../../utilities/tasks-utils/task-status-util";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from "@fortawesome/pro-duotone-svg-icons";
+import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
-	weekBeginning: Date;
-	planner: WeeklyPlanner;
-	onChangeWeek: (direction: number) => void;
+	beginningPeriod: Date;
+	planner: Planner;
+	plannerMode: PlannerMode;
+	onChangePeriod: (direction: number) => void;
+}
+
+function getPeriodFormat (beginningPeriod: Date, endingPeriod: Date): string {
+	const beginDate = beginningPeriod.getDate();
+	const beginMonth = getMonth(beginningPeriod);
+	const endDate = endingPeriod.getDate();
+	const endMonth = getMonth(endingPeriod);
+	return `${beginDate}/${beginMonth} ~ ${endDate}/${endMonth}`;
+}
+
+function getNavigationPeriod (beginningPeriod: Date, plannerMode: PlannerMode) {
+	let navPeriod = "";
+	if (plannerMode === PlannerMode.WEEKLY) {
+		const weekEnding = getWeekEnding(beginningPeriod);
+		navPeriod = getPeriodFormat(beginningPeriod, weekEnding);
+	} else if (plannerMode === PlannerMode.MONTLY) {
+		const monthWeekBeginning = getMonthWeekBeginning(beginningPeriod);
+		const monthWeekEnding = getMonthWeekEnding(beginningPeriod);
+		navPeriod = getPeriodFormat(monthWeekBeginning, monthWeekEnding);
+	} else {
+		const yearEnding = getYearEnding(beginningPeriod);
+		navPeriod = getPeriodFormat(beginningPeriod, yearEnding);
+	}
+	return navPeriod;
 }
 
 // Manages week navigation & tasks status overview
 const TableNav: React.FC<Props> = (props) => {
-	const { weekBeginning, planner, onChangeWeek } = props;
-	const weekEnding = getWeekEnding(weekBeginning);
-
-	const beginDate = weekBeginning.getDate();
-	const beginMonth = getMonth(weekBeginning);
-	const endDate = weekEnding.getDate();
-	const endMonth = getMonth(weekEnding);
+	const { beginningPeriod, planner, onChangePeriod, plannerMode } = props;
 
 	const totalTasks = planner.allTasks.length;
 	const { openedTasks, completedTasks, progressTasks, overDueTasks } = getTaskStatusCount(
 		planner
 	);
+
+	const navPeriod = getNavigationPeriod(beginningPeriod, plannerMode);
 
 	return (
 		<div className="mt-2 ml-2 flex items-center justify-between p-3">
@@ -34,15 +60,13 @@ const TableNav: React.FC<Props> = (props) => {
 				<FontAwesomeIcon
 					className="text-4xl cursor-pointer max-w-[1.2rem]"
 					icon={faCaretLeft}
-					onClick={onChangeWeek.bind(null, -1)}
+					onClick={onChangePeriod.bind(null, -1)}
 				/>
-				<p>
-					{beginDate}/{beginMonth} ~ {endDate}/{endMonth}
-				</p>
+				<p>{navPeriod}</p>
 				<FontAwesomeIcon
 					className="text-4xl cursor-pointer max-w-[1.2rem]"
 					icon={faCaretRight}
-					onClick={onChangeWeek.bind(null, 1)}
+					onClick={onChangePeriod.bind(null, 1)}
 				/>
 			</div>
 

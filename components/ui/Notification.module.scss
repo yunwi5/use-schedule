@@ -2,23 +2,24 @@
 
 .notification {
 	position: fixed;
-	bottom: 0;
+	bottom: 1rem;
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 100;
 
 	height: 5rem;
-	width: clamp(40rem, 80%, 100%);
+	width: clamp(300px, 33rem, 100%);
 	background-color: #1b1b1b;
 	font-size: 1.2rem;
 	border-radius: 5px;
+	border: 2px solid transparent;
 
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 
-	color: $color-grey-light-1;
-	padding: 0.5rem 10%;
+	color: $color-primary-dark-2;
+	padding: 0.5rem 2rem;
 	box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -26,16 +27,42 @@
 	margin: 0;
 	font-size: 1.6rem;
 	color: inherit;
+	margin-right: 2rem;
+}
+
+.notification p {
+	max-width: 250px;
 }
 
 .pending {
-	background-color: #177cbe;
+	border-color: $color-tertiary-dark-2;
+	background-color: lighten($color-tertiary-light-2, 5);
+	color: $color-tertiary-dark-3;
+
+	&:hover {
+		background-color: rgba($color-tertiary-dark-3, .8);
+		color: $color-tertiary-light-1;
+	}
 }
 
 .success {
-	background-color: #10be58;
+	border-color: #10be58;
+	background-color: lighten(#10be58, 60%);
+	color: darken(#10b358, 20%);
+
+	&:hover {
+		background-color: rgba(#13b858, .65);
+		color: #cbf0db;
+	}
 }
 
 .error {
-	background-color: $color-rose-dark-1;
+	border-color: $color-rose-dark-1;
+	background-color: lighten($color-rose-light-2, 5%);
+	color: $color-rose-dark-4;
+
+	&:hover {
+		background-color: rgba($color-rose-dark-3, .8);
+		color: $color-rose-light-1;
+	}
 }

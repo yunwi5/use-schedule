@@ -24,6 +24,12 @@ export function addMonths (date: Date, numMonths: number = 1): Date {
 	return dateCopy;
 }
 
+export function addYears (date: Date, numYears: number = 1): Date {
+	const dateCopy = new Date(date);
+	dateCopy.setFullYear(dateCopy.getFullYear() + numYears);
+	return dateCopy;
+}
+
 // Reset day time to 0:0
 export function resetHoursAndMinutes (date: Date): Date {
 	const onlyDate = getISODateFormat(date);

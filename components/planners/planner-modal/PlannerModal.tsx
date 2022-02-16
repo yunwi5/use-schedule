@@ -14,7 +14,7 @@ const PlannerModal: React.FC<Props> = ({ onClose, title, children }) => {
 	return (
 		<Modal
 			onClose={onClose}
-			classes="fixed top-[3rem] right-[0rem] h-[100vh] w-[40vw] min-w-[645px]"
+			classes="fixed top-[3rem] right-[0px] h-[100vh] w-[40vw] min-w-[645px]"
 		>
 			<div className={classes.modal}>
 				<div className={classes.heading}>

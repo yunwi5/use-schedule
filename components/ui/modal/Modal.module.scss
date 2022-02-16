@@ -1,6 +1,5 @@
-// Needs to be fixed
 .modal {
-	// position: absolute;
+	position: fixed;
 	// top: 50%;
 	background-color: white;
 	border-radius: 5px;
@@ -21,7 +20,10 @@
 	}
 	100% {
 		opacity: 1;
-		transform: translateY(-50%);
 		top: 50%;
+
+		// Test this!
+		// left: 50%;
+		transform: translateY(-50%);
 	}
 }

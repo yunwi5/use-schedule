@@ -1,16 +1,17 @@
 import React from "react";
-import { Theme, Size } from "../../models/design-models";
+import { Theme, ButtonTheme, Size } from "../../models/design-models";
 import classes from "./Button.module.scss";
 
 interface Props {
 	size?: Size;
-	theme?: Theme;
+	theme?: Theme | ButtonTheme;
 	onClick?: () => void;
 	className?: string;
 	type?: string;
 	disabled?: boolean;
 }
 
+// Made it as flexible as possible
 const Button: React.FC<Props> = (props) => {
 	const { size, theme, type, onClick, className, disabled } = props;
 

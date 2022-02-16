@@ -8,6 +8,11 @@
 	font-size: 1.2rem;
 	padding-right: 2px;
 
+	input,
+	textarea {
+		background-color: #fff;
+	}
+
 	.form-content {
 		display: flex;
 		flex-direction: column;

@@ -7,8 +7,30 @@ export enum Theme {
 	DANGER = "danger"
 }
 
+export enum ButtonTheme {
+	PRIMARY = "primary",
+	PRIMARY_EMPTY = "primary-empty",
+	PRIMARY_LIGHT = "primary-light",
+	SECONDARY = "secondary",
+	SECONDARY_EMPTY = "secondary-empty",
+	SECONDARY_LIGHT = "secondary-light",
+	TERTIARY = "tertiary",
+	TERTIARY_EMPTY = "tertiary-empty",
+	TERTIARY_LIGHT = "tertiary-light",
+	WARNING = "warning",
+	ERROR = "error",
+	DANGER = "danger"
+}
+
+export enum ModalTheme {
+	DELETE = "delete",
+	WARNING = "warning",
+	SUCCESS = "success"
+}
+
 export enum Size {
 	SMALL = "small",
+	SMALL_MEDIUM = "small-medium",
 	MEDIUM = "medium",
 	MEDIUM_LARGE = "medium-large",
 	LARGE = "large"

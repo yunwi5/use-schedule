@@ -49,6 +49,16 @@
 	}
 }
 
+.btn-warning {
+	color: $color-amber-light-1;
+	background-color: lighten($color-amber, 0%);
+
+	&:hover {
+		color: #fff;
+		background-color: $color-amber-dark-1;
+	}
+}
+
 .btn-danger {
 	color: $color-rose-light-2;
 	background-color: lighten($color-rose-dark-1, 10%);

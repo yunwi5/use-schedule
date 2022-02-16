@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import TaskForm from "./TaskForm";
@@ -8,6 +8,8 @@ import { deleteTask, updateTask } from "../../../lib/planners/weekly-planner-api
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
+import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
+import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
 
 interface Props {
 	onClose: () => void;
@@ -22,6 +24,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const userId = user ? user.sub : null;
 
 	const { setNotification } = useNotification();
+	const [ showDeleteModal, setShowDeleteModal ] = useState(false);
+	const [ showDiscardModal, setShowDiscardModal ] = useState(false);
 
 	const taskEditHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
@@ -49,6 +53,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	};
 
 	const taskDeleteHandler = async () => {
+		setShowDeleteModal(false);
 		setNotification(NotifStatus.PENDING);
 		const { isSuccess } = await deleteTask(initialTask.id, PlannerMode.WEEKLY);
 		if (isSuccess) {
@@ -60,13 +65,23 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<PlannerModal onClose={onClose} title={"Edit Task"}>
+		<PlannerModal onClose={setShowDiscardModal.bind(null, true)} title={"Edit Task"}>
+			{showDeleteModal && (
+				<DeleteModal
+					targetName={initialTask.name}
+					onAction={taskDeleteHandler}
+					onClose={setShowDeleteModal.bind(null, false)}
+				/>
+			)}
+			{showDiscardModal && (
+				<DiscardModal onAction={onClose} onClose={setShowDiscardModal.bind(null, false)} />
+			)}
 			<TaskForm
 				onSubmit={taskEditHandler}
 				beginningPeriod={beginningPeriod}
 				isEdit={true}
 				initialTask={initialTask}
-				onDelete={taskDeleteHandler}
+				onDelete={setShowDeleteModal.bind(null, true)}
 			/>
 		</PlannerModal>
 	);

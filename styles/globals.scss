@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./abstract/variables";
 
 html,
 body {
@@ -17,4 +18,9 @@ a {
 
 * {
 	box-sizing: border-box;
+}
+
+input,
+select {
+	background-color: $color-grey-light-2;
 }

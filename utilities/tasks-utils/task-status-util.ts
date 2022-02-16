@@ -1,7 +1,7 @@
 import { TaskStatus } from "../../models/task-models/Status";
-import { WeeklyPlanner } from "../../models/planner-models/Planner";
+import { WeeklyPlanner, Planner } from "../../models/planner-models/Planner";
 
-export function getTaskStatusCount (planner: WeeklyPlanner) {
+export function getTaskStatusCount (planner: Planner) {
 	let openedTasks = 0,
 		completedTasks = 0,
 		progressTasks = 0,

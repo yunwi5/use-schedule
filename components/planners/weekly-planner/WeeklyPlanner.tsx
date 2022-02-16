@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+
 import PlannerHeader from "../planner-nav/PlannerHeader";
 import WeeklyTable from "./WeeklyTable";
 import { isSameWeek } from "../../../utilities/time-utils/date-classify";
 import { PlannerTask, Task } from "../../../models/task-models/Task";
 import { WeeklyPlanner as Planner } from "../../../models/planner-models/Planner";
 import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get";
-import { addWeeks } from "../../../utilities/time-utils/date-control";
+import useDateTime from "../../../hooks/useDateTime";
+import useLogger from "../../../hooks/useLogger";
 
 interface Props {
 	weeklyTasks: Task[];
@@ -32,29 +34,27 @@ function populateWeeklyPlanner (tasks: Task[], weekBeginning: Date): Planner {
 const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate }) => {
 	const [ planner, setPlanner ] = useState<Planner | null>(null);
 
-	const initialWeek = getCurrentWeekBeginning();
-	const [ weekBeginning, setWeekBeginning ] = useState<Date>(initialWeek);
+	const weekBeginning = getCurrentWeekBeginning();
+	const { currentTimeStamp, addWeeks: addLocalWeeks } = useDateTime(weekBeginning);
+
+	useLogger(currentTimeStamp);
 
 	useEffect(
 		() => {
 			console.log("Repopulate planner");
-			const newPlanner = populateWeeklyPlanner(initialTasks, weekBeginning);
+			const newPlanner = populateWeeklyPlanner(initialTasks, currentTimeStamp);
 			setPlanner(newPlanner);
 		},
-		[ initialTasks, weekBeginning ]
+		[ initialTasks, currentTimeStamp ]
 	);
 
 	// If the week beginning changes, the planner also has to change to load new tasks according to
 	// Changed week beginning.
 	const weekNavigateHandler = (direction: number) => {
 		if (direction !== 1 && direction !== -1) throw new Error("Direction parameter is wrong!");
-
-		const newWeekBeginning = addWeeks(weekBeginning, direction);
-		console.log(`New week beginning: ${newWeekBeginning}`);
-		setWeekBeginning(newWeekBeginning);
+		// Hook call
+		addLocalWeeks(direction);
 	};
-
-	// console.log("planner", planner);
 
 	return (
 		<main className="ml-[12.2rem] mt-16">
@@ -64,11 +64,11 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 				</div>
 				<div className="text-center px-3 py-2 rounded-t-xl bg-gray-200/50">Statistics</div>
 			</div> */}
-			<PlannerHeader beginningPeriod={weekBeginning} onMutate={onMutate} />
+			<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
 			{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
 			{planner && (
 				<WeeklyTable
-					weekBeginning={weekBeginning}
+					weekBeginning={currentTimeStamp}
 					planner={planner}
 					onChangeWeek={weekNavigateHandler}
 					onMutate={onMutate}

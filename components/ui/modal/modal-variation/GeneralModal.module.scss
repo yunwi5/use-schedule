@@ -1,0 +1,58 @@
+@import "../../../../styles/abstract/variables";
+@import "../../../../styles/abstract/mixins";
+
+.modal {
+	display: flex;
+	flex-direction: column;
+	gap: 1.2rem;
+	width: clamp(400px, 27rem, 30rem);
+	margin: 0 auto;
+	padding: .75rem 1.5rem;
+	left: calc(50% - 13.5rem);
+
+	& h2 {
+		font-size: 2.2rem;
+		text-transform: capitalize;
+		position: relative;
+
+		&::after {
+			@include after-underline($color-grey-dark-3, $color-grey-light-1);
+		}
+	}
+
+	& ul {
+		margin-top: .5rem;
+		list-style: none;
+		font-size: 1.4rem;
+	}
+
+	& p {
+		margin: 1rem 0;
+		margin-top: 1.4rem;
+	}
+
+	.btns {
+		display: flex;
+		gap: 1rem;
+		padding-bottom: .3rem;
+	}
+
+	&--delete {
+		h2 {
+			color: $color-rose-dark-1;
+		}
+
+		h2::after {
+			@include after-underline($color-rose-dark-1, $color-grey-light-1);
+		}
+	}
+
+	&--discard {
+		h2 {
+			color: $color-amber-dark-1;
+		}
+		h2::after {
+			@include after-underline($color-amber-dark-1, $color-grey-light-1);
+		}
+	}
+}
