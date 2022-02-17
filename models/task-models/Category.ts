@@ -36,7 +36,8 @@ export enum HomeCategory {
 	COOKING = "Cooking",
 	LAUNDRAY = "Laundray",
 	CLEANING = "Cleaning",
-	FAMILY = "family"
+	FAMILY = "family",
+	OTHERS = "Others"
 }
 
 export const HomeCategoryList = [
@@ -44,7 +45,8 @@ export const HomeCategoryList = [
 	HomeCategory.COOKING,
 	HomeCategory.LAUNDRAY,
 	HomeCategory.CLEANING,
-	HomeCategory.FAMILY
+	HomeCategory.FAMILY,
+	HomeCategory.OTHERS
 ];
 
 export enum PersonalCategory {
@@ -52,7 +54,8 @@ export enum PersonalCategory {
 	PROJECT = "Project",
 	EXCERCISE = "Exercise",
 	THERAPY = "Therapy",
-	SELF_LEARNING = "Self Learning"
+	SELF_LEARNING = "Self Learning",
+	OTHERS = "Others"
 }
 
 export const PersonalCategoryList = [
@@ -60,7 +63,8 @@ export const PersonalCategoryList = [
 	PersonalCategory.MUSIC,
 	PersonalCategory.PROJECT,
 	PersonalCategory.SELF_LEARNING,
-	PersonalCategory.THERAPY
+	PersonalCategory.THERAPY,
+	PersonalCategory.OTHERS
 ];
 
 export enum LeisureCategory {
@@ -69,7 +73,8 @@ export enum LeisureCategory {
 	GAMES = "Games",
 	SPORTS = "Sports",
 	TRIPS = "Trips",
-	SOCIAL_MEDIA = "Social Media"
+	SOCIAL_MEDIA = "Social Media",
+	OTHERS = "Others"
 }
 
 export const LeisureCategoryList = [
@@ -78,19 +83,22 @@ export const LeisureCategoryList = [
 	LeisureCategory.GAMES,
 	LeisureCategory.SPORTS,
 	LeisureCategory.TRIPS,
-	LeisureCategory.SOCIAL_MEDIA
+	LeisureCategory.SOCIAL_MEDIA,
+	LeisureCategory.OTHERS
 ];
 
 export enum WorkCategory {
 	MEETING = "Meeting",
 	REPORT = "Report",
-	DAILY_WORK = "Daily Work"
+	DAILY_WORK = "Daily Work",
+	OTHERS = "Others"
 }
 
 export const WorkCategoryList = [
 	WorkCategory.MEETING,
 	WorkCategory.REPORT,
-	WorkCategory.DAILY_WORK
+	WorkCategory.DAILY_WORK,
+	WorkCategory.OTHERS
 ];
 
 export enum SchoolCategory {
@@ -101,7 +109,8 @@ export enum SchoolCategory {
 	REPORT = "Report / Essay",
 	TUTORIALS = "Tutorials",
 	LAB = "Lab",
-	REPRESENTATIVES = "Representatives"
+	REPRESENTATIVES = "Representatives",
+	OTHERS = "Others"
 }
 
 export const SchoolCategoryList = [
@@ -112,7 +121,8 @@ export const SchoolCategoryList = [
 	SchoolCategory.REPORT,
 	SchoolCategory.TUTORIALS,
 	SchoolCategory.LAB,
-	SchoolCategory.REPRESENTATIVES
+	SchoolCategory.REPRESENTATIVES,
+	SchoolCategory.OTHERS
 ];
 
 export type SubCategory =
