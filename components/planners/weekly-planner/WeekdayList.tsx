@@ -13,7 +13,7 @@ const WeekdayList: React.FC<Props> = (props) => {
 
 	return (
 		// This component will need to be centered
-		<div className="ml-10">
+		<div className="ml-5">
 			{WeekDayListFromMonday.map((day, idx) => (
 				<TaskList
 					key={idx}

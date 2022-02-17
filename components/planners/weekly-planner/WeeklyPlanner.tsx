@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import IntroPanel from "../planner-nav/IntroPanel";
 import PlannerHeader from "../planner-nav/PlannerHeader";
 import WeeklyTable from "./WeeklyTable";
 import { isSameWeek } from "../../../utilities/time-utils/date-classify";
@@ -27,7 +28,6 @@ function populateWeeklyPlanner (tasks: Task[], weekBeginning: Date): Planner {
 			planner.addTasks(plannerTask);
 		}
 	}
-
 	return planner;
 }
 
@@ -36,8 +36,6 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 
 	const weekBeginning = getCurrentWeekBeginning();
 	const { currentTimeStamp, addWeeks: addLocalWeeks } = useDateTime(weekBeginning);
-
-	useLogger(currentTimeStamp);
 
 	useEffect(
 		() => {
@@ -56,24 +54,35 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 		addLocalWeeks(direction);
 	};
 
+	console.log("planner:", planner);
+
 	return (
-		<main className="ml-[12.2rem] mt-16">
+		<main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">
+			<IntroPanel
+				title={"Weekly Planner"}
+				message={
+					"Make your week compact with timeply planned weekly tasks added on your scheduler"
+				}
+			/>
 			{/* <div className="flex text-gray-700 text-lg">
 				<div className="text-center px-3 py-2 rounded-t-xl bg-white bg-gray-200/50 w-[10rem]">
 					Time Planner
 				</div>
 				<div className="text-center px-3 py-2 rounded-t-xl bg-gray-200/50">Statistics</div>
 			</div> */}
-			<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-			{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
-			{planner && (
-				<WeeklyTable
-					weekBeginning={currentTimeStamp}
-					planner={planner}
-					onChangeWeek={weekNavigateHandler}
-					onMutate={onMutate}
-				/>
-			)}
+
+			<div className="rounded-md border-2 border-slate-200 bg-white mt-8">
+				<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
+				{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
+				{planner && (
+					<WeeklyTable
+						weekBeginning={currentTimeStamp}
+						planner={planner}
+						onChangeWeek={weekNavigateHandler}
+						onMutate={onMutate}
+					/>
+				)}
+			</div>
 		</main>
 	);
 };

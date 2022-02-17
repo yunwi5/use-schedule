@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartPie, faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
+import { faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
 
 import PlannerTaskAdd from "../planner-modal/PlannerTaskAdd";
 import Searchbar from "../../ui/Searchbar";
 import PlannerFilter from "../planner-support/PlannerFilter";
 import GroupSelect from "../planner-support/GroupSelect";
 import Button from "../../ui/Button";
-import { Theme, Size } from "../../../models/design-models";
+import { Theme, Size, ButtonTheme } from "../../../models/design-models";
 import classes from "./PlannerHeader.module.scss";
 
 interface Props {
@@ -36,36 +36,34 @@ const PlannerHeader: React.FC<Props> = (props) => {
 
 			<GroupSelect />
 			<PlannerFilter />
-			<Searchbar
-				className="mr-6"
-				placeholder="Search Task"
-				onSearch={(text: string) => console.log(text)}
-			/>
-			<Button
-				className="mr-4 flex items-center"
-				theme={Theme.SECONDARY}
-				size={Size.MEDIUM}
-				onClick={foldTasksHandler}
-			>
-				<FontAwesomeIcon className="mr-2 max-w-[1.3rem]" icon={faChartPie as any} />{" "}
-				Statistics
-			</Button>
-			<Button
-				className="mr-4 flex items-center"
-				theme={Theme.TERTIARY}
-				size={Size.MEDIUM}
-				onClick={foldTasksHandler}
-			>
-				<FontAwesomeIcon className="mr-2 max-w-[1.3rem]" icon={faFolderOpen as any} /> Fold
-				All
-			</Button>
-			<Button
-				theme={Theme.PRIMARY}
-				size={Size.MEDIUM}
-				onClick={() => setIsAdding((prev) => !prev)}
-			>
-				+ Add Task
-			</Button>
+
+			<div className={classes.right}>
+				<Searchbar
+					className={""}
+					placeholder="Search Task"
+					onSearch={(text: string) => console.log(text)}
+				/>
+				<Button
+					className={`flex items-center ${classes.btn} border-slate-100`}
+					theme={ButtonTheme.PRIMARY_EMPTY}
+					size={Size.MEDIUM}
+					onClick={foldTasksHandler}
+				>
+					<FontAwesomeIcon
+						className="mr-2 max-w-[1.3rem]"
+						icon={faFolderOpen as any}
+					/>{" "}
+					Fold All
+				</Button>
+				<Button
+					className={`rounded-md ${classes.btn}`}
+					theme={Theme.PRIMARY}
+					size={Size.MEDIUM}
+					onClick={() => setIsAdding((prev) => !prev)}
+				>
+					+ Add Task
+				</Button>
+			</div>
 		</nav>
 	);
 };

@@ -10,6 +10,29 @@
 		width: 97.5%;
 		height: 2px;
 		transform: translate(-50%, 1px);
-		background-color: rgba($color-grey-dark-1, .7);
+		background-color: rgba($color-primary-light-2, .7);
+	}
+
+	.right {
+		display: flex;
+
+		& > *:not(:last-child) {
+			position: relative;
+			margin-right: 40px;
+
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: -22px;
+				height: 100%;
+				width: 2px;
+				background-color: $color-primary-light-2;
+			}
+		}
+	}
+
+	.btn {
+		border-radius: 23px;
 	}
 }

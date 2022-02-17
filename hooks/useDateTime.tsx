@@ -54,6 +54,7 @@ const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
 
 	useEffect(() => {
 		const storedDate = localStorage.getItem("dateTime");
+		// console.log("storedDate:", storedDate);
 		if (!storedDate) {
 			const newTimeStamp = getNewTimeStamp(resetPeriod || ResetPeriod.WEEK);
 			setCurrentTimeStamp(newTimeStamp);
@@ -67,7 +68,6 @@ const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
 		() => {
 			if (currentTimeStamp) localStorage.setItem("dateTime", currentTimeStamp.toString());
 			console.log(`Save timestamp ${currentTimeStamp}`);
-			// console.log(`weekEd: ${weekEnding}, monthEd: ${monthEnding}, yearEd: ${yearEnding}`);
 			// console.log(`CMWB: ${monthWeekBeginning}, CMWE: ${monthWeekEnding}`);
 		},
 		[ currentTimeStamp ]
@@ -84,6 +84,8 @@ const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
 	const monthWeekBeginning = getMonthWeekBeginning(currentTimeStamp);
 	// const monthWeekEnding = currentTimeStamp ? getMonthWeekEnding(currentTimeStamp) : null;
 	const monthWeekEnding = getMonthWeekEnding(currentTimeStamp);
+
+	// console.log(`timeStamp: ${currentTimeStamp}, weekEnding: ${weekEnding}`);
 
 	return {
 		currentTimeStamp: currentTimeStamp,

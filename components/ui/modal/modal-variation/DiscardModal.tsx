@@ -24,7 +24,7 @@ const DiscardModal: React.FC<ModalProps> = (props) => {
 					onClick={onClose}
 					className={`${classes["btn-cancel"]}`}
 				>
-					Cancel
+					Stay
 				</Button>
 			</div>
 		</Modal>

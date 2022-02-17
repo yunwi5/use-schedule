@@ -4,6 +4,7 @@
 	border-radius: 5px;
 	max-width: 8rem;
 	transition: all .35s ease;
+	border: 2px solid transparent;
 
 	&:hover {
 		border-radius: 30px;
@@ -22,10 +23,23 @@
 .btn-primary {
 	color: $color-primary-light-2;
 	background-color: $color-primary-dark-1;
+	border-color: $color-primary-dark-1;
 
 	&:hover {
 		color: #fff;
 		background-color: $color-primary-dark-2;
+		border-color: $color-primary-dark-2;
+	}
+}
+
+.btn-primary-empty {
+	color: $color-primary-dark-1;
+	background-color: transparent;
+	border: 2px solid $color-primary;
+
+	&:hover {
+		background-color: $color-primary;
+		color: #fff;
 	}
 }
 
@@ -72,14 +86,17 @@
 .btn-medium {
 	font-size: 1.2rem;
 	padding: .5rem .9rem;
+	min-width: 92px;
 }
 
 .btn-medium-large {
 	font-size: 1.3rem;
 	padding: .7rem 1.35rem;
+	min-width: 102px;
 }
 
 .btn-large {
 	font-size: 1.6rem;
 	padding: .7rem;
+	min-width: 122px;
 }

@@ -52,14 +52,14 @@ const TaskList: React.FC<Props> = (props) => {
 				<div className="w-full h-1 bg-slate-300" />
 				<FontAwesomeIcon
 					icon={faAngleDown}
-					className={`max-w-[1.3rem] text-3xl text-slate-500 cursor-pointer ml-auto mr-20 ${isShrinked
+					className={`max-w-[1.3rem] text-3xl text-slate-500 cursor-pointer ml-auto mr-12 ${isShrinked
 						? ""
 						: "rotate-180"} transition-all duration-300`}
 					onClick={() => setIsShrinked((prevState) => !prevState)}
 				/>
 			</div>
 			{!isShrinked && (
-				<ul className="flex flex-col items-center gap-4">
+				<ul className="flex flex-col items-center gap-4 pl-10">
 					{sortedTasksList.map((task) => (
 						<PlannerTaskCard
 							key={task.id}
