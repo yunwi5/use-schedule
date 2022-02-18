@@ -34,7 +34,7 @@ const PlannerHeader: React.FC<Props> = (props) => {
 				/>
 			)}
 
-			<GroupSelect />
+			{/* <GroupSelect /> */}
 			<PlannerFilter />
 
 			<div className={classes.right}>
