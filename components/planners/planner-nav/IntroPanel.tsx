@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCircleExclamation, faChartPie } from "@fortawesome/pro-duotone-svg-icons";
+import {
+	faCalendarCircleExclamation,
+	faChartPie,
+	faCircleInfo
+} from "@fortawesome/pro-duotone-svg-icons";
 
 import Button from "../../ui/Button";
 import { Size, Theme } from "../../../models/design-models";
 import classes from "./IntroPanel.module.scss";
+import { faXmark } from "@fortawesome/pro-regular-svg-icons";
 
 interface Props {
 	title: string;
@@ -13,33 +18,60 @@ interface Props {
 
 const IntroPanel: React.FC<Props> = (props) => {
 	const { title, message } = props;
+	const [ showPanel, setShowPanel ] = useState(true);
+
+	const showPanelHandler = (show: boolean) => {
+		setShowPanel(show);
+	};
 
 	return (
-		<div className={classes.panel}>
-			<h2>{title}</h2>
-			<p>{message}</p>
-
-			<div className={classes.actions}>
-				<Button
-					className="mr-4 flex items-center"
-					theme={Theme.SECONDARY}
-					size={Size.MEDIUM}
-				>
+		<Fragment>
+			{!showPanel && (
+				<div className={classes.emptyContainer}>
 					<FontAwesomeIcon
-						className="mr-2 max-w-[1.3rem]"
-						icon={faChartPie as any}
-					/>{" "}
-					Statistics
-				</Button>
-				<Button className="mr-4 flex items-center" theme={Theme.TERTIARY}>
-					<FontAwesomeIcon
-						className="mr-2 max-w-[1.3rem]"
-						icon={faCalendarCircleExclamation}
+						icon={faCircleInfo}
+						className={classes.show}
+						onClick={showPanelHandler.bind(null, true)}
 					/>
-					Import Template
-				</Button>
-			</div>
-		</div>
+				</div>
+			)}
+			{showPanel && (
+				<div className={classes.panel}>
+					<h2>{title}</h2>
+					<p>{message}</p>
+
+					<FontAwesomeIcon
+						icon={faXmark}
+						className={classes.exit}
+						onClick={showPanelHandler.bind(null, false)}
+					/>
+
+					<div className={classes.actions}>
+						<Button
+							className={`mr-4 flex items-center ${classes.btn}`}
+							theme={Theme.SECONDARY}
+							size={Size.MEDIUM}
+						>
+							<FontAwesomeIcon
+								className="mr-2 max-w-[1.3rem]"
+								icon={faChartPie as any}
+							/>{" "}
+							Statistics
+						</Button>
+						<Button
+							className={`mr-4 flex items-center ${classes.btn}`}
+							theme={Theme.TERTIARY}
+						>
+							<FontAwesomeIcon
+								className="mr-2 max-w-[1.3rem]"
+								icon={faCalendarCircleExclamation}
+							/>
+							Import Template
+						</Button>
+					</div>
+				</div>
+			)}
+		</Fragment>
 	);
 };
 

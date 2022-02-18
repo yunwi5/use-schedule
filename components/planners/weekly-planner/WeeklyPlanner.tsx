@@ -61,7 +61,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 			<IntroPanel
 				title={"Weekly Planner"}
 				message={
-					"Make your week compact with timeply planned weekly tasks added on your scheduler"
+					"Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis."
 				}
 			/>
 			{/* <div className="flex text-gray-700 text-lg">

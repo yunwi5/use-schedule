@@ -4,7 +4,11 @@
 	width: 100%;
 	min-height: 5rem;
 
-	background: linear-gradient(217deg, $color-teal-light-2, rgba(255, 0, 0, 0) 70.71%),
+	background: linear-gradient(
+			217deg,
+			lighten($color-teal-light-2, 4.5%),
+			rgba(255, 0, 0, 0) 70.71%
+		),
 		linear-gradient(127deg, $color-primary-light-3, rgba(0, 255, 0, 0) 70.71%),
 		linear-gradient(336deg, $color-secondary-light-1, rgba(0, 0, 255, 0) 70.71%);
 
@@ -19,10 +23,13 @@
 	// 	linear-gradient(70deg, var(--color-accent-subtle) 32%, var(--color-success-subtle));
 
 	color: $color-primary-dark-3;
-	padding: 1.1rem 1rem;
-	display: flex;
+	padding: 1.1rem 2rem;
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	grid-row-gap: 2rem;
 	align-items: center;
-	justify-content: space-between;
+
+	position: relative;
 
 	h2 {
 		font-size: 2rem;
@@ -30,8 +37,57 @@
 	}
 
 	p {
-		font-size: 1.1rem;
-		// margin-right: auto;
-		// margin-left: auto;
+		font-size: 1.2rem;
+		padding: .5rem 3rem;
+		padding-left: 9rem;
+		text-align: left;
+		justify-self: center;
+	}
+}
+
+.emptyContainer {
+	min-height: 1rem;
+	width: 100%;
+	position: relative;
+}
+
+.exit,
+.show {
+	position: absolute;
+	cursor: pointer;
+	transition: all .3s ease;
+	color: $color-primary-dark-2;
+
+	&:hover {
+		color: $color-tertiary-dark-2;
+		transform: scale(115%);
+	}
+}
+
+.exit {
+	top: 1rem;
+	right: 1.5rem;
+	max-width: 1.5rem;
+	max-height: 1.5rem;
+	font-size: 1.2rem;
+}
+
+.show {
+	right: 1rem;
+	top: -5px;
+	max-width: 3rem;
+	max-height: 3rem;
+	font-size: 2.1rem;
+}
+
+.actions {
+	display: flex;
+	gap: 1rem;
+	grid-column: 1 / -1;
+
+	.btn {
+		padding-left: .7rem;
+		padding-right: .7rem;
+		max-width: 15rem;
 	}
 }
