@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
 
+import { foldActions } from "../../../store/redux/fold-slice";
+import { filterActions } from "../../../store/redux/filter-slice";
 import PlannerTaskAdd from "../planner-modal/PlannerTaskAdd";
 import Searchbar from "../../ui/Searchbar";
 import PlannerFilter from "../planner-support/PlannerFilter";
-import GroupSelect from "../planner-support/GroupSelect";
 import Button from "../../ui/Button";
 import { Theme, Size, ButtonTheme } from "../../../models/design-models";
 import classes from "./PlannerHeader.module.scss";
@@ -17,10 +19,18 @@ interface Props {
 
 const PlannerHeader: React.FC<Props> = (props) => {
 	const { beginningPeriod, onMutate } = props;
+	const dispatch = useDispatch();
+	const isFolded = useSelector((state: RootStateOrAny) => state.fold.isFolded);
+
 	const [ isAdding, setIsAdding ] = useState(false);
 
 	const foldTasksHandler = () => {
-		console.log("Fold all tasks list on the page!");
+		dispatch(foldActions.toggle());
+	};
+
+	const searchHandler = (text: string) => {
+		console.log("search text:", text);
+		dispatch(filterActions.updateSearchWord(text));
 	};
 
 	return (
@@ -38,14 +48,10 @@ const PlannerHeader: React.FC<Props> = (props) => {
 			<PlannerFilter />
 
 			<div className={classes.right}>
-				<Searchbar
-					className={""}
-					placeholder="Search Task"
-					onSearch={(text: string) => console.log(text)}
-				/>
+				<Searchbar className={""} placeholder="Search Task" onSearch={searchHandler} />
 				<Button
 					className={`flex items-center ${classes.btn} border-slate-100`}
-					theme={ButtonTheme.PRIMARY_EMPTY}
+					theme={isFolded ? ButtonTheme.PRIMARY : ButtonTheme.PRIMARY_EMPTY}
 					size={Size.MEDIUM}
 					onClick={foldTasksHandler}
 				>
@@ -53,7 +59,7 @@ const PlannerHeader: React.FC<Props> = (props) => {
 						className="mr-2 max-w-[1.3rem]"
 						icon={faFolderOpen as any}
 					/>{" "}
-					Fold All
+					{isFolded ? "Expand All" : "Fold All"}
 				</Button>
 				<Button
 					className={`rounded-md ${classes.btn}`}

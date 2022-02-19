@@ -67,7 +67,7 @@ const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
 	useEffect(
 		() => {
 			if (currentTimeStamp) localStorage.setItem("dateTime", currentTimeStamp.toString());
-			console.log(`Save timestamp ${currentTimeStamp}`);
+			// console.log(`Save timestamp ${currentTimeStamp}`);
 			// console.log(`CMWB: ${monthWeekBeginning}, CMWE: ${monthWeekEnding}`);
 		},
 		[ currentTimeStamp ]

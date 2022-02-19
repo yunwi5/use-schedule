@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
+
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -6,75 +8,81 @@ import MenuItem from "@mui/material/MenuItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarsFilter } from "@fortawesome/pro-solid-svg-icons";
 
+import { filterActions } from "../../../store/redux/filter-slice";
 import { ImportanceList, TaskStatusList } from "../../../models/task-models/Status";
 import { Category, CategoryList, getSubCategory } from "../../../models/task-models/Category";
 
-type Filter = "Category" | "Importance" | "Status";
+export enum Filter {
+	CATEGORY = "Category",
+	IMPORTANCE = "Importance",
+	STATUS = "Status"
+}
 
 function getFilterList (filter: Filter) {
 	switch (filter) {
-		case "Importance":
+		case Filter.IMPORTANCE:
 			return ImportanceList;
-		case "Category":
+		case Filter.CATEGORY:
 			return CategoryList;
-		case "Status":
+		case Filter.STATUS:
 			return TaskStatusList;
 	}
 }
 
 // More features will be added as the filter part is getting implemented.
 const PlannerFilter: React.FC = () => {
-	const [ isFiltering, setIsFiltering ] = useState(false);
+	const dispatch = useDispatch();
+	const { filterTarget, mainFilter, subFilter } = useSelector(
+		(state: RootStateOrAny) => state.filter
+	);
 
-	// Category, Importance or Status
-	const [ filterTarget, setFilterTarget ] = useState<null | Filter>(null);
+	const [ isFiltering, setIsFiltering ] = useState(false);
 
 	// CategoryList, ImportanceList, or TaskStatusList
 	const [ mainFilterList, setMainFilterList ] = useState<null | string[]>(null);
-	const [ mainFilter, setMainFilter ] = useState<null | string>(null);
 
 	// One of SubCategoryList or null
 	const [ subFilterList, setSubFilterList ] = useState<null | string[]>(null);
-	const [ subFilter, setSubFilter ] = useState<null | string>(null);
 
 	const clearFilters = () => {
-		setMainFilter(null);
 		setMainFilterList(null);
-		setSubFilter(null);
 		setSubFilterList(null);
+
+		// Redux update
+		dispatch(filterActions.clearFilters());
 	};
 
 	const showFilterHandler = () => {
 		setIsFiltering((prevState) => !prevState);
-		setFilterTarget(null);
 		clearFilters();
 	};
 
 	const filterTargetHandler = (e: SelectChangeEvent) => {
 		const newFilterTarget = e.target.value.trim();
 		if (!newFilterTarget) return;
-		setFilterTarget(newFilterTarget as Filter);
 		const newFilterList = getFilterList(newFilterTarget as Filter);
 		clearFilters();
 		setMainFilterList((prev) => newFilterList);
+
+		// Redux update
+		dispatch(filterActions.updateFilterTarget(newFilterTarget));
 	};
 
 	const mainFilterHandler = (e: SelectChangeEvent) => {
 		const newMainFilter = e.target.value.trim();
-		if (!newMainFilter) {
-			setMainFilter(null);
-			return;
-		}
-		setMainFilter(newMainFilter);
+		if (!newMainFilter) return;
+
+		// Redux update
+		dispatch(filterActions.updateMainFilter(newMainFilter));
+		dispatch(filterActions.updateSubFilter(null));
 	};
 
 	const subFilterHandler = (e: SelectChangeEvent) => {
 		const newSubFilter = e.target.value.trim();
-		if (!newSubFilter) {
-			setSubFilter(null);
-			return;
-		}
-		setSubFilter(newSubFilter);
+		if (!newSubFilter) return;
+
+		// Redux update
+		dispatch(filterActions.updateSubFilter(newSubFilter));
 	};
 
 	useEffect(
@@ -85,12 +93,11 @@ const PlannerFilter: React.FC = () => {
 				CategoryList.includes(mainFilter as Category)
 			) {
 				const subCategoryList = getSubCategory(mainFilter as Category);
-				console.log("subCategoryList:", subCategoryList);
-				setSubFilter(null);
+				dispatch(filterActions.updateSubFilter(null));
 				setSubFilterList(subCategoryList);
 			}
 		},
-		[ mainFilter, filterTarget ]
+		[ mainFilter, filterTarget, dispatch ]
 	);
 
 	const showMainFilter = isFiltering && filterTarget && mainFilterList;
@@ -121,9 +128,9 @@ const PlannerFilter: React.FC = () => {
 							<MenuItem disabled selected value="">
 								select
 							</MenuItem>
-							<MenuItem value="Category">Category</MenuItem>
-							<MenuItem value="Importance">Importance</MenuItem>
-							<MenuItem value="Status">Status</MenuItem>
+							<MenuItem value="Category">{Filter.CATEGORY}</MenuItem>
+							<MenuItem value="Importance">{Filter.IMPORTANCE}</MenuItem>
+							<MenuItem value="Status">{Filter.STATUS}</MenuItem>
 						</Select>
 					</FormControl>
 				</div>

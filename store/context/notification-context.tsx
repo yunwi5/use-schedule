@@ -42,7 +42,7 @@ export const NotificationContextProvider: React.FC = (props) => {
 
 	function showNotificationHandler (notificationData: NotificationData) {
 		setActiveNotification(notificationData);
-		console.log("notification data:", notificationData);
+		// console.log("notification data:", notificationData);
 	}
 
 	function hideNotificationHandler () {

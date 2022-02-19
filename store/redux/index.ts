@@ -1,2 +1,10 @@
 // Add all redux stores to index.ts!
-export const store = null;
+import { configureStore } from "@reduxjs/toolkit";
+import foldSlice from "./fold-slice";
+import filterSlice from "./filter-slice";
+
+const store = configureStore({
+	reducer: { fold: foldSlice.reducer, filter: filterSlice.reducer }
+});
+
+export default store;

@@ -39,7 +39,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 
 	useEffect(
 		() => {
-			console.log("Repopulate planner");
+			// console.log("Repopulate planner");
 			const newPlanner = populateWeeklyPlanner(initialTasks, currentTimeStamp);
 			setPlanner(newPlanner);
 		},
@@ -54,7 +54,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 		addLocalWeeks(direction);
 	};
 
-	console.log("planner:", planner);
+	// console.log("planner:", planner);
 
 	return (
 		<main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">
