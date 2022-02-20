@@ -18,6 +18,7 @@ import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
 import { updateTaskStatus } from "../../lib/planners/weekly-planner-api";
 import classes from "./TaskCard.module.scss";
+import TaskDetail from "./task-modal/TaskDetail";
 
 interface Props {
 	task: PlannerTask;
@@ -29,6 +30,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	const { task: initialTask, beginningPeriod, onMutate } = props;
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
+	const [ showDetail, setShowDetail ] = useState(false);
 
 	let endTime: null | Date = null;
 	if (task.duration) {
@@ -53,6 +55,11 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 
 	const updateTaskHandler = () => onMutate();
 
+	const editHandler = () => {
+		setShowDetail(false);
+		setIsEditing(true);
+	};
+
 	// Whenever there is a global update of tasks, update card as well.
 	useEffect(
 		() => {
@@ -69,6 +76,15 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 					onUpdate={updateTaskHandler}
 					beginningPeriod={beginningPeriod}
 					initialTask={task}
+				/>
+			)}
+
+			{showDetail && (
+				<TaskDetail
+					onClose={setShowDetail.bind(null, false)}
+					onEdit={editHandler}
+					onDelete={editHandler}
+					task={task}
 				/>
 			)}
 
@@ -117,9 +133,8 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 					{importance}
 				</p>
 				<p
-					className={`${classes.task__status} ${classes[
-						"status-" + status.toLowerCase().replace(" ", "")
-					]}`}
+					className={`${classes.task__status} ${"status-" +
+						status.toLowerCase().replace(" ", "")}`}
 				>
 					<FontAwesomeIcon
 						icon={faCircleExclamationCheck}
@@ -128,7 +143,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 					{status}
 				</p>
 				<div>
-					<button className={classes.task__detail}>
+					<button className={classes.task__detail} onClick={() => setShowDetail(true)}>
 						<FontAwesomeIcon
 							icon={faMagnifyingGlassPlus}
 							className={`${classes.icon}`}

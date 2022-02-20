@@ -1,0 +1,15 @@
+.status-open {
+	color: rgb(15, 118, 110) !important;
+}
+
+.status-completed {
+	color: $color-secondary-dark-3 !important;
+}
+
+.status-inprogress {
+	color: rgb(67, 56, 202) !important;
+}
+
+.status-overdue {
+	color: lighten($color-rose-dark-1, 5%) !important;
+}

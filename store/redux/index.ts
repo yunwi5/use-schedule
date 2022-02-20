@@ -1,4 +1,4 @@
-// Add all redux stores to index.ts!
+// Add all redux slices to index.ts!
 import { configureStore } from "@reduxjs/toolkit";
 import foldSlice from "./fold-slice";
 import filterSlice from "./filter-slice";

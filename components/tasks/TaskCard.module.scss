@@ -102,22 +102,6 @@
 		}
 	}
 
-	.status-open {
-		color: rgb(15, 118, 110);
-	}
-
-	.status-completed {
-		color: $color-secondary-dark-3;
-	}
-
-	.status-inprogress {
-		color: rgb(67, 56, 202);
-	}
-
-	.status-overdue {
-		color: rgb(225, 29, 72);
-	}
-
 	&__detail,
 	&__edit {
 		padding: .3rem .6rem;

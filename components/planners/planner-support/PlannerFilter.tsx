@@ -11,12 +11,7 @@ import { faBarsFilter } from "@fortawesome/pro-solid-svg-icons";
 import { filterActions } from "../../../store/redux/filter-slice";
 import { ImportanceList, TaskStatusList } from "../../../models/task-models/Status";
 import { Category, CategoryList, getSubCategory } from "../../../models/task-models/Category";
-
-export enum Filter {
-	CATEGORY = "Category",
-	IMPORTANCE = "Importance",
-	STATUS = "Status"
-}
+import { Filter } from "../../../utilities/tasks-utils/filter-util";
 
 function getFilterList (filter: Filter) {
 	switch (filter) {
