@@ -1,5 +1,6 @@
 import React from "react";
 
+// Currently not being used.
 const GroupSelect: React.FC = () => {
 	return (
 		<div>

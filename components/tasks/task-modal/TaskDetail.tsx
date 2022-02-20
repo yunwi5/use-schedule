@@ -9,13 +9,15 @@ import {
 	faStar,
 	faXmark
 } from "@fortawesome/pro-duotone-svg-icons";
-import { faCircle } from "@fortawesome/pro-solid-svg-icons";
 
-import { Task, PlannerTask } from "../../../models/task-models/Task";
+import { PlannerTask } from "../../../models/task-models/Task";
 import Modal from "../../ui/modal/Modal";
 import Button from "../../ui/Button";
-import { getDateTimeFormat, getDurationFormat } from "../../../utilities/time-utils/date-format";
-import { addMinutes } from "../../../utilities/time-utils/date-control";
+import {
+	getDateTimeFormat,
+	getDurationFormat,
+	getEndDateTimeFormat
+} from "../../../utilities/time-utils/date-format";
 import { ButtonTheme } from "../../../models/design-models";
 import classes from "./TaskDetail.module.scss";
 
@@ -24,12 +26,6 @@ interface Props {
 	onEdit: () => void;
 	onDelete: () => void;
 	task: PlannerTask;
-}
-
-export function getEndTimeFormatted (startTime: Date, duration: number) {
-	const estimatedEndTime = addMinutes(startTime, duration);
-	const endTimeFormatted = getDateTimeFormat(estimatedEndTime);
-	return endTimeFormatted;
 }
 
 const TaskDetail: React.FC<Props> = (props) => {
@@ -42,14 +38,14 @@ const TaskDetail: React.FC<Props> = (props) => {
 	const plannedDateFormat = getDateTimeFormat(task.dateTime);
 	const dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
 	const durationFormat = getDurationFormat(duration) || defaultValue;
-	const endTimeFormat = getEndTimeFormatted(task.dateTime, duration);
+	const endTimeFormat = getEndDateTimeFormat(task.dateTime, duration);
 
-	console.log("planDate:", task.dateTime);
-	console.log("planDate format:", plannedDateFormat);
+	// console.log("planDate:", task.dateTime);
+	// console.log("planDate format:", plannedDateFormat);
 
 	return (
 		<Modal onClose={onClose} classes={`${classes.modal} text-semibold`}>
-			<FontAwesomeIcon icon={faXmark} className={classes.exit} />
+			<FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
 			<h2>{name}</h2>
 			<div className={classes.grid}>
 				<div className={classes.item}>

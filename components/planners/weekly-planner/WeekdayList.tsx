@@ -1,6 +1,6 @@
 import { WeekDayListFromMonday } from "../../../models/date-models/WeekDay";
 import { WeeklyPlanner } from "../../../models/planner-models/Planner";
-import TaskList from "../../tasks/TaskList";
+import WeeklyTaskList from "../../tasks/WeeklyTaskList";
 
 interface Props {
 	beginningPeriod: Date;
@@ -15,7 +15,7 @@ const WeekdayList: React.FC<Props> = (props) => {
 		// This component will need to be centered
 		<div className="ml-5">
 			{WeekDayListFromMonday.map((day, idx) => (
-				<TaskList
+				<WeeklyTaskList
 					key={idx}
 					day={day}
 					beginningPeriod={beginningPeriod}

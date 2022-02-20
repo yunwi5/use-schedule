@@ -1,3 +1,5 @@
+import { addMinutes } from "./date-control";
+
 export function getTimeFormat (time: Date) {
 	return `${time.getHours()}:${time.getMinutes()}`;
 }
@@ -64,4 +66,10 @@ export function getDateTimeFormat (date: Date) {
 	const dateFormat = getFullDateFormat(date);
 	const timeFormat = getUserTimeFormat(date);
 	return `${timeFormat}  ${dateFormat}`;
+}
+
+export function getEndDateTimeFormat (startTime: Date, duration: number) {
+	const estimatedEndTime = addMinutes(startTime, duration);
+	const endTimeFormatted = getDateTimeFormat(estimatedEndTime);
+	return endTimeFormatted;
 }
