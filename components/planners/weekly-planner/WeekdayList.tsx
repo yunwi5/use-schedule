@@ -17,7 +17,7 @@ const WeekdayList: React.FC<Props> = (props) => {
 			{WeekDayListFromMonday.map((day, idx) => (
 				<WeeklyTaskList
 					key={idx}
-					day={day}
+					period={day}
 					beginningPeriod={beginningPeriod}
 					planner={planner}
 					index={idx}

@@ -19,13 +19,13 @@ function getCollectionOfPlaner (plannerMode: PlannerMode): Collection {
 const API_DOMIN = "/api/planners";
 
 export async function postTask (newTask: PlannerTask, plannerMode: PlannerMode) {
-	// const collection = getCollectionOfPlaner(plannerMode);
+	const collection = getCollectionOfPlaner(plannerMode);
 
 	let insertedId: null | string = null;
 	let res;
 	try {
 		// Send rquest.
-		res = await fetch(`${API_DOMIN}/${plannerMode}`, {
+		res = await fetch(`${API_DOMIN}?collection=${collection}`, {
 			method: "POST",
 			body: JSON.stringify(newTask),
 			headers: {
@@ -51,11 +51,11 @@ export async function updateTask (
 	updatedTask: PlannerTask,
 	plannerMode: PlannerMode
 ) {
-	// const collection = getCollectionOfPlaner(plannerMode);
+	const collection = getCollectionOfPlaner(plannerMode);
 
 	let res;
 	try {
-		res = await fetch(`${API_DOMIN}/${plannerMode}/${taskId}`, {
+		res = await fetch(`${API_DOMIN}/${taskId}?collection=${collection}`, {
 			method: "PUT",
 			body: JSON.stringify(updatedTask),
 			headers: {
@@ -64,6 +64,26 @@ export async function updateTask (
 		});
 		const data = await res.json();
 		console.log("Put request response:", data);
+	} catch (err) {
+		console.error(err);
+	}
+
+	if (!res || !res.ok) {
+		return { isSuccess: false };
+	}
+	return { isSuccess: true };
+}
+
+export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
+	const collection = getCollectionOfPlaner(plannerMode);
+
+	let res;
+	try {
+		res = await fetch(`${API_DOMIN}/${taskId}?collection=${collection}`, {
+			method: "DELETE"
+		});
+		const data = await res.json();
+		console.log("Delete data:", data);
 	} catch (err) {
 		console.error(err);
 	}
@@ -90,26 +110,6 @@ export async function updateTaskStatus (taskId: string, newStatus: string) {
 		});
 		const data = await res.json();
 		console.log("update data:", data);
-	} catch (err) {
-		console.error(err);
-	}
-
-	if (!res || !res.ok) {
-		return { isSuccess: false };
-	}
-	return { isSuccess: true };
-}
-
-export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
-	// const collection = getCollectionOfPlaner(plannerMode);
-
-	let res;
-	try {
-		res = await fetch(`${API_DOMIN}/${plannerMode}/${taskId}`, {
-			method: "DELETE"
-		});
-		const data = await res.json();
-		console.log("Delete data:", data);
 	} catch (err) {
 		console.error(err);
 	}

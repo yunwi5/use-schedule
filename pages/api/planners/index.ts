@@ -1,14 +1,14 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
-import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { getTasks, insertTask } from "../../../../utilities/mongodb-util/planner-util";
-import { convertToTasks } from "../../../../utilities/tasks-utils/task-util";
-import { Collection } from '../../../../utilities/mongodb-util/mongodb-constant';
+import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
+import { getTasks, insertTask } from "../../../utilities/mongodb-util/planner-util";
+import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
 
-type Data = { message: string } | { tasks: any[]; message: string } | {insertedId: any, message: string};
-
-const CollectionName = Collection.WEEKLY_TASKS;
+type Data =
+	| { message: string }
+	| { tasks: any[]; message: string }
+	| { insertedId: any; message: string };
 
 export default withApiAuthRequired(async function handler (
 	req: NextApiRequest,
@@ -20,6 +20,9 @@ export default withApiAuthRequired(async function handler (
 	}
 
 	const userId = session.user.sub;
+
+	let collection = req.query.collection;
+	if (Array.isArray(collection)) collection = collection.join("");
 
 	let client;
 	try {
@@ -33,7 +36,7 @@ export default withApiAuthRequired(async function handler (
 	if (req.method === "GET") {
 		let weeklyTasks;
 		try {
-			let result = await getTasks(client, CollectionName, userId);
+			let result = await getTasks(client, collection, userId);
 			weeklyTasks = convertToTasks(result);
 		} catch (err) {
 			console.error(err);
@@ -41,21 +44,22 @@ export default withApiAuthRequired(async function handler (
 			return res.status(500).json({ message: "Get weekly tasks failed" });
 		}
 		res.status(200).json({ tasks: weeklyTasks, message: "Get weekly tasks successful!" });
-	}
-	// Handle POST request
-	else if (req.method === 'POST') {
+	} else if (req.method === "POST") {
+		// Handle POST request
 		const taskToAdd = req.body;
-		delete taskToAdd['id'];
+		delete taskToAdd["id"];
 		let result;
 		try {
-			result = await insertTask(client, CollectionName, taskToAdd);
-			console.log('result:', result);
+			result = await insertTask(client, collection, taskToAdd);
+			console.log("result:", result);
 		} catch (err) {
 			console.error(err);
 			client.close();
-			return res.status(500).json({message: "Inserting weekly task went wrong."});
+			return res.status(500).json({ message: "Inserting weekly task went wrong." });
 		}
-		res.status(201).json({insertedId: result.insertedId, message: "Inserting weekly task successful!"});
+		res
+			.status(201)
+			.json({ insertedId: result.insertedId, message: "Inserting weekly task successful!" });
 	}
 
 	client.close();

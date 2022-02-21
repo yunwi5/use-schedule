@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { deleteTask, updateTask } from "../../../lib/planners/weekly-planner-api";
+import { deleteTask, updateTask } from "../../../lib/planners/planners-api";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";

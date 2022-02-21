@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
-import { postTask } from "../../../lib/planners/weekly-planner-api";
+import { postTask } from "../../../lib/planners/planners-api";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
@@ -14,10 +14,11 @@ interface Props {
 	onClose: () => void;
 	onAddTask: (newTask: PlannerTask) => void;
 	beginningPeriod: Date;
+	plannerMode?: PlannerMode;
 }
 
 const PlannerTaskAdd: React.FC<Props> = (props) => {
-	const { onClose, onAddTask, beginningPeriod } = props;
+	const { onClose, onAddTask, beginningPeriod, plannerMode } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
 

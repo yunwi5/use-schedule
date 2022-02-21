@@ -16,7 +16,7 @@ import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
 import { addMinutes } from "../../utilities/time-utils/date-control";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
-import { updateTaskStatus } from "../../lib/planners/weekly-planner-api";
+import { updateTaskStatus } from "../../lib/planners/planners-api";
 import classes from "./TaskCard.module.scss";
 import TaskDetail from "./task-modal/TaskDetail";
 
@@ -28,16 +28,17 @@ interface Props {
 
 const PlannerTaskCard: React.FC<Props> = (props) => {
 	const { task: initialTask, beginningPeriod, onMutate } = props;
+
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ showDetail, setShowDetail ] = useState(false);
 
+	const { dueDate, category, subCategory, importance, status, duration } = task;
+
 	let endTime: null | Date = null;
-	if (task.duration) {
+	if (duration) {
 		endTime = addMinutes(task.dateTime, task.duration);
 	}
-
-	const { dueDate, category, subCategory, importance, status } = task;
 
 	const statusChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const newStatus = e.target.value.trim() as TaskStatus;
@@ -68,6 +69,10 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		[ initialTask ]
 	);
 
+	const startTimeFormat = getISOTimeFormat(task.dateTime);
+	const endTimeFormat = endTime && getISOTimeFormat(endTime);
+	const dueDateFormat = dueDate && getDateFormat(dueDate);
+
 	return (
 		<li className={`${classes.task}`}>
 			{isEditing && (
@@ -95,17 +100,17 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 				{/* Planned Time */}
 				<div className={classes.task__time}>
 					<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
-					<span>{getISOTimeFormat(task.dateTime)}</span>
+					<span>{startTimeFormat}</span>
 					{endTime && (
 						<Fragment>
 							<span>~</span>
-							<span>{getISOTimeFormat(endTime)}</span>
+							<span>{endTimeFormat}</span>
 						</Fragment>
 					)}
 				</div>
 				{/* Due Date */}
 				<p className={classes.task__dueDate}>
-					{dueDate && <Fragment>(due {getDateFormat(dueDate)})</Fragment>}
+					{dueDate && <Fragment>(due {dueDateFormat})</Fragment>}
 				</p>
 				{/* Status Control */}
 				<select
