@@ -111,7 +111,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 						{!showComment && (
 							<FontAwesomeIcon
 								icon={faCommentPen}
-								className="-translate-y-3 max-w-lg text-xl text-slate-700 cursor-pointer hover:text-blue-600"
+								className={`max-w-lg text-xl text-slate-700 cursor-pointer hover:text-blue-600 ${classes.commentIcon}`}
 							/>
 						)}
 						{showComment && (

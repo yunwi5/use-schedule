@@ -1,4 +1,26 @@
-@import "../../styles/abstract/variables";
+@import "../../styles/main";
+
+.commentIcon {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(1.3rem);
+	transition: all .3s ease;
+	font-size: 1.4rem;
+
+	&:hover {
+		font-size: 1.5rem;
+	}
+}
+
+.task:hover {
+	animation: UpDown .5s ease;
+
+	.commentIcon {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(-12px);
+	}
+}
 
 .task {
 	display: flex;
