@@ -51,10 +51,11 @@ export function getISOTimeFormat (date: Date): string {
 
 // More user friendly tiem display
 export function getUserTimeFormat (date: Date): string {
-	let hours = "" + date.getHours() % 12;
+	let hours = "" + (date.getHours() % 12 === 0 ? 12 : date.getHours() % 12);
 	let minutes = "" + date.getMinutes().toString();
 	let suffix = date.getHours() > 12 ? "pm" : "am";
 
+	// if (hours === 0) hours = "12";
 	if (hours.length === 1) hours = "0" + hours;
 	if (minutes.length === 1) minutes = "0" + minutes;
 

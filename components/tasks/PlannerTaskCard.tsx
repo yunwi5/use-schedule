@@ -6,9 +6,11 @@ import {
 	faListTree,
 	faMagnifyingGlassPlus,
 	faPenToSquare,
-	faStar
+	faStar,
+	faCommentPen
 } from "@fortawesome/pro-duotone-svg-icons";
 import { faCircle } from "@fortawesome/pro-solid-svg-icons";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 import { PlannerTask } from "../../models/task-models/Task";
 import PlannerTaskEdit from "../planners/planner-modal/PlannerTaskEdit";
@@ -19,6 +21,7 @@ import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date
 import { updateTaskStatus } from "../../lib/planners/planners-api";
 import classes from "./TaskCard.module.scss";
 import TaskDetail from "./task-modal/TaskDetail";
+import TaskComment from "./task-modal/TaskComment";
 
 interface Props {
 	task: PlannerTask;
@@ -32,6 +35,8 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ showDetail, setShowDetail ] = useState(false);
+
+	const [ showComment, setShowComment ] = useState(false);
 
 	const { dueDate, category, subCategory, importance, status, duration } = task;
 
@@ -73,8 +78,12 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	const endTimeFormat = endTime && getISOTimeFormat(endTime);
 	const dueDateFormat = dueDate && getDateFormat(dueDate);
 
+	// Status color indicator
+	const statusClass = "status-" + status.toLowerCase().replace(" ", "");
+
 	return (
 		<li className={`${classes.task}`}>
+			<div className={`${classes.task__decorator} ${statusClass}-bg`} />
 			{isEditing && (
 				<PlannerTaskEdit
 					onClose={() => setIsEditing(false)}
@@ -97,6 +106,23 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 			<div className={`${classes.task__heading}`}>
 				{/* Task Name */}
 				<h4 className={classes.task__name}>{task.name}</h4>
+				<ClickAwayListener onClickAway={setShowComment.bind(null, false)}>
+					<div className="ml-1 relative" onClick={setShowComment.bind(null, true)}>
+						{!showComment && (
+							<FontAwesomeIcon
+								icon={faCommentPen}
+								className="-translate-y-3 max-w-lg text-xl text-slate-700 cursor-pointer hover:text-blue-600"
+							/>
+						)}
+						{showComment && (
+							<TaskComment
+								commentText="Demo comment"
+								onSubmit={() => {}}
+								className="absolute bottom-[1rem] translate-x-3"
+							/>
+						)}
+					</div>
+				</ClickAwayListener>
 				{/* Planned Time */}
 				<div className={classes.task__time}>
 					<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
@@ -137,10 +163,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 					<FontAwesomeIcon icon={faStar} className={`${classes.icon}`} />
 					{importance}
 				</p>
-				<p
-					className={`${classes.task__status} ${"status-" +
-						status.toLowerCase().replace(" ", "")}`}
-				>
+				<p className={`${classes.task__status} ${statusClass}`}>
 					<FontAwesomeIcon
 						icon={faCircleExclamationCheck}
 						className={`${classes.icon}`}

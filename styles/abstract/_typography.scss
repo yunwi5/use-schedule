@@ -2,14 +2,38 @@
 	color: rgb(15, 118, 110) !important;
 }
 
+.status-open-bg {
+	background-color: rgba(15, 118, 110, .6) !important;
+}
+
 .status-completed {
 	color: $color-secondary-dark-3 !important;
+}
+
+.status-completed-bg {
+	background-color: rgba($color-secondary-dark-3, .6) !important;
 }
 
 .status-inprogress {
 	color: rgb(67, 56, 202) !important;
 }
 
+.status-inprogress-bg {
+	background-color: rgba(67, 56, 202, .6) !important;
+}
+
 .status-overdue {
 	color: lighten($color-rose-dark-1, 5%) !important;
+}
+
+.status-overdue-bg {
+	background-color: rgba(lighten($color-rose-dark-1, 5%), .6) !important;
+}
+
+.status-cancelled {
+	color: $color-grey-dark-2;
+}
+
+.status-cancelled-bg {
+	background-color: rgba($color-grey-dark-2, .6);
 }

@@ -1,0 +1,55 @@
+@import "../../../styles/abstract/variables";
+
+.dialog {
+	height: 7rem;
+	width: 17rem;
+	background-color: $color-tertiary-light-2;
+	position: absolute;
+	border-radius: 7px;
+	box-shadow: 0 2rem 4rem rgba($color-black, .2);
+
+	padding: 1rem 1rem;
+	padding-bottom: .2rem;
+}
+
+.left-point {
+	width: 0;
+	height: 0;
+	border-left: 2vh solid transparent;
+	border-right: 2vh solid transparent;
+	border-top: 6.5vh solid $color-tertiary-light-2;
+	position: absolute;
+	top: 75%;
+	left: -7.5%;
+	transform: rotate(55deg);
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: .2rem;
+
+	position: relative;
+
+	label {
+		font-size: 110%;
+		font-weight: 700;
+		color: $color-grey-dark-3;
+	}
+
+	.text {
+		height: 3.1rem;
+		overflow-y: hidden;
+	}
+
+	.icon {
+		cursor: pointer;
+		position: absolute;
+		right: 0;
+		font-size: 115%;
+	}
+
+	textarea {
+		height: 3.1rem;
+	}
+}

@@ -5,11 +5,25 @@
 	flex-direction: column;
 	background-color: rgba($color-primary-light-1, 1);
 	width: clamp(50%, 66rem, 75rem);
+
 	padding: .8rem 1.5rem;
+	padding-left: 1.7rem;
 	gap: 3.2rem;
 	font-size: 1.15rem;
 	box-shadow: $shadow-light;
 	border-radius: 3px;
+
+	position: relative;
+
+	&__decorator {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 1.2%;
+		height: 100%;
+		z-index: 0;
+		border-radius: inherit;
+	}
 
 	&__heading,
 	&__body {
@@ -21,9 +35,6 @@
 			display: flex;
 			align-items: center;
 		}
-	}
-
-	&__heading {
 	}
 
 	&__name {
