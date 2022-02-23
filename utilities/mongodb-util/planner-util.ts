@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { Task } from "../../models/task-models/Task";
+import { TaskProperties } from "../tasks-utils/task-properties";
 
 export async function getTasks (client: MongoClient, collection: string, userId: string) {
 	const db = client.db();
@@ -34,6 +35,22 @@ export async function deleteTask (client: MongoClient, collection: string, taskI
 	return res;
 }
 
+export async function updateTaskProperties (
+	client: MongoClient,
+	collection: string,
+	taskId: string,
+	updateProps: TaskProperties
+) {
+	const db = client.db();
+	const res = await db
+		.collection(collection)
+		.updateOne({ _id: new ObjectId(taskId) }, { $set: { ...updateProps } });
+
+	console.log("Update properties result:", res);
+	return res;
+}
+
+// Replaced by updateTaskProperties
 export async function updateTaskStatus (
 	client: MongoClient,
 	collection: string,
@@ -53,6 +70,7 @@ export async function updateTaskStatus (
 	return res;
 }
 
+// Replaced by updateTaskProperties
 export async function updateTaskComment (
 	client: MongoClient,
 	collection: string,

@@ -35,6 +35,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		const newTask: Task = {
 			...newFormTask,
 			id: initialTask.id,
+			comment: initialTask.comment,
+			status: initialTask.status,
 			userId
 		};
 

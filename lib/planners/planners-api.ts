@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { PlannerTask } from "../../models/task-models/Task";
+import { TaskProperties } from "../../utilities/tasks-utils/task-properties";
 import { Collection } from "../../utilities/mongodb-util/mongodb-constant";
 
 function getCollectionOfPlaner (plannerMode: PlannerMode): Collection {
@@ -94,54 +95,28 @@ export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
 	return { isSuccess: true };
 }
 
-// Update specific property of the task.
-export async function updateTaskStatus (taskId: string, newStatus: string) {
-	let res;
-	try {
-		res = await fetch(`${API_DOMIN}/task-status-update/${taskId}`, {
-			method: "PATCH",
-			body: JSON.stringify({
-				status: newStatus,
-				collection: Collection.WEEKLY_TASKS
-			}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		});
-		const data = await res.json();
-		console.log("update data:", data);
-	} catch (err) {
-		console.error(err);
-	}
-
-	if (!res || !res.ok) {
-		return { isSuccess: false };
-	}
-	return { isSuccess: true };
-}
-
-// Update specific property of the task.
-export async function updateTaskComment (
+export async function updateTaskProperties (
 	taskId: string,
-	newComment: string,
+	updateProps: TaskProperties,
 	plannerMode: PlannerMode
 ) {
 	const collection = getCollectionOfPlaner(plannerMode);
 
 	let res;
 	try {
-		res = await fetch(`${API_DOMIN}/task-comment-update/${taskId}`, {
+		res = await fetch(`${API_DOMIN}/task-update/${taskId}`, {
 			method: "PATCH",
 			body: JSON.stringify({
-				comment: newComment,
+				updateProps,
 				collection
 			}),
 			headers: {
 				"Content-Type": "application/json"
 			}
 		});
+
 		const data = await res.json();
-		console.log("update data:", data);
+		console.log("Update data:", data);
 	} catch (err) {
 		console.error(err);
 	}

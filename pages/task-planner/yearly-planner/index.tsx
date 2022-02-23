@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 import useSWR from "swr";
 
-import WeeklyPlannerMain from "../../../components/planners/weekly-planner/WeeklyPlanner";
+import YearlyPlanner from "../../../components/planners/yearly-planner/YearlyPlanner";
 import { Collection } from "../../../utilities/mongodb-util/mongodb-constant";
 
 const API_DOMIN = "/api/planners";
@@ -31,7 +31,7 @@ const WeeklyPlanner: NextPage = () => {
 				/>
 			</Head>
 			{!tasks && <p className="text-2xl text-center mt-5">...Loading</p>}
-			{tasks && <WeeklyPlannerMain weeklyTasks={tasks} onMutate={mutate} />}
+			{tasks && <YearlyPlanner yearlyTasks={tasks} onMutate={mutate} />}
 		</div>
 	);
 };

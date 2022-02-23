@@ -46,11 +46,11 @@
 		.value {
 			color: $color-primary-dark-2;
 			font-weight: 600;
+			display: flex;
+			align-items: center;
 		}
 
 		.label ~ time {
-			color: $color-primary-dark-1;
-			font-weight: 700;
 		}
 
 		.label ~ .danger {
@@ -58,7 +58,7 @@
 		}
 
 		.label ~ .primary {
-			color: $color-secondary-dark-1;
+			// color: $color-secondary-dark-1;
 		}
 	}
 
@@ -69,5 +69,16 @@
 	.actions {
 		display: flex;
 		gap: 1rem;
+	}
+
+	.icon {
+		font-size: 105%;
+		margin-right: .4rem;
+		max-width: 2rem;
+		color: $color-secondary-dark-4;
+	}
+
+	.rating {
+		margin-left: .8rem;
 	}
 }

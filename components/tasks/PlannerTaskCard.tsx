@@ -13,16 +13,16 @@ import {
 import { faCircle } from "@fortawesome/pro-solid-svg-icons";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
+import TaskDetail from "./task-modal/TaskDetail";
+import TaskComment from "./task-modal/TaskComment";
 import { PlannerTask } from "../../models/task-models/Task";
 import PlannerTaskEdit from "../planners/planner-modal/PlannerTaskEdit";
 import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
 import { addMinutes } from "../../utilities/time-utils/date-control";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
-import { updateTaskComment, updateTaskStatus } from "../../lib/planners/planners-api";
+import { updateTaskProperties } from "../../lib/planners/planners-api";
 import classes from "./TaskCard.module.scss";
-import TaskDetail from "./task-modal/TaskDetail";
-import TaskComment from "./task-modal/TaskComment";
 
 interface Props {
 	task: PlannerTask;
@@ -48,6 +48,13 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		endTime = addMinutes(task.dateTime, task.duration);
 	}
 
+	const updateTaskHandler = () => onMutate();
+
+	const editHandler = () => {
+		setShowDetail(false);
+		setIsEditing(true);
+	};
+
 	const statusChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const newStatus = e.target.value.trim() as TaskStatus;
 		const taskCopy = copyClassObject(task);
@@ -58,27 +65,16 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 
 	const updateStatusHandler = async (newStatus: TaskStatus) => {
 		// API call
-		await updateTaskStatus(task.id, newStatus);
+		await updateTaskProperties(task.id, { status: newStatus }, plannerMode);
 		onMutate();
-	};
-
-	const updateTaskHandler = () => onMutate();
-
-	const editHandler = () => {
-		setShowDetail(false);
-		setIsEditing(true);
 	};
 
 	const updateCommentHandler = async (newComment: string) => {
 		const newTask = new PlannerTask({ ...task, comment: newComment });
 		setTask(newTask);
 		// API call
-		const { isSuccess } = await updateTaskComment(task.id, newComment, plannerMode);
-		if (isSuccess) {
-			alert("Updating comment success!");
-		} else {
-			alert("Updating comment failed!");
-		}
+		// const { isSuccess } = await updateTaskComment(task.id, newComment, plannerMode);
+		await updateTaskProperties(task.id, { comment: newComment }, plannerMode);
 	};
 
 	// Whenever there is a global update of tasks, update card as well.
@@ -131,7 +127,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 						)}
 						{showComment && (
 							<TaskComment
-								commentText={comment || "Demo comment"}
+								commentText={comment || ""}
 								onSubmit={updateCommentHandler}
 								className="absolute bottom-[1rem] translate-x-3"
 							/>

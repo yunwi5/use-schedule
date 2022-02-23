@@ -1,13 +1,17 @@
 import React from "react";
+import Rating from "@mui/material/Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faAlarmClock,
-	faCircleExclamationCheck,
+	faCalendarExclamation,
+	faClipboardCheck,
+	faDiagramNested,
+	faHourglass,
 	faListTree,
-	faMagnifyingGlassPlus,
-	faPenToSquare,
-	faStar,
-	faXmark
+	faStarExclamation,
+	faXmark,
+	faHourglassEnd,
+	faMemoCircleInfo
 } from "@fortawesome/pro-duotone-svg-icons";
 
 import { PlannerTask } from "../../../models/task-models/Task";
@@ -18,6 +22,7 @@ import {
 	getDurationFormat,
 	getEndDateTimeFormat
 } from "../../../utilities/time-utils/date-format";
+import { getImportanceValue } from "../../../models/task-models/Status";
 import { ButtonTheme } from "../../../models/design-models";
 import classes from "./TaskDetail.module.scss";
 
@@ -49,7 +54,9 @@ const TaskDetail: React.FC<Props> = (props) => {
 			<h2>{name}</h2>
 			<div className={classes.grid}>
 				<div className={classes.item}>
-					<div className={classes.label}>Status</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faClipboardCheck} className={classes.icon} /> Status
+					</div>
 					<p
 						className={`${classes.value} ${"status-" +
 							status.toLowerCase().replace(" ", "")}`}
@@ -59,44 +66,76 @@ const TaskDetail: React.FC<Props> = (props) => {
 				</div>
 
 				<div className={classes.item}>
-					<div className={classes.label}>Importance</div>
-					<p className={classes.value}>{importance}</p>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faStarExclamation} className={classes.icon} />
+						Importance
+					</div>
+					<p className={classes.value}>
+						{importance}
+						<Rating
+							name="importance-rating"
+							className={classes.rating}
+							value={getImportanceValue(importance)}
+							readOnly
+						/>
+					</p>
 				</div>
 
 				<div className={classes.item}>
-					<div className={classes.label}>Category</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faListTree} className={classes.icon} />
+						Category
+					</div>
 					<p className={classes.value}>{category}</p>
 				</div>
 
 				<div className={classes.item}>
-					<div className={classes.label}>Sub category</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faDiagramNested} className={classes.icon} />
+						Sub category
+					</div>
 					<p className={classes.value}>{subCategory ? subCategory : defaultValue}</p>
 				</div>
 
 				{/* Need formatted date */}
 				<div className={classes.item}>
-					<div className={classes.label}>Planned Date</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
+						Planned Date
+					</div>
 					<time className={classes.value}>{plannedDateFormat}</time>
 				</div>
 
 				{/* Need formatted duration in hrs & mins */}
 				<div className={classes.item}>
-					<div className={classes.label}>Duration</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faHourglass} className={classes.icon} />
+						Duration
+					</div>
 					<time className={classes.value}>{durationFormat}</time>
 				</div>
 
 				<div className={classes.item}>
-					<div className={classes.label}>Due Date</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faCalendarExclamation} className={classes.icon} />
+						Due Date
+					</div>
 					<time className={`${classes.value} ${classes.danger}`}>{dueDateFormat}</time>
 				</div>
 
 				<div className={classes.item}>
-					<div className={classes.label}>Endtime (estimate)</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faHourglassEnd} className={classes.icon} />
+						Endtime (estimate)
+					</div>
 					<time className={`${classes.value} ${classes.primary}`}>{endTimeFormat}</time>
 				</div>
 
 				<div className={`${classes.item} ${classes.longitem}`}>
-					<div className={classes.label}>Description</div>
+					<div className={classes.label}>
+						<FontAwesomeIcon icon={faMemoCircleInfo} className={classes.icon} />
+						Description
+					</div>
 					<p className={classes.value}>{description}</p>
 				</div>
 			</div>
