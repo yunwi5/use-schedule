@@ -4,7 +4,6 @@ import { Task } from "../../models/task-models/Task";
 export async function getTasks (client: MongoClient, collection: string, userId: string) {
 	const db = client.db();
 	const data = await db.collection(collection).find({ userId }).toArray();
-	// console.log(data);
 	return data;
 }
 
@@ -50,6 +49,21 @@ export async function updateTaskStatus (
 			}
 		}
 	);
+	console.log("Update result:", res);
+	return res;
+}
+
+export async function updateTaskComment (
+	client: MongoClient,
+	collection: string,
+	taskId: string,
+	newComment: string
+) {
+	const db = client.db();
+	const res = await db
+		.collection(collection)
+		.updateOne({ _id: new ObjectId(taskId) }, { $set: { comment: newComment } });
+
 	console.log("Update result:", res);
 	return res;
 }

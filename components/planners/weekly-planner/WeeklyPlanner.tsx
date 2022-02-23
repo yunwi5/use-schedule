@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import IntroPanel from "../planner-nav/IntroPanel";
 import PlannerHeader from "../planner-nav/PlannerHeader";
 import WeeklyTable from "./WeeklyTable";
+import { plannerActions } from "../../../store/redux/planner-slice";
 import { isSameWeek } from "../../../utilities/time-utils/date-classify";
 import { PlannerTask, Task } from "../../../models/task-models/Task";
 import { WeeklyPlanner as Planner } from "../../../models/planner-models/Planner";
 import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get";
-import useDateTime from "../../../hooks/useDateTime";
-import useLogger from "../../../hooks/useLogger";
+import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
+import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	weeklyTasks: Task[];
@@ -34,8 +36,15 @@ function populateWeeklyPlanner (tasks: Task[], weekBeginning: Date): Planner {
 const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate }) => {
 	const [ planner, setPlanner ] = useState<Planner | null>(null);
 
+	const dispatch = useDispatch();
+	dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
+
 	const weekBeginning = getCurrentWeekBeginning();
-	const { currentTimeStamp, addWeeks: addLocalWeeks } = useDateTime(weekBeginning);
+	dispatch(plannerActions.setBeginningPeriod(weekBeginning.toString()));
+	const { currentTimeStamp, addWeeks: addLocalWeeks } = useDateTime(
+		weekBeginning,
+		ResetPeriod.WEEK
+	);
 
 	useEffect(
 		() => {
@@ -54,8 +63,6 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 		addLocalWeeks(direction);
 	};
 
-	// console.log("planner:", planner);
-
 	return (
 		<main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">
 			<IntroPanel
@@ -64,13 +71,6 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 					"Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis."
 				}
 			/>
-			{/* <div className="flex text-gray-700 text-lg">
-				<div className="text-center px-3 py-2 rounded-t-xl bg-white bg-gray-200/50 w-[10rem]">
-					Time Planner
-				</div>
-				<div className="text-center px-3 py-2 rounded-t-xl bg-gray-200/50">Statistics</div>
-			</div> */}
-
 			<div className="rounded-md border-2 border-slate-200 bg-white mt-8">
 				<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
 				{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}

@@ -16,6 +16,7 @@ export interface Task {
 
 	dueDateString?: string;
 	plannerType?: PlannerMode;
+	comment?: string;
 }
 
 export type FormTaskObject = {
@@ -30,6 +31,7 @@ export type FormTaskObject = {
 
 	dueDateString?: string;
 	plannerType?: PlannerMode;
+	// Comment is not initialized in the form
 };
 
 export class PlannerTask implements Task {
@@ -46,6 +48,7 @@ export class PlannerTask implements Task {
 
 	dueDateString?: string;
 	plannerType?: PlannerMode;
+	comment?: string;
 
 	constructor (taskObj: Task) {
 		this.id = taskObj.id;
@@ -60,6 +63,7 @@ export class PlannerTask implements Task {
 		this.importance = taskObj.importance;
 		this.dueDateString = taskObj.dueDateString;
 		this.plannerType = taskObj.plannerType;
+		this.comment = taskObj.comment;
 	}
 
 	get dateTime () {

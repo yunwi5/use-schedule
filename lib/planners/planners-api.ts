@@ -119,3 +119,35 @@ export async function updateTaskStatus (taskId: string, newStatus: string) {
 	}
 	return { isSuccess: true };
 }
+
+// Update specific property of the task.
+export async function updateTaskComment (
+	taskId: string,
+	newComment: string,
+	plannerMode: PlannerMode
+) {
+	const collection = getCollectionOfPlaner(plannerMode);
+
+	let res;
+	try {
+		res = await fetch(`${API_DOMIN}/task-comment-update/${taskId}`, {
+			method: "PATCH",
+			body: JSON.stringify({
+				comment: newComment,
+				collection
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+		const data = await res.json();
+		console.log("update data:", data);
+	} catch (err) {
+		console.error(err);
+	}
+
+	if (!res || !res.ok) {
+		return { isSuccess: false };
+	}
+	return { isSuccess: true };
+}

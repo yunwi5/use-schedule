@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { useSelector, RootStateOrAny } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faAlarmClock,
@@ -18,7 +19,7 @@ import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
 import { addMinutes } from "../../utilities/time-utils/date-control";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
-import { updateTaskStatus } from "../../lib/planners/planners-api";
+import { updateTaskComment, updateTaskStatus } from "../../lib/planners/planners-api";
 import classes from "./TaskCard.module.scss";
 import TaskDetail from "./task-modal/TaskDetail";
 import TaskComment from "./task-modal/TaskComment";
@@ -32,13 +33,15 @@ interface Props {
 const PlannerTaskCard: React.FC<Props> = (props) => {
 	const { task: initialTask, beginningPeriod, onMutate } = props;
 
+	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
+
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ showDetail, setShowDetail ] = useState(false);
 
 	const [ showComment, setShowComment ] = useState(false);
 
-	const { dueDate, category, subCategory, importance, status, duration } = task;
+	const { dueDate, category, subCategory, importance, status, duration, comment } = task;
 
 	let endTime: null | Date = null;
 	if (duration) {
@@ -64,6 +67,18 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	const editHandler = () => {
 		setShowDetail(false);
 		setIsEditing(true);
+	};
+
+	const updateCommentHandler = async (newComment: string) => {
+		const newTask = new PlannerTask({ ...task, comment: newComment });
+		setTask(newTask);
+		// API call
+		const { isSuccess } = await updateTaskComment(task.id, newComment, plannerMode);
+		if (isSuccess) {
+			alert("Updating comment success!");
+		} else {
+			alert("Updating comment failed!");
+		}
 	};
 
 	// Whenever there is a global update of tasks, update card as well.
@@ -116,13 +131,14 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 						)}
 						{showComment && (
 							<TaskComment
-								commentText="Demo comment"
-								onSubmit={() => {}}
+								commentText={comment || "Demo comment"}
+								onSubmit={updateCommentHandler}
 								className="absolute bottom-[1rem] translate-x-3"
 							/>
 						)}
 					</div>
 				</ClickAwayListener>
+
 				{/* Planned Time */}
 				<div className={classes.task__time}>
 					<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />

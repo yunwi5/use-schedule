@@ -1,5 +1,6 @@
 import React from "react";
 import { useUser } from "@auth0/nextjs-auth0";
+import { useSelector, RootStateOrAny } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
@@ -9,18 +10,21 @@ import { postTask } from "../../../lib/planners/planners-api";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
+import useLogger from "../../../hooks/useLogger";
 
 interface Props {
 	onClose: () => void;
 	onAddTask: (newTask: PlannerTask) => void;
 	beginningPeriod: Date;
-	plannerMode?: PlannerMode;
 }
 
 const PlannerTaskAdd: React.FC<Props> = (props) => {
-	const { onClose, onAddTask, beginningPeriod, plannerMode } = props;
+	const { onClose, onAddTask, beginningPeriod } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
+
+	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
+	useLogger(plannerMode);
 
 	const { setNotification } = useNotification();
 
@@ -39,7 +43,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		const newPlannerTask = new PlannerTask(newTask);
 
 		setNotification(NotifStatus.PENDING);
-		const { isSuccess, insertedId } = await postTask(newPlannerTask, PlannerMode.WEEKLY);
+		const { isSuccess, insertedId } = await postTask(newPlannerTask, plannerMode);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS);
 		} else {

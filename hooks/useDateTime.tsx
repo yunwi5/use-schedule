@@ -55,7 +55,8 @@ const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
 	useEffect(() => {
 		const storedDate = localStorage.getItem("dateTime");
 		// console.log("storedDate:", storedDate);
-		if (!storedDate) {
+		// Fixed
+		if (!storedDate || resetPeriod) {
 			const newTimeStamp = getNewTimeStamp(resetPeriod || ResetPeriod.WEEK);
 			setCurrentTimeStamp(newTimeStamp);
 		} else {
