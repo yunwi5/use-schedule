@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useSelector, RootStateOrAny } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import { deleteTask, updateTask } from "../../../lib/planners/planners-api";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
 import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
@@ -22,6 +22,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { onClose, onUpdate, beginningPeriod, initialTask } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
+
+	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
 
 	const { setNotification } = useNotification();
 	const [ showDeleteModal, setShowDeleteModal ] = useState(false);
@@ -43,7 +45,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		const newPlannerTask = new PlannerTask(newTask);
 
 		setNotification(NotifStatus.PENDING, `Currently editing task ${newPlannerTask.name}`);
-		const { isSuccess } = await updateTask(initialTask.id, newPlannerTask, PlannerMode.WEEKLY);
+		const { isSuccess } = await updateTask(initialTask.id, newPlannerTask, plannerMode);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS, `Editing task was successful!`);
 		} else {
@@ -57,7 +59,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const taskDeleteHandler = async () => {
 		setShowDeleteModal(false);
 		setNotification(NotifStatus.PENDING);
-		const { isSuccess } = await deleteTask(initialTask.id, PlannerMode.WEEKLY);
+		const { isSuccess } = await deleteTask(initialTask.id, plannerMode);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS, "Delete task successful!");
 		} else {

@@ -3,12 +3,11 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useSelector, RootStateOrAny } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import TaskForm from "./TaskForm";
 import PlannerModal from "./PlannerModal";
-import { postTask } from "../../../lib/planners/planners-api";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { NotifStatus } from "../../ui/Notification";
+import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
+import { postTask } from "../../../lib/planners/planners-api";
 import useNotification from "../../../hooks/useNotification";
 import useLogger from "../../../hooks/useLogger";
 
@@ -24,7 +23,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const userId = user ? user.sub : null;
 
 	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
-	useLogger(plannerMode);
+	// useLogger(plannerMode);
 
 	const { setNotification } = useNotification();
 

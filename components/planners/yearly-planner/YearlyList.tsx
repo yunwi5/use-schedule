@@ -1,23 +1,23 @@
-import { WeekDayListFromMonday } from "../../../models/date-models/WeekDay";
-import { WeeklyPlanner } from "../../../models/planner-models/WeeklyPlanner";
+import { MonthListFromJan } from "../../../models/date-models/Month";
+import { YearlyPlanner } from "../../../models/planner-models/YearlyPlanner";
 import TaskListContainer from "../../tasks/TaskListContainer";
 
 interface Props {
 	beginningPeriod: Date;
-	planner: WeeklyPlanner;
+	planner: YearlyPlanner;
 	onMutate: () => void;
 }
 
-const WeekdayList: React.FC<Props> = (props) => {
+const YearlyList: React.FC<Props> = (props) => {
 	const { beginningPeriod, planner, onMutate } = props;
 
 	return (
 		// This component will need to be centered
 		<div className="ml-5">
-			{WeekDayListFromMonday.map((day, idx) => (
+			{MonthListFromJan.map((month, idx) => (
 				<TaskListContainer
 					key={idx}
-					period={day}
+					period={month}
 					beginningPeriod={beginningPeriod}
 					planner={planner}
 					index={idx}
@@ -28,4 +28,4 @@ const WeekdayList: React.FC<Props> = (props) => {
 	);
 };
 
-export default WeekdayList;
+export default YearlyList;

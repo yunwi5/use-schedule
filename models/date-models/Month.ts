@@ -29,3 +29,11 @@ export const MonthListFromJan = [
 	Month.DECEMBER,
 	Month.ANY
 ];
+
+// Needs testing
+export function getMonthMember (date: Date | null) {
+	if (!date) return Month.ANY;
+
+	const monthNumber = date.getMonth();
+	return MonthListFromJan[monthNumber];
+}

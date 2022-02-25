@@ -7,7 +7,7 @@ import WeeklyTable from "./WeeklyTable";
 import { plannerActions } from "../../../store/redux/planner-slice";
 import { isSameWeek } from "../../../utilities/time-utils/date-classify";
 import { PlannerTask, Task } from "../../../models/task-models/Task";
-import { WeeklyPlanner as Planner } from "../../../models/planner-models/Planner";
+import { WeeklyPlanner as Planner } from "../../../models/planner-models/WeeklyPlanner";
 import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
@@ -22,12 +22,10 @@ function populateWeeklyPlanner (tasks: Task[], weekBeginning: Date): Planner {
 	for (const task of tasks) {
 		let taskDate = new Date(task.timeString);
 		const sameWeek = isSameWeek(weekBeginning, taskDate);
-		// console.log(
-		// 	`taskDate: ${taskDate}, wb: ${weekBeginning}, range: ${taskDate.getTime()} - ${weekBeginning.getTime()}`
-		// );
 		if (sameWeek) {
 			const plannerTask = new PlannerTask(task);
-			planner.addTasks(plannerTask);
+			plannerTask.plannerType = PlannerMode.WEEKLY;
+			planner.addTask(plannerTask);
 		}
 	}
 	return planner;
@@ -37,7 +35,6 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 	const [ planner, setPlanner ] = useState<Planner | null>(null);
 
 	const dispatch = useDispatch();
-	dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
 
 	const weekBeginning = getCurrentWeekBeginning();
 	dispatch(plannerActions.setBeginningPeriod(weekBeginning.toString()));
@@ -54,6 +51,10 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 		},
 		[ initialTasks, currentTimeStamp ]
 	);
+
+	useEffect(() => {
+		dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
+	}, []);
 
 	// If the week beginning changes, the planner also has to change to load new tasks according to
 	// Changed week beginning.

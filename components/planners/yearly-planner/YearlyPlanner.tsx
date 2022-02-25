@@ -2,14 +2,15 @@ import React, { FC, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import IntroPanel from "../planner-nav/IntroPanel";
+import YearlyTable from "./YearlyTable";
 import PlannerHeader from "../planner-nav/PlannerHeader";
 import { plannerActions } from "../../../store/redux/planner-slice";
-import { isSameWeek } from "../../../utilities/time-utils/date-classify";
 import { PlannerTask, Task } from "../../../models/task-models/Task";
-import { WeeklyPlanner as Planner } from "../../../models/planner-models/Planner";
-import { getCurrentYearBeginning } from "../../../utilities/time-utils/date-get";
+import { YearlyPlanner as Planner } from "../../../models/planner-models/YearlyPlanner";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import { getCurrentYearBeginning } from "../../../utilities/time-utils/date-get";
+import { isSameYear } from "../../../utilities/time-utils/date-classify";
 
 interface Props {
 	yearlyTasks: Task[];
@@ -19,6 +20,17 @@ interface Props {
 // This needs to be implemented.
 function populateYearlyPlanner (tasks: Task[], yearBeginning: Date): Planner {
 	const planner = new Planner(yearBeginning);
+
+	for (const task of tasks) {
+		let taskDate = new Date(task.timeString);
+		const sameYear = isSameYear(yearBeginning, taskDate);
+
+		if (sameYear) {
+			const plannerTask = new PlannerTask(task);
+			plannerTask.plannerType = PlannerMode.YEARLY;
+			planner.addTask(plannerTask);
+		}
+	}
 	return planner;
 }
 
@@ -26,7 +38,6 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 	const [ planner, setPlanner ] = useState<Planner | null>(null);
 
 	const dispatch = useDispatch();
-	dispatch(plannerActions.setPlannerMode(PlannerMode.YEARLY));
 
 	const yearBeginning = getCurrentYearBeginning();
 	console.log(`year beginning: ${yearBeginning}`);
@@ -44,6 +55,10 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 		[ initialTasks, currentTimeStamp ]
 	);
 
+	useEffect(() => {
+		dispatch(plannerActions.setPlannerMode(PlannerMode.YEARLY));
+	}, []);
+
 	const yearNavigateHandler = (direction: number) => {
 		if (direction !== 1 && direction !== -1) throw new Error("Direction parameter is wrong!");
 		// Hook call
@@ -59,6 +74,14 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 			<div className="rounded-md border-2 border-slate-200 bg-white mt-8">
 				<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
 				{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
+				{planner && (
+					<YearlyTable
+						yearBeginning={currentTimeStamp}
+						planner={planner}
+						onChangeYear={yearNavigateHandler}
+						onMutate={onMutate}
+					/>
+				)}
 			</div>
 		</main>
 	);

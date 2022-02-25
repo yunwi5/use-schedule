@@ -15,12 +15,13 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 import TaskDetail from "./task-modal/TaskDetail";
 import TaskComment from "./task-modal/TaskComment";
-import { PlannerTask } from "../../models/task-models/Task";
 import PlannerTaskEdit from "../planners/planner-modal/PlannerTaskEdit";
+import { PlannerTask } from "../../models/task-models/Task";
+import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
 import { addMinutes } from "../../utilities/time-utils/date-control";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
-import { getDateFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
+import { getDateMonthFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
 import { updateTaskProperties } from "../../lib/planners/planners-api";
 import classes from "./TaskCard.module.scss";
 
@@ -28,6 +29,33 @@ interface Props {
 	task: PlannerTask;
 	beginningPeriod: Date;
 	onMutate: () => void;
+}
+
+function getCardDateTimeFormat (task: PlannerTask) {
+	let planDateFormat: null | string = "",
+		dueDateFormat: null | string = "";
+	const plannerType = task.plannerType;
+
+	switch (plannerType) {
+		case PlannerMode.WEEKLY:
+			let endTime: null | Date = null;
+			if (task.duration) {
+				endTime = addMinutes(task.dateTime, task.duration);
+			}
+			const startTimeFormat = getISOTimeFormat(task.dateTime);
+			const endTimeFormat = endTime && getISOTimeFormat(endTime);
+			planDateFormat = endTimeFormat
+				? `${startTimeFormat} ~ ${endTimeFormat}`
+				: startTimeFormat;
+			dueDateFormat = task.dueDate && getDateMonthFormat(task.dueDate);
+			break;
+		case PlannerMode.YEARLY:
+			planDateFormat = getDateMonthFormat(task.dateTime);
+			dueDateFormat = task.dueDate && getDateMonthFormat(task.dueDate);
+			break;
+	}
+
+	return { planDateFormat, dueDateFormat };
 }
 
 const PlannerTaskCard: React.FC<Props> = (props) => {
@@ -73,7 +101,6 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		const newTask = new PlannerTask({ ...task, comment: newComment });
 		setTask(newTask);
 		// API call
-		// const { isSuccess } = await updateTaskComment(task.id, newComment, plannerMode);
 		await updateTaskProperties(task.id, { comment: newComment }, plannerMode);
 	};
 
@@ -85,9 +112,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		[ initialTask ]
 	);
 
-	const startTimeFormat = getISOTimeFormat(task.dateTime);
-	const endTimeFormat = endTime && getISOTimeFormat(endTime);
-	const dueDateFormat = dueDate && getDateFormat(dueDate);
+	const { planDateFormat, dueDateFormat } = getCardDateTimeFormat(task);
 
 	// Status color indicator
 	const statusClass = "status-" + status.toLowerCase().replace(" ", "");
@@ -138,13 +163,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 				{/* Planned Time */}
 				<div className={classes.task__time}>
 					<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
-					<span>{startTimeFormat}</span>
-					{endTime && (
-						<Fragment>
-							<span>~</span>
-							<span>{endTimeFormat}</span>
-						</Fragment>
-					)}
+					<span>{planDateFormat}</span>
 				</div>
 				{/* Due Date */}
 				<p className={classes.task__dueDate}>

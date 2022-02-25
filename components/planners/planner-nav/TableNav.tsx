@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, RootStateOrAny } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from "@fortawesome/pro-duotone-svg-icons";
 
@@ -12,11 +13,11 @@ import {
 	getYearEnding
 } from "../../../utilities/time-utils/date-get";
 import { getMonth } from "../../../utilities/time-utils/month-util";
+import { getMonthYearFormat } from "../../../utilities/time-utils/year-format";
 
 interface Props {
 	beginningPeriod: Date;
 	planner: Planner;
-	plannerMode: PlannerMode;
 	onChangePeriod: (direction: number) => void;
 }
 
@@ -35,20 +36,23 @@ function getNavigationPeriod (beginningPeriod: Date, plannerMode: PlannerMode) {
 		const weekEnding = getWeekEnding(beginningPeriod);
 		navPeriod = getPeriodFormat(beginningPeriod, weekEnding);
 	} else if (plannerMode === PlannerMode.MONTLY) {
-		const monthWeekBeginning = getMonthWeekBeginning(beginningPeriod);
-		const monthWeekEnding = getMonthWeekEnding(beginningPeriod);
-		navPeriod = getPeriodFormat(monthWeekBeginning, monthWeekEnding);
-	} else {
-		const yearEnding = getYearEnding(beginningPeriod);
-		navPeriod = getPeriodFormat(beginningPeriod, yearEnding);
-	}
+		// const monthWeekBeginning = getMonthWeekBeginning(beginningPeriod);
+		// const monthWeekEnding = getMonthWeekEnding(beginningPeriod);
+		// navPeriod = getPeriodFormat(monthWeekBeginning, monthWeekEnding);
+		navPeriod = getMonthYearFormat(beginningPeriod);
+	} else if (plannerMode === PlannerMode.YEARLY) {
+		// const yearEnding = getYearEnding(beginningPeriod);
+		// navPeriod = getPeriodFormat(beginningPeriod, yearEnding);
+		navPeriod = "" + beginningPeriod.getFullYear();
+	} else throw new Error("Planner mode matches noting >from TableNav");
 	return navPeriod;
 }
 
 // Manages week navigation & tasks status overview
 const TableNav: React.FC<Props> = (props) => {
-	const { beginningPeriod, planner, onChangePeriod, plannerMode } = props;
+	const { beginningPeriod, planner, onChangePeriod } = props;
 
+	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 	const navPeriod = getNavigationPeriod(beginningPeriod, plannerMode);
 
 	return (
