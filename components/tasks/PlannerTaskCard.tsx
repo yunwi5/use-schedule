@@ -15,7 +15,7 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 import TaskDetail from "./task-modal/TaskDetail";
 import TaskComment from "./task-modal/TaskComment";
-import PlannerTaskEdit from "../planners/planner-modal/PlannerTaskEdit";
+import PlannerTaskEdit from "../planners/planner-crud/PlannerTaskEdit";
 import { PlannerTask } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";

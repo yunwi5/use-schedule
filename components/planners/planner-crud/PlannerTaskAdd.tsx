@@ -3,13 +3,12 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useSelector, RootStateOrAny } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-import TaskForm from "./TaskForm";
-import PlannerModal from "./PlannerModal";
+import TaskForm from "./task-form/TaskForm";
+import PlannerModal from "../planner-modal/PlannerModal";
 import { NotifStatus } from "../../ui/Notification";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import { postTask } from "../../../lib/planners/planners-api";
 import useNotification from "../../../hooks/useNotification";
-import useLogger from "../../../hooks/useLogger";
 
 interface Props {
 	onClose: () => void;

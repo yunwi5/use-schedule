@@ -31,3 +31,8 @@ export const WeekDayListFromMonday = [
 	WeekDay.SUNDAY,
 	WeekDay.ANY
 ];
+
+export function getWeekDayFromIndex (index: number): WeekDay {
+	if (index < WeekDayListFromMonday.length) return WeekDayListFromMonday[index];
+	return WeekDay.ANY;
+}

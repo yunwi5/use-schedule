@@ -5,7 +5,7 @@ import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
 interface Props {
 	labelMain: string;
 	labelSub: string;
-	headingText: string;
+	headingText: string | JSX.Element;
 	isShrinked: boolean;
 	onToggleShrink: () => void;
 }

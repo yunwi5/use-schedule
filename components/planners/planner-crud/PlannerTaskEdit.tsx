@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector, RootStateOrAny } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 
-import TaskForm from "./TaskForm";
-import PlannerModal from "./PlannerModal";
+import TaskForm from "./task-form/TaskForm";
+import PlannerModal from "../planner-modal/PlannerModal";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import { deleteTask, updateTask } from "../../../lib/planners/planners-api";
 import { NotifStatus } from "../../ui/Notification";

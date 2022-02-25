@@ -17,7 +17,6 @@ const YearlyList: React.FC<Props> = (props) => {
 			{MonthListFromJan.map((month, idx) => (
 				<TaskListContainer
 					key={idx}
-					period={month}
 					beginningPeriod={beginningPeriod}
 					planner={planner}
 					index={idx}

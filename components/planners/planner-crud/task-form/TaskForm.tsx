@@ -1,16 +1,16 @@
 import React, { Fragment } from "react";
 import { useForm } from "react-hook-form";
 
-import { FormTaskObject, Task } from "../../../models/task-models/Task";
-import { Size, Theme } from "../../../models/design-models";
+import { FormTaskObject, Task } from "../../../../models/task-models/Task";
+import { Size, Theme } from "../../../../models/design-models";
 import {
 	CategoryList,
 	getSubCategory,
 	Category,
 	SubCategory
-} from "../../../models/task-models/Category";
-import { ImportanceList } from "../../../models/task-models/Status";
-import Button from "../../ui/Button";
+} from "../../../../models/task-models/Category";
+import { ImportanceList } from "../../../../models/task-models/Status";
+import Button from "../../../ui/Button";
 import {
 	FormValues,
 	getInitialDurationInput,
@@ -19,7 +19,7 @@ import {
 	getInitialDateTimeInput,
 	getInitialEndtimeInput,
 	getFormTaskObject
-} from "../../../utilities/form-utils/task-form-util";
+} from "../../../../utilities/form-utils/task-form-util";
 import classes from "./TaskForm.module.scss";
 
 interface Props {
@@ -71,6 +71,7 @@ const TaskForm: React.FC<Props> = (props) => {
 							maxLength: { value: 30, message: "Maximum 30 characters!" }
 						})}
 						id="name"
+						placeholder="Enter your task name (3 ~ 30 characters)"
 						aria-invalid={errors.name ? true : false}
 						defaultValue={initialTask ? initialTask.name : ""}
 					/>
@@ -87,6 +88,7 @@ const TaskForm: React.FC<Props> = (props) => {
 							maxLength: { value: 300, message: "Maximum 300 character!" }
 						})}
 						id="description"
+						placeholder="Enter your task description (3~300 characters)"
 						cols={30}
 						rows={4}
 						aria-invalid={errors.description ? true : false}

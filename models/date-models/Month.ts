@@ -30,6 +30,11 @@ export const MonthListFromJan = [
 	Month.ANY
 ];
 
+export function getMonthFromIndex (index: number) {
+	if (index < MonthListFromJan.length) return MonthListFromJan[index];
+	return Month.ANY;
+}
+
 // Needs testing
 export function getMonthMember (date: Date | null) {
 	if (!date) return Month.ANY;
