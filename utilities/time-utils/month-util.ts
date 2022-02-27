@@ -16,12 +16,23 @@ export function getShorterMonthName (month: Month) {
 	return month.substring(0, 3);
 }
 
-// Important function
-export function getWeekOfMonth (date: Date): number {
-	var firstWeekday = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-	var offsetDate = date.getDate() + firstWeekday - 1;
+export function getNumberOfWeeks (date: Date): number {
+	const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+	const numWeeks = getWeekOfMonth(lastDayOfMonth);
+	return numWeeks;
+}
 
-	// return Math.floor(offsetDate / 7); // This returns a week index (starting 0).
+// Important function
+// Still needs testing
+export function getWeekOfMonth (date: Date): number {
+	// nth day in the week
+	let firstWeekday = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+	// Sunday should be day 7 in this app.
+	if (firstWeekday === 0) firstWeekday = 7;
+
+	// Weekday starting from Monday, so -2
+	const offsetDate = date.getDate() + firstWeekday - 2;
+
 	return Math.floor(offsetDate / 7) + 1; // This returns a week number (starting 1).
 }
 
@@ -29,11 +40,13 @@ export function getWeekInterval (monthBeginning: Date, weekNumber: number): [Dat
 	const isSameTime = monthBeginning.getTime() === getMonthBeginning(monthBeginning).getTime();
 	if (!isSameTime) throw new Error("Month beginning does not match!");
 	const monthEnding = getMonthEnding(monthBeginning);
-	// console.log("monthEnding:", getSimpleDateTimeFormat(monthEnding, true));
 
 	// 28/Feb for March
 	const weekBeginning = getWeekBeginning(monthBeginning);
 	const weekIndex = Math.max(weekNumber - 1, 0);
+
+	// console.log("monthBeginning,", monthBeginning);
+	// console.log("weekBeginning:", weekBeginning);
 
 	let targetWeekday = addWeeks(weekBeginning, weekIndex);
 	// If targetWeekday is less than monthBeginning (like last date of last month)

@@ -32,8 +32,7 @@ export function addYears (date: Date, numYears: number = 1): Date {
 
 // Reset day time to 0:0
 export function resetHoursAndMinutes (date: Date): Date {
-	const onlyDate = getISODateFormat(date);
-	const dateCpy = new Date(onlyDate);
+	const dateCpy = new Date(date);
 	dateCpy.setHours(0);
 	dateCpy.setMinutes(0);
 	return dateCpy;

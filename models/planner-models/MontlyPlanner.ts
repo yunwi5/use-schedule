@@ -1,6 +1,7 @@
 import { Planner } from "./Planner";
 import { PlannerTask } from "../task-models/Task";
 import { WeekNumber } from "../date-models/WeekNumber";
+import { getWeekOfMonth } from "../../utilities/time-utils/month-util";
 
 export class MontlyPlanner implements Planner {
 	public allTasks: PlannerTask[] = [];
@@ -10,6 +11,7 @@ export class MontlyPlanner implements Planner {
 	public thirdWeekTasks: PlannerTask[] = [];
 	public fourthWeekTasks: PlannerTask[] = [];
 	public fifthWeekTasks: PlannerTask[] = [];
+	public sixthWeekTasks: PlannerTask[] = [];
 
 	public anyTimeTasks: PlannerTask[] = [];
 
@@ -17,7 +19,30 @@ export class MontlyPlanner implements Planner {
 
 	addTask (newTask: PlannerTask): void {
 		this.allTasks.push(newTask);
-		this.anyTimeTasks.push(newTask);
+		const weekNumber = getWeekOfMonth(newTask.dateTime);
+
+		switch (weekNumber) {
+			case 1:
+				this.firstWeekTasks.push(newTask);
+				break;
+			case 2:
+				this.secondWeekTasks.push(newTask);
+				break;
+			case 3:
+				this.thirdWeekTasks.push(newTask);
+				break;
+			case 4:
+				this.fourthWeekTasks.push(newTask);
+				break;
+			case 5:
+				this.fifthWeekTasks.push(newTask);
+				break;
+			case 6:
+				this.sixthWeekTasks.push(newTask);
+				break;
+			default:
+				this.anyTimeTasks.push(newTask);
+		}
 	}
 
 	getTasks (weekNumber: WeekNumber): PlannerTask[] {
@@ -32,7 +57,9 @@ export class MontlyPlanner implements Planner {
 				return this.fourthWeekTasks;
 			case WeekNumber.FIFTH_WEEK:
 				return this.fifthWeekTasks;
-			case WeekNumber.ANY_WEEK:
+			case WeekNumber.SIXTH_WEEK:
+				return this.sixthWeekTasks;
+			case WeekNumber.ANY:
 				return this.anyTimeTasks;
 			default:
 				throw new Error(

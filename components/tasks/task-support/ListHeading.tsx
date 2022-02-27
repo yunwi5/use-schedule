@@ -19,7 +19,7 @@ const ListHeading: React.FC<Props> = (props) => {
 				<span className="text-2xl">{labelMain}</span>
 				<span>{labelSub}</span>
 			</div>
-			<p className="w-14 text-2xl font-semibold text-slate-700/70">{headingText}</p>
+			<p className="w-16 text-2xl font-semibold text-slate-700/70">{headingText}</p>
 			<div className="w-full h-1 bg-slate-300" />
 			<FontAwesomeIcon
 				icon={faAngleDown}

@@ -11,6 +11,10 @@ export function isSameWeek (weekBeginning: Date, date: Date): boolean {
 	return weekBeginning.getTime() <= date.getTime() && date.getTime() <= weekEnding.getTime();
 }
 
+export function isSameMonth (monthBeginning: Date, date: Date): boolean {
+	return monthBeginning.getMonth() === date.getMonth();
+}
+
 export function isSameYear (weekBeginning: Date, date: Date): boolean {
 	return weekBeginning.getFullYear() === date.getFullYear();
 }

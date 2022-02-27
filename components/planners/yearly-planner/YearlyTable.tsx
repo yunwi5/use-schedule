@@ -1,7 +1,6 @@
 import TableNav from "../planner-nav/TableNav";
 import YearlyList from "./YearlyList";
 import { YearlyPlanner } from "../../../models/planner-models/YearlyPlanner";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	yearBeginning: Date;
@@ -10,7 +9,7 @@ interface Props {
 	onMutate: () => void;
 }
 
-const WeeklyTable: React.FC<Props> = (props) => {
+const YearlyTable: React.FC<Props> = (props) => {
 	const { yearBeginning, planner, onChangeYear, onMutate } = props;
 
 	return (
@@ -25,4 +24,4 @@ const WeeklyTable: React.FC<Props> = (props) => {
 	);
 };
 
-export default WeeklyTable;
+export default YearlyTable;

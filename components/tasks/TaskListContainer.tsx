@@ -13,40 +13,13 @@ import { getMonth, getWeekInterval } from "../../utilities/time-utils/month-util
 import { getShortName } from "../../utilities/gen-utils/string-util";
 import { sortTaskByTime } from "../../utilities/tasks-utils/sort-util";
 import { getMonthEnding } from "../../utilities/time-utils/date-get";
+import { getDaySuffixed } from "../../utilities/gen-utils/format-util";
 
 interface Props {
 	beginningPeriod: Date;
 	planner: Planner;
 	index: number;
 	onMutate: () => void;
-}
-
-function getDaySuffixed (date: Date): JSX.Element {
-	const day = date.getDate();
-	if (day === 1)
-		return (
-			<span>
-				1<small>st</small>
-			</span>
-		);
-	if (day === 2)
-		return (
-			<span>
-				2<small>nd</small>
-			</span>
-		);
-	if (day === 3)
-		return (
-			<span>
-				3<small>rd</small>
-			</span>
-		);
-	return (
-		<span>
-			{day}
-			<small>th</small>
-		</span>
-	);
 }
 
 function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, index: number) {
@@ -78,18 +51,24 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 				beginning = beginningPeriod;
 				ending = getMonthEnding(beginningPeriod);
 			}
-
-			const beginningday = getDaySuffixed(beginning);
+			const sameBeginAndEndingDay = beginning.getDate() === ending.getDate();
+			const beginningDay = getDaySuffixed(beginning);
 			const endingDay = getDaySuffixed(ending);
 
 			const isWeekAny = week === WeekNumber.ANY;
 			labelMain = !isWeekAny ? `${index + 1}` : "?";
 			labelSub = "week";
-			headingText = (
-				<Fragment>
-					{beginningday} ~ {endingDay}
-				</Fragment>
+
+			const formatTextElem2 = !sameBeginAndEndingDay ? (
+				<span className="text-lg">
+					{beginningDay}
+					~{endingDay}
+				</span>
+			) : (
+				<span className="text-2xl">{beginningDay}</span>
 			);
+
+			headingText = !isWeekAny ? <span>{formatTextElem2}</span> : <span>Any</span>;
 			break;
 		case PlannerMode.YEARLY:
 			const month = getMonthFromIndex(index);

@@ -50,6 +50,7 @@ function getCardDateTimeFormat (task: PlannerTask) {
 			dueDateFormat = task.dueDate && getDateMonthFormat(task.dueDate);
 			break;
 		case PlannerMode.YEARLY:
+		case PlannerMode.MONTLY:
 			planDateFormat = getDateMonthFormat(task.dateTime);
 			dueDateFormat = task.dueDate && getDateMonthFormat(task.dueDate);
 			break;

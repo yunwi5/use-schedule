@@ -21,15 +21,9 @@ export function getCurrentWeekBeginning () {
 	return currentWeekBeginning;
 }
 
-// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
-export function getCurrentMonthWeekBeginning (): Date {
-	const current = new Date();
-	return getMonthWeekBeginning(current);
-}
-
 export function getCurrentMonthBeginning () {
 	const current = new Date();
-	const currentWeekBeginning = getWeekBeginning(current);
+	const currentWeekBeginning = getMonthBeginning(current);
 	return currentWeekBeginning;
 }
 
@@ -79,20 +73,6 @@ export function getMonthEnding (date: Date): Date {
 	return lastDay;
 }
 
-// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
-export function getMonthWeekBeginning (date: Date): Date {
-	const monthBeginning = getMonthBeginning(date);
-	const monthWeekBegin = getWeekBeginning(monthBeginning);
-	return monthWeekBegin;
-}
-
-// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
-export function getMonthWeekEnding (date: Date): Date {
-	const monthEnding = getMonthEnding(date);
-	const monthWeekEnd = getWeekEnding(monthEnding);
-	return monthWeekEnd;
-}
-
 export function getYearBeginning (date: Date): Date {
 	const firstYearDay = new Date(date.getFullYear(), 0, 1);
 	return firstYearDay;
@@ -117,4 +97,24 @@ export function getTaskPlanTime (
 	planDate.setHours(hours);
 	planDate.setMinutes(minutes);
 	return planDate;
+}
+
+// Below 3 functions are not being used at the moment.
+// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
+export function getMonthWeekBeginning (date: Date): Date {
+	const monthBeginning = getMonthBeginning(date);
+	const monthWeekBegin = getWeekBeginning(monthBeginning);
+	return monthWeekBegin;
+}
+
+// Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
+export function getMonthWeekEnding (date: Date): Date {
+	const monthEnding = getMonthEnding(date);
+	const monthWeekEnd = getWeekEnding(monthEnding);
+	return monthWeekEnd;
+}
+
+export function getCurrentMonthWeekBeginning (): Date {
+	const current = new Date();
+	return getMonthWeekBeginning(current);
 }
