@@ -38,12 +38,13 @@ function populateMontlyPlanner (tasks: Task[], monthBeginning: Date): Planner {
 
 const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
 	const [ planner, setPlanner ] = useState<Planner | null>(null);
-
 	const dispatch = useDispatch();
 
 	const monthBeginning = getCurrentMonthBeginning();
-
-	const { currentTimeStamp, addMonths: addLocalMonths } = useDateTime(monthBeginning);
+	const { currentTimeStamp, addMonths: addLocalMonths } = useDateTime(
+		monthBeginning,
+		ResetPeriod.MONTH
+	);
 
 	console.log(`currentTimeStamp: ${currentTimeStamp}`);
 

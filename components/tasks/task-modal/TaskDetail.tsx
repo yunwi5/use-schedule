@@ -11,7 +11,8 @@ import {
 	faStarExclamation,
 	faXmark,
 	faHourglassEnd,
-	faMemoCircleInfo
+	faMemoCircleInfo,
+	faCalendarDay
 } from "@fortawesome/pro-duotone-svg-icons";
 
 import { PlannerTask } from "../../../models/task-models/Task";
@@ -20,11 +21,13 @@ import Button from "../../ui/Button";
 import {
 	getDateTimeFormat,
 	getDurationFormat,
-	getEndDateTimeFormat
+	getEndDateTimeFormat,
+	getFullDateFormat
 } from "../../../utilities/time-utils/date-format";
 import { getImportanceValue } from "../../../models/task-models/Status";
 import { ButtonTheme } from "../../../models/design-models";
 import classes from "./TaskDetail.module.scss";
+import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	onClose: () => void;
@@ -33,36 +36,100 @@ interface Props {
 	task: PlannerTask;
 }
 
+function hasSetTime (date: Date) {
+	const is12am = date.getHours() === 0 && date.getMinutes() === 0;
+	const isEndOfDay = date.getHours() === 23 && date.getMinutes() === 59;
+	console.log(date.getHours(), date.getMinutes());
+	return !(is12am || isEndOfDay);
+}
+
+function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = "N/A") {
+	let plannedDateFormat = "",
+		dueDateFormat = "",
+		endTimeFormat = "";
+	switch (task.plannerType) {
+		case PlannerMode.WEEKLY:
+			plannedDateFormat = getDateTimeFormat(task.dateTime);
+			dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
+			endTimeFormat = getEndDateTimeFormat(task.dateTime, task.duration);
+			break;
+		case PlannerMode.MONTLY:
+		case PlannerMode.YEARLY:
+			plannedDateFormat = hasSetTime(task.dateTime)
+				? getDateTimeFormat(task.dateTime)
+				: getFullDateFormat(task.dateTime);
+			dueDateFormat = !task.dueDate
+				? defaultValue
+				: hasSetTime(task.dueDate)
+					? getDateTimeFormat(task.dueDate)
+					: getFullDateFormat(task.dueDate);
+			endTimeFormat = !task.duration
+				? defaultValue
+				: getEndDateTimeFormat(task.dateTime, task.duration);
+			break;
+	}
+
+	return {
+		plannedDateFormat,
+		dueDateFormat,
+		endTimeFormat
+	};
+}
+
+function getTaskType (plannerMode: PlannerMode) {
+	switch (plannerMode) {
+		case PlannerMode.WEEKLY:
+			return "Weekly Task";
+		case PlannerMode.MONTLY:
+			return "Montly Task";
+		case PlannerMode.YEARLY:
+			return "Yearly Task";
+		case PlannerMode.TEMPLATE:
+			return "Template Task";
+	}
+}
+
 const TaskDetail: React.FC<Props> = (props) => {
 	const { onClose, onEdit, onDelete, task } = props;
 
-	const { name, description, category, subCategory, status, importance, duration } = task;
+	const {
+		name,
+		description,
+		category,
+		subCategory,
+		status,
+		importance,
+		duration,
+		plannerType
+	} = task;
 
 	const defaultValue = "N/A";
 
-	const plannedDateFormat = getDateTimeFormat(task.dateTime);
-	const dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
-	const durationFormat = getDurationFormat(duration) || defaultValue;
-	const endTimeFormat = getEndDateTimeFormat(task.dateTime, duration);
+	const { plannedDateFormat, dueDateFormat, endTimeFormat } = getTaskDetailDateTimeFormat(task);
+
+	const durationFormat = getDurationFormat(duration).trim() || defaultValue;
 
 	// console.log("planDate:", task.dateTime);
 	// console.log("planDate format:", plannedDateFormat);
+
+	const taskType = getTaskType(plannerType || PlannerMode.WEEKLY);
+
+	const statusClass = "status-" + status.toLowerCase().replace(" ", "");
 
 	return (
 		<Modal onClose={onClose} classes={`${classes.modal} text-semibold`}>
 			<FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
 			<h2>{name}</h2>
+			<h5>
+				<FontAwesomeIcon icon={faCalendarDay} className={classes.icon} />
+				{taskType}
+			</h5>
 			<div className={classes.grid}>
 				<div className={classes.item}>
 					<div className={classes.label}>
 						<FontAwesomeIcon icon={faClipboardCheck} className={classes.icon} /> Status
 					</div>
-					<p
-						className={`${classes.value} ${"status-" +
-							status.toLowerCase().replace(" ", "")}`}
-					>
-						{status}
-					</p>
+					<p className={`${classes.value}`}>{status}</p>
 				</div>
 
 				<div className={classes.item}>
