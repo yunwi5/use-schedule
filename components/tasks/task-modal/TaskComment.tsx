@@ -1,7 +1,4 @@
-import React, { Fragment, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/pro-duotone-svg-icons";
-import { faCheck, faXmark } from "@fortawesome/pro-solid-svg-icons";
+import React, { useState } from "react";
 
 import classes from "./TaskComment.module.scss";
 import IconEdit from "../../ui/icons/IconEdit";

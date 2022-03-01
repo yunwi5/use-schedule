@@ -1,6 +1,7 @@
 import { Planner } from "./Planner";
 import { Task, PlannerTask } from "../task-models/Task";
-import { MonthListFromJan, Month, getMonthMember } from "../date-models/Month";
+import { Month, getMonthMember } from "../date-models/Month";
+import { isAnyPlanTime } from "../../utilities/tasks-utils/task-util";
 
 export class YearlyPlanner implements Planner {
 	public allTasks: PlannerTask[] = [];
@@ -25,7 +26,13 @@ export class YearlyPlanner implements Planner {
 	addTask (newTask: PlannerTask) {
 		this.allTasks.push(newTask);
 
+		if (newTask.isAnyDateTime) {
+			this.anyTimeTasks.push(newTask);
+			return;
+		}
+
 		const month = getMonthMember(newTask.dateTime);
+
 		switch (month) {
 			case Month.JANUARY:
 				this.janTasks.push(newTask);

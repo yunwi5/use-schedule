@@ -2,6 +2,7 @@ import { Planner } from "./Planner";
 import { PlannerTask } from "../task-models/Task";
 import { WeekNumber } from "../date-models/WeekNumber";
 import { getWeekOfMonth } from "../../utilities/time-utils/month-util";
+import { isAnyPlanTime } from "../../utilities/tasks-utils/task-util";
 
 export class MontlyPlanner implements Planner {
 	public allTasks: PlannerTask[] = [];
@@ -19,7 +20,13 @@ export class MontlyPlanner implements Planner {
 
 	addTask (newTask: PlannerTask): void {
 		this.allTasks.push(newTask);
-		const weekNumber = getWeekOfMonth(newTask.dateTime);
+
+		if (newTask.isAnyDateTime) {
+			this.anyTimeTasks.push(newTask);
+			return;
+		}
+
+		const weekNumber = newTask.dateTime && getWeekOfMonth(newTask.dateTime);
 
 		switch (weekNumber) {
 			case 1:

@@ -1,6 +1,7 @@
 import { Planner } from "./Planner";
 import { PlannerTask } from "../task-models/Task";
 import { WeekDay } from "../date-models/WeekDay";
+import { isAnyPlanTime } from "../../utilities/tasks-utils/task-util";
 
 export class WeeklyPlanner implements Planner {
 	public allTasks: PlannerTask[] = [];
@@ -18,6 +19,12 @@ export class WeeklyPlanner implements Planner {
 
 	addTask (newTask: PlannerTask): void {
 		this.allTasks.push(newTask);
+
+		if (newTask.isAnyDateTime) {
+			this.anyTimeTasks.push(newTask);
+			return;
+		}
+
 		switch (newTask.day) {
 			case WeekDay.MONDAY:
 				this.mondayTasks.push(newTask);

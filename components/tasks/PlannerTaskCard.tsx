@@ -39,9 +39,8 @@ function getCardDateTimeFormat (task: PlannerTask) {
 	switch (plannerType) {
 		case PlannerMode.WEEKLY:
 			let endTime: null | Date = null;
-			if (task.duration) {
-				endTime = addMinutes(task.dateTime, task.duration);
-			}
+			if (task.duration) endTime = addMinutes(task.dateTime, task.duration);
+
 			const startTimeFormat = getISOTimeFormat(task.dateTime);
 			const endTimeFormat = endTime && getISOTimeFormat(endTime);
 			planDateFormat = endTimeFormat
@@ -55,6 +54,8 @@ function getCardDateTimeFormat (task: PlannerTask) {
 			dueDateFormat = task.dueDate && getDateMonthFormat(task.dueDate);
 			break;
 	}
+
+	if (task.isAnyDateTime) planDateFormat = "Any Time";
 
 	return { planDateFormat, dueDateFormat };
 }
@@ -73,7 +74,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	const { dueDate, category, subCategory, importance, status, duration, comment } = task;
 
 	let endTime: null | Date = null;
-	if (duration) {
+	if (duration && task.dateTime) {
 		endTime = addMinutes(task.dateTime, task.duration);
 	}
 
@@ -163,8 +164,12 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 
 				{/* Planned Time */}
 				<div className={classes.task__time}>
-					<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
-					<span>{planDateFormat}</span>
+					{planDateFormat && (
+						<Fragment>
+							<FontAwesomeIcon icon={faAlarmClock} className={classes.icon} />
+							<span>{planDateFormat}</span>
+						</Fragment>
+					)}
 				</div>
 				{/* Due Date */}
 				<p className={classes.task__dueDate}>

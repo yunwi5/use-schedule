@@ -22,6 +22,7 @@ function populateWeeklyPlanner (tasks: Task[], weekBeginning: Date): Planner {
 	for (const task of tasks) {
 		let taskDate = new Date(task.timeString);
 		const sameWeek = isSameWeek(weekBeginning, taskDate);
+
 		if (sameWeek) {
 			const plannerTask = new PlannerTask(task);
 			plannerTask.plannerType = PlannerMode.WEEKLY;

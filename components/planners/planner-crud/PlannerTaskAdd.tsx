@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useSelector, RootStateOrAny } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import TaskForm from "./task-form/TaskForm";
 import PlannerModal from "../planner-modal/PlannerModal";
+import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
 import { NotifStatus } from "../../ui/Notification";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
 import { postTask } from "../../../lib/planners/planners-api";
@@ -22,9 +23,9 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const userId = user ? user.sub : null;
 
 	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
-	// useLogger(plannerMode);
 
 	const { setNotification } = useNotification();
+	const [ showDiscardModal, setShowDiscardModal ] = useState(false);
 
 	const taskAddHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
@@ -54,7 +55,10 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<PlannerModal onClose={onClose} title={"Add New Task"}>
+		<PlannerModal onClose={setShowDiscardModal.bind(null, true)} title={"Add New Task"}>
+			{showDiscardModal && (
+				<DiscardModal onAction={onClose} onClose={setShowDiscardModal.bind(null, false)} />
+			)}
 			<TaskForm onSubmit={taskAddHandler} beginningPeriod={beginningPeriod} />
 		</PlannerModal>
 	);

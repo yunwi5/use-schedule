@@ -49,23 +49,28 @@ function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = 
 		endTimeFormat = "";
 	switch (task.plannerType) {
 		case PlannerMode.WEEKLY:
-			plannedDateFormat = getDateTimeFormat(task.dateTime);
+			plannedDateFormat = task.dateTime ? getDateTimeFormat(task.dateTime) : defaultValue;
 			dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
-			endTimeFormat = getEndDateTimeFormat(task.dateTime, task.duration);
+			endTimeFormat = task.dateTime
+				? getEndDateTimeFormat(task.dateTime, task.duration)
+				: defaultValue;
 			break;
 		case PlannerMode.MONTLY:
 		case PlannerMode.YEARLY:
-			plannedDateFormat = hasSetTime(task.dateTime)
-				? getDateTimeFormat(task.dateTime)
-				: getFullDateFormat(task.dateTime);
+			plannedDateFormat = !task.dateTime
+				? defaultValue
+				: hasSetTime(task.dateTime)
+					? getDateTimeFormat(task.dateTime)
+					: getFullDateFormat(task.dateTime);
 			dueDateFormat = !task.dueDate
 				? defaultValue
 				: hasSetTime(task.dueDate)
 					? getDateTimeFormat(task.dueDate)
 					: getFullDateFormat(task.dueDate);
-			endTimeFormat = !task.duration
-				? defaultValue
-				: getEndDateTimeFormat(task.dateTime, task.duration);
+			endTimeFormat =
+				!task.duration || !task.dateTime
+					? defaultValue
+					: getEndDateTimeFormat(task.dateTime, task.duration);
 			break;
 	}
 

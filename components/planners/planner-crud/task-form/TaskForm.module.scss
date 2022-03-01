@@ -100,10 +100,25 @@
 
 	.datetime,
 	.dueDatetime {
+		flex-wrap: wrap;
+
 		.date,
 		.time {
+			label {
+				order: 1;
+			}
+
 			input {
+				order: 2;
 				width: 175px;
+			}
+
+			input:disabled {
+				opacity: .5;
+			}
+
+			input:disabled ~ label {
+				opacity: .5;
 			}
 		}
 
@@ -114,48 +129,17 @@
 		.time {
 			margin-left: 1rem;
 		}
-	}
 
-	.duration {
-		display: flex;
+		.checkbox {
+			margin-top: .7rem;
+			display: flex;
+			align-items: center;
+			gap: .5rem;
+			font-size: 85%;
 
-		& > * {
-			width: 50%;
-		}
-
-		&__input {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			grid-gap: 7px;
-		}
-
-		&__endtime {
-			padding-left: 1.1rem;
-			padding-top: .3rem;
-		}
-
-		&__endtime .date {
-			color: $color-secondary-dark-2;
-		}
-
-		// Grid element
-		&__heading {
-			grid-column: 1 / span 2;
-		}
-
-		// Grid element
-		.number {
 			label {
-				margin-left: .5rem;
+				transform: translateY(-.08rem);
 			}
-
-			input {
-				max-width: 5rem;
-			}
-		}
-
-		.error {
-			grid-column: 1 / span 2;
 		}
 	}
 
@@ -163,5 +147,84 @@
 		display: flex;
 		gap: 1rem;
 		padding: 1.3rem 1.9rem;
+	}
+}
+
+// Duration style (complex)
+.duration {
+	display: flex;
+
+	& > *:first-child {
+		width: 50%;
+		flex: 1 0 1;
+	}
+
+	& > *:nth-child(2) {
+		width: 50%;
+	}
+
+	&__input {
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+	}
+
+	// Grid element
+	&__heading {
+		grid-column: 1 / -1;
+	}
+
+	.numbers {
+		display: flex;
+
+		// Grid element
+		.number {
+			label {
+				margin-left: .25rem;
+			}
+
+			input {
+				max-width: 3.8rem;
+			}
+
+			&:not(:last-child) {
+				margin-right: 1rem;
+			}
+		}
+
+		.numbers-short {
+			input {
+				max-width: 3.8rem;
+			}
+		}
+
+		.numbers-long {
+			input {
+				max-width: 4.6rem;
+			}
+		}
+	}
+
+	// Error messages
+	.messages {
+		display: flex;
+		flex-direction: column;
+		gap: 0rem;
+
+		margin-top: .3rem;
+	}
+
+	.error {
+		grid-column: 1 / span 2;
+		line-height: 25px;
+	}
+
+	&__endtime {
+		padding-left: 1.1rem;
+		padding-top: .3rem;
+	}
+
+	&__endtime .date {
+		color: $color-secondary-dark-2;
 	}
 }

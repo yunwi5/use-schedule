@@ -17,3 +17,14 @@ export function convertToTasks (data: any[]) {
 
 	return tasks;
 }
+
+export function isAnyPlanTime (beginningPeriod: Date, date: Date | string) {
+	date = new Date(date);
+	return (
+		beginningPeriod.getFullYear() === date.getFullYear() &&
+		beginningPeriod.getMonth() === date.getMonth() &&
+		beginningPeriod.getDate() === date.getDate() &&
+		beginningPeriod.getHours() === date.getHours() &&
+		beginningPeriod.getMinutes() === date.getMinutes()
+	);
+}

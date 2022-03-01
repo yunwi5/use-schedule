@@ -15,6 +15,7 @@ export interface Task {
 	importance: string;
 
 	dueDateString?: string;
+	isAnyDateTime?: boolean;
 	plannerType?: PlannerMode;
 	comment?: string;
 }
@@ -30,6 +31,7 @@ export type FormTaskObject = {
 	duration: number;
 
 	dueDateString?: string;
+	isAnyDateTime?: boolean;
 	plannerType?: PlannerMode;
 	// Comment is not initialized in the form
 };
@@ -47,6 +49,7 @@ export class PlannerTask implements Task {
 	importance: string;
 
 	dueDateString?: string;
+	isAnyDateTime?: boolean;
 	plannerType?: PlannerMode;
 	comment?: string;
 
@@ -64,6 +67,7 @@ export class PlannerTask implements Task {
 		this.dueDateString = taskObj.dueDateString;
 		this.plannerType = taskObj.plannerType;
 		this.comment = taskObj.comment;
+		this.isAnyDateTime = taskObj.isAnyDateTime;
 	}
 
 	get dateTime () {
@@ -77,7 +81,7 @@ export class PlannerTask implements Task {
 		});
 	}
 
-	get date (): number {
+	get date () {
 		return new Date(this.timeString).getDate();
 	}
 
@@ -87,12 +91,12 @@ export class PlannerTask implements Task {
 		return getDayName(date.getDay());
 	}
 
-	get hours (): number {
+	get hours () {
 		const date = new Date(this.timeString);
 		return date.getHours();
 	}
 
-	get minutes (): number {
+	get minutes () {
 		return new Date(this.timeString).getMinutes();
 	}
 

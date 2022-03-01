@@ -35,5 +35,7 @@ export function resetHoursAndMinutes (date: Date): Date {
 	const dateCpy = new Date(date);
 	dateCpy.setHours(0);
 	dateCpy.setMinutes(0);
+	dateCpy.setSeconds(0);
+	dateCpy.setMilliseconds(0);
 	return dateCpy;
 }

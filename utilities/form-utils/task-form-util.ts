@@ -15,26 +15,37 @@ export type FormValues = {
 	dueDate: string;
 	dueTime: string;
 
+	durationDays: number;
 	durationHours: number;
 	durationMinutes: number;
 };
 
+const DAY_IN_MINS = 60 * 24;
+
 export function getInitialDurationInput (initialTask: Task | undefined) {
-	if (!initialTask) return { defaultHours: 0, defaultMinutes: 0 };
+	if (!initialTask) return { defaultHours: 0, defaultMinutes: 0, defaultDays: 0 };
 	const dur = initialTask.duration;
-	const defaultHours = Math.floor(dur / 60);
-	const defaultMinutes = dur % 60;
-	return { defaultHours, defaultMinutes };
+	const defaultDays = Math.floor(dur / DAY_IN_MINS);
+	const dayRemaining = dur % DAY_IN_MINS;
+
+	const defaultHours = Math.floor(dayRemaining / 60);
+	const defaultMinutes = dayRemaining % 60;
+	return { defaultDays, defaultHours, defaultMinutes };
 }
 
 export function getDuration (watch: () => FormValues) {
-	const currentDuration = watch().durationHours * 60 + watch().durationMinutes;
+	const currentDuration =
+		(watch().durationDays || 0) * (60 * 24) +
+		watch().durationHours * 60 +
+		watch().durationMinutes;
 	return currentDuration;
 }
 
 export function getEndTimeFormatted (watch: () => FormValues) {
 	const currentInputDate = watch().date;
 	const currentInputTime = watch().time;
+	if (!currentInputDate || !currentInputTime) return null;
+
 	const currentDate = new Date(`${currentInputDate} ${currentInputTime}`);
 	const currentDuration = getDuration(watch);
 	const estimatedEndTime = addMinutes(currentDate, currentDuration);
@@ -45,7 +56,7 @@ export function getEndTimeFormatted (watch: () => FormValues) {
 
 export function getInitialDateTimeInput (initialTask: Task | undefined, beginningPeriod: Date) {
 	let defaultDateTime = beginningPeriod;
-	if (initialTask) {
+	if (initialTask && initialTask.timeString) {
 		defaultDateTime = new Date(initialTask.timeString);
 	}
 
@@ -72,13 +83,15 @@ export function getFormTaskObject (data: FormValues): FormTaskObject {
 		time,
 		dueDate,
 		dueTime,
-		durationHours,
-		durationMinutes
+		durationDays = 0,
+		durationHours = 0,
+		durationMinutes = 0
 	} = data;
 
-	const timeString = new Date(`${date} ${time}`).toString();
-	const dueDateString = new Date(`${dueDate} ${dueTime}`).toString();
-	const duration = durationHours * 60 + durationMinutes;
+	const timeString = date && time ? new Date(`${date} ${time}`).toString() : "";
+	const duration = durationDays * (24 * 60) + durationHours * 60 + durationMinutes;
+	let dueDateString =
+		dueDate && dueTime ? new Date(`${dueDate} ${dueTime}`).toString() : undefined;
 
 	const newTask: FormTaskObject = {
 		name,
