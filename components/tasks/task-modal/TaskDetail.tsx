@@ -49,29 +49,29 @@ function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = 
 		endTimeFormat = "";
 	switch (task.plannerType) {
 		case PlannerMode.WEEKLY:
-			plannedDateFormat = task.dateTime ? getDateTimeFormat(task.dateTime) : defaultValue;
+			plannedDateFormat = getDateTimeFormat(task.dateTime);
 			dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
-			endTimeFormat = task.dateTime
-				? getEndDateTimeFormat(task.dateTime, task.duration)
-				: defaultValue;
+			endTimeFormat = getEndDateTimeFormat(task.dateTime, task.duration);
 			break;
 		case PlannerMode.MONTLY:
 		case PlannerMode.YEARLY:
-			plannedDateFormat = !task.dateTime
-				? defaultValue
-				: hasSetTime(task.dateTime)
-					? getDateTimeFormat(task.dateTime)
-					: getFullDateFormat(task.dateTime);
+			plannedDateFormat = hasSetTime(task.dateTime)
+				? getDateTimeFormat(task.dateTime)
+				: getFullDateFormat(task.dateTime);
 			dueDateFormat = !task.dueDate
 				? defaultValue
 				: hasSetTime(task.dueDate)
 					? getDateTimeFormat(task.dueDate)
 					: getFullDateFormat(task.dueDate);
-			endTimeFormat =
-				!task.duration || !task.dateTime
-					? defaultValue
-					: getEndDateTimeFormat(task.dateTime, task.duration);
+			endTimeFormat = !task.duration
+				? defaultValue
+				: getEndDateTimeFormat(task.dateTime, task.duration);
 			break;
+	}
+
+	if (task.isAnyDateTime) {
+		plannedDateFormat = "Any Time";
+		endTimeFormat = defaultValue;
 	}
 
 	return {
@@ -95,7 +95,7 @@ function getTaskType (plannerMode: PlannerMode) {
 }
 
 const TaskDetail: React.FC<Props> = (props) => {
-	const { onClose, onEdit, onDelete, task } = props;
+	const { onClose, onEdit, task } = props;
 
 	const {
 		name,
