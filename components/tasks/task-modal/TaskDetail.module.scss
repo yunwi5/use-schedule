@@ -20,6 +20,7 @@
 	h2 {
 		font-size: 2.2rem;
 		position: relative;
+		margin-top: 0 !important;
 
 		&::after {
 			@include after-underline($color-primary-dark-4, $color-primary-light-2);

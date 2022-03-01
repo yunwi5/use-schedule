@@ -56,7 +56,7 @@ const IntroPanel: React.FC<Props> = (props) => {
 								className="mr-2 max-w-[1.3rem]"
 								icon={faChartPie as any}
 							/>{" "}
-							Statistics
+							See Statistics
 						</Button>
 						<Button
 							className={`mr-4 flex items-center ${classes.btn}`}

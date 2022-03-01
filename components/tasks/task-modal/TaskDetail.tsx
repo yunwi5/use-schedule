@@ -106,20 +106,14 @@ const TaskDetail: React.FC<Props> = (props) => {
 	const defaultValue = "N/A";
 
 	const { plannedDateFormat, dueDateFormat, endTimeFormat } = getTaskDetailDateTimeFormat(task);
-
 	const durationFormat = getDurationFormat(duration).trim() || defaultValue;
-
-	// console.log("planDate:", task.dateTime);
-	// console.log("planDate format:", plannedDateFormat);
 
 	const taskType = getTaskType(plannerType || PlannerMode.WEEKLY);
 
-	const statusClass = "status-" + status.toLowerCase().replace(" ", "");
-
 	return (
 		<Modal onClose={onClose} classes={`${classes.modal} text-semibold`}>
-			<FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
 			<h2>{name}</h2>
+			<FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
 			<h5>
 				<FontAwesomeIcon icon={faCalendarDay} className={classes.icon} />
 				{taskType}
