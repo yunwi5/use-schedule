@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { FormTaskObject, Task } from "../../../../models/task-models/Task";
@@ -25,25 +25,25 @@ import { getWeekEnding } from "../../../../utilities/time-utils/date-get";
 interface Props {
 	onSubmit: (newTask: FormTaskObject) => void;
 	beginningPeriod: Date;
+	onHasEdit: (hasEdit: boolean) => void;
 	isEdit?: boolean;
 	initialTask?: Task;
 	onDelete?: () => void;
 }
 
 const TaskForm: React.FC<Props> = (props) => {
-	const { onSubmit, beginningPeriod, initialTask, isEdit, onDelete } = props;
+	const { onSubmit, beginningPeriod, initialTask, isEdit, onDelete, onHasEdit } = props;
 	const { register, watch, handleSubmit, formState: { errors } } = useForm<FormValues>();
 
+	const defaultNoDueDate = initialTask && initialTask.dueDateString ? false : true;
 	const [ isAnyDateTime, setIsAnyDateTime ] = useState(initialTask?.isAnyDateTime || false);
-	const [isNoDueDate, setIsNoDueDate] = useState(initialTask?.dueDateString ? true : false);
+	const [isNoDueDate, setIsNoDueDate] = useState(defaultNoDueDate);
 
 	const submitHandler = (data: FormValues) => {
-		const newTask = getFormTaskObject(data);
+		const newTask = getFormTaskObject(data, beginningPeriod);
 		if (isAnyDateTime) {
 			newTask.timeString = beginningPeriod.toString();
 			newTask.isAnyDateTime = true;
-		} else if (!newTask.timeString) {
-			newTask.timeString = beginningPeriod.toString();
 		}
 		if (isNoDueDate) {
 			newTask.dueDateString = undefined;
@@ -54,6 +54,15 @@ const TaskForm: React.FC<Props> = (props) => {
 		console.log('newTask:', newTask);
 		onSubmit(newTask);
 	};
+
+
+	useEffect(() => {
+		if (watch().name && watch().description) {
+			onHasEdit(true);
+		} else {
+			onHasEdit(false);
+		}
+	}, [watch, onHasEdit])
 
 	const category = watch().category || (initialTask ? initialTask.category : CategoryList[0]);
 	const subCategoryList: SubCategory[] = getSubCategory(category as Category);

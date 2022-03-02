@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useSelector, RootStateOrAny } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -27,6 +27,9 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { setNotification } = useNotification();
 	const [ showDiscardModal, setShowDiscardModal ] = useState(false);
 
+	// For popup model for cancel event.
+	const [ userHasEdit, setUserHasEdit ] = useState(false);
+
 	const taskAddHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
 			alert("User is not logged in!");
@@ -54,12 +57,27 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		onClose();
 	};
 
+	const closeHandler = useCallback(
+		() => {
+			if (userHasEdit) setShowDiscardModal(true);
+		},
+		[ userHasEdit ]
+	);
+
+	const userHasEditHandler = useCallback((hasEdit: boolean) => {
+		setUserHasEdit(hasEdit);
+	}, []);
+
 	return (
-		<PlannerModal onClose={setShowDiscardModal.bind(null, true)} title={"Add New Task"}>
+		<PlannerModal onClose={closeHandler} title={"Add New Task"}>
 			{showDiscardModal && (
 				<DiscardModal onAction={onClose} onClose={setShowDiscardModal.bind(null, false)} />
 			)}
-			<TaskForm onSubmit={taskAddHandler} beginningPeriod={beginningPeriod} />
+			<TaskForm
+				onSubmit={taskAddHandler}
+				beginningPeriod={beginningPeriod}
+				onHasEdit={userHasEditHandler}
+			/>
 		</PlannerModal>
 	);
 };

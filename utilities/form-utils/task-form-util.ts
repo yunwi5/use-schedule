@@ -72,7 +72,7 @@ export function getInitialEndtimeInput (beginningPeriod: Date) {
 	return { defaultEndDate, defaultEndTime };
 }
 
-export function getFormTaskObject (data: FormValues): FormTaskObject {
+export function getFormTaskObject (data: FormValues, beginningPeriod: Date): FormTaskObject {
 	const {
 		name,
 		description,
@@ -88,7 +88,16 @@ export function getFormTaskObject (data: FormValues): FormTaskObject {
 		durationMinutes = 0
 	} = data;
 
-	const timeString = date && time ? new Date(`${date} ${time}`).toString() : "";
+	// const timeString = date && time ? new Date(`${date} ${time}`).toString() : "";
+	let timeString = beginningPeriod.toString();
+	if (date && time) {
+		timeString = new Date(`${date} ${time}`).toString();
+	} else if (date) {
+		timeString = new Date(`${date} ${getISOTimeFormat(beginningPeriod)}`).toString();
+	} else if (time) {
+		timeString = new Date(`${beginningPeriod.toDateString()} ${time}`).toString();
+	}
+
 	const duration = durationDays * (24 * 60) + durationHours * 60 + durationMinutes;
 	let dueDateString =
 		dueDate && dueTime ? new Date(`${dueDate} ${dueTime}`).toString() : undefined;

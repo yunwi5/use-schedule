@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector, RootStateOrAny } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 
@@ -28,6 +28,9 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { setNotification } = useNotification();
 	const [ showDeleteModal, setShowDeleteModal ] = useState(false);
 	const [ showDiscardModal, setShowDiscardModal ] = useState(false);
+
+	// For popup model for cancel event.
+	const [ userHasEdit, setUserHasEdit ] = useState(false);
 
 	const taskEditHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
@@ -68,8 +71,22 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		onUpdate();
 	};
 
+	const closeHandler = useCallback(
+		() => {
+			if (userHasEdit) setShowDiscardModal(true);
+		},
+		[ userHasEdit ]
+	);
+
+	const userHasEditHandler = useCallback(
+		(hasEdit: boolean) => {
+			setUserHasEdit(hasEdit);
+		},
+		[ setUserHasEdit ]
+	);
+
 	return (
-		<PlannerModal onClose={setShowDiscardModal.bind(null, true)} title={"Edit Task"}>
+		<PlannerModal onClose={closeHandler} title={"Edit Task"}>
 			{showDeleteModal && (
 				<DeleteModal
 					targetName={initialTask.name}
@@ -86,6 +103,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 				isEdit={true}
 				initialTask={initialTask}
 				onDelete={setShowDeleteModal.bind(null, true)}
+				onHasEdit={userHasEditHandler}
 			/>
 		</PlannerModal>
 	);
