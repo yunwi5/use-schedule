@@ -74,8 +74,9 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const closeHandler = useCallback(
 		() => {
 			if (userHasEdit) setShowDiscardModal(true);
+			else onClose();
 		},
-		[ userHasEdit ]
+		[ userHasEdit, onClose ]
 	);
 
 	const userHasEditHandler = useCallback(
@@ -104,6 +105,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 				initialTask={initialTask}
 				onDelete={setShowDeleteModal.bind(null, true)}
 				onHasEdit={userHasEditHandler}
+				userHasEdit={userHasEdit}
 			/>
 		</PlannerModal>
 	);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { FormTaskObject, Task } from "../../../../models/task-models/Task";
@@ -12,8 +12,8 @@ import {
 import Button from "../../../ui/Button";
 import {
 	FormValues,
-	getInitialEndtimeInput,
-	getFormTaskObject
+	getFormTaskObject,
+	userHasInputs
 } from "../../../../utilities/form-utils/task-form-util";
 import classes from "./TaskForm.module.scss";
 import GeneralInputs from "./GeneralInputs";
@@ -26,21 +26,25 @@ interface Props {
 	onSubmit: (newTask: FormTaskObject) => void;
 	beginningPeriod: Date;
 	onHasEdit: (hasEdit: boolean) => void;
+	userHasEdit ?: boolean;
 	isEdit?: boolean;
 	initialTask?: Task;
 	onDelete?: () => void;
 }
 
 const TaskForm: React.FC<Props> = (props) => {
-	const { onSubmit, beginningPeriod, initialTask, isEdit, onDelete, onHasEdit } = props;
+	const { onSubmit, beginningPeriod, initialTask, isEdit, onDelete, onHasEdit, userHasEdit } = props;
 	const { register, watch, handleSubmit, formState: { errors } } = useForm<FormValues>();
 
 	const defaultNoDueDate = initialTask && initialTask.dueDateString ? false : true;
 	const [ isAnyDateTime, setIsAnyDateTime ] = useState(initialTask?.isAnyDateTime || false);
 	const [isNoDueDate, setIsNoDueDate] = useState(defaultNoDueDate);
 
+	// For yearly task.
+	const [isMonthDateOnly, setIsMonthDateOnly] = useState(false);
+ 
 	const submitHandler = (data: FormValues) => {
-		const newTask = getFormTaskObject(data, beginningPeriod);
+		const newTask = getFormTaskObject(data, beginningPeriod, isMonthDateOnly);
 		if (isAnyDateTime) {
 			newTask.timeString = beginningPeriod.toString();
 			newTask.isAnyDateTime = true;
@@ -56,16 +60,12 @@ const TaskForm: React.FC<Props> = (props) => {
 	};
 
 
-	useEffect(() => {
-		if (watch().name && watch().description) {
-			onHasEdit(true);
-		} else {
-			onHasEdit(false);
-		}
-	}, [watch, onHasEdit])
-
 	const category = watch().category || (initialTask ? initialTask.category : CategoryList[0]);
 	const subCategoryList: SubCategory[] = getSubCategory(category as Category);
+
+	if (!userHasEdit && userHasInputs(watch)) {
+		onHasEdit(true);
+	}
 
 	// Name, description, category, subcategory,
 	// Importance, duration, planned datetime, due datetime
@@ -84,7 +84,9 @@ const TaskForm: React.FC<Props> = (props) => {
 					register={register}
 					beginningPeriod={beginningPeriod}
 					isAnyTime={isAnyDateTime}
-					onAnyTime={() => setIsAnyDateTime((prev) => !prev)}
+					onAnyTime={setIsAnyDateTime}
+					onMonthDateOnly={setIsMonthDateOnly}
+					monthDateOnly={isMonthDateOnly}
 				/>
 
 				<DurationInput

@@ -36,7 +36,7 @@ const useNotification = () => {
 			message,
 			status
 		});
-		console.log(`new notification ${title}, ${message}, ${status}`);
+		// console.log(`new notification ${title}, ${message}, ${status}`);
 	};
 
 	useEffect(

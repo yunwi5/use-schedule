@@ -38,8 +38,6 @@ const Notification: React.FC<Props> = (props) => {
 		statusClasses = classes.error;
 	}
 
-	console.log("status:", statusClasses);
-
 	return (
 		<div className={`${classes.notification} ${statusClasses}`} onClick={hideHandler}>
 			<h2>{title}</h2>

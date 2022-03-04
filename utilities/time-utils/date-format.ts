@@ -1,17 +1,23 @@
 import { addMinutes } from "./date-control";
 
+const ONE_DAY = 60 * 24;
+
 export function getTimeFormat (time: Date) {
 	return `${time.getHours()}:${time.getMinutes()}`;
 }
 
 export function getDurationFormat (minutes: number) {
-	const hrs = Math.floor(minutes / 60);
-	const mins = minutes % 60;
+	const days = Math.floor(minutes / ONE_DAY);
 
-	const hrsSection = hrs ? `${hrs} hrs` : "";
+	const remainingMinutes = minutes % ONE_DAY;
+	const hrs = Math.floor(remainingMinutes / 60);
+	const mins = remainingMinutes % 60;
+
+	const daysSection = days ? `${days} days ` : "";
+	const hrsSection = hrs ? `${hrs} hrs ` : "";
 	const minsSection = mins ? `${mins} mins` : "";
 
-	return `${hrsSection} ${minsSection}`;
+	return `${daysSection} ${hrsSection} ${minsSection}`;
 }
 
 // Not including year

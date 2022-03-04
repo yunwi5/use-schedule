@@ -18,19 +18,24 @@ export type FormValues = {
 	durationDays: number;
 	durationHours: number;
 	durationMinutes: number;
+
+	// Yearly planner for monthDateOnly
+	month: string;
+	monthDay: number;
 };
 
 const DAY_IN_MINS = 60 * 24;
 
-export function getInitialDurationInput (initialTask: Task | undefined) {
-	if (!initialTask) return { defaultHours: 0, defaultMinutes: 0, defaultDays: 0 };
-	const dur = initialTask.duration;
-	const defaultDays = Math.floor(dur / DAY_IN_MINS);
-	const dayRemaining = dur % DAY_IN_MINS;
-
-	const defaultHours = Math.floor(dayRemaining / 60);
-	const defaultMinutes = dayRemaining % 60;
-	return { defaultDays, defaultHours, defaultMinutes };
+export function userHasInputs (watch: () => FormValues) {
+	if (
+		watch().name ||
+		watch().description ||
+		watch().durationDays ||
+		watch().durationHours ||
+		watch().durationMinutes
+	)
+		return true;
+	return false;
 }
 
 export function getDuration (watch: () => FormValues) {
@@ -41,17 +46,15 @@ export function getDuration (watch: () => FormValues) {
 	return currentDuration;
 }
 
-export function getEndTimeFormatted (watch: () => FormValues) {
-	const currentInputDate = watch().date;
-	const currentInputTime = watch().time;
-	if (!currentInputDate || !currentInputTime) return null;
+export function getInitialDurationInput (initialTask: Task | undefined) {
+	if (!initialTask) return { defaultHours: 0, defaultMinutes: 0, defaultDays: 0 };
+	const dur = initialTask.duration;
+	const defaultDays = Math.floor(dur / DAY_IN_MINS);
+	const dayRemaining = dur % DAY_IN_MINS;
 
-	const currentDate = new Date(`${currentInputDate} ${currentInputTime}`);
-	const currentDuration = getDuration(watch);
-	const estimatedEndTime = addMinutes(currentDate, currentDuration);
-	const endTimeFormatted = getDateTimeFormat(estimatedEndTime);
-
-	return endTimeFormatted;
+	const defaultHours = Math.floor(dayRemaining / 60);
+	const defaultMinutes = dayRemaining % 60;
+	return { defaultDays, defaultHours, defaultMinutes };
 }
 
 export function getInitialDateTimeInput (initialTask: Task | undefined, beginningPeriod: Date) {
@@ -72,7 +75,25 @@ export function getInitialEndtimeInput (beginningPeriod: Date) {
 	return { defaultEndDate, defaultEndTime };
 }
 
-export function getFormTaskObject (data: FormValues, beginningPeriod: Date): FormTaskObject {
+// Formatting planTime + duration as string just to display to the user.
+export function getEndTimeFormatted (watch: () => FormValues): string | null {
+	const currentInputDate = watch().date;
+	const currentInputTime = watch().time;
+	if (!currentInputDate || !currentInputTime) return null;
+
+	const currentDate = new Date(`${currentInputDate} ${currentInputTime}`);
+	const currentDuration = getDuration(watch);
+	const estimatedEndTime = addMinutes(currentDate, currentDuration);
+	const endTimeFormatted = getDateTimeFormat(estimatedEndTime);
+
+	return endTimeFormatted;
+}
+
+export function getFormTaskObject (
+	data: FormValues,
+	beginningPeriod: Date,
+	monthDateOnly?: boolean
+): FormTaskObject {
 	const {
 		name,
 		description,
@@ -85,17 +106,18 @@ export function getFormTaskObject (data: FormValues, beginningPeriod: Date): For
 		dueTime,
 		durationDays = 0,
 		durationHours = 0,
-		durationMinutes = 0
+		durationMinutes = 0,
+		month, // optional (yearly task)
+		monthDay // optional (yearly task)
 	} = data;
 
-	// const timeString = date && time ? new Date(`${date} ${time}`).toString() : "";
-	let timeString = beginningPeriod.toString();
-	if (date && time) {
-		timeString = new Date(`${date} ${time}`).toString();
-	} else if (date) {
-		timeString = new Date(`${date} ${getISOTimeFormat(beginningPeriod)}`).toString();
-	} else if (time) {
-		timeString = new Date(`${beginningPeriod.toDateString()} ${time}`).toString();
+	let timeString = new Date(
+		`${date || beginningPeriod.toDateString()} ${time || getISOTimeFormat(beginningPeriod)}`
+	).toString();
+
+	// If only exists
+	if (monthDateOnly && month && monthDay) {
+		timeString = new Date(`${beginningPeriod.getFullYear()} ${month} ${monthDay}`).toString();
 	}
 
 	const duration = durationDays * (24 * 60) + durationHours * 60 + durationMinutes;

@@ -26,10 +26,10 @@ const GeneralInputs: React.FC<Props> = (props) => {
 					{...register("name", {
 						required: "Title is required!",
 						minLength: { value: 3, message: "Minimum 3 characters!" },
-						maxLength: { value: 30, message: "Maximum 30 characters!" }
+						maxLength: { value: 35, message: "Maximum 35 characters!" }
 					})}
 					id="name"
-					placeholder="Enter your task name (3 ~ 30 characters)"
+					placeholder="Enter your task name (3 ~ 35 characters)"
 					aria-invalid={errors.name ? true : false}
 					defaultValue={initialTask ? initialTask.name : ""}
 				/>

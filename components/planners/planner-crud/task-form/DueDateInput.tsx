@@ -21,8 +21,6 @@ const DueDateInput: React.FC<Props> = (props) => {
 	// Initial input for due datetime
 	const { defaultEndDate, defaultEndTime } = getInitialEndtimeInput(beginningPeriod);
 
-	console.log("isNoDueDate:", isNoDueDate);
-
 	return (
 		<div className={`${classes.dueDatetime} ${classes.section}`}>
 			<div className={classes.date}>
