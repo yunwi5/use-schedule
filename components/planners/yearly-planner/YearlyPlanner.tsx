@@ -11,6 +11,7 @@ import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { getCurrentYearBeginning } from "../../../utilities/time-utils/date-get";
 import { isSameYear } from "../../../utilities/time-utils/date-classify";
+import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
 
 interface Props {
 	yearlyTasks: Task[];
@@ -24,6 +25,8 @@ function populateYearlyPlanner (tasks: Task[], yearBeginning: Date): Planner {
 	for (const task of tasks) {
 		let taskDate = new Date(task.timeString);
 		const sameYear = isSameYear(yearBeginning, taskDate);
+
+		adjustIfOverdueTask(task);
 
 		if (sameYear) {
 			const plannerTask = new PlannerTask(task);

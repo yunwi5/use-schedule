@@ -11,6 +11,7 @@ import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { getCurrentMonthBeginning } from "../../../utilities/time-utils/date-get";
 import { isSameMonth, isSameYear } from "../../../utilities/time-utils/date-classify";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
+import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
 
 interface Props {
 	// Not constructed as planner tasks yet.
@@ -25,6 +26,8 @@ function populateMontlyPlanner (tasks: Task[], monthBeginning: Date): Planner {
 		const taskDate = new Date(task.timeString);
 		const sameYear = isSameYear(monthBeginning, taskDate);
 		const sameMonth = isSameMonth(monthBeginning, taskDate);
+
+		adjustIfOverdueTask(task);
 
 		if (sameMonth && sameYear) {
 			const plannerTask = new PlannerTask(task);

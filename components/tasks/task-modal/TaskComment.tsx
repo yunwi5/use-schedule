@@ -21,6 +21,7 @@ const TaskComment: React.FC<Props> = (props) => {
 
 	const commentSubmitHandler = () => {
 		setIsEditing(false);
+		if (initialText == currentText) return;
 		onSubmit(currentText);
 	};
 

@@ -46,6 +46,7 @@ export function getISODateFormat (date: Date): string {
 }
 // In testing
 export function getISOTimeFormat (date: Date): string {
+	if (!date) return "";
 	let hours = "" + date.getHours();
 	let minutes = "" + date.getMinutes().toString();
 

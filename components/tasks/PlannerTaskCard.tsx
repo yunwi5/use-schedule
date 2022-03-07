@@ -42,6 +42,9 @@ function getCardDateTimeFormat (task: PlannerTask) {
 			if (task.duration) endTime = addMinutes(task.dateTime, task.duration);
 
 			const startTimeFormat = getISOTimeFormat(task.dateTime);
+			if (!task.dateTime) {
+				console.log(task);
+			}
 			const endTimeFormat = endTime && getISOTimeFormat(endTime);
 			planDateFormat = endTimeFormat
 				? `${startTimeFormat} ~ ${endTimeFormat}`
@@ -62,8 +65,6 @@ function getCardDateTimeFormat (task: PlannerTask) {
 
 const PlannerTaskCard: React.FC<Props> = (props) => {
 	const { task: initialTask, beginningPeriod, onMutate } = props;
-
-	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
 
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
@@ -95,7 +96,11 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 
 	const updateStatusHandler = async (newStatus: TaskStatus) => {
 		// API call
-		await updateTaskProperties(task.id, { status: newStatus }, plannerMode);
+		await updateTaskProperties(
+			task.id,
+			{ status: newStatus },
+			task.plannerType || PlannerMode.WEEKLY
+		);
 		onMutate();
 	};
 
@@ -103,7 +108,11 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 		const newTask = new PlannerTask({ ...task, comment: newComment });
 		setTask(newTask);
 		// API call
-		await updateTaskProperties(task.id, { comment: newComment }, plannerMode);
+		await updateTaskProperties(
+			task.id,
+			{ comment: newComment },
+			task.plannerType || PlannerMode.WEEKLY
+		);
 	};
 
 	// Whenever there is a global update of tasks, update card as well.

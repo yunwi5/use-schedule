@@ -11,6 +11,7 @@ import { WeeklyPlanner as Planner } from "../../../models/planner-models/WeeklyP
 import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
 
 interface Props {
 	weeklyTasks: Task[];
@@ -22,6 +23,7 @@ function populateWeeklyPlanner (tasks: Task[], weekBeginning: Date): Planner {
 	for (const task of tasks) {
 		let taskDate = new Date(task.timeString);
 		const sameWeek = isSameWeek(weekBeginning, taskDate);
+		adjustIfOverdueTask(task);
 
 		if (sameWeek) {
 			const plannerTask = new PlannerTask(task);
@@ -53,6 +55,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 		[ initialTasks, currentTimeStamp ]
 	);
 
+	// Only runs on mount.
 	useEffect(() => {
 		dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
 	}, []);

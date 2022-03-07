@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { PlannerTask } from "../../models/task-models/Task";
 import { TaskProperties } from "../../utilities/tasks-utils/task-properties";
@@ -17,7 +17,7 @@ function getCollectionOfPlaner (plannerMode: PlannerMode): Collection {
 	}
 }
 
-const API_DOMIN = "/api/planners";
+const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
 
 export async function postTask (newTask: PlannerTask, plannerMode: PlannerMode) {
 	const collection = getCollectionOfPlaner(plannerMode);
@@ -26,7 +26,7 @@ export async function postTask (newTask: PlannerTask, plannerMode: PlannerMode) 
 	let res;
 	try {
 		// Send rquest.
-		res = await fetch(`${API_DOMIN}?collection=${collection}`, {
+		res = await fetch(`${API_DOMAIN}?collection=${collection}`, {
 			method: "POST",
 			body: JSON.stringify(newTask),
 			headers: {
@@ -56,7 +56,7 @@ export async function updateTask (
 
 	let res;
 	try {
-		res = await fetch(`${API_DOMIN}/${taskId}?collection=${collection}`, {
+		res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
 			method: "PUT",
 			body: JSON.stringify(updatedTask),
 			headers: {
@@ -80,7 +80,7 @@ export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
 
 	let res;
 	try {
-		res = await fetch(`${API_DOMIN}/${taskId}?collection=${collection}`, {
+		res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
 			method: "DELETE"
 		});
 		const data = await res.json();
@@ -104,7 +104,7 @@ export async function updateTaskProperties (
 
 	let res;
 	try {
-		res = await fetch(`${API_DOMIN}/task-update/${taskId}`, {
+		res = await fetch(`${API_DOMAIN}/task-update/${taskId}`, {
 			method: "PATCH",
 			body: JSON.stringify({
 				updateProps,
