@@ -1,10 +1,20 @@
 import { MongoClient, ObjectId } from "mongodb";
+
 import { Task } from "../../models/task-models/Task";
 import { TaskProperties } from "../tasks-utils/task-properties";
 
-export async function getTasks (client: MongoClient, collection: string, userId: string) {
+export async function getTasks (
+	client: MongoClient,
+	collection: string,
+	userId: string,
+	search: string = ""
+) {
 	const db = client.db();
-	const data = await db.collection(collection).find({ userId }).toArray();
+
+	const searchQuery = ".*" + search + ".*"; //ex) /.*son.*/i
+	const searchRegex = new RegExp(searchQuery, "i");
+
+	const data = await db.collection(collection).find({ userId, name: searchRegex }).toArray();
 	return data;
 }
 
@@ -20,11 +30,17 @@ export async function replaceTask (client: MongoClient, collection: string, task
 	const taskObjToSend: { id?: string } = { ...task };
 	delete taskObjToSend.id;
 
+	console.log("collection:", collection);
+
 	const res = await db
 		.collection(collection)
 		.replaceOne({ _id: new ObjectId(task.id) }, taskObjToSend);
+
 	console.log("Replace result:", res);
 	return res;
+
+	// 6205f31dce78eeca70b1eb65
+	// 6205f31dce78eeca70b1eb65
 }
 
 export async function deleteTask (client: MongoClient, collection: string, taskId: string) {

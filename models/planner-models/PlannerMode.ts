@@ -1,6 +1,6 @@
 export enum PlannerMode {
 	WEEKLY = "weekly-planner",
-	MONTLY = "monly-planner",
+	MONTLY = "monthly-planner",
 	YEARLY = "yearly-planner",
 	TEMPLATE = "template-planner"
 }

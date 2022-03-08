@@ -47,7 +47,8 @@ export function getDuration (watch: () => FormValues) {
 }
 
 export function getInitialDurationInput (initialTask: Task | undefined) {
-	if (!initialTask) return { defaultHours: 0, defaultMinutes: 0, defaultDays: 0 };
+	if (!initialTask || !initialTask.duration)
+		return { defaultHours: 0, defaultMinutes: 0, defaultDays: 0 };
 	const dur = initialTask.duration;
 	const defaultDays = Math.floor(dur / DAY_IN_MINS);
 	const dayRemaining = dur % DAY_IN_MINS;

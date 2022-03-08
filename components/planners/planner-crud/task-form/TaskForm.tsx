@@ -48,6 +48,8 @@ const TaskForm: React.FC<Props> = (props) => {
 		if (isAnyDateTime) {
 			newTask.timeString = beginningPeriod.toString();
 			newTask.isAnyDateTime = true;
+		} else {
+			newTask.isAnyDateTime = false;
 		}
 		if (isNoDueDate) {
 			newTask.dueDateString = undefined;
@@ -66,6 +68,8 @@ const TaskForm: React.FC<Props> = (props) => {
 	if (!userHasEdit && userHasInputs(watch)) {
 		onHasEdit(true);
 	}
+
+	// console.log('initialTask:', initialTask);
 
 	// Name, description, category, subcategory,
 	// Importance, duration, planned datetime, due datetime

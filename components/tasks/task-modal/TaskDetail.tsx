@@ -28,6 +28,7 @@ import { getImportanceValue } from "../../../models/task-models/Status";
 import { ButtonTheme } from "../../../models/design-models";
 import classes from "./TaskDetail.module.scss";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import { getTaskType } from "../../../utilities/tasks-utils/task-label";
 
 interface Props {
 	onClose: () => void;
@@ -51,7 +52,9 @@ function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = 
 		case PlannerMode.WEEKLY:
 			plannedDateFormat = getDateTimeFormat(task.dateTime);
 			dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
-			endTimeFormat = getEndDateTimeFormat(task.dateTime, task.duration);
+			endTimeFormat = !task.duration
+				? defaultValue
+				: getEndDateTimeFormat(task.dateTime, task.duration);
 			break;
 		case PlannerMode.MONTLY:
 		case PlannerMode.YEARLY:
@@ -79,19 +82,6 @@ function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = 
 		dueDateFormat,
 		endTimeFormat
 	};
-}
-
-function getTaskType (plannerMode: PlannerMode) {
-	switch (plannerMode) {
-		case PlannerMode.WEEKLY:
-			return "Weekly Task";
-		case PlannerMode.MONTLY:
-			return "Montly Task";
-		case PlannerMode.YEARLY:
-			return "Yearly Task";
-		case PlannerMode.TEMPLATE:
-			return "Template Task";
-	}
 }
 
 const TaskDetail: React.FC<Props> = (props) => {

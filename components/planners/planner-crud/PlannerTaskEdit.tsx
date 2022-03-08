@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import TaskForm from "./task-form/TaskForm";
@@ -10,10 +9,11 @@ import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
 import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
 import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
+import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	onClose: () => void;
-	onUpdate: () => void;
+	onUpdate: (updateTask?: PlannerTask) => void;
 	beginningPeriod: Date;
 	initialTask: Task;
 }
@@ -22,8 +22,6 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { onClose, onUpdate, beginningPeriod, initialTask } = props;
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
-
-	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
 
 	const { setNotification } = useNotification();
 	const [ showDeleteModal, setShowDeleteModal ] = useState(false);
@@ -42,27 +40,35 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			id: initialTask.id,
 			comment: initialTask.comment,
 			status: initialTask.status,
+			plannerType: initialTask.plannerType,
 			userId
 		};
 
 		const newPlannerTask = new PlannerTask(newTask);
-
+		console.log("newPlannerTask:", newPlannerTask);
 		setNotification(NotifStatus.PENDING, `Currently editing task ${newPlannerTask.name}`);
-		const { isSuccess } = await updateTask(initialTask.id, newPlannerTask, plannerMode);
+		const { isSuccess } = await updateTask(
+			initialTask.id,
+			newPlannerTask,
+			initialTask.plannerType || PlannerMode.WEEKLY
+		);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS, `Editing task was successful!`);
 		} else {
 			setNotification(NotifStatus.ERROR, "Sorry, editing task went wrong...");
 		}
 
-		onUpdate();
+		onUpdate(newPlannerTask);
 		onClose();
 	};
 
 	const taskDeleteHandler = async () => {
 		setShowDeleteModal(false);
 		setNotification(NotifStatus.PENDING);
-		const { isSuccess } = await deleteTask(initialTask.id, plannerMode);
+		const { isSuccess } = await deleteTask(
+			initialTask.id,
+			initialTask.plannerType || PlannerMode.WEEKLY
+		);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS, "Delete task successful!");
 		} else {

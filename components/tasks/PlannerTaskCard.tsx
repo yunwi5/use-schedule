@@ -72,14 +72,12 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 
 	const [ showComment, setShowComment ] = useState(false);
 
-	const { dueDate, category, subCategory, importance, status, duration, comment } = task;
+	const { dueDate, category, subCategory, importance, status, comment } = task;
 
-	let endTime: null | Date = null;
-	if (duration && task.dateTime) {
-		endTime = addMinutes(task.dateTime, task.duration);
-	}
-
-	const updateTaskHandler = () => onMutate();
+	const updateTaskHandler = (updatedTask?: PlannerTask) => {
+		onMutate();
+		if (updatedTask) setTask(updatedTask);
+	};
 
 	const editHandler = () => {
 		setShowDetail(false);

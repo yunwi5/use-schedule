@@ -27,11 +27,13 @@ const DurationInput: React.FC<Props> = (props) => {
 	);
 
 	// Initial time display for Edit mode.
-	const { defaultDays, defaultHours, defaultMinutes } = getInitialDurationInput(initialTask);
+	const { defaultDays = 0, defaultHours = 0, defaultMinutes } = getInitialDurationInput(
+		initialTask
+	);
 
 	// Duration user display related
-	const currentDuration = getDuration(watch);
-	const endTimeFormatted = getEndTimeFormatted(watch);
+	const currentDuration: number = getDuration(watch);
+	const endTimeFormatted: string | null = getEndTimeFormatted(watch);
 
 	const showDaysInput = plannerMode === PlannerMode.MONTLY || plannerMode === PlannerMode.YEARLY;
 	const showEndTime = currentDuration > 0 && endTimeFormatted;

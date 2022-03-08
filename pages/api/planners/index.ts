@@ -34,16 +34,20 @@ export default withApiAuthRequired(async function handler (
 
 	// Handle GET request
 	if (req.method === "GET") {
-		let weeklyTasks;
+		let q = req.query.q; // Search query
+		if (Array.isArray(q)) q = q.join("");
+
+		let tasks;
 		try {
-			let result = await getTasks(client, collection, userId);
-			weeklyTasks = convertToTasks(result);
+			let result = await getTasks(client, collection, userId, q);
+			tasks = convertToTasks(result);
 		} catch (err) {
 			console.error(err);
 			client.close();
 			return res.status(500).json({ message: "Get weekly tasks failed" });
 		}
-		res.status(200).json({ tasks: weeklyTasks, message: "Get weekly tasks successful!" });
+		res.status(200).json({ tasks: tasks, message: "Get weekly tasks successful!" });
+		
 	} else if (req.method === "POST") {
 		// Handle POST request
 		const taskToAdd = req.body;

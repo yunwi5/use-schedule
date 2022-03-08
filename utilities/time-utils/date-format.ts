@@ -70,7 +70,8 @@ export function getUserTimeFormat (date: Date): string {
 }
 
 // For user display
-export function getDateTimeFormat (date: Date) {
+export function getDateTimeFormat (date: Date | undefined) {
+	if (!date) return "N/A";
 	const dateFormat = getFullDateFormat(date);
 	const timeFormat = getUserTimeFormat(date);
 	return `${timeFormat}  ${dateFormat}`;

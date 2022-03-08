@@ -1,8 +1,8 @@
+import { Fragment, useEffect, useState } from "react";
 import type { NextPage } from 'next'
-import { getSession } from "@auth0/nextjs-auth0";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { Fragment, useEffect, useState } from "react";
+import { getSession } from "@auth0/nextjs-auth0";
 
 import TaskSearch from "../../components/task-search/TaskSearch";
 import { getSearchedTasks } from "../../lib/planners/search-api";
@@ -24,6 +24,8 @@ const SearchPage: NextPage<Props> = (props) => {
 		},
 		[ searchedTasks ]
 	);
+
+    console.log(searchedTasks);
 
 	return (
 		<Fragment>

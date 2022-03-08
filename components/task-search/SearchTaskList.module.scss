@@ -1,0 +1,36 @@
+@import "../../styles/main";
+
+.search-list {
+	margin-top: 2rem;
+	display: flex;
+	flex-direction: column;
+	& > *:not(:last-child) {
+		margin-bottom: 2rem;
+	}
+
+	.label {
+		@include flex-center;
+		width: clamp(9rem, 15%, 15%);
+		color: $color-primary-dark-2;
+		padding: .5rem 1rem;
+		font-size: 1.15rem;
+		font-weight: 500;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+	}
+
+	.label-weekly-planner {
+		background-color: $color-primary-light-2;
+		color: $color-primary-dark-3;
+	}
+
+	.label-monthly-planner {
+		background-color: $color-secondary-light-2;
+		color: $color-secondary-dark-3;
+	}
+
+	.label-yearly-planner {
+		background-color: $color-tertiary-light-2;
+		color: $color-tertiary-dark-3;
+	}
+}

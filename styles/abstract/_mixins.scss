@@ -7,3 +7,12 @@
 	height: 3px;
 	background-image: linear-gradient(to right, $color-1, $color-2);
 }
+
+@mixin flex-center($direction: null) {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@if (direction == 'row' or direction == 'column') {
+		flex-direction: direction;
+	}
+}

@@ -19,7 +19,7 @@ const WeeklyPlanner: NextPage = () => {
 
 	let tasks = [];
 	if (data) tasks = data.tasks;
-	console.log("swr tasks:", tasks);
+	// console.log("swr tasks:", tasks);
 
 	return (
 		<div>
