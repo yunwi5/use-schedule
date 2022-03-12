@@ -1,0 +1,41 @@
+@import "../../../styles/main";
+
+.spinner {
+	@include flex-center;
+	position: relative;
+	width: 80px;
+	height: 80px;
+}
+
+.spinner::after {
+	content: '';
+	display: block;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	border: 6px solid $color-primary;
+	border-color: $color-primary transparent $color-primary transparent;
+	animation: Spinner 1.2s linear infinite;
+}
+
+.spinner-medium {
+	width: 50px;
+	height: 50px;
+
+	&::after {
+		width: 35px;
+		height: 35px;
+		border-width: 6.5px;
+	}
+}
+
+.spinner-large {
+	width: 100px;
+	height: 100px;
+
+	&::after {
+		width: 70px;
+		height: 70px;
+		border-width: 7.5px;
+	}
+}

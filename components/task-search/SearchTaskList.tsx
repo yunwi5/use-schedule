@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/pro-light-svg-icons";
 import { faCircleInfo } from "@fortawesome/pro-duotone-svg-icons";
@@ -13,9 +12,9 @@ import {
 } from "../../utilities/time-utils/date-get";
 import { TaskSort as SortingStandard } from "../../models/sorting-models";
 import { getTaskType } from "../../utilities/tasks-utils/task-label";
+import { getDateTimeFormat, getDurationFormat } from "../../utilities/time-utils/date-format";
 
 import classes from "./SearchTaskList.module.scss";
-import { getDateTimeFormat, getDurationFormat } from "../../utilities/time-utils/date-format";
 
 interface Props {
 	tasks: PlannerTask[];
