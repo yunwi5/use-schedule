@@ -6,3 +6,12 @@
 		transform: translateY(0);
 	}
 }
+
+@keyframes AppearFromLeft {
+	from {
+		max-width: 0;
+	}
+	to {
+		max-width: 1000px;
+	}
+}

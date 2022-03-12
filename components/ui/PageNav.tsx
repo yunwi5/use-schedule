@@ -22,7 +22,6 @@ const PageNav: React.FC<Props> = (props) => {
 	const totalPages = Math.ceil(numberOfItems / itemsPerPage);
 
 	const navigationHandler = (direction: number) => {
-		console.log("clicked!");
 		if (currentPage <= 1 && direction < 0) return;
 		if (currentPage >= totalPages && direction > 0) return;
 
@@ -42,25 +41,29 @@ const PageNav: React.FC<Props> = (props) => {
 				<FontAwesomeIcon
 					onClick={() => setCurrentPage(1)}
 					icon={faChevronsLeft}
-					className={classes.icon}
+					className={`${classes.icon} ${currentPage <= 1 ? classes.disabled : ""}`}
 				/>
 				<FontAwesomeIcon
 					onClick={navigationHandler.bind(null, -1)}
 					icon={faChevronLeft}
-					className={classes.icon}
+					className={`${classes.icon} ${currentPage <= 1 ? classes.disabled : ""}`}
 				/>
 				<span className={classes.text}>
-					{currentPage} ... {totalPages}
+					{Math.min(currentPage, totalPages)} ... {totalPages}
 				</span>
 				<FontAwesomeIcon
 					onClick={navigationHandler.bind(null, 1)}
 					icon={faChevronRight}
-					className={classes.icon}
+					className={`${classes.icon} ${currentPage === totalPages
+						? classes.disabled
+						: ""}`}
 				/>
 				<FontAwesomeIcon
 					onClick={() => setCurrentPage(totalPages)}
 					icon={faChevronsRight}
-					className={classes.icon}
+					className={`${classes.icon} ${currentPage === totalPages
+						? classes.disabled
+						: ""}`}
 				/>
 			</div>
 		</div>

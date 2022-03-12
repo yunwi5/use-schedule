@@ -11,4 +11,15 @@
 		margin-left: calc(#{$navbar-width} + (100% - #{$navbar-width} - #{$width}) / 2);
 		width: clamp(50%, $width, 66rem);
 	}
+
+	.icon {
+		@include icon-basic;
+		font-size: 150%;
+		color: $color-primary-dark-1;
+		cursor: pointer;
+
+		&:hover {
+			color: $color-primary-dark-4;
+		}
+	}
 }

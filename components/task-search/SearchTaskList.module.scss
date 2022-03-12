@@ -4,33 +4,100 @@
 	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
+	color: $color-primary-dark-2;
+
 	& > *:not(:last-child) {
 		margin-bottom: 2rem;
 	}
 
+	h1 {
+		margin-top: 4rem;
+		margin-bottom: 2rem;
+
+		.icon {
+			margin-right: .5rem;
+		}
+	}
+
 	.label {
 		@include flex-center;
-		width: clamp(9rem, 15%, 15%);
-		color: $color-primary-dark-2;
+		width: min-content;
 		padding: .5rem 1rem;
 		font-size: 1.15rem;
 		font-weight: 500;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
+		transition: all 1s ease;
+
+		& > * {
+			white-space: nowrap;
+			@include flex-center;
+		}
+
+		strong {
+			margin-right: .5rem;
+		}
+
+		.icon {
+			font-size: 130%;
+			&:hover {
+				color: $color-primary-dark-4;
+			}
+		}
+
+		.sorting-label {
+			display: none;
+			overflow: hidden;
+			// Defind in _animations.scss
+			animation: AppearFromLeft 1s;
+		}
+	}
+
+	.label:hover .sorting-label {
+		display: inline-block;
+		margin-left: 1.5rem;
 	}
 
 	.label-weekly-planner {
 		background-color: $color-primary-light-2;
 		color: $color-primary-dark-3;
+
+		strong {
+			color: $color-primary;
+		}
+
+		.icon:hover {
+			color: $color-primary-dark-4;
+		}
 	}
 
 	.label-monthly-planner {
 		background-color: $color-secondary-light-2;
 		color: $color-secondary-dark-3;
+
+		strong {
+			color: $color-secondary-light-4;
+		}
+
+		.icon:hover {
+			color: $color-secondary-dark-4;
+		}
 	}
 
 	.label-yearly-planner {
 		background-color: $color-tertiary-light-2;
 		color: $color-tertiary-dark-3;
+
+		strong {
+			color: $color-tertiary-light-4;
+		}
+
+		.icon:hover {
+			color: $color-tertiary-dark-4;
+		}
+	}
+
+	.icon {
+		@include icon-basic;
 	}
 }

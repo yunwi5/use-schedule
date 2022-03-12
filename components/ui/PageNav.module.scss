@@ -10,23 +10,34 @@
 	display: flex;
 	align-items: center;
 	font-size: 1.15rem;
+	color: $color-primary-dark-3;
 
 	.text {
 		margin: 0 .9rem;
 	}
 
 	.icon {
-		color: $color-primary-dark-3;
+		@include icon-basic;
+		@include flex-center;
+
 		width: 25px;
 		height: 25px;
 		padding: 10px;
 		border-radius: 100px;
-		@include flex-center;
 		font-size: 10px;
 
 		&:hover {
 			background-color: $color-primary-dark-3;
 			color: $color-primary-light-1;
+		}
+	}
+
+	.disabled {
+		&:hover {
+			background-color: transparent;
+			color: inherit;
+			opacity: .6;
+			cursor: not-allowed;
 		}
 	}
 }

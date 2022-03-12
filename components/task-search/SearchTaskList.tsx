@@ -1,3 +1,8 @@
+import { Fragment } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/pro-light-svg-icons";
+import { faCircleInfo } from "@fortawesome/pro-duotone-svg-icons";
+
 import PlannerTaskCard from "../tasks/PlannerTaskCard";
 import { PlannerTask } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
@@ -6,15 +11,47 @@ import {
 	getCurrentWeekBeginning,
 	getCurrentYearBeginning
 } from "../../utilities/time-utils/date-get";
-import classes from "./SearchTaskList.module.scss";
+import { TaskSort as SortingStandard } from "../../models/sorting-models";
 import { getTaskType } from "../../utilities/tasks-utils/task-label";
+
+import classes from "./SearchTaskList.module.scss";
+import { getDateTimeFormat, getDurationFormat } from "../../utilities/time-utils/date-format";
 
 interface Props {
 	tasks: PlannerTask[];
+	sortingStandard: SortingStandard | null;
+}
+
+function getTaskSortingInfo (task: PlannerTask, sortingStandard: SortingStandard | null) {
+	const defaultValue = "Not Set";
+	let showInfo = true;
+	let labelFormat: string | JSX.Element = "";
+
+	switch (sortingStandard) {
+		case SortingStandard.PLAN_DATE:
+			const dateTimeFormat = getDateTimeFormat(task.dateTime);
+			labelFormat = <><strong>Plan Date</strong> {dateTimeFormat}</>;
+			break;
+		case SortingStandard.DUE_DATE:
+			const dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
+			labelFormat = <><strong>Task Due</strong> {dueDateFormat}</>;
+			break;
+		case SortingStandard.DURATION:
+			const durationFormat = getDurationFormat(task.duration).trim() || "No Duration";
+			labelFormat = <><strong>Task Duration</strong> {durationFormat}</>;
+			break;
+		default:
+			showInfo = false;
+	}
+
+	return {
+		showInfo,
+		labelFormat
+	};
 }
 
 const SearchTaskList: React.FC<Props> = (props) => {
-	const { tasks } = props;
+	const { tasks, sortingStandard } = props;
 
 	const weekBeginning = getCurrentWeekBeginning();
 	const monthBeginning = getCurrentMonthBeginning();
@@ -22,11 +59,24 @@ const SearchTaskList: React.FC<Props> = (props) => {
 
 	return (
 		<ul className={classes["search-list"]}>
+			{!tasks.length && (
+				<h1 className="huge-heading">
+					<FontAwesomeIcon icon={faTriangleExclamation} className={classes.icon} />
+					No tasks found.
+				</h1>
+			)}
 			{tasks.map((task) => {
+				const { showInfo, labelFormat } = getTaskSortingInfo(task, sortingStandard);
 				return (
 					<div key={task.id}>
 						<div className={`${classes.label} ${classes["label-" + task.plannerType]}`}>
-							{getTaskType(task.plannerType) || "? Task"}
+							<span>{getTaskType(task.plannerType) || "? Task"}</span>
+							{showInfo && (
+								<span className="ml-4">
+									<FontAwesomeIcon icon={faCircleInfo} className={classes.icon} />
+									<span className={classes["sorting-label"]}>{labelFormat}</span>
+								</span>
+							)}
 						</div>
 						<PlannerTaskCard
 							beginningPeriod={
