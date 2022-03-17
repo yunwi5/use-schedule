@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -86,6 +86,7 @@ function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = 
 
 const TaskDetail: React.FC<Props> = (props) => {
 	const { onClose, onEdit, task } = props;
+	const [ showSubTasks, setShowSubTasks ] = useState(false);
 
 	const {
 		name,

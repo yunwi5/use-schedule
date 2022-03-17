@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TaskComment: React.FC<Props> = (props) => {
-	const { commentText: initialText, onSubmit, className, label } = props;
+	const { commentText: initialText, onSubmit, className, label = "Comment" } = props;
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ currentText, setCurrentText ] = useState(initialText);
 
@@ -21,7 +21,7 @@ const TaskComment: React.FC<Props> = (props) => {
 
 	const commentSubmitHandler = () => {
 		setIsEditing(false);
-		if (initialText == currentText) return;
+		if (initialText.trim() == currentText.trim()) return;
 		onSubmit(currentText);
 	};
 
@@ -34,7 +34,7 @@ const TaskComment: React.FC<Props> = (props) => {
 		<div className={`${classes.dialog} ${className}`}>
 			<div className={`${classes["left-point"]}`} />
 			<div className={classes.content}>
-				<label htmlFor="comment">{label || "Comment"}</label>
+				<label htmlFor="comment">{label}</label>
 
 				<IconEdit
 					isEditing={isEditing}

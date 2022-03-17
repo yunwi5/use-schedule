@@ -13,10 +13,10 @@ export interface Task {
 	status: string;
 	userId: string;
 	importance: string;
+	plannerType: PlannerMode;
 
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
-	plannerType?: PlannerMode;
 	comment?: string;
 }
 
@@ -29,10 +29,10 @@ export type FormTaskObject = {
 	status: string;
 	importance: string;
 	duration: number;
+	plannerType: PlannerMode;
 
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
-	plannerType?: PlannerMode;
 	// Comment is not initialized in the form
 };
 
@@ -50,7 +50,7 @@ export class PlannerTask implements Task {
 
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
-	plannerType?: PlannerMode;
+	plannerType: PlannerMode;
 	comment?: string;
 
 	constructor (taskObj: Task) {

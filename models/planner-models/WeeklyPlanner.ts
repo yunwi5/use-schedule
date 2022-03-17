@@ -1,7 +1,6 @@
 import { Planner } from "./Planner";
 import { PlannerTask } from "../task-models/Task";
 import { WeekDay } from "../date-models/WeekDay";
-import { isAnyPlanTime } from "../../utilities/tasks-utils/task-util";
 
 export class WeeklyPlanner implements Planner {
 	public allTasks: PlannerTask[] = [];

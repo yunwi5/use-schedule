@@ -7,11 +7,11 @@ export function convertToTasks (data: any[]) {
 	for (const document of data) {
 		const task = {
 			id: document._id.toString(),
+			// For un-adjusted tasks already added to weekly planner
+			plannerType: document.plannerType || PlannerMode.WEEKLY,
 			...document
 		};
 		delete task._id;
-		// For un-adjusted tasks already added to weekly planner
-		if (!task.plannerType) task.plannerType = PlannerMode.WEEKLY;
 
 		tasks.push(task as Task);
 	}
@@ -19,6 +19,7 @@ export function convertToTasks (data: any[]) {
 	return tasks;
 }
 
+// This fn is used in ...
 export function isAnyPlanTime (beginningPeriod: Date, date: Date | string) {
 	date = new Date(date);
 	return (
