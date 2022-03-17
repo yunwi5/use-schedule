@@ -4,7 +4,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import TaskForm from "./task-form/TaskForm";
 import PlannerModal from "../planner-modal/PlannerModal";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { deleteTask, updateTask } from "../../../lib/planners/planners-api";
+import { deleteTask, updateTask } from "../../../lib/planners/tasks-api";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
 import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";

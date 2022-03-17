@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
-import { getTasks, insertTask } from "../../../utilities/mongodb-util/planner-util";
+import { getTasks, insertTask } from "../../../utilities/mongodb-util/tasks-util";
 import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
 
 type Data =

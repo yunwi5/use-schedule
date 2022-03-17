@@ -4,3 +4,5 @@ export enum Collection {
 	YEARLY_TASKS = "yearly-tasks",
 	TEMPLATE_TASKS = "template-tasks"
 }
+
+export const SubTaskCollection = "sub-tasks";

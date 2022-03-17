@@ -22,7 +22,7 @@ import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
 import { addMinutes } from "../../utilities/time-utils/date-control";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateMonthFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
-import { updateTaskProperties } from "../../lib/planners/planners-api";
+import { updateTaskProperties } from "../../lib/planners/tasks-api";
 import classes from "./TaskCard.module.scss";
 
 interface Props {

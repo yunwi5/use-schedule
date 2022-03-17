@@ -3,7 +3,7 @@ import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import {MongoClient } from 'mongodb';
 
 import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { updateTaskProperties } from "../../../../utilities/mongodb-util/planner-util";
+import { updateTaskProperties } from "../../../../utilities/mongodb-util/tasks-util";
 
 type Data = { message: string };
 

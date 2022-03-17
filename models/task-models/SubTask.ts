@@ -8,3 +8,9 @@ export interface SubTask {
 	isCompleted: boolean;
 	parentTaskId: string;
 }
+
+export interface SubTaskFormObject {
+	name: string;
+	isImportant: boolean;
+	isCompleted: boolean;
+}

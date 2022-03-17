@@ -1,8 +1,9 @@
 import { Task } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { TaskStatus } from "../../models/task-models/Status";
+import { SubTask } from "../../models/task-models/SubTask";
 
-export function convertToTasks (data: any[]) {
+export function convertToTasks (data: any[]): Task[] {
 	const tasks: Task[] = [];
 	for (const document of data) {
 		const task = {
@@ -17,6 +18,20 @@ export function convertToTasks (data: any[]) {
 	}
 
 	return tasks;
+}
+
+export function covertToSubTasks (data: any[]): SubTask[] {
+	const subTasks: SubTask[] = [];
+	for (const document of data) {
+		const subTask = {
+			id: document._id.toString(),
+			...document
+		};
+		delete subTask._id;
+		subTasks.push(subTask);
+	}
+
+	return subTasks;
 }
 
 // This fn is used in ...

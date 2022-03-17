@@ -8,7 +8,7 @@ import PlannerModal from "../planner-modal/PlannerModal";
 import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
 import { NotifStatus } from "../../ui/Notification";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { postTask } from "../../../lib/planners/planners-api";
+import { postTask } from "../../../lib/planners/tasks-api";
 import useNotification from "../../../hooks/useNotification";
 
 interface Props {
@@ -39,6 +39,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		const newTask: Task = {
 			...newFormTask,
 			id: uuidv4(),
+			plannerType: plannerMode,
 			userId
 		};
 

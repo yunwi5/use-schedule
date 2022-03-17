@@ -1,3 +1,4 @@
+import { SubTask } from "./SubTask";
 import { getDayName } from "../../utilities/time-utils/date-get";
 import { WeekDay } from "../date-models/WeekDay";
 import { PlannerMode } from "../planner-models/PlannerMode";
@@ -18,6 +19,7 @@ export interface Task {
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
 	comment?: string;
+	subTasks?: SubTask[];
 }
 
 export type FormTaskObject = {
@@ -29,7 +31,7 @@ export type FormTaskObject = {
 	status: string;
 	importance: string;
 	duration: number;
-	plannerType: PlannerMode;
+	plannerType?: PlannerMode;
 
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
@@ -47,11 +49,12 @@ export class PlannerTask implements Task {
 	status: string;
 	userId: string;
 	importance: string;
+	plannerType: PlannerMode;
 
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
-	plannerType: PlannerMode;
 	comment?: string;
+	subTasks?: SubTask[];
 
 	constructor (taskObj: Task) {
 		this.id = taskObj.id;
@@ -68,6 +71,7 @@ export class PlannerTask implements Task {
 		this.plannerType = taskObj.plannerType;
 		this.comment = taskObj.comment;
 		this.isAnyDateTime = taskObj.isAnyDateTime;
+		this.subTasks = taskObj.subTasks;
 	}
 
 	get dateTime () {

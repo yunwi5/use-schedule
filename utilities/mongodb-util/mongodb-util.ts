@@ -5,7 +5,6 @@ const DATABASE_NAME = "task-manager";
 const DEFAULT_MONGODB_URL = `mongodb+srv://yunwi5:${PASSWORD}@cluster0.yhtre.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority`;
 
 export async function connectDatabase () {
-	console.log("env mongodb url:", process.env.MONGODB_URL);
 	const client = await MongoClient.connect(process.env.MONGODB_URL || DEFAULT_MONGODB_URL);
 	return client;
 }
