@@ -53,7 +53,7 @@ const TaskDetail: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<Modal onClose={onClose} classes={`${classes.modal} text-semibold`}>
+		<Modal onClose={onClose} classes={`text-semibold ${classes.modal}`}>
 			<h2>{name}</h2>
 			<FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
 			<TaskDetailNav
