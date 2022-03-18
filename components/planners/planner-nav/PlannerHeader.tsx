@@ -6,7 +6,7 @@ import { faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
 import { foldActions } from "../../../store/redux/fold-slice";
 import { filterActions } from "../../../store/redux/filter-slice";
 import PlannerTaskAdd from "../planner-crud/PlannerTaskAdd";
-import Searchbar from "../../ui/Searchbar";
+import Searchbar from "../../ui/searchbar/Searchbar";
 import PlannerFilter from "../planner-support/PlannerFilter";
 import Button from "../../ui/Button";
 import { Theme, Size, ButtonTheme } from "../../../models/design-models";

@@ -5,6 +5,7 @@ const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners/sub-tasks`;
 
 const UPDATE_AND_DELETE = "update-and-delete";
 
+// Replaced by useQuery hook from ReactQuery
 export async function getSubTasks (parentTaskId: string) {
 	let res;
 	let data: SubTask[] = [];

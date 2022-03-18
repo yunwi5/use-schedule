@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/pro-duotone-svg-icons";
 
 import { PlannerTask } from "../../../../models/task-models/Task";
 import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import { getTaskType } from "../../../../utilities/tasks-utils/task-label";
 import { SubTask } from "../../../../models/task-models/SubTask";
+import { getTaskType } from "../../../../utilities/tasks-utils/task-label";
 import Modal from "../../../ui/modal/Modal";
 import SubTaskList from "../../sub-tasks/SubTaskList";
 import TaskDetailInfo from "./TaskDetailInfo";

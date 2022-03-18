@@ -2,6 +2,7 @@ import { MongoClient, ObjectId } from "mongodb";
 
 import { Task } from "../../models/task-models/Task";
 import { TaskProperties } from "../../models/task-models/TaskProperties";
+import { deleteAllSubTasksOfParent } from "./subtask-util";
 
 export async function getTasks (
 	client: MongoClient,
@@ -38,17 +39,6 @@ export async function replaceTask (client: MongoClient, collection: string, task
 
 	console.log("Replace result:", res);
 	return res;
-
-	// 6205f31dce78eeca70b1eb65
-	// 6205f31dce78eeca70b1eb65
-}
-
-export async function deleteTask (client: MongoClient, collection: string, taskId: string) {
-	const db = client.db();
-	const res = await db.collection(collection).deleteOne({ _id: new ObjectId(taskId) });
-
-	console.log("Delete result:", res);
-	return res;
 }
 
 export async function updateTaskProperties (
@@ -66,38 +56,11 @@ export async function updateTaskProperties (
 	return res;
 }
 
-// Replaced by updateTaskProperties
-export async function updateTaskStatus (
-	client: MongoClient,
-	collection: string,
-	taskId: string,
-	newStatus: string
-) {
+export async function deleteTask (client: MongoClient, collection: string, taskId: string) {
 	const db = client.db();
-	const res = await db.collection(collection).updateOne(
-		{ _id: new ObjectId(taskId) },
-		{
-			$set: {
-				status: newStatus
-			}
-		}
-	);
-	console.log("Update result:", res);
-	return res;
-}
+	const res = await db.collection(collection).deleteOne({ _id: new ObjectId(taskId) });
 
-// Replaced by updateTaskProperties
-export async function updateTaskComment (
-	client: MongoClient,
-	collection: string,
-	taskId: string,
-	newComment: string
-) {
-	const db = client.db();
-	const res = await db
-		.collection(collection)
-		.updateOne({ _id: new ObjectId(taskId) }, { $set: { comment: newComment } });
+	await deleteAllSubTasksOfParent(client, taskId); // Delete all of its subtasks
 
-	console.log("Update result:", res);
 	return res;
 }
