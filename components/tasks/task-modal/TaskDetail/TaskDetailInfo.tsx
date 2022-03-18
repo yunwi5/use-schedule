@@ -13,17 +13,17 @@ import {
 	faMemoCircleInfo
 } from "@fortawesome/pro-duotone-svg-icons";
 
-import { PlannerTask } from "../../../models/task-models/Task";
-import Button from "../../ui/Button";
+import { PlannerTask } from "../../../../models/task-models/Task";
+import Button from "../../../ui/Button";
 import {
 	getDateTimeFormat,
 	getDurationFormat,
 	getEndDateTimeFormat,
 	getFullDateFormat
-} from "../../../utilities/time-utils/date-format";
-import { getImportanceValue } from "../../../models/task-models/Status";
-import { ButtonTheme } from "../../../models/design-models";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+} from "../../../../utilities/time-utils/date-format";
+import { getImportanceValue } from "../../../../models/task-models/Status";
+import { ButtonTheme } from "../../../../models/design-models";
+import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
 import classes from "./TaskDetail.module.scss";
 
 function hasSetTime (date: Date) {

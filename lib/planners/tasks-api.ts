@@ -1,7 +1,6 @@
-// import axios from "axios";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { PlannerTask } from "../../models/task-models/Task";
-import { TaskProperties } from "../../utilities/tasks-utils/task-properties";
+import { TaskProperties } from "../../models/task-models/TaskProperties";
 import { Collection } from "../../utilities/mongodb-util/mongodb-constant";
 
 function getCollectionOfPlaner (plannerMode: PlannerMode): Collection {

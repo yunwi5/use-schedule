@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 export interface SubTask {
 	id: string;
 	name: string;
@@ -7,10 +5,4 @@ export interface SubTask {
 	isImportant: boolean;
 	isCompleted: boolean;
 	parentTaskId: string;
-}
-
-export interface SubTaskFormObject {
-	name: string;
-	isImportant: boolean;
-	isCompleted: boolean;
 }

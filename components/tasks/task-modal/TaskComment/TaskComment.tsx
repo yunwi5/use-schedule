@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import classes from "./TaskComment.module.scss";
-import IconEdit from "../../ui/icons/IconEdit";
+import IconEdit from "../../../ui/icons/IconEdit";
 
 interface Props {
 	commentText: string;

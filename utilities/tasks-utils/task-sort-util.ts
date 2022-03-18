@@ -1,4 +1,4 @@
-import { Task, PlannerTask } from "../../models/task-models/Task";
+import { Task } from "../../models/task-models/Task";
 import { TaskSort, SortingDirection } from "../../models/sorting-models";
 import { getImportanceValue } from "../../models/task-models/Status";
 

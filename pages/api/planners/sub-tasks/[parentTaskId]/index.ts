@@ -60,7 +60,6 @@ export default withApiAuthRequired(async function handler (
 		let result;
 		try {
 			result = await insertSubTask(client, SubTaskCollection, subTask); // client, collection, subtask
-			console.log("result:", result);
 		} catch (err) {
 			console.error(err);
 			client.close();

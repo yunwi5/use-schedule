@@ -12,6 +12,14 @@ export const TaskSortList = [
 	TaskSort.IMPORTANCE
 ];
 
+export enum SubTaskSort {
+	IMPORTANCE = "Importance",
+	COMPLETED = "Completed",
+	ORDER = "Added Order"
+}
+
+export const SubTaskSortList = [ SubTaskSort.COMPLETED, SubTaskSort.IMPORTANCE, SubTaskSort.ORDER ];
+
 export enum SortingDirection {
 	Ascending = "ASC",
 	Descending = "DES"

@@ -4,49 +4,58 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faPenToSquare } from "@fortawesome/pro-duotone-svg-icons";
 
 import { SubTask } from "../../../models/task-models/SubTask";
+import { deleteSubTask, postSubtask } from "../../../lib/planners/subtasks-api";
+import { SubTaskSort as SortingStandard, SortingDirection } from "../../../models/sorting-models";
 import SubTaskCard from "./SubTaskCard";
 import SubTaskForm from "./SubTaskForm";
-import { getSubTasks, postSubtask } from "../../../lib/planners/subtasks-api";
+import SubTaskSorter from "./SubTaskSorter";
+import { sortSubTasks } from "../../../utilities/tasks-utils/subtask-sort";
+import LoadingSpinner from "../../ui/design-elements/LoadingSpinner";
 
 interface Props {
 	subTasks: SubTask[];
+	isLoading: boolean;
 	parentTaskId: string;
+	onInvalidate: () => void;
 }
 
 const SubTaskList: React.FC<Props> = (props) => {
-	const { subTasks, parentTaskId } = props;
+	const { subTasks, parentTaskId, isLoading, onInvalidate } = props;
 
 	const [ isEditMode, setIsEditMode ] = useState(false);
-	const [ currentSubTasks, setCurrentSubTasks ] = useState(subTasks);
+	const [ currentSubTasks, setCurrentSubTasks ] = useState(subTasks); // apply CRUD and sorting
 
-	const addSubTaskHandler = (name: string) => {
-		console.log(`Add subtask ${name}`);
+	const addSubTaskHandler = async (name: string) => {
 		const newSubTask: SubTask = {
 			id: uuidv4(),
 			name,
 			isCompleted: false,
 			isImportant: false,
-			order: subTasks.length + 1,
+			order: currentSubTasks.length + 1,
 			parentTaskId
 		};
-		// Returns new array without modifying existing array.
-		setCurrentSubTasks(currentSubTasks.concat(newSubTask));
+		setCurrentSubTasks([ ...currentSubTasks, newSubTask ]);
 
 		// Send http request to add subtask.
-		postSubtask(newSubTask, parentTaskId);
+		await postSubtask(newSubTask, parentTaskId);
+		onInvalidate();
 	};
 
-	const editSubTaskHandler = (subTask: SubTask) => {
-		subTask.parentTaskId = parentTaskId; // Just in case
-		console.log("Updated Task:");
-		// Send http request to update subtask.
-	};
+	const deleteSubTaskHandler = async (id: string) => {
+		if (!id) {
+			console.log("SubTask Id is not set. Therefore, cannot delete!");
+			return;
+		}
+		setCurrentSubTasks(currentSubTasks.filter((sub) => sub.id !== id));
 
-	const deleteSubTaskHandler = (id: string) => {
-		console.log(`Delete id: ${id}`);
-		const filtered = currentSubTasks.filter((sub) => sub.id !== id);
-		setCurrentSubTasks(filtered);
 		// Send http delete request.
+		await deleteSubTask(id);
+		onInvalidate();
+	};
+
+	const sortingHandler = (sortingStand: SortingStandard, direction?: SortingDirection) => {
+		const sortedSubTasks = sortSubTasks([ ...currentSubTasks ], sortingStand, direction);
+		setCurrentSubTasks(sortedSubTasks);
 	};
 
 	useEffect(
@@ -56,51 +65,41 @@ const SubTaskList: React.FC<Props> = (props) => {
 		[ subTasks ]
 	);
 
-	// Not the best approach so far.
-	// Fetching should be done in TaskDetail component, with ReactQuery library help.
-	useEffect(
-		() => {
-			const getInitial = async () => {
-				const { data } = await getSubTasks(parentTaskId);
-				console.log(data);
-				if (data && Array.isArray(data)) {
-					data.sort((subA, subB) => subA.order - subB.order);
-					setCurrentSubTasks(data);
-				}
-			};
-			getInitial();
-		},
-		[ parentTaskId ]
-	);
-
 	return (
 		<div className="mb-3">
-			<div className="text-left md:max-w-[99%] lg:max-w-[95%] cursor-pointer text-slate-600 hover:text-blue-600">
-				{isEditMode ? (
-					<FontAwesomeIcon
-						icon={faCircleCheck}
-						onClick={() => setIsEditMode(false)}
-						className="max-w-[2.5rem] text-3xl text-green-400 hover:text-green-500"
-					/>
-				) : (
-					<FontAwesomeIcon
-						icon={faPenToSquare}
-						className="max-w-[2.5rem] text-3xl"
-						onClick={() => setIsEditMode(true)}
-					/>
-				)}
+			<div className="mb-2 w-[100%] flex items-center justify-between">
+				<div className="text-left cursor-pointer text-slate-600 hover:text-blue-600">
+					{isEditMode ? (
+						<FontAwesomeIcon
+							icon={faCircleCheck}
+							onClick={() => setIsEditMode(false)}
+							className="max-w-[2.5rem] text-3xl text-green-400 hover:text-green-500"
+						/>
+					) : (
+						<FontAwesomeIcon
+							icon={faPenToSquare}
+							className="max-w-[2.5rem] text-3xl"
+							onClick={() => setIsEditMode(true)}
+						/>
+					)}
+				</div>
+				{/* Sorting Select */}
+				<SubTaskSorter onSort={sortingHandler} />
 			</div>
-			<ul className="mb-9">
-				{currentSubTasks.map((subTask) => (
-					<SubTaskCard
-						key={subTask.id}
-						subTask={subTask}
-						isEditMode={isEditMode}
-						onEdit={editSubTaskHandler}
-						onDelete={deleteSubTaskHandler}
-					/>
-				))}
-			</ul>
+			{isLoading && <LoadingSpinner />}
+			{!isLoading && (
+				<ul className="mb-9 max-h-[25rem] overflow-y-scroll">
+					{currentSubTasks.map((subTask) => (
+						<SubTaskCard
+							key={subTask.id}
+							subTask={subTask}
+							isEditMode={isEditMode}
+							onDelete={deleteSubTaskHandler}
+							onInvalidate={onInvalidate}
+						/>
+					))}
+				</ul>
+			)}
 			<SubTaskForm onAdd={addSubTaskHandler} />
 		</div>
 	);

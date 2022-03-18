@@ -1,4 +1,4 @@
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
+import { PlannerMode } from "../planner-models/PlannerMode";
 
 // Interface for updating task obj.
 export interface TaskProperties {
@@ -15,6 +15,14 @@ export interface TaskProperties {
 	dueDateString?: string;
 	plannerType?: PlannerMode;
 	comment?: string;
+}
+
+export interface SubTaskProperties {
+	name?: string;
+	order?: number; // To arrange subtasks in order in the list.
+	isImportant?: boolean;
+	isCompleted?: boolean;
+	parentTaskId?: string;
 }
 
 export function isInstanceofTaskProps (properties: object) {

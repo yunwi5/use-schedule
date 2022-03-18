@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 import { Task } from "../../models/task-models/Task";
-import { TaskProperties } from "../tasks-utils/task-properties";
+import { TaskProperties } from "../../models/task-models/TaskProperties";
 
 export async function getTasks (
 	client: MongoClient,

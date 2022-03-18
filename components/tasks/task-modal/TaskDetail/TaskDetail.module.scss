@@ -1,7 +1,4 @@
-@import "../../../styles/abstract/variables";
-@import "../../../styles/abstract/mixins";
-@import "../../../styles/abstract/buttons";
-
+@import "../../../../styles/main";
 .modal {
 	display: flex;
 	flex-direction: column;

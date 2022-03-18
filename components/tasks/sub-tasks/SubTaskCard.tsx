@@ -5,17 +5,18 @@ import { faCheck, faStar as faStarSolid } from "@fortawesome/pro-solid-svg-icons
 import { faXmark } from "@fortawesome/pro-regular-svg-icons";
 
 import { SubTask } from "../../../models/task-models/SubTask";
+import { patchSubTaskProps } from "../../../lib/planners/subtasks-api";
 import classes from "./SubTaskCard.module.scss";
 
 interface Props {
 	subTask: SubTask;
 	isEditMode: boolean;
-	onEdit: (newTask: SubTask) => void;
 	onDelete: (id: string) => void;
+	onInvalidate: () => void;
 }
 
 const SubTaskCard: React.FC<Props> = (props) => {
-	const { subTask, onEdit, onDelete, isEditMode } = props;
+	const { subTask, onDelete, isEditMode, onInvalidate } = props;
 	const [ currentText, setCurrentText ] = useState<string>(subTask.name);
 	const [ isImportant, setIsImportant ] = useState(subTask.isImportant);
 	const [ isCompleted, setIsCompleted ] = useState(subTask.isCompleted);
@@ -23,40 +24,54 @@ const SubTaskCard: React.FC<Props> = (props) => {
 	const textChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setCurrentText(e.target.value);
 
-	const toggleIsImportant = () => setIsImportant((prev) => !prev);
+	const toggleIsImportant = async () => {
+		const newIsImportant = !isImportant;
+		setIsImportant(newIsImportant);
 
-	const deleteHandler = () => {
-		console.log(`Delete the subtask ${currentText}`);
-		onDelete(subTask.id);
+		// Send PATCH Request
+		await patchSubTaskProps(subTask.id, {
+			isImportant: newIsImportant
+		});
+		onInvalidate();
 	};
 
-	const updateHandler = useCallback(
-		() => {
-			onEdit({ ...subTask, name: currentText, isImportant, isCompleted });
-		},
-		[ subTask, currentText, isImportant, isCompleted, onEdit ]
-	);
+	const toggleIsCompleted = async () => {
+		const newIsCompleted = !isCompleted;
+		setIsCompleted(newIsCompleted);
 
-	const haveSameAttributes = useCallback(
-		() => {
-			return (
-				currentText.trim() === subTask.name &&
-				isImportant === subTask.isImportant &&
-				isCompleted === subTask.isCompleted
-			);
-		},
-		[ currentText, isImportant, isCompleted, subTask ]
-	);
+		// Send PATCH Request.
+		await patchSubTaskProps(subTask.id, {
+			isCompleted: newIsCompleted
+		});
+		onInvalidate();
+	};
 
-	// Update should be handled later on...
+	// Update text only when the edit mode turns from true to false.
 	useEffect(
 		() => {
 			if (isEditMode) return;
-			if (haveSameAttributes()) return;
-			console.log("Send http request when the edit mode is closed");
-			updateHandler();
+			// If the text does not change, do not send any request.
+			if (subTask.name.trim() === currentText.trim()) return;
+
+			const updateName = async () => {
+				// Send PATCH Request
+				const { isSuccess, message } = await patchSubTaskProps(subTask.id, {
+					name: currentText
+				});
+				console.log(`Update SubTask name success: ${isSuccess}, message: ${message}`);
+			};
+			updateName();
 		},
-		[ isEditMode, haveSameAttributes, onEdit, updateHandler ]
+		[ isEditMode, subTask, currentText ]
+	);
+
+	useEffect(
+		() => {
+			setCurrentText(subTask.name);
+			setIsImportant(subTask.isImportant);
+			setIsCompleted(subTask.isCompleted);
+		},
+		[ subTask ]
 	);
 
 	return (
@@ -65,7 +80,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 				className={`md:w-6 md:h-6 lg:w-7 lg:min-w-7 lg:h-7 lg:min-w-7 flex items-center justify-center rounded-full border-2 ${isCompleted
 					? "border-green-300"
 					: "border-slate-300"} cursor-pointer`}
-				onClick={() => setIsCompleted((prev) => !prev)}
+				onClick={toggleIsCompleted}
 			>
 				{isCompleted && (
 					<FontAwesomeIcon icon={faCheck} className={`text-green-500 ${classes.icon}`} />
@@ -78,7 +93,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 							? "line-through text-slate-400"
 							: ""}`}
 					>
-						{subTask.name}
+						{currentText}
 					</p>
 					{isImportant ? (
 						<FontAwesomeIcon
@@ -106,7 +121,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 						className="lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none"
 					/>
 					<FontAwesomeIcon
-						onClick={deleteHandler}
+						onClick={onDelete.bind(null, subTask.id)}
 						icon={faXmark}
 						className={`max-w-sm text-lg text-rose-600 hover:border-rose-600 hover:border-b-[2.5px] ${classes.icon}`}
 					/>
