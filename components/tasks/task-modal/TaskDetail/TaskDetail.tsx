@@ -47,10 +47,7 @@ const TaskDetail: React.FC<Props> = (props) => {
 		console.log(errMessage);
 	}
 
-	let subTasks: SubTask[] = [];
-	if (!error && data) {
-		subTasks = data.subTasks;
-	}
+	let subTasks: SubTask[] = !error && data ? data.subTasks : [];
 
 	return (
 		<Modal onClose={onClose} classes={`text-semibold ${classes.modal}`}>
