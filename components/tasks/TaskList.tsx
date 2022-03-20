@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
 
-import PlannerTaskCard from "./PlannerTaskCard";
+import PlannerTaskCard from "./TaskCard";
 import { PlannerTask, Task } from "../../models/task-models/Task";
 import { applyTaskFilter } from "../../utilities/tasks-utils/filter-util";
 

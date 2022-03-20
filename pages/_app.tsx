@@ -1,8 +1,9 @@
 import type { AppProps } from 'next/app'
+import Head from "next/head";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { Provider } from "react-redux";
-import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import Layout from "../components/layout/Layout";
 import "../styles/globals.scss";
@@ -31,6 +32,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
 					</UserProvider>
 				</NotificationContextProvider>
 			</Provider>
+			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
 }

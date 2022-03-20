@@ -109,8 +109,6 @@
 	&__category {
 		display: flex;
 		align-items: center;
-		padding-right: 1rem;
-		border-right: 2.5px solid $color-primary-dark-3;
 
 		.icon {
 			margin-right: .5rem;
@@ -120,8 +118,8 @@
 
 	&__importance {
 		margin-left: 1rem;
-		padding-right: 1rem;
-		border-right: 2.5px solid $color-primary-dark-3;
+		padding-left: 1rem;
+		border-left: 2.5px solid $color-primary-dark-3;
 		.icon {
 			color: $color-amber-dark-1;
 		}
@@ -129,11 +127,16 @@
 
 	&__status {
 		margin-left: 1rem;
-		margin-right: auto;
+		padding-left: 1rem;
+		border-left: 2.5px solid $color-primary-dark-3;
 
 		.icon {
 			color: inherit;
 		}
+	}
+
+	&__btns {
+		margin-left: auto;
 	}
 
 	&__detail,

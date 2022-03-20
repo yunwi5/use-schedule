@@ -133,7 +133,6 @@ export function getFormTaskObject (
 		subCategory,
 		timeString,
 		dueDateString,
-		// Temporary
 		duration,
 		status: TaskStatus.OPEN
 	};

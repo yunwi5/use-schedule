@@ -95,6 +95,12 @@ export class PlannerTask implements Task {
 		return getDayName(date.getDay());
 	}
 
+	// This should be used instead of day
+	get weekDay (): WeekDay {
+		const date = new Date(this.timeString);
+		return getDayName(date.getDay());
+	}
+
 	get hours () {
 		const date = new Date(this.timeString);
 		return date.getHours();

@@ -1,5 +1,3 @@
-import { getISODateFormat } from "./date-format";
-
 export function addMinutes (date: Date, minutes: number) {
 	const dateCopy = new Date(date);
 	dateCopy.setMinutes(dateCopy.getMinutes() + minutes);

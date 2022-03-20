@@ -19,7 +19,7 @@ export const WeekDayList = [
 	WeekDay.SATURDAY
 ];
 
-// This is for user interface
+// This is for user interface only
 // This includes any
 export const WeekDayListFromMonday = [
 	WeekDay.MONDAY,

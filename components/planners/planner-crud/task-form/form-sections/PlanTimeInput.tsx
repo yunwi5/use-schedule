@@ -5,12 +5,12 @@ import { UseFormRegister } from "react-hook-form";
 import {
 	FormValues,
 	getInitialDateTimeInput
-} from "../../../../utilities/form-utils/task-form-util";
-import { Task } from "../../../../models/task-models/Task";
-import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import { getPlannerLabel } from "../../../../utilities/gen-utils/label-util";
-import classes from "./TaskForm.module.scss";
+} from "../../../../../utilities/form-utils/task-form-util";
+import { Task } from "../../../../../models/task-models/Task";
+import { PlannerMode } from "../../../../../models/planner-models/PlannerMode";
+import { getPlannerLabel } from "../../../../../utilities/gen-utils/label-util";
 import MonthDateInput from "./time-inputs/MonthDateInput";
+import classes from "../TaskForm.module.scss";
 
 interface Props {
 	initialTask?: Task;

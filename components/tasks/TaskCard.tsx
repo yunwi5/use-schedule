@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faAlarmClock,
@@ -63,13 +62,12 @@ function getCardDateTimeFormat (task: PlannerTask) {
 	return { planDateFormat, dueDateFormat };
 }
 
-const PlannerTaskCard: React.FC<Props> = (props) => {
+const TaskCard: React.FC<Props> = (props) => {
 	const { task: initialTask, beginningPeriod, onMutate } = props;
 
 	const [ task, setTask ] = useState(initialTask);
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ showDetail, setShowDetail ] = useState(false);
-
 	const [ showComment, setShowComment ] = useState(false);
 
 	const { dueDate, category, subCategory, importance, status, comment } = task;
@@ -123,6 +121,7 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 
 	const { planDateFormat, dueDateFormat } = getCardDateTimeFormat(task);
 
+	const hideStatus = task.plannerType === PlannerMode.TEMPLATE;
 	// Status color indicator
 	const statusClass = "status-" + status.toLowerCase().replace(" ", "");
 
@@ -182,14 +181,16 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 				<p className={classes.task__dueDate}>
 					{dueDate && <Fragment>(due {dueDateFormat})</Fragment>}
 				</p>
-				{/* Status Control */}
-				<select
-					onChange={statusChangeHandler}
-					className={classes.task__select}
-					defaultValue={status}
-				>
-					{TaskStatusList.map((status) => <option key={status}>{status}</option>)}
-				</select>
+				{/* Status Control. Displayed if it is not template task. */}
+				{!hideStatus && (
+					<select
+						onChange={statusChangeHandler}
+						className={classes.task__select}
+						defaultValue={status}
+					>
+						{TaskStatusList.map((status) => <option key={status}>{status}</option>)}
+					</select>
+				)}
 			</div>
 			{/* Body */}
 			<div className={`${classes.task__body}`}>
@@ -207,14 +208,16 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 					<FontAwesomeIcon icon={faStar} className={`${classes.icon}`} />
 					{importance}
 				</p>
-				<p className={`${classes.task__status} ${statusClass}`}>
-					<FontAwesomeIcon
-						icon={faCircleExclamationCheck}
-						className={`${classes.icon}`}
-					/>
-					{status}
-				</p>
-				<div>
+				{!hideStatus && (
+					<p className={`${classes.task__status} ${statusClass}`}>
+						<FontAwesomeIcon
+							icon={faCircleExclamationCheck}
+							className={`${classes.icon}`}
+						/>
+						{status}
+					</p>
+				)}
+				<div className={`${classes.task__btns}`}>
 					<button className={classes.task__detail} onClick={() => setShowDetail(true)}>
 						<FontAwesomeIcon
 							icon={faMagnifyingGlassPlus}
@@ -232,4 +235,4 @@ const PlannerTaskCard: React.FC<Props> = (props) => {
 	);
 };
 
-export default PlannerTaskCard;
+export default TaskCard;

@@ -4,8 +4,8 @@ import { UseFormRegister } from "react-hook-form";
 import {
 	FormValues,
 	getInitialEndtimeInput
-} from "../../../../utilities/form-utils/task-form-util";
-import classes from "./TaskForm.module.scss";
+} from "../../../../../utilities/form-utils/task-form-util";
+import classes from "../TaskForm.module.scss";
 
 interface Props {
 	register: UseFormRegister<FormValues>;

@@ -48,7 +48,6 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 
 	useEffect(
 		() => {
-			// console.log("Repopulate planner");
 			const newPlanner = populateWeeklyPlanner(initialTasks, currentTimeStamp);
 			setPlanner(newPlanner);
 		},

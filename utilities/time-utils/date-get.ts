@@ -85,20 +85,6 @@ export function getYearEnding (date: Date): Date {
 	return lastYearDay;
 }
 
-export function getTaskPlanTime (
-	weekBeginning: Date,
-	day: WeekDay,
-	hours: number,
-	minutes: number
-): Date {
-	const dayOffset = getDayOffset(day);
-	const planDate = new Date(weekBeginning);
-	planDate.setDate(planDate.getDate() + dayOffset);
-	planDate.setHours(hours);
-	planDate.setMinutes(minutes);
-	return planDate;
-}
-
 // Below 3 functions are not being used at the moment.
 // Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
 export function getMonthWeekBeginning (date: Date): Date {

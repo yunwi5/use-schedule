@@ -2,15 +2,15 @@ import React, { Fragment } from "react";
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { useSelector, RootStateOrAny } from "react-redux";
 
-import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import { Task } from "../../../../models/task-models/Task";
+import { PlannerMode } from "../../../../../models/planner-models/PlannerMode";
+import { Task } from "../../../../../models/task-models/Task";
 import {
 	FormValues,
 	getInitialDurationInput,
 	getDuration,
 	getEndTimeFormatted
-} from "../../../../utilities/form-utils/task-form-util";
-import classes from "./TaskForm.module.scss";
+} from "../../../../../utilities/form-utils/task-form-util";
+import classes from "../TaskForm.module.scss";
 
 interface Props {
 	initialTask?: Task;

@@ -1,10 +1,11 @@
 import { WeekDayListFromMonday } from "../../../models/date-models/WeekDay";
 import { WeeklyPlanner } from "../../../models/planner-models/WeeklyPlanner";
+import { Planner } from "../../../models/planner-models/Planner";
 import TaskListContainer from "../../tasks/TaskListContainer";
 
 interface Props {
 	beginningPeriod: Date;
-	planner: WeeklyPlanner;
+	planner: Planner;
 	onMutate: () => void;
 }
 

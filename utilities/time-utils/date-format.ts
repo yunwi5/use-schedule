@@ -2,10 +2,6 @@ import { addMinutes } from "./date-control";
 
 const ONE_DAY = 60 * 24;
 
-export function getTimeFormat (time: Date) {
-	return `${time.getHours()}:${time.getMinutes()}`;
-}
-
 export function getDurationFormat (minutes: number) {
 	const days = Math.floor(minutes / ONE_DAY);
 
@@ -37,6 +33,10 @@ export function getFullDateFormat (date: Date) {
 	});
 }
 
+export function getTimeFormat (time: Date) {
+	return `${time.getHours()}:${time.getMinutes()}`;
+}
+
 // Used in TaskForm.ts
 export function getISODateFormat (date: Date): string {
 	const dateCpy = new Date(date);
@@ -44,7 +44,7 @@ export function getISODateFormat (date: Date): string {
 	dateCpy.setDate(dateCpy.getDate() + 1);
 	return dateCpy.toISOString().split("T")[0];
 }
-// In testing
+// Used in TaskForm.ts
 export function getISOTimeFormat (date: Date): string {
 	if (!date) return "";
 	let hours = "" + date.getHours();
@@ -62,7 +62,6 @@ export function getUserTimeFormat (date: Date): string {
 	let minutes = "" + date.getMinutes().toString();
 	let suffix = date.getHours() > 12 ? "pm" : "am";
 
-	// if (hours === 0) hours = "12";
 	if (hours.length === 1) hours = "0" + hours;
 	if (minutes.length === 1) minutes = "0" + minutes;
 

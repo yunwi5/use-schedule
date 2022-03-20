@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import { UseFormRegister } from "react-hook-form";
 
-import { FormValues } from "../../../../utilities/form-utils/task-form-util";
-import { Task } from "../../../../models/task-models/Task";
-import { CategoryList, SubCategory } from "../../../../models/task-models/Category";
-import { ImportanceList } from "../../../../models/task-models/Status";
-import classes from "./TaskForm.module.scss";
+import { FormValues } from "../../../../../utilities/form-utils/task-form-util";
+import { Task } from "../../../../../models/task-models/Task";
+import { CategoryList, SubCategory } from "../../../../../models/task-models/Category";
+import { ImportanceList } from "../../../../../models/task-models/Status";
+import classes from "../TaskForm.module.scss";
 
 interface Props {
 	initialTask?: Task;
