@@ -5,4 +5,9 @@ export enum Collection {
 	TEMPLATE_TASKS = "template-tasks"
 }
 
+// export enum SubCollection {
+// 	PLANNER_SUBTASKS = "sub-tasks",
+// 	TEMPLATE_SUBTAKS = "template-sub-tasks"
+// }
+
 export const SubTaskCollection = "sub-tasks";

@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/pro-duotone-svg-icons";
 
 import { PlannerTask } from "../../../../models/task-models/Task";
+import { AbstractTask } from "../../../../models/task-models/AbstractTask";
 import Button from "../../../ui/Button";
 import {
 	getDateTimeFormat,
@@ -33,7 +34,7 @@ function hasSetTime (date: Date) {
 	return !(is12am || isEndOfDay);
 }
 
-function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = "N/A") {
+function getTaskDetailDateTimeFormat (task: AbstractTask, defaultValue: string = "N/A") {
 	let plannedDateFormat = "",
 		dueDateFormat = "",
 		endTimeFormat = "";
@@ -76,7 +77,7 @@ function getTaskDetailDateTimeFormat (task: PlannerTask, defaultValue: string = 
 interface Props {
 	onClose: () => void;
 	onEdit: () => void;
-	task: PlannerTask;
+	task: AbstractTask;
 }
 
 // This component is just for displaying. It does not do any functional stuff.

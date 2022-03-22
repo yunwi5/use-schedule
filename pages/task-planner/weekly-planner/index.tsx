@@ -1,21 +1,36 @@
 import type { NextPage } from 'next'
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { getSession } from "@auth0/nextjs-auth0";
-import useSWR from "swr";
+import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 
+import { getTasksFromPage } from '../../../utilities/mongodb-util/pages-util';
+import { Collection } from "../../../utilities/mongodb-util/mongodb-constant";
+import { Task } from '../../../models/task-models/Task';
 import WeeklyPlannerMain from "../../../components/planners/weekly-planner/WeeklyPlanner";
 import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
-import { Collection } from "../../../utilities/mongodb-util/mongodb-constant";
+import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
+import { useQuery, useQueryClient } from 'react-query';
+
+interface Props { 
+	initialTasks: Task[]
+}
 
 const API_DOMIN = "/api/planners";
 const collection = Collection.WEEKLY_TASKS;
 
-const WeeklyPlanner: NextPage = () => {
-	// useSWR() to fetch the data.
-	const { data, error, mutate } = useSWR(`${API_DOMIN}?collection=${collection}`, (url) =>
-		fetch(url).then((res) => res.json())
-	);
+async function getTasks() {
+	return fetch(`${API_DOMIN}?collection=${collection}`).then((res) => res.json());
+}
+
+const WeeklyPlanner: NextPage<Props> = (props) => {
+	const {initialTasks} = props;
+	const queryClient = useQueryClient();
+	const {data, isLoading, error} =  useQuery('tasks', getTasks, {initialData: {tasks: initialTasks}});
+
+	const invalidateData = () => {
+		queryClient.invalidateQueries('tasks');
+	}
+
 	if (error) console.error(error);
 
 	let tasks = [];
@@ -30,41 +45,38 @@ const WeeklyPlanner: NextPage = () => {
 					content="Weekly task planner for users to manage and allocate their tasks"
 				/>
 			</Head>
-			{!data && (
+			{isLoading && (
 				<div className="flex justify-center items-center" style={{marginLeft: '50px', marginTop: '80px'}}>
 					<LoadingSpinner />
 				</div>
 			)}
-			{data && tasks && <WeeklyPlannerMain weeklyTasks={tasks} onMutate={mutate} />}
+			{data && tasks && <WeeklyPlannerMain weeklyTasks={tasks} onMutate={invalidateData} />}
 		</div>
 	);
 };
 
 export default WeeklyPlanner;
 
-// Need this?
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { req, res } = context;
-	const session = getSession(req, res);
-	if (!session || (session && !session.user)) {
-		return {
-			redirect: {
-				destination: "/",
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+	async getServerSideProps (context) {
+		const {req, res} = context;
+		const session = getSession(req, res);
+		if (!session) return {
+			redirect: { 
+				destination: "/login",
 				permanent: false
 			}
-		};
-	}
-
-	//  const response = await fetch("http://localhost:3000/api/planners/weekly-planners", {
-	//   headers: {
-	//     cookie: req.headers.cookie || "",
-	//   },
-	// });
-	// const data = await response.json();
-
-	return {
-		props: {
-			message: "Hi client!"
 		}
-	};
-};
+		
+		const userId = session.user.sub;
+		
+		const data = await getTasksFromPage(Collection.WEEKLY_TASKS, userId);
+		const userTasks = convertToTasks(data);
+		console.log('From server');
+		console.log(userTasks);
+
+		return { props: {
+			initialTasks: userTasks
+		}};
+	}
+});

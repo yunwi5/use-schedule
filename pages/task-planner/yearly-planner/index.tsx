@@ -1,26 +1,40 @@
 import type { NextPage } from 'next'
-import Head from "next/head";
 import { GetServerSideProps } from "next";
-import { getSession } from "@auth0/nextjs-auth0";
-import useSWR from "swr";
+import Head from "next/head";
+import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-import YearlyPlanner from "../../../components/planners/yearly-planner/YearlyPlanner";
-import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
+import { getTasksFromPage } from '../../../utilities/mongodb-util/pages-util';
 import { Collection } from "../../../utilities/mongodb-util/mongodb-constant";
+import { Task } from '../../../models/task-models/Task';
+import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
+import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
+import { useQuery, useQueryClient } from 'react-query';
+import YearlyPlannerMain from '../../../components/planners/yearly-planner/YearlyPlanner';
+
+interface Props { 
+	initialTasks: Task[]
+}
 
 const API_DOMIN = "/api/planners";
 const collection = Collection.YEARLY_TASKS;
 
-const WeeklyPlanner: NextPage = () => {
-	// useSWR() to fetch the data.
-	const { data, error, mutate } = useSWR(`${API_DOMIN}?collection=${collection}`, (url) =>
-		fetch(url).then((res) => res.json())
-	);
+async function getTasks() {
+	return fetch(`${API_DOMIN}?collection=${collection}`).then((res) => res.json());
+}
+
+const YearlyPlanner: NextPage<Props> = (props) => {
+	const {initialTasks} = props;
+	const queryClient = useQueryClient();
+	const {data, isLoading, error} =  useQuery('tasks', getTasks, {initialData: {tasks: initialTasks}});
+
+	const invalidateData = () => {
+		queryClient.invalidateQueries('tasks');
+	}
+
 	if (error) console.error(error);
 
 	let tasks = [];
 	if (data) tasks = data.tasks;
-	// console.log("swr tasks:", tasks);
 
 	return (
 		<div>
@@ -31,33 +45,37 @@ const WeeklyPlanner: NextPage = () => {
 					content="Yearly task planner for users to manage and allocate their tasks"
 				/>
 			</Head>
-			{!data && (
+			{!data || isLoading && (
 				<div className="flex justify-center items-center" style={{marginLeft: '50px', marginTop: '80px'}}>
 					<LoadingSpinner />
 				</div>
 			)}
-			{data && tasks && <YearlyPlanner yearlyTasks={tasks} onMutate={mutate} />}
+			{data && tasks && <YearlyPlannerMain yearlyTasks={tasks} onMutate={invalidateData} />}
 		</div>
 	);
 };
 
-export default WeeklyPlanner;
+export default YearlyPlanner;
 
 // Need this?
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { req, res } = context;
-	const session = getSession(req, res);
-	if (!session || (session && !session.user)) {
-		return {
-			redirect: {
-				destination: "/",
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+	async getServerSideProps (context) {
+		const {req, res} = context;
+		const session = getSession(req, res);
+		if (!session) return {
+			redirect: { 
+				destination: "/login",
 				permanent: false
 			}
-		};
-	}
-	return {
-		props: {
-			message: "Hi Client!"
 		}
-	};
-};
+		
+		const userId = session.user.sub;
+		
+		const data = await getTasksFromPage(Collection.YEARLY_TASKS, userId);
+		const userTasks = convertToTasks(data);
+
+		return { props: {
+			initialTasks: userTasks
+		}};
+	}
+});

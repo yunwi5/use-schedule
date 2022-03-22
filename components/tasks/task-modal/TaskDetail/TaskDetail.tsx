@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/pro-duotone-svg-icons";
 
-import { PlannerTask } from "../../../../models/task-models/Task";
+import { AbstractTask } from "../../../../models/task-models/AbstractTask";
 import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
 import { SubTask } from "../../../../models/task-models/SubTask";
 import { getTaskType } from "../../../../utilities/tasks-utils/task-label";
@@ -17,7 +17,7 @@ interface Props {
 	onClose: () => void;
 	onEdit: () => void;
 	onDelete: () => void;
-	task: PlannerTask;
+	task: AbstractTask;
 }
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners/sub-tasks`;

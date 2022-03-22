@@ -18,14 +18,18 @@ export default withApiAuthRequired(async function handler (
 		return res.status(401).json({ message: "Unauthorized. You need to login first." });
 	}
 
-	const { subTaskId: initialSubTaskId } = req.query;
+	const { subTaskId: initialSubTaskId, collection: initialCollection } = req.query;
 	if (!initialSubTaskId) {
 		return res.status(404).json({ message: "Your subTaskId cannot be found." });
 	}
-
 	const subTaskId = Array.isArray(initialSubTaskId)
 		? initialSubTaskId.join("")
 		: initialSubTaskId;
+
+	let collection = Array.isArray(initialCollection)
+		? initialCollection.join("")
+		: initialCollection;
+	if (!collection) collection = SubTaskCollection; // Default collection is SubTaskCollection
 
 	let client: MongoClient;
 	try {
@@ -39,7 +43,7 @@ export default withApiAuthRequired(async function handler (
 		const updateProps = JSON.parse(req.body);
 		let result, message: string;
 		try {
-			result = await updateSubTaskProps(client, SubTaskCollection, subTaskId, updateProps);
+			result = await updateSubTaskProps(client, collection, subTaskId, updateProps);
 			// console.log("Patch subTask result:", result);
 		} catch (err) {
 			message = err instanceof Error ? err.message : "Patching subTask did not work.";
@@ -50,7 +54,7 @@ export default withApiAuthRequired(async function handler (
 	} else if (req.method === "DELETE") {
 		let result;
 		try {
-			result = await deleteSubTask(client, SubTaskCollection, subTaskId);
+			result = await deleteSubTask(client, collection, subTaskId);
 			// console.log("Delete result:", result);
 		} catch (err) {
 			console.error(err);

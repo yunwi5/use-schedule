@@ -42,6 +42,7 @@ export abstract class AbstractTask implements Task {
 
 	abstract get planDateFormat (): string;
 	abstract get dueDateFormat (): string;
+	abstract get durationFormat (): string;
 
 	get dateTime () {
 		return new Date(this.timeString);

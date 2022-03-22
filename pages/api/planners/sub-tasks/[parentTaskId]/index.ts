@@ -24,12 +24,14 @@ export default withApiAuthRequired(async function handler (
 
 	console.log("sub-tasks endpoint reached.");
 
-	const userId = session.user.sub;
-	const { parentTaskId: initialParentTaskId } = req.query;
+	const { parentTaskId: initialParentTaskId, collection: initialCollection } = req.query;
 	let parentTaskId = Array.isArray(initialParentTaskId)
-		? initialParentTaskId.join("")
-		: initialParentTaskId;
+	? initialParentTaskId.join("")
+	: initialParentTaskId;
 
+	let collection = Array.isArray(initialCollection) ? initialCollection.join('') : initialCollection;
+	if (!collection) collection = SubTaskCollection; // Default collection is SubTaskCollection	
+	
 	let client: MongoClient;
 	try {
 		client = await connectDatabase();
@@ -42,7 +44,7 @@ export default withApiAuthRequired(async function handler (
 	if (req.method === "GET") {
 		let data: SubTask[];
 		try {
-			let result = await getSubTasks(client, SubTaskCollection, parentTaskId);
+			let result = await getSubTasks(client, collection, parentTaskId);
 			data = covertToSubTasks(result);
 			console.log("Get (sub-tasks) data:", data);
 		} catch (err) {
@@ -59,7 +61,7 @@ export default withApiAuthRequired(async function handler (
 
 		let result;
 		try {
-			result = await insertSubTask(client, SubTaskCollection, subTask); // client, collection, subtask
+			result = await insertSubTask(client, collection, subTask); // client, collection, subtask
 		} catch (err) {
 			console.error(err);
 			client.close();

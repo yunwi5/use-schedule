@@ -24,7 +24,7 @@ const SideNav: React.FC<Props> = ({ onToggleSidebar, showSidebar }) => {
 	const templateItems = [
 		{
 			name: "+ Add New",
-			link: "/"
+			link: "/templates/new"
 		}
 	];
 	const dataAnalysisItems = [

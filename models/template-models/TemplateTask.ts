@@ -1,6 +1,8 @@
-import { AbstractTask } from "./AbstractTask";
+import { AbstractTask } from "../task-models/AbstractTask";
+import { Task } from "../task-models/Task";
 import { PlannerMode } from "../planner-models/PlannerMode";
-import { Task } from "./Task";
+import { getISOTimeFormat } from "../../utilities/time-utils/date-format";
+import { addMinutes } from "../../utilities/time-utils/date-control";
 
 export class TemplateTask extends AbstractTask {
 	templateId: string;
@@ -9,6 +11,21 @@ export class TemplateTask extends AbstractTask {
 		super({ ...taskObj, plannerType: PlannerMode.TEMPLATE });
 		this.templateId = templateId;
 	}
+
+	get durationFormat (): string {
+		if (!this.duration) return "";
+
+		let endTime: null | Date = null;
+		if (this.duration) endTime = addMinutes(this.dateTime, this.duration);
+
+		const startTimeFormat = getISOTimeFormat(this.dateTime);
+		const endTimeFormat = endTime && getISOTimeFormat(endTime);
+		const planDateFormat = endTimeFormat
+			? `${startTimeFormat} ~ ${endTimeFormat}`
+			: startTimeFormat;
+		return planDateFormat;
+	}
+
 	get planDateFormat (): string {
 		if (this.isAnyDateTime) return "Any Time";
 
@@ -23,7 +40,7 @@ export class TemplateTask extends AbstractTask {
 	}
 
 	get dueDateFormat (): string {
-		if (!this.dueDate || !this.dueDateHours || !this.minutes) return "N/A";
+		if (!this.dueDate || !this.dueDateHours || !this.minutes) return "";
 
 		let label = "am";
 		let dueHour = this.dueDateHours;
