@@ -1,6 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { SubTask } from "../../models/task-models/SubTask";
-import { SubTaskCollection } from "./mongodb-constant";
 
 export async function getSubTasks (client: MongoClient, collection: string, parentTaskId: string) {
 	const db = client.db();
@@ -34,9 +33,12 @@ export async function deleteSubTask (client: MongoClient, collection: string, su
 }
 
 // Confirm it is Working.
-export async function deleteAllSubTasksOfParent (client: MongoClient, parentTaskId: string) {
+export async function deleteAllSubTasksOfParent (
+	client: MongoClient,
+	collection: string,
+	parentTaskId: string
+) {
 	const db = client.db();
-	const res = await db.collection(SubTaskCollection).deleteMany({ parentTaskId });
-	console.log("Delete Many:", res);
+	const res = await db.collection(collection).deleteMany({ parentTaskId });
 	return res;
 }

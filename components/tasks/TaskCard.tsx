@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { useSelector, RootStateOrAny } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faAlarmClock,
@@ -15,6 +16,7 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import TaskDetail from "./task-modal/TaskDetail/TaskDetail";
 import TaskComment from "./task-modal/TaskComment/TaskComment";
 import PlannerTaskEdit from "../planners/planner-crud/PlannerTaskEdit";
+import { AbstractTask } from "../../models/task-models/AbstractTask";
 import { PlannerTask } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
@@ -25,12 +27,12 @@ import { updateTaskProperties } from "../../lib/planners/tasks-api";
 import classes from "./TaskCard.module.scss";
 
 interface Props {
-	task: PlannerTask;
+	task: AbstractTask;
 	beginningPeriod: Date;
 	onMutate: () => void;
 }
 
-function getCardDateTimeFormat (task: PlannerTask) {
+function getCardDateTimeFormat (task: AbstractTask) {
 	let planDateFormat: null | string = "",
 		dueDateFormat: null | string = "";
 	const plannerType = task.plannerType;
@@ -71,6 +73,7 @@ const TaskCard: React.FC<Props> = (props) => {
 	const [ showComment, setShowComment ] = useState(false);
 
 	const { dueDate, category, subCategory, importance, status, comment } = task;
+	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 
 	const updateTaskHandler = (updatedTask?: PlannerTask) => {
 		onMutate();
@@ -92,11 +95,7 @@ const TaskCard: React.FC<Props> = (props) => {
 
 	const updateStatusHandler = async (newStatus: TaskStatus) => {
 		// API call
-		await updateTaskProperties(
-			task.id,
-			{ status: newStatus },
-			task.plannerType || PlannerMode.WEEKLY
-		);
+		await updateTaskProperties(task.id, { status: newStatus }, task.plannerType || plannerMode);
 		onMutate();
 	};
 
@@ -107,7 +106,7 @@ const TaskCard: React.FC<Props> = (props) => {
 		await updateTaskProperties(
 			task.id,
 			{ comment: newComment },
-			task.plannerType || PlannerMode.WEEKLY
+			task.plannerType || plannerMode
 		);
 	};
 

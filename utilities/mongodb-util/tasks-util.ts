@@ -2,6 +2,7 @@ import { MongoClient, ObjectId } from "mongodb";
 
 import { Task } from "../../models/task-models/Task";
 import { TaskProperties } from "../../models/task-models/TaskProperties";
+import { SubTaskCollection } from "./mongodb-constant";
 import { deleteAllSubTasksOfParent } from "./subtask-util";
 
 export async function getTasks (
@@ -60,7 +61,7 @@ export async function deleteTask (client: MongoClient, collection: string, taskI
 	const db = client.db();
 	const res = await db.collection(collection).deleteOne({ _id: new ObjectId(taskId) });
 
-	await deleteAllSubTasksOfParent(client, taskId); // Delete all of its subtasks
+	await deleteAllSubTasksOfParent(client, SubTaskCollection, taskId); // Delete all of its subtasks
 
 	return res;
 }
