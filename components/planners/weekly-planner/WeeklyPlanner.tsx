@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import IntroPanel from "../planner-nav/IntroPanel";
-import PlannerHeader from "../planner-nav/PlannerHeader";
-import WeeklyTable from "./WeeklyTable";
 import { plannerActions } from "../../../store/redux/planner-slice";
 import { isSameWeek } from "../../../utilities/time-utils/date-classify";
 import { PlannerTask, Task } from "../../../models/task-models/Task";
@@ -12,6 +9,10 @@ import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get"
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
+import IntroPanel from "../planner-nav/IntroPanel";
+import PlannerHeader from "../planner-nav/PlannerHeader";
+import WeeklyTable from "./WeeklyTable";
+import PlannerCard from "../../ui/cards/PlannerCard";
 
 interface Props {
 	weeklyTasks: Task[];
@@ -68,7 +69,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 	};
 
 	return (
-		<main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">
+		<PlannerCard>
 			<IntroPanel
 				title={"Weekly Planner"}
 				message={
@@ -87,7 +88,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 					/>
 				)}
 			</div>
-		</main>
+		</PlannerCard>
 	);
 };
 

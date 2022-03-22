@@ -12,6 +12,7 @@ import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { getCurrentYearBeginning } from "../../../utilities/time-utils/date-get";
 import { isSameYear } from "../../../utilities/time-utils/date-classify";
 import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
+import PlannerCard from "../../ui/cards/PlannerCard";
 
 interface Props {
 	yearlyTasks: Task[];
@@ -69,7 +70,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 	};
 
 	return (
-		<main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">
+		<PlannerCard>
 			<IntroPanel
 				title="Yearly Planner"
 				message="Make your year strong and compact with timeply planned yearly goals added on your scheduler. Feel free to see the analytics of your week done by our statistical analysis."
@@ -86,7 +87,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 					/>
 				)}
 			</div>
-		</main>
+		</PlannerCard>
 	);
 };
 

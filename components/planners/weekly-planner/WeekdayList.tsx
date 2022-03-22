@@ -1,5 +1,4 @@
 import { WeekDayListFromMonday } from "../../../models/date-models/WeekDay";
-import { WeeklyPlanner } from "../../../models/planner-models/WeeklyPlanner";
 import { Planner } from "../../../models/planner-models/Planner";
 import TaskListContainer from "../../tasks/TaskListContainer";
 
@@ -15,15 +14,19 @@ const WeekdayList: React.FC<Props> = (props) => {
 	return (
 		// This component will need to be centered
 		<div className="ml-5">
-			{WeekDayListFromMonday.map((day, idx) => (
-				<TaskListContainer
-					key={idx}
-					beginningPeriod={beginningPeriod}
-					planner={planner}
-					index={idx}
-					onMutate={onMutate}
-				/>
-			))}
+			{WeekDayListFromMonday.map((day, idx) => {
+				const tasks = planner.getTasks(day);
+
+				return (
+					<TaskListContainer
+						key={idx}
+						beginningPeriod={beginningPeriod}
+						index={idx}
+						onMutate={onMutate}
+						tasks={tasks}
+					/>
+				);
+			})}
 		</div>
 	);
 };

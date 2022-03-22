@@ -1,7 +1,6 @@
 import TableNav from "../planner-nav/TableNav";
 import WeekdayList from "./WeekdayList";
 import { WeeklyPlanner } from "../../../models/planner-models/WeeklyPlanner";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 
 interface Props {
 	weekBeginning: Date;

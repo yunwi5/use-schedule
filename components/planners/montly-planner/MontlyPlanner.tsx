@@ -12,6 +12,7 @@ import { getCurrentMonthBeginning } from "../../../utilities/time-utils/date-get
 import { isSameMonth, isSameYear } from "../../../utilities/time-utils/date-classify";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
+import PlannerCard from "../../ui/cards/PlannerCard";
 
 interface Props {
 	// Not constructed as planner tasks yet.
@@ -70,7 +71,7 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
 	};
 
 	return (
-		<main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">
+		<PlannerCard>
 			<IntroPanel
 				title="Montly Planner"
 				message="Make your month strong and facinating with regularly planned montly goals and schedules. Feel free to see the analytics of your week done by our statistical analysis."
@@ -87,7 +88,7 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
 					/>
 				)}
 			</div>
-		</main>
+		</PlannerCard>
 	);
 };
 

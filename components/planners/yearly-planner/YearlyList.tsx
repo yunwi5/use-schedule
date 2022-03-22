@@ -14,15 +14,19 @@ const YearlyList: React.FC<Props> = (props) => {
 	return (
 		// This component will need to be centered
 		<div className="ml-5">
-			{MonthListFromJan.map((month, idx) => (
-				<TaskListContainer
-					key={idx}
-					beginningPeriod={beginningPeriod}
-					planner={planner}
-					index={idx}
-					onMutate={onMutate}
-				/>
-			))}
+			{MonthListFromJan.map((month, idx) => {
+				const tasks = planner.getTasks(month);
+
+				return (
+					<TaskListContainer
+						key={idx}
+						beginningPeriod={beginningPeriod}
+						index={idx}
+						onMutate={onMutate}
+						tasks={tasks}
+					/>
+				);
+			})}
 		</div>
 	);
 };

@@ -1,6 +1,7 @@
 import { MontlyPlanner } from "../../../models/planner-models/MontlyPlanner";
 import TaskListContainer from "../../tasks/TaskListContainer";
 import {
+	getWeekFromIndex,
 	getWeekNumber,
 	WeekNumber,
 	WeekNumberListFromWeek1
@@ -17,7 +18,6 @@ const MontlyList: React.FC<Props> = (props) => {
 	const { beginningPeriod, planner, onMutate } = props;
 
 	const numberOfWeeks = getNumberOfWeeks(beginningPeriod);
-	// console.log(`numberOfWeeks: ${numberOfWeeks}`);
 
 	return (
 		// This component will need to be centered
@@ -28,13 +28,16 @@ const MontlyList: React.FC<Props> = (props) => {
 
 				if (!isWeekAny && currentWeekNumber > numberOfWeeks) return;
 
+				const weekNumber: WeekNumber = getWeekFromIndex(idx);
+				const tasks = planner.getTasks(weekNumber);
+
 				return (
 					<TaskListContainer
 						key={idx}
 						beginningPeriod={beginningPeriod}
-						planner={planner}
 						index={idx}
 						onMutate={onMutate}
+						tasks={tasks}
 					/>
 				);
 			})}

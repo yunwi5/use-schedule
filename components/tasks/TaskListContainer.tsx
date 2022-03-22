@@ -14,12 +14,13 @@ import { getShortName } from "../../utilities/gen-utils/string-util";
 import { sortTaskByTime } from "../../utilities/tasks-utils/sort-util";
 import { getMonthEnding } from "../../utilities/time-utils/date-get";
 import { getDaySuffixed } from "../../utilities/gen-utils/format-util";
+import { Task } from "../../models/task-models/Task";
 
 interface Props {
 	beginningPeriod: Date;
-	planner: Planner;
 	index: number;
 	onMutate: () => void;
+	tasks: Task[];
 }
 
 function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, index: number) {
@@ -83,32 +84,14 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 	return { labelMain, labelSub, headingText };
 }
 
-function getPeriodIndicator (plannerMode: PlannerMode, index: number) {
-	switch (plannerMode) {
-		case PlannerMode.WEEKLY:
-			return getWeekDayFromIndex(index);
-		case PlannerMode.MONTLY:
-			return getWeekFromIndex(index);
-		case PlannerMode.YEARLY:
-			return getMonthFromIndex(index);
-		default:
-			return "";
-	}
-}
-
 const TaskListContainer: React.FC<Props> = (props) => {
-	const { beginningPeriod, planner, index, onMutate } = props;
+	const { beginningPeriod, index, onMutate, tasks } = props;
 	const [ isShrinked, setIsShrinked ] = useState(false);
 
 	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 
-	const currentPeriodIndicator = getPeriodIndicator(plannerMode, index);
-
 	// Possibly needs to be validated
-	const sortedTasksList = useMemo(
-		() => planner.getTasks(currentPeriodIndicator).sort(sortTaskByTime),
-		[ planner, currentPeriodIndicator ]
-	);
+	const sortedTasksList = useMemo(() => tasks.sort(sortTaskByTime), [ tasks ]);
 
 	const { labelMain, labelSub, headingText } = getHeadingLabels(
 		plannerMode,
