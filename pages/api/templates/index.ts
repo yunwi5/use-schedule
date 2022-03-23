@@ -33,6 +33,7 @@ async function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
 		// Get all templates of the user.
 	} else if (req.method === "POST") {
 		const template = req.body;
+		template.userId = userId;
 		let result;
 		try {
 			result = await insertTemplate(client, template);

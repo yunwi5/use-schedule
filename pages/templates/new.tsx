@@ -1,14 +1,15 @@
 // import type {NextPage} from 'next'
-import { useState } from "react";
+import { useState, useDebugValue } from "react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
 
 import { TemplateFormObj, Template } from "../../models/template-models/Template";
 import { Collection } from "../../utilities/mongodb-util/mongodb-constant";
 import TemplatePlanner from "../../components/templates/TemplatePlanner";
 import { Task } from "../../models/task-models/Task";
+import { patchTemplate, postTemplate } from "../../lib/templates/templates-api";
 
 const API_TEMPLATE_DOMAIN = "/api/templates";
 
@@ -31,10 +32,12 @@ async function getTemplateTasks (context: any) {
 interface Props {
 	userId: string;
 	template: null;
+	user: Claims;
 }
 
-const New: React.FC<Props> = ({ userId }) => {
+const New: React.FC<Props> = ({ userId, user }) => {
 	const [ templateId, setTemplateId ] = useState<string>("");
+	useDebugValue(templateId);
 
 	const queryClient = useQueryClient();
 	const { data: templateData, isLoading: isTemplateLoading, error: templateError } = useQuery(
@@ -45,15 +48,15 @@ const New: React.FC<Props> = ({ userId }) => {
 		}
 	);
 	const template: Template | null = templateData ? templateData.template : null;
-	if (templateError) {
+	if (!!templateError) {
 		console.error("Template query has errors!");
 		console.log(templateError);
 	}
 
 	const { data: taskData, isLoading: isTasksLoading, error: tasksError } = useQuery(
-		[ "template-tasks", templateId ],
+		[ "templateTasks", templateId ],
 		getTemplateTasks,
-		{ enabled: !!templateId }
+		{ enabled: false } // false for now, since the API is not implemented yet.
 	);
 	const templateTasks: Task[] = taskData ? taskData.tasks : null;
 	if (tasksError) {
@@ -61,22 +64,30 @@ const New: React.FC<Props> = ({ userId }) => {
 		console.log(tasksError);
 	}
 
-	const mutateTemplate = (newTemplate: TemplateFormObj, isNew: boolean = true) => {
-		newTemplate.userId = userId;
+	const mutateTemplate = async (tempObj: TemplateFormObj, isNew: boolean = true) => {
 		// http request to post new template.
-		console.log("newTemplate:", newTemplate);
-
 		if (isNew) {
+			const newTemplate = { ...tempObj, userId };
 			// Send POST Request
 			// Unique Id will be retried as a reponse from the server.
+			const { isSuccess, message, insertedId } = await postTemplate(newTemplate);
+			console.log(message);
+			if (isSuccess || insertedId) {
+				setTemplateId(insertedId);
+			}
 		} else {
+			if (!templateId) return;
 			// Send PUT Request
 			// Invalidate query then.
+			const { isSuccess, message } = await patchTemplate(templateId, tempObj);
+			console.log("message:", message);
 			queryClient.invalidateQueries("template");
 		}
 	};
 
-	const invalidateTemplateTasks = () => {};
+	const invalidateTemplateTasks = () => {
+		queryClient.invalidateQueries("templateTasks");
+	};
 
 	return (
 		<div>
@@ -115,7 +126,6 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 				}
 			};
 		}
-
 		const userId = session.user.sub;
 		return {
 			props: {

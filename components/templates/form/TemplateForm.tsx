@@ -38,8 +38,6 @@ const TemplateForm: React.FC<Props> = ({ onSubmit, isNew, initialTemplate }) => 
 		onSubmit(newTemplate, isNew);
 	};
 
-	console.log("errors:", errors);
-
 	return (
 		<form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
 			<div className={`${classes.control} ${classes.name}`}>

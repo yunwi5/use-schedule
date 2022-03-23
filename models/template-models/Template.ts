@@ -14,3 +14,11 @@ export interface TemplateFormObj {
 	importance: number;
 	userId?: string;
 }
+
+export interface TemplateProperties {
+	id?: string;
+	name: string;
+	description: string;
+	importance: number;
+	userId?: string;
+}
