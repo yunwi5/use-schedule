@@ -13,6 +13,7 @@ import IntroPanel from "../planner-nav/IntroPanel";
 import PlannerHeader from "../planner-nav/PlannerHeader";
 import WeeklyTable from "./WeeklyTable";
 import PlannerCard from "../../ui/cards/PlannerCard";
+import PlannerTableCard from "../../ui/cards/PlannerTableCard";
 
 interface Props {
 	weeklyTasks: Task[];
@@ -76,7 +77,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 					"Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis."
 				}
 			/>
-			<div className="rounded-md border-2 border-slate-200 bg-white mt-8">
+			<PlannerTableCard>
 				<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
 				{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
 				{planner && (
@@ -87,7 +88,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 						onMutate={onMutate}
 					/>
 				)}
-			</div>
+			</PlannerTableCard>
 		</PlannerCard>
 	);
 };

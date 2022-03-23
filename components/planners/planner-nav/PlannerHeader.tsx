@@ -15,10 +15,13 @@ import classes from "./PlannerHeader.module.scss";
 interface Props {
 	beginningPeriod: Date;
 	onMutate: () => void;
+	preventTaskAdd?: {
+		message: string;
+	};
 }
 
 const PlannerHeader: React.FC<Props> = (props) => {
-	const { beginningPeriod, onMutate } = props;
+	const { beginningPeriod, onMutate, preventTaskAdd } = props;
 	const dispatch = useDispatch();
 	const isFolded = useSelector((state: RootStateOrAny) => state.fold.isFolded);
 
@@ -31,6 +34,11 @@ const PlannerHeader: React.FC<Props> = (props) => {
 	const searchHandler = (text: string) => {
 		console.log("search text:", text);
 		dispatch(filterActions.updateSearchWord(text));
+	};
+
+	const taskAddOpener = () => {
+		if (!preventTaskAdd) setIsAdding((prev) => !prev);
+		else alert(preventTaskAdd.message);
 	};
 
 	return (
@@ -65,7 +73,7 @@ const PlannerHeader: React.FC<Props> = (props) => {
 					className={`rounded-md ${classes.btn}`}
 					theme={Theme.PRIMARY}
 					size={Size.MEDIUM}
-					onClick={() => setIsAdding((prev) => !prev)}
+					onClick={taskAddOpener}
 				>
 					+ Add Task
 				</Button>

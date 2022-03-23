@@ -14,6 +14,7 @@ import {
 } from "../../../utilities/time-utils/date-get";
 import { getMonth } from "../../../utilities/time-utils/month-util";
 import { getMonthMember } from "../../../models/date-models/Month";
+import TableNavCard from "../../ui/cards/TableNavCard";
 
 interface Props {
 	beginningPeriod: Date;
@@ -65,7 +66,7 @@ const TableNav: React.FC<Props> = (props) => {
 	const navPeriod = getNavigationPeriod(beginningPeriod, plannerMode);
 
 	return (
-		<div className="mt-2 ml-2 flex items-center justify-between p-3">
+		<TableNavCard>
 			<div className="flex items-center gap-1 text-xl">
 				<FontAwesomeIcon
 					className="text-4xl cursor-pointer max-w-[1.2rem]"
@@ -80,7 +81,7 @@ const TableNav: React.FC<Props> = (props) => {
 				/>
 			</div>
 			<TaskStatusSummary planner={planner} />
-		</div>
+		</TableNavCard>
 	);
 };
 

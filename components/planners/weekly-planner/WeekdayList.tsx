@@ -4,7 +4,7 @@ import TaskListContainer from "../../tasks/TaskListContainer";
 
 interface Props {
 	beginningPeriod: Date;
-	planner: Planner;
+	planner: Planner | null;
 	onMutate: () => void;
 }
 
@@ -15,7 +15,7 @@ const WeekdayList: React.FC<Props> = (props) => {
 		// This component will need to be centered
 		<div className="ml-5">
 			{WeekDayListFromMonday.map((day, idx) => {
-				const tasks = planner.getTasks(day);
+				const tasks = planner ? planner.getTasks(day) : [];
 
 				return (
 					<TaskListContainer
