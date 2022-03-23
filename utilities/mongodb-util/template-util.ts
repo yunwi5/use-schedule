@@ -26,6 +26,16 @@ export async function updateTemplateById (
 	const res = await db
 		.collection(TemplateCollection)
 		.updateOne({ _id: new ObjectId(templateId) }, { $set: templateProps });
-	console.log("Template update result:", res);
+	// console.log("Template update result:", res);
+	return res;
+}
+
+export async function deleteTemplateById (client: MongoClient, templateId: string) {
+	if (!templateId) return "templateId not found.";
+	const db = client.db();
+	const res = await db
+		.collection(TemplateCollection)
+		.deleteOne({ _id: new ObjectId(templateId) });
+	// console.log('Template delete result:', res);
 	return res;
 }
