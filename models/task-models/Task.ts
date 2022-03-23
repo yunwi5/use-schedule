@@ -25,6 +25,7 @@ export interface Task {
 	isAnyDateTime?: boolean;
 	comment?: string;
 	subTasks?: SubTask[];
+	templateId?: string;
 }
 
 export type FormTaskObject = {
@@ -40,6 +41,7 @@ export type FormTaskObject = {
 
 	dueDateString?: string;
 	isAnyDateTime?: boolean;
+	templateId?: string;
 };
 
 export class PlannerTask extends AbstractTask {

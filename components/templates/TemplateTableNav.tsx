@@ -12,7 +12,7 @@ const TemplateTableNav: React.FC<Props> = ({ planner }) => {
 
 	return (
 		<TableNavCard>
-			<p>Template Table</p>
+			<p className="text-xl text-slate-700">Template Table</p>
 			<div className="text-lg">
 				<span className="py-2 px-4 rounded-full bg-slate-50 hover:bg-slate-400 hover:text-slate-50 text-slate-600">
 					{totalTasks} Tasks Total

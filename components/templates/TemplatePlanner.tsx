@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 
 import { TemplateTask } from "../../models/template-models/TemplateTask";
@@ -10,6 +10,8 @@ import PlannerCard from "../ui/cards/PlannerCard";
 import PlannerTableCard from "../ui/cards/PlannerTableCard";
 import PlannerHeader from "../planners/planner-nav/PlannerHeader";
 import TemplateTable from "./TemplateTable";
+import { Task } from "../../models/task-models/Task";
+import TemplateForm from "./form/TemplateForm";
 
 function getTemplateWeekBeginning () {
 	// Template beginning time
@@ -18,22 +20,48 @@ function getTemplateWeekBeginning () {
 	return date;
 }
 
+function populateTemplatePlanner (tasks: Task[], templateWeekBeginning: Date, template: Template) {
+	const planner = new Planner(templateWeekBeginning, template);
+	for (const task of tasks) {
+		if (task.templateId !== template.id) {
+			console.error("task templateId does not match template.id!");
+		}
+		const templateTask = new TemplateTask(task, template.id);
+		planner.addTask(templateTask);
+	}
+
+	return planner;
+}
+
 interface Props {
 	onInvalidateTasks: () => void;
 	onMutateTemplate: (newTemplage: TemplateFormObj, isNew: boolean) => void;
-	templateTasks: TemplateTask[];
+	templateTasks: Task[];
 	template: Template | null;
 }
 
 const TemplatePlanner: React.FC<Props> = (props) => {
-	const { onInvalidateTasks, onMutateTemplate, templateTasks, template } = props;
+	const { onInvalidateTasks, onMutateTemplate, templateTasks: initialTasks, template } = props;
 	const [ planner, setPlanner ] = useState<Planner | null>(null);
 
 	const dispatch = useDispatch();
-	const templateWeekBeginning = getTemplateWeekBeginning();
+	const templateWeekBeginning = useMemo(() => getTemplateWeekBeginning(), []);
 
 	dispatch(plannerActions.setBeginningPeriod(templateWeekBeginning.toString()));
 	// No need to navigate between different weeks and period, bc this is a template planner.
+
+	useEffect(
+		() => {
+			if (!template) return;
+			const newPlanner = populateTemplatePlanner(
+				initialTasks,
+				templateWeekBeginning,
+				template
+			);
+			setPlanner(newPlanner);
+		},
+		[ templateWeekBeginning, initialTasks, template ]
+	);
 
 	// Only runs on mount.
 	useEffect(() => {
@@ -42,7 +70,7 @@ const TemplatePlanner: React.FC<Props> = (props) => {
 
 	return (
 		<PlannerCard>
-			<div>TemplatePlanner</div>
+			<TemplateForm onSubmit={onMutateTemplate} isNew={!template} />
 			<PlannerTableCard>
 				<PlannerHeader
 					beginningPeriod={templateWeekBeginning}

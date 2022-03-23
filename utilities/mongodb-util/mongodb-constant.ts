@@ -11,3 +11,5 @@ export enum Collection {
 // }
 
 export const SubTaskCollection = "sub-tasks";
+
+export const TemplateCollection = "templates";

@@ -39,17 +39,8 @@ function getCardDateTimeFormat (task: AbstractTask) {
 
 	switch (plannerType) {
 		case PlannerMode.WEEKLY:
-			let endTime: null | Date = null;
-			if (task.duration) endTime = addMinutes(task.dateTime, task.duration);
-
-			const startTimeFormat = getISOTimeFormat(task.dateTime);
-			if (!task.dateTime) {
-				console.log(task);
-			}
-			const endTimeFormat = endTime && getISOTimeFormat(endTime);
-			planDateFormat = endTimeFormat
-				? `${startTimeFormat} ~ ${endTimeFormat}`
-				: startTimeFormat;
+		case PlannerMode.TEMPLATE:
+			planDateFormat = task.durationFormat;
 			dueDateFormat = task.dueDate && getDateMonthFormat(task.dueDate);
 			break;
 		case PlannerMode.YEARLY:

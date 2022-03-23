@@ -10,7 +10,8 @@ import {
 	faListTree,
 	faStarExclamation,
 	faHourglassEnd,
-	faMemoCircleInfo
+	faMemoCircleInfo,
+	faBringForward
 } from "@fortawesome/pro-duotone-svg-icons";
 
 import { PlannerTask } from "../../../../models/task-models/Task";
@@ -40,11 +41,14 @@ function getTaskDetailDateTimeFormat (task: AbstractTask, defaultValue: string =
 		endTimeFormat = "";
 	switch (task.plannerType) {
 		case PlannerMode.WEEKLY:
-			plannedDateFormat = getDateTimeFormat(task.dateTime);
+		case PlannerMode.TEMPLATE:
+			plannedDateFormat = task.planDateFormat;
+			endTimeFormat = task.endTimeFormat || defaultValue;
+		case PlannerMode.WEEKLY:
 			dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
-			endTimeFormat = !task.duration
-				? defaultValue
-				: getEndDateTimeFormat(task.dateTime, task.duration);
+			break;
+		case PlannerMode.TEMPLATE:
+			dueDateFormat = task.dueDateFormat || defaultValue;
 			break;
 		case PlannerMode.MONTLY:
 		case PlannerMode.YEARLY:
@@ -56,9 +60,7 @@ function getTaskDetailDateTimeFormat (task: AbstractTask, defaultValue: string =
 				: hasSetTime(task.dueDate)
 					? getDateTimeFormat(task.dueDate)
 					: getFullDateFormat(task.dueDate);
-			endTimeFormat = !task.duration
-				? defaultValue
-				: getEndDateTimeFormat(task.dateTime, task.duration);
+			endTimeFormat = task.endTimeFormat || defaultValue;
 			break;
 	}
 

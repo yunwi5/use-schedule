@@ -1,0 +1,55 @@
+@import "../../../styles/main";
+
+.form {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 1rem;
+	justify-content: center;
+	box-shadow: 0 0 6rem rgba(0, 0, 0, .10);
+
+	padding: 1rem;
+	font-size: 1.2rem;
+	border-radius: 5px;
+
+	background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
+		linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
+		linear-gradient(336deg, $color-primary-light-1, rgba(255, 255, 255, 0) 70.71%);
+
+	.control {
+		display: flex;
+		flex-direction: column;
+		gap: .6rem;
+		input,
+		textarea {
+			border: 1px solid transparent;
+			color: $color-primary-dark-2;
+			border-radius: 3px;
+			background-color: #fff;
+			width: clamp(15rem, 70%, 100%);
+			padding: .2rem .5rem;
+			box-shadow: $shadow-light;
+		}
+
+		[aria-invalid = true] {
+			border: 1.5px solid $color-rose-dark-1;
+			background-color: lighten($color-rose-light-1, 8%);
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+
+	.desc {
+		grid-column: 1 / -1;
+	}
+
+	.name {
+		input {
+			font-size: 1.4rem;
+		}
+	}
+
+	.error {
+		color: $color-rose-dark-1;
+	}
+}

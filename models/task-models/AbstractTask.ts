@@ -1,3 +1,4 @@
+import { getEndDateTimeFormat } from "../../utilities/time-utils/date-format";
 import { getDayName } from "../../utilities/time-utils/date-get";
 import { WeekDay } from "../date-models/WeekDay";
 import { PlannerMode } from "../planner-models/PlannerMode";
@@ -43,6 +44,11 @@ export abstract class AbstractTask implements Task {
 	abstract get planDateFormat (): string;
 	abstract get dueDateFormat (): string;
 	abstract get durationFormat (): string;
+
+	get endTimeFormat (): string {
+		if (!this.duration) return "";
+		return getEndDateTimeFormat(this.dateTime, this.duration);
+	}
 
 	get dateTime () {
 		return new Date(this.timeString);

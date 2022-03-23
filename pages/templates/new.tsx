@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { TemplateFormObj, Template } from "../../models/template-models/Template";
 import { Collection } from "../../utilities/mongodb-util/mongodb-constant";
 import TemplatePlanner from "../../components/templates/TemplatePlanner";
+import { Task } from "../../models/task-models/Task";
 
 const API_TEMPLATE_DOMAIN = "/api/templates";
 
@@ -54,7 +55,7 @@ const New: React.FC<Props> = ({ userId }) => {
 		getTemplateTasks,
 		{ enabled: !!templateId }
 	);
-	const templateTasks = taskData ? taskData.tasks : null;
+	const templateTasks: Task[] = taskData ? taskData.tasks : null;
 	if (tasksError) {
 		console.error("TemplateTasks query has errors!");
 		console.log(tasksError);
@@ -63,10 +64,16 @@ const New: React.FC<Props> = ({ userId }) => {
 	const mutateTemplate = (newTemplate: TemplateFormObj, isNew: boolean = true) => {
 		newTemplate.userId = userId;
 		// http request to post new template.
+		console.log("newTemplate:", newTemplate);
 
-		// Unique Id will be retried as a reponse from the server.
-		// Invalidate query then.
-		queryClient.invalidateQueries("template");
+		if (isNew) {
+			// Send POST Request
+			// Unique Id will be retried as a reponse from the server.
+		} else {
+			// Send PUT Request
+			// Invalidate query then.
+			queryClient.invalidateQueries("template");
+		}
 	};
 
 	const invalidateTemplateTasks = () => {};

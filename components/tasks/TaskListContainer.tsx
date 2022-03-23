@@ -41,6 +41,13 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 			labelSub = currMonth;
 			headingText = shortDay;
 			break;
+		case PlannerMode.TEMPLATE:
+			// let day = getWeekFromIndex(index);
+			const templateShortDay = getShortName(getWeekDayFromIndex(index));
+			labelMain = `${index + 1}`;
+			labelSub = "Day";
+			headingText = templateShortDay;
+			break;
 		case PlannerMode.MONTLY:
 			const week: WeekNumber = getWeekFromIndex(index);
 			const weekNumber = index + 1;
