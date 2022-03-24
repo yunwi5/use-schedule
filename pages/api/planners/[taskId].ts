@@ -1,14 +1,12 @@
-import type {NextApiRequest, NextApiResponse} from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { MongoClient } from "mongodb";
 
 import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
 import { deleteTask, replaceTask } from "../../../utilities/mongodb-util/tasks-util";
-import { Collection } from "../../../utilities/mongodb-util/mongodb-constant";
+import { validateTask } from "../../../schemas/schema-validate";
 
 type Data = { message: string };
-
-const CollectionName = Collection.WEEKLY_TASKS;
 
 export default withApiAuthRequired(async function handler (
 	req: NextApiRequest,
@@ -33,7 +31,14 @@ export default withApiAuthRequired(async function handler (
 
 	if (req.method === "PUT") {
 		const taskObj = req.body;
-		// console.log(`taskId: ${taskId}, id: ${taskObj.id}`);
+
+		const { isValid, message } = validateTask(taskObj);
+		console.log(`isValid: ${isValid}, ${message}`);
+		if (!isValid) {
+			client.close();
+			return res.status(415).json({ message });
+		}
+
 		let result;
 		try {
 			result = await replaceTask(client, collection, taskObj);

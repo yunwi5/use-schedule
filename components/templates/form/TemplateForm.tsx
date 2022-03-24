@@ -11,7 +11,7 @@ import EditCancel from "../../ui/icons/EditCancel";
 import classes from "./TemplateForm.module.scss";
 
 interface Props {
-	onSubmit: (newTemplate: TemplateFormObj, isNew: boolean) => void;
+	onSubmit: (newTemplate: TemplateFormObj, isNew: boolean) => Promise<boolean>;
 	initialTemplate?: Template;
 }
 
@@ -29,7 +29,7 @@ const TemplateForm: React.FC<Props> = ({ onSubmit, initialTemplate }) => {
 		TemplateFormValues
 	>();
 
-	const submitHandler = (data: TemplateFormValues) => {
+	const submitHandler = async (data: TemplateFormValues) => {
 		const { name, importance, description } = data;
 
 		const newTemplate: TemplateFormObj = {
@@ -39,8 +39,8 @@ const TemplateForm: React.FC<Props> = ({ onSubmit, initialTemplate }) => {
 			id: initialTemplate && initialTemplate.id,
 			userId: initialTemplate && initialTemplate.userId
 		};
-		onSubmit(newTemplate, isNew);
-		setIsEditing(false);
+		const isSuccess = await onSubmit(newTemplate, isNew);
+		if (isSuccess) setIsEditing(false);
 	};
 
 	return (

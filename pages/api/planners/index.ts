@@ -1,9 +1,10 @@
-import type {NextApiRequest, NextApiResponse} from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
 import { getTasks, insertTask } from "../../../utilities/mongodb-util/tasks-util";
 import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
+import { validateTask } from "../../../schemas/schema-validate";
 
 type Data =
 	| { message: string }
@@ -47,11 +48,18 @@ export default withApiAuthRequired(async function handler (
 			return res.status(500).json({ message: "Get weekly tasks failed" });
 		}
 		res.status(200).json({ tasks: tasks, message: "Get weekly tasks successful!" });
-		
 	} else if (req.method === "POST") {
 		// Handle POST request
 		const taskToAdd = req.body;
 		delete taskToAdd["id"];
+
+		const { isValid, message } = validateTask(taskToAdd);
+		console.log(`isValid: ${isValid}, ${message}`);
+		if (!isValid) {
+			client.close();
+			return res.status(415).json({ message });
+		}
+
 		let result;
 		try {
 			result = await insertTask(client, collection, taskToAdd);

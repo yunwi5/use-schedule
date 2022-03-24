@@ -31,7 +31,7 @@ import classes from "./TaskDetail.module.scss";
 function hasSetTime (date: Date) {
 	const is12am = date.getHours() === 0 && date.getMinutes() === 0;
 	const isEndOfDay = date.getHours() === 23 && date.getMinutes() === 59;
-	console.log(date.getHours(), date.getMinutes());
+	// console.log(date.getHours(), date.getMinutes());
 	return !(is12am || isEndOfDay);
 }
 

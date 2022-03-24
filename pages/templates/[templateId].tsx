@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import { useDebugValue } from "react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
@@ -56,9 +55,9 @@ const TemplatePage: NextPage<Props> = (props) => {
 		console.log(tasksError);
 	}
 
-	const mutateTemplate = async (tempObj: TemplateFormObj, isNew: boolean = true) => {
+	const mutateTemplate = async (tempObj: TemplateFormObj, isNew: boolean = false): Promise<boolean> => {
 		// No post request needed since the template is already defined at the beginning.
-		if (!templateId) return;
+		if (!templateId) return false;
 		// Send PUT Request
 		// Invalidate query then.
 		const { isSuccess, message } = await patchTemplate(templateId, tempObj);
@@ -66,9 +65,10 @@ const TemplatePage: NextPage<Props> = (props) => {
 		if (!isSuccess) {
 			console.log("Updating template unsuccessful.");
 			console.log(`Look at: ${message}`);
-			return;
+			return false;
 		}
 		dispatch(templateActions.callUpdate());
+		return true;
 	};
 
 	const invalidateTemplateTasks = () => {

@@ -1,4 +1,4 @@
-import type {NextApiRequest, NextApiResponse} from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { MongoClient } from "mongodb";
 
@@ -7,6 +7,7 @@ import { connectDatabase } from "../../../../../utilities/mongodb-util/mongodb-u
 import { getSubTasks, insertSubTask } from "../../../../../utilities/mongodb-util/subtask-util";
 import { SubTaskCollection } from "../../../../../utilities/mongodb-util/mongodb-constant";
 import { covertToSubTasks } from "../../../../../utilities/tasks-utils/task-util";
+import { validateSubTask } from "../../../../../schemas/schema-validate";
 
 type Data =
 	| { message: string }
@@ -22,16 +23,16 @@ export default withApiAuthRequired(async function handler (
 		return res.status(400).json({ message: "User not found" });
 	}
 
-	console.log("sub-tasks endpoint reached.");
-
 	const { parentTaskId: initialParentTaskId, collection: initialCollection } = req.query;
 	let parentTaskId = Array.isArray(initialParentTaskId)
-	? initialParentTaskId.join("")
-	: initialParentTaskId;
+		? initialParentTaskId.join("")
+		: initialParentTaskId;
 
-	let collection = Array.isArray(initialCollection) ? initialCollection.join('') : initialCollection;
-	if (!collection) collection = SubTaskCollection; // Default collection is SubTaskCollection	
-	
+	let collection = Array.isArray(initialCollection)
+		? initialCollection.join("")
+		: initialCollection;
+	if (!collection) collection = SubTaskCollection; // Default collection is SubTaskCollection
+
 	let client: MongoClient;
 	try {
 		client = await connectDatabase();
@@ -58,6 +59,13 @@ export default withApiAuthRequired(async function handler (
 		const subTask = req.body;
 		delete subTask["id"];
 		subTask.parentTaskId = parentTaskId; // Double check
+
+		const { isValid, message } = validateSubTask(subTask);
+		// console.log(`isValid: ${isValid}, message: ${message}`);
+		if (!isValid) {
+			client.close();
+			return res.status(400).json({ message });
+		}
 
 		let result;
 		try {

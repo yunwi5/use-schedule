@@ -2,6 +2,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Template } from "../../../models/template-models/Template";
+import { validateTemplateProps } from "../../../schemas/schema-validate";
 import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
 import { getTemplateById, updateTemplateById } from "../../../utilities/mongodb-util/template-util";
 import { convertToTemplate } from "../../../utilities/template-utils/template-util";
@@ -40,6 +41,15 @@ async function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
 		res.status(200).json({ message: "GET template successful!", template });
 	} else if (req.method === "PATCH") {
 		const newTemplateProps = req.body;
+		delete newTemplateProps["id"];
+
+		const { isValid, message } = validateTemplateProps(newTemplateProps);
+		console.log(`isValid: ${isValid}, ${message}`);
+		if (!isValid) {
+			client.close();
+			return res.status(415).json({ message });
+		}
+
 		let result;
 		try {
 			result = await updateTemplateById(client, templateId, newTemplateProps);

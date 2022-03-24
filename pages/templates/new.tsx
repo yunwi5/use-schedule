@@ -53,7 +53,10 @@ const New: React.FC<Props> = ({ userId, user }) => {
 		console.log(tasksError);
 	}
 
-	const mutateTemplate = async (tempObj: TemplateFormObj, isNew: boolean = true) => {
+	const mutateTemplate = async (
+		tempObj: TemplateFormObj,
+		isNew: boolean = true
+	): Promise<boolean> => {
 		// http request to post new template.
 		if (isNew) {
 			const newTemplate = { ...tempObj, userId };
@@ -61,20 +64,22 @@ const New: React.FC<Props> = ({ userId, user }) => {
 			// Unique Id will be retried as a reponse from the server.
 			const { isSuccess, message, insertedId } = await postTemplate(newTemplate);
 			console.log(message);
-			if (isSuccess || insertedId) {
+			if (isSuccess && insertedId) {
 				setTemplateId(insertedId);
-			} else return;
+			} else return false;
 		} else {
-			if (!templateId) return;
+			if (!templateId) return false;
 			// Send PUT Request
 			// Invalidate query then.
 			const { isSuccess, message } = await patchTemplate(templateId, tempObj);
 			queryClient.invalidateQueries("template");
-			if (!isSuccess) return;
+			if (!isSuccess) return false;
 		}
 
 		console.log("Call invalidation of templates through redux.");
 		dispatch(templateActions.callUpdate());
+
+		return true;
 	};
 
 	const invalidateTemplateTasks = () => {

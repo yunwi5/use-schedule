@@ -35,7 +35,7 @@ function populateTemplatePlanner (tasks: Task[], templateWeekBeginning: Date, te
 
 interface Props {
 	onInvalidateTasks: () => void;
-	onMutateTemplate: (newTemplage: TemplateFormObj, isNew: boolean) => void;
+	onMutateTemplate: (newTemplage: TemplateFormObj, isNew: boolean) => Promise<boolean>;
 	templateTasks: Task[];
 	template: Template | null;
 }

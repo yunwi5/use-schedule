@@ -8,6 +8,7 @@ import {
 	updateSubTaskProps
 } from "../../../../../utilities/mongodb-util/subtask-util";
 import { SubTaskCollection } from "../../../../../utilities/mongodb-util/mongodb-constant";
+import { validateSubTaskProps } from "../../../../../schemas/schema-validate";
 
 export default withApiAuthRequired(async function handler (
 	req: NextApiRequest,
@@ -42,6 +43,13 @@ export default withApiAuthRequired(async function handler (
 	if (req.method === "PATCH") {
 		const updateProps = JSON.parse(req.body);
 		let result, message: string;
+
+		const { isValid, message: validationMessage } = validateSubTaskProps(updateProps);
+		if (!isValid) {
+			client.close();
+			return res.status(400).json({ message: validationMessage });
+		}
+
 		try {
 			result = await updateSubTaskProps(client, collection, subTaskId, updateProps);
 			// console.log("Patch subTask result:", result);

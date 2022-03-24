@@ -45,7 +45,6 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		};
 
 		const newPlannerTask = new PlannerTask(newTask);
-		console.log("newPlannerTask:", newPlannerTask);
 		setNotification(NotifStatus.PENDING, `Currently editing task ${newPlannerTask.name}`);
 		const { isSuccess } = await updateTask(
 			initialTask.id,
