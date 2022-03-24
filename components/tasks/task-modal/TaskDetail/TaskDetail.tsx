@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/pro-duotone-svg-icons";
@@ -38,9 +38,12 @@ const TaskDetail: React.FC<Props> = (props) => {
 	const queryClient = useQueryClient();
 	const { isLoading, error, data } = useQuery([ "subTasks", task.id ], fetchSubTasks);
 
-	const invalidateSubTasks = () => {
-		queryClient.invalidateQueries([ "subTasks", task.id ]);
-	};
+	const invalidateSubTasks = useCallback(
+		() => {
+			queryClient.invalidateQueries([ "subTasks", task.id ]);
+		},
+		[ queryClient, task ]
+	);
 
 	if (error) {
 		let errMessage = error instanceof Error ? error.message : "Fetching has errors.";

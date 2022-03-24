@@ -47,7 +47,6 @@ export default withApiAuthRequired(async function handler (
 		try {
 			let result = await getSubTasks(client, collection, parentTaskId);
 			data = covertToSubTasks(result);
-			console.log("Get (sub-tasks) data:", data);
 		} catch (err) {
 			console.error(err);
 			client.close();

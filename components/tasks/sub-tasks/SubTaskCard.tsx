@@ -59,10 +59,11 @@ const SubTaskCard: React.FC<Props> = (props) => {
 					name: currentText
 				});
 				console.log(`Update SubTask name success: ${isSuccess}, message: ${message}`);
+				onInvalidate();
 			};
 			updateName();
 		},
-		[ isEditMode, subTask, currentText ]
+		[ isEditMode, subTask, currentText, onInvalidate ]
 	);
 
 	useEffect(
@@ -117,7 +118,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 						onChange={textChangeHandler}
 						value={currentText}
 						id="subtask-name"
-						maxLength={30}
+						maxLength={60}
 						className="lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none"
 					/>
 					<FontAwesomeIcon
