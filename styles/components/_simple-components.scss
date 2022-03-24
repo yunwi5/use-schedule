@@ -2,3 +2,7 @@
 	max-width: 2.1rem;
 	cursor: pointer;
 }
+
+.icon-basic {
+	@include icon-basic;
+}

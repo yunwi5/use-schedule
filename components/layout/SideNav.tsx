@@ -1,4 +1,8 @@
 import React from "react";
+import { useSelector, RootStateOrAny } from "react-redux";
+
+import { Template } from "../../models/template-models/Template";
+import { getShortNameWithRest } from "../../utilities/gen-utils/string-util";
 import NavList from "./NavList";
 
 interface Props {
@@ -7,6 +11,12 @@ interface Props {
 }
 
 const SideNav: React.FC<Props> = ({ onToggleSidebar, showSidebar }) => {
+	const templates = useSelector((state: RootStateOrAny) => state.template.templates);
+	const userTemplateItems = templates.map((tem: Template) => ({
+		name: getShortNameWithRest(tem.name, 15),
+		link: `/templates/${tem.id}`
+	}));
+
 	const timePlannerItems = [
 		{
 			name: "Weekly Planners",
@@ -22,6 +32,7 @@ const SideNav: React.FC<Props> = ({ onToggleSidebar, showSidebar }) => {
 		}
 	];
 	const templateItems = [
+		...userTemplateItems,
 		{
 			name: "+ Add New",
 			link: "/templates/new"

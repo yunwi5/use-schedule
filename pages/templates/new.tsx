@@ -4,30 +4,18 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
+import { useDispatch } from "react-redux";
 
 import { TemplateFormObj, Template } from "../../models/template-models/Template";
-import { Collection } from "../../utilities/mongodb-util/mongodb-constant";
 import TemplatePlanner from "../../components/templates/TemplatePlanner";
 import { Task } from "../../models/task-models/Task";
-import { patchTemplate, postTemplate } from "../../lib/templates/templates-api";
-
-const API_TEMPLATE_DOMAIN = "/api/templates";
-
-const API_TASKS_DOMAIN = "/api/planners/template-tasks";
-const collection = Collection.TEMPLATE_TASKS;
-
-async function getTemplate (context: any) {
-	const [ name, templateId ] = context.queryKey;
-	return fetch(`${API_TEMPLATE_DOMAIN}/${templateId}`).then((res) => res.json());
-}
-
-// Should be used after template APIs are resolved.
-async function getTemplateTasks (context: any) {
-	const [ name, templateId ] = context.queryKey;
-	return fetch(`${API_TASKS_DOMAIN}/${templateId}?collection=${collection}`).then((res) =>
-		res.json()
-	);
-}
+import {
+	getTemplate,
+	getTemplateTasks,
+	patchTemplate,
+	postTemplate
+} from "../../lib/templates/templates-api";
+import { templateActions } from "../../store/redux/template-slice";
 
 interface Props {
 	userId: string;
@@ -38,6 +26,7 @@ interface Props {
 const New: React.FC<Props> = ({ userId, user }) => {
 	const [ templateId, setTemplateId ] = useState<string>("");
 	useDebugValue(templateId);
+	const dispatch = useDispatch();
 
 	const queryClient = useQueryClient();
 	const { data: templateData, isLoading: isTemplateLoading, error: templateError } = useQuery(
@@ -74,15 +63,18 @@ const New: React.FC<Props> = ({ userId, user }) => {
 			console.log(message);
 			if (isSuccess || insertedId) {
 				setTemplateId(insertedId);
-			}
+			} else return;
 		} else {
 			if (!templateId) return;
 			// Send PUT Request
 			// Invalidate query then.
 			const { isSuccess, message } = await patchTemplate(templateId, tempObj);
-			console.log("message:", message);
 			queryClient.invalidateQueries("template");
+			if (!isSuccess) return;
 		}
+
+		console.log("Call invalidation of templates through redux.");
+		dispatch(templateActions.callUpdate());
 	};
 
 	const invalidateTemplateTasks = () => {
@@ -98,9 +90,6 @@ const New: React.FC<Props> = ({ userId, user }) => {
 					content="New custom template to add users' repetitive tasks in one place."
 				/>
 			</Head>
-			<h1 style={{ marginTop: "9rem", fontSize: "60px", textAlign: "center" }}>
-				Welcome to new template page!
-			</h1>
 			<TemplatePlanner
 				onInvalidateTasks={invalidateTemplateTasks}
 				onMutateTemplate={mutateTemplate}

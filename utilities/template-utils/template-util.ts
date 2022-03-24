@@ -2,7 +2,7 @@ import { Template } from "../../models/template-models/Template";
 
 export function convertToTemplate (data: any): Template {
 	const template: Template = {
-		id: data._id,
+		id: data._id.toString(),
 		name: data.name,
 		description: data.description,
 		importance: data.importance,
@@ -10,4 +10,8 @@ export function convertToTemplate (data: any): Template {
 	};
 
 	return template;
+}
+
+export function convertToTemplateArray (data: any[]): Template[] {
+	return data.map((piece) => convertToTemplate(piece));
 }

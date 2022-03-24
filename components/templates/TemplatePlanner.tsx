@@ -70,7 +70,7 @@ const TemplatePlanner: React.FC<Props> = (props) => {
 
 	return (
 		<PlannerCard>
-			<TemplateForm onSubmit={onMutateTemplate} isNew={!template} />
+			<TemplateForm onSubmit={onMutateTemplate} initialTemplate={template || undefined} />
 			<PlannerTableCard>
 				<PlannerHeader
 					beginningPeriod={templateWeekBeginning}

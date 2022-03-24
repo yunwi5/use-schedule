@@ -3,9 +3,11 @@
 .form {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-gap: 1rem;
-	justify-content: center;
+	grid-column-gap: 1rem;
+	grid-row-gap: 2.2rem;
+	justify-content: end;
 	box-shadow: 0 0 6rem rgba(0, 0, 0, .10);
+	position: relative;
 
 	padding: 1rem;
 	font-size: 1.2rem;
@@ -13,7 +15,7 @@
 
 	background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
 		linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
-		linear-gradient(336deg, $color-primary-light-1, rgba(255, 255, 255, 0) 70.71%);
+		linear-gradient(336deg, #fff, rgba(255, 255, 255, .6) 70.71%);
 
 	.control {
 		display: flex;
@@ -49,7 +51,43 @@
 		}
 	}
 
+	.text {
+		color: $color-primary-dark-2;
+		font-weight: 600;
+	}
+
+	h3.text {
+		font-size: 125%;
+	}
+
+	p.text {
+		min-height: 3.5rem;
+	}
+
 	.error {
 		color: $color-rose-dark-1;
+	}
+
+	.icon {
+		max-width: 2.1rem;
+		margin-right: .6rem;
+		color: $color-primary-dark-2;
+	}
+}
+
+.form-edit {
+	.text {
+		display: none;
+	}
+}
+
+.form-read-only {
+	input,
+	textarea {
+		display: none;
+	}
+
+	.action {
+		display: none;
 	}
 }

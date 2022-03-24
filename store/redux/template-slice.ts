@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Template } from "../../models/template-models/Template";
 
 interface TemplateState {
-	templates: any[];
+	templates: Template[];
 	updateCount: number;
 }
 
@@ -17,10 +18,10 @@ const templateSlice = createSlice({
 		callUpdate (state) {
 			state.updateCount++;
 		},
-		setTemplates (state, action: PayloadAction<any[]>) {
+		setTemplates (state, action: PayloadAction<Template[]>) {
 			state.templates = action.payload;
 		},
-		addTemplate (state, action: PayloadAction<any>) {
+		addTemplate (state, action: PayloadAction<Template>) {
 			const newTemplate = action.payload;
 			state.templates.push(newTemplate);
 		}

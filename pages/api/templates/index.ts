@@ -3,17 +3,15 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { MongoClient, ObjectId } from "mongodb";
 
 import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
-import { insertTemplate } from "../../../utilities/mongodb-util/template-util";
+import { getAllTemplates, insertTemplate } from "../../../utilities/mongodb-util/template-util";
+import { Template } from "../../../models/template-models/Template";
+import { convertToTemplateArray } from "../../../utilities/template-utils/template-util";
 
-type Data =
-	| {
-			message: string;
-		}
-	| {
-			message: string;
-			insertedId: ObjectId;
-		};
-
+type Data = {
+	message: string;
+	insertedId?: ObjectId;
+	templates?: Template[];
+};
 async function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
 	const session = getSession(req, res);
 	if (!session) {
@@ -31,6 +29,21 @@ async function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
 
 	if (req.method === "GET") {
 		// Get all templates of the user.
+		let result: any[],
+			templates: Template[] = [],
+			message: string;
+		try {
+			result = await getAllTemplates(client, userId);
+			templates = convertToTemplateArray(result);
+		} catch (err) {
+			message =
+				err instanceof Error ? err.message : "GET all templates of user did not work.";
+			console.log(`Error: ${message}`);
+			client.close();
+			return res.status(500).json({ message });
+		}
+
+		res.status(200).json({ message: "GET all templates successful!", templates });
 	} else if (req.method === "POST") {
 		const template = req.body;
 		template.userId = userId;

@@ -9,6 +9,12 @@ export async function insertTemplate (client: MongoClient, template: Template) {
 	return res;
 }
 
+export async function getAllTemplates (client: MongoClient, userId: string) {
+	const db = client.db();
+	const res = await db.collection(TemplateCollection).find({ userId }).toArray();
+	return res;
+}
+
 export async function getTemplateById (client: MongoClient, templateId: string) {
 	if (!templateId) return "templateId not found.";
 	const db = client.db();
