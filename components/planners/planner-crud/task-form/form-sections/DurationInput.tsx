@@ -1,21 +1,23 @@
-import React, { Fragment } from "react";
-import { UseFormRegister, UseFormWatch } from "react-hook-form";
-import { useSelector, RootStateOrAny } from "react-redux";
+import React, { Fragment } from 'react';
+import { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { useSelector, RootStateOrAny } from 'react-redux';
 
-import { PlannerMode } from "../../../../../models/planner-models/PlannerMode";
-import { Task } from "../../../../../models/task-models/Task";
+import { PlannerMode } from '../../../../../models/planner-models/PlannerMode';
+import { Task } from '../../../../../models/task-models/Task';
 import {
 	FormValues,
 	getInitialDurationInput,
 	getDuration,
 	getEndTimeFormatted
-} from "../../../../../utilities/form-utils/task-form-util";
-import classes from "../TaskForm.module.scss";
+} from '../../../../../utilities/form-utils/task-form-util';
+import classes from '../TaskForm.module.scss';
 
 interface Props {
 	initialTask?: Task;
-	register: UseFormRegister<FormValues>;
-	watch: UseFormWatch<FormValues>;
+	// register: UseFormRegister<FormValues>;
+	register: UseFormRegister<any>;
+	// watch: UseFormWatch<FormValues>;
+	watch: UseFormWatch<any>;
 	errors: any;
 }
 
@@ -44,50 +46,50 @@ const DurationInput: React.FC<Props> = (props) => {
 				<p className={classes.duration__heading}>Duration</p>
 				<div
 					className={`${classes.numbers} ${showDaysInput
-						? classes["numbers-short"]
-						: classes["numbers-long"]}`}
+						? classes['numbers-short']
+						: classes['numbers-long']}`}
 				>
 					{showDaysInput && (
 						<div className={classes.number}>
 							<input
-								type="number"
-								{...register("durationDays", {
+								type='number'
+								{...register('durationDays', {
 									valueAsNumber: true,
-									min: { value: 0, message: "Days cannot be negative!" }
+									min: { value: 0, message: 'Days cannot be negative!' }
 								})}
-								id="durationDays"
+								id='durationDays'
 								defaultValue={defaultDays}
 								aria-invalid={errors.durationDays ? true : false}
 							/>
-							<label htmlFor="durationDays">d</label>
+							<label htmlFor='durationDays'>d</label>
 						</div>
 					)}
 					<div className={classes.number}>
 						<input
-							type="number"
-							{...register("durationHours", {
+							type='number'
+							{...register('durationHours', {
 								valueAsNumber: true,
-								min: { value: 0, message: "Hours cannot be negative!" }
+								min: { value: 0, message: 'Hours cannot be negative!' }
 							})}
-							id="durationHours"
+							id='durationHours'
 							defaultValue={defaultHours}
 							aria-invalid={errors.durationHours ? true : false}
 						/>
-						<label htmlFor="durationHours">h</label>
+						<label htmlFor='durationHours'>h</label>
 					</div>
 					<div className={classes.number}>
 						<input
-							type="number"
-							{...register("durationMinutes", {
+							type='number'
+							{...register('durationMinutes', {
 								valueAsNumber: true,
-								min: { value: 0, message: "Minutes cannot be negative!" },
-								max: { value: 59, message: "Minutes cannot exceed 60!" }
+								min: { value: 0, message: 'Minutes cannot be negative!' },
+								max: { value: 59, message: 'Minutes cannot exceed 60!' }
 							})}
-							id="durationMinutes"
+							id='durationMinutes'
 							defaultValue={defaultMinutes}
 							aria-invalid={errors.durationMinutes ? true : false}
 						/>
-						<label htmlFor="durationMinutes">m</label>
+						<label htmlFor='durationMinutes'>m</label>
 					</div>
 				</div>
 				<div className={classes.messages}>

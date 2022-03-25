@@ -75,8 +75,6 @@ const TemplatePage: NextPage<Props> = (props) => {
 		queryClient.invalidateQueries("templateTasks");
 	};
 
-	console.log(template);
-
 	return (
 		<div>
 			<Head>

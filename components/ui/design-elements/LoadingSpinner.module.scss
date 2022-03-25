@@ -18,14 +18,25 @@
 	animation: Spinner 1.2s linear infinite;
 }
 
-.spinner-medium {
-	width: 50px;
-	height: 50px;
+.spinner-small {
+	width: 35px;
+	height: 35px;
 
 	&::after {
-		width: 35px;
-		height: 35px;
-		border-width: 6.5px;
+		width: 20px;
+		height: 20px;
+		border-width: 3.5px;
+	}
+}
+
+.spinner-medium {
+	width: 70px;
+	height: 70px;
+
+	&::after {
+		width: 50px;
+		height: 50px;
+		border-width: 5px;
 	}
 }
 

@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { TemplateTask } from "../../models/template-models/TemplateTask";
-import { TemplatePlanner as Planner } from "../../models/template-models/TemplatePlanner";
-import { Template, TemplateFormObj } from "../../models/template-models/Template";
-import { plannerActions } from "../../store/redux/planner-slice";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import PlannerCard from "../ui/cards/PlannerCard";
-import PlannerTableCard from "../ui/cards/PlannerTableCard";
-import PlannerHeader from "../planners/planner-nav/PlannerHeader";
-import TemplateTable from "./TemplateTable";
-import { Task } from "../../models/task-models/Task";
-import TemplateForm from "./form/TemplateForm";
+import { TemplateTask } from '../../models/template-models/TemplateTask';
+import { TemplatePlanner as Planner } from '../../models/template-models/TemplatePlanner';
+import { Template, TemplateFormObj } from '../../models/template-models/Template';
+import { plannerActions } from '../../store/redux/planner-slice';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import PlannerCard from '../ui/cards/PlannerCard';
+import PlannerTableCard from '../ui/cards/PlannerTableCard';
+import PlannerHeader from '../planners/planner-nav/PlannerHeader';
+import TemplateTable from './TemplateTable';
+import { Task } from '../../models/task-models/Task';
+import TemplateControl from './crud-operations/TemplateControl';
 
 function getTemplateWeekBeginning () {
 	// Template beginning time
@@ -24,7 +24,7 @@ function populateTemplatePlanner (tasks: Task[], templateWeekBeginning: Date, te
 	const planner = new Planner(templateWeekBeginning, template);
 	for (const task of tasks) {
 		if (task.templateId !== template.id) {
-			console.error("task templateId does not match template.id!");
+			console.error('task templateId does not match template.id!');
 		}
 		const templateTask = new TemplateTask(task, template.id);
 		planner.addTask(templateTask);
@@ -70,14 +70,23 @@ const TemplatePlanner: React.FC<Props> = (props) => {
 
 	return (
 		<PlannerCard>
-			<TemplateForm onSubmit={onMutateTemplate} initialTemplate={template || undefined} />
+			<TemplateControl
+				onAddOrEdit={onMutateTemplate}
+				initialTemplate={template || undefined}
+			/>
 			<PlannerTableCard>
 				<PlannerHeader
 					beginningPeriod={templateWeekBeginning}
 					onMutate={onInvalidateTasks}
-					preventTaskAdd={{
-						message: "Please complete your template form first!"
-					}}
+					preventTaskAdd={
+						!template ? (
+							{
+								message: 'Please complete your template form first!'
+							}
+						) : (
+							undefined
+						)
+					}
 				/>
 				<TemplateTable
 					weekBeginning={templateWeekBeginning}

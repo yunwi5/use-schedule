@@ -1,7 +1,7 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId } from 'mongodb';
 
-import { TemplateCollection } from "./mongodb-constant";
-import { Template, TemplateProperties } from "../../models/template-models/Template";
+import { TemplateCollection } from './mongodb-constant';
+import { Template, TemplateProperties } from '../../models/template-models/Template';
 
 export async function insertTemplate (client: MongoClient, template: Template) {
 	const db = client.db();
@@ -16,7 +16,7 @@ export async function getAllTemplates (client: MongoClient, userId: string) {
 }
 
 export async function getTemplateById (client: MongoClient, templateId: string) {
-	if (!templateId) return "templateId not found.";
+	if (!templateId) throw new Error('templateId not found.');
 	const db = client.db();
 	const res = await db.collection(TemplateCollection).findOne({ _id: new ObjectId(templateId) });
 	return res;
@@ -27,7 +27,7 @@ export async function updateTemplateById (
 	templateId: string,
 	templateProps: TemplateProperties
 ) {
-	if (!templateId) return "templateId not found.";
+	if (!templateId) throw new Error('templateId not found.');
 	const db = client.db();
 	const res = await db
 		.collection(TemplateCollection)
@@ -37,7 +37,7 @@ export async function updateTemplateById (
 }
 
 export async function deleteTemplateById (client: MongoClient, templateId: string) {
-	if (!templateId) return "templateId not found.";
+	if (!templateId) throw new Error('templateId not found.');
 	const db = client.db();
 	const res = await db
 		.collection(TemplateCollection)

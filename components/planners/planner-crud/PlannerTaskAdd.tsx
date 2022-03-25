@@ -1,15 +1,17 @@
-import React, { useCallback, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
-import { useSelector, RootStateOrAny } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import React, { useCallback, useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
-import TaskForm from "./task-form/TaskForm";
-import PlannerModal from "../planner-modal/PlannerModal";
-import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
-import { NotifStatus } from "../../ui/Notification";
-import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { postTask } from "../../../lib/planners/tasks-api";
-import useNotification from "../../../hooks/useNotification";
+import TaskForm from './task-form/TaskForm';
+import PlannerModal from '../planner-modal/PlannerModal';
+import DiscardModal from '../../ui/modal/modal-variation/DiscardModal';
+import { NotifStatus } from '../../ui/Notification';
+import { FormTaskObject, PlannerTask, Task } from '../../../models/task-models/Task';
+import { postTask } from '../../../lib/planners/tasks-api';
+import useNotification from '../../../hooks/useNotification';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import TemplateTaskForm from './task-form/TemplateTaskForm';
 
 interface Props {
 	onClose: () => void;
@@ -32,10 +34,10 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
 	const taskAddHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
-			alert("User is not logged in!");
+			alert('User is not logged in!');
 			return;
 		}
-		console.log("new form task:", newFormTask);
+		console.log('new form task before inserting:', newFormTask);
 		const newTask: Task = {
 			...newFormTask,
 			id: uuidv4(),
@@ -71,10 +73,11 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	}, []);
 
 	return (
-		<PlannerModal onClose={closeHandler} title={"Add New Task"}>
+		<PlannerModal onClose={closeHandler} title={'Add New Task'}>
 			{showDiscardModal && (
 				<DiscardModal onAction={onClose} onClose={setShowDiscardModal.bind(null, false)} />
 			)}
+
 			<TaskForm
 				onSubmit={taskAddHandler}
 				beginningPeriod={beginningPeriod}

@@ -1,20 +1,21 @@
-import { Fragment, useEffect, useCallback } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
-import { UseFormRegister } from "react-hook-form";
+import { Fragment, useEffect, useCallback } from 'react';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { UseFormRegister } from 'react-hook-form';
 
-import {
-	FormValues,
-	getInitialDateTimeInput
-} from "../../../../../utilities/form-utils/task-form-util";
-import { Task } from "../../../../../models/task-models/Task";
-import { PlannerMode } from "../../../../../models/planner-models/PlannerMode";
-import { getPlannerLabel } from "../../../../../utilities/gen-utils/label-util";
-import MonthDateInput from "./time-inputs/MonthDateInput";
-import classes from "../TaskForm.module.scss";
+import { getInitialDateTimeInput } from '../../../../../../utilities/form-utils/task-form-util';
+import { Task } from '../../../../../../models/task-models/Task';
+import { PlannerMode } from '../../../../../../models/planner-models/PlannerMode';
+import { getPlannerLabel } from '../../../../../../utilities/gen-utils/label-util';
+import MonthDateInput from '../time-inputs/MonthDateInput';
+import TimeInput from './TimeInput';
+import DateInput from './DateInput';
+import classes from '../../TaskForm.module.scss';
+import WeekdayInput from './WeekdayInput';
 
 interface Props {
 	initialTask?: Task;
-	register: UseFormRegister<FormValues>;
+	// register: UseFormRegister<FormValues>;
+	register: UseFormRegister<any>;
 	beginningPeriod: Date;
 	isAnyTime: boolean;
 	onAnyTime: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +23,7 @@ interface Props {
 	monthDateOnly: boolean;
 }
 
-const PlanTimeInput: React.FC<Props> = (props) => {
+const PlanDateTimeInput: React.FC<Props> = (props) => {
 	const {
 		register,
 		initialTask,
@@ -57,31 +58,27 @@ const PlanTimeInput: React.FC<Props> = (props) => {
 		[ monthDateOnly, onAnyTime ]
 	);
 
+	const showDayInsteadOfDate = plannerMode === PlannerMode.TEMPLATE;
+
 	return (
 		<div className={`${classes.datetime} ${classes.section}`}>
 			{monthDateOnly && <MonthDateInput register={register} />}
 			{!monthDateOnly && (
 				<Fragment>
-					<div className={classes.date}>
-						<input
-							type="date"
-							{...register("date")}
-							id="date"
-							defaultValue={defaultDate}
-							disabled={isAnyTime}
+					{showDayInsteadOfDate ? (
+						<WeekdayInput register={register} />
+					) : (
+						<DateInput
+							register={register}
+							defaultDate={defaultDate}
+							isAnyTime={isAnyTime}
 						/>
-						<label htmlFor="date">Date</label>
-					</div>
-					<div className={classes.time}>
-						<input
-							type="time"
-							{...register("time")}
-							id="time"
-							defaultValue={defaultTime}
-							disabled={isAnyTime}
-						/>
-						<label htmlFor="time">Time</label>
-					</div>
+					)}
+					<TimeInput
+						register={register}
+						defaultTime={defaultTime}
+						isAnyTime={isAnyTime}
+					/>
 				</Fragment>
 			)}
 
@@ -89,27 +86,27 @@ const PlanTimeInput: React.FC<Props> = (props) => {
 				{isYearlyMode && (
 					<div className={classes.checkbox}>
 						<input
-							type="checkbox"
-							id="only-month-and-date"
+							type='checkbox'
+							id='only-month-and-date'
 							onChange={() => onMonthDateOnly((prev) => !prev)}
 							checked={monthDateOnly}
 						/>
-						<label htmlFor="only-month-and-date">Only Month & Date</label>
+						<label htmlFor='only-month-and-date'>Only Month & Date</label>
 					</div>
 				)}
 
 				<div className={classes.checkbox}>
 					<input
-						type="checkbox"
-						id="no-datetime"
+						type='checkbox'
+						id='no-datetime'
 						onChange={anyTimeHandler}
 						checked={isAnyTime}
 					/>
-					<label htmlFor="no-datetime">Any time this {plannerLabel}</label>
+					<label htmlFor='no-datetime'>Any time this {plannerLabel}</label>
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default PlanTimeInput;
+export default PlanDateTimeInput;

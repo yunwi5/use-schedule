@@ -1,10 +1,12 @@
-import { FormTaskObject, Task } from "../../models/task-models/Task";
-import { TaskStatus } from "../../models/task-models/Status";
-import { addMinutes } from "../time-utils/date-control";
-import { getWeekEnding } from "../time-utils/date-get";
-import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from "../time-utils/date-format";
+import { FormTaskObject, Task } from '../../models/task-models/Task';
+import { TaskStatus } from '../../models/task-models/Status';
+import { addMinutes } from '../time-utils/date-control';
+import { getWeekEnding } from '../time-utils/date-get';
+import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from '../time-utils/date-format';
+import { TemplateFormValues } from '../../components/planners/planner-crud/task-form/TemplateTaskForm';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
 
-export type FormValues = {
+export interface FormValues extends TemplateFormValues {
 	name: string;
 	description: string;
 	importance: string;
@@ -22,11 +24,15 @@ export type FormValues = {
 	// Yearly planner for monthDateOnly
 	month: string;
 	monthDay: number;
-};
+
+	// Template planner weekday inputs
+	day: string;
+	dueDay: string;
+}
 
 const DAY_IN_MINS = 60 * 24;
 
-export function userHasInputs (watch: () => FormValues) {
+export function userHasInputs (watch: () => any) {
 	if (
 		watch().name ||
 		watch().description ||
@@ -93,6 +99,7 @@ export function getEndTimeFormatted (watch: () => FormValues): string | null {
 export function getFormTaskObject (
 	data: FormValues,
 	beginningPeriod: Date,
+	plannerMode: PlannerMode,
 	monthDateOnly?: boolean
 ): FormTaskObject {
 	const {
