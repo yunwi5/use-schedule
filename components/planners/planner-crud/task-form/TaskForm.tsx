@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { FormTaskObject, Task } from "../../../../models/task-models/Task";
+import { FormTaskObject, Task } from '../../../../models/task-models/Task';
 import {
 	CategoryList,
 	getSubCategory,
 	Category,
 	SubCategory
-} from "../../../../models/task-models/Category";
+} from '../../../../models/task-models/Category';
 import {
 	FormValues,
 	getFormTaskObject,
 	userHasInputs
-} from "../../../../utilities/form-utils/task-form-util";
-import GeneralInputs from "./form-sections/GeneralInputs";
-import DurationInput from "./form-sections/DurationInput";
-import PlanTimeInput from "./form-sections/plan-datetime/PlanDateTimeInput";
-import DueDateInput from "./form-sections/due-datetime/DueDateTimeInput";
-import { getWeekEnding } from "../../../../utilities/time-utils/date-get";
-import classes from "./TaskForm.module.scss";
-import FormButtons from "./TaskFormButtons";
-import { RootStateOrAny, useSelector } from "react-redux";
+} from '../../../../utilities/form-utils/task-form-util';
+import GeneralInputs from './form-sections/GeneralInputs';
+import DurationInput from './form-sections/DurationInput';
+import PlanTimeInput from './form-sections/plan-datetime/PlanDateTimeInput';
+import DueDateInput from './form-sections/due-datetime/DueDateTimeInput';
+import { getWeekEnding } from '../../../../utilities/time-utils/date-get';
+import classes from './TaskForm.module.scss';
+import FormButtons from './TaskFormButtons';
+import { RootStateOrAny, useSelector } from 'react-redux';
 
 interface Props {
 	onSubmit: (newTask: FormTaskObject) => void;
@@ -45,12 +45,14 @@ const TaskForm: React.FC<Props> = (props) => {
 	const { register, watch, handleSubmit, formState: { errors } } = useForm<FormValues>();
 
 	const defaultNoDueDate = initialTask && initialTask.dueDateString ? false : true;
-	const [ isAnyDateTime, setIsAnyDateTime ] = useState(initialTask?.isAnyDateTime || false);
+	const [ isAnyDateTime, setIsAnyDateTime ] = useState(
+		initialTask ? !!initialTask.isAnyDateTime : false
+	);
 	const [ isNoDueDate, setIsNoDueDate ] = useState(defaultNoDueDate);
-	
+
 	// For yearly task.
 	const [ isMonthDateOnly, setIsMonthDateOnly ] = useState(false);
-	
+
 	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 
 	const submitHandler = (data: FormValues) => {
@@ -67,7 +69,7 @@ const TaskForm: React.FC<Props> = (props) => {
 			const weekEnding = getWeekEnding(beginningPeriod);
 			newTask.dueDateString = weekEnding.toString();
 		}
-		console.log("newTask:", newTask);
+		console.log('newTask:', newTask);
 		onSubmit(newTask);
 	};
 
@@ -78,11 +80,9 @@ const TaskForm: React.FC<Props> = (props) => {
 		onHasEdit(true);
 	}
 
-	// Name, description, category, subcategory,
-	// Importance, duration, planned datetime, due datetime
 	return (
 		<form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
-			<section className={classes["form-content"]}>
+			<section className={classes['form-content']}>
 				<GeneralInputs
 					initialTask={initialTask}
 					register={register}
