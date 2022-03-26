@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const PlannerCard: React.FC = (props) => {
-	return <main className="ml-[12.2rem] mt-16 px-4 py-8 flex flex-col">{props.children}</main>;
+	return <main className='px-6 py-6 flex flex-col transition-all'>{props.children}</main>;
 };
 
 export default PlannerCard;

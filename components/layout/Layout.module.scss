@@ -1,0 +1,34 @@
+.app {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	grid-template-rows: max-content 1fr;
+	max-width: 100vw;
+
+	$delay: .6s;
+
+	transition: all $delay ease-in-out;
+	justify-content: center;
+
+	.header {
+		grid-column: 1 / -1;
+	}
+
+	.sidenav {
+		& > * {
+			min-width: max-content;
+		}
+	}
+
+	.content {
+		transition: all $delay ease-in-out;
+		max-width: 90rem;
+	}
+}
+
+.hide-side {
+	.content {
+		justify-self: center;
+		grid-row: 2 / span 1;
+		grid-column: 1 / -1;
+	}
+}
