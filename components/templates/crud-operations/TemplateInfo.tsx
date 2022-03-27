@@ -1,10 +1,11 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
-import { faXmark } from '@fortawesome/pro-solid-svg-icons';
+import { faAngleRight, faXmark } from '@fortawesome/pro-solid-svg-icons';
 
 import classes from './TemplateInfo.module.scss';
 import { Template } from '../../../models/template-models/Template';
+import { faQuoteLeft } from '@fortawesome/pro-duotone-svg-icons';
 
 interface Props {
 	template: Template | undefined;
@@ -29,11 +30,17 @@ const TemplateInfo: React.FC<Props> = ({ template }) => {
 						className='max-w-[2.2rem] text-blue-700 text-2xl'
 					/>
 					<h3>About Template</h3>
-					<p className={classes.para}>
-						Use template planner to add repetitive tasks to whenever week you want.
-						Please complete the template form first if you have not already, before
-						using it.
-					</p>
+					<div className={classes.paras}>
+						<p className={classes.para}>
+							<FontAwesomeIcon icon={faQuoteLeft} className={classes.icon} />
+							Use template planner to add repetitive tasks to whenever week you want.
+						</p>
+						<p className={classes.para}>
+							<FontAwesomeIcon icon={faQuoteLeft} className={classes.icon} />
+							Please complete the template form first if you have not already, before
+							using it.
+						</p>
+					</div>
 				</div>
 			)}
 		</Fragment>
