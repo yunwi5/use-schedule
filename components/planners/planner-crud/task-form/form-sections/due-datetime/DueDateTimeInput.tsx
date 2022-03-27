@@ -12,8 +12,10 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 import { PlannerMode } from '../../../../../../models/planner-models/PlannerMode';
 import DueDayInput from './DueDayInput';
 import { WeekDay } from '../../../../../../models/date-models/WeekDay';
+import { Task } from '../../../../../../models/task-models/Task';
 
 interface Props {
+	initialTask: Task | undefined;
 	register: UseFormRegister<FormValues>;
 	beginningPeriod: Date;
 	isNoDueDate: boolean;
@@ -22,7 +24,7 @@ interface Props {
 }
 
 const DueDateTimeInput: React.FC<Props> = (props) => {
-	const { register, beginningPeriod, isNoDueDate, onDueDateExist } = props;
+	const { register, beginningPeriod, isNoDueDate, onDueDateExist, initialTask } = props;
 
 	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 	const showDayInsteadOfDate = plannerMode === PlannerMode.TEMPLATE;
@@ -48,14 +50,16 @@ const DueDateTimeInput: React.FC<Props> = (props) => {
 				isNoDueDate={isNoDueDate}
 			/>
 
-			<div className={classes.checkbox}>
-				<input
-					type='checkbox'
-					id='no-due-date'
-					onChange={onDueDateExist}
-					checked={isNoDueDate}
-				/>
-				<label htmlFor='no-due-date'>No Due Date</label>
+			<div className={classes.options}>
+				<div className={classes.checkbox}>
+					<input
+						type='checkbox'
+						id='no-due-date'
+						onChange={onDueDateExist}
+						checked={isNoDueDate}
+					/>
+					<label htmlFor='no-due-date'>No Due Date</label>
+				</div>
 			</div>
 		</div>
 	);

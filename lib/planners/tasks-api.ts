@@ -1,7 +1,7 @@
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { PlannerTask } from "../../models/task-models/Task";
-import { TaskProperties } from "../../models/task-models/TaskProperties";
-import { Collection } from "../../utilities/mongodb-util/mongodb-constant";
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { Task } from '../../models/task-models/Task';
+import { TaskProperties } from '../../models/task-models/TaskProperties';
+import { Collection } from '../../utilities/mongodb-util/mongodb-constant';
 
 function getCollectionOfPlaner (plannerMode: PlannerMode): Collection {
 	switch (plannerMode) {
@@ -18,7 +18,7 @@ function getCollectionOfPlaner (plannerMode: PlannerMode): Collection {
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
 
-export async function postTask (newTask: PlannerTask, plannerMode: PlannerMode) {
+export async function postTask (newTask: Task, plannerMode: PlannerMode) {
 	const collection = getCollectionOfPlaner(plannerMode);
 
 	let insertedId: null | string = null;
@@ -26,15 +26,15 @@ export async function postTask (newTask: PlannerTask, plannerMode: PlannerMode) 
 	try {
 		// Send rquest.
 		res = await fetch(`${API_DOMAIN}?collection=${collection}`, {
-			method: "POST",
+			method: 'POST',
 			body: JSON.stringify(newTask),
 			headers: {
-				"Content-Type": "application/json"
+				'Content-Type': 'application/json'
 			}
 		});
 
 		const data = await res.json();
-		console.log("post data:", data);
+		console.log('post data:', data);
 		insertedId = data.insertedId.toString();
 	} catch (err) {
 		console.error(err);
@@ -46,24 +46,20 @@ export async function postTask (newTask: PlannerTask, plannerMode: PlannerMode) 
 	return { isSuccess: true, insertedId };
 }
 
-export async function updateTask (
-	taskId: string,
-	updatedTask: PlannerTask,
-	plannerMode: PlannerMode
-) {
+export async function updateTask (taskId: string, updatedTask: Task, plannerMode: PlannerMode) {
 	const collection = getCollectionOfPlaner(plannerMode);
 
 	let res;
 	try {
 		res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
-			method: "PUT",
+			method: 'PUT',
 			body: JSON.stringify(updatedTask),
 			headers: {
-				"Content-Type": "application/json"
+				'Content-Type': 'application/json'
 			}
 		});
 		const data = await res.json();
-		console.log("Put request response:", data);
+		console.log('Put request response:', data);
 	} catch (err) {
 		console.error(err);
 	}
@@ -80,10 +76,10 @@ export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
 	let res;
 	try {
 		res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
-			method: "DELETE"
+			method: 'DELETE'
 		});
 		const data = await res.json();
-		console.log("Delete data:", data);
+		console.log('Delete data:', data);
 	} catch (err) {
 		console.error(err);
 	}
@@ -104,18 +100,18 @@ export async function updateTaskProperties (
 	let res;
 	try {
 		res = await fetch(`${API_DOMAIN}/task-update/${taskId}`, {
-			method: "PATCH",
+			method: 'PATCH',
 			body: JSON.stringify({
 				updateProps,
 				collection
 			}),
 			headers: {
-				"Content-Type": "application/json"
+				'Content-Type': 'application/json'
 			}
 		});
 
 		const data = await res.json();
-		console.log("Update data:", data);
+		console.log('Update data:', data);
 	} catch (err) {
 		console.error(err);
 	}

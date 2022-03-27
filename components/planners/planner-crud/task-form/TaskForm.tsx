@@ -16,7 +16,7 @@ import {
 import GeneralInputs from './form-sections/GeneralInputs';
 import DurationInput from './form-sections/DurationInput';
 import PlanTimeInput from './form-sections/plan-datetime/PlanDateTimeInput';
-import DueDateInput from './form-sections/due-datetime/DueDateTimeInput';
+import DueDateTimeInput from './form-sections/due-datetime/DueDateTimeInput';
 import { getWeekEnding } from '../../../../utilities/time-utils/date-get';
 import classes from './TaskForm.module.scss';
 import FormButtons from './TaskFormButtons';
@@ -108,7 +108,8 @@ const TaskForm: React.FC<Props> = (props) => {
 				/>
 
 				{/* Due Datetime */}
-				<DueDateInput
+				<DueDateTimeInput
+					initialTask={initialTask}
 					register={register}
 					beginningPeriod={beginningPeriod}
 					isNoDueDate={isNoDueDate}

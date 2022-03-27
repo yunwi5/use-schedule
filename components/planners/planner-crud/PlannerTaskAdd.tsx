@@ -15,7 +15,7 @@ import TemplateTaskForm from './task-form/TemplateTaskForm';
 
 interface Props {
 	onClose: () => void;
-	onAddTask: (newTask: PlannerTask) => void;
+	onAddTask: () => void;
 	beginningPeriod: Date;
 }
 
@@ -25,6 +25,9 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const userId = user ? user.sub : null;
 
 	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
+	const currentTemplate = useSelector(
+		(state: RootStateOrAny) => state.template.currentActiveTemplate
+	);
 
 	const { setNotification } = useNotification();
 	const [ showDiscardModal, setShowDiscardModal ] = useState(false);
@@ -37,7 +40,6 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			alert('User is not logged in!');
 			return;
 		}
-		console.log('new form task before inserting:', newFormTask);
 		const newTask: Task = {
 			...newFormTask,
 			id: uuidv4(),
@@ -45,18 +47,22 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			userId
 		};
 
-		const newPlannerTask = new PlannerTask(newTask);
+		if (plannerMode === PlannerMode.TEMPLATE && currentTemplate) {
+			newTask.templateId = currentTemplate.id;
+		}
+
+		console.log('newTask:', newTask);
 
 		setNotification(NotifStatus.PENDING);
-		const { isSuccess, insertedId } = await postTask(newPlannerTask, plannerMode);
+		const { isSuccess, insertedId } = await postTask(newTask, plannerMode);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS);
 		} else {
 			setNotification(NotifStatus.ERROR);
 		}
 
-		if (insertedId) newPlannerTask.id = insertedId;
-		onAddTask(newPlannerTask);
+		if (insertedId) newTask.id = insertedId;
+		onAddTask(); // call mutate
 		onClose();
 	};
 
@@ -71,6 +77,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const userHasEditHandler = useCallback((hasEdit: boolean) => {
 		setUserHasEdit(hasEdit);
 	}, []);
+
+	// console.log(`currentActiveTemplate:`, currentTemplate);
 
 	return (
 		<PlannerModal onClose={closeHandler} title={'Add New Task'}>

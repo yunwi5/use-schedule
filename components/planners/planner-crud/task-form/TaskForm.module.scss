@@ -61,7 +61,8 @@
 	.time,
 	.duration__endtime,
 	.month,
-	.day {
+	.day,
+	.weekday {
 		display: flex;
 		flex-direction: column;
 		gap: 7px;
@@ -76,7 +77,8 @@
 	.category,
 	.datetime,
 	.dueDatetime,
-	.duration {
+	.duration,
+	.weekday {
 		padding-left: 5px;
 	}
 
@@ -114,31 +116,38 @@
 	.date,
 	.time,
 	.month,
-	.day {
+	.day,
+	.weekday {
+		cursor: not-allowed;
 		input {
 			width: 175px;
 		}
-		input:disabled {
+		input:disabled,
+		select:disabled {
 			opacity: .5;
-		}
-		input:disabled ~ label {
-			opacity: .5;
+
+			& ~ label {
+				opacity: .5;
+			}
 		}
 	}
 
 	.date,
-	.time {
+	.time,
+	.weekday {
 		label {
 			order: 1;
 		}
 
-		input {
+		input,
+		select {
 			order: 2;
 		}
 	}
 
 	.date,
-	.month {
+	.month,
+	.weekday {
 		width: 50%;
 	}
 

@@ -1,10 +1,11 @@
 import { FormTaskObject, Task } from '../../models/task-models/Task';
 import { TaskStatus } from '../../models/task-models/Status';
-import { addMinutes } from '../time-utils/date-control';
-import { getWeekEnding } from '../time-utils/date-get';
+import { addDays, addMinutes } from '../time-utils/date-control';
+import { getDayOffset, getWeekEnding } from '../time-utils/date-get';
 import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from '../time-utils/date-format';
 import { TemplateFormValues } from '../../components/planners/planner-crud/task-form/TemplateTaskForm';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { WeekDay } from '../../models/date-models/WeekDay';
 
 export interface FormValues extends TemplateFormValues {
 	name: string;
@@ -116,21 +117,41 @@ export function getFormTaskObject (
 		durationHours = 0,
 		durationMinutes = 0,
 		month, // optional (yearly task)
-		monthDay // optional (yearly task)
+		monthDay, // optional (yearly task)
+		day,
+		dueDay
 	} = data;
 
-	let timeString = new Date(
-		`${date || beginningPeriod.toDateString()} ${time || getISOTimeFormat(beginningPeriod)}`
-	).toString();
-
-	// If only exists
-	if (monthDateOnly && month && monthDay) {
-		timeString = new Date(`${beginningPeriod.getFullYear()} ${month} ${monthDay}`).toString();
-	}
-
 	const duration = durationDays * (24 * 60) + durationHours * 60 + durationMinutes;
-	let dueDateString =
-		dueDate && dueTime ? new Date(`${dueDate} ${dueTime}`).toString() : undefined;
+	let timeString, dueDateString;
+
+	if (plannerMode !== PlannerMode.TEMPLATE) {
+		timeString = new Date(
+			`${date || beginningPeriod.toDateString()} ${time || getISOTimeFormat(beginningPeriod)}`
+		).toString();
+
+		// If only exists
+		if (monthDateOnly && month && monthDay) {
+			timeString = new Date(
+				`${beginningPeriod.getFullYear()} ${month} ${monthDay}`
+			).toString();
+		}
+
+		dueDateString =
+			dueDate && dueTime ? new Date(`${dueDate} ${dueTime}`).toString() : undefined;
+	} else {
+		const planDayOffset = day ? getDayOffset(day as WeekDay) : undefined;
+		const planDateString: string = addDays(beginningPeriod, planDayOffset || 0).toDateString();
+		timeString = new Date(
+			`${planDateString} ${time || getISOTimeFormat(beginningPeriod)}`
+		).toString();
+
+		const dueDayOffset = dueDay ? getDayOffset(dueDay as WeekDay) : undefined;
+		const dueDateStr: string = addDays(beginningPeriod, dueDayOffset).toDateString();
+		dueDateString = dueDayOffset
+			? new Date(`${dueDateStr} ${dueTime || getISOTimeFormat(beginningPeriod)}`).toString()
+			: undefined;
+	}
 
 	const newTask: FormTaskObject = {
 		name,

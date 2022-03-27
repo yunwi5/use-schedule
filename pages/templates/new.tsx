@@ -1,21 +1,21 @@
 // import type {NextPage} from 'next'
-import { useState, useDebugValue } from "react";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { useQuery, useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
+import { useState, useDebugValue } from 'react';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useQuery, useQueryClient } from 'react-query';
+import { useDispatch } from 'react-redux';
 
-import { TemplateFormObj, Template } from "../../models/template-models/Template";
-import TemplatePlanner from "../../components/templates/TemplatePlanner";
-import { Task } from "../../models/task-models/Task";
+import { TemplateFormObj, Template } from '../../models/template-models/Template';
+import TemplatePlanner from '../../components/templates/TemplatePlanner';
+import { Task } from '../../models/task-models/Task';
 import {
 	getTemplate,
 	getTemplateTasks,
 	patchTemplate,
 	postTemplate
-} from "../../lib/templates/templates-api";
-import { templateActions } from "../../store/redux/template-slice";
+} from '../../lib/templates/templates-api';
+import { templateActions } from '../../store/redux/template-slice';
 
 interface Props {
 	userId: string;
@@ -24,13 +24,13 @@ interface Props {
 }
 
 const New: React.FC<Props> = ({ userId, user }) => {
-	const [ templateId, setTemplateId ] = useState<string>("");
+	const [ templateId, setTemplateId ] = useState<string>('');
 	useDebugValue(templateId);
 	const dispatch = useDispatch();
 
 	const queryClient = useQueryClient();
 	const { data: templateData, isLoading: isTemplateLoading, error: templateError } = useQuery(
-		[ "template", templateId ],
+		[ 'template', templateId ],
 		getTemplate,
 		{
 			enabled: !!templateId
@@ -38,18 +38,18 @@ const New: React.FC<Props> = ({ userId, user }) => {
 	);
 	const template: Template | null = templateData ? templateData.template : null;
 	if (!!templateError) {
-		console.error("Template query has errors!");
+		console.error('Template query has errors!');
 		console.log(templateError);
 	}
 
 	const { data: taskData, isLoading: isTasksLoading, error: tasksError } = useQuery(
-		[ "templateTasks", templateId ],
+		[ 'templateTasks', templateId ],
 		getTemplateTasks,
-		{ enabled: false } // false for now, since the API is not implemented yet.
+		{ enabled: !!templateId } // false for now, since the API is not implemented yet.
 	);
 	const templateTasks: Task[] = taskData ? taskData.tasks : null;
 	if (tasksError) {
-		console.error("TemplateTasks query has errors!");
+		console.error('TemplateTasks query has errors!');
 		console.log(tasksError);
 	}
 
@@ -72,18 +72,18 @@ const New: React.FC<Props> = ({ userId, user }) => {
 			// Send PUT Request
 			// Invalidate query then.
 			const { isSuccess, message } = await patchTemplate(templateId, tempObj);
-			queryClient.invalidateQueries("template");
+			queryClient.invalidateQueries('template');
 			if (!isSuccess) return false;
 		}
 
-		console.log("Call invalidation of templates through redux.");
+		console.log('Call invalidation of templates through redux.');
 		dispatch(templateActions.callUpdate());
 
 		return true;
 	};
 
 	const invalidateTemplateTasks = () => {
-		queryClient.invalidateQueries("templateTasks");
+		queryClient.invalidateQueries('templateTasks');
 	};
 
 	return (
@@ -91,8 +91,8 @@ const New: React.FC<Props> = ({ userId, user }) => {
 			<Head>
 				<title>New Template</title>
 				<meta
-					name="description"
-					content="New custom template to add users' repetitive tasks in one place."
+					name='description'
+					content='New custom template to add users&#39; repetitive tasks in one place.'
 				/>
 			</Head>
 			<TemplatePlanner
@@ -115,7 +115,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 		if (!session) {
 			return {
 				redirect: {
-					destination: "/login",
+					destination: '/login',
 					permanent: false
 				}
 			};

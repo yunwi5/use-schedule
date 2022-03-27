@@ -1,7 +1,7 @@
-import { Task } from "../../models/task-models/Task";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { TaskStatus } from "../../models/task-models/Status";
-import { SubTask } from "../../models/task-models/SubTask";
+import { Task } from '../../models/task-models/Task';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { TaskStatus } from '../../models/task-models/Status';
+import { SubTask } from '../../models/task-models/SubTask';
 
 export function convertToTasks (data: any[]): Task[] {
 	const tasks: Task[] = [];

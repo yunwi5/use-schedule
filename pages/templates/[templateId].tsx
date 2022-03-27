@@ -1,29 +1,31 @@
-import { NextPage } from "next";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { useQuery, useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useQuery, useQueryClient } from 'react-query';
+import { useDispatch } from 'react-redux';
 
-import { TemplateFormObj, Template } from "../../models/template-models/Template";
-import TemplatePlanner from "../../components/templates/TemplatePlanner";
-import { Task } from "../../models/task-models/Task";
+import { TemplateFormObj, Template } from '../../models/template-models/Template';
+import TemplatePlanner from '../../components/templates/TemplatePlanner';
+import { Task } from '../../models/task-models/Task';
+import { getTemplate, getTemplateTasks, patchTemplate } from '../../lib/templates/templates-api';
+import { templateActions } from '../../store/redux/template-slice';
 import {
-	getTemplate,
-	getTemplateTasks,
-	patchTemplate,
-} from "../../lib/templates/templates-api";
-import { templateActions } from "../../store/redux/template-slice";
-import { getTemplateFromPage } from "../../utilities/mongodb-util/pages-util";
-import { convertToTemplate } from "../../utilities/template-utils/template-util";
+	getTemplateFromPage,
+	getTemplateTasksFromPage
+} from '../../utilities/mongodb-util/pages-util';
+import { convertToTemplate } from '../../utilities/template-utils/template-util';
+import { convertToTasks } from '../../utilities/tasks-utils/task-util';
 
 interface Props {
 	template: null | Template;
+	templateTasks: Task[];
 	user: Claims;
 }
 
 const TemplatePage: NextPage<Props> = (props) => {
-	const { template: initialTemplate } = props;
+	const { template: initialTemplate, templateTasks: initialTasks } = props;
 	// console.log(user);
 
 	const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const TemplatePage: NextPage<Props> = (props) => {
 
 	const queryClient = useQueryClient();
 	const { data: templateData, error: templateError } = useQuery(
-		[ "template", templateId ],
+		[ 'template', templateId ],
 		getTemplate,
 		{
 			enabled: !!templateId,
@@ -40,31 +42,32 @@ const TemplatePage: NextPage<Props> = (props) => {
 	);
 	const template: Template | null = templateData ? templateData.template : null;
 	if (templateError) {
-		console.error("Template query has errors!");
+		console.error('Template query has errors!');
 		console.log(templateError);
 	}
 
 	const { data: taskData, isLoading: isTasksLoading, error: tasksError } = useQuery(
-		[ "templateTasks", templateId ],
+		[ 'templateTasks', templateId ],
 		getTemplateTasks,
-		{ enabled: false } // false for now, since the API is not implemented yet.
+		{ enabled: !!templateId, initialData: { tasks: initialTasks } } // false for now, since the API is not implemented yet.
 	);
 	const templateTasks: Task[] = taskData ? taskData.tasks : null;
 	if (tasksError) {
-		console.error("TemplateTasks query has errors!");
+		console.error('TemplateTasks query has errors!');
 		console.log(tasksError);
 	}
 
-	const mutateTemplate = async (tempObj: TemplateFormObj, isNew: boolean = false): Promise<boolean> => {
+	const mutateTemplate = async (
+		tempObj: TemplateFormObj,
+		isNew: boolean = false
+	): Promise<boolean> => {
 		// No post request needed since the template is already defined at the beginning.
 		if (!templateId) return false;
 		// Send PUT Request
 		// Invalidate query then.
-		const { isSuccess, message } = await patchTemplate(templateId, tempObj);
-		queryClient.invalidateQueries("template");
+		const { isSuccess } = await patchTemplate(templateId, tempObj);
+		queryClient.invalidateQueries('template');
 		if (!isSuccess) {
-			console.log("Updating template unsuccessful.");
-			console.log(`Look at: ${message}`);
 			return false;
 		}
 		dispatch(templateActions.callUpdate());
@@ -72,16 +75,25 @@ const TemplatePage: NextPage<Props> = (props) => {
 	};
 
 	const invalidateTemplateTasks = () => {
-		queryClient.invalidateQueries("templateTasks");
+		queryClient.invalidateQueries('templateTasks');
 	};
+
+	useEffect(
+		() => {
+			if (template) {
+				dispatch(templateActions.setActiveTemplate(template));
+			}
+		},
+		[ template, dispatch ]
+	);
 
 	return (
 		<div>
 			<Head>
-				<title>Template {template?.name}</title>
+				<title>Template {template ? template.name : 'Unknown'}</title>
 				<meta
-					name="description"
-					content="New custom template to add users' repetitive tasks in one place."
+					name='description'
+					content='New custom template to add users&#39; repetitive tasks in one place.'
 				/>
 			</Head>
 			<TemplatePlanner
@@ -103,29 +115,35 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 		if (!session || !session.user) {
 			return {
 				redirect: {
-					destination: "/login",
+					destination: '/login',
 					permanent: false
 				}
 			};
 		}
 		const { templateId: initialId } = query;
-		const templateId = Array.isArray(initialId) ? initialId.join("") : initialId;
+		const templateId = Array.isArray(initialId) ? initialId.join('') : initialId;
 		// Find template based on the userId
 		if (!templateId) {
 			return {
 				notFound: true,
-				redirect: { destination: "/" }
+				redirect: { destination: '/' }
 			};
 		}
 
-		const templateData = await getTemplateFromPage(templateId);
-		const template = convertToTemplate(templateData);
+		const templateP = getTemplateFromPage(templateId);
+		const templateTasksP = getTemplateTasksFromPage(templateId);
 
-		// Need to fetch templateTasks here as well.
+		const [ templateData, templateTasksData ] = await Promise.all([
+			templateP,
+			templateTasksP
+		]);
+		const template = convertToTemplate(templateData);
+		const templateTasks = templateTasksData ? convertToTasks(templateTasksData) : [];
 
 		return {
 			props: {
-				template
+				template,
+				templateTasks
 			}
 		};
 	}

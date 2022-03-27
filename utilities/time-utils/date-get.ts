@@ -1,6 +1,6 @@
-import { resetHoursAndMinutes } from "./date-control";
-import { WeekDay, WeekDayList } from "../../models/date-models/WeekDay";
-import { mod } from "../gen-utils/calc-util";
+import { resetHoursAndMinutes } from './date-control';
+import { WeekDay, WeekDayList } from '../../models/date-models/WeekDay';
+import { mod } from '../gen-utils/calc-util';
 
 const NUM_DAYS_PER_WEEK = 7;
 
@@ -10,6 +10,7 @@ export function getDayName (offset: number): WeekDay {
 }
 
 export function getDayOffset (weekDay: WeekDay): number {
+	if (!weekDay) return 0;
 	const index = WeekDayList.indexOf(weekDay);
 	const offset = mod(index - 1, NUM_DAYS_PER_WEEK);
 	return offset;

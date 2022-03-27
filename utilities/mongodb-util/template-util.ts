@@ -1,7 +1,13 @@
 import { MongoClient, ObjectId } from 'mongodb';
 
-import { TemplateCollection } from './mongodb-constant';
+import { TemplateCollection, Collection } from './mongodb-constant';
 import { Template, TemplateProperties } from '../../models/template-models/Template';
+
+export async function getTemplateTasksById (client: MongoClient, templateId: string) {
+	const db = client.db();
+	const data = await db.collection(Collection.TEMPLATE_TASKS).find({ templateId }).toArray();
+	return data;
+}
 
 export async function insertTemplate (client: MongoClient, template: Template) {
 	const db = client.db();

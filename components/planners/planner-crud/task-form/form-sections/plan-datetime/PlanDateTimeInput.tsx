@@ -66,7 +66,7 @@ const PlanDateTimeInput: React.FC<Props> = (props) => {
 			{!monthDateOnly && (
 				<Fragment>
 					{showDayInsteadOfDate ? (
-						<WeekdayInput register={register} />
+						<WeekdayInput register={register} isAnyTime={isAnyTime} />
 					) : (
 						<DateInput
 							register={register}

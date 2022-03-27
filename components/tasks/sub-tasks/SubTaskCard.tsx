@@ -1,12 +1,14 @@
-import React, { Fragment, useState, useEffect, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
-import { faCheck, faStar as faStarSolid } from "@fortawesome/pro-solid-svg-icons";
-import { faXmark } from "@fortawesome/pro-regular-svg-icons";
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
+import { faCheck, faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
+import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
-import { SubTask } from "../../../models/task-models/SubTask";
-import { patchSubTaskProps } from "../../../lib/planners/subtasks-api";
-import classes from "./SubTaskCard.module.scss";
+import { SubTask } from '../../../models/task-models/SubTask';
+import { patchSubTaskProps } from '../../../lib/planners/subtasks-api';
+import { RootStateOrAny, useSelector } from 'react-redux';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import classes from './SubTaskCard.module.scss';
 
 interface Props {
 	subTask: SubTask;
@@ -17,6 +19,12 @@ interface Props {
 
 const SubTaskCard: React.FC<Props> = (props) => {
 	const { subTask, onDelete, isEditMode, onInvalidate } = props;
+
+	// Disable "complete" functionality if the task type is TemplateTask. TemplateTask is only for
+	// template so, it cannot be completed.
+	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
+	const disableComplete = plannerMode === PlannerMode.TEMPLATE;
+
 	const [ currentText, setCurrentText ] = useState<string>(subTask.name);
 	const [ isImportant, setIsImportant ] = useState(subTask.isImportant);
 	const [ isCompleted, setIsCompleted ] = useState(subTask.isCompleted);
@@ -36,6 +44,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 	};
 
 	const toggleIsCompleted = async () => {
+		if (disableComplete) return;
 		const newIsCompleted = !isCompleted;
 		setIsCompleted(newIsCompleted);
 
@@ -55,10 +64,9 @@ const SubTaskCard: React.FC<Props> = (props) => {
 
 			const updateName = async () => {
 				// Send PATCH Request
-				const { isSuccess, message } = await patchSubTaskProps(subTask.id, {
+				await patchSubTaskProps(subTask.id, {
 					name: currentText
 				});
-				console.log(`Update SubTask name success: ${isSuccess}, message: ${message}`);
 				onInvalidate();
 			};
 			updateName();
@@ -76,23 +84,30 @@ const SubTaskCard: React.FC<Props> = (props) => {
 	);
 
 	return (
-		<div className="md:max-w-[99%] lg:max-w-[95%] mt-2 p-2 flex items-center justify-between shadow-md hover:shadow-xl hover:-translate-y-[2px] transition-all text-slate-600 border-slate-200 border-2 rounded-md">
+		<div className='md:max-w-[99%] lg:max-w-[95%] mt-2 p-2 flex items-center justify-between shadow-md hover:shadow-xl hover:-translate-y-[2px] transition-all text-slate-600 border-slate-200 border-2 rounded-md'>
 			<div
 				className={`md:w-6 md:h-6 lg:w-7 lg:min-w-7 lg:h-7 lg:min-w-7 flex items-center justify-center rounded-full border-2 ${isCompleted
-					? "border-green-300"
-					: "border-slate-300"} cursor-pointer`}
+					? 'border-green-300'
+					: 'border-slate-300'} cursor-pointer`}
 				onClick={toggleIsCompleted}
 			>
-				{isCompleted && (
+				{!disableComplete &&
+				isCompleted && (
 					<FontAwesomeIcon icon={faCheck} className={`text-green-500 ${classes.icon}`} />
+				)}
+				{disableComplete && (
+					<FontAwesomeIcon
+						icon={faCheck}
+						className={`text-green-100 max-w-[2.1rem] cursor-not-allowed text-xl`}
+					/>
 				)}
 			</div>
 			{!isEditMode && (
 				<Fragment>
 					<p
 						className={`mr-auto ml-4 max-w-[85%] ${isCompleted
-							? "line-through text-slate-400"
-							: ""}`}
+							? 'line-through text-slate-400'
+							: ''}`}
 					>
 						{currentText}
 					</p>
@@ -114,12 +129,12 @@ const SubTaskCard: React.FC<Props> = (props) => {
 			{isEditMode && (
 				<Fragment>
 					<input
-						type="text"
+						type='text'
 						onChange={textChangeHandler}
 						value={currentText}
-						id="subtask-name"
+						id='subtask-name'
 						maxLength={60}
-						className="lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none"
+						className='lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none'
 					/>
 					<FontAwesomeIcon
 						onClick={onDelete.bind(null, subTask.id)}

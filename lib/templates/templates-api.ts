@@ -5,9 +5,6 @@ import { Collection } from '../../utilities/mongodb-util/mongodb-constant';
 const API_TEMPLATE_DOMAIN = process.env.API_DOMIN_RELATIVE
 	? `${process.env.API_DOMIN_RELATIVE}/templates`
 	: 'api/templates';
-const API_TASKS_DOMAIN = process.env.API_DOMIN_RELATIVE
-	? `${process.env.API_DOMIN_RELATIVE}/planners/template-tasks`
-	: '/api/planners/template-tasks';
 
 const collection = Collection.TEMPLATE_TASKS;
 
@@ -19,9 +16,7 @@ export async function getTemplate (context: any) {
 // Should be used after template APIs are resolved.
 export async function getTemplateTasks (context: any) {
 	const [ name, templateId ] = context.queryKey;
-	return fetch(`${API_TASKS_DOMAIN}/${templateId}?collection=${collection}`).then((res) =>
-		res.json()
-	);
+	return fetch(`${API_TEMPLATE_DOMAIN}/template-tasks/${templateId}`).then((res) => res.json());
 }
 
 export async function postTemplate (newTemplate: TemplateFormObj) {

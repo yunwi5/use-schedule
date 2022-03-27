@@ -8,17 +8,23 @@ import classes from '../../TaskForm.module.scss';
 interface Props {
 	register: UseFormRegister<FormValues>;
 	initialDay?: WeekDay;
+	isAnyTime: boolean;
 }
 
 const weekdayList = WeekDayListFromMonday.slice(0, WeekDayListFromMonday.length - 1);
 
-const WeekdayInput: React.FC<Props> = ({ register, initialDay }) => {
+const WeekdayInput: React.FC<Props> = ({ register, initialDay, isAnyTime }) => {
 	return (
-		<div className={`${classes.importance} ${classes.date} ${classes.weekday}`}>
-			<label htmlFor='weekday'>Day</label>
-			<select {...register('day')} id='weekday' defaultValue={initialDay ? initialDay : ''}>
+		<div className={`${classes.weekday}`}>
+			<select
+				{...register('day')}
+				id='weekday'
+				defaultValue={initialDay ? initialDay : ''}
+				disabled={isAnyTime}
+			>
 				{weekdayList.map((day) => <option key={day}>{day}</option>)}
 			</select>
+			<label htmlFor='weekday'>Day</label>
 		</div>
 	);
 };
