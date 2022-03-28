@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { Task } from '../../models/task-models/Task';
 import { TemplateFormObj, TemplateProperties } from '../../models/template-models/Template';
+import { TemplateTask } from '../../models/template-models/TemplateTask';
 import { Collection } from '../../utilities/mongodb-util/mongodb-constant';
 
 const API_TEMPLATE_DOMAIN = process.env.API_DOMIN_RELATIVE
@@ -16,7 +18,15 @@ export async function getTemplate (context: any) {
 // Should be used after template APIs are resolved.
 export async function getTemplateTasks (context: any) {
 	const [ name, templateId ] = context.queryKey;
-	return fetch(`${API_TEMPLATE_DOMAIN}/template-tasks/${templateId}`).then((res) => res.json());
+	return fetch(`${API_TEMPLATE_DOMAIN}/${collection}/${templateId}`).then((res) => res.json());
+}
+
+// Tried axios. Is it inconsistent?
+export async function getTemplateTasksById (templateId: string) {
+	const { data } = await axios.get<{ message: string; tasks?: Task[] }>(
+		`${API_TEMPLATE_DOMAIN}/${collection}/${templateId}`,
+	);
+	return data;
 }
 
 export async function postTemplate (newTemplate: TemplateFormObj) {
@@ -27,9 +37,9 @@ export async function postTemplate (newTemplate: TemplateFormObj) {
 		res = await fetch(`${API_TEMPLATE_DOMAIN}/`, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(newTemplate)
+			body: JSON.stringify(newTemplate),
 		});
 		data = await res.json();
 		// console.log("Template POST data:", data);
@@ -43,7 +53,7 @@ export async function postTemplate (newTemplate: TemplateFormObj) {
 	if (!res || !res.ok)
 		return {
 			isSuccess: false,
-			message
+			message,
 		};
 	return { isSuccess: true, message, insertedId };
 }
@@ -55,9 +65,9 @@ export async function patchTemplate (templateId: string, templateProps: Template
 		res = await fetch(`${API_TEMPLATE_DOMAIN}/${templateId}`, {
 			method: 'PATCH',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(templateProps)
+			body: JSON.stringify(templateProps),
 		});
 		data = await res.json();
 		// console.log("Template PATCH data:", data);
@@ -70,7 +80,7 @@ export async function patchTemplate (templateId: string, templateProps: Template
 	if (!res || !res.ok)
 		return {
 			isSuccess: false,
-			message
+			message,
 		};
 	return { isSuccess: true, message };
 }

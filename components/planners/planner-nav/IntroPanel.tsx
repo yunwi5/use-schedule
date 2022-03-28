@@ -1,15 +1,16 @@
-import React, { useState, Fragment } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, Fragment } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faCalendarCircleExclamation,
 	faChartPie,
-	faCircleInfo
-} from "@fortawesome/pro-duotone-svg-icons";
+	faCircleInfo,
+} from '@fortawesome/pro-duotone-svg-icons';
 
-import Button from "../../ui/Button";
-import { Size, Theme } from "../../../models/design-models";
-import classes from "./IntroPanel.module.scss";
-import { faXmark } from "@fortawesome/pro-regular-svg-icons";
+import Button from '../../ui/Button';
+import { Size, Theme } from '../../../models/design-models';
+import classes from './IntroPanel.module.scss';
+import { faXmark } from '@fortawesome/pro-regular-svg-icons';
+import ImportModal from '../planner-modal/ImportModal';
 
 interface Props {
 	title: string;
@@ -19,9 +20,14 @@ interface Props {
 const IntroPanel: React.FC<Props> = (props) => {
 	const { title, message } = props;
 	const [ showPanel, setShowPanel ] = useState(true);
+	const [ showImportModal, setShowImportModal ] = useState(false);
 
 	const showPanelHandler = (show: boolean) => {
 		setShowPanel(show);
+	};
+
+	const importModalHandler = (show: boolean) => {
+		setShowImportModal(show);
 	};
 
 	return (
@@ -53,17 +59,18 @@ const IntroPanel: React.FC<Props> = (props) => {
 							size={Size.MEDIUM}
 						>
 							<FontAwesomeIcon
-								className="mr-2 max-w-[1.3rem]"
+								className='mr-2 max-w-[1.3rem]'
 								icon={faChartPie as any}
-							/>{" "}
+							/>{' '}
 							See Statistics
 						</Button>
 						<Button
 							className={`mr-4 flex items-center ${classes.btn}`}
 							theme={Theme.TERTIARY}
+							onClick={importModalHandler.bind(null, true)}
 						>
 							<FontAwesomeIcon
-								className="mr-2 max-w-[1.3rem]"
+								className='mr-2 max-w-[1.3rem]'
 								icon={faCalendarCircleExclamation}
 							/>
 							Import Template
@@ -71,6 +78,7 @@ const IntroPanel: React.FC<Props> = (props) => {
 					</div>
 				</div>
 			)}
+			{showImportModal && <ImportModal onClose={importModalHandler.bind(null, false)} />}
 		</Fragment>
 	);
 };

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -13,7 +13,7 @@ import { getTemplate, getTemplateTasks, patchTemplate } from '../../lib/template
 import { templateActions } from '../../store/redux/template-slice';
 import {
 	getTemplateFromPage,
-	getTemplateTasksFromPage
+	getTemplateTasksFromPage,
 } from '../../utilities/mongodb-util/pages-util';
 import { convertToTemplate } from '../../utilities/template-utils/template-util';
 import { convertToTasks } from '../../utilities/tasks-utils/task-util';
@@ -26,7 +26,6 @@ interface Props {
 
 const TemplatePage: NextPage<Props> = (props) => {
 	const { template: initialTemplate, templateTasks: initialTasks } = props;
-	// console.log(user);
 
 	const dispatch = useDispatch();
 	const templateId = initialTemplate ? initialTemplate.id : null;
@@ -37,8 +36,8 @@ const TemplatePage: NextPage<Props> = (props) => {
 		getTemplate,
 		{
 			enabled: !!templateId,
-			initialData: { template: initialTemplate }
-		}
+			initialData: { template: initialTemplate },
+		},
 	);
 	const template: Template | null = templateData ? templateData.template : null;
 	if (templateError) {
@@ -49,7 +48,7 @@ const TemplatePage: NextPage<Props> = (props) => {
 	const { data: taskData, isLoading: isTasksLoading, error: tasksError } = useQuery(
 		[ 'templateTasks', templateId ],
 		getTemplateTasks,
-		{ enabled: !!templateId, initialData: { tasks: initialTasks } } // false for now, since the API is not implemented yet.
+		{ enabled: !!templateId, initialData: { tasks: initialTasks } }, // false for now, since the API is not implemented yet.
 	);
 	const templateTasks: Task[] = taskData ? taskData.tasks : null;
 	if (tasksError) {
@@ -57,26 +56,29 @@ const TemplatePage: NextPage<Props> = (props) => {
 		console.log(tasksError);
 	}
 
-	const mutateTemplate = async (
-		tempObj: TemplateFormObj,
-		isNew: boolean = false
-	): Promise<boolean> => {
-		// No post request needed since the template is already defined at the beginning.
-		if (!templateId) return false;
-		// Send PUT Request
-		// Invalidate query then.
-		const { isSuccess } = await patchTemplate(templateId, tempObj);
-		queryClient.invalidateQueries('template');
-		if (!isSuccess) {
-			return false;
-		}
-		dispatch(templateActions.callUpdate());
-		return true;
-	};
+	const mutateTemplate = useCallback(
+		async (tempObj: TemplateFormObj, isNew: boolean = false): Promise<boolean> => {
+			// No post request needed since the template is already defined at the beginning.
+			if (!templateId) return false;
+			// Send PUT Request
+			// Invalidate query then.
+			const { isSuccess } = await patchTemplate(templateId, tempObj);
+			queryClient.invalidateQueries('template');
+			if (!isSuccess) {
+				return false;
+			}
+			dispatch(templateActions.callUpdate());
+			return true;
+		},
+		[ queryClient, dispatch, templateId ],
+	);
 
-	const invalidateTemplateTasks = () => {
-		queryClient.invalidateQueries('templateTasks');
-	};
+	const invalidateTemplateTasks = useCallback(
+		() => {
+			queryClient.invalidateQueries('templateTasks');
+		},
+		[ queryClient ],
+	);
 
 	useEffect(
 		() => {
@@ -84,7 +86,7 @@ const TemplatePage: NextPage<Props> = (props) => {
 				dispatch(templateActions.setActiveTemplate(template));
 			}
 		},
-		[ template, dispatch ]
+		[ template, dispatch ],
 	);
 
 	return (
@@ -116,8 +118,8 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 			return {
 				redirect: {
 					destination: '/login',
-					permanent: false
-				}
+					permanent: false,
+				},
 			};
 		}
 		const { templateId: initialId } = query;
@@ -126,7 +128,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 		if (!templateId) {
 			return {
 				notFound: true,
-				redirect: { destination: '/' }
+				redirect: { destination: '/' },
 			};
 		}
 
@@ -135,7 +137,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 
 		const [ templateData, templateTasksData ] = await Promise.all([
 			templateP,
-			templateTasksP
+			templateTasksP,
 		]);
 		const template = convertToTemplate(templateData);
 		const templateTasks = templateTasksData ? convertToTasks(templateTasksData) : [];
@@ -143,8 +145,8 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 		return {
 			props: {
 				template,
-				templateTasks
-			}
+				templateTasks,
+			},
 		};
-	}
+	},
 });

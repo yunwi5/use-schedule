@@ -30,6 +30,7 @@
 		"react-hook-form": "^7.27.0",
 		"react-query": "^3.34.16",
 		"react-redux": "^7.2.6",
+		"react-spinners": "^0.11.0",
 		"swr": "^1.2.1",
 		"uuid": "^8.3.2"
 	},

@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, Fragment, useEffect, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
-import { faAngleRight, faXmark } from '@fortawesome/pro-solid-svg-icons';
+import { faXmark } from '@fortawesome/pro-solid-svg-icons';
 
 import classes from './TemplateInfo.module.scss';
 import { Template } from '../../../models/template-models/Template';
@@ -47,4 +47,4 @@ const TemplateInfo: React.FC<Props> = ({ template }) => {
 	);
 };
 
-export default TemplateInfo;
+export default memo(TemplateInfo);
