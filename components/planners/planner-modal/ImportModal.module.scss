@@ -1,0 +1,98 @@
+@import "../../../styles/abstract/variables";
+
+.modal {
+	font-size: $default-font-size;
+	color: $color-primary-dark-3;
+	padding: 1rem 2rem;
+
+	$modal-width: 50rem;
+
+	position: fixed;
+	top: 50%;
+	left: calc(50% - #{$modal-width} / 2);
+	width: $modal-width;
+	@media (max-width: 1000px) {
+		width: 30rem;
+		left: calc(50% - 30rem / 2);
+	}
+	@media (max-width: 600px) {
+		width: 22rem;
+		left: calc(50% - 22rem / 2);
+	}
+
+	display: flex;
+	flex-direction: column;
+	gap: 1.7rem;
+
+	.exit {
+		color: $color-primary-dark-2;
+		font-size: 130%;
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		cursor: pointer;
+		max-width: 2.2rem;
+		transition: .3s all ease-in-out;
+
+		&:hover {
+			color: $color-rose;
+			font-size: 150%;
+			box-shadow: 0 0 5rem rgba(0, 0, 0, .15);
+		}
+	}
+}
+
+.heading {
+	font-size: 140%;
+	text-align: center;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	grid-auto-rows: minmax(3rem, max-content);
+	grid-column-gap: 1.5rem;
+	grid-row-gap: 1.1rem;
+}
+
+.template {
+	box-shadow: $shadow-light;
+	padding: .8rem 1.5rem;
+	border-radius: 15px;
+	background-color: $color-primary-light-2;
+	cursor: pointer;
+	border: 1px solid transparent;
+	box-shadow: $shadow-light;
+
+	&:hover {
+		background-color: $color-primary;
+		color: #fff;
+	}
+}
+
+.selected {
+	background-color: $color-primary;
+	color: $color-primary-light-1;
+	border: 1px solid $color-grey-light-3;
+	display: flex;
+	gap: .3rem;
+	box-shadow: $shadow-dark;
+}
+
+.icon {
+	font-size: 130%;
+	color: $color-tertiary-light-3;
+	max-width: 2.2rem;
+}
+
+.control {
+	text-align: center;
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	.btn {
+		min-width: 18%;
+		width: clamp(7rem, 18%, 50%);
+		box-shadow: $shadow-dark;
+	}
+}

@@ -16,6 +16,12 @@ export function getDayOffset (weekDay: WeekDay): number {
 	return offset;
 }
 
+export function getDayIndexFromMon (date: Date): number {
+	const dayIndex = date.getDay(); // sun: 0, mon: 1, ..., sat: 6
+	const dayIndexFromMon = dayIndex === 0 ? 6 : dayIndex - 1;
+	return dayIndexFromMon;
+}
+
 export function getCurrentWeekBeginning () {
 	const current = new Date();
 	const currentWeekBeginning = getWeekBeginning(current);

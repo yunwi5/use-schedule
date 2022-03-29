@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { plannerActions } from "../../../store/redux/planner-slice";
-import { isSameWeek } from "../../../utilities/time-utils/date-classify";
-import { PlannerTask, Task } from "../../../models/task-models/Task";
-import { WeeklyPlanner as Planner } from "../../../models/planner-models/WeeklyPlanner";
-import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get";
-import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
-import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
-import IntroPanel from "../planner-nav/IntroPanel";
-import PlannerHeader from "../planner-nav/PlannerHeader";
-import WeeklyTable from "./WeeklyTable";
-import PlannerCard from "../../ui/cards/PlannerCard";
-import PlannerTableCard from "../../ui/cards/PlannerTableCard";
+import { plannerActions } from '../../../store/redux/planner-slice';
+import { isSameWeek } from '../../../utilities/time-utils/date-classify';
+import { PlannerTask, Task } from '../../../models/task-models/Task';
+import { WeeklyPlanner as Planner } from '../../../models/planner-models/WeeklyPlanner';
+import { getCurrentWeekBeginning } from '../../../utilities/time-utils/date-get';
+import useDateTime, { ResetPeriod } from '../../../hooks/useDateTime';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import { adjustIfOverdueTask } from '../../../utilities/tasks-utils/task-util';
+import IntroPanel from '../planner-nav/IntroPanel';
+import PlannerHeader from '../planner-nav/PlannerHeader';
+import WeeklyTable from './WeeklyTable';
+import PlannerCard from '../../ui/cards/PlannerCard';
+import PlannerTableCard from '../../ui/cards/PlannerTableCard';
 
 interface Props {
 	weeklyTasks: Task[];
@@ -45,7 +45,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 	dispatch(plannerActions.setBeginningPeriod(weekBeginning.toString()));
 	const { currentTimeStamp, addWeeks: addLocalWeeks } = useDateTime(
 		weekBeginning,
-		ResetPeriod.WEEK
+		ResetPeriod.WEEK,
 	);
 
 	useEffect(
@@ -53,7 +53,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 			const newPlanner = populateWeeklyPlanner(initialTasks, currentTimeStamp);
 			setPlanner(newPlanner);
 		},
-		[ initialTasks, currentTimeStamp ]
+		[ initialTasks, currentTimeStamp ],
 	);
 
 	// Only runs on mount.
@@ -64,7 +64,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 	// If the week beginning changes, the planner also has to change to load new tasks according to
 	// Changed week beginning.
 	const weekNavigateHandler = (direction: number) => {
-		if (direction !== 1 && direction !== -1) throw new Error("Direction parameter is wrong!");
+		if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
 		// Hook call
 		addLocalWeeks(direction);
 	};
@@ -72,14 +72,16 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 	return (
 		<PlannerCard>
 			<IntroPanel
-				title={"Weekly Planner"}
+				title={'Weekly Planner'}
 				message={
-					"Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis."
+					'Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis.'
 				}
+				beginningPeriod={currentTimeStamp}
+				onMutate={onMutate}
 			/>
 			<PlannerTableCard>
 				<PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-				{!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
+				{!planner && <p className='text-center text-3xl text-slate-800'>Loading...</p>}
 				{planner && (
 					<WeeklyTable
 						weekBeginning={currentTimeStamp}

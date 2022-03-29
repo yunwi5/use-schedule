@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Task } from '../../models/task-models/Task';
 import { TemplateFormObj, TemplateProperties } from '../../models/template-models/Template';
-import { TemplateTask } from '../../models/template-models/TemplateTask';
 import { Collection } from '../../utilities/mongodb-util/mongodb-constant';
 
 const API_TEMPLATE_DOMAIN = process.env.API_DOMIN_RELATIVE
@@ -96,4 +95,22 @@ export async function deleteTemplate (templateId: string) {
 	}
 
 	return { isSuccess: true, message: 'Delete template successful!' };
+}
+
+export async function transferTemplateToWeekly (templateId: string, weekBeginning: Date) {
+	let message;
+	try {
+		const response = await axios.post(`${API_TEMPLATE_DOMAIN}/import/${templateId}`, {
+			weekBeginning,
+		});
+		const { data, status } = response;
+
+		if (status >= 200 && status < 300) {
+			return { isSuccess: true, data };
+		}
+	} catch (err) {
+		message = err instanceof Error ? err.message : 'transferring template tasks did not work.';
+		console.log(message);
+	}
+	return { isSuccess: false, data: message };
 }

@@ -15,10 +15,12 @@ import ImportModal from '../planner-modal/ImportModal';
 interface Props {
 	title: string;
 	message: string;
+	beginningPeriod: Date;
+	onMutate: () => void;
 }
 
 const IntroPanel: React.FC<Props> = (props) => {
-	const { title, message } = props;
+	const { title, message, beginningPeriod, onMutate } = props;
 	const [ showPanel, setShowPanel ] = useState(true);
 	const [ showImportModal, setShowImportModal ] = useState(false);
 
@@ -78,7 +80,13 @@ const IntroPanel: React.FC<Props> = (props) => {
 					</div>
 				</div>
 			)}
-			{showImportModal && <ImportModal onClose={importModalHandler.bind(null, false)} />}
+			{showImportModal && (
+				<ImportModal
+					onClose={importModalHandler.bind(null, false)}
+					beginningPeriod={beginningPeriod}
+					onMutate={onMutate}
+				/>
+			)}
 		</Fragment>
 	);
 };

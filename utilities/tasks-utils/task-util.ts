@@ -7,10 +7,10 @@ export function convertToTasks (data: any[]): Task[] {
 	const tasks: Task[] = [];
 	for (const document of data) {
 		const task = {
-			id: document._id.toString(),
 			// For un-adjusted tasks already added to weekly planner
 			plannerType: document.plannerType || PlannerMode.WEEKLY,
-			...document
+			...document,
+			id: document._id.toString(),
 		};
 		delete task._id;
 
@@ -24,8 +24,8 @@ export function covertToSubTasks (data: any[]): SubTask[] {
 	const subTasks: SubTask[] = [];
 	for (const document of data) {
 		const subTask = {
+			...document,
 			id: document._id.toString(),
-			...document
 		};
 		delete subTask._id;
 		subTasks.push(subTask);

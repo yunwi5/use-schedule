@@ -1,5 +1,5 @@
-import { MongoClient, ObjectId } from "mongodb";
-import { SubTask } from "../../models/task-models/SubTask";
+import { MongoClient, ObjectId } from 'mongodb';
+import { NoIdSubTask, SubTask } from '../../models/task-models/SubTask';
 
 export async function getSubTasks (client: MongoClient, collection: string, parentTaskId: string) {
 	const db = client.db();
@@ -13,11 +13,22 @@ export async function insertSubTask (client: MongoClient, collection: string, su
 	return res;
 }
 
+export async function insertManySubTasks (
+	client: MongoClient,
+	collection: string,
+	subTasks: SubTask[] | NoIdSubTask[],
+) {
+	if (!subTasks || subTasks.length === 0) return;
+	const db = client.db();
+	const res = await db.collection(collection).insertMany(subTasks);
+	return res;
+}
+
 export async function updateSubTaskProps (
 	client: MongoClient,
 	collection: string,
 	subTaskId: string,
-	updateProps: object
+	updateProps: object,
 ) {
 	const db = client.db();
 	const res = await db
@@ -36,7 +47,7 @@ export async function deleteSubTask (client: MongoClient, collection: string, su
 export async function deleteAllSubTasksOfParent (
 	client: MongoClient,
 	collection: string,
-	parentTaskId: string
+	parentTaskId: string,
 ) {
 	const db = client.db();
 	const res = await db.collection(collection).deleteMany({ parentTaskId });

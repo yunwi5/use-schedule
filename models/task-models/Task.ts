@@ -1,15 +1,35 @@
-import { AbstractTask } from "./AbstractTask";
-import { SubTask } from "./SubTask";
-import { PlannerMode } from "../planner-models/PlannerMode";
+import { AbstractTask } from './AbstractTask';
+import { SubTask } from './SubTask';
+import { PlannerMode } from '../planner-models/PlannerMode';
 import {
 	getDateMonthFormat,
 	getDateTimeFormat,
-	getISOTimeFormat
-} from "../../utilities/time-utils/date-format";
-import { addMinutes } from "../../utilities/time-utils/date-control";
+	getISOTimeFormat,
+} from '../../utilities/time-utils/date-format';
+import { addMinutes } from '../../utilities/time-utils/date-control';
 
 export interface Task {
 	id: string;
+	name: string;
+	timeString: string;
+	description: string;
+	duration: number;
+	category: string;
+	subCategory: string;
+	status: string;
+	userId: string;
+	importance: string;
+	plannerType: PlannerMode;
+
+	dueDateString?: string;
+	isAnyDateTime?: boolean;
+	comment?: string;
+	subTasks?: SubTask[];
+	templateId?: string;
+}
+
+export interface NoIdTask {
+	id?: string;
 	name: string;
 	timeString: string;
 	description: string;
@@ -50,7 +70,7 @@ export class PlannerTask extends AbstractTask {
 	}
 
 	get durationFormat (): string {
-		if (!this.duration) return "";
+		if (!this.duration) return '';
 
 		if (this.plannerType === PlannerMode.WEEKLY) {
 			let endTime: null | Date = null;
@@ -63,11 +83,11 @@ export class PlannerTask extends AbstractTask {
 				: startTimeFormat;
 			return planDateFormat;
 		}
-		return "Not yet implemented";
+		return 'Not yet implemented';
 	}
 
 	get planDateFormat (): string {
-		if (this.isAnyDateTime) return "Any Time";
+		if (this.isAnyDateTime) return 'Any Time';
 		else if (this.plannerType === PlannerMode.WEEKLY) {
 			return getDateTimeFormat(this.dateTime);
 		}
@@ -75,7 +95,7 @@ export class PlannerTask extends AbstractTask {
 	}
 
 	get dueDateFormat (): string {
-		if (!this.dueDate) return "";
+		if (!this.dueDate) return '';
 		return getDateMonthFormat(this.dueDate);
 	}
 }

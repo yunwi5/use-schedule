@@ -1,20 +1,20 @@
-import React, { Fragment } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from "@fortawesome/pro-duotone-svg-icons";
+import React, { Fragment } from 'react';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCaretRight } from '@fortawesome/pro-duotone-svg-icons';
 
-import TaskStatusSummary from "./TaskStatusSummary";
-import { Planner } from "../../../models/planner-models/Planner";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import TaskStatusSummary from './TaskStatusSummary';
+import { Planner } from '../../../models/planner-models/Planner';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import {
 	getMonthWeekBeginning,
 	getMonthWeekEnding,
 	getWeekEnding,
-	getYearEnding
-} from "../../../utilities/time-utils/date-get";
-import { getMonth } from "../../../utilities/time-utils/month-util";
-import { getMonthMember } from "../../../models/date-models/Month";
-import TableNavCard from "../../ui/cards/TableNavCard";
+	getYearEnding,
+} from '../../../utilities/time-utils/date-get';
+import { getMonth } from '../../../utilities/time-utils/month-util';
+import { getMonthMember } from '../../../models/date-models/Month';
+import TableNavCard from '../../ui/cards/TableNavCard';
 
 interface Props {
 	beginningPeriod: Date;
@@ -32,7 +32,7 @@ function getPeriodFormat (beginningPeriod: Date, endingPeriod: Date): string {
 
 // Needs to be fixed
 function getNavigationPeriod (beginningPeriod: Date, plannerMode: PlannerMode) {
-	let navPeriod: string | JSX.Element = "";
+	let navPeriod: string | JSX.Element = '';
 	if (plannerMode === PlannerMode.WEEKLY) {
 		const weekEnding = getWeekEnding(beginningPeriod);
 		navPeriod = getPeriodFormat(beginningPeriod, weekEnding);
@@ -47,14 +47,14 @@ function getNavigationPeriod (beginningPeriod: Date, plannerMode: PlannerMode) {
 		const month = getMonthMember(beginningPeriod);
 		navPeriod = (
 			<Fragment>
-				<span className="text-gray-600 text-[110%] font-semibold">{month}</span> ({year})
+				<span className='text-gray-600 text-[110%] font-semibold'>{month}</span> ({year})
 			</Fragment>
 		);
 	} else if (plannerMode === PlannerMode.YEARLY) {
 		// const yearEnding = getYearEnding(beginningPeriod);
-		// navPeriod = getPeriodFormat(beginningPeriod, yearEnding);
-		navPeriod = "" + beginningPeriod.getFullYear();
-	} else throw new Error("Planner mode matches noting >from TableNav");
+		navPeriod = '' + beginningPeriod.getFullYear();
+	}
+	// else throw new Error("Planner mode matches noting from TableNav");
 	return navPeriod;
 }
 
@@ -67,15 +67,15 @@ const TableNav: React.FC<Props> = (props) => {
 
 	return (
 		<TableNavCard>
-			<div className="flex items-center gap-1 text-xl">
+			<div className='flex items-center gap-1 text-xl'>
 				<FontAwesomeIcon
-					className="text-4xl cursor-pointer max-w-[1.2rem]"
+					className='text-4xl cursor-pointer max-w-[1.2rem]'
 					icon={faCaretLeft}
 					onClick={onChangePeriod.bind(null, -1)}
 				/>
 				<p>{navPeriod}</p>
 				<FontAwesomeIcon
-					className="text-4xl cursor-pointer max-w-[1.2rem]"
+					className='text-4xl cursor-pointer max-w-[1.2rem]'
 					icon={faCaretRight}
 					onClick={onChangePeriod.bind(null, 1)}
 				/>
