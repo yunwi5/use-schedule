@@ -8,26 +8,6 @@ import {
 } from '../../utilities/time-utils/date-format';
 import { addMinutes } from '../../utilities/time-utils/date-control';
 
-export interface Task {
-	id: string;
-	name: string;
-	timeString: string;
-	description: string;
-	duration: number;
-	category: string;
-	subCategory: string;
-	status: string;
-	userId: string;
-	importance: string;
-	plannerType: PlannerMode;
-
-	dueDateString?: string;
-	isAnyDateTime?: boolean;
-	comment?: string;
-	subTasks?: SubTask[];
-	templateId?: string;
-}
-
 export interface NoIdTask {
 	id?: string;
 	name: string;
@@ -48,21 +28,9 @@ export interface NoIdTask {
 	templateId?: string;
 }
 
-export type FormTaskObject = {
-	name: string;
-	timeString: string;
-	description: string;
-	category: string;
-	subCategory: string;
-	status: string;
-	importance: string;
-	duration: number;
-	plannerType?: PlannerMode;
-
-	dueDateString?: string;
-	isAnyDateTime?: boolean;
-	templateId?: string;
-};
+export interface Task extends NoIdTask {
+	id: string;
+}
 
 export class PlannerTask extends AbstractTask {
 	constructor (taskObj: Task) {
@@ -99,3 +67,19 @@ export class PlannerTask extends AbstractTask {
 		return getDateMonthFormat(this.dueDate);
 	}
 }
+
+export type FormTaskObject = {
+	name: string;
+	timeString: string;
+	description: string;
+	category: string;
+	subCategory: string;
+	status: string;
+	importance: string;
+	duration: number;
+	plannerType?: PlannerMode;
+
+	dueDateString?: string;
+	isAnyDateTime?: boolean;
+	templateId?: string;
+};

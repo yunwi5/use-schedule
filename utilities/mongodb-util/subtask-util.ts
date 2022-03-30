@@ -16,7 +16,7 @@ export async function insertSubTask (client: MongoClient, collection: string, su
 export async function insertManySubTasks (
 	client: MongoClient,
 	collection: string,
-	subTasks: SubTask[] | NoIdSubTask[],
+	subTasks: NoIdSubTask[],
 ) {
 	if (!subTasks || subTasks.length === 0) return;
 	const db = client.db();
