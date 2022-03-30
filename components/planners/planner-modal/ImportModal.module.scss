@@ -79,10 +79,33 @@
 	box-shadow: $shadow-dark;
 }
 
+.info,
+.icon {
+	max-width: 2.2rem;
+}
+
 .icon {
 	font-size: 130%;
 	color: $color-tertiary-light-3;
-	max-width: 2.2rem;
+}
+
+.info {
+	font-size: 110%;
+	color: $color-tertiary-dark-2;
+	margin-right: .3rem;
+}
+
+.message {
+	margin: 0 auto;
+	max-width: 35rem;
+	color: $color-primary-dark-3;
+	text-align: center;
+
+	span,
+	time {
+		font-weight: 600;
+		color: $color-primary-dark-2;
+	}
 }
 
 .control {
