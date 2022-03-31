@@ -15,43 +15,43 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
 	const templates = useSelector((state: RootStateOrAny) => state.template.templates);
 	const userTemplateItems = templates.map((tem: Template) => ({
 		name: getShortNameWithRest(tem.name, 15),
-		link: `/templates/${tem.id}`
+		link: `/templates/${tem.id}`,
 	}));
 
 	const timePlannerItems = [
 		{
 			name: 'Weekly Planners',
-			link: '/task-planner/weekly-planner'
+			link: '/task-planner/weekly-planner',
 		},
 		{
 			name: 'Montly Planners',
-			link: '/task-planner/montly-planner'
+			link: '/task-planner/montly-planner',
 		},
 		{
 			name: 'Yearly Planners',
-			link: '/task-planner/yearly-planner'
-		}
+			link: '/task-planner/yearly-planner',
+		},
 	];
 	const templateItems = [
 		...userTemplateItems,
 		{
 			name: '+ Add New',
-			link: '/templates/new'
-		}
+			link: '/templates/new',
+		},
 	];
 	const dataAnalysisItems = [
 		{
 			name: 'Weekly Analysis',
-			link: '/'
+			link: '/',
 		},
 		{
 			name: 'Montly Analysis',
-			link: '/'
+			link: '/',
 		},
 		{
 			name: 'Yearly Analysis',
-			link: '/'
-		}
+			link: '/',
+		},
 	];
 
 	return (

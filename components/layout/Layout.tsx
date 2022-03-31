@@ -5,6 +5,7 @@ import SideNav from './SideNav';
 import Notification from '../ui/Notification';
 import NotificationContext from '../../store/context/notification-context';
 import classes from './Layout.module.scss';
+import Footer from './Footer';
 
 const Layout: React.FC = (props) => {
 	const [ showSidebar, setShowSidebar ] = useState(true);
@@ -20,6 +21,7 @@ const Layout: React.FC = (props) => {
 			<SideNav onToggleSidebar={toggleSidebarHandler} showSidebar={showSidebar} />
 			<div className={`${classes.content}`}>{props.children}</div>
 			{activeNotification && <Notification {...activeNotification} />}
+			<Footer className={classes.footer} />
 		</div>
 	);
 };

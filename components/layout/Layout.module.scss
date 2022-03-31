@@ -23,12 +23,26 @@
 		transition: all $delay ease-in-out;
 		max-width: 90rem;
 	}
+
+	.footer {
+		grid-column: 1 / -1;
+		justify-self: center;
+	}
 }
 
 .hide-side {
+	grid-template-rows: max-content 1fr min-content;
 	.content {
 		justify-self: center;
 		grid-row: 2 / span 1;
 		grid-column: 1 / -1;
+	}
+
+	.sidenav {
+		display: none;
+	}
+
+	.footer {
+		grid-row: 3 / span 1;
 	}
 }

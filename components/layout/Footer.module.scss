@@ -1,0 +1,18 @@
+.icon-wrapper {
+	padding-bottom: -5px;
+	&:not(:last-child) {
+		margin-right: -6px;
+	}
+	.label {
+		display: block;
+		visibility: hidden;
+		opacity: 0;
+		transform: translateY(-2rem);
+		transition: .3s all ease-in-out;
+	}
+	&:hover .label {
+		visibility: visible;
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
