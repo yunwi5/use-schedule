@@ -1,15 +1,18 @@
-import React, { useCallback, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import React, { useCallback, useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0';
 
-import TaskForm from "./task-form/TaskForm";
-import PlannerModal from "../planner-modal/PlannerModal";
-import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { deleteTask, updateTask } from "../../../lib/planners/tasks-api";
-import { NotifStatus } from "../../ui/Notification";
-import useNotification from "../../../hooks/useNotification";
-import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
-import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
+import TaskForm from './task-form/TaskForm';
+import PlannerModal from '../planner-modal/PlannerModal';
+import useTemplate from '../../../hooks/useTemplate';
+import { FormTaskObject, PlannerTask, Task } from '../../../models/task-models/Task';
+import { deleteTask, updateTask } from '../../../lib/planners/tasks-api';
+import { NotifStatus } from '../../ui/Notification';
+import useNotification from '../../../hooks/useNotification';
+import DeleteModal from '../../ui/modal/modal-variation/DeleteModal';
+import DiscardModal from '../../ui/modal/modal-variation/DiscardModal';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import { TemplateTask } from '../../../models/template-models/TemplateTask';
+import { AbstractTask } from '../../../models/task-models/AbstractTask';
 
 interface Props {
 	onClose: () => void;
@@ -30,9 +33,13 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	// For popup model for cancel event.
 	const [ userHasEdit, setUserHasEdit ] = useState(false);
 
+	const { currentTemplate } = useTemplate();
+	// const { plannerMode } = useAppSelector((state) => state.planner);
+	// const currentTemplate = useAppSelector((state) => state.template.currentActiveTemplate);
+
 	const taskEditHandler = async (newFormTask: FormTaskObject) => {
 		if (!userId) {
-			alert("User is not logged in!");
+			alert('User is not logged in!');
 			return;
 		}
 		const newTask: Task = {
@@ -41,23 +48,28 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			comment: initialTask.comment,
 			status: initialTask.status,
 			plannerType: initialTask.plannerType,
-			userId
+			userId,
 		};
 
-		const newPlannerTask = new PlannerTask(newTask);
-		setNotification(NotifStatus.PENDING, `Currently editing task ${newPlannerTask.name}`);
+		let updatedTask: AbstractTask;
+		if (currentTemplate) {
+			updatedTask = new TemplateTask(newTask, currentTemplate.id);
+		} else {
+			updatedTask = new PlannerTask(newTask);
+		}
+
+		setNotification(NotifStatus.PENDING, `Currently editing task ${updatedTask.name}`);
 		const { isSuccess } = await updateTask(
 			initialTask.id,
-			newPlannerTask,
-			initialTask.plannerType || PlannerMode.WEEKLY
+			updatedTask,
+			initialTask.plannerType || PlannerMode.WEEKLY,
 		);
 		if (isSuccess) {
 			setNotification(NotifStatus.SUCCESS, `Editing task was successful!`);
 		} else {
-			setNotification(NotifStatus.ERROR, "Sorry, editing task went wrong...");
+			setNotification(NotifStatus.ERROR, 'Sorry, editing task went wrong...');
 		}
-
-		onUpdate(newPlannerTask);
+		onUpdate(updatedTask);
 		onClose();
 	};
 
@@ -66,12 +78,12 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 		setNotification(NotifStatus.PENDING);
 		const { isSuccess } = await deleteTask(
 			initialTask.id,
-			initialTask.plannerType || PlannerMode.WEEKLY
+			initialTask.plannerType || PlannerMode.WEEKLY,
 		);
 		if (isSuccess) {
-			setNotification(NotifStatus.SUCCESS, "Delete task successful!");
+			setNotification(NotifStatus.SUCCESS, 'Delete task successful!');
 		} else {
-			setNotification(NotifStatus.ERROR, "Delete task went wrong");
+			setNotification(NotifStatus.ERROR, 'Delete task went wrong');
 		}
 		onUpdate();
 	};
@@ -81,18 +93,18 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			if (userHasEdit) setShowDiscardModal(true);
 			else onClose();
 		},
-		[ userHasEdit, onClose ]
+		[ userHasEdit, onClose ],
 	);
 
 	const userHasEditHandler = useCallback(
 		(hasEdit: boolean) => {
 			setUserHasEdit(hasEdit);
 		},
-		[ setUserHasEdit ]
+		[ setUserHasEdit ],
 	);
 
 	return (
-		<PlannerModal onClose={closeHandler} title={"Edit Task"}>
+		<PlannerModal onClose={closeHandler} title={'Edit Task'}>
 			{showDeleteModal && (
 				<DeleteModal
 					targetName={initialTask.name}

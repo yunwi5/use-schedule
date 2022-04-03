@@ -64,6 +64,9 @@ export class PlannerTask extends AbstractTask {
 
 	get dueDateFormat (): string {
 		if (!this.dueDate) return '';
+		if (this.plannerType === PlannerMode.WEEKLY) {
+			return getDateTimeFormat(this.dueDate);
+		}
 		return getDateMonthFormat(this.dueDate);
 	}
 }

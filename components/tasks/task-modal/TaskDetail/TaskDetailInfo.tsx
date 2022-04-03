@@ -1,6 +1,6 @@
-import { Fragment } from "react";
-import Rating from "@mui/material/Rating";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Fragment } from 'react';
+import Rating from '@mui/material/Rating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faAlarmClock,
 	faCalendarExclamation,
@@ -11,22 +11,22 @@ import {
 	faStarExclamation,
 	faHourglassEnd,
 	faMemoCircleInfo,
-	faBringForward
-} from "@fortawesome/pro-duotone-svg-icons";
+	faBringForward,
+} from '@fortawesome/pro-duotone-svg-icons';
 
-import { PlannerTask } from "../../../../models/task-models/Task";
-import { AbstractTask } from "../../../../models/task-models/AbstractTask";
-import Button from "../../../ui/Button";
+import { PlannerTask } from '../../../../models/task-models/Task';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import Button from '../../../ui/Button';
 import {
 	getDateTimeFormat,
 	getDurationFormat,
 	getEndDateTimeFormat,
-	getFullDateFormat
-} from "../../../../utilities/time-utils/date-format";
-import { getImportanceValue } from "../../../../models/task-models/Status";
-import { ButtonTheme } from "../../../../models/design-models";
-import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import classes from "./TaskDetail.module.scss";
+	getFullDateFormat,
+} from '../../../../utilities/time-utils/date-format';
+import { getImportanceValue } from '../../../../models/task-models/Status';
+import { ButtonTheme } from '../../../../models/design-models';
+import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
+import classes from './TaskDetail.module.scss';
 
 function hasSetTime (date: Date) {
 	const is12am = date.getHours() === 0 && date.getMinutes() === 0;
@@ -35,19 +35,15 @@ function hasSetTime (date: Date) {
 	return !(is12am || isEndOfDay);
 }
 
-function getTaskDetailDateTimeFormat (task: AbstractTask, defaultValue: string = "N/A") {
-	let plannedDateFormat = "",
-		dueDateFormat = "",
-		endTimeFormat = "";
+function getTaskDetailDateTimeFormat (task: AbstractTask, defaultValue: string = 'N/A') {
+	let plannedDateFormat = '',
+		dueDateFormat = '',
+		endTimeFormat = '';
 	switch (task.plannerType) {
 		case PlannerMode.WEEKLY:
 		case PlannerMode.TEMPLATE:
 			plannedDateFormat = task.planDateFormat;
 			endTimeFormat = task.endTimeFormat || defaultValue;
-		case PlannerMode.WEEKLY:
-			dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
-			break;
-		case PlannerMode.TEMPLATE:
 			dueDateFormat = task.dueDateFormat || defaultValue;
 			break;
 		case PlannerMode.MONTLY:
@@ -65,14 +61,14 @@ function getTaskDetailDateTimeFormat (task: AbstractTask, defaultValue: string =
 	}
 
 	if (task.isAnyDateTime) {
-		plannedDateFormat = "Any Time";
+		plannedDateFormat = 'Any Time';
 		endTimeFormat = defaultValue;
 	}
 
 	return {
 		plannedDateFormat,
 		dueDateFormat,
-		endTimeFormat
+		endTimeFormat,
 	};
 }
 
@@ -88,7 +84,9 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 
 	const { description, category, subCategory, status, importance, duration } = task;
 
-	const defaultValue = "N/A";
+	const defaultValue = 'N/A';
+
+	console.log(task);
 
 	const { plannedDateFormat, dueDateFormat, endTimeFormat } = getTaskDetailDateTimeFormat(task);
 	const durationFormat = getDurationFormat(duration).trim() || defaultValue;
@@ -111,7 +109,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 					<p className={classes.value}>
 						{importance}
 						<Rating
-							name="importance-rating"
+							name='importance-rating'
 							className={classes.rating}
 							value={getImportanceValue(importance)}
 							readOnly

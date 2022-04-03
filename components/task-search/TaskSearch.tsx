@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { PlannerTask } from "../../models/task-models/Task";
-import PageNav from "../ui/PageNav";
-import SearchTaskList from "./SearchTaskList";
-import TaskSort from "./TaskSort";
-import { SortingDirection, TaskSort as SortingStandard } from "../../models/sorting-models";
-import { sortTasks } from "../../utilities/tasks-utils/task-sort-util";
-import { shuffleList } from "../../utilities/gen-utils/list-util";
-import classes from "./TaskSearch.module.scss";
+import { PlannerTask } from '../../models/task-models/Task';
+import PageNav from '../ui/PageNav';
+import SearchTaskList from './SearchTaskList';
+import TaskSort from './TaskSort';
+import { SortingDirection, TaskSort as SortingStandard } from '../../models/sorting-models';
+import { sortTasks } from '../../utilities/tasks-utils/task-sort-util';
+import { shuffleList } from '../../utilities/gen-utils/list-util';
+import classes from './TaskSearch.module.scss';
 
 interface Props {
 	searchWord: string;
@@ -41,7 +41,7 @@ const TaskSearch: React.FC<Props> = (props) => {
 			const newSortedTasks = sortTasks([ ...searchedTasks ], standard, direction);
 			setCurrentTasks(newSortedTasks as PlannerTask[]);
 		},
-		[ searchedTasks ]
+		[ searchedTasks ],
 	);
 
 	const randomizeHandler = useCallback(
@@ -49,7 +49,7 @@ const TaskSearch: React.FC<Props> = (props) => {
 			const shuffledList = shuffleList([ ...searchedTasks ]);
 			setCurrentTasks(shuffledList);
 		},
-		[ searchedTasks ]
+		[ searchedTasks ],
 	);
 
 	useEffect(
@@ -59,29 +59,29 @@ const TaskSearch: React.FC<Props> = (props) => {
 			const newPageTasks = currentTasks.slice(startingIndex, startingIndex + itemsPerPage);
 			setPageTasks(newPageTasks);
 		},
-		[ page, currentTasks ]
+		[ page, currentTasks ],
 	);
 
 	useEffect(
 		() => {
 			setCurrentTasks(searchedTasks);
 		},
-		[ searchedTasks ]
+		[ searchedTasks ],
 	);
 
-	console.log("sortedTasks:");
+	console.log('sortedTasks:');
 	console.table(currentTasks);
 
 	return (
-		<main className={`mx-auto mt-[130px] mb-[70px] ${classes.search}`}>
-			<h2 className="text-4xl text-slate-600 mb-5">
-				Tasks that match your search{" "}
-				<span className="text-slate-400">&quot;{searchWord}&quot;</span>
+		<main className={`mx-auto py-[50px] ${classes.search}`}>
+			<h2 className='text-4xl text-slate-600 mb-5'>
+				Tasks that match your search{' '}
+				<span className='text-slate-400'>&quot;{searchWord}&quot;</span>
 			</h2>
-			<div className="flex justify-between mt-11">
+			<div className='flex justify-between mt-9'>
 				<TaskSort onSort={sortingHandler} onRandomize={randomizeHandler} />
 				{/* self-end h-[0px] max-w-xl text-right text-xl font-semibold text-slate-500 translate-y-[1.5rem] pr-2 */}
-				<h5 className="self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
+				<h5 className='self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2'>
 					{taskLength} Tasks Found
 				</h5>
 			</div>

@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 
-import Header from './Header';
 import SideNav from './SideNav';
+import Header from './header-components/Header';
+import Footer from './Footer';
 import Notification from '../ui/Notification';
 import NotificationContext from '../../store/context/notification-context';
 import classes from './Layout.module.scss';
-import Footer from './Footer';
 
 const Layout: React.FC = (props) => {
 	const [ showSidebar, setShowSidebar ] = useState(true);

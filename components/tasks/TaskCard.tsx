@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Fragment, useState, useEffect } from 'react';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faAlarmClock,
 	faCircleExclamationCheck,
@@ -8,23 +8,22 @@ import {
 	faMagnifyingGlassPlus,
 	faPenToSquare,
 	faStar,
-	faCommentPen
-} from "@fortawesome/pro-duotone-svg-icons";
-import { faCircle } from "@fortawesome/pro-solid-svg-icons";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
+	faCommentPen,
+} from '@fortawesome/pro-duotone-svg-icons';
+import { faCircle } from '@fortawesome/pro-solid-svg-icons';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
-import TaskDetail from "./task-modal/TaskDetail/TaskDetail";
-import TaskComment from "./task-modal/TaskComment/TaskComment";
-import PlannerTaskEdit from "../planners/planner-crud/PlannerTaskEdit";
-import { AbstractTask } from "../../models/task-models/AbstractTask";
-import { PlannerTask } from "../../models/task-models/Task";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
-import { addMinutes } from "../../utilities/time-utils/date-control";
-import { copyClassObject } from "../../utilities/gen-utils/object-util";
-import { getDateMonthFormat, getISOTimeFormat } from "../../utilities/time-utils/date-format";
-import { updateTaskProperties } from "../../lib/planners/tasks-api";
-import classes from "./TaskCard.module.scss";
+import TaskDetail from './task-modal/TaskDetail/TaskDetail';
+import TaskComment from './task-modal/TaskComment/TaskComment';
+import PlannerTaskEdit from '../planners/planner-crud/PlannerTaskEdit';
+import { AbstractTask } from '../../models/task-models/AbstractTask';
+import { PlannerTask } from '../../models/task-models/Task';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { TaskStatus, TaskStatusList } from '../../models/task-models/Status';
+import { copyClassObject } from '../../utilities/gen-utils/object-util';
+import { getDateMonthFormat } from '../../utilities/time-utils/date-format';
+import { updateTaskProperties } from '../../lib/planners/tasks-api';
+import classes from './TaskCard.module.scss';
 
 interface Props {
 	task: AbstractTask;
@@ -33,8 +32,8 @@ interface Props {
 }
 
 function getCardDateTimeFormat (task: AbstractTask) {
-	let planDateFormat: null | string = "",
-		dueDateFormat: null | string = "";
+	let planDateFormat: null | string = '',
+		dueDateFormat: null | string = '';
 	const plannerType = task.plannerType;
 
 	switch (plannerType) {
@@ -50,7 +49,7 @@ function getCardDateTimeFormat (task: AbstractTask) {
 			break;
 	}
 
-	if (task.isAnyDateTime) planDateFormat = "Any Time";
+	if (task.isAnyDateTime) planDateFormat = 'Any Time';
 
 	return { planDateFormat, dueDateFormat };
 }
@@ -66,7 +65,7 @@ const TaskCard: React.FC<Props> = (props) => {
 	const { dueDate, category, subCategory, importance, status, comment } = task;
 	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 
-	const updateTaskHandler = (updatedTask?: PlannerTask) => {
+	const updateTaskHandler = (updatedTask?: AbstractTask) => {
 		onMutate();
 		if (updatedTask) setTask(updatedTask);
 	};
@@ -97,7 +96,7 @@ const TaskCard: React.FC<Props> = (props) => {
 		await updateTaskProperties(
 			task.id,
 			{ comment: newComment },
-			task.plannerType || plannerMode
+			task.plannerType || plannerMode,
 		);
 	};
 
@@ -106,14 +105,14 @@ const TaskCard: React.FC<Props> = (props) => {
 		() => {
 			setTask(initialTask);
 		},
-		[ initialTask ]
+		[ initialTask ],
 	);
 
 	const { planDateFormat, dueDateFormat } = getCardDateTimeFormat(task);
 
 	const hideStatus = task.plannerType === PlannerMode.TEMPLATE;
 	// Status color indicator
-	const statusClass = "status-" + status.toLowerCase().replace(" ", "");
+	const statusClass = 'status-' + status.toLowerCase().replace(' ', '');
 
 	return (
 		<li className={`${classes.task}`}>
@@ -141,7 +140,7 @@ const TaskCard: React.FC<Props> = (props) => {
 				{/* Task Name */}
 				<h4 className={classes.task__name}>{task.name}</h4>
 				<ClickAwayListener onClickAway={setShowComment.bind(null, false)}>
-					<div className="ml-1 relative" onClick={setShowComment.bind(null, true)}>
+					<div className='ml-1 relative' onClick={setShowComment.bind(null, true)}>
 						{!showComment && (
 							<FontAwesomeIcon
 								icon={faCommentPen}
@@ -150,9 +149,9 @@ const TaskCard: React.FC<Props> = (props) => {
 						)}
 						{showComment && (
 							<TaskComment
-								commentText={comment || ""}
+								commentText={comment || ''}
 								onSubmit={updateCommentHandler}
-								className="absolute bottom-[1rem] translate-x-3"
+								className='absolute bottom-[1rem] translate-x-3'
 							/>
 						)}
 					</div>

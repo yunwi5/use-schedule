@@ -12,6 +12,7 @@ import { postTask } from '../../../lib/planners/tasks-api';
 import useNotification from '../../../hooks/useNotification';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import TemplateTaskForm from './task-form/TemplateTaskForm';
+import useTemplate from '../../../hooks/useTemplate';
 
 interface Props {
 	onClose: () => void;
@@ -24,10 +25,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const { user } = useUser();
 	const userId = user ? user.sub : null;
 
-	const { plannerMode } = useSelector((state: RootStateOrAny) => state.planner);
-	const currentTemplate = useSelector(
-		(state: RootStateOrAny) => state.template.currentActiveTemplate
-	);
+	const { currentTemplate, plannerMode } = useTemplate();
 
 	const { setNotification } = useNotification();
 	const [ showDiscardModal, setShowDiscardModal ] = useState(false);
@@ -36,15 +34,16 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 	const [ userHasEdit, setUserHasEdit ] = useState(false);
 
 	const taskAddHandler = async (newFormTask: FormTaskObject) => {
-		if (!userId) {
-			alert('User is not logged in!');
+		if (!userId || !plannerMode) {
+			if (!userId) alert('User is not logged in!');
+			if (!plannerMode) alert('PlannerMode is null!');
 			return;
 		}
 		const newTask: Task = {
 			...newFormTask,
 			id: uuidv4(),
 			plannerType: plannerMode,
-			userId
+			userId,
 		};
 
 		if (plannerMode === PlannerMode.TEMPLATE && currentTemplate) {
@@ -71,7 +70,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 			if (userHasEdit) setShowDiscardModal(true);
 			else onClose();
 		},
-		[ userHasEdit, onClose ]
+		[ userHasEdit, onClose ],
 	);
 
 	const userHasEditHandler = useCallback((hasEdit: boolean) => {

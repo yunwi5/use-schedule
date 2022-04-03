@@ -1,5 +1,5 @@
 // import type {NextPage} from 'next'
-import { useState, useDebugValue } from 'react';
+import { useState, useDebugValue, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
@@ -13,7 +13,7 @@ import {
 	getTemplate,
 	getTemplateTasks,
 	patchTemplate,
-	postTemplate
+	postTemplate,
 } from '../../lib/templates/templates-api';
 import { templateActions } from '../../store/redux/template-slice';
 
@@ -33,8 +33,8 @@ const New: React.FC<Props> = ({ userId, user }) => {
 		[ 'template', templateId ],
 		getTemplate,
 		{
-			enabled: !!templateId
-		}
+			enabled: !!templateId,
+		},
 	);
 	const template: Template | null = templateData ? templateData.template : null;
 	if (!!templateError) {
@@ -45,7 +45,7 @@ const New: React.FC<Props> = ({ userId, user }) => {
 	const { data: taskData, isLoading: isTasksLoading, error: tasksError } = useQuery(
 		[ 'templateTasks', templateId ],
 		getTemplateTasks,
-		{ enabled: !!templateId } // false for now, since the API is not implemented yet.
+		{ enabled: !!templateId }, // false for now, since the API is not implemented yet.
 	);
 	const templateTasks: Task[] = taskData ? taskData.tasks : null;
 	if (tasksError) {
@@ -55,7 +55,7 @@ const New: React.FC<Props> = ({ userId, user }) => {
 
 	const mutateTemplate = async (
 		tempObj: TemplateFormObj,
-		isNew: boolean = true
+		isNew: boolean = true,
 	): Promise<boolean> => {
 		// http request to post new template.
 		if (isNew) {
@@ -85,6 +85,15 @@ const New: React.FC<Props> = ({ userId, user }) => {
 	const invalidateTemplateTasks = () => {
 		queryClient.invalidateQueries('templateTasks');
 	};
+
+	useEffect(
+		() => {
+			if (template) {
+				dispatch(templateActions.setActiveTemplate(template));
+			}
+		},
+		[ template, dispatch ],
+	);
 
 	return (
 		<div>
@@ -116,16 +125,16 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 			return {
 				redirect: {
 					destination: '/login',
-					permanent: false
-				}
+					permanent: false,
+				},
 			};
 		}
 		const userId = session.user.sub;
 		return {
 			props: {
 				userId,
-				template: null
-			}
+				template: null,
+			},
 		};
-	}
+	},
 });
