@@ -6,9 +6,9 @@ import { faCircleCheck, faPenToSquare } from '@fortawesome/pro-duotone-svg-icons
 import { SubTask } from '../../../models/task-models/SubTask';
 import { deleteSubTask, postSubtask } from '../../../lib/planners/subtasks-api';
 import { SubTaskSort as SortingStandard, SortingDirection } from '../../../models/sorting-models';
-import { sortSubItems } from '../../../utilities/sort-utils/subtask-sort';
-import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
+import { sortSubItems } from '../../../utilities/sort-utils/sub-item-sort';
 import { SubItemForm, SubItemCard, SubItemSorter } from '../../sub-items';
+import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
 
 interface Props {
 	subTasks: SubTask[];

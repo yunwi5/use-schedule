@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
-import { GITHUB_LINK, FACEBOOK_LINK, LINKEDIN_LINK } from './constants';
+import { GITHUB_LINK, FACEBOOK_LINK, LINKEDIN_LINK } from '../constants';
 import classes from './Footer.module.scss';
 
 const Footer: React.FC<{ className: string }> = ({ className }) => {

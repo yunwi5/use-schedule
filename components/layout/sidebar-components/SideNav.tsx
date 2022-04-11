@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, RootStateOrAny } from 'react-redux';
 
-import { Template } from '../../models/template-models/Template';
-import { getShortNameWithRest } from '../../utilities/gen-utils/string-util';
+import { Template } from '../../../models/template-models/Template';
+import { getShortNameWithRest } from '../../../utilities/gen-utils/string-util';
 import NavList from './NavList';
-import classes from './Layout.module.scss';
+import classes from '../Layout.module.scss';
 
 interface Props {
 	onToggleSidebar: () => void;

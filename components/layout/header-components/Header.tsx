@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ onToggleSidebar }) => {
-	const [ showSearch, setShowSearch ] = useState(false); // Show or hide full searchbar on the mobile screen
+	const [ showSearch, setShowSearch ] = useState(true); // Show or hide full searchbar on the mobile screen
 	const { user, isLoading } = useUser();
 
 	const isLoggedIn = user && !isLoading;
@@ -27,11 +27,11 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
 					className='max-w-[1.5rem] text-2xl cursor-pointer'
 					onClick={onToggleSidebar}
 				/>
-				{!showSearch && (
-					<Link href='/'>
-						<a className='text-2xl ml-4'>Task Manager</a>
-					</Link>
-				)}
+				<Link href='/'>
+					<a className={`text-2xl ml-4 ${showSearch ? styles['hide-name'] : ''}`}>
+						Task Manager
+					</a>
+				</Link>
 				<HeaderSearch onShowSearch={setShowSearch} showSearch={showSearch} />
 			</div>
 

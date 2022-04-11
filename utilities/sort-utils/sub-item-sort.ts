@@ -23,7 +23,7 @@ function compareByOrder (subA: Sortable, subB: Sortable) {
 	return subA.order - subB.order;
 }
 
-export function sortSubTasks (
+export function sortSubItems (
 	subTasks: Sortable[],
 	sortingStandard: SubTaskSort,
 	direction: SortingDirection = SortingDirection.Ascending,

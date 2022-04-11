@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import ActiveNavLink from '../ui/design-elements/ActiveNavLink';
+import ActiveNavLink from '../../ui/design-elements/ActiveNavLink';
 
 interface Props {
 	listName: string | React.ReactNode;

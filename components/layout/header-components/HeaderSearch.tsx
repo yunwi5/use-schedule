@@ -25,13 +25,16 @@ const HeaderSearch: React.FC<Props> = ({ onShowSearch, showSearch }) => {
 				{!showSearch && (
 					<FontAwesomeIcon
 						icon={faMagnifyingGlass}
-						className={`max-w-[1.5rem] text-2xl cursor-pointer ${styles[
-							'search-icon'
-						]}`}
+						className={`max-w-[1.5rem] text-2xl cursor-pointer ${!showSearch
+							? styles['search-icon']
+							: styles['hide-search-icon']}`}
 						onClick={() => onShowSearch((prev) => !prev)}
 					/>
 				)}
-				{showSearch && <MainSearch onSearch={searchHandler} className={styles.search} />}
+				<MainSearch
+					onSearch={searchHandler}
+					className={`${!showSearch ? styles['hide-search'] : ''}`}
+				/>
 			</div>
 		</ClickAwayListener>
 	);

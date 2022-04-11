@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 
-import SideNav from './SideNav';
+import SideNav from './sidebar-components/SideNav';
 import Header from './header-components/Header';
-import Footer from './Footer';
+import Footer from './footer-components/Footer';
 import Notification from '../ui/Notification';
 import NotificationContext from '../../store/context/notification-context';
 import classes from './Layout.module.scss';
