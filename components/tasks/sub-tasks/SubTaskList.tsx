@@ -90,7 +90,7 @@ const SubTaskList: React.FC<Props> = (props) => {
 					{currentSubTasks.map((subTask) => (
 						<SubItemCard
 							key={subTask.id}
-							subTask={subTask}
+							subItem={subTask}
 							isEditMode={isEditMode}
 							onDelete={deleteSubTaskHandler}
 							onInvalidate={onInvalidate}

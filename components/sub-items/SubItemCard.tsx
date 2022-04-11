@@ -1,33 +1,35 @@
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
 import { faCheck, faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
-import { SubTask } from '../../models/task-models/SubTask';
 import { patchSubTaskProps } from '../../lib/planners/subtasks-api';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { SubItem, SubItemProps } from '../../models/utility-models';
 import classes from './SubItemCard.module.scss';
 
 interface Props {
-	subTask: SubTask;
+	subItem: SubItem;
 	isEditMode: boolean;
 	onDelete: (id: string) => void;
 	onInvalidate: () => void;
+	// need to be implemented
+	onPatchNewProps?: (itemId: string, props: SubItemProps) => void;
 }
 
 const SubTaskCard: React.FC<Props> = (props) => {
-	const { subTask, onDelete, isEditMode, onInvalidate } = props;
+	const { subItem, onDelete, isEditMode, onInvalidate } = props;
 
 	// Disable "complete" functionality if the task type is TemplateTask. TemplateTask is only for
 	// template so, it cannot be completed.
 	const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 	const disableComplete = plannerMode === PlannerMode.TEMPLATE;
 
-	const [ currentText, setCurrentText ] = useState<string>(subTask.name);
-	const [ isImportant, setIsImportant ] = useState(subTask.isImportant);
-	const [ isCompleted, setIsCompleted ] = useState(subTask.isCompleted);
+	const [ currentText, setCurrentText ] = useState<string>(subItem.name);
+	const [ isImportant, setIsImportant ] = useState(subItem.isImportant);
+	const [ isCompleted, setIsCompleted ] = useState(subItem.isCompleted);
 
 	const textChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setCurrentText(e.target.value);
@@ -37,7 +39,8 @@ const SubTaskCard: React.FC<Props> = (props) => {
 		setIsImportant(newIsImportant);
 
 		// Send PATCH Request
-		await patchSubTaskProps(subTask.id, {
+		// better to handle this in the ItemList component! (more generic)
+		await patchSubTaskProps(subItem.id, {
 			isImportant: newIsImportant,
 		});
 		onInvalidate();
@@ -49,7 +52,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 		setIsCompleted(newIsCompleted);
 
 		// Send PATCH Request.
-		await patchSubTaskProps(subTask.id, {
+		await patchSubTaskProps(subItem.id, {
 			isCompleted: newIsCompleted,
 		});
 		onInvalidate();
@@ -60,27 +63,27 @@ const SubTaskCard: React.FC<Props> = (props) => {
 		() => {
 			if (isEditMode) return;
 			// If the text does not change, do not send any request.
-			if (subTask.name.trim() === currentText.trim()) return;
+			if (subItem.name.trim() === currentText.trim()) return;
 
 			const updateName = async () => {
 				// Send PATCH Request
-				await patchSubTaskProps(subTask.id, {
+				await patchSubTaskProps(subItem.id, {
 					name: currentText,
 				});
 				onInvalidate();
 			};
 			updateName();
 		},
-		[ isEditMode, subTask, currentText, onInvalidate ],
+		[ isEditMode, subItem, currentText, onInvalidate ],
 	);
 
 	useEffect(
 		() => {
-			setCurrentText(subTask.name);
-			setIsImportant(subTask.isImportant);
-			setIsCompleted(subTask.isCompleted);
+			setCurrentText(subItem.name);
+			setIsImportant(subItem.isImportant);
+			setIsCompleted(subItem.isCompleted);
 		},
-		[ subTask ],
+		[ subItem ],
 	);
 
 	return (
@@ -137,7 +140,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 						className='lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none'
 					/>
 					<FontAwesomeIcon
-						onClick={onDelete.bind(null, subTask.id)}
+						onClick={onDelete.bind(null, subItem.id)}
 						icon={faXmark}
 						className={`max-w-sm text-lg text-rose-600 hover:border-rose-600 hover:border-b-[2.5px] ${classes.icon}`}
 					/>

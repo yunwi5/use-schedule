@@ -5,7 +5,7 @@ import PageNav from '../ui/PageNav';
 import SearchTaskList from './SearchTaskList';
 import TaskSort from './TaskSort';
 import { SortingDirection, TaskSort as SortingStandard } from '../../models/sorting-models';
-import { sortTasks } from '../../utilities/tasks-utils/task-sort-util';
+import { sortTasks } from '../../utilities/sort-utils/task-sort-util';
 import { shuffleList } from '../../utilities/gen-utils/list-util';
 import classes from './TaskSearch.module.scss';
 
