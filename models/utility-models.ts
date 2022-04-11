@@ -2,9 +2,9 @@
 
 // Patching SubTaskProps or SUbTodoItemProps, or anything related to SubItems
 export interface SubItemProps {
-	name: string;
-	isImportant: boolean;
-	isCompleted: boolean;
+	name?: string;
+	isImportant?: boolean;
+	isCompleted?: boolean;
 }
 
 export interface SubItem {

@@ -11,16 +11,13 @@ import {
 	faStarExclamation,
 	faHourglassEnd,
 	faMemoCircleInfo,
-	faBringForward,
 } from '@fortawesome/pro-duotone-svg-icons';
 
-import { PlannerTask } from '../../../../models/task-models/Task';
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import Button from '../../../ui/Button';
 import {
 	getDateTimeFormat,
 	getDurationFormat,
-	getEndDateTimeFormat,
 	getFullDateFormat,
 } from '../../../../utilities/time-utils/date-format';
 import { getImportanceValue } from '../../../../models/task-models/Status';
@@ -83,10 +80,8 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 	const { onClose, onEdit, task } = props;
 
 	const { description, category, subCategory, status, importance, duration } = task;
-
 	const defaultValue = 'N/A';
-
-	console.log(task);
+	// console.log(task);
 
 	const { plannedDateFormat, dueDateFormat, endTimeFormat } = getTaskDetailDateTimeFormat(task);
 	const durationFormat = getDurationFormat(duration).trim() || defaultValue;

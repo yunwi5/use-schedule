@@ -49,19 +49,7 @@
 	}
 }
 
-.hide-name {
-	@include respond(phone) {
-		display: none;
-	}
-}
-
-.hide-search {
-	@include respond(phone) {
-		display: none;
-	}
-}
-
-.hide-search-icon {
+.hide {
 	@include respond(phone) {
 		display: none;
 	}

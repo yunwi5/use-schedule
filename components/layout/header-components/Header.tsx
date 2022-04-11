@@ -28,9 +28,7 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
 					onClick={onToggleSidebar}
 				/>
 				<Link href='/'>
-					<a className={`text-2xl ml-4 ${showSearch ? styles['hide-name'] : ''}`}>
-						Task Manager
-					</a>
+					<a className={`text-2xl ml-4 ${showSearch ? styles.hide : ''}`}>Task Manager</a>
 				</Link>
 				<HeaderSearch onShowSearch={setShowSearch} showSearch={showSearch} />
 			</div>

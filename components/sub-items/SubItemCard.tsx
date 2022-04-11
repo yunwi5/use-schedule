@@ -4,7 +4,6 @@ import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
 import { faCheck, faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
-import { patchSubTaskProps } from '../../lib/planners/subtasks-api';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { SubItem, SubItemProps } from '../../models/utility-models';
@@ -14,13 +13,12 @@ interface Props {
 	subItem: SubItem;
 	isEditMode: boolean;
 	onDelete: (id: string) => void;
-	onInvalidate: () => void;
-	// need to be implemented
-	onPatchNewProps?: (itemId: string, props: SubItemProps) => void;
+	onPatchNewProps: (itemId: string, props: SubItemProps) => Promise<void>;
+	onInvalidate?: () => void;
 }
 
 const SubTaskCard: React.FC<Props> = (props) => {
-	const { subItem, onDelete, isEditMode, onInvalidate } = props;
+	const { subItem, onDelete, isEditMode, onPatchNewProps } = props;
 
 	// Disable "complete" functionality if the task type is TemplateTask. TemplateTask is only for
 	// template so, it cannot be completed.
@@ -38,12 +36,8 @@ const SubTaskCard: React.FC<Props> = (props) => {
 		const newIsImportant = !isImportant;
 		setIsImportant(newIsImportant);
 
-		// Send PATCH Request
 		// better to handle this in the ItemList component! (more generic)
-		await patchSubTaskProps(subItem.id, {
-			isImportant: newIsImportant,
-		});
-		onInvalidate();
+		onPatchNewProps(subItem.id, { isImportant: newIsImportant });
 	};
 
 	const toggleIsCompleted = async () => {
@@ -51,11 +45,8 @@ const SubTaskCard: React.FC<Props> = (props) => {
 		const newIsCompleted = !isCompleted;
 		setIsCompleted(newIsCompleted);
 
-		// Send PATCH Request.
-		await patchSubTaskProps(subItem.id, {
-			isCompleted: newIsCompleted,
-		});
-		onInvalidate();
+		// send PATCH request on the parent list component
+		onPatchNewProps(subItem.id, { isCompleted: newIsCompleted });
 	};
 
 	// Update text only when the edit mode turns from true to false.
@@ -66,15 +57,12 @@ const SubTaskCard: React.FC<Props> = (props) => {
 			if (subItem.name.trim() === currentText.trim()) return;
 
 			const updateName = async () => {
-				// Send PATCH Request
-				await patchSubTaskProps(subItem.id, {
-					name: currentText,
-				});
-				onInvalidate();
+				// Send PATCH Request on the parent list component
+				await onPatchNewProps(subItem.id, { name: currentText });
 			};
 			updateName();
 		},
-		[ isEditMode, subItem, currentText, onInvalidate ],
+		[ isEditMode, subItem, currentText, onPatchNewProps ],
 	);
 
 	useEffect(

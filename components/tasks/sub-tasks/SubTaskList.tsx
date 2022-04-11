@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faPenToSquare } from '@fortawesome/pro-duotone-svg-icons';
 
 import { SubTask } from '../../../models/task-models/SubTask';
-import { deleteSubTask, postSubtask } from '../../../lib/planners/subtasks-api';
+import { deleteSubTask, patchSubTaskProps, postSubtask } from '../../../lib/planners/subtasks-api';
 import { SubTaskSort as SortingStandard, SortingDirection } from '../../../models/sorting-models';
 import { sortSubItems } from '../../../utilities/sort-utils/sub-item-sort';
 import { SubItemForm, SubItemCard, SubItemSorter } from '../../sub-items';
 import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
+import { SubTaskProperties } from '../../../models/task-models/TaskProperties';
 
 interface Props {
 	subTasks: SubTask[];
@@ -51,10 +52,22 @@ const SubTaskList: React.FC<Props> = (props) => {
 		onInvalidate();
 	};
 
-	const sortingHandler = (sortingStand: SortingStandard, direction?: SortingDirection) => {
-		const sortedSubTasks = sortSubItems([ ...currentSubTasks ], sortingStand, direction);
-		setCurrentSubTasks(sortedSubTasks as SubTask[]);
-	};
+	const sortingHandler = useCallback(
+		(sortingStand: SortingStandard, direction?: SortingDirection) => {
+			const sortedSubTasks = sortSubItems([ ...currentSubTasks ], sortingStand, direction);
+			setCurrentSubTasks(sortedSubTasks as SubTask[]);
+		},
+		[ currentSubTasks ],
+	);
+
+	// Send patch request to modify subtask on the server
+	const patchSubTaskHandler = useCallback(
+		async (subTaskId: string, subTaskProps: SubTaskProperties) => {
+			const { isSuccess } = await patchSubTaskProps(subTaskId, subTaskProps);
+			if (isSuccess) onInvalidate();
+		},
+		[ onInvalidate ],
+	);
 
 	useEffect(
 		() => {
@@ -93,6 +106,7 @@ const SubTaskList: React.FC<Props> = (props) => {
 							subItem={subTask}
 							isEditMode={isEditMode}
 							onDelete={deleteSubTaskHandler}
+							onPatchNewProps={patchSubTaskHandler}
 							onInvalidate={onInvalidate}
 						/>
 					))}
