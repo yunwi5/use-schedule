@@ -1,6 +1,6 @@
 // Add all redux slices to index.ts!
-import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 
 import foldSlice from './fold-slice';
 import filterSlice from './filter-slice';

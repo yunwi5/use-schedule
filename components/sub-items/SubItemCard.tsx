@@ -4,11 +4,11 @@ import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
 import { faCheck, faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
-import { SubTask } from '../../../models/task-models/SubTask';
-import { patchSubTaskProps } from '../../../lib/planners/subtasks-api';
+import { SubTask } from '../../models/task-models/SubTask';
+import { patchSubTaskProps } from '../../lib/planners/subtasks-api';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import { PlannerMode } from '../../../models/planner-models/PlannerMode';
-import classes from './SubTaskCard.module.scss';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import classes from './SubItemCard.module.scss';
 
 interface Props {
 	subTask: SubTask;
@@ -38,7 +38,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 
 		// Send PATCH Request
 		await patchSubTaskProps(subTask.id, {
-			isImportant: newIsImportant
+			isImportant: newIsImportant,
 		});
 		onInvalidate();
 	};
@@ -50,7 +50,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 
 		// Send PATCH Request.
 		await patchSubTaskProps(subTask.id, {
-			isCompleted: newIsCompleted
+			isCompleted: newIsCompleted,
 		});
 		onInvalidate();
 	};
@@ -65,13 +65,13 @@ const SubTaskCard: React.FC<Props> = (props) => {
 			const updateName = async () => {
 				// Send PATCH Request
 				await patchSubTaskProps(subTask.id, {
-					name: currentText
+					name: currentText,
 				});
 				onInvalidate();
 			};
 			updateName();
 		},
-		[ isEditMode, subTask, currentText, onInvalidate ]
+		[ isEditMode, subTask, currentText, onInvalidate ],
 	);
 
 	useEffect(
@@ -80,7 +80,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
 			setIsImportant(subTask.isImportant);
 			setIsCompleted(subTask.isCompleted);
 		},
-		[ subTask ]
+		[ subTask ],
 	);
 
 	return (

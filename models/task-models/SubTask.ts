@@ -8,6 +8,6 @@ export interface NoIdSubTask {
 	isTemplated?: boolean;
 }
 
-export interface SubTask {
+export interface SubTask extends NoIdSubTask {
 	id: string;
 }

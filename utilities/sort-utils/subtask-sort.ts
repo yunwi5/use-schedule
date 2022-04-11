@@ -1,17 +1,22 @@
-import { SubTask } from "../../models/task-models/SubTask";
-import { SubTaskSort, SortingDirection } from "../../models/sorting-models";
+import { SubTaskSort, SortingDirection } from '../../models/sorting-models';
 
-function compareByImportance (subTaskA: SubTask, subTaskB: SubTask) {
+interface Sortable {
+	isImportant: boolean;
+	isCompleted: boolean;
+	order: number;
+}
+
+function compareByImportance (subTaskA: Sortable, subTaskB: Sortable) {
 	if (!subTaskA.isImportant && subTaskB.isImportant) return 1;
 	return -1;
 }
 
-function compareByCompletion (subA: SubTask, subB: SubTask) {
+function compareByCompletion (subA: Sortable, subB: Sortable) {
 	if (!subA.isCompleted && subB.isCompleted) return 1;
 	return -1;
 }
 
-function compareByOrder (subA: SubTask, subB: SubTask) {
+function compareByOrder (subA: Sortable, subB: Sortable) {
 	if ((!subA.order && !subB.order) || !subB.order) return -1;
 	if (!subA.order) return 1;
 
@@ -19,10 +24,10 @@ function compareByOrder (subA: SubTask, subB: SubTask) {
 }
 
 export function sortSubTasks (
-	subTasks: SubTask[],
+	subTasks: Sortable[],
 	sortingStandard: SubTaskSort,
-	direction: SortingDirection = SortingDirection.Ascending
-): SubTask[] {
+	direction: SortingDirection = SortingDirection.Ascending,
+): Sortable[] {
 	console.log(`direction: ${direction}`);
 	switch (sortingStandard) {
 		case SubTaskSort.IMPORTANCE:
@@ -30,7 +35,7 @@ export function sortSubTasks (
 				(a, b) =>
 					direction === SortingDirection.Ascending
 						? compareByImportance(a, b)
-						: compareByImportance(b, a)
+						: compareByImportance(b, a),
 			);
 
 		case SubTaskSort.COMPLETED:
@@ -38,14 +43,14 @@ export function sortSubTasks (
 				(a, b) =>
 					direction === SortingDirection.Ascending
 						? compareByCompletion(a, b)
-						: compareByCompletion(b, a)
+						: compareByCompletion(b, a),
 			);
 		case SubTaskSort.ORDER:
 			return subTasks.sort(
 				(a, b) =>
 					direction === SortingDirection.Ascending
 						? compareByOrder(a, b)
-						: compareByOrder(b, a)
+						: compareByOrder(b, a),
 			);
 		default:
 			return subTasks;

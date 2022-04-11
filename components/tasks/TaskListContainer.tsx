@@ -1,20 +1,20 @@
-import React, { useState, useMemo, Fragment } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
+import React, { useState, useMemo, Fragment } from 'react';
+import { useSelector, RootStateOrAny } from 'react-redux';
 
-import TaskList from "./TaskList";
-import ListHeading from "./task-support/ListHeading";
-import { WeekDay, getWeekDayFromIndex } from "../../models/date-models/WeekDay";
-import { Month, getMonthFromIndex } from "../../models/date-models/Month";
-import { WeekNumber, getWeekFromIndex } from "../../models/date-models/WeekNumber";
-import { Planner } from "../../models/planner-models/Planner";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { addDays } from "../../utilities/time-utils/date-control";
-import { getMonth, getWeekInterval } from "../../utilities/time-utils/month-util";
-import { getShortName } from "../../utilities/gen-utils/string-util";
-import { sortTaskByTime } from "../../utilities/tasks-utils/sort-util";
-import { getMonthEnding } from "../../utilities/time-utils/date-get";
-import { getDaySuffixed } from "../../utilities/gen-utils/format-util";
-import { Task } from "../../models/task-models/Task";
+import TaskList from './TaskList';
+import ListHeading from './task-support/ListHeading';
+import { WeekDay, getWeekDayFromIndex } from '../../models/date-models/WeekDay';
+import { Month, getMonthFromIndex } from '../../models/date-models/Month';
+import { WeekNumber, getWeekFromIndex } from '../../models/date-models/WeekNumber';
+import { Planner } from '../../models/planner-models/Planner';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { addDays } from '../../utilities/time-utils/date-control';
+import { getMonth, getWeekInterval } from '../../utilities/time-utils/month-util';
+import { getShortName } from '../../utilities/gen-utils/string-util';
+import { sortTaskByTime } from '../../utilities/sort-utils/sort-util';
+import { getMonthEnding } from '../../utilities/time-utils/date-get';
+import { getDaySuffixed } from '../../utilities/gen-utils/format-util';
+import { Task } from '../../models/task-models/Task';
 
 interface Props {
 	beginningPeriod: Date;
@@ -24,9 +24,9 @@ interface Props {
 }
 
 function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, index: number) {
-	let labelMain = "",
-		labelSub = "",
-		headingText: string | JSX.Element = "";
+	let labelMain = '',
+		labelSub = '',
+		headingText: string | JSX.Element = '';
 	switch (plannerMode) {
 		case PlannerMode.WEEKLY:
 			const day = getWeekDayFromIndex(index);
@@ -36,7 +36,7 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 			const currMonth = getMonth(curr);
 
 			const isDateAny = day === WeekDay.ANY;
-			let currDate = !isDateAny ? curr.getDate().toString() : "?";
+			let currDate = !isDateAny ? curr.getDate().toString() : '?';
 			labelMain = currDate;
 			labelSub = currMonth;
 			headingText = shortDay;
@@ -45,7 +45,7 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 			// let day = getWeekFromIndex(index);
 			const templateShortDay = getShortName(getWeekDayFromIndex(index));
 			labelMain = `${index + 1}`;
-			labelSub = "Day";
+			labelSub = 'Day';
 			headingText = templateShortDay;
 			break;
 		case PlannerMode.MONTLY:
@@ -64,16 +64,16 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 			const endingDay = getDaySuffixed(ending);
 
 			const isWeekAny = week === WeekNumber.ANY;
-			labelMain = !isWeekAny ? `${index + 1}` : "?";
-			labelSub = "week";
+			labelMain = !isWeekAny ? `${index + 1}` : '?';
+			labelSub = 'week';
 
 			const formatTextElem2 = !sameBeginAndEndingDay ? (
-				<span className="text-lg">
+				<span className='text-lg'>
 					{beginningDay}
 					~{endingDay}
 				</span>
 			) : (
-				<span className="text-2xl">{beginningDay}</span>
+				<span className='text-2xl'>{beginningDay}</span>
 			);
 
 			headingText = !isWeekAny ? <span>{formatTextElem2}</span> : <span>Any</span>;
@@ -82,8 +82,8 @@ function getHeadingLabels (plannerMode: PlannerMode, beginningPeriod: Date, inde
 			const month = getMonthFromIndex(index);
 			const isMonthAny = month === Month.ANY;
 
-			labelMain = !isMonthAny ? `${index + 1}` : "?";
-			labelSub = "mon";
+			labelMain = !isMonthAny ? `${index + 1}` : '?';
+			labelSub = 'mon';
 			headingText = getShortName(month);
 			break;
 	}
@@ -103,11 +103,11 @@ const TaskListContainer: React.FC<Props> = (props) => {
 	const { labelMain, labelSub, headingText } = getHeadingLabels(
 		plannerMode,
 		beginningPeriod,
-		index
+		index,
 	);
 
 	return (
-		<div className="ml-4 my-4">
+		<div className='ml-4 my-4'>
 			<ListHeading
 				labelMain={labelMain}
 				labelSub={labelSub}

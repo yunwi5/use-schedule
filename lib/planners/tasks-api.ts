@@ -29,8 +29,8 @@ export async function postTask (newTask: Task, plannerMode: PlannerMode) {
 			method: 'POST',
 			body: JSON.stringify(newTask),
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 
 		const data = await res.json();
@@ -55,8 +55,8 @@ export async function updateTask (taskId: string, updatedTask: Task, plannerMode
 			method: 'PUT',
 			body: JSON.stringify(updatedTask),
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 		const data = await res.json();
 		console.log('Put request response:', data);
@@ -76,7 +76,7 @@ export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
 	let res;
 	try {
 		res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
-			method: 'DELETE'
+			method: 'DELETE',
 		});
 		const data = await res.json();
 		console.log('Delete data:', data);
@@ -93,7 +93,7 @@ export async function deleteTask (taskId: string, plannerMode: PlannerMode) {
 export async function updateTaskProperties (
 	taskId: string,
 	updateProps: TaskProperties,
-	plannerMode: PlannerMode
+	plannerMode: PlannerMode,
 ) {
 	const collection = getCollectionOfPlaner(plannerMode);
 
@@ -103,11 +103,11 @@ export async function updateTaskProperties (
 			method: 'PATCH',
 			body: JSON.stringify({
 				updateProps,
-				collection
+				collection,
 			}),
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 
 		const data = await res.json();

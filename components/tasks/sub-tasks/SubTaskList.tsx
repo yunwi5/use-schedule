@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faPenToSquare } from "@fortawesome/pro-duotone-svg-icons";
+import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faPenToSquare } from '@fortawesome/pro-duotone-svg-icons';
 
-import { SubTask } from "../../../models/task-models/SubTask";
-import { deleteSubTask, postSubtask } from "../../../lib/planners/subtasks-api";
-import { SubTaskSort as SortingStandard, SortingDirection } from "../../../models/sorting-models";
-import SubTaskCard from "./SubTaskCard";
-import SubTaskForm from "./SubTaskForm";
-import SubTaskSorter from "./SubTaskSorter";
-import { sortSubTasks } from "../../../utilities/tasks-utils/subtask-sort";
-import LoadingSpinner from "../../ui/design-elements/LoadingSpinner";
+import { SubTask } from '../../../models/task-models/SubTask';
+import { deleteSubTask, postSubtask } from '../../../lib/planners/subtasks-api';
+import { SubTaskSort as SortingStandard, SortingDirection } from '../../../models/sorting-models';
+import { sortSubItems } from '../../../utilities/sort-utils/subtask-sort';
+import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
+import { SubItemForm, SubItemCard, SubItemSorter } from '../../sub-items';
 
 interface Props {
 	subTasks: SubTask[];
@@ -32,7 +30,7 @@ const SubTaskList: React.FC<Props> = (props) => {
 			isCompleted: false,
 			isImportant: false,
 			order: currentSubTasks.length + 1,
-			parentTaskId
+			parentTaskId,
 		};
 		setCurrentSubTasks([ ...currentSubTasks, newSubTask ]);
 
@@ -43,7 +41,7 @@ const SubTaskList: React.FC<Props> = (props) => {
 
 	const deleteSubTaskHandler = async (id: string) => {
 		if (!id) {
-			console.log("SubTask Id is not set. Therefore, cannot delete!");
+			console.log('SubTask Id is not set. Therefore, cannot delete!');
 			return;
 		}
 		setCurrentSubTasks(currentSubTasks.filter((sub) => sub.id !== id));
@@ -54,43 +52,43 @@ const SubTaskList: React.FC<Props> = (props) => {
 	};
 
 	const sortingHandler = (sortingStand: SortingStandard, direction?: SortingDirection) => {
-		const sortedSubTasks = sortSubTasks([ ...currentSubTasks ], sortingStand, direction);
-		setCurrentSubTasks(sortedSubTasks);
+		const sortedSubTasks = sortSubItems([ ...currentSubTasks ], sortingStand, direction);
+		setCurrentSubTasks(sortedSubTasks as SubTask[]);
 	};
 
 	useEffect(
 		() => {
 			setCurrentSubTasks(subTasks);
 		},
-		[ subTasks ]
+		[ subTasks ],
 	);
 
 	return (
-		<div className="mb-3">
-			<div className="mb-2 w-[100%] flex items-center justify-between">
-				<div className="text-left cursor-pointer text-slate-600 hover:text-blue-600">
+		<div className='mb-3'>
+			<div className='mb-2 w-[100%] flex items-center justify-between'>
+				<div className='text-left cursor-pointer text-slate-600 hover:text-blue-600'>
 					{isEditMode ? (
 						<FontAwesomeIcon
 							icon={faCircleCheck}
 							onClick={() => setIsEditMode(false)}
-							className="max-w-[2.5rem] text-3xl text-green-400 hover:text-green-500"
+							className='max-w-[2.5rem] text-3xl text-green-400 hover:text-green-500'
 						/>
 					) : (
 						<FontAwesomeIcon
 							icon={faPenToSquare}
-							className="max-w-[2.5rem] text-3xl"
+							className='max-w-[2.5rem] text-3xl'
 							onClick={() => setIsEditMode(true)}
 						/>
 					)}
 				</div>
 				{/* Sorting Select */}
-				<SubTaskSorter onSort={sortingHandler} />
+				<SubItemSorter onSort={sortingHandler} />
 			</div>
 			{isLoading && <LoadingSpinner />}
 			{!isLoading && (
-				<ul className="mb-9 max-h-[25rem] overflow-y-scroll">
+				<ul className='mb-9 max-h-[25rem] overflow-y-scroll'>
 					{currentSubTasks.map((subTask) => (
-						<SubTaskCard
+						<SubItemCard
 							key={subTask.id}
 							subTask={subTask}
 							isEditMode={isEditMode}
@@ -100,7 +98,7 @@ const SubTaskList: React.FC<Props> = (props) => {
 					))}
 				</ul>
 			)}
-			<SubTaskForm onAdd={addSubTaskHandler} />
+			<SubItemForm onAdd={addSubTaskHandler} />
 		</div>
 	);
 };
