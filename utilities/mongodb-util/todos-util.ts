@@ -51,3 +51,9 @@ export async function updateTodo(client: MongoClient, todoId: string, updatedPro
         .updateOne({ _id: new ObjectId(todoId) }, { $set: { ...updatedProps } });
     return res;
 }
+
+export async function deleteTodo(client: MongoClient, todoId: string) {
+    const db = client.db();
+    const res = await db.collection(TodoCollection).deleteOne({ _id: new ObjectId(todoId) });
+    return res;
+}

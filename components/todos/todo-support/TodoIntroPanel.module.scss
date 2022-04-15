@@ -1,4 +1,4 @@
-@import "../../styles/abstract/variables";
+@import "../../../styles/abstract/variables";
 
 .panel {
 	flex-basis: .4;
@@ -58,8 +58,8 @@
 }
 
 .exit {
-	top: 1rem;
-	right: 1.5rem;
+	top: .6rem;
+	right: .7rem;
 	max-width: 1.5rem;
 	max-height: 1.5rem;
 	font-size: 1.6rem;

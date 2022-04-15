@@ -32,23 +32,23 @@ const TodoForm: React.FC<Props> = ({ onAdd }) => {
     };
 
     return (
-        <form onSubmit={submitHandler} className={`mt-5`}>
+        <form onSubmit={submitHandler} className={`mt-5`} id='todo-form'>
             <div
                 className={`p-2 flex items-center border-2 border-slate-200 rounded-md shadow-md focus-within:shadow-lg focus-within:border-blue-300 ${
                     error.hasError ? "border-rose-300" : ""
                 }`}
             >
                 <label
-                    htmlFor='subtask-input'
+                    htmlFor='todo-input'
                     className='lg:w-10 lg:h-10 flex items-center justify-center backdrop-blur-sm text-slate-400 hover:bg-slate-400 hover:text-slate-50 rounded-full cursor-pointer'
                 >
                     <FontAwesomeIcon icon={faPlus} className={`max-w-[2.3rem] text-2xl`} />
                 </label>
                 <input
                     type='text'
-                    placeholder='Add Sub Task'
-                    id='subtask-input'
-                    name='subtask-input'
+                    placeholder='Add Todo'
+                    id='todo-input'
+                    name='todo-input'
                     value={name}
                     onChange={nameHandler}
                     className='focus:outline-none bg-inherit ml-3 flex-1'

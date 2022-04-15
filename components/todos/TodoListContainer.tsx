@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
 import { Todo } from "../../models/todo-models/Todo";
-import TodoIntroPanel from "./TodoIntroPanel";
+import TodoIntroPanel from "./todo-support/TodoIntroPanel";
 import TodoListForm from "./forms/TodoListForm";
 import TodoListSection from "./TodoListSection";
-import TodoForm from "./forms/TodoListForm";
+import TodoSummary from "./todo-support/TodoSummary";
 
 interface Props {
     onMutateList: (newProps: TodoListProperties, isNew: boolean) => Promise<boolean>;
@@ -19,7 +19,11 @@ const TodoListContainer: React.FC<Props> = (props) => {
 
     return (
         <main className='py-12 md:px-[6rem] lg:px-[14rem] text-slate-700'>
-            <div className={`flex gap-3 ${!editingList ? "flex-col" : ""}`}>
+            <div
+                className={`relative flex gap-3 flex-wrap xl:flex-nowrap ${
+                    !editingList ? "flex-col" : ""
+                }`}
+            >
                 <TodoIntroPanel />
                 <TodoListForm
                     initialList={todoList}
@@ -27,6 +31,7 @@ const TodoListContainer: React.FC<Props> = (props) => {
                     isEditing={editingList}
                     onEditing={setEditingList}
                 />
+                <TodoSummary todos={todos} />
             </div>
             <TodoListSection todos={todos} todoList={todoList} onInvalidate={onInvalidate} />
         </main>

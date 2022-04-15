@@ -1,4 +1,3 @@
-import { TodoList } from "./../../../../models/todo-models/TodoList";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 

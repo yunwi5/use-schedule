@@ -1,10 +1,11 @@
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faStarSolid, faCheck } from "@fortawesome/pro-solid-svg-icons";
 import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
-import React, { useState } from "react";
+import { faCalendarCheck, faHourglass } from "@fortawesome/pro-duotone-svg-icons";
+
 import { Todo, TodoProps } from "../../models/todo-models/Todo";
 import { getDurationFormat, getFullDateFormat } from "../../utilities/time-utils/date-format";
-import { faCalendarCheck, faHourglass } from "@fortawesome/pro-duotone-svg-icons";
 
 interface Props {
     todo: Todo;
@@ -13,17 +14,35 @@ interface Props {
 }
 
 const TodoCard: React.FC<Props> = (props) => {
+    // call Invalidate if steps count have to be updated.
     const { todo, onInvalidate, onMutateTodo } = props;
     const [isImportant, setIsImportant] = useState(todo.isImportant);
     const [isCompleted, setIsCompleted] = useState(todo.isCompleted);
 
     const showBottomInfo = todo.dateTime || todo.duration;
 
+    const handleImportant = () => {
+        setIsImportant((prevState) => {
+            const newState = !prevState;
+            onMutateTodo(todo.id, { isImportant: newState });
+            return newState;
+        });
+    };
+
+    const handleCompleted = () => {
+        setIsCompleted((prevState) => {
+            const newState = !prevState;
+            onMutateTodo(todo.id, { isCompleted: newState });
+            return newState;
+        });
+    };
+
     const flexCenter = "flex items-center justify-center";
 
     return (
-        <article className='px-3 py-2 min-h-[71.2px] flex justify-between items-center text-lg rounded-sm border-2 border-slate-200 shadow-md'>
+        <article className='px-3 py-2 min-h-[71.2px] flex justify-between items-center text-lg transition-all rounded-sm border-2 border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50 hover:-translate-y-2'>
             <div
+                onClick={handleCompleted}
                 className={`${flexCenter} w-8 h-8 rounded-full border-2 border-slate-400 cursor-pointer`}
             >
                 {isCompleted && (
@@ -39,7 +58,7 @@ const TodoCard: React.FC<Props> = (props) => {
                             <span>
                                 <FontAwesomeIcon
                                     icon={faCalendarCheck}
-                                    className='mr-1 max-w-md max-h-md'
+                                    className='mr-[3px] max-w-md max-h-md'
                                 />
                                 &nbsp;
                                 {getFullDateFormat(todo.dateTime)}
@@ -50,7 +69,7 @@ const TodoCard: React.FC<Props> = (props) => {
                                 <span>
                                     <FontAwesomeIcon
                                         icon={faHourglass}
-                                        className='mr-1 max-w-md max-h-md'
+                                        className='mr-[3px] max-w-md max-h-md'
                                     />
                                     {getDurationFormat(todo.duration)}
                                 </span>
@@ -61,6 +80,7 @@ const TodoCard: React.FC<Props> = (props) => {
             </div>
             <div className='flex items-center justify-center text-[2rem] cursor-pointer'>
                 <FontAwesomeIcon
+                    onClick={handleImportant}
                     icon={isImportant ? faStarSolid : faStarLight}
                     className='max-w-[2rem] max-h-[2rem] text-yellow-400 text-[1.8rem]'
                 />

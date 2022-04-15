@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../store/redux";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
 import { Todo } from "../../models/todo-models/Todo";
 import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { patchTodoList, postTodoList } from "../../lib/todos/todo-list-api";
+import { patchTodoList } from "../../lib/todos/todo-list-api";
 import { getTodoListAndItemsFromPage } from "../../utilities/mongodb-util/pages-util";
 
 const API_TODO_DOMAIN = "/api/todos";

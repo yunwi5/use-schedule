@@ -1,0 +1,30 @@
+@import "../../../styles/abstract/variables";
+
+.exit,
+.show {
+	position: absolute;
+	cursor: pointer;
+	transition: all .3s ease;
+	color: $color-primary-dark-2;
+
+	&:hover {
+		color: $color-tertiary-dark-2;
+		transform: scale(115%);
+	}
+}
+
+.exit {
+	top: .45rem;
+	right: .6rem;
+	max-width: 1.5rem;
+	max-height: 1.5rem;
+	font-size: 1.5rem;
+}
+
+.show {
+	right: 1rem;
+	top: -5px;
+	max-width: 3rem;
+	max-height: 3rem;
+	font-size: 2.1rem;
+}
