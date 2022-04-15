@@ -54,7 +54,7 @@ export default withApiAuthRequired(async function handler (
 		delete taskToAdd["id"];
 
 		const { isValid, message } = validateTask(taskToAdd);
-		console.log(`isValid: ${isValid}, ${message}`);
+		// console.log(`isValid: ${isValid}, ${message}`);
 		if (!isValid) {
 			client.close();
 			return res.status(415).json({ message });
@@ -63,7 +63,7 @@ export default withApiAuthRequired(async function handler (
 		let result;
 		try {
 			result = await insertTask(client, collection, taskToAdd);
-			console.log("result:", result);
+			// console.log("result:", result);
 		} catch (err) {
 			console.error(err);
 			client.close();

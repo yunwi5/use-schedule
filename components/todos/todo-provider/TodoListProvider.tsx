@@ -1,43 +1,43 @@
 import React, { useEffect, useMemo } from "react";
-import { useSelector, RootStateOrAny, useDispatch } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
 
-import { templateActions } from "../../../store/redux/template-slice";
 import { Template } from "../../../models/template-models/Template";
+import { useAppDispatch, useAppSelector } from "../../../store/redux";
+import { todoListActions } from "../../../store/redux/todolist-slice";
 
-const API_DOMAIN = "/api/templates";
+const API_DOMAIN = "/api/todos/list";
 
-const TemplatesProvider: React.FC = (props) => {
+const TodoListProvider: React.FC = (props) => {
     const userContext = useUser();
     const userId = userContext.user ? userContext.user.sub : null;
 
     const queryClient = useQueryClient();
     const { data, error } = useQuery(
-        ["templates", userId],
+        ["todos", userId],
         async () => {
             return fetch(`${API_DOMAIN}/`)
                 .then((res) => res.json())
                 .catch((err) => console.log(err.message));
         },
-        { enabled: !!userId },
+        { enabled: !!userId, refetchInterval: 1000 },
     );
     if (error) console.log(error);
 
-    const templatesData: Template[] = useMemo(() => (data ? data.templates : []), [data]);
+    const todoListData: Template[] = useMemo(() => (data ? data.lists : []), [data]);
 
-    const { updateCount } = useSelector((state: RootStateOrAny) => state.template);
-    const dispatch = useDispatch();
+    const { updateCount } = useAppSelector((state) => state.todoList);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        queryClient.invalidateQueries("templates");
+        queryClient.invalidateQueries("todos");
     }, [queryClient, updateCount]);
 
     useEffect(() => {
-        dispatch(templateActions.setTemplates(templatesData));
-    }, [dispatch, templatesData]);
+        dispatch(todoListActions.setTodoLists(todoListData));
+    }, [dispatch, todoListData]);
 
     return <>{props.children}</>;
 };
 
-export default TemplatesProvider;
+export default TodoListProvider;

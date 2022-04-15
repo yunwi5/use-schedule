@@ -3,6 +3,22 @@ export enum SortingDirection {
 	Descending = 'DES',
 }
 
+// TodoSort helper models
+export enum TodoSort {
+	DATE = 'Date',
+	IMPORTANCE = 'Importance',
+	COMPLETED = 'Completion',
+	ORDER = 'Added Order',
+}
+
+export const TodoSortList = [
+	TodoSort.DATE,
+	TodoSort.COMPLETED,
+	TodoSort.IMPORTANCE,
+	TodoSort.ORDER,
+];
+
+// TaskSort helper models
 export enum TaskSort {
 	PLAN_DATE = 'Plan Date',
 	DUE_DATE = 'Due Date',

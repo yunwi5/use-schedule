@@ -35,7 +35,7 @@ function populateTemplatePlanner (tasks: Task[], templateWeekBeginning: Date, te
 
 interface Props {
 	onInvalidateTasks: () => void;
-	onMutateTemplate: (newTemplage: TemplateFormObj, isNew: boolean) => Promise<boolean>;
+	onMutateTemplate: (newTemplate: TemplateFormObj, isNew: boolean) => Promise<boolean>;
 	templateTasks: Task[];
 	template: Template | null;
 }
@@ -56,11 +56,11 @@ const TemplatePlanner: React.FC<Props> = (props) => {
 			const newPlanner = populateTemplatePlanner(
 				initialTasks,
 				templateWeekBeginning,
-				template
+				template,
 			);
 			setPlanner(newPlanner);
 		},
-		[ templateWeekBeginning, initialTasks, template ]
+		[ templateWeekBeginning, initialTasks, template ],
 	);
 
 	// Only runs on mount.
@@ -81,7 +81,7 @@ const TemplatePlanner: React.FC<Props> = (props) => {
 					preventTaskAdd={
 						!template ? (
 							{
-								message: 'Please complete your template form first!'
+								message: 'Please complete your template form first!',
 							}
 						) : (
 							undefined

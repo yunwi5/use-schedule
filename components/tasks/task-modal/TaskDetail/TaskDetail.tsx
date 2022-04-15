@@ -14,64 +14,61 @@ import TaskDetailNav from "./TaskDetailNav";
 import classes from "./TaskDetail.module.scss";
 
 interface Props {
-	onClose: () => void;
-	onEdit: () => void;
-	onDelete: () => void;
-	task: AbstractTask;
+    onClose: () => void;
+    onEdit: () => void;
+    onDelete: () => void;
+    task: AbstractTask;
 }
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners/sub-tasks`;
 
-async function fetchSubTasks (context: any) {
-	const [ name, parentTaskId ] = context.queryKey;
-	const url = `${API_DOMAIN}/${parentTaskId}`;
-	const res = await fetch(url);
-	return await res.json();
+async function fetchSubTasks(context: any) {
+    const [name, parentTaskId] = context.queryKey;
+    const url = `${API_DOMAIN}/${parentTaskId}`;
+    const res = await fetch(url);
+    return await res.json();
 }
 
 const TaskDetail: React.FC<Props> = (props) => {
-	const { onClose, onEdit, task } = props;
-	const [ showSubTasks, setShowSubTasks ] = useState(false);
-	const { name, plannerType } = task;
+    const { onClose, onEdit, task } = props;
+    const [showSubTasks, setShowSubTasks] = useState(false);
+    const { name, plannerType } = task;
 
-	// testing QueryClient
-	const queryClient = useQueryClient();
-	const { isLoading, error, data } = useQuery([ "subTasks", task.id ], fetchSubTasks);
+    // testing QueryClient
+    const queryClient = useQueryClient();
+    const { isLoading, error, data } = useQuery(["subTasks", task.id], fetchSubTasks);
 
-	const invalidateSubTasks = useCallback(
-		() => {
-			queryClient.invalidateQueries([ "subTasks", task.id ]);
-		},
-		[ queryClient, task ]
-	);
+    const invalidateSubTasks = useCallback(() => {
+        queryClient.invalidateQueries(["subTasks", task.id]);
+    }, [queryClient, task]);
 
-	if (error) {
-		let errMessage = error instanceof Error ? error.message : "Fetching has errors.";
-		console.log(errMessage);
-	}
+    if (error) {
+        let errMessage = error instanceof Error ? error.message : "Fetching has errors.";
+        console.log(errMessage);
+    }
 
-	let subTasks: SubTask[] = !error && data ? data.subTasks : [];
+    let subTasks: SubTask[] = !error && data ? data.subTasks : [];
 
-	return (
-		<Modal onClose={onClose} classes={`text-semibold ${classes.modal}`}>
-			<h2>{name}</h2>
-			<FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
-			<TaskDetailNav
-				taskType={getTaskType(plannerType || PlannerMode.WEEKLY)}
-				onShowSubTasks={(showSub) => setShowSubTasks(showSub)}
-				showSubTasks={showSubTasks}
-			/>
-			{showSubTasks && (
-				<SubTaskList
-					onInvalidate={invalidateSubTasks}
-					subTasks={subTasks}
-					isLoading={isLoading}
-					parentTaskId={task.id}
-				/>
-			)}
-			{!showSubTasks && <TaskDetailInfo onEdit={onEdit} onClose={onClose} task={task} />}
-		</Modal>
-	);
+    return (
+        <Modal onClose={onClose} classes={`text-semibold ${classes.modal}`}>
+            <h2>{name}</h2>
+            <FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
+            <TaskDetailNav
+                taskType={getTaskType(plannerType || PlannerMode.WEEKLY)}
+                onShowSubTasks={(showSub) => setShowSubTasks(showSub)}
+                showSubTasks={showSubTasks}
+            />
+            {showSubTasks && (
+                <SubTaskList
+                    onInvalidate={invalidateSubTasks}
+                    subTasks={subTasks}
+                    isLoading={isLoading}
+                    parentTaskId={task.id}
+                />
+            )}
+            {!showSubTasks && <TaskDetailInfo onEdit={onEdit} onClose={onClose} task={task} />}
+        </Modal>
+    );
 };
 
 export default TaskDetail;

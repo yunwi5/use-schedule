@@ -8,3 +8,7 @@ export enum Collection {
 export const SubTaskCollection = 'sub-tasks';
 
 export const TemplateCollection = 'templates';
+
+// Todo section
+export const TodoListCollection = 'todo-lists';
+export const TodoCollection = 'todos';

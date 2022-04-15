@@ -1,0 +1,25 @@
+@import "../../styles/abstract/variables";
+
+.add-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .5s, color .5s, width .9s ease-in-out;
+    padding: .5rem;
+
+    .add-icon-text {
+        display: none;
+        font-size: 80%;
+    }
+
+    &:hover {
+        gap: .5rem;
+        font-size: 1.5rem;
+        width: auto;
+        border-radius: 12px;
+    }
+
+    &:hover .add-icon-text {
+        display: inline;
+    }
+}
