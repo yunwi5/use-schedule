@@ -39,11 +39,11 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
     );
     const weekTodosCount = useMemo(
         () =>
-            todos.reduce(
-                (accCount: number, todo) =>
-                    isSameWeek(today, todo.dateTime || null) ? accCount + 1 : accCount,
-                0,
-            ),
+            todos.reduce((accCount: number, todo) => {
+                const res = isSameWeek(today, todo.dateTime || null) ? accCount + 1 : accCount;
+                console.log(`${today.toDateString()}, ${todo.dateTime?.toDateString()}, ${res}`);
+                return res;
+            }, 0),
         [todos, today],
     );
 

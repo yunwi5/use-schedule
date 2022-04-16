@@ -24,6 +24,15 @@
 	transform: translate(-50%, -50%);
 }
 
+@mixin heading-underline($color-1, $color-2) {
+	font-size: 2.2rem;
+	position: relative;
+
+	&::after {
+		@include after-underline($color-1, $color-2);
+	}
+}
+
 /* 
 0 - 600px: Phone
 600 - 900px: Tablet Portrait

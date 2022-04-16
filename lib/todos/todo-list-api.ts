@@ -5,6 +5,7 @@ const TODO_API_DOMAIN = process.env.API_DOMIN_RELATIVE
     ? `${process.env.API_DOMIN_RELATIVE}/todos`
     : "api/todos";
 
+// Todo List APIs
 export async function postTodoList(list: NoIdTodoList) {
     let message = "";
     try {
@@ -33,19 +34,15 @@ export async function patchTodoList(listId: string, listProps: TodoListPropertie
     return { isSuccess: false, message: message || "Patching todo lsit did not work." };
 }
 
-// export async function getAllTodoLists() {
-//     let message = "";
-//     try {
-//         const { status, data } = await axios.get(`${TODO_API_DOMAIN}/list/`);
-//         if (status >= 200 && status < 300)
-//             return {
-//                 isSuccess: true,
-//                 message: "Getting todo successful!",
-//                 list: data.list,
-//                 todos: data.todos,
-//             };
-//     } catch (err) {
-//         message = err instanceof Error ? err.message : "Getting todo list did not work.";
-//     }
-//     return { isSuccess: false, message };
-// }
+// Todo Item APIS
+export async function deleteTodo(todoId: string) {
+    let message = "";
+    try {
+        const { status } = await axios.delete(`${TODO_API_DOMAIN}/todo/${todoId}`);
+        if (status >= 200 && status < 300)
+            return { isSuccess: true, message: "Deleting todo successful" };
+    } catch (err) {
+        message = err instanceof Error ? err.message : "";
+    }
+    return { isSuccess: false, message: message ?? "Deleting todo did not work." };
+}

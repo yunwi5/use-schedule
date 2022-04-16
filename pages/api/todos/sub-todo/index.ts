@@ -1,52 +1,42 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
-
+import { MongoClient } from "mongodb";
+import { NextApiRequest, NextApiResponse } from "next";
 import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { insertTodo } from "../../../../utilities/mongodb-util/todos-util";
+import { insertSubTodo, updateSubTodo } from "../../../../utilities/mongodb-util/todos-util";
 
 type Data = { message: string } | { message: string; insertedId: string };
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const session = getSession(req, res);
-
     if (!session) {
         return res.status(400).json({ message: "User not found" });
     }
 
-    const userId = session.user.sub;
-
-    let client;
+    let client: MongoClient;
     try {
         client = await connectDatabase();
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Could not connect to DB" });
+        const message = err instanceof Error ? err.message : "Connect to database did not work.";
+        return res.status(500).json({ message });
     }
 
     if (req.method === "POST") {
-        // Need to add validation soon
-
-        const newTodo = req.body;
-        console.log("newTodo:", newTodo);
-        // Just in case if the parsed date is not type Date
-        if (newTodo.dateTime) newTodo.dateTime = new Date(newTodo.dateTime.toString());
+        const newSubTodo = req.body;
         let result;
         try {
-            result = await insertTodo(client, newTodo);
+            result = await insertSubTodo(client, newSubTodo);
         } catch (err) {
-            const message = err instanceof Error ? err.message : "Inserting new todo did not work.";
+            const message = err instanceof Error ? err.message : "Inserting sub todo did not work.";
             client.close();
             return res.status(500).json({ message });
         }
-        console.log(result);
         res.status(201).json({
-            message: "Inserting new todo successful",
+            message: "Inserting sub todo successful",
             insertedId: result.insertedId.toString(),
         });
     } else {
         res.status(405).json({ message: "Request method not allowed." });
     }
-
     client.close();
 }
 

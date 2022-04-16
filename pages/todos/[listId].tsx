@@ -117,6 +117,8 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
             return { notFound: true };
         }
 
+        console.log(todos);
+
         const userId = session.user.sub;
         return {
             props: {

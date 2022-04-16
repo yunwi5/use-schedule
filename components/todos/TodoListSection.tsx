@@ -13,6 +13,7 @@ import TodoSorter from "./todo-support/TodoSorter";
 import { SortingDirection, TodoSort } from "../../models/sorting-models";
 import { sortTodos } from "../../utilities/sort-utils/todo-sort";
 import TodoSummary from "./todo-support/TodoSummary";
+import { deleteTodo } from "../../lib/todos/todo-list-api";
 
 const DEMO_TODOS: Todo[] = [
     {
@@ -69,6 +70,7 @@ const TodoListSection: React.FC<Props> = (props) => {
         },
         {
             onSuccess: () => {
+                console.log("Patch todo successful");
                 onInvalidate();
             },
         },
@@ -92,6 +94,12 @@ const TodoListSection: React.FC<Props> = (props) => {
 
     const todoPatchHandler = (todoId: string, todoProps: TodoProps) => {
         patchMutation.mutate({ todoId, todoProps });
+    };
+
+    const todoDeleteHandler = async (todoId: string) => {
+        const { isSuccess, message } = await deleteTodo(todoId);
+        if (isSuccess) onInvalidate();
+        return { isSuccess, message };
     };
 
     const sortHandler = useCallback(
@@ -122,9 +130,11 @@ const TodoListSection: React.FC<Props> = (props) => {
                 {sortedTodos.map((todo) => (
                     <TodoCard
                         key={todo.id}
+                        listName={todoList ? todoList.name : ""}
                         todo={todo}
                         onInvalidate={onInvalidate}
                         onMutateTodo={todoPatchHandler}
+                        onDeleteTodo={todoDeleteHandler}
                     />
                 ))}
             </ul>

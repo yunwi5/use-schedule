@@ -2,10 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 
 import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { deleteTodo, updateTodo } from "../../../../utilities/mongodb-util/todos-util";
+import { deleteTodo, getSubTodos, updateTodo } from "../../../../utilities/mongodb-util/todos-util";
 import { TodoProps } from "../../../../models/todo-models/Todo";
+import { SubTodo } from "../../../../models/todo-models/SubTodo";
+import { convertToAppObjectList } from "../../../../utilities/gen-utils/object-util";
 
-type Data = { message: string };
+type Data = { message: string } | { message: string; subTodos: SubTodo[] };
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const session = getSession(req, res);
@@ -24,7 +26,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         return res.status(500).json({ message: "Could not connect to DB" });
     }
 
-    if (req.method === "PATCH") {
+    if (req.method === "GET") {
+        // Get all subTodos
+        let subTodos: SubTodo[] = [];
+        try {
+            const result = await getSubTodos(client, todoId);
+            subTodos = convertToAppObjectList(result);
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "Getting sub todos did not work.";
+            client.close();
+            return res.status(500).json({ message });
+        }
+        res.status(200).json({ subTodos, message: "Getting sub todos successful" });
+    } else if (req.method === "PATCH") {
         // Needs validation here
         const updatedTodoProps: TodoProps = req.body;
         try {
@@ -39,6 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     } else if (req.method === "DELETE") {
         try {
             let result = await deleteTodo(client, todoId);
+            console.log("Delete result:", result);
         } catch (err) {
             const message = err instanceof Error ? err.message : "Deleting todo item did not work.";
             client.close();

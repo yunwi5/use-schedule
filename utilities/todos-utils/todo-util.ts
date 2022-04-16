@@ -1,4 +1,3 @@
-import { WithId } from "mongodb";
 import { Todo } from "../../models/todo-models/Todo";
 import { TodoList } from "../../models/todo-models/TodoList";
 
@@ -20,6 +19,7 @@ export function convertToTodos(array: any[] | null): Todo[] {
     const todos: Todo[] = [];
     for (const document of array) {
         const todo = { ...document, id: document._id.toString() };
+        if (todo.dateTime) todo.dateTime = todo.dateTime.toString();
         delete todo._id;
         todos.push(todo as Todo);
     }

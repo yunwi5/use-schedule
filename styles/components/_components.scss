@@ -1,0 +1,10 @@
+.modal {
+    display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	color: $color-primary-dark-3;
+	padding: .7rem 1.4rem;
+
+	width: 32rem;
+	left: calc(50% - 16rem);
+}

@@ -13,9 +13,19 @@ interface Props {
     onInvalidate: () => void;
 }
 
+function processTodos(todos: Todo[]): Todo[] {
+    return todos.map((todo) => {
+        let dt: Date | undefined = undefined;
+        if (todo.dateTime) dt = new Date(todo.dateTime);
+        return { ...todo, dateTime: dt };
+    });
+}
+
 const TodoListContainer: React.FC<Props> = (props) => {
     const { onMutateList, todoList, todos, onInvalidate } = props;
     const [editingList, setEditingList] = useState(!todoList);
+
+    const processedTodos = processTodos(todos);
 
     return (
         <main className='py-12 md:px-[6rem] lg:px-[14rem] text-slate-700'>
@@ -31,9 +41,13 @@ const TodoListContainer: React.FC<Props> = (props) => {
                     isEditing={editingList}
                     onEditing={setEditingList}
                 />
-                <TodoSummary todos={todos} />
+                <TodoSummary todos={processedTodos} />
             </div>
-            <TodoListSection todos={todos} todoList={todoList} onInvalidate={onInvalidate} />
+            <TodoListSection
+                todos={processedTodos}
+                todoList={todoList}
+                onInvalidate={onInvalidate}
+            />
         </main>
     );
 };

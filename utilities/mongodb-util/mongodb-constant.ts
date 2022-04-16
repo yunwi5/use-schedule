@@ -1,14 +1,15 @@
 export enum Collection {
-	WEEKLY_TASKS = 'weekly-tasks',
-	MONTLY_TASKS = 'montly-tasks',
-	YEARLY_TASKS = 'yearly-tasks',
-	TEMPLATE_TASKS = 'template-tasks',
+    WEEKLY_TASKS = "weekly-tasks",
+    MONTLY_TASKS = "montly-tasks",
+    YEARLY_TASKS = "yearly-tasks",
+    TEMPLATE_TASKS = "template-tasks",
 }
 
-export const SubTaskCollection = 'sub-tasks';
+export const SubTaskCollection = "sub-tasks";
 
-export const TemplateCollection = 'templates';
+export const TemplateCollection = "templates";
 
 // Todo section
-export const TodoListCollection = 'todo-lists';
-export const TodoCollection = 'todos';
+export const TodoListCollection = "todo-lists";
+export const TodoCollection = "todos";
+export const SubTodoCollection = "sub-todos";

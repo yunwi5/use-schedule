@@ -35,15 +35,6 @@ export const TaskSortList = [
     TaskSort.IMPORTANCE,
 ];
 
-// Sorting helper models for SubItems
-export enum SubTaskSort {
-    IMPORTANCE = "Importance",
-    COMPLETED = "Completed",
-    ORDER = "Added Order",
-}
-
-export const SubTaskSortList = [SubTaskSort.COMPLETED, SubTaskSort.IMPORTANCE, SubTaskSort.ORDER];
-
 // More general
 export enum SubItemSort {
     IMPORTANCE = "Importance",
@@ -51,4 +42,4 @@ export enum SubItemSort {
     ORDER = "Added Order",
 }
 
-export const SubItemSortList = [SubTaskSort.COMPLETED, SubTaskSort.IMPORTANCE, SubTaskSort.ORDER];
+export const SubItemSortList = [SubItemSort.COMPLETED, SubItemSort.IMPORTANCE, SubItemSort.ORDER];

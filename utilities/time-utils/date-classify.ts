@@ -1,5 +1,14 @@
-import { getWeekEnding } from "./date-get";
+import { getWeekBeginning, getWeekEnding } from "./date-get";
 import { WeekDay, WeekDayList } from "../../models/date-models/WeekDay";
+
+export function isInvalidDate(date: Date | null | undefined): boolean {
+    if (!date) return true;
+    return date.toString() === "Invalid Date";
+}
+
+function isSunday(date: Date) {
+    return date.getDay() === 0;
+}
 
 export function isSameDay(weekDay: WeekDay, date: Date): boolean {
     const day = WeekDayList[date.getDay()];
@@ -17,7 +26,8 @@ export function isSameTime(date1: Date, date2: Date): boolean {
 }
 
 export function isSameDate(date1: Date, date2: Date | null): boolean {
-    if (!date2) return false;
+    if (!date1 || isInvalidDate(date1)) return false;
+    if (!date2 || isInvalidDate(date2)) return false;
     return (
         date1.getFullYear() === date2.getFullYear() &&
         date1.getMonth() === date2.getMonth() &&
@@ -25,9 +35,12 @@ export function isSameDate(date1: Date, date2: Date | null): boolean {
     );
 }
 
-export function isSameWeek(weekBeginning: Date, date: Date | null): boolean {
-    if (!date) return false;
+export function isSameWeek(begin: Date, date: Date | null): boolean {
+    if (!begin || !date) return false;
+
+    let weekBeginning = getWeekBeginning(begin);
     weekBeginning.setSeconds(0);
+
     const weekEnding = getWeekEnding(weekBeginning);
     return weekBeginning.getTime() <= date.getTime() && date.getTime() <= weekEnding.getTime();
 }

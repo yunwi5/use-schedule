@@ -1,0 +1,59 @@
+@import "../../../styles/main";
+.control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    .label {
+        display: none;
+    }
+    &:hover .label {
+        display: inline-block;
+    }
+}
+
+.edit {
+    color: $color-tertiary-dark-1;
+
+    &:hover {
+        background-color: $color-tertiary;
+        &,
+        .icon {
+            color: $color-tertiary-light-1;
+        }
+    }
+}
+
+.delete {
+    color: $color-rose-dark-1;
+    &:hover {
+        background-color: $color-rose;
+        &,
+        .icon {
+            color: $color-rose-light-1;
+        }
+    }
+}
+
+.confirm {
+    color: $color-teal-dark-1;
+    border: 1px solid $color-teal-dark-1;
+    background-color: $color-teal-light-1;
+
+    &:hover {
+        background-color: $color-teal;
+        &,
+        .icon {
+            color: $color-teal-light-1;
+        }
+    }
+
+    .label {
+        display: inline-block;
+    }
+}

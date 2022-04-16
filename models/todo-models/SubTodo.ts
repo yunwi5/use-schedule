@@ -1,11 +1,11 @@
 // Very similar to SubTask def
 export interface NoIdSubTodo {
-    id ?: string;
+    id?: string;
     name: string;
     order: number; // To arrange subtasks in order in the list.
     isImportant: boolean;
     isCompleted: boolean;
-    parentTaskId: string;
+    parentId: string;
 }
 
 export interface SubTodo extends NoIdSubTodo {

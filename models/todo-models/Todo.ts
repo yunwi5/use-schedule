@@ -21,7 +21,7 @@ export interface TodoProps {
     name?: string;
     isImportant?: boolean;
     isCompleted?: boolean;
-    dateTime?: boolean;
+    dateTime?: Date;
     updatedAt?: Date;
     duration?: number;
     note?: string;

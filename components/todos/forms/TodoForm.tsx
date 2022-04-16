@@ -1,6 +1,7 @@
-import { faPlus } from "@fortawesome/pro-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/pro-regular-svg-icons";
+
 import { validateName, Error } from "../../../utilities/form-utils/validation-util";
 
 interface Props {
@@ -32,18 +33,18 @@ const TodoForm: React.FC<Props> = ({ onAdd }) => {
     };
 
     return (
-        <form onSubmit={submitHandler} className={`mt-5`} id='todo-form'>
+        <form onSubmit={submitHandler} className={`mt-5 min-w-[27rem]`} id='todo-form'>
             <div
                 className={`p-2 flex items-center border-2 border-slate-200 rounded-md shadow-md focus-within:shadow-lg focus-within:border-blue-300 ${
                     error.hasError ? "border-rose-300" : ""
                 }`}
             >
-                <label
-                    htmlFor='todo-input'
+                <button
+                    type='submit'
                     className='lg:w-10 lg:h-10 flex items-center justify-center backdrop-blur-sm text-slate-400 hover:bg-slate-400 hover:text-slate-50 rounded-full cursor-pointer'
                 >
                     <FontAwesomeIcon icon={faPlus} className={`max-w-[2.3rem] text-2xl`} />
-                </label>
+                </button>
                 <input
                     type='text'
                     placeholder='Add Todo'
