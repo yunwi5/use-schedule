@@ -4,6 +4,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 
 import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
 import {
+    deleteTodoList,
     getTodoListAndItems,
     insertTodoList,
     updateTodoListProps,
@@ -56,6 +57,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         }
         res.status(200).json({ message: "Updating todo list successful!" });
     } else if (req.method === "DELETE") {
+        let result;
+        try {
+            result = await deleteTodoList(client, listId);
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "Deleting todo list did not work.";
+            client.close();
+            return res.status(500).json({ message });
+        }
+        res.status(200).json({ message: "Deleting todo list successful!" });
     } else {
         res.status(405).json({ message: "Request method not allowed." });
     }

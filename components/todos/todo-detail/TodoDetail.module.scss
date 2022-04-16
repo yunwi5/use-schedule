@@ -8,6 +8,8 @@
 
     .heading {
         @include heading-underline($color-primary-dark-1, $color-grey-light-1);
+        line-height: 102%;
+        padding-bottom: .35rem;
     }
 
     .heading-input {

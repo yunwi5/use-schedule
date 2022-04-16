@@ -34,6 +34,18 @@ export async function patchTodoList(listId: string, listProps: TodoListPropertie
     return { isSuccess: false, message: message || "Patching todo lsit did not work." };
 }
 
+export async function deleteTodoList(listId: string) {
+    let message = "";
+    try {
+        const { status, data } = await axios.delete(`${TODO_API_DOMAIN}/list/${listId}`);
+        if (status >= 200 && status < 300)
+            return { isSuccess: true, message: "Deleting todo list successful!" };
+    } catch (err) {
+        message = err instanceof Error ? err.message : "";
+    }
+    return { isSuccess: false, message: message || "Deleting todo list did not work." };
+}
+
 // Todo Item APIS
 export async function deleteTodo(todoId: string) {
     let message = "";

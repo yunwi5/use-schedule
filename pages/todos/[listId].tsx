@@ -92,7 +92,7 @@ const NewTodoPage: NextPage<Props> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     async getServerSideProps(context) {
-        const { req, res, query } = context;
+        const { req, res, query, params } = context;
         const session = getSession(req, res);
 
         if (!session) {
@@ -103,6 +103,8 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
                 },
             };
         }
+        console.log("params:", params);
+        console.log("query:", query);
 
         const { listId: initialId } = query;
         const listId = Array.isArray(initialId) ? initialId.join("") : initialId;

@@ -72,3 +72,25 @@
 	max-height: 3rem;
 	font-size: 2.1rem;
 }
+
+
+.actions {
+	display: flex;
+	width: 100%;
+	padding: 0 .5rem;
+	// justify-content: flex-end;
+
+	.btn {
+		padding-left: .7rem;
+		padding-right: .7rem;
+		max-width: 15rem;
+		background-color: $color-primary;
+		border: $color-primary;
+		gap: .5rem;
+	}
+
+	.icon {
+		max-width: 2rem;
+	}
+}
+

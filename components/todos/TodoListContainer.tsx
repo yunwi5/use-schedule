@@ -17,7 +17,8 @@ function processTodos(todos: Todo[]): Todo[] {
     return todos.map((todo) => {
         let dt: Date | undefined = undefined;
         if (todo.dateTime) dt = new Date(todo.dateTime);
-        return { ...todo, dateTime: dt };
+        let cat: Date = todo.createdAt ? new Date(todo.createdAt) : new Date();
+        return { ...todo, dateTime: dt, createdAt: cat };
     });
 }
 

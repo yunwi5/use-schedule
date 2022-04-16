@@ -1,37 +1,32 @@
-import { MongoClient, ObjectId, WithId } from "mongodb";
-import { NoIdSubTodo } from "../../models/todo-models/SubTodo";
-import { NoIdTodo, TodoProps } from "../../models/todo-models/Todo";
-import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
-import { SubItemProps } from "../../models/utility-models";
+import { MongoClient, ObjectId } from "mongodb";
+
 import { TodoListCollection, TodoCollection, SubTodoCollection } from "./mongodb-constant";
+import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
+import { NoIdTodo, TodoProps } from "../../models/todo-models/Todo";
+import { NoIdSubTodo } from "../../models/todo-models/SubTodo";
+import { SubItemProps } from "../../models/utility-models";
+import { deleteItem, insertItem, updateItem } from "./generic";
 
-// General
-export async function deleteItem(client: MongoClient, id: string, collection: string) {
+// Todo list and its items
+export async function getTodoListAndItems(client: MongoClient, listId: string) {
     const db = client.db();
-    const res = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
-    return res;
+    const listPromise = db.collection(TodoListCollection).findOne({ _id: new ObjectId(listId) });
+    const todosPromise = db.collection(TodoCollection).find({ listId }).toArray();
+
+    return await Promise.all([listPromise, todosPromise]);
 }
 
-export async function updateItem(
-    client: MongoClient,
-    id: string,
-    updatedProps: object,
-    collection: string,
-) {
+// only list's items
+export async function getTodoItems(client: MongoClient, listId: string) {
     const db = client.db();
-    const res = await db
-        .collection(collection)
-        .updateOne({ _id: new ObjectId(id) }, { $set: { ...updatedProps } });
-    return res;
+    return await db.collection(TodoCollection).find({ listId }).toArray();
 }
 
-export async function insertItem(client: MongoClient, newItem: object, collection: string) {
+export async function getAllTodoLists(client: MongoClient, userId: string) {
     const db = client.db();
-    const res = await db.collection(collection).insertOne(newItem);
+    const res = await db.collection(TodoListCollection).find({ userId }).toArray();
     return res;
 }
-////////////////////////////////////////////
-///////////////////////////////////////////
 
 export async function insertTodoList(client: MongoClient, list: TodoList) {
     const listNoId: { id?: string } = { ...list };
@@ -53,18 +48,16 @@ export async function updateTodoListProps(
     return res;
 }
 
-export async function getTodoListAndItems(client: MongoClient, listId: string) {
-    const db = client.db();
-    const listPromise = db.collection(TodoListCollection).findOne({ _id: new ObjectId(listId) });
-    const todosPromise = db.collection(TodoCollection).find({ listId }).toArray();
+export async function deleteTodoList(client: MongoClient, listId: string) {
+    const promise1 = deleteItem(client, listId, TodoListCollection);
+    const promise2 = getTodoItems(client, listId);
+    const [deleteRes, todos] = await Promise.all([promise1, promise2]);
 
-    return await Promise.all([listPromise, todosPromise]);
-}
-
-export async function getAllTodoLists(client: MongoClient, userId: string) {
-    const db = client.db();
-    const res = await db.collection(TodoListCollection).find({ userId }).toArray();
-    return res;
+    // Delete all todos and their sub todos
+    const todoIds = todos.map((todo) => todo._id.toString());
+    const todoPromises = todoIds.map((id) => deleteTodo(client, id));
+    await Promise.all(todoPromises);
+    return deleteRes;
 }
 
 // Todo object CRUD

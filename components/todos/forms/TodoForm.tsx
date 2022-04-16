@@ -33,7 +33,7 @@ const TodoForm: React.FC<Props> = ({ onAdd }) => {
     };
 
     return (
-        <form onSubmit={submitHandler} className={`mt-5 min-w-[27rem]`} id='todo-form'>
+        <form onSubmit={submitHandler} className={`mt-5 min-w-[27rem] text-lg`} id='todo-form'>
             <div
                 className={`p-2 flex items-center border-2 border-slate-200 rounded-md shadow-md focus-within:shadow-lg focus-within:border-blue-300 ${
                     error.hasError ? "border-rose-300" : ""

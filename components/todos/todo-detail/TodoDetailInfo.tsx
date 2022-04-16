@@ -8,6 +8,7 @@ import CheckToggler from "../../ui/icons/CheckToggler";
 import TodoDuration from "./TodoDuration";
 import classes from "./TodoDetail.module.scss";
 import TodoDateTime from "./TodoDateTime";
+import { addDays } from "../../../utilities/time-utils/date-control";
 
 interface Props {
     onMutateTodo: (id: string, todoProps: TodoProps) => void;
@@ -31,8 +32,8 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
     }, []);
 
     const dateTimeHandler = useCallback((newDateStr: string) => {
-        console.log("newDate:", newDateStr);
-        if (newDateStr) setDateTime(new Date(newDateStr));
+        if (!newDateStr) return;
+        setDateTime(new Date(newDateStr));
     }, []);
 
     const noteHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {

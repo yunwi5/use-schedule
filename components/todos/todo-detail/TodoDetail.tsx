@@ -11,6 +11,7 @@ import SubTodoList from "../sub-todos/SubTodoList";
 import useNotification from "../../../hooks/useNotification";
 import { NotifStatus } from "../../ui/Notification";
 import classes from "./TodoDetail.module.scss";
+import { getFullDateFormat } from "../../../utilities/time-utils/date-format";
 
 interface Props {
     todo: Todo;
@@ -79,6 +80,9 @@ const TodoDetail: React.FC<Props> = (props) => {
                 <TodoDetailInfo todo={todo} onMutateTodo={mutationHandler} isEditing={isEditing} />
                 <SubTodoList isEditing={isEditing} todoId={todo.id} />
             </div>
+            <time className='text-[75%] pl-3 text-gray-400'>
+                Created at {getFullDateFormat(todo.createdAt)}
+            </time>
             {showDeleteModal && (
                 <DeleteModal
                     targetName={todo.name}

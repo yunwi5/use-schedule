@@ -12,32 +12,7 @@ import axios from "axios";
 import TodoSorter from "./todo-support/TodoSorter";
 import { SortingDirection, TodoSort } from "../../models/sorting-models";
 import { sortTodos } from "../../utilities/sort-utils/todo-sort";
-import TodoSummary from "./todo-support/TodoSummary";
 import { deleteTodo } from "../../lib/todos/todo-list-api";
-
-const DEMO_TODOS: Todo[] = [
-    {
-        id: "todo1",
-        name: "Complete section 1 Pyton coding",
-        isImportant: false,
-        isCompleted: true,
-        dateTime: new Date(),
-        createdAt: new Date("2022-04-01"),
-        listId: "625961cc5a0bdc24d894672d",
-        userId: "auth0|62039aa1ea8afc006bd0422b",
-        duration: 125,
-    },
-    {
-        id: "todo2",
-        name: "Complete Interaction with OS with Python",
-        isImportant: true,
-        isCompleted: false,
-        dateTime: new Date(),
-        createdAt: new Date("2022-04-01"),
-        listId: "625961cc5a0bdc24d894672d",
-        userId: "auth0|62039aa1ea8afc006bd0422b",
-    },
-];
 
 interface Props {
     todos: Todo[];
@@ -50,8 +25,7 @@ const API_DOMAIN = "/api/todos/todo";
 // This component will be responsible for Todo item CRUD operations (except GET)
 const TodoListSection: React.FC<Props> = (props) => {
     const { todos, onInvalidate, todoList } = props;
-    const tempTodos = todos.concat(DEMO_TODOS);
-    const [sortedTodos, setSortedTodos] = useState(tempTodos);
+    const [sortedTodos, setSortedTodos] = useState(todos);
 
     const postMutation = useMutation(
         (newTodo: NoIdTodo) => {

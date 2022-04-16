@@ -1,4 +1,5 @@
 import React from "react";
+import { addDays } from "../../../utilities/time-utils/date-control";
 import { getFullDateFormat, getISODateFormat } from "../../../utilities/time-utils/date-format";
 import classes from "./TodoDetail.module.scss";
 
@@ -28,7 +29,7 @@ const TodoDateTime: React.FC<Props> = (props) => {
                 <input
                     type='date'
                     id='todo-date'
-                    value={dateTime ? getISODateFormat(dateTime) : ""}
+                    value={dateTime ? getISODateFormat(addDays(dateTime, -1)) : ""}
                     onChange={dateHandler}
                 />
             )}
