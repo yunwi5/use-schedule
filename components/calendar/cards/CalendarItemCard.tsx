@@ -6,9 +6,9 @@ interface Props {
     textClass: string;
     hoverBgClass: string;
     hoverTextClass: string;
+    dueDate: Date | null | undefined;
     borderClass?: string;
     isCompleted?: boolean;
-    dueDate: Date | null | undefined;
     onClick: () => void;
 }
 

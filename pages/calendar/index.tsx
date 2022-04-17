@@ -61,7 +61,12 @@ const Calendar: NextPage<Props> = (props) => {
                     content='Calendar page for summarizing all user specific tasks and todos for a month'
                 />
             </Head>
-            <CalendarContainer tasks={tasks} todos={todos} />
+            <CalendarContainer
+                tasks={tasks}
+                todos={todos}
+                onInvalidateTasks={invalidateTasks}
+                onInvalidateTodos={invalidateTodos}
+            />
         </div>
     );
 };

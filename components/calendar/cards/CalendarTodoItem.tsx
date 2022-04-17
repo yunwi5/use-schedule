@@ -1,10 +1,8 @@
-import axios from "axios";
 import React, { useCallback, useState } from "react";
-import { useMutation } from "react-query";
-import { deleteTodo } from "../../../lib/todos/todo-list-api";
-import { NoIdTodo, Todo, TodoProps } from "../../../models/todo-models/Todo";
-import { useAppSelector } from "../../../store/redux";
 
+import useTodoQuery from "../../../hooks/useTodoQuery";
+import { Todo } from "../../../models/todo-models/Todo";
+import { useAppSelector } from "../../../store/redux";
 import { getShortNameWithRest } from "../../../utilities/gen-utils/string-util";
 import TodoDetail from "../../todos/todo-detail/TodoDetail";
 import CalendarItemCard from "./CalendarItemCard";
@@ -14,14 +12,13 @@ interface Props {
     onInvalidate: () => void;
 }
 
-const API_DOMAIN = "/api/todos/todo";
-
 const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
     const [showDetail, setShowDetail] = useState(false);
 
     const lists = useAppSelector((state) => state.todoList.lists);
     const parentList = lists.find((list) => list.id === todo.listId);
 
+    const { patchTodo, deleteTodo } = useTodoQuery(onInvalidate, parentList);
     /* 
     TodoDetail props: 
     todo: Todo;
@@ -34,40 +31,6 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
     }>;
     */
 
-    // too many duplications. Need to be refactored to a custom hook.
-    const postMutation = useMutation(
-        (newTodo: NoIdTodo) => {
-            return axios.post(`${API_DOMAIN}`, newTodo);
-        },
-        {
-            onSuccess: () => {
-                onInvalidate();
-            },
-        },
-    );
-
-    const patchMutation = useMutation(
-        ({ todoId, todoProps }: { todoId: string; todoProps: TodoProps }) => {
-            return axios.patch(`${API_DOMAIN}/${todoId}`, todoProps);
-        },
-        {
-            onSuccess: () => {
-                onInvalidate();
-            },
-        },
-    );
-
-    const todoPatchHandler = (todoId: string, todoProps: TodoProps) => {
-        patchMutation.mutate({ todoId, todoProps });
-    };
-
-    const todoDeleteHandler = async (todoId: string) => {
-        const { isSuccess, message } = await deleteTodo(todoId);
-        if (isSuccess) onInvalidate();
-        return { isSuccess, message };
-    };
-    // All above needs to be refactored to custom hook.
-
     return (
         <>
             {showDetail && (
@@ -75,8 +38,8 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
                     todo={todo}
                     listName={parentList ? parentList.name : ""}
                     onClose={setShowDetail.bind(null, false)}
-                    onMutateTodo={todoPatchHandler}
-                    onDeleteTodo={todoDeleteHandler}
+                    onMutateTodo={patchTodo}
+                    onDeleteTodo={deleteTodo}
                 />
             )}
             <CalendarItemCard

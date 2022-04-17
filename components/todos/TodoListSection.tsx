@@ -13,6 +13,7 @@ import TodoSorter from "./todo-support/TodoSorter";
 import { SortingDirection, TodoSort } from "../../models/sorting-models";
 import { sortTodos } from "../../utilities/sort-utils/todo-sort";
 import { deleteTodo } from "../../lib/todos/todo-list-api";
+import useTodoQuery from "../../hooks/useTodoQuery";
 
 interface Props {
     todos: Todo[];
@@ -26,54 +27,7 @@ const API_DOMAIN = "/api/todos/todo";
 const TodoListSection: React.FC<Props> = (props) => {
     const { todos, onInvalidate, todoList } = props;
     const [sortedTodos, setSortedTodos] = useState(todos);
-
-    const postMutation = useMutation(
-        (newTodo: NoIdTodo) => {
-            return axios.post(`${API_DOMAIN}`, newTodo);
-        },
-        {
-            onSuccess: () => {
-                onInvalidate();
-            },
-        },
-    );
-
-    const patchMutation = useMutation(
-        ({ todoId, todoProps }: { todoId: string; todoProps: TodoProps }) => {
-            return axios.patch(`${API_DOMAIN}/${todoId}`, todoProps);
-        },
-        {
-            onSuccess: () => {
-                onInvalidate();
-            },
-        },
-    );
-
-    const todoAddHandler = (text: string) => {
-        if (!todoList) return;
-        const userId = todoList.userId;
-        const listId = todoList.id;
-        const newTodo: NoIdTodo = {
-            name: text,
-            userId,
-            listId,
-            createdAt: new Date(),
-            isImportant: false,
-            isCompleted: false,
-        };
-        // console.log("new Todo:", newTodo);
-        postMutation.mutate(newTodo);
-    };
-
-    const todoPatchHandler = (todoId: string, todoProps: TodoProps) => {
-        patchMutation.mutate({ todoId, todoProps });
-    };
-
-    const todoDeleteHandler = async (todoId: string) => {
-        const { isSuccess, message } = await deleteTodo(todoId);
-        if (isSuccess) onInvalidate();
-        return { isSuccess, message };
-    };
+    const { postTodo, patchTodo, deleteTodo } = useTodoQuery(onInvalidate, todoList);
 
     const sortHandler = useCallback(
         (sortingStandard: TodoSort, direction: SortingDirection) => {
@@ -106,12 +60,12 @@ const TodoListSection: React.FC<Props> = (props) => {
                         listName={todoList ? todoList.name : ""}
                         todo={todo}
                         onInvalidate={onInvalidate}
-                        onMutateTodo={todoPatchHandler}
-                        onDeleteTodo={todoDeleteHandler}
+                        onMutateTodo={patchTodo}
+                        onDeleteTodo={deleteTodo}
                     />
                 ))}
             </ul>
-            <TodoForm onAdd={todoAddHandler} />
+            <TodoForm onAdd={postTodo} />
         </section>
     );
 };
