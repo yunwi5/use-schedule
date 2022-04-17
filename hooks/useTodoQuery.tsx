@@ -13,9 +13,7 @@ const useTodoQuery = (onInvalidate: () => void, todoList: TodoList | null | unde
             return axios.post(`${API_DOMAIN}`, newTodo);
         },
         {
-            onSuccess: () => {
-                onInvalidate();
-            },
+            onSuccess: onInvalidate,
         },
     );
 
@@ -24,9 +22,7 @@ const useTodoQuery = (onInvalidate: () => void, todoList: TodoList | null | unde
             return axios.patch(`${API_DOMAIN}/${todoId}`, todoProps);
         },
         {
-            onSuccess: () => {
-                onInvalidate();
-            },
+            onSuccess: onInvalidate,
         },
     );
 
