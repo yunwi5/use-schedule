@@ -13,11 +13,15 @@ export async function getItem(client: MongoClient, filter: object, collection: s
 export async function getItems(
     client: MongoClient,
     filter: object,
-    sortSpec: SortSpec,
+    sortSpec: SortSpec | null,
     collection: string,
 ) {
     const db = client.db();
-    return await db.collection(collection).find(filter).sort(sortSpec).toArray();
+    return await db
+        .collection(collection)
+        .find(filter)
+        .sort(sortSpec || {})
+        .toArray();
 }
 
 export async function insertItem(client: MongoClient, newItem: object, collection: string) {

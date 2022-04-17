@@ -127,7 +127,6 @@ const TaskCard: React.FC<Props> = (props) => {
                 <TaskDetail
                     onClose={setShowDetail.bind(null, false)}
                     onEdit={editHandler}
-                    onDelete={editHandler}
                     task={task}
                 />
             )}

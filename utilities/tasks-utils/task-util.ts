@@ -3,12 +3,12 @@ import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { TaskStatus } from "../../models/task-models/Status";
 import { SubTask } from "../../models/task-models/SubTask";
 
-export function convertToTasks(data: any[]): Task[] {
+export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];
     for (const document of data) {
         const task = {
             // For un-adjusted tasks already added to weekly planner
-            plannerType: document.plannerType || PlannerMode.WEEKLY,
+            plannerType: document.plannerType || plannerMode || PlannerMode.WEEKLY,
             ...document,
             id: document._id.toString(),
         };

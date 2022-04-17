@@ -1,4 +1,4 @@
-export enum Collection {
+export enum TaskCollection {
     WEEKLY_TASKS = "weekly-tasks",
     MONTLY_TASKS = "montly-tasks",
     YEARLY_TASKS = "yearly-tasks",

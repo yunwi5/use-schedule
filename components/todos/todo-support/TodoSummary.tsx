@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faXmark } from "@fortawesome/pro-duotone-svg-icons";
 
 import { Todo } from "../../../models/todo-models/Todo";
-import { isSameDate, isSameWeek } from "../../../utilities/time-utils/date-classify";
+import { isSameDate, isSameWeek } from "../../../utilities/time-utils/date-check";
 import classes from "./TodoSummary.module.scss";
+import { useAppSelector } from "../../../store/redux";
 
 interface Props {
     todos: Todo[];
@@ -47,6 +48,16 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
 
     const countClass = "font-semibold text-blue-500";
 
+    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
+    const summaryTheme = todoTheme
+        ? {
+              backgroundColor: todoTheme.figureBackground,
+              borderColor: todoTheme.borderColor,
+          }
+        : {};
+    const textTheme = todoTheme ? { color: todoTheme.figureTextColor } : {};
+    const highlightTheme = todoTheme ? { color: "#fff" } : {};
+
     return (
         <>
             {!showSummary && (
@@ -59,25 +70,43 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
                 </div>
             )}
             {showSummary && (
-                <div className='relative xl:absolute xl:translate-x-[110%] xl:right-0 px-2 py-3 flex flex-col gap-2 rounded-md bg-sky-50 border-2 border-sky-300'>
-                    <h3 className='text-xl text-blue-500'>Summary</h3>
-                    <ul className='flex flex-col gap-2 text-lg text-slate-700'>
+                <div
+                    className='relative xl:absolute xl:translate-x-[110%] xl:right-0 px-2 py-3 flex flex-col gap-2 rounded-md bg-sky-50 border-2 border-sky-300'
+                    style={summaryTheme}
+                >
+                    <h3 className='text-xl text-blue-500' style={highlightTheme}>
+                        Summary
+                    </h3>
+                    <ul className='flex flex-col gap-2 text-lg text-slate-700' style={textTheme}>
                         <li>
-                            <span className={countClass}>{totalTodos}</span> todos in total
+                            <span style={highlightTheme} className={countClass}>
+                                {totalTodos}
+                            </span>{" "}
+                            todos in total
                         </li>
                         <li>
-                            <span className={countClass}>{completedTodosCount}</span> todos
-                            completed
+                            <span className={countClass} style={highlightTheme}>
+                                {completedTodosCount}
+                            </span>{" "}
+                            todos completed
                         </li>
                         <li>
-                            <span className={countClass}>{importantTodosCount}</span> todos
-                            important
+                            <span className={countClass} style={highlightTheme}>
+                                {importantTodosCount}
+                            </span>{" "}
+                            todos important
                         </li>
                         <li>
-                            <span className={countClass}>{todayTodosCount}</span> todos due today
+                            <span className={countClass} style={highlightTheme}>
+                                {todayTodosCount}
+                            </span>{" "}
+                            todos due today
                         </li>
                         <li>
-                            <span className={countClass}>{weekTodosCount}</span> todos due this week
+                            <span className={countClass} style={highlightTheme}>
+                                {weekTodosCount}
+                            </span>{" "}
+                            todos due this week
                         </li>
                     </ul>
                     <FontAwesomeIcon

@@ -3,7 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
 import { NoIdSubTask, SubTask } from "../../../../models/task-models/SubTask";
 import { NoIdTask, Task } from "../../../../models/task-models/Task";
-import { Collection, SubTaskCollection } from "../../../../utilities/mongodb-util/mongodb-constant";
+import {
+    TaskCollection,
+    SubTaskCollection,
+} from "../../../../utilities/mongodb-util/mongodb-constant";
 import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
 import { insertManySubTasks } from "../../../../utilities/mongodb-util/subtask-util";
 import { insertManyTasks, insertTask } from "../../../../utilities/mongodb-util/tasks-util";
@@ -74,7 +77,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         let taskInsertPromises = [];
         for (const task of adjustedTasks) {
-            const taskPromise = insertTask(client, Collection.WEEKLY_TASKS, task);
+            const taskPromise = insertTask(client, TaskCollection.WEEKLY_TASKS, task);
             taskInsertPromises.push(taskPromise);
         }
 

@@ -14,12 +14,12 @@
 	border-radius: 5px;
 	color: $color-primary-dark-3;
 	padding: 1.1rem;
+	padding-bottom: 4rem;
 
 	display: flex;
     justify-content: space-around;
 	align-items: center;
     flex-wrap: wrap;
-	gap: 1.2rem;
 	position: relative;
 
 	h2 {
@@ -33,6 +33,7 @@
 		padding: .5rem;
 		text-align: left;
         max-width: 30rem;
+		margin-top: -1rem;
 	}
 
 	
@@ -74,23 +75,23 @@
 }
 
 
-.actions {
-	display: flex;
-	width: 100%;
-	padding: 0 .5rem;
-	// justify-content: flex-end;
+// .actions {
+// 	display: flex;
+// 	width: 100%;
+// 	padding: 0 .5rem;
+// 	margin-top: -.35rem;
 
-	.btn {
-		padding-left: .7rem;
-		padding-right: .7rem;
-		max-width: 15rem;
-		background-color: $color-primary;
-		border: $color-primary;
-		gap: .5rem;
-	}
+// 	.btn {
+// 		padding-left: .7rem;
+// 		padding-right: .7rem;
+// 		max-width: 15rem;
+// 		background-color: $color-primary;
+// 		border: $color-primary;
+// 		gap: .5rem;
+// 	}
 
-	.icon {
-		max-width: 2rem;
-	}
-}
+// 	.icon {
+// 		max-width: 2rem;
+// 	}
+// }
 

@@ -16,7 +16,6 @@ import classes from "./TaskDetail.module.scss";
 interface Props {
     onClose: () => void;
     onEdit: () => void;
-    onDelete: () => void;
     task: AbstractTask;
 }
 

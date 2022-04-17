@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+
+import { useAppDispatch, useAppSelector } from "../../store/redux";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
 import { Todo } from "../../models/todo-models/Todo";
+import { todoListActions } from "../../store/redux/todolist-slice";
+import { plannerActions } from "../../store/redux/planner-slice";
+import { processTodos } from "../../utilities/todos-utils/todo-util";
 import TodoIntroPanel from "./todo-support/TodoIntroPanel";
 import TodoListForm from "./forms/TodoListForm";
 import TodoListSection from "./TodoListSection";
@@ -13,42 +18,48 @@ interface Props {
     onInvalidate: () => void;
 }
 
-function processTodos(todos: Todo[]): Todo[] {
-    return todos.map((todo) => {
-        let dt: Date | undefined = undefined;
-        if (todo.dateTime) dt = new Date(todo.dateTime);
-        let cat: Date = todo.createdAt ? new Date(todo.createdAt) : new Date();
-        return { ...todo, dateTime: dt, createdAt: cat };
-    });
-}
-
 const TodoListContainer: React.FC<Props> = (props) => {
     const { onMutateList, todoList, todos, onInvalidate } = props;
-    const [editingList, setEditingList] = useState(!todoList);
-
+    const isNew = !todoList;
+    const [editingList, setEditingList] = useState(isNew);
     const processedTodos = processTodos(todos);
 
+    // Testing theme functionality
+    const dispatch = useAppDispatch();
+    dispatch(plannerActions.setPlannerMode(null)); // prepare bug
+    // dispatch(todoListActions.setActiveTheme(pinkTheme));
+
+    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
+    const themeStyle = todoTheme
+        ? { backgroundColor: todoTheme.background, color: todoTheme.textColor }
+        : {};
+
     return (
-        <main className='py-12 md:px-[6rem] lg:px-[14rem] text-slate-700'>
+        <main
+            className='py-12 xl:translate-x-[-3.5%] md:px-[6rem] lg:px-[14rem] text-slate-700'
+            style={themeStyle}
+        >
             <div
                 className={`relative flex gap-3 flex-wrap xl:flex-nowrap ${
                     !editingList ? "flex-col" : ""
                 }`}
             >
-                <TodoIntroPanel />
+                {isNew && <TodoIntroPanel />}
                 <TodoListForm
                     initialList={todoList}
                     onSubmit={onMutateList}
                     isEditing={editingList}
                     onEditing={setEditingList}
                 />
-                <TodoSummary todos={processedTodos} />
+                {!isNew && <TodoSummary todos={processedTodos} />}
             </div>
-            <TodoListSection
-                todos={processedTodos}
-                todoList={todoList}
-                onInvalidate={onInvalidate}
-            />
+            {!isNew && (
+                <TodoListSection
+                    todos={processedTodos}
+                    todoList={todoList}
+                    onInvalidate={onInvalidate}
+                />
+            )}
         </main>
     );
 };

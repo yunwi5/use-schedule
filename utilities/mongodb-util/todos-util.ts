@@ -5,7 +5,7 @@ import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList"
 import { NoIdTodo, TodoProps } from "../../models/todo-models/Todo";
 import { NoIdSubTodo } from "../../models/todo-models/SubTodo";
 import { SubItemProps } from "../../models/utility-models";
-import { deleteItem, insertItem, updateItem } from "./generic";
+import { deleteItem, getItems, insertItem, updateItem } from "./generic";
 
 // Todo list and its items
 export async function getTodoListAndItems(client: MongoClient, listId: string) {
@@ -58,6 +58,11 @@ export async function deleteTodoList(client: MongoClient, listId: string) {
     const todoPromises = todoIds.map((id) => deleteTodo(client, id));
     await Promise.all(todoPromises);
     return deleteRes;
+}
+
+// For calendar where all todos are represented regardless of the parent list.
+export async function getTodoItemsByUser(client: MongoClient, userId: string) {
+    return await getItems(client, { userId }, null, TodoCollection);
 }
 
 // Todo object CRUD

@@ -1,16 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CustomTheme } from "../../models/CustomTheme";
 import { TodoList } from "../../models/todo-models/TodoList";
 
 interface TodoListState {
     lists: TodoList[];
     updateCount: number;
     currentActiveList: TodoList | null;
+    currentActiveTheme: CustomTheme | null;
 }
 
 const initialState: TodoListState = {
     lists: [],
     updateCount: 0,
     currentActiveList: null,
+    currentActiveTheme: null,
 };
 
 const todoListSlice = createSlice({
@@ -24,9 +27,12 @@ const todoListSlice = createSlice({
         setTodoLists(state, action: PayloadAction<TodoList[]>) {
             state.lists = action.payload;
         },
-        setActiveTemplate(state, action: PayloadAction<TodoList | null>) {
+        setActiveList(state, action: PayloadAction<TodoList | null>) {
             const activeList = action.payload;
             state.currentActiveList = activeList;
+        },
+        setActiveTheme(state, action: PayloadAction<CustomTheme | null>) {
+            state.currentActiveTheme = action.payload;
         },
     },
 });

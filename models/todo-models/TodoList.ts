@@ -1,3 +1,4 @@
+import { CustomTheme } from "../CustomTheme";
 import { Todo } from "./Todo";
 
 export interface NoIdTodoList {
@@ -6,6 +7,7 @@ export interface NoIdTodoList {
     description: string;
     userId: string;
     todos?: Todo[];
+    theme?: CustomTheme;
     color?: string; // experimental
 }
 

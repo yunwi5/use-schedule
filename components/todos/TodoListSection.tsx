@@ -44,7 +44,6 @@ const TodoListSection: React.FC<Props> = (props) => {
         },
         {
             onSuccess: () => {
-                console.log("Patch todo successful");
                 onInvalidate();
             },
         },

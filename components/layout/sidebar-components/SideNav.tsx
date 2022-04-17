@@ -5,6 +5,7 @@ import { Template } from "../../../models/template-models/Template";
 import { getShortNameWithRest } from "../../../utilities/gen-utils/string-util";
 import NavList from "./NavList";
 import classes from "../Layout.module.scss";
+import ActiveNavLink from "../../ui/design-elements/ActiveNavLink";
 
 interface Props {
     onToggleSidebar: () => void;
@@ -69,11 +70,19 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
                 showSidebar ? "translate-x-0" : "-translate-x-full"
             } ease-in-out duration-[.5s] ${classes.sidenav}`}
         >
-            <h3 className='text-[1.5rem] text-white mt-1'>Categories</h3>
-            <NavList listName='Periodic Planners' items={timePlannerItems} />
-            <NavList listName='Planner Templates' items={templateItems} />
-            <NavList listName='Data Analysis' items={dataAnalysisItems} />
-            <NavList listName='Custom Lists' items={todoItems} />
+            <ActiveNavLink
+                href={"/calendar"}
+                className={`text-[1.4rem] text-gray-100 mt-1 border-l-[2.7px] border-transparent`}
+                activeClassName='pl-2 font-bold brightness-105 border-l-[2.5px] text-blue-300 border-sky-300 border-blue-300'
+            >
+                Calendar
+            </ActiveNavLink>
+            <div>
+                <NavList listName='Periodic Planners' items={timePlannerItems} />
+                <NavList listName='Planner Templates' items={templateItems} />
+                <NavList listName='Data Analysis' items={dataAnalysisItems} />
+                <NavList listName='Custom Lists' items={todoItems} />
+            </div>
         </nav>
     );
 };

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as faStarSolid, faCheck } from "@fortawesome/pro-solid-svg-icons";
+import { faStar as faStarSolid } from "@fortawesome/pro-solid-svg-icons";
 import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
 import { faCalendarCheck, faHourglass } from "@fortawesome/pro-duotone-svg-icons";
 
 import { Todo, TodoProps } from "../../models/todo-models/Todo";
+import { isOverdue } from "../../utilities/time-utils/date-check";
 import { getDurationFormat, getFullDateFormat } from "../../utilities/time-utils/date-format";
 import CheckToggler from "../ui/icons/CheckToggler";
 import TodoDetail from "./todo-detail/TodoDetail";
@@ -18,12 +19,6 @@ interface Props {
         isSuccess: boolean;
         message: string;
     }>;
-}
-
-function isOverdue(d: Date | null | undefined) {
-    if (!d) return false;
-    const now = new Date();
-    return d.getTime() < now.getTime();
 }
 
 const TodoCard: React.FC<Props> = (props) => {
@@ -65,7 +60,7 @@ const TodoCard: React.FC<Props> = (props) => {
                     onDeleteTodo={onDeleteTodo}
                 />
             )}
-            <article className='px-3 py-2 min-h-[71.2px] flex justify-between items-center text-lg transition-all rounded-sm border-2 border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50 hover:-translate-y-2'>
+            <article className='px-3 py-2 min-h-[71.2px] bg-white text-slate-700 flex justify-between items-center text-lg transition-all rounded-sm border-2 border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50 hover:-translate-y-2'>
                 <CheckToggler onToggle={handleCompleted} isCompleted={isCompleted} />
                 <div
                     onClick={() => setShowDetail(true)}
@@ -104,7 +99,7 @@ const TodoCard: React.FC<Props> = (props) => {
                     <FontAwesomeIcon
                         onClick={handleImportant}
                         icon={isImportant ? faStarSolid : faStarLight}
-                        className='max-w-[2rem] max-h-[2rem] text-yellow-400 text-[1.8rem]'
+                        className='max-w-[2rem] max-h-[2rem] text-yellow-400 text-[1.5rem]'
                     />
                 </div>
             </article>

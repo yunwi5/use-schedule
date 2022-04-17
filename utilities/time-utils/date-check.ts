@@ -6,8 +6,14 @@ export function isInvalidDate(date: Date | null | undefined): boolean {
     return date.toString() === "Invalid Date";
 }
 
-function isSunday(date: Date) {
+export function isSunday(date: Date) {
     return date.getDay() === 0;
+}
+
+export function isOverdue(d: Date | null | undefined) {
+    if (!d) return false;
+    const now = new Date();
+    return d.getTime() < now.getTime();
 }
 
 export function isSameDay(weekDay: WeekDay, date: Date): boolean {

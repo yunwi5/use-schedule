@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useNotification from "../../../hooks/useNotification";
 import { deleteTodoList } from "../../../lib/todos/todo-list-api";
+import { CustomTheme } from "../../../models/CustomTheme";
 import { Size } from "../../../models/design-models";
 
 import { TodoList, TodoListProperties } from "../../../models/todo-models/TodoList";
+import { useAppSelector } from "../../../store/redux";
 import Button from "../../ui/Button";
 import LoadingSpinner from "../../ui/design-elements/LoadingSpinner";
 import EditDelete from "../../ui/icons/EditDelete";
@@ -26,8 +28,27 @@ interface TodoListData {
     description: string;
 }
 
+function getFormTheme(todoTheme: CustomTheme | null) {
+    const formTheme = todoTheme
+        ? {
+              background: todoTheme.figureBackground,
+              color: todoTheme.figureTextColor,
+              borderColor: todoTheme.borderColor,
+          }
+        : {};
+    const textTheme = todoTheme ? { color: todoTheme.figureTextColor } : {};
+    const buttonTheme = todoTheme
+        ? {
+              backgroundColor: todoTheme.buttonBackground,
+              borderColor: todoTheme.buttonBackground,
+              color: todoTheme.figureTextColor,
+          }
+        : {};
+    return { formTheme, textTheme, buttonTheme };
+}
+
 const TodoForm: React.FC<Props> = (props) => {
-    const { onSubmit, onDelete, initialList, isEditing, onEditing } = props;
+    const { onSubmit, initialList, isEditing, onEditing } = props;
     const isNew = !initialList;
     const [isLoading, setIsLoading] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -37,7 +58,6 @@ const TodoForm: React.FC<Props> = (props) => {
 
     const {
         register,
-        watch,
         handleSubmit,
         control,
         formState: { errors },
@@ -45,8 +65,14 @@ const TodoForm: React.FC<Props> = (props) => {
 
     const submitHandler = async (data: TodoListData) => {
         setIsLoading(true);
+        setNotification(NotifStatus.PENDING, "Currently saving a new list");
         const isSuccess = await onSubmit(data, isNew);
-        if (isSuccess) onEditing(false);
+        if (isSuccess) {
+            setNotification(NotifStatus.SUCCESS, "New list successfully added!");
+            onEditing(false);
+        } else {
+            setNotification(NotifStatus.ERROR, "Sorry, something went wrong.");
+        }
         setIsLoading(false);
     };
 
@@ -64,6 +90,9 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     };
 
+    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
+    const { formTheme, textTheme, buttonTheme } = getFormTheme(todoTheme);
+
     return (
         <>
             {showDeleteModal && (
@@ -76,6 +105,7 @@ const TodoForm: React.FC<Props> = (props) => {
             <form
                 onSubmit={handleSubmit(submitHandler)}
                 className={`${classes.form} ${!isEditing ? classes["form-read-only"] : ""}`}
+                style={formTheme}
             >
                 {initialList && (
                     <EditDelete
@@ -98,11 +128,13 @@ const TodoForm: React.FC<Props> = (props) => {
                         defaultValue={initialList ? initialList.name : ""}
                     />
                     {initialList && !isEditing && (
-                        <h3 className={`${classes.text}`}>{initialList.name}</h3>
+                        <h3 style={textTheme} className={`${classes.text}`}>
+                            {initialList.name}
+                        </h3>
                     )}
                     {errors.name && <p className={classes.error}>{errors.name.message}</p>}
                 </div>
-                <div className={classes.control}>
+                <div className={classes.control} style={textTheme}>
                     {isEditing && <label htmlFor='list-desc'>Description</label>}
                     <textarea
                         id='list-desc'
@@ -115,17 +147,21 @@ const TodoForm: React.FC<Props> = (props) => {
                         defaultValue={initialList ? initialList.description : ""}
                     />
                     {initialList && !isEditing && (
-                        <p className={classes.text}>{initialList.description}</p>
+                        <p style={textTheme} className={classes.text}>
+                            {initialList.description}
+                        </p>
                     )}
                     {errors.description && (
-                        <p className={classes.error}>{errors.description.message}</p>
+                        <p style={textTheme} className={classes.error}>
+                            {errors.description.message}
+                        </p>
                     )}
                 </div>
 
                 <div className={classes.action}>
                     {isLoading && <LoadingSpinner size={Size.MEDIUM} />}
                     {!isLoading && (
-                        <Button type='submit' className={classes.btn}>
+                        <Button type='submit' className={`${classes.btn}`} style={buttonTheme}>
                             <span>Submit</span>
                         </Button>
                     )}

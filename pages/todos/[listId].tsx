@@ -26,9 +26,8 @@ interface Props {
 
 // This is the page for "new" todo list, so no fetching from the server.
 const NewTodoPage: NextPage<Props> = (props) => {
-    const { user, userId, initialList, initialTodos } = props;
+    const { initialList, initialTodos } = props;
     const listId = initialList.id;
-    const dispatch = useAppDispatch();
 
     const queryClient = useQueryClient();
     const {

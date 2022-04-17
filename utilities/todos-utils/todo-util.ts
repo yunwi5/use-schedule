@@ -25,3 +25,13 @@ export function convertToTodos(array: any[] | null): Todo[] {
     }
     return todos;
 }
+
+// Convert string type createdAt and dateTime to Date object
+export function processTodos(todos: Todo[]): Todo[] {
+    return todos.map((todo) => {
+        let dt: Date | undefined = undefined;
+        if (todo.dateTime) dt = new Date(todo.dateTime);
+        let cat: Date = todo.createdAt ? new Date(todo.createdAt) : new Date();
+        return { ...todo, dateTime: dt, createdAt: cat };
+    });
+}

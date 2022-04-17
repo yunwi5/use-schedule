@@ -1,4 +1,4 @@
-import { isInvalidDate } from "./date-classify";
+import { isInvalidDate } from "./date-check";
 import { addMinutes } from "./date-control";
 
 const ONE_DAY = 60 * 24;
@@ -27,7 +27,7 @@ export function getDateMonthFormat(date: Date) {
 
 // Including year
 export function getFullDateFormat(date: Date) {
-    if (isInvalidDate(date)) return date;
+    if (isInvalidDate(date)) return "";
     const date2 = new Date(date);
     return date2.toLocaleDateString("en-US", {
         month: "short",
