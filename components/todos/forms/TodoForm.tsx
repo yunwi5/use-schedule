@@ -33,36 +33,36 @@ const TodoForm: React.FC<Props> = ({ onAdd }) => {
         setName(newName);
     };
 
-    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
+    const theme = useAppSelector((state) => state.todoList.currentActiveTheme);
 
     return (
         <form
             onSubmit={submitHandler}
             className={`mt-5 min-w-[27rem text-slate-700 text-lg`}
-            id='todo-form'
+            id="todo-form"
         >
             <div
-                className={`p-2 flex items-center border-2 opacity-90 border-slate-200 rounded-md shadow-md focus-within:opacity-100 focus-within:bg-slate-50 focus-within:shadow-lg focus-within:border-blue-300 ${
+                className={`p-2 flex items-center bg-white border-2 border-slate-200 rounded-md shadow-md focus-within:opacity-100 focus-within:bg-slate-50 focus-within:shadow-lg focus-within:border-blue-300 focus-within:opacity-100 ${
                     error.hasError ? "border-rose-300" : ""
-                }`}
+                } ${theme ? "opacity-80" : ""}`}
             >
                 <button
-                    type='submit'
-                    className='lg:w-10 lg:h-10 flex items-center justify-center backdrop-blur-sm text-slate-400 hover:bg-blue-400 hover:brightness-80 hover:text-slate-50 rounded-full cursor-pointer'
+                    type="submit"
+                    className="lg:w-10 lg:h-10 flex items-center justify-center backdrop-blur-sm text-slate-400 hover:bg-blue-400 hover:brightness-80 hover:text-slate-50 rounded-full cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faPlus} className={`max-w-[2.3rem] text-2xl`} />
                 </button>
                 <input
-                    type='text'
-                    placeholder='Add Todo'
-                    id='todo-input'
-                    name='todo-input'
+                    type="text"
+                    placeholder="Add Todo"
+                    id="todo-input"
+                    name="todo-input"
                     value={name}
                     onChange={nameHandler}
-                    className='focus:outline-none bg-inherit ml-3 flex-1'
+                    className="focus:outline-none bg-inherit ml-3 flex-1"
                 />
             </div>
-            {error.message && <p className='text-rose-600 mt-2'>{error.message}</p>}
+            {error.message && <p className="text-rose-600 mt-2">{error.message}</p>}
         </form>
     );
 };

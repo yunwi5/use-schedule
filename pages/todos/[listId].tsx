@@ -70,12 +70,12 @@ const NewTodoPage: NextPage<Props> = (props) => {
     };
 
     return (
-        <div>
+        <div style={{ height: "100%" }}>
             <Head>
                 <title>{initialList.name}</title>
                 <meta
-                    name='description'
-                    content='User defind todo list with custom items and theme for better customization'
+                    name="description"
+                    content="User defind todo list with custom items and theme for better customization"
                 />
             </Head>
             <TodoListContainer

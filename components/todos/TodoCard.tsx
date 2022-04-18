@@ -9,11 +9,11 @@ import { isOverdue } from "../../utilities/time-utils/date-check";
 import { getDurationFormat, getFullDateFormat } from "../../utilities/time-utils/date-format";
 import CheckToggler from "../ui/icons/CheckToggler";
 import TodoDetail from "./todo-detail/TodoDetail";
+import { useAppSelector } from "../../store/redux";
 
 interface Props {
     todo: Todo;
     listName: string;
-    onInvalidate: () => void;
     onMutateTodo: (id: string, todoProps: TodoProps) => void;
     onDeleteTodo: (id: string) => Promise<{
         isSuccess: boolean;
@@ -23,7 +23,7 @@ interface Props {
 
 const TodoCard: React.FC<Props> = (props) => {
     // call Invalidate if steps count have to be updated.
-    const { todo, listName, onInvalidate, onMutateTodo, onDeleteTodo } = props;
+    const { todo, listName, onMutateTodo, onDeleteTodo } = props;
     const [showDetail, setShowDetail] = useState(false);
     const [isImportant, setIsImportant] = useState(todo.isImportant);
     const [isCompleted, setIsCompleted] = useState(todo.isCompleted);
@@ -49,6 +49,8 @@ const TodoCard: React.FC<Props> = (props) => {
 
     const todoOverdue = !todo.isCompleted && !!todo.dateTime && isOverdue(todo.dateTime);
 
+    const theme = useAppSelector((state) => state.todoList.currentActiveTheme);
+
     return (
         <>
             {showDetail && (
@@ -60,7 +62,11 @@ const TodoCard: React.FC<Props> = (props) => {
                     onDeleteTodo={onDeleteTodo}
                 />
             )}
-            <article className='px-3 py-2 min-h-[71.2px] bg-white text-slate-700 flex justify-between items-center text-lg transition-all rounded-sm border-2 border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50 hover:-translate-y-2'>
+            <article
+                className={`px-3 py-2 min-h-[71.2px] bg-white text-slate-700 flex justify-between items-center text-lg transition-all rounded-sm border-2 border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50 hover:-translate-y-2 ${
+                    theme ? "opacity-75 hover:opacity-100" : ""
+                }`}
+            >
                 <CheckToggler onToggle={handleCompleted} isCompleted={isCompleted} />
                 <div
                     onClick={() => setShowDetail(true)}
@@ -75,7 +81,7 @@ const TodoCard: React.FC<Props> = (props) => {
                                 <span>
                                     <FontAwesomeIcon
                                         icon={faCalendarCheck}
-                                        className='mr-[3px] max-w-md max-h-md'
+                                        className="mr-[3px] max-w-md max-h-md"
                                     />
                                     &nbsp;
                                     {getFullDateFormat(todo.dateTime)}
@@ -86,7 +92,7 @@ const TodoCard: React.FC<Props> = (props) => {
                                     <span>
                                         <FontAwesomeIcon
                                             icon={faHourglass}
-                                            className='mr-[3px] max-w-md max-h-md'
+                                            className="mr-[3px] max-w-md max-h-md"
                                         />
                                         {getDurationFormat(todo.duration || 1)}
                                     </span>
@@ -95,11 +101,11 @@ const TodoCard: React.FC<Props> = (props) => {
                         </p>
                     )}
                 </div>
-                <div className='flex items-center justify-center text-[2rem] cursor-pointer'>
+                <div className="flex items-center justify-center text-[2rem] cursor-pointer">
                     <FontAwesomeIcon
                         onClick={handleImportant}
                         icon={isImportant ? faStarSolid : faStarLight}
-                        className='max-w-[2rem] max-h-[2rem] text-yellow-400 text-[1.5rem]'
+                        className="max-w-[2rem] max-h-[2rem] text-yellow-400 text-[1.5rem]"
                     />
                 </div>
             </article>

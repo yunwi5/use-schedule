@@ -35,3 +35,12 @@
 	max-height: 3rem;
 	font-size: 2.1rem;
 }
+
+.icon-light {
+	color: white;
+
+	&:hover {
+		color: $color-tertiary-light-2;
+		transform: scale(115%);
+	}
+}

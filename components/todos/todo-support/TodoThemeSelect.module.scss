@@ -1,0 +1,58 @@
+@import "../../../styles/abstract/variables";
+@import "../../../styles/abstract/mixins";
+
+.action {
+	display: inline-block;
+    margin-bottom: 1rem;
+    z-index: 5;
+	position: relative;
+    
+	.btn {
+		padding-left: .7rem;
+		padding-right: .7rem;
+		max-width: 15rem;
+		background-color: $color-primary;
+		border: 1px solid $color-primary;
+		gap: .5rem;
+	}
+
+    .btn-light {
+        background-color: transparent;
+        color: $color-primary-light-1;
+        border-color: currentColor;
+    }
+
+	.icon {
+		max-width: 2rem;
+	}
+}
+
+.list {
+	display: grid;
+	padding: .5rem;
+	grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
+	grid-gap: .5rem;
+	opacity: .92;
+
+	.item {
+		max-height: 3.5rem;
+		cursor: pointer;
+	}
+
+	.active-item {
+		transform: scale(1.1);
+		box-shadow: 0 2rem 6rem rgba(0, 0, 0, .8);
+		filter: brightness(.9);
+		position: relative;
+	}
+
+	.check {
+		position: absolute;
+		color: $color-tertiary;
+		font-size: 110%;
+		top: -.3rem;
+		right: -0.1rem;
+		z-index: 5;
+		filter: brightness(125%);
+	}
+}

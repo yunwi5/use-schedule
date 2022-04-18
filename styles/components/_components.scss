@@ -8,3 +8,29 @@
 	width: 32rem;
 	left: calc(50% - 16rem);
 }
+
+
+.mui-light-select {
+    // select box border
+    .MuiOutlinedInput-root {
+        // border: 1px solid white;
+		color: white;
+		z-index: 2;
+    }
+
+    // label
+    .MuiInputLabel-formControl {
+        color: white !important;
+		z-index: 3;
+    }
+
+    // select down-side icon
+    .MuiSvgIcon-root {
+        color: white;
+    }
+
+	// input
+	.MuiSelect-nativeInput {
+		// color: white;
+	}
+}

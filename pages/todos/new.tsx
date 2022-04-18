@@ -77,8 +77,8 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
             <Head>
                 <title>New Custom List</title>
                 <meta
-                    name='description'
-                    content='New user specific custom todo list with all the items related.'
+                    name="description"
+                    content="New user specific custom todo list with all the items related."
                 />
             </Head>
             <TodoListContainer

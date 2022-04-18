@@ -3,110 +3,123 @@
 .form {
     flex-grow: 1;
     min-width: 60%;
-	display: flex;
+    display: flex;
     gap: 1rem;
     flex-direction: column;
-	justify-content: flex-start;
-	box-shadow: 0 0 6rem rgba(0, 0, 0, .10);
-	position: relative;
+    justify-content: flex-start;
+    box-shadow: 0 0 6rem rgba(0, 0, 0, 0.1);
+    position: relative;
 
-	padding: 1rem;
-	font-size: 1.2rem;
-	border-radius: 5px;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
 
-	background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
-		linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
-		linear-gradient(336deg, #fff, rgba(255, 255, 255, .6) 70.71%);
-
-
-	@include respond(tab-land) {
-		padding: 1rem 0;
-	}
-
-    .control, .action {
-		padding: 0 .6rem;
+    @include respond(tab-land) {
+        padding: 1rem 0;
     }
-    
-	.control {
-		display: flex;
-		flex-direction: column;
-		gap: .6rem;
-		input,
-		textarea {
-			border: 1px solid transparent;
-			color: $color-primary-dark-2;
-			border-radius: 3px;
-			background-color: #fff;
-			width: clamp(25.5rem, 75%, 100%);
-			padding: .2rem .5rem;
-			box-shadow: $shadow-light;
-		}
-		
-		[aria-invalid = true] {
-			border: 1.5px solid $color-rose-dark-1;
-			background-color: lighten($color-rose-light-1, 8%);
-			&:focus {
-				outline: none;
-			}
-		}
-	}
 
-	.action {
-		margin-top: .6rem;
-	}
+    .control,
+    .action {
+        padding: 0 0.6rem;
+    }
 
-	.name {
-		input {
-			font-size: 1.4rem;
-		}
-	}
+    .control {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        input,
+        textarea {
+            border: 1px solid transparent;
+            color: $color-primary-dark-2;
+            border-radius: 3px;
+            background-color: #fff;
+            width: clamp(25.5rem, 75%, 100%);
+            padding: 0.2rem 0.5rem;
+            box-shadow: $shadow-light;
+        }
 
-	.text {
-		color: $color-primary-dark-2;
-	}
-	
-	h3.text {
-		font-size: 1.5rem;
-		font-weight: 600;
-	}
+        [aria-invalid="true"] {
+            border: 1.5px solid $color-rose-dark-1;
+            background-color: lighten($color-rose-light-1, 8%);
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 
-	.error {
-		color: $color-rose-dark-1;
-	}
+    .action {
+        margin-top: 0.6rem;
+    }
 
-	.icon {
-		max-width: 2.1rem;
-		margin-right: .6rem;
-		color: $color-primary-dark-2;
-	}
+    .name {
+        input {
+            font-size: 1.4rem;
+        }
+    }
 
-	.btn {
-		min-width: 20%;
-		width: clamp(10rem, 20%, 100%);
-	}
+    h3.text {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .error {
+        color: $color-rose-dark-1;
+    }
+
+    .icon {
+        max-width: 2.1rem;
+        margin-right: 0.6rem;
+        color: $color-primary-dark-2;
+    }
+}
+
+.form-default-color {
+    background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
+        linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
+        linear-gradient(336deg, #fff, rgba(255, 255, 255, 0.6) 70.71%);
+
+    .text {
+        color: $color-primary-dark-2;
+    }
 }
 
 .form-edit {
-	.text {
-		display: none;
-	}
+    .text {
+        display: none;
+    }
 }
 
 .form-read-only {
-	flex-direction: row;
-	gap: 2rem;
+    flex-direction: row;
+    gap: 2rem;
 
-	@include respond(tab-port) {
-		flex-direction: column;
-		gap: .7rem;
-	}
+    @include respond(tab-port) {
+        flex-direction: column;
+        gap: 0.7rem;
+    }
 
-	input,
-	textarea {
-		display: none;
-	}
+    input,
+    textarea {
+        display: none;
+    }
 
-	.action {
-		display: none;
+    .action {
+        display: none;
+    }
+}
+
+.btn {
+	min-width: 20%;
+	width: clamp(10rem, 20%, 100%);
+}
+
+.btn-light {
+	border-color: #fff;
+	color: #fff;
+	background-color: transparent;
+
+	&:hover {
+		background-color: transparent;
+		border-color: currentColor;
 	}
 }

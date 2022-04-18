@@ -1,0 +1,19 @@
+.container {
+    overflow-y: hidden;
+    height: 100%;
+    & > span {
+        position: absolute !important;
+        width: 100% !important;
+    }
+}
+
+.img {
+    position: absolute;
+    object-fit: cover; // important for aspect ratio
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    filter: brightness(90%);
+    // opacity: 90%;
+}

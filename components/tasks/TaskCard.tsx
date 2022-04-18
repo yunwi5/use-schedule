@@ -136,18 +136,18 @@ const TaskCard: React.FC<Props> = (props) => {
                 {/* Task Name */}
                 <h4 className={classes.task__name}>{task.name}</h4>
                 <ClickAwayListener onClickAway={setShowComment.bind(null, false)}>
-                    <div className='ml-1 relative' onClick={setShowComment.bind(null, true)}>
+                    <div className="ml-1 relative" onClick={setShowComment.bind(null, true)}>
                         {!showComment && (
                             <FontAwesomeIcon
                                 icon={faCommentPen}
-                                className={`max-w-lg text-xl text-slate-700 cursor-pointer hover:text-blue-600 ${classes.commentIcon}`}
+                                className={`max-w-[1.25rem] text-xl text-slate-700 cursor-pointer hover:text-blue-600 ${classes.commentIcon}`}
                             />
                         )}
                         {showComment && (
                             <TaskComment
                                 commentText={comment || ""}
                                 onSubmit={updateCommentHandler}
-                                className='absolute bottom-[1rem] translate-x-3'
+                                className="absolute bottom-[1rem] translate-x-3"
                             />
                         )}
                     </div>

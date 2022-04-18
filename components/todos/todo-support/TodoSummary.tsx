@@ -55,18 +55,11 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
         [todos],
     );
 
-    const countClass = "font-semibold text-blue-500";
-    const overdueClass = "font-semibold text-rose-400";
+    const theme = useAppSelector((state) => state.todoList.currentActiveTheme);
 
-    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
-    const summaryTheme = todoTheme
-        ? {
-              backgroundColor: todoTheme.figureBackground,
-              borderColor: todoTheme.borderColor,
-          }
-        : {};
-    const textTheme = todoTheme ? { color: todoTheme.figureTextColor } : {};
-    const highlightTheme = todoTheme ? { color: "#fff" } : {};
+    const countClass = `font-semibold ${theme ? "text-cyan-50" : "text-blue-500"}`;
+    const overdueClass = "font-semibold !text-rose-400";
+    const textClass = `text-lg ${theme ? "text-gray-200" : "text-slate-700"}`;
 
     return (
         <>
@@ -74,64 +67,47 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
                 <div className={`absolute right-0 top-2 translate-x-[3.5rem] z-5`}>
                     <FontAwesomeIcon
                         icon={faCircleInfo}
-                        className={classes.show}
+                        className={`${classes.show} ${theme ? classes["icon-light"] : ""}`}
                         onClick={showSummaryHandler.bind(null, true)}
                     />
                 </div>
             )}
             {showSummary && (
                 <div
-                    className={`max-h-[11rem] relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 border-sky-300`}
-                    style={summaryTheme}
+                    className={`max-h-[11rem] relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
+                        theme ? "border-slate-50" : "border-sky-300"
+                    } ${theme ? "bg-sky-50/25" : ""}`}
                 >
-                    <h3 className='text-xl text-blue-500' style={highlightTheme}>
+                    <h3 className={`text-xl ${theme ? "text-cyan-50" : "text-blue-500"}`}>
                         Summary
                     </h3>
                     {/* Change to responsive grid layout that has two columns on the large screen and one column on the small screen */}
-                    <ul
-                        className={`flex flex-col gap-2 text-lg text-slate-700 ${classes.grid}`}
-                        style={textTheme}
-                    >
+                    <ul className={`flex flex-col gap-2 ${textClass} ${classes.grid}`}>
                         <li>
-                            <span style={highlightTheme} className={countClass}>
-                                {totalTodos}
-                            </span>{" "}
-                            todos in total
+                            <span className={countClass}>{totalTodos}</span> todos in total
                         </li>
                         <li>
-                            <span className={countClass} style={highlightTheme}>
-                                {completedTodosCount}
-                            </span>{" "}
-                            todos completed
+                            <span className={countClass}>{completedTodosCount}</span> todos
+                            completed
                         </li>
                         <li>
-                            <span className={countClass} style={highlightTheme}>
-                                {importantTodosCount}
-                            </span>{" "}
-                            todos important
+                            <span className={countClass}>{importantTodosCount}</span> todos
+                            important
                         </li>
                         <li>
-                            <span className={countClass} style={highlightTheme}>
-                                {todayTodosCount}
-                            </span>{" "}
-                            todos due today
+                            <span className={countClass}>{todayTodosCount}</span> todos due today
                         </li>
                         <li>
-                            <span className={countClass} style={highlightTheme}>
-                                {weekTodosCount}
-                            </span>{" "}
-                            todos due this week
+                            <span className={countClass}>{weekTodosCount}</span> todos due this week
                         </li>
                         <li>
-                            <span className={overdueClass} style={highlightTheme}>
-                                {overdueCount}{" "}
-                            </span>
+                            <span className={overdueClass}>{overdueCount} </span>
                             todos overdue
                         </li>
                     </ul>
                     <FontAwesomeIcon
                         icon={faXmark}
-                        className={classes.exit}
+                        className={`${classes.exit} ${theme ? classes["icon-light"] : ""}`}
                         onClick={showSummaryHandler.bind(null, false)}
                     />
                 </div>

@@ -8,6 +8,7 @@ import {
 } from "../../../models/sorting-models";
 import DirectionSelect from "../../ui/sorting/DirectionSelect";
 import SortingStandardSelect from "../../ui/sorting/SortingStandardSelect";
+import { useAppSelector } from "../../../store/redux";
 
 interface Props {
     onSort: (target: SortingStandard, direction: SortingDirection) => void;
@@ -29,14 +30,17 @@ const TodoSorter: React.FC<Props> = ({ onSort }) => {
         if (sortTarget) onSort(sortTarget, newDir);
     };
 
+    const theme = useAppSelector((state) => state.todoList.currentActiveTheme);
+
     return (
-        <div className='flex items-center gap-3'>
+        <div className="flex items-center gap-3">
             <SortingStandardSelect
                 onChange={sortTargetHandler}
                 sortTarget={sortTarget}
                 sortList={TodoSortList}
+                light={!!theme}
             />
-            <DirectionSelect onChange={directionHandler} direction={direction} />
+            <DirectionSelect onChange={directionHandler} direction={direction} light={!!theme} />
         </div>
     );
 };

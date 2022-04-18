@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 import { useAppDispatch, useAppSelector } from "../../store/redux";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
@@ -9,7 +10,16 @@ import { processTodos } from "../../utilities/todos-utils/todo-util";
 import TodoIntroPanel from "./todo-support/TodoIntroPanel";
 import TodoListForm from "./forms/TodoListForm";
 import TodoListSection from "./TodoListSection";
+import {
+    CustomTheme,
+    ThemesList,
+    getStaticThemeImagePath,
+    mountainLakeTheme,
+} from "../../models/CustomTheme";
 import TodoSummary from "./todo-support/TodoSummary";
+import TodoThemeSelect from "./todo-support/TodoThemeSelect";
+
+import classes from "./TodoListContainer.module.scss";
 
 interface Props {
     onMutateList: (newProps: TodoListProperties, isNew: boolean) => Promise<boolean>;
@@ -24,42 +34,76 @@ const TodoListContainer: React.FC<Props> = (props) => {
     const [editingList, setEditingList] = useState(isNew);
     const processedTodos = processTodos(todos);
 
-    // Testing theme functionality
     const dispatch = useAppDispatch();
-    dispatch(plannerActions.setPlannerMode(null)); // prepare bug
-    // dispatch(todoListActions.setActiveTheme(pinkTheme));
 
-    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
-    const themeStyle = todoTheme
-        ? { backgroundColor: todoTheme.background, color: todoTheme.textColor }
-        : {};
+    const themeSelectHandler = (newTheme: CustomTheme) => {
+        dispatch(todoListActions.setActiveTheme(newTheme));
+        onMutateList({ themeId: newTheme.name }, false);
+    };
+
+    let theme = null;
+    if (todoList && todoList.themeId)
+        theme = ThemesList.find((th) => th.name === todoList.themeId) || null;
+    const themeStyle = theme ? { backgroundColor: theme.background, color: theme.textColor } : {};
+
+    useEffect(() => {
+        dispatch(plannerActions.setPlannerMode(null)); // prepare bug
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (!todoList || !todoList.themeId) {
+            dispatch(todoListActions.setActiveTheme(null));
+            return;
+        }
+        const currentTheme = ThemesList.find((th) => th.name === todoList.themeId);
+        dispatch(todoListActions.setActiveTheme(currentTheme || null));
+    }, [dispatch, todoList]);
 
     return (
         <main
-            className='py-12 xl:translate-x-[-3.5%] md:px-[6rem] lg:px-[14rem] text-slate-700'
+            className={`relative container text-slate-700 ${classes.container}`}
             style={themeStyle}
         >
-            <div
-                className={`relative flex gap-3 flex-wrap xl:flex-nowrap ${
-                    !editingList ? "flex-col" : ""
-                }`}
-            >
-                {isNew && <TodoIntroPanel />}
-                <TodoListForm
-                    initialList={todoList}
-                    onSubmit={onMutateList}
-                    isEditing={editingList}
-                    onEditing={setEditingList}
-                />
-                {!isNew && <TodoSummary todos={processedTodos} />}
-            </div>
-            {!isNew && (
-                <TodoListSection
-                    todos={processedTodos}
-                    todoList={todoList}
-                    onInvalidate={onInvalidate}
+            {theme && theme.img && (
+                <Image
+                    className={classes.img}
+                    src={getStaticThemeImagePath(theme)}
+                    alt={`Background ${theme.img}`}
+                    layout="responsive"
+                    width="100%"
+                    height="100%"
                 />
             )}
+            {/* img tag is loading all the images correctly */}
+            {/* <img
+                src={getStaticThemeImagePath(mountainLakeTheme)}
+                alt={mountainLakeTheme.name}
+                className="max-w-[3rem] max-h-[3rem] inline-block z-10"
+            /> */}
+            <div className="py-12 translate-x-1 xl:translate-x-[-4%] px-6 md:px-[4rem] lg:px-[12rem] xl:px-[14rem]">
+                {!isNew && <TodoThemeSelect onSelect={themeSelectHandler} />}
+                <div
+                    className={`relative flex gap-3 flex-wrap xl:flex-nowrap ${
+                        !editingList ? "flex-col" : ""
+                    }`}
+                >
+                    {isNew && <TodoIntroPanel />}
+                    <TodoListForm
+                        initialList={todoList}
+                        onSubmit={onMutateList}
+                        isEditing={editingList}
+                        onEditing={setEditingList}
+                    />
+                    {!isNew && <TodoSummary todos={processedTodos} />}
+                </div>
+                {!isNew && (
+                    <TodoListSection
+                        todos={processedTodos}
+                        todoList={todoList}
+                        onInvalidate={onInvalidate}
+                    />
+                )}
+            </div>
         </main>
     );
 };

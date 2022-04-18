@@ -90,8 +90,7 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     };
 
-    const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
-    const { formTheme, textTheme, buttonTheme } = getFormTheme(todoTheme);
+    const theme = useAppSelector((state) => state.todoList.currentActiveTheme);
 
     return (
         <>
@@ -104,8 +103,11 @@ const TodoForm: React.FC<Props> = (props) => {
             )}
             <form
                 onSubmit={handleSubmit(submitHandler)}
-                className={`${classes.form} ${!isEditing ? classes["form-read-only"] : ""}`}
-                style={formTheme}
+                className={`${classes.form} ${!isEditing ? classes["form-read-only"] : ""} ${
+                    theme
+                        ? "bg-gradient-to-r !from-sky-200/50 !to-slate-100/25"
+                        : classes["form-default-color"]
+                }`}
             >
                 {initialList && (
                     <EditDelete
@@ -115,10 +117,10 @@ const TodoForm: React.FC<Props> = (props) => {
                     />
                 )}
                 <div className={classes.control}>
-                    {isEditing && <label htmlFor='list-name'>Name</label>}
+                    {isEditing && <label htmlFor="list-name">Name</label>}
                     <input
-                        type='text'
-                        id='list-name'
+                        type="text"
+                        id="list-name"
                         {...register("name", {
                             required: "TodoList name is required!",
                             minLength: { value: 3, message: "Minimum 3 characters" },
@@ -128,16 +130,14 @@ const TodoForm: React.FC<Props> = (props) => {
                         defaultValue={initialList ? initialList.name : ""}
                     />
                     {initialList && !isEditing && (
-                        <h3 style={textTheme} className={`${classes.text}`}>
-                            {initialList.name}
-                        </h3>
+                        <h3 className={`${classes.text}`}>{initialList.name}</h3>
                     )}
                     {errors.name && <p className={classes.error}>{errors.name.message}</p>}
                 </div>
-                <div className={classes.control} style={textTheme}>
-                    {isEditing && <label htmlFor='list-desc'>Description</label>}
+                <div className={classes.control}>
+                    {isEditing && <label htmlFor="list-desc">Description</label>}
                     <textarea
-                        id='list-desc'
+                        id="list-desc"
                         // cols={30}
                         rows={3}
                         {...register("description", {
@@ -147,21 +147,20 @@ const TodoForm: React.FC<Props> = (props) => {
                         defaultValue={initialList ? initialList.description : ""}
                     />
                     {initialList && !isEditing && (
-                        <p style={textTheme} className={classes.text}>
-                            {initialList.description}
-                        </p>
+                        <p className={classes.text}>{initialList.description}</p>
                     )}
                     {errors.description && (
-                        <p style={textTheme} className={classes.error}>
-                            {errors.description.message}
-                        </p>
+                        <p className={classes.error}>{errors.description.message}</p>
                     )}
                 </div>
 
                 <div className={classes.action}>
                     {isLoading && <LoadingSpinner size={Size.MEDIUM} />}
                     {!isLoading && (
-                        <Button type='submit' className={`${classes.btn}`} style={buttonTheme}>
+                        <Button
+                            type="submit"
+                            className={`${classes.btn} ${theme ? classes["btn-light"] : ""}`}
+                        >
                             <span>Submit</span>
                         </Button>
                     )}
