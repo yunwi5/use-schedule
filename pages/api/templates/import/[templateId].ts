@@ -1,16 +1,14 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { connectDatabase } from "../../../../db/mongodb-util";
 import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import { NoIdSubTask, SubTask } from "../../../../models/task-models/SubTask";
-import { NoIdTask, Task } from "../../../../models/task-models/Task";
-import {
-    TaskCollection,
-    SubTaskCollection,
-} from "../../../../utilities/mongodb-util/mongodb-constant";
-import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { insertManySubTasks } from "../../../../utilities/mongodb-util/subtask-util";
-import { insertManyTasks, insertTask } from "../../../../utilities/mongodb-util/tasks-util";
-import { getTemplateTasksWithSubTask } from "../../../../utilities/mongodb-util/template-util";
+import { NoIdSubTask } from "../../../../models/task-models/SubTask";
+import { NoIdTask } from "../../../../models/task-models/Task";
+import { TaskCollection, SubTaskCollection } from "../../../../db/mongodb-constant";
+import { insertManySubTasks } from "../../../../db/subtask-util";
+import { insertTask } from "../../../../db/tasks-util";
+import { getTemplateTasksWithSubTask } from "../../../../db/template-util";
 import { addDays } from "../../../../utilities/time-utils/date-control";
 import { getISOTimeFormat } from "../../../../utilities/time-utils/date-format";
 import { getDayIndexFromMon } from "../../../../utilities/time-utils/date-get";

@@ -6,11 +6,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import Layout from "../components/layout/Layout";
-import "../styles/globals.scss";
 import { NotificationContextProvider } from "../store/context/notification-context";
 import store from "../store/redux/index";
 import TemplatesProvider from "../components/templates/templates-provider/TemplatesProvider";
 import TodoListProvider from "../components/todos/todo-provider/TodoListProvider";
+import "../styles/globals.scss";
 
 // React query client initialization, so that its child components can use ReactQuery fetching.
 const queryClient = new QueryClient();

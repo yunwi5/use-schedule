@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { Todo } from "../../models/todo-models/Todo";
-import { TodoList } from "../../models/todo-models/TodoList";
-import { convertToTodoList, convertToTodos } from "../todos-utils/todo-util";
+import { Todo } from "../models/todo-models/Todo";
+import { TodoList } from "../models/todo-models/TodoList";
+import { convertToTodoList, convertToTodos } from "../utilities/todos-utils/todo-util";
 import { getItems } from "./generic";
 
 import { TaskCollection, TemplateCollection, TodoCollection } from "./mongodb-constant";

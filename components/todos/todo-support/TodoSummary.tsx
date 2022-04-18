@@ -6,6 +6,7 @@ import { Todo } from "../../../models/todo-models/Todo";
 import { isSameDate, isSameWeek } from "../../../utilities/time-utils/date-check";
 import classes from "./TodoSummary.module.scss";
 import { useAppSelector } from "../../../store/redux";
+import { isTodoOverdue } from "../../../utilities/todos-utils/todo-util";
 
 interface Props {
     todos: Todo[];
@@ -46,7 +47,16 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
         [todos, today],
     );
 
+    const overdueCount = useMemo(
+        () =>
+            todos.reduce((accCount: number, todo) => {
+                return isTodoOverdue(todo) ? accCount + 1 : accCount;
+            }, 0),
+        [todos],
+    );
+
     const countClass = "font-semibold text-blue-500";
+    const overdueClass = "font-semibold text-rose-400";
 
     const todoTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
     const summaryTheme = todoTheme
@@ -71,13 +81,17 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
             )}
             {showSummary && (
                 <div
-                    className='relative xl:absolute xl:translate-x-[110%] xl:right-0 px-2 py-3 flex flex-col gap-2 rounded-md bg-sky-50 border-2 border-sky-300'
+                    className={`max-h-[11rem] relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 border-sky-300`}
                     style={summaryTheme}
                 >
                     <h3 className='text-xl text-blue-500' style={highlightTheme}>
                         Summary
                     </h3>
-                    <ul className='flex flex-col gap-2 text-lg text-slate-700' style={textTheme}>
+                    {/* Change to responsive grid layout that has two columns on the large screen and one column on the small screen */}
+                    <ul
+                        className={`flex flex-col gap-2 text-lg text-slate-700 ${classes.grid}`}
+                        style={textTheme}
+                    >
                         <li>
                             <span style={highlightTheme} className={countClass}>
                                 {totalTodos}
@@ -107,6 +121,12 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
                                 {weekTodosCount}
                             </span>{" "}
                             todos due this week
+                        </li>
+                        <li>
+                            <span className={overdueClass} style={highlightTheme}>
+                                {overdueCount}{" "}
+                            </span>
+                            todos overdue
                         </li>
                     </ul>
                     <FontAwesomeIcon

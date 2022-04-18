@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Task } from "../../models/task-models/Task";
 import { TemplateFormObj, TemplateProperties } from "../../models/template-models/Template";
-import { TaskCollection } from "../../utilities/mongodb-util/mongodb-constant";
+import { TaskCollection } from "../../db/mongodb-constant";
 
 const API_TEMPLATE_DOMAIN = process.env.API_DOMIN_RELATIVE
     ? `${process.env.API_DOMIN_RELATIVE}/templates`

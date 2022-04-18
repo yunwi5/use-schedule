@@ -1,9 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./abstract/variables";
-@import "./abstract/mixins";
-@import "./abstract/typography";
+@import "./main";
 
 html,
 body {

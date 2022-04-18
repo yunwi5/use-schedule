@@ -1,7 +1,7 @@
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { Task } from "../../models/task-models/Task";
 import { TaskProperties } from "../../models/task-models/TaskProperties";
-import { TaskCollection } from "../../utilities/mongodb-util/mongodb-constant";
+import { TaskCollection } from "../../db/mongodb-constant";
 
 function getCollectionOfPlaner(plannerMode: PlannerMode): TaskCollection {
     switch (plannerMode) {

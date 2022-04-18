@@ -1,9 +1,9 @@
 import { MongoClient, ObjectId, WithId } from "mongodb";
 
 import { TemplateCollection, TaskCollection, SubTaskCollection } from "./mongodb-constant";
-import { Template, TemplateProperties } from "../../models/template-models/Template";
-import { Task } from "../../models/task-models/Task";
-import { convertToTasks, covertToSubTasks } from "../tasks-utils/task-util";
+import { Template, TemplateProperties } from "../models/template-models/Template";
+import { Task } from "../models/task-models/Task";
+import { convertToTasks, covertToSubTasks } from "../utilities/tasks-utils/task-util";
 
 // Template Task CRUD operations
 export async function getTemplateTasksById(client: MongoClient, templateId: string) {

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { insertTodo } from "../../../../utilities/mongodb-util/todos-util";
+import { connectDatabase } from "../../../../db/mongodb-util";
+import { insertTodo } from "../../../../db/todos-util";
 
 type Data = { message: string } | { message: string; insertedId: string };
 

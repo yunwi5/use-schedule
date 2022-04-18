@@ -1,6 +1,6 @@
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { Task } from "../../models/task-models/Task";
-import { TaskCollection } from "../../utilities/mongodb-util/mongodb-constant";
+import { TaskCollection } from "../../db/mongodb-constant";
 
 const API_DOMAIN = `${process.env.API_DOMAIN_FULL}/planners`;
 

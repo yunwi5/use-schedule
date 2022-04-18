@@ -1,10 +1,10 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 import { TodoListCollection, TodoCollection, SubTodoCollection } from "./mongodb-constant";
-import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
-import { NoIdTodo, TodoProps } from "../../models/todo-models/Todo";
-import { NoIdSubTodo } from "../../models/todo-models/SubTodo";
-import { SubItemProps } from "../../models/utility-models";
+import { TodoList, TodoListProperties } from "../models/todo-models/TodoList";
+import { NoIdTodo, TodoProps } from "../models/todo-models/Todo";
+import { NoIdSubTodo } from "../models/todo-models/SubTodo";
+import { SubItemProps } from "../models/utility-models";
 import { deleteItem, getItems, insertItem, updateItem } from "./generic";
 
 // Todo list and its items

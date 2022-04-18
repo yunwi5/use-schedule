@@ -3,12 +3,11 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import TodoListContainer from "../../components/todos/TodoListContainer";
 import { useQuery, useQueryClient } from "react-query";
-import { useAppDispatch } from "../../store/redux";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
 import { Todo } from "../../models/todo-models/Todo";
 import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { patchTodoList } from "../../lib/todos/todo-list-api";
-import { getTodoListAndItemsFromPage } from "../../utilities/mongodb-util/pages-util";
+import { getTodoListAndItemsFromPage } from "../../db/pages-util";
 
 const API_TODO_DOMAIN = "/api/todos";
 

@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faGrid2, faXmark } from "@fortawesome/pro-duotone-svg-icons";
 
-import Button from "../../ui/Button";
 import classes from "./TodoIntroPanel.module.scss";
 
 const TodoIntroPanel: React.FC = () => {

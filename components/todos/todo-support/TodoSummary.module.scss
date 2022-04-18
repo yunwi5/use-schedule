@@ -1,5 +1,12 @@
 @import "../../../styles/abstract/variables";
 
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(11rem, auto));
+	grid-column-gap: 1.5rem;
+	grid-row-gap: .3rem;
+}
+
 .exit,
 .show {
 	position: absolute;

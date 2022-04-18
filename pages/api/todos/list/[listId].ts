@@ -2,13 +2,12 @@ import { TodoList } from "./../../../../models/todo-models/TodoList";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
+import { connectDatabase } from "../../../../db/mongodb-util";
 import {
     deleteTodoList,
     getTodoListAndItems,
-    insertTodoList,
     updateTodoListProps,
-} from "../../../../utilities/mongodb-util/todos-util";
+} from "../../../../db/todos-util";
 import { Todo } from "../../../../models/todo-models/Todo";
 import { convertToTodoList, convertToTodos } from "../../../../utilities/todos-utils/todo-util";
 

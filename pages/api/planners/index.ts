@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
-import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
-import { getTasks, insertTask } from "../../../utilities/mongodb-util/tasks-util";
+import { connectDatabase } from "../../../db/mongodb-util";
+import { getTasks, insertTask } from "../../../db/tasks-util";
 import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
-import { validateTask } from "../../../schemas/schema-validate";
-import { getTasksFromAllCollection } from "../../../utilities/mongodb-util/pages-util";
+import { validateTask } from "../../../schemas/validation";
+import { getTasksFromAllCollection } from "../../../db/pages-util";
 
 type Data =
     | { message: string }

@@ -8,7 +8,6 @@ export interface NoIdTodoList {
     userId: string;
     todos?: Todo[];
     theme?: CustomTheme;
-    color?: string; // experimental
 }
 
 export interface TodoList extends NoIdTodoList {

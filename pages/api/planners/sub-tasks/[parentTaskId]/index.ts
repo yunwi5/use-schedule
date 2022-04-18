@@ -3,11 +3,11 @@ import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { MongoClient } from "mongodb";
 
 import { SubTask } from "../../../../../models/task-models/SubTask";
-import { connectDatabase } from "../../../../../utilities/mongodb-util/mongodb-util";
-import { getSubTasks, insertSubTask } from "../../../../../utilities/mongodb-util/subtask-util";
-import { SubTaskCollection } from "../../../../../utilities/mongodb-util/mongodb-constant";
+import { connectDatabase } from "../../../../../db/mongodb-util";
+import { getSubTasks, insertSubTask } from "../../../../../db/subtask-util";
+import { SubTaskCollection } from "../../../../../db/mongodb-constant";
 import { covertToSubTasks } from "../../../../../utilities/tasks-utils/task-util";
-import { validateSubTask } from "../../../../../schemas/schema-validate";
+import { validateSubTask } from "../../../../../schemas/validation";
 
 type Data =
     | { message: string }

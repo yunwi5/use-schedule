@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+
 import TodoListContainer from "../../components/todos/TodoListContainer";
 import { useQuery, useQueryClient } from "react-query";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";

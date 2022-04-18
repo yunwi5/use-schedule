@@ -2,8 +2,8 @@ import { TodoList } from "./../../../../models/todo-models/TodoList";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { getAllTodoLists, insertTodoList } from "../../../../utilities/mongodb-util/todos-util";
+import { connectDatabase } from "../../../../db/mongodb-util";
+import { getAllTodoLists, insertTodoList } from "../../../../db/todos-util";
 import { convertToTodoListArray } from "../../../../utilities/todos-utils/todo-util";
 
 type Data =

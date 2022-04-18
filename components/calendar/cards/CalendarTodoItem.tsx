@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 import useTodoQuery from "../../../hooks/useTodoQuery";
 import { Todo } from "../../../models/todo-models/Todo";
@@ -19,17 +19,6 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
     const parentList = lists.find((list) => list.id === todo.listId);
 
     const { patchTodo, deleteTodo } = useTodoQuery(onInvalidate, parentList);
-    /* 
-    TodoDetail props: 
-    todo: Todo;
-    listName: string;
-    onClose: () => void;
-    onMutateTodo: (id: string, todoProps: TodoProps) => void;
-    onDeleteTodo: (id: string) => Promise<{
-        isSuccess: boolean;
-        message: string;
-    }>;
-    */
 
     return (
         <>

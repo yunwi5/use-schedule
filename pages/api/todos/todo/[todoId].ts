@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import { connectDatabase } from "../../../../utilities/mongodb-util/mongodb-util";
-import { deleteTodo, getSubTodos, updateTodo } from "../../../../utilities/mongodb-util/todos-util";
+import { connectDatabase } from "../../../../db/mongodb-util";
+import { deleteTodo, getSubTodos, updateTodo } from "../../../../db/todos-util";
 import { TodoProps } from "../../../../models/todo-models/Todo";
 import { SubTodo } from "../../../../models/todo-models/SubTodo";
 import { convertToAppObjectList } from "../../../../utilities/gen-utils/object-util";

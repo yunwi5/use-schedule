@@ -1,15 +1,13 @@
-import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
+import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
+
 import CalendarContainer from "../../components/calendar/CalendarContainer";
+import { getTasksFromAllCollection, getTodosFromPage } from "../../db/pages-util";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { Task } from "../../models/task-models/Task";
 import { Todo } from "../../models/todo-models/Todo";
-import {
-    getTasksFromAllCollection,
-    getTodosFromPage,
-} from "../../utilities/mongodb-util/pages-util";
 import { convertToTasks } from "../../utilities/tasks-utils/task-util";
 import { convertToTodos } from "../../utilities/todos-utils/todo-util";
 

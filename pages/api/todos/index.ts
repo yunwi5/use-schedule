@@ -2,8 +2,8 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
 import { Todo } from "../../../models/todo-models/Todo";
-import { connectDatabase } from "../../../utilities/mongodb-util/mongodb-util";
-import { getTodoItemsByUser } from "../../../utilities/mongodb-util/todos-util";
+import { connectDatabase } from "../../../db/mongodb-util";
+import { getTodoItemsByUser } from "../../../db/todos-util";
 import { convertToTodos } from "../../../utilities/todos-utils/todo-util";
 
 type Data = { message: string } | { todos: Todo[] };

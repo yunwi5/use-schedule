@@ -2,8 +2,8 @@ import { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-import { getTasksFromPage } from "../../../utilities/mongodb-util/pages-util";
-import { TaskCollection } from "../../../utilities/mongodb-util/mongodb-constant";
+import { getTasksFromPage } from "../../../db/pages-util";
+import { TaskCollection } from "../../../db/mongodb-constant";
 import { Task } from "../../../models/task-models/Task";
 import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
 import { convertToTasks } from "../../../utilities/tasks-utils/task-util";

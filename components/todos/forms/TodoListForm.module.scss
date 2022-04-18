@@ -1,7 +1,6 @@
 @import "../../../styles/main";
 
 .form {
-    flex-basis: .6;
     flex-grow: 1;
     min-width: 60%;
 	display: flex;
@@ -12,13 +11,17 @@
 	position: relative;
 
 	padding: 1rem;
-	// padding-left: 2.5rem;
 	font-size: 1.2rem;
 	border-radius: 5px;
 
 	background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
 		linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
 		linear-gradient(336deg, #fff, rgba(255, 255, 255, .6) 70.71%);
+
+
+	@include respond(tab-land) {
+		padding: 1rem 0;
+	}
 
     .control, .action {
 		padding: 0 .6rem;
@@ -92,6 +95,11 @@
 .form-read-only {
 	flex-direction: row;
 	gap: 2rem;
+
+	@include respond(tab-port) {
+		flex-direction: column;
+		gap: .7rem;
+	}
 
 	input,
 	textarea {

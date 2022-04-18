@@ -2,18 +2,15 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-regular-svg-icons";
 
-import classes from "./TodoListSection.module.scss";
-import { Todo, NoIdTodo, TodoProps } from "../../models/todo-models/Todo";
-import TodoCard from "./TodoCard";
-import TodoForm from "./forms/TodoForm";
+import useTodoQuery from "../../hooks/useTodoQuery";
+import { Todo } from "../../models/todo-models/Todo";
 import { TodoList } from "../../models/todo-models/TodoList";
-import { useMutation } from "react-query";
-import axios from "axios";
-import TodoSorter from "./todo-support/TodoSorter";
 import { SortingDirection, TodoSort } from "../../models/sorting-models";
 import { sortTodos } from "../../utilities/sort-utils/todo-sort";
-import { deleteTodo } from "../../lib/todos/todo-list-api";
-import useTodoQuery from "../../hooks/useTodoQuery";
+import TodoCard from "./TodoCard";
+import TodoForm from "./forms/TodoForm";
+import TodoSorter from "./todo-support/TodoSorter";
+import classes from "./TodoListSection.module.scss";
 
 interface Props {
     todos: Todo[];

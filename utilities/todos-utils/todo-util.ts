@@ -1,5 +1,6 @@
 import { Todo } from "../../models/todo-models/Todo";
 import { TodoList } from "../../models/todo-models/TodoList";
+import { isOverdue } from "../time-utils/date-check";
 
 export function convertToTodoList(listObj: any | null): TodoList | null {
     if (!listObj) return null;
@@ -34,4 +35,9 @@ export function processTodos(todos: Todo[]): Todo[] {
         let cat: Date = todo.createdAt ? new Date(todo.createdAt) : new Date();
         return { ...todo, dateTime: dt, createdAt: cat };
     });
+}
+
+export function isTodoOverdue(todo: Todo): boolean {
+    const overdue = !todo.isCompleted && isOverdue(todo.dateTime);
+    return overdue;
 }

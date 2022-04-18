@@ -4,8 +4,8 @@ import Head from "next/head";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
 
-import { getTasksFromPage } from "../../../utilities/mongodb-util/pages-util";
-import { TaskCollection } from "../../../utilities/mongodb-util/mongodb-constant";
+import { getTasksFromPage } from "../../../db/pages-util";
+import { TaskCollection } from "../../../db/mongodb-constant";
 import { Task } from "../../../models/task-models/Task";
 import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
 import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
