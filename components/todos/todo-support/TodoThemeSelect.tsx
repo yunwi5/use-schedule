@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,6 +24,14 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
     const [isSelecting, setIsSelecting] = useState(false);
 
     const currentTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
+
+    const themeSelectHandler = useCallback(
+        (theme: CustomTheme) => {
+            onSelect(theme);
+            setIsSelecting(false);
+        },
+        [onSelect],
+    );
 
     return (
         <ClickAwayListener onClickAway={() => setIsSelecting(false)}>
@@ -56,7 +64,7 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                             : ""
                                     }`}
                                     key={theme.name}
-                                    onClick={onSelect.bind(null, theme)}
+                                    onClick={themeSelectHandler.bind(null, theme)}
                                 >
                                     {currentTheme && theme.name === currentTheme.name && (
                                         <>
