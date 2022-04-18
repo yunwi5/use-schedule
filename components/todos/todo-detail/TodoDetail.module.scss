@@ -16,6 +16,10 @@
         max-height: 90%;
     }
 
+    .content-body {
+        @include hide-scrollbar;
+    }
+
     .action {
         display: flex;
         justify-content: space-between;

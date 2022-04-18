@@ -60,6 +60,7 @@ const TodoForm: React.FC<Props> = ({ onAdd }) => {
                     value={name}
                     onChange={nameHandler}
                     className="focus:outline-none bg-inherit ml-3 flex-1"
+                    autoFocus
                 />
             </div>
             {error.message && <p className="text-rose-600 mt-2">{error.message}</p>}

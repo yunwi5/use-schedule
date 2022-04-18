@@ -85,7 +85,11 @@ export const metropolitanSkylineTheme: CustomTheme = {
     textColor: "#fff",
 };
 
-export const ThemesList = [
+// #e1e1e1
+const defaultTheme: CustomTheme = { name: "default", background: "#e1e1e1" };
+
+export const ThemesList: CustomTheme[] = [
+    defaultTheme,
     skyCloudTheme,
     cloudRainbowTheme,
     bigBalloonTheme,
@@ -97,10 +101,16 @@ export const ThemesList = [
     sydneyTheme,
     oceanCleanTheme,
     philadelphiaCityHallTheme,
-    metropolitanSkylineTheme,
+    // metropolitanSkylineTheme,
 ];
 
 export function getStaticThemeImagePath(theme: CustomTheme | null) {
     if (!theme || !theme.img) return "";
     return `/theme-photos/${theme.img}`;
+}
+
+export function isDefaultTheme(theme: CustomTheme | null) {
+    if (theme === null) return true;
+    if (theme.name === defaultTheme.name) return true;
+    return false;
 }

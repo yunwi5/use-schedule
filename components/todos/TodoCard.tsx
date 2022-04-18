@@ -81,7 +81,7 @@ const TodoCard: React.FC<Props> = (props) => {
                                 <span>
                                     <FontAwesomeIcon
                                         icon={faCalendarCheck}
-                                        className="mr-[3px] max-w-md max-h-md"
+                                        className="mr-[3px] max-w-[.9rem] inline-block"
                                     />
                                     &nbsp;
                                     {getFullDateFormat(todo.dateTime)}
@@ -92,7 +92,7 @@ const TodoCard: React.FC<Props> = (props) => {
                                     <span>
                                         <FontAwesomeIcon
                                             icon={faHourglass}
-                                            className="mr-[3px] max-w-md max-h-md"
+                                            className="mr-[3px] max-w-[.9rem] inline-block"
                                         />
                                         {getDurationFormat(todo.duration || 1)}
                                     </span>

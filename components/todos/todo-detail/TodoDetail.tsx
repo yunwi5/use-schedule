@@ -58,7 +58,7 @@ const TodoDetail: React.FC<Props> = (props) => {
                 {!isEditing && <p className={classes.value}>{name}</p>}
                 {isEditing && (
                     <input
-                        type='text'
+                        type="text"
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setName(e.target.value)
@@ -68,7 +68,9 @@ const TodoDetail: React.FC<Props> = (props) => {
                 )}
             </h2>
             <FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
-            <div className='container overflow-y-scroll flex flex-col gap-[1.7rem]'>
+            <div
+                className={`container overflow-y-scroll flex flex-col gap-[1.7rem] ${classes["content-body"]}`}
+            >
                 <div className={classes.action}>
                     <h3 className={classes["list-name"]}>{listName}</h3>
                     <EditDeleteLong
@@ -80,7 +82,7 @@ const TodoDetail: React.FC<Props> = (props) => {
                 <TodoDetailInfo todo={todo} onMutateTodo={mutationHandler} isEditing={isEditing} />
                 <SubTodoList isEditing={isEditing} todoId={todo.id} />
             </div>
-            <time className='text-[75%] pl-3 text-gray-400'>
+            <time className="text-[75%] pl-3 text-gray-400">
                 Created at {getFullDateFormat(todo.createdAt)}
             </time>
             {showDeleteModal && (

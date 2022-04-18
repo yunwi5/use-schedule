@@ -74,7 +74,7 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
             )}
             {showSummary && (
                 <div
-                    className={`max-h-[11rem] relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
+                    className={`max-h-[11rem] transition-all !duration-150 relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
                         theme ? "border-slate-50" : "border-sky-300"
                     } ${theme ? "bg-sky-50/25" : ""}`}
                 >

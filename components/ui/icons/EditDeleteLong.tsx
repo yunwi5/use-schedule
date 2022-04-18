@@ -15,16 +15,16 @@ const EditDeleteLong: React.FC<Props> = ({ isEditing, onEdit, onDelete }) => {
     const iconClass = "cursor-pointer text-3xl hover:scale-110 transition-all";
 
     return (
-        <div className='mr-2'>
+        <div className="mr-2">
             {!isEditing && (
-                <div className='flex gap-2 items-center'>
+                <div className="flex gap-2 items-center">
                     <div
                         className={`${classes.control} ${classes.edit}`}
                         onClick={onEdit.bind(null, true)}
                     >
                         <FontAwesomeIcon
                             icon={faPencilAlt}
-                            className={`${iconClass} text-blue-500 hover:text-blue-800 ${classes.icon}`}
+                            className={`${iconClass} text-blue-500 hover:text-blue-800 max-w-[2rem] ${classes.icon}`}
                         />
                         <span className={classes.label}>Edit</span>
                     </div>
@@ -32,7 +32,7 @@ const EditDeleteLong: React.FC<Props> = ({ isEditing, onEdit, onDelete }) => {
                         <div className={`${classes.control} ${classes.delete}`} onClick={onDelete}>
                             <FontAwesomeIcon
                                 icon={faEraser}
-                                className={`${iconClass} text-3xl text-rose-400 hover:text-rose-500 ${classes.icon}`}
+                                className={`${iconClass} text-3xl text-rose-400 hover:text-rose-500 max-w-[2.2rem] ${classes.icon}`}
                             />
                             <span className={classes.label}>Delete</span>
                         </div>

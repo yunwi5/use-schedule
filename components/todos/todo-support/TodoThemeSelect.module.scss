@@ -46,6 +46,11 @@
 		position: relative;
 	}
 
+	.background {
+		height: 100%;
+		width: 100%;
+	}
+
 	.check {
 		position: absolute;
 		color: $color-tertiary;

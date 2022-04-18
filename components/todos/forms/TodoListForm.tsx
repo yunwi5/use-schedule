@@ -28,25 +28,6 @@ interface TodoListData {
     description: string;
 }
 
-function getFormTheme(todoTheme: CustomTheme | null) {
-    const formTheme = todoTheme
-        ? {
-              background: todoTheme.figureBackground,
-              color: todoTheme.figureTextColor,
-              borderColor: todoTheme.borderColor,
-          }
-        : {};
-    const textTheme = todoTheme ? { color: todoTheme.figureTextColor } : {};
-    const buttonTheme = todoTheme
-        ? {
-              backgroundColor: todoTheme.buttonBackground,
-              borderColor: todoTheme.buttonBackground,
-              color: todoTheme.figureTextColor,
-          }
-        : {};
-    return { formTheme, textTheme, buttonTheme };
-}
-
 const TodoForm: React.FC<Props> = (props) => {
     const { onSubmit, initialList, isEditing, onEditing } = props;
     const isNew = !initialList;

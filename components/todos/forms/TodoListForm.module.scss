@@ -9,6 +9,7 @@
     justify-content: flex-start;
     box-shadow: 0 0 6rem rgba(0, 0, 0, 0.1);
     position: relative;
+    transition: color 1.5s ease-in-out, background-color 1s ease-in-out;
 
     padding: 1rem;
     font-size: 1.2rem;

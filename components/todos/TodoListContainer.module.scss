@@ -1,10 +1,17 @@
+@import "../../styles/abstract/mixins";
+
 .container {
-    overflow-y: hidden;
+    overflow-y: scroll;
+    @include hide-scrollbar;
     height: 100%;
+
+    // Next JS image adjustment.
     & > span {
         position: absolute !important;
         width: 100% !important;
+        height: 100% !important;
     }
+
 }
 
 .img {
@@ -15,5 +22,18 @@
     left: 0;
     z-index: 0;
     filter: brightness(90%);
-    // opacity: 90%;
+    transition: all 1s ease-in-out;
+    animation: AppearGently 1s linear 0s;
+}
+
+@keyframes AppearGently {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
 }

@@ -70,7 +70,7 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                         <div
                                             className={classes.background}
                                             style={{ backgroundColor: theme.background || "" }}
-                                        />
+                                        ></div>
                                     )}
                                     {theme.img && (
                                         <Image
@@ -79,6 +79,7 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                             layout="responsive"
                                             width="100%"
                                             height="100%"
+                                            quality={60}
                                             placeholder="blur"
                                             blurDataURL={getStaticThemeImagePath(skyCloudTheme)}
                                         />

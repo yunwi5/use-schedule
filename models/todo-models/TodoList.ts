@@ -7,7 +7,7 @@ export interface NoIdTodoList {
     description: string;
     userId: string;
     todos?: Todo[];
-    themeId?: string;
+    themeId?: string | null;
 }
 
 export interface TodoList extends NoIdTodoList {
@@ -18,5 +18,5 @@ export interface TodoListProperties {
     name?: string;
     description?: string;
     color?: string;
-    themeId?: string;
+    themeId?: string | null;
 }

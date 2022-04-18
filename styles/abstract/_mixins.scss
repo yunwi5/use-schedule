@@ -1,36 +1,46 @@
-@mixin after-underline ($color-1, $color-2) {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -5px;
-	width: 100%;
-	height: 3px;
-	background-image: linear-gradient(to right, $color-1, $color-2);
+@mixin after-underline($color-1, $color-2) {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 3px;
+    background-image: linear-gradient(to right, $color-1, $color-2);
 }
 
 @mixin flex-center($direction: null) {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	@if (direction == 'row' or direction == 'column') {
-		flex-direction: direction;
-	}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @if (direction == "row" or direction == "column") {
+        flex-direction: direction;
+    }
 }
 
 @mixin pos-center {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @mixin heading-underline($color-1, $color-2) {
-	font-size: 2.2rem;
-	position: relative;
+    font-size: 2.2rem;
+    position: relative;
 
-	&::after {
-		@include after-underline($color-1, $color-2);
-	}
+    &::after {
+        @include after-underline($color-1, $color-2);
+    }
+}
+
+@mixin hide-scrollbar() {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    // Chrome and Safari
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 /* 
@@ -54,29 +64,29 @@ ORDER: Base + Typography > general layout + grid > page layout > components
 */
 
 @mixin respond($breakpoint) {
-	@if ($breakpoint == phone) {
-		// If someone tries to print out the page, this media query will not apply.
-		@media only screen and (max-width: 37.5em) {
-			// 600px
-			@content;
-		}
-	}
-	@if ($breakpoint == tab-port) {
-		@media only screen and (max-width: 56.25em) {
-			// 900px
-			@content;
-		}
-	}
-	@if ($breakpoint == tab-land) {
-		@media only screen and (max-width: 75em) {
-			// 1200px
-			@content;
-		}
-	}
-	@if ($breakpoint == big-desktop) {
-		@media only screen and (min-width: 112.5em) {
-			// 1800px
-			@content;
-		}
-	}
+    @if ($breakpoint == phone) {
+        // If someone tries to print out the page, this media query will not apply.
+        @media only screen and (max-width: 37.5em) {
+            // 600px
+            @content;
+        }
+    }
+    @if ($breakpoint == tab-port) {
+        @media only screen and (max-width: 56.25em) {
+            // 900px
+            @content;
+        }
+    }
+    @if ($breakpoint == tab-land) {
+        @media only screen and (max-width: 75em) {
+            // 1200px
+            @content;
+        }
+    }
+    @if ($breakpoint == big-desktop) {
+        @media only screen and (min-width: 112.5em) {
+            // 1800px
+            @content;
+        }
+    }
 }

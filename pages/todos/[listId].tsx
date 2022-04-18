@@ -1,11 +1,12 @@
 import React from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import TodoListContainer from "../../components/todos/TodoListContainer";
 import { useQuery, useQueryClient } from "react-query";
+import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+
+import TodoListContainer from "../../components/todos/TodoListContainer";
 import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
 import { Todo } from "../../models/todo-models/Todo";
-import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { patchTodoList } from "../../lib/todos/todo-list-api";
 import { getTodoListAndItemsFromPage } from "../../db/pages-util";
 
@@ -53,21 +54,16 @@ const NewTodoPage: NextPage<Props> = (props) => {
             alert("Cannot be new!");
             return false;
         } else {
-            // Send PUT Request
-            // Invalidate query then.
+            // Send PUT request and then invalidate query
             const { isSuccess, message } = await patchTodoList(listId, todoListObj);
-            console.log("Patch result:", message);
+            // console.log("Patch result:", message);
             queryClient.invalidateQueries("todo-list");
             if (!isSuccess) return false;
         }
-        // console.log("Call invalidation of todos through redux.");
-        // dispatch(templateActions.callUpdate());
         return true;
     };
 
-    const invalidateTodoList = () => {
-        queryClient.invalidateQueries("todo-list");
-    };
+    const invalidateTodoList = () => queryClient.invalidateQueries("todo-list");
 
     return (
         <div style={{ height: "100%" }}>
