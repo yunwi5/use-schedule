@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import TodoListContainer from "../../components/todos/TodoListContainer";
 import { useQuery, useQueryClient } from "react-query";
-import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
+import { NoIdTodoList, TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
 import { Todo } from "../../models/todo-models/Todo";
 import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { patchTodoList, postTodoList } from "../../lib/todos/todo-list-api";
@@ -46,9 +46,18 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
         isNew: boolean,
     ): Promise<boolean> => {
         if (isNew) {
-            const newList = { ...todoListObj, userId };
+            const newList: NoIdTodoList = {
+                ...todoListObj,
+                userId,
+                name: todoListObj.name || "",
+                description: todoListObj.description || "",
+            };
             // Send POST Request
-            // Unique Id will be retried as a reponse from the server.
+            if (!newList.name) {
+                alert("User list name is empty!");
+                return false;
+            }
+            console.log("new list:", newList);
             const { isSuccess, message, insertedId } = await postTodoList(newList);
             if (isSuccess && insertedId) {
                 setListId(insertedId);
@@ -62,9 +71,6 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
             queryClient.invalidateQueries("todo-list");
             if (!isSuccess) return false;
         }
-
-        console.log("Call invalidation of templates through redux.");
-        // dispatch(templateActions.callUpdate());
         return true;
     };
 
@@ -73,7 +79,7 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
     };
 
     return (
-        <div>
+        <>
             <Head>
                 <title>New Custom List</title>
                 <meta
@@ -87,7 +93,7 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
                 onMutateList={mutateList}
                 onInvalidate={invalidateTodoList}
             />
-        </div>
+        </>
     );
 };
 

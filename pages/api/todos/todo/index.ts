@@ -3,6 +3,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 
 import { connectDatabase } from "../../../../db/mongodb-util";
 import { insertTodo } from "../../../../db/todos-util";
+import { validateTodo } from "../../../../schemas/validation";
 
 type Data = { message: string } | { message: string; insertedId: string };
 
@@ -25,9 +26,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === "POST") {
         // Need to add validation soon
-
         const newTodo = req.body;
-        console.log("newTodo:", newTodo);
+
+        const { isValid, message } = validateTodo(newTodo);
+        if (!isValid) {
+            client.close();
+            return res.status(400).json({ message });
+        }
+
         // Just in case if the parsed date is not type Date
         if (newTodo.dateTime) newTodo.dateTime = new Date(newTodo.dateTime.toString());
         let result;

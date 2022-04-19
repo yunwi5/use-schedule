@@ -10,6 +10,7 @@ import {
 } from "../../../../db/todos-util";
 import { Todo } from "../../../../models/todo-models/Todo";
 import { convertToTodoList, convertToTodos } from "../../../../utilities/todos-utils/todo-util";
+import { validateTodoListProps } from "../../../../schemas/validation";
 
 type Data = { message: string } | { list: TodoList | null; todos: Todo[] };
 
@@ -46,6 +47,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         res.status(200).json({ list, todos });
     } else if (req.method === "PATCH") {
         const updatedListProps = req.body;
+
+        const { isValid, message } = validateTodoListProps(updatedListProps);
+        if (!isValid) {
+            client.close();
+            return res.status(400).json({ message });
+        }
+
         let result;
         try {
             result = await updateTodoListProps(client, listId, updatedListProps);

@@ -5,6 +5,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { connectDatabase } from "../../../../db/mongodb-util";
 import { getAllTodoLists, insertTodoList } from "../../../../db/todos-util";
 import { convertToTodoListArray } from "../../../../utilities/todos-utils/todo-util";
+import { validateTodoList } from "../../../../schemas/validation";
 
 type Data =
     | { message: string }
@@ -42,6 +43,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         res.status(200).json({ lists: todoListArray, message: "Getting todo lists successful!" });
     } else if (req.method === "POST") {
         const newTodoList: TodoList = req.body;
+
+        const { isValid, message } = validateTodoList(newTodoList);
+        if (!isValid) {
+            client.close();
+            return res.status(400).json({ message });
+        }
+
         console.log("newTodoList:", newTodoList);
         let result;
         try {

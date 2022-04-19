@@ -67,12 +67,10 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                     onClick={themeSelectHandler.bind(null, theme)}
                                 >
                                     {currentTheme && theme.name === currentTheme.name && (
-                                        <>
-                                            <FontAwesomeIcon
-                                                icon={faCheck}
-                                                className={`${classes.icon} ${classes.check}`}
-                                            />
-                                        </>
+                                        <FontAwesomeIcon
+                                            icon={faCheck}
+                                            className={`${classes.icon} ${classes.check}`}
+                                        />
                                     )}
                                     {!theme.img && (
                                         <div

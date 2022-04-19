@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDatabase } from "../../../../db/mongodb-util";
 import { deleteSubTodo, updateSubTodo } from "../../../../db/todos-util";
+import { validateSubTodoProps } from "../../../../schemas/validation";
 
 type Data = { message: string };
 
@@ -25,6 +26,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === "PATCH") {
         const subTodoProps = req.body;
+
+        const { isValid, message } = validateSubTodoProps(subTodoProps);
+        if (!isValid) {
+            client.close();
+            return res.status(400).json({ message });
+        }
+
         try {
             let result = await updateSubTodo(client, subTodoId, subTodoProps);
         } catch (err) {

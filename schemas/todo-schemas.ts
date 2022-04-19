@@ -5,15 +5,15 @@ import { SubTodo } from "../models/todo-models/SubTodo";
 
 // ID is generated from the server, so does not have to provide from the client.
 // Schemas for creation
-export const TodoListSchema: Joi.ObjectSchema<TodoList> = Joi.object({
+export const todoListSchema: Joi.ObjectSchema<TodoList> = Joi.object({
     id: Joi.string(),
     name: Joi.string().required().min(3).max(60),
-    description: Joi.string().required(),
-    userId: Joi.number().required(),
-    theme: Joi.object(),
+    description: Joi.string().allow("").required(),
+    userId: Joi.string().required(),
+    themeId: Joi.string(),
 });
 
-export const TodoSchema: Joi.ObjectSchema<Todo> = Joi.object({
+export const todoSchema: Joi.ObjectSchema<Todo> = Joi.object({
     id: Joi.string(),
     name: Joi.string().required().min(3).max(60),
     isImportant: Joi.boolean().required(),
@@ -22,12 +22,12 @@ export const TodoSchema: Joi.ObjectSchema<Todo> = Joi.object({
     updatedAt: Joi.string(),
     duration: Joi.number(),
     dateTime: Joi.string(),
-    note: Joi.string(),
+    note: Joi.string().empty(""),
     listId: Joi.string().required(),
     userId: Joi.string().required(),
 });
 
-export const SubTodoSchema: Joi.ObjectSchema<SubTodo> = Joi.object({
+export const subTodoSchema: Joi.ObjectSchema<SubTodo> = Joi.object({
     id: Joi.string(),
     name: Joi.string().required().min(3).max(60),
     order: Joi.number().required(),
@@ -37,14 +37,14 @@ export const SubTodoSchema: Joi.ObjectSchema<SubTodo> = Joi.object({
 });
 
 // Schemas for patch & update
-export const TodoListPropsSchema: Joi.ObjectSchema<any> = Joi.object({
+export const todoListPropsSchema: Joi.ObjectSchema<any> = Joi.object({
     name: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().empty(""),
     userId: Joi.string(),
-    theme: Joi.object(),
+    themeId: Joi.string(),
 });
 
-export const TodoPropsSchema: Joi.ObjectSchema<Todo> = Joi.object({
+export const todoPropsSchema: Joi.ObjectSchema<Todo> = Joi.object({
     name: Joi.string().min(3).max(60),
     isImportant: Joi.boolean(),
     isCompleted: Joi.boolean(),
@@ -52,10 +52,10 @@ export const TodoPropsSchema: Joi.ObjectSchema<Todo> = Joi.object({
     updatedAt: Joi.string(),
     duration: Joi.number(),
     dateTime: Joi.string(),
-    note: Joi.string(),
+    note: Joi.string().empty(""),
 });
 
-export const SubTodoPropsSchema: Joi.ObjectSchema<any> = Joi.object({
+export const subTodoPropsSchema: Joi.ObjectSchema<any> = Joi.object({
     // id: Joi.string(),
     name: Joi.string(),
     order: Joi.number(),

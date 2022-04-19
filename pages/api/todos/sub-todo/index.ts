@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDatabase } from "../../../../db/mongodb-util";
 import { insertSubTodo, updateSubTodo } from "../../../../db/todos-util";
+import { validateSubTodo } from "../../../../schemas/validation";
 
 type Data = { message: string } | { message: string; insertedId: string };
 
@@ -22,6 +23,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === "POST") {
         const newSubTodo = req.body;
+
+        const { isValid, message } = validateSubTodo(newSubTodo);
+        if (!isValid) {
+            client.close();
+            return res.status(400).json({ message });
+        }
+
         let result;
         try {
             result = await insertSubTodo(client, newSubTodo);

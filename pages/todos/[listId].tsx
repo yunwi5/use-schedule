@@ -51,7 +51,6 @@ const NewTodoPage: NextPage<Props> = (props) => {
         isNew: boolean,
     ): Promise<boolean> => {
         if (isNew) {
-            alert("Cannot be new!");
             return false;
         } else {
             // Send PUT request and then invalidate query
@@ -112,9 +111,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         if (!todoList) {
             return { notFound: true };
         }
-
-        console.log(todos);
-
+        // console.log(todos);
         const userId = session.user.sub;
         return {
             props: {

@@ -6,6 +6,7 @@ import { deleteTodo, getSubTodos, updateTodo } from "../../../../db/todos-util";
 import { TodoProps } from "../../../../models/todo-models/Todo";
 import { SubTodo } from "../../../../models/todo-models/SubTodo";
 import { convertToAppObjectList } from "../../../../utilities/gen-utils/object-util";
+import { validateTodoProps } from "../../../../schemas/validation";
 
 type Data = { message: string } | { message: string; subTodos: SubTodo[] };
 
@@ -41,6 +42,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     } else if (req.method === "PATCH") {
         // Needs validation here
         const updatedTodoProps: TodoProps = req.body;
+
+        const { isValid, message } = validateTodoProps(updatedTodoProps);
+        console.log(updatedTodoProps);
+        console.log(`PATCH Todo validation: ${isValid}, message: ${message}`);
+        if (!isValid) {
+            client.close();
+            return res.status(400).json({ message });
+        }
+
         try {
             let result = await updateTodo(client, todoId, updatedTodoProps);
             // console.log(result);

@@ -6,9 +6,8 @@ import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
 import { Todo, TodoProps } from "../../../models/todo-models/Todo";
 import CheckToggler from "../../ui/icons/CheckToggler";
 import TodoDuration from "./TodoDuration";
-import classes from "./TodoDetail.module.scss";
 import TodoDateTime from "./TodoDateTime";
-import { addDays } from "../../../utilities/time-utils/date-control";
+import classes from "./TodoDetail.module.scss";
 
 interface Props {
     onMutateTodo: (id: string, todoProps: TodoProps) => void;
@@ -33,7 +32,8 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
 
     const dateTimeHandler = useCallback((newDateStr: string) => {
         if (!newDateStr) return;
-        setDateTime(new Date(newDateStr));
+        const newDate = new Date(`${newDateStr} 23:59:59`);
+        setDateTime(newDate);
     }, []);
 
     const noteHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -75,10 +75,10 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
             <TodoDuration duration={duration} onChange={durationHandler} isEditing={isEditing} />
 
             <div className={`${classes.section} ${classes.note}`}>
-                <label htmlFor='todo-note'>Note</label>
+                <label htmlFor="todo-note">Note</label>
                 {!isEditing && <p className={classes.value}>{note ? note : defaultValue}</p>}
                 {isEditing && (
-                    <textarea id='todo-note' value={note} onChange={noteHandler} rows={3} />
+                    <textarea id="todo-note" value={note} onChange={noteHandler} rows={3} />
                 )}
             </div>
         </div>
