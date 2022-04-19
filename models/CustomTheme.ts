@@ -98,10 +98,10 @@ export const ThemesList: CustomTheme[] = [
     beachSunsetTheme,
     cityBridgeTheme,
     eiffelTowerTheme,
-    sydneyTheme,
+    // sydneyTheme,
     oceanCleanTheme,
     philadelphiaCityHallTheme,
-    // metropolitanSkylineTheme,
+    metropolitanSkylineTheme,
 ];
 
 export function getStaticThemeImagePath(theme: CustomTheme | null) {

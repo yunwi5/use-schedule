@@ -72,16 +72,16 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
         >
             <ActiveNavLink
                 href={"/calendar"}
-                className={`text-[1.4rem] text-gray-100 mt-1 border-l-[2.7px] border-transparent`}
-                activeClassName='pl-2 font-bold brightness-105 border-l-[2.5px] text-blue-300 border-sky-300 border-blue-300'
+                className={`text-[1.4rem] text-gray-100 hover:text-sky-300 mt-1 border-l-[2.7px] border-transparent`}
+                activeClassName="pl-2 font-bold brightness-105 border-l-[2.5px] text-blue-300 border-sky-300 border-blue-300"
             >
                 Calendar
             </ActiveNavLink>
             <div>
-                <NavList listName='Periodic Planners' items={timePlannerItems} />
-                <NavList listName='Planner Templates' items={templateItems} />
-                <NavList listName='Data Analysis' items={dataAnalysisItems} />
-                <NavList listName='Custom Lists' items={todoItems} />
+                <NavList listName="Periodic Planners" items={timePlannerItems} />
+                <NavList listName="Planner Templates" items={templateItems} />
+                <NavList listName="Data Analysis" items={dataAnalysisItems} />
+                <NavList listName="Custom Lists" items={todoItems} />
             </div>
         </nav>
     );

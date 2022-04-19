@@ -8,6 +8,20 @@ export function getShortNameWithRest(name: string, numChars: number, numRests: n
     return `${shortName}${rest}`;
 }
 
+// Different from shortName. It gets first letter of the name.
+// For example, name is 'Fernando Tatis Junior', then the initial will be 'FT'.
+export function getNameInitial(name: string | null | undefined) {
+    if (!name) return "U";
+    const words = name.split(" ");
+
+    let initial = words
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase()
+        .substring(0, 2);
+    return initial;
+}
+
 // Case insensitive search.
 export function searchContains(searchWord: string, word: string): boolean {
     const searchLower = searchWord.toLowerCase().trim();

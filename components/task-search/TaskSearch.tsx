@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { PlannerTask } from "../../models/task-models/Task";
-import PageNav from "../ui/PageNav";
-import SearchTaskList from "./SearchTaskList";
-import TaskSort from "./TaskSorter";
 import { SortingDirection, TaskSort as SortingStandard } from "../../models/sorting-models";
 import { sortTasks } from "../../utilities/sort-utils/task-sort-util";
 import { shuffleList } from "../../utilities/gen-utils/list-util";
+import { adjustOverdueTasks } from "../../utilities/tasks-utils/task-util";
+import SearchTaskList from "./SearchTaskList";
+import TaskSort from "./TaskSorter";
+import PageNav from "../ui/PageNav";
 import classes from "./TaskSearch.module.scss";
 
 interface Props {
@@ -57,22 +58,20 @@ const TaskSearch: React.FC<Props> = (props) => {
     }, [page, currentTasks]);
 
     useEffect(() => {
+        adjustOverdueTasks(searchedTasks);
         setCurrentTasks(searchedTasks);
     }, [searchedTasks]);
 
-    console.log("sortedTasks:");
-    console.table(currentTasks);
-
     return (
         <main className={`mx-auto py-[50px] ${classes.search}`}>
-            <h2 className='text-4xl text-slate-600 mb-5'>
+            <h2 className="text-4xl text-slate-600 mb-5">
                 Tasks that match your search{" "}
-                <span className='text-slate-400'>&quot;{searchWord}&quot;</span>
+                <span className="text-slate-400">&quot;{searchWord}&quot;</span>
             </h2>
-            <div className='flex justify-between mt-9'>
+            <div className="flex justify-between mt-9">
                 <TaskSort onSort={sortingHandler} onRandomize={randomizeHandler} />
                 {/* self-end h-[0px] max-w-xl text-right text-xl font-semibold text-slate-500 translate-y-[1.5rem] pr-2 */}
-                <h5 className='self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2'>
+                <h5 className="self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
                     {taskLength} Tasks Found
                 </h5>
             </div>

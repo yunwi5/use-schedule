@@ -63,3 +63,7 @@ export function isOverdue(task: Task): boolean {
 export function adjustIfOverdueTask(task: Task): void {
     if (isOverdue(task)) task.status = TaskStatus.OVERDUE;
 }
+
+export function adjustOverdueTasks(tasks: Task[]): void {
+    tasks.forEach((task) => adjustIfOverdueTask(task));
+}
