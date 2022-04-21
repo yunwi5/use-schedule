@@ -1,6 +1,8 @@
 import React from "react";
-import classes from "../Home.module.scss";
+
+import { getAppImagePath } from "../helper";
 import PlannerFeature from "./Feature";
+import classes from "../Home.module.scss";
 
 const Features: React.FC = () => {
     const featuresList = [plannerFeature, tmeplateFeature, customListFeature];
@@ -10,8 +12,6 @@ const Features: React.FC = () => {
             <h1 className={classes.heading}>Features We Have</h1>
             <div className="flex flex-col gap-16">
                 {featuresList.map((feature, idx) => {
-                    console.log("index:", idx);
-                    console.log("is reverse:", idx % 2 == 1);
                     return <PlannerFeature key={idx} {...feature} isEven={idx % 2 == 0} />;
                 })}
             </div>
@@ -21,7 +21,7 @@ const Features: React.FC = () => {
 
 const plannerFeature = {
     name: "planner",
-    mainImg: "/app-images/planner2-ex.jpg",
+    mainImg: getAppImagePath("planner2-ex.jpg"),
     headingLabel: "Periodic planners",
     heading: "Complete schedular that makes your life compact",
     paragraph1:
@@ -33,7 +33,7 @@ const plannerFeature = {
 
 const tmeplateFeature = {
     name: "template",
-    mainImg: "/app-images/template-ex.jpg",
+    mainImg: getAppImagePath("template-ex.jpg"),
     headingLabel: "Time table template",
     heading: "Life booster that can speed your scheduling process",
     paragraph1:
@@ -45,7 +45,7 @@ const tmeplateFeature = {
 
 const customListFeature = {
     name: "custom-list",
-    mainImg: "/app-images/custom-list-ex.jpg",
+    mainImg: getAppImagePath("custom-list-ex.jpg"),
     headingLabel: "Custom Todo List",
     heading: "Custom thematic todo list highly specific to your needs",
     paragraph1:
