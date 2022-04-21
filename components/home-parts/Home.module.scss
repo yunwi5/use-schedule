@@ -1,0 +1,97 @@
+@import "../../styles/main";
+
+.heading {
+    font-size: 2.8rem;
+    line-height: 3rem;
+
+    @include respond(tab-land) {
+        font-size: 2.5rem;
+    }
+}
+
+.icon {
+    max-width: 2rem;
+    cursor: pointer;
+}
+
+.intro {
+    position: relative;
+    overflow-y: hidden;
+    height: clamp(500px, 91vh, 1200px);
+    // background-image: linear-gradient($color-primary-light-2, $color-primary-light-1);
+
+    & > span {
+        @include img-background;
+        height: 100% !important;
+    }
+
+    .background {
+        position: absolute;
+        opacity: 0.72;
+        left: 0;
+        top: 0;
+        z-index: 0;
+        filter: brightness(70%);
+        display: block;
+        object-fit: cover;
+    }
+
+    .content {
+        position: relative;
+        z-index: 3;
+        color: $color-primary;
+        text-align: center;
+    }
+}
+
+.feedback {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr 2.5fr;
+
+    @include respond(tab-land) {
+        .content {
+            font-size: 1.1rem;
+        }
+    }
+
+    .content {
+        grid-row: 2 / span 1;
+    }
+
+    .img-wrapper {
+        grid-column: 2 / -1;
+        grid-row: 1 / 3;
+        max-height: 22rem;
+        overflow: hidden;
+    }
+
+    .feedback-img {
+        border-radius: 3px;
+        object-fit: cover;
+        box-shadow: $shadow-dark;
+    }
+
+    @media only screen and (max-width: 1010px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content 2fr 2.5fr;
+        grid-row-gap: 2rem;
+
+        .heading {
+            grid-row: 1/ 2;
+        }
+
+        .img-wrapper,
+        .content {
+            grid-column: 1 / -1;
+        }
+
+        .img-wrapper {
+            grid-row: 2 / 3;
+        }
+
+        .content {
+            grid-row: 3 / 4;
+        }
+    }
+}

@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/pro-duotone-svg-icons";
 
 import HeaderSearch from "./HeaderSearch";
-import classes from "../Layout.module.scss";
-import styles from "./Header.module.scss";
 import UserPicCircle from "../../ui/design-elements/UserPicCircle";
+import headerClasses from "./Header.module.scss";
+import layoutClasses from "../Layout.module.scss";
 
 interface Props {
     onToggleSidebar: () => void;
@@ -16,21 +16,24 @@ interface Props {
 const Header: React.FC<Props> = ({ onToggleSidebar }) => {
     const [showSearch, setShowSearch] = useState(true); // Show or hide full searchbar on the mobile screen
     const { user, isLoading } = useUser();
-    console.log("user:", user);
 
     const isLoggedIn = user && !isLoading;
 
     return (
-        <header className={`text-slate-700 bg-slate-200 ${classes.header} ${styles.header}`}>
+        <header
+            className={`text-slate-700 bg-slate-200 ${layoutClasses.header} ${headerClasses.header}`}
+        >
             {/* Left Side */}
-            <div className={`${styles.heading}`}>
+            <div className={`${headerClasses.heading}`}>
                 <FontAwesomeIcon
                     icon={faBars}
                     className="max-w-[1.5rem] text-2xl cursor-pointer"
                     onClick={onToggleSidebar}
                 />
                 <Link href="/">
-                    <a className={`text-2xl ml-4 ${showSearch ? styles.hide : ""}`}>Task Manager</a>
+                    <a className={`text-2xl ml-4 ${showSearch ? headerClasses.hide : ""}`}>
+                        Task Manager
+                    </a>
                 </Link>
                 <HeaderSearch onShowSearch={setShowSearch} showSearch={showSearch} />
             </div>

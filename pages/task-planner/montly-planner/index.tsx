@@ -23,7 +23,6 @@ async function getTasks() {
 }
 
 const MontlyPlanner: NextPage<Props> = ({ initialTasks }) => {
-    // useSWR() to fetch the data.
     const queryClient = useQueryClient();
     const { data, isLoading, error } = useQuery("tasks", getTasks, {
         initialData: { tasks: initialTasks },
@@ -43,12 +42,12 @@ const MontlyPlanner: NextPage<Props> = ({ initialTasks }) => {
             <Head>
                 <title>Montly Task Planner</title>
                 <meta
-                    name='description'
-                    content='Montly task planner for users to manage and allocate their tasks'
+                    name="description"
+                    content="Montly task planner for users to manage and allocate their tasks"
                 />
             </Head>
             {!data && (
-                <div className='flex justify-center items-center mt-6'>
+                <div className="flex justify-center items-center mt-6">
                     <LoadingSpinner />
                 </div>
             )}

@@ -21,7 +21,7 @@
 
 	.content {
 		transition: all $delay ease-in-out;
-		max-width: 90rem;
+		// max-width: 90rem;
 	}
 
 	.footer {
@@ -36,6 +36,7 @@
 		justify-self: center;
 		grid-row: 2 / span 1;
 		grid-column: 1 / -1;
+		width: 100%;		// added
 	}
 
 	.sidenav {

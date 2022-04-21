@@ -19,6 +19,7 @@ export function getNameInitial(name: string | null | undefined) {
         .join("")
         .toUpperCase()
         .substring(0, 2);
+    console.log("initial:", initial);
     return initial;
 }
 

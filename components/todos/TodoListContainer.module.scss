@@ -7,11 +7,8 @@
 
     // Next JS image adjustment.
     & > span {
-        position: absolute !important;
-        width: 100% !important;
-        height: 100% !important;
+        @include img-background;
     }
-
 }
 
 .img {

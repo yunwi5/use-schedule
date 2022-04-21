@@ -30,11 +30,7 @@ const NewTodoPage: NextPage<Props> = (props) => {
     const listId = initialList.id;
 
     const queryClient = useQueryClient();
-    const {
-        data: listData,
-        isLoading: isListLoading,
-        error: listError,
-    } = useQuery(["todo-list", listId], getTodoList, {
+    const { data: listData, error: listError } = useQuery(["todo-list", listId], getTodoList, {
         initialData: { list: initialList, todos: initialTodos },
     });
 
@@ -96,23 +92,19 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
                 },
             };
         }
-        console.log("params:", params);
-        console.log("query:", query);
-
+        const userId = session.user.sub;
         const { listId: initialId } = query;
         const listId = Array.isArray(initialId) ? initialId.join("") : initialId;
 
         if (!listId) {
-            return { notFound: true };
+            return { notFound: true, message: "List id is required." };
         }
 
         const [todoList, todos] = await getTodoListAndItemsFromPage(listId);
 
         if (!todoList) {
-            return { notFound: true };
+            return { notFound: true, message: "Your list is not found." };
         }
-        // console.log(todos);
-        const userId = session.user.sub;
         return {
             props: {
                 userId,

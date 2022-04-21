@@ -15,6 +15,7 @@ function isProfilePicture(picLink: string | null | undefined) {
 
 const UserPicCircle: React.FC<Props> = ({ pictureLink, userName }) => {
     const pictureDisplayable = isProfilePicture(pictureLink);
+    const userInitial = getNameInitial("Yun Jo");
 
     return (
         <div
@@ -26,7 +27,7 @@ const UserPicCircle: React.FC<Props> = ({ pictureLink, userName }) => {
                 // Got error with next/image (external link not allowed)
                 <img src={pictureLink} alt={userName || "User"} className="object-cover" />
             )}
-            {!pictureDisplayable && <div>{getNameInitial(userName)}</div>}
+            {!pictureDisplayable && <div className="tracking-wider">{userInitial}</div>}
         </div>
     );
 };
