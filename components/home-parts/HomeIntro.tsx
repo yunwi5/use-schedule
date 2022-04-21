@@ -13,15 +13,23 @@ const HomeIntro: React.FC = () => {
     const appName = process.env.APP_NAME;
     return (
         <section
-            className={`h-full min-h-[90wh] w-[100%] bg-slate-400 flex items-center justify-center ${classes.intro}`}
+            className={`h-full min-h-[90wh] w-[100%] bg-slate-500 flex items-center justify-center ${classes.intro}`}
         >
+            {/* Next Image is not loading. Why is it happening? */}
             <Image
-                src={getHomeImagePath("blue-table.jpg")}
-                alt="Home background"
+                src="/home-images/blue-table.jpg"
+                alt=""
                 layout="responsive"
                 width="100"
                 height="100"
                 quality={100}
+                className={classes["background"]}
+            />
+            <img
+                src="/home-images/blue-table.jpg"
+                alt="Home background"
+                width="100"
+                height="100"
                 className={classes["background"]}
             />
             <div className={`z-2 flex flex-col gap-9 px-5 ${classes.content}`}>

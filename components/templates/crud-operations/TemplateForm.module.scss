@@ -24,7 +24,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: .6rem;
-		padding: 0 .6rem;
 		input,
 		textarea {
 			border: 1px solid transparent;
@@ -43,6 +42,10 @@
 				outline: none;
 			}
 		}
+	}
+
+	.control, .action {
+		padding: 0 .6rem;
 	}
 
 	.desc {

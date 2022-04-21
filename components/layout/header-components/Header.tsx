@@ -40,10 +40,10 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
 
             {/* Right side */}
             <div className={`space-x-5 text-lg font-semibold text-slate-500 flex items-center`}>
-                <Link href="/api/auth/login">
+                <Link href="/about">
                     <a className={linkClass}>About</a>
                 </Link>
-                <Link href="/api/auth/login">
+                <Link href="/contact">
                     <a className={linkClass}>Contact</a>
                 </Link>
                 {!isLoggedIn && (

@@ -14,6 +14,7 @@ function isProfilePicture(picLink: string | null | undefined) {
 }
 
 const UserPicCircle: React.FC<Props> = ({ pictureLink, userName }) => {
+    console.log("piclink:", pictureLink);
     const pictureDisplayable = isProfilePicture(pictureLink);
     const userInitial = getNameInitial("Yun Jo");
 

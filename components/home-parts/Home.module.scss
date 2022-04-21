@@ -9,9 +9,25 @@
     }
 }
 
+.sub-heading {
+    font-size: 2.3rem;
+    line-height: 2.5rem;
+
+    @include respond(tab-land) {
+        font-size: 2.05rem;
+    }
+}
+
 .icon {
-    max-width: 2rem;
+    max-width: 1.6rem;
     cursor: pointer;
+    display: inline;
+}
+
+@mixin home-image {
+    border-radius: 3px;
+    object-fit: cover;
+    box-shadow: $shadow-dark;
 }
 
 .intro {
@@ -26,6 +42,8 @@
     }
 
     .background {
+        width: 100%;
+        height: 100%;
         position: absolute;
         opacity: 0.72;
         left: 0;
@@ -41,6 +59,75 @@
         z-index: 3;
         color: $color-primary;
         text-align: center;
+    }
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .img-container {
+        display: grid;
+        grid-template-columns: repeat(8, 5rem);
+        grid-template-rows: repeat(10, 2.25rem);
+        position: relative;
+
+        @include respond(tab-port) {
+            grid-template-columns: repeat(8, 4rem);
+            grid-template-rows: repeat(10, 1.8rem);
+        }
+
+        @include respond(phone) {
+            grid-template-columns: repeat(8, 3rem);
+            grid-template-rows: repeat(10, 1.35rem);
+        }
+
+        .img-main {
+            grid-row: 1 / -1;
+            grid-column: 1 / -1;
+            position: relative;
+
+            & > span {
+                height: 100% !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .feature-img {
+                height: 100%;
+                object-fit: fill !important;
+            }
+        }
+    }
+
+    .feature-img {
+        width: 100%;
+        height: 100%;
+        @include home-image;
+    }
+
+    .feature-reverse {
+        .content {
+            order: 2;
+        }
+        .img-container-horizontal {
+            order: 3;
+        }
+    }
+
+    .img-container-horizontal {
+        @media only screen and (max-width: 1050px) {
+            display: none;
+        }
+    }
+    .img-container-vertical {
+        display: none;
+        max-height: 20rem;
+        overflow: hidden;
+        @media only screen and (max-width: 1050px) {
+            display: grid;
+        }
     }
 }
 
@@ -67,14 +154,12 @@
     }
 
     .feedback-img {
-        border-radius: 3px;
-        object-fit: cover;
-        box-shadow: $shadow-dark;
+        @include home-image;
     }
 
     @media only screen and (max-width: 1010px) {
         grid-template-columns: 1fr;
-        grid-template-rows: min-content 2fr 2.5fr;
+        grid-template-rows: min-content 2fr max-content;
         grid-row-gap: 2rem;
 
         .heading {
