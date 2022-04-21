@@ -5,7 +5,7 @@ import HomeIntro from "./HomeIntro";
 
 const HomeMain: React.FC = () => {
     return (
-        <main className={"bg-slate-100 h-[100%]"}>
+        <main className={"bg-slate-50 h-[100%]"}>
             <HomeIntro />
             <Features />
             <HomeFeedback />
