@@ -1,5 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import ContactMain from "../components/contact/ContactMain";
 
 const Contact: NextPage = () => {
     return (
@@ -13,7 +14,7 @@ const Contact: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div>
-                <h1 className="text-4xl text-center">Contact Page</h1>
+                <ContactMain />
             </div>
         </>
     );

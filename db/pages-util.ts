@@ -1,14 +1,13 @@
 import { MongoClient, ObjectId } from "mongodb";
+
+import { clientPromise } from "./mongodb-util";
+import { TaskCollection, TemplateCollection, TodoCollection } from "./mongodb-constant";
 import { Todo } from "../models/todo-models/Todo";
 import { TodoList } from "../models/todo-models/TodoList";
 import { convertToTodoList, convertToTodos } from "../utilities/todos-utils/todo-util";
-import { getItems } from "./generic";
-
-import { TaskCollection, TemplateCollection, TodoCollection } from "./mongodb-constant";
 import { getTasks } from "./tasks-util";
+import { getItems } from "./generic";
 import { getTodoListAndItems } from "./todos-util";
-
-const clientPromise = MongoClient.connect(process.env.MONGODB_URL || "");
 
 // Get tasks from getStaticProps or getServerSideProps
 export async function getTasksFromPage(collection: string, userId: string) {

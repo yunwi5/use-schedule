@@ -1,0 +1,33 @@
+@import "../../styles/main";
+
+.form {
+    .input {
+        border-radius: 3px;
+        padding: 0.3rem 0.75rem;
+        box-shadow: $shadow-light;
+        background-color: #fff;
+        border: 1.5px solid transparent;
+
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-secondary;
+            box-shadow: 0 2rem 5rem rgba(0, 0, 0, .15);;
+        }
+
+        &:disabled {
+            border: 1px solid $color-primary;
+            color: $color-primary-dark-1;
+            box-shadow: none;
+        }
+    }
+
+    [aria-invalid="true"] {
+        border: 1.5px solid rgb(236, 72, 153);
+        color: rgb(236, 72, 153);
+    }
+
+    [aria-invalid="true"]:focus {
+        border: 1.5px solid rgb(236, 72, 153);
+        background-color: rgb(253, 242, 248);
+    }
+}

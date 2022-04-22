@@ -13,3 +13,6 @@ export const TemplateCollection = "templates";
 export const TodoListCollection = "todo-lists";
 export const TodoCollection = "todos";
 export const SubTodoCollection = "sub-todos";
+
+// Contact section
+export const ContactCollection = "contacts";
