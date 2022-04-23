@@ -7,8 +7,8 @@ const ContactMain: React.FC = () => {
     const { email } = userContext.user || { name: "", user: "" };
 
     return (
-        <main className="px-16 py-10 max-w-[60rem] m-auto">
-            <h1 className="mb-4 capitalize text-[3rem] text-slate-500 font-normal">Contact Us</h1>
+        <main className="px-4 pt-6 pb-12 md:px-8 lg:px-12 lg:pt-10 xl:px-16 xl:pt-14 xl:pb-16 max-w-[60rem] m-auto">
+            <h1 className="mb-4 text-slate-500 font-normal app-heading">Contact Us</h1>
             <ContactForm email={email || ""} />
         </main>
     );

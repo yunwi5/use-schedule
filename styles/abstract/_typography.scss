@@ -5,6 +5,19 @@
 	font-weight: 400;
 }
 
+.app-heading {
+	font-size: 2.8rem;
+    line-height: 3rem;
+
+    @include respond(tab-land) {
+        font-size: 2.5rem;
+    }
+
+	@include respond(phone) {
+		font-size: 2.2rem;
+	}
+}
+
 .status-open {
 	color: rgb(15, 118, 110) !important;
 }

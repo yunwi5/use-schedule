@@ -71,8 +71,14 @@ ORDER: Base + Typography > general layout + grid > page layout > components
 */
 
 @mixin respond($breakpoint) {
-    @if ($breakpoint == phone) {
+    @if ($breakpoint == phone-small) {
         // If someone tries to print out the page, this media query will not apply.
+        @media only screen and (max-width: 25em) {
+            // 400 px
+            @content;
+        }
+    }
+    @if ($breakpoint == phone) {
         @media only screen and (max-width: 37.5em) {
             // 600px
             @content;

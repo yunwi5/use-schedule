@@ -7,6 +7,10 @@
     @include respond(tab-land) {
         font-size: 2.5rem;
     }
+
+    @include respond(phone) {
+        font-size: 2rem;
+    }
 }
 
 .sub-heading {
@@ -15,6 +19,14 @@
 
     @include respond(tab-land) {
         font-size: 2.05rem;
+    }
+
+    @include respond(phone) {
+        font-size: 1.8rem;
+    }
+
+    @include respond(phone-small) {
+        font-size: 1.7rem;
     }
 }
 
@@ -30,15 +42,14 @@
     box-shadow: $shadow-dark;
 }
 
+// Section 1 Introduction
 .intro {
     position: relative;
     overflow-y: hidden;
     height: clamp(500px, 91vh, 1200px);
-    // background-image: linear-gradient($color-primary-light-2, $color-primary-light-1);
 
     & > span {
         @include img-background;
-        height: 100% !important;
     }
 
     .background {
@@ -48,7 +59,6 @@
         opacity: 0.72;
         left: 0;
         top: 0;
-        z-index: 0;
         filter: brightness(70%);
         display: block;
         object-fit: cover;
@@ -62,6 +72,7 @@
     }
 }
 
+// Section 2 Features
 .features {
     display: flex;
     flex-direction: column;
@@ -81,6 +92,11 @@
         @include respond(phone) {
             grid-template-columns: repeat(8, 3rem);
             grid-template-rows: repeat(10, 1.35rem);
+        }
+
+        @include respond(phone-small) {
+            grid-template-columns: repeat(8, 2.6rem);
+            grid-template-rows: repeat(10, 1.17rem);
         }
 
         .img-main {
@@ -131,16 +147,11 @@
     }
 }
 
+// Section 3 Feedback
 .feedback {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 2.5fr;
-
-    @include respond(tab-land) {
-        .content {
-            font-size: 1.1rem;
-        }
-    }
 
     .content {
         grid-row: 2 / span 1;
@@ -157,6 +168,13 @@
         @include home-image;
     }
 
+    @include respond(tab-land) {
+        .content {
+            font-size: 1.1rem;
+        }
+    }
+
+    // adjust grid layout
     @media only screen and (max-width: 1010px) {
         grid-template-columns: 1fr;
         grid-template-rows: min-content 2fr max-content;
@@ -173,6 +191,7 @@
 
         .img-wrapper {
             grid-row: 2 / 3;
+            max-width: 40rem;
         }
 
         .content {

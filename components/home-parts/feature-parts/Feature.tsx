@@ -50,9 +50,11 @@ const PlannerFeature: React.FC<Props> = (props) => {
             } ${isEven ? "" : classes["feature-reverse"]} ${classes[`feature-${name}`]}`}
         >
             <ImgElement mainImg={mainImg} className={classes["img-container-horizontal"]} />
-            <div className={`px-6 py-2 flex flex-col gap-6 ${classes.content}`}>
+            <div className={`px-2 md:px-6 py-2 flex flex-col gap-6 ${classes.content}`}>
                 <div>
-                    <span className={`text-lg uppercase ${textHighlight}`}>{headingLabel}</span>
+                    <span className={`text-md md:text-lg uppercase ${textHighlight}`}>
+                        {headingLabel}
+                    </span>
                     <h2 className={`my-2 capitalize italic ${classes["sub-heading"]}`}>
                         {heading}
                     </h2>

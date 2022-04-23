@@ -56,7 +56,7 @@ const ContactForm: React.FC<Props> = ({ email }) => {
 
     return (
         <form
-            className={`px-6 pt-4 pb-6 flex flex-col gap-6 shadow-md text-slate-700 bg-slate-100 rounded-md border-2 border-slate-200 text-lg ${classes.form}`}
+            className={`px-3 py-3 md:px-6 md:pt-4 md:pb-6 flex flex-col gap-6 shadow-md text-slate-700 bg-slate-100 rounded-md border-2 border-slate-200 text-lg ${classes.form}`}
             onSubmit={handleSubmit(submitHandler)}
         >
             <div className="flex flex-col gap-3">
@@ -67,7 +67,7 @@ const ContactForm: React.FC<Props> = ({ email }) => {
                     />
                     Name
                 </label>
-                <div className={`flex gap-2 w-[100%] justify-between`}>
+                <div className={`flex flex-col md:flex-row gap-2 w-[100%] justify-between`}>
                     <div className="flex flex-col gap-2 flex-1">
                         <input
                             className={`${classes.input}`}
