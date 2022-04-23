@@ -80,16 +80,8 @@
 			display: flex;
 			align-items: center;
 		}
-
-		.label ~ time {
-		}
-
 		.label ~ .danger {
 			color: rgba(lighten($color-rose-dark-1, 5%), .9);
-		}
-
-		.label ~ .primary {
-			// color: $color-secondary-dark-1;
 		}
 	}
 

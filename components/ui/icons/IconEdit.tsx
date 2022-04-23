@@ -7,41 +7,50 @@ import classes from "./IconEdit.module.scss";
 import { Size } from "../../../models/design-models";
 
 interface Props {
-	isEditing: boolean;
-	onEdit: () => void;
-	onCheck: () => void;
-	onCancel: () => void;
+    isEditing: boolean;
+    onEdit: () => void;
+    onCheck: () => void;
+    onCancel: () => void;
     size?: Size;
+    className?: string;
 }
 
 const IconEdit: React.FC<Props> = (props) => {
-	const { isEditing, onEdit, onCheck, onCancel, size = Size.MEDIUM } = props;
+    const { isEditing, onEdit, onCheck, onCancel, size = Size.MEDIUM, className = "" } = props;
 
-	return (
-		<>
-			{!isEditing && (
-				<FontAwesomeIcon
-					icon={faPencilAlt}
-					onClick={onEdit}
-					className={`${classes.icon} ${classes['icon-' + size]} text-slate-700`}
-				/>
-			)}
-			{isEditing && (
-				<Fragment>
-					<FontAwesomeIcon
-						icon={faCheck}
-						onClick={onCheck}
-						className={`${classes.icon} ${classes['icon-' + size]} -translate-x-5 text-teal-600`}
-					/>
-					<FontAwesomeIcon
-						icon={faXmark}
-						className={`${classes.icon} ${classes['icon-' + size]} text-rose-600`}
-						onClick={onCancel}
-					/>
-				</Fragment>
-			)}
-		</>
-	);
+    return (
+        <>
+            {!isEditing && (
+                <div className={`absolute right-0 top-[50%] -translate-y-[50%]`}>
+                    <FontAwesomeIcon
+                        icon={faPencilAlt}
+                        onClick={onEdit}
+                        className={`${classes.icon} ${
+                            classes["icon-" + size]
+                        } text-sky-800 ${className}`}
+                    />
+                </div>
+            )}
+            {isEditing && (
+                <div className={`absolute right-0 top-[50%] -translate-y-[50%] flex gap-2`}>
+                    <FontAwesomeIcon
+                        icon={faCheck}
+                        onClick={onCheck}
+                        className={`${classes.icon} ${
+                            classes["icon-" + size]
+                        } text-teal-600 ${className}`}
+                    />
+                    <FontAwesomeIcon
+                        icon={faXmark}
+                        className={`${classes.icon} ${
+                            classes["icon-" + size]
+                        } text-rose-600 ${className}`}
+                        onClick={onCancel}
+                    />
+                </div>
+            )}
+        </>
+    );
 };
 
 export default IconEdit;

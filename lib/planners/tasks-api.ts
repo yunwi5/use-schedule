@@ -97,7 +97,8 @@ export async function updateTaskProperties(
 ) {
     const collection = getCollectionOfPlaner(plannerMode);
 
-    let res;
+    let res,
+        message = "";
     try {
         res = await fetch(`${API_DOMAIN}/task-update/${taskId}`, {
             method: "PATCH",
@@ -109,15 +110,13 @@ export async function updateTaskProperties(
                 "Content-Type": "application/json",
             },
         });
-
-        const data = await res.json();
-        console.log("Update data:", data);
     } catch (err) {
-        console.error(err);
+        message = err instanceof Error ? err.message : "Patching task props did not work.";
+        console.error(message);
     }
 
     if (!res || !res.ok) {
-        return { isSuccess: false };
+        return { isSuccess: false, message };
     }
-    return { isSuccess: true };
+    return { isSuccess: true, message: "Patching task props successful" };
 }

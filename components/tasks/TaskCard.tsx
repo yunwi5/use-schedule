@@ -19,7 +19,7 @@ import PlannerTaskEdit from "../planners/planner-crud/PlannerTaskEdit";
 import { AbstractTask } from "../../models/task-models/AbstractTask";
 import { PlannerTask } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { TaskStatus, TaskStatusList } from "../../models/task-models/Status";
+import { Status, StatusList } from "../../models/task-models/Status";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
 import { getDateMonthFormat } from "../../utilities/time-utils/date-format";
 import { updateTaskProperties } from "../../lib/planners/tasks-api";
@@ -76,14 +76,14 @@ const TaskCard: React.FC<Props> = (props) => {
     };
 
     const statusChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newStatus = e.target.value.trim() as TaskStatus;
+        const newStatus = e.target.value.trim() as Status;
         const taskCopy = copyClassObject(task);
         taskCopy.status = newStatus;
         setTask(taskCopy);
         updateStatusHandler(newStatus);
     };
 
-    const updateStatusHandler = async (newStatus: TaskStatus) => {
+    const updateStatusHandler = async (newStatus: Status) => {
         // API call
         await updateTaskProperties(task.id, { status: newStatus }, task.plannerType || plannerMode);
         onMutate();
@@ -173,7 +173,7 @@ const TaskCard: React.FC<Props> = (props) => {
                         className={classes.task__select}
                         defaultValue={status}
                     >
-                        {TaskStatusList.map((status) => (
+                        {StatusList.map((status) => (
                             <option key={status}>{status}</option>
                         ))}
                     </select>

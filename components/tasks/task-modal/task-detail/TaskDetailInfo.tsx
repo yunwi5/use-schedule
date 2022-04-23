@@ -24,50 +24,7 @@ import { getImportanceValue } from "../../../../models/task-models/Status";
 import { ButtonTheme } from "../../../../models/design-models";
 import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
 import classes from "./TaskDetail.module.scss";
-
-function hasSetTime(date: Date) {
-    const is12am = date.getHours() === 0 && date.getMinutes() === 0;
-    const isEndOfDay = date.getHours() === 23 && date.getMinutes() === 59;
-    // console.log(date.getHours(), date.getMinutes());
-    return !(is12am || isEndOfDay);
-}
-
-function getTaskDetailDateTimeFormat(task: AbstractTask, defaultValue: string = "-") {
-    let plannedDateFormat = "",
-        dueDateFormat = "",
-        endTimeFormat = "";
-    switch (task.plannerType) {
-        case PlannerMode.WEEKLY:
-        case PlannerMode.TEMPLATE:
-            plannedDateFormat = task.planDateFormat;
-            endTimeFormat = task.endTimeFormat || defaultValue;
-            dueDateFormat = task.dueDateFormat || defaultValue;
-            break;
-        case PlannerMode.MONTLY:
-        case PlannerMode.YEARLY:
-            plannedDateFormat = hasSetTime(task.dateTime)
-                ? getDateTimeFormat(task.dateTime)
-                : getFullDateFormat(task.dateTime);
-            dueDateFormat = !task.dueDate
-                ? defaultValue
-                : hasSetTime(task.dueDate)
-                ? getDateTimeFormat(task.dueDate)
-                : getFullDateFormat(task.dueDate);
-            endTimeFormat = task.endTimeFormat || defaultValue;
-            break;
-    }
-
-    if (task.isAnyDateTime) {
-        plannedDateFormat = "Any Time";
-        endTimeFormat = defaultValue;
-    }
-
-    return {
-        plannedDateFormat,
-        dueDateFormat,
-        endTimeFormat,
-    };
-}
+import TaskStatus from "./TaskStatus";
 
 interface Props {
     onClose: () => void;
@@ -88,13 +45,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
     return (
         <Fragment>
             <div className={classes.grid}>
-                <div className={classes.item}>
-                    <div className={classes.label}>
-                        <FontAwesomeIcon icon={faClipboardCheck} className={classes.icon} /> Status
-                    </div>
-                    <p className={`${classes.value}`}>{status}</p>
-                </div>
-
+                <TaskStatus task={task} />
                 <div className={classes.item}>
                     <div className={classes.label}>
                         <FontAwesomeIcon icon={faStarExclamation} className={classes.icon} />
@@ -103,7 +54,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
                     <p className={classes.value}>
                         {importance}
                         <Rating
-                            name='importance-rating'
+                            name="importance-rating"
                             className={classes.rating}
                             value={getImportanceValue(importance)}
                             readOnly
@@ -181,5 +132,49 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
         </Fragment>
     );
 };
+
+function hasSetTime(date: Date) {
+    const is12am = date.getHours() === 0 && date.getMinutes() === 0;
+    const isEndOfDay = date.getHours() === 23 && date.getMinutes() === 59;
+    // console.log(date.getHours(), date.getMinutes());
+    return !(is12am || isEndOfDay);
+}
+
+function getTaskDetailDateTimeFormat(task: AbstractTask, defaultValue: string = "-") {
+    let plannedDateFormat = "",
+        dueDateFormat = "",
+        endTimeFormat = "";
+    switch (task.plannerType) {
+        case PlannerMode.WEEKLY:
+        case PlannerMode.TEMPLATE:
+            plannedDateFormat = task.planDateFormat;
+            endTimeFormat = task.endTimeFormat || defaultValue;
+            dueDateFormat = task.dueDateFormat || defaultValue;
+            break;
+        case PlannerMode.MONTLY:
+        case PlannerMode.YEARLY:
+            plannedDateFormat = hasSetTime(task.dateTime)
+                ? getDateTimeFormat(task.dateTime)
+                : getFullDateFormat(task.dateTime);
+            dueDateFormat = !task.dueDate
+                ? defaultValue
+                : hasSetTime(task.dueDate)
+                ? getDateTimeFormat(task.dueDate)
+                : getFullDateFormat(task.dueDate);
+            endTimeFormat = task.endTimeFormat || defaultValue;
+            break;
+    }
+
+    if (task.isAnyDateTime) {
+        plannedDateFormat = "Any Time";
+        endTimeFormat = defaultValue;
+    }
+
+    return {
+        plannedDateFormat,
+        dueDateFormat,
+        endTimeFormat,
+    };
+}
 
 export default TaskDetailInfo;

@@ -1,6 +1,6 @@
 import { Task } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { TaskStatus } from "../../models/task-models/Status";
+import { Status } from "../../models/task-models/Status";
 import { SubTask } from "../../models/task-models/SubTask";
 
 export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
@@ -50,9 +50,9 @@ export function isAnyPlanTime(beginningPeriod: Date, date: Date | string) {
 export function isOverdue(task: Task): boolean {
     if (!task.dueDateString) return false;
     if (
-        task.status === TaskStatus.COMPLETED ||
-        task.status === TaskStatus.IN_PROGRESS ||
-        task.status === TaskStatus.CANCELLED
+        task.status === Status.COMPLETED ||
+        task.status === Status.IN_PROGRESS ||
+        task.status === Status.CANCELLED
     )
         return false;
     const current = new Date();
@@ -61,7 +61,7 @@ export function isOverdue(task: Task): boolean {
 }
 
 export function adjustIfOverdueTask(task: Task): void {
-    if (isOverdue(task)) task.status = TaskStatus.OVERDUE;
+    if (isOverdue(task)) task.status = Status.OVERDUE;
 }
 
 export function adjustOverdueTasks(tasks: Task[]): void {

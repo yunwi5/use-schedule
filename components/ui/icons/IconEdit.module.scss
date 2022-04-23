@@ -1,8 +1,10 @@
 .icon {
 	cursor: pointer;
-	position: absolute;
-	right: 0;
 	max-width: 1.5rem;
+}
+
+.icon-small {
+	font-size: 100%;
 }
 
 .icon-medium {

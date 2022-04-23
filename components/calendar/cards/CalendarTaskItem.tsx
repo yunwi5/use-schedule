@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
-import { TaskStatus } from "../../../models/task-models/Status";
+import { Status } from "../../../models/task-models/Status";
 import { PlannerTask } from "../../../models/task-models/Task";
 import PlannerTaskEdit from "../../planners/planner-crud/PlannerTaskEdit";
 import TaskDetail from "../../tasks/task-modal/task-detail/TaskDetail";
@@ -54,7 +54,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, beginningPeriod, onInvalidate
                 hoverBgClass={hoverBgClass}
                 hoverTextClass={hoverTextClass}
                 dateTime={task.dateTime}
-                isCompleted={task.status === TaskStatus.COMPLETED}
+                isCompleted={task.status === Status.COMPLETED}
                 dueDate={task.dueDate}
                 onClick={setShowDetail.bind(null, true)}
             >
