@@ -40,6 +40,22 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
         setNote(e.target.value);
     }, []);
 
+    const toggleImportance = () => {
+        setIsImportant((prevState) => {
+            const newState = !prevState;
+            onMutateTodo(todo.id, { isImportant: newState });
+            return newState;
+        });
+    };
+
+    const toggleCompleted = () => {
+        setIsCompleted((prevState) => {
+            const newState = !prevState;
+            onMutateTodo(todo.id, { isCompleted: newState });
+            return newState;
+        });
+    };
+
     // Exception
     useEffect(() => {
         if (isEditing) return;
@@ -58,7 +74,7 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
             <div className={`${classes.section} ${classes.importance}`}>
                 <span>Importance</span>
                 <FontAwesomeIcon
-                    onClick={() => setIsImportant((prevState) => !prevState)}
+                    onClick={toggleImportance}
                     icon={isImportant ? faStarSolid : faStarLight}
                     className={`${iconClass} text-yellow-400 ${classes.icon}`}
                 />
@@ -66,7 +82,7 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
             <div className={`${classes.section} ${classes.completion}`}>
                 <span>Completed</span>
                 <CheckToggler
-                    onToggle={() => setIsCompleted((prevState) => !prevState)}
+                    onToggle={toggleCompleted}
                     isCompleted={isCompleted}
                     className={classes.check}
                 />

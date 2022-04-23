@@ -31,9 +31,9 @@ const CalendarContainer: React.FC<Props> = (props) => {
     const beginningPeriod = getCurrentMonthBeginning();
 
     return (
-        <main className='py-16 px-20'>
+        <main className="py-16 px-20">
             Tasks
-            <ul className='flex flex-col gap-1 max-w-[7.8rem]'>
+            <ul className="flex flex-col gap-1 max-w-[9rem]">
                 {plannerTasks.map((task) => (
                     <CalendarTaskItem
                         key={task.id}
@@ -44,10 +44,17 @@ const CalendarContainer: React.FC<Props> = (props) => {
                 ))}
             </ul>
             Todos
-            <ul className='flex flex-col gap-1 max-w-[7.8rem]'>
-                {todos.map((todo) => (
-                    <CalendarTodoItem key={todo.id} todo={todo} onInvalidate={onInvalidateTodos} />
-                ))}
+            <ul className="flex flex-col gap-1 max-w-[9rem]">
+                {todos.map(
+                    (todo) =>
+                        todo.dateTime && (
+                            <CalendarTodoItem
+                                key={todo.id}
+                                todo={todo}
+                                onInvalidate={onInvalidateTodos}
+                            />
+                        ),
+                )}
             </ul>
         </main>
     );

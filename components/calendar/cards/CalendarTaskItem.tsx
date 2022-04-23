@@ -3,7 +3,6 @@ import React, { useCallback, useState } from "react";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { TaskStatus } from "../../../models/task-models/Status";
 import { PlannerTask } from "../../../models/task-models/Task";
-import { getShortNameWithRest } from "../../../utilities/gen-utils/string-util";
 import PlannerTaskEdit from "../../planners/planner-crud/PlannerTaskEdit";
 import TaskDetail from "../../tasks/task-modal/task-detail/TaskDetail";
 import CalendarItemCard from "./CalendarItemCard";
@@ -54,11 +53,12 @@ const CalendarTaskItem: React.FC<Props> = ({ task, beginningPeriod, onInvalidate
                 textClass={textClass}
                 hoverBgClass={hoverBgClass}
                 hoverTextClass={hoverTextClass}
+                dateTime={task.dateTime}
                 isCompleted={task.status === TaskStatus.COMPLETED}
                 dueDate={task.dueDate}
                 onClick={setShowDetail.bind(null, true)}
             >
-                {getShortNameWithRest(task.name, 10, 2)}
+                {task.name}
             </CalendarItemCard>
             {showDetail && (
                 <TaskDetail

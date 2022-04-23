@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import ContactMain from "../components/contact/ContactMain";
+import ContactMain from "../../components/contact/ContactMain";
 
 const Contact: NextPage = () => {
     return (

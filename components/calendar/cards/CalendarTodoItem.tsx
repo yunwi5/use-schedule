@@ -39,6 +39,7 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
                 borderClass={"border-2 border-slate-300"}
                 isCompleted={todo.isCompleted}
                 dueDate={todo.dateTime}
+                dateTime={todo.dateTime || null}
                 onClick={setShowDetail.bind(null, true)}
             >
                 {getShortNameWithRest(todo.name, 10, 2)}

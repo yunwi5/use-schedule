@@ -47,7 +47,10 @@ const Calendar: NextPage<Props> = (props) => {
 
     const queryClient = useQueryClient();
 
-    const invalidateTasks = () => queryClient.invalidateQueries("tasks");
+    const invalidateTasks = () => {
+        console.log("Invalidate tasks!");
+        queryClient.invalidateQueries("tasks");
+    };
     const invalidateTodos = () => queryClient.invalidateQueries("todos");
 
     return (
@@ -55,8 +58,8 @@ const Calendar: NextPage<Props> = (props) => {
             <Head>
                 <title>Calendar Overview</title>
                 <meta
-                    name='description'
-                    content='Calendar page for summarizing all user specific tasks and todos for a month'
+                    name="description"
+                    content="Calendar page for summarizing all user specific tasks and todos for a month"
                 />
             </Head>
             <CalendarContainer
