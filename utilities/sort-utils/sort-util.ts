@@ -4,6 +4,20 @@ export function sortTaskByTime(taskA: Task, taskB: Task) {
     return new Date(taskA.timeString) < new Date(taskB.timeString) ? -1 : 1;
 }
 
+interface IDateTime {
+    dateTime?: Date;
+}
+
+export function compareByDateTime(
+    { dateTime: dateTimeA }: IDateTime,
+    { dateTime: dateTimeB }: IDateTime,
+): number {
+    // No datetime so should come last.
+    if (!dateTimeA) return -1;
+    if (!dateTimeB) return 1;
+    return dateTimeA.getTime() - dateTimeB.getTime();
+}
+
 // General re-usable sorting standards.
 interface IDuration {
     duration?: number;

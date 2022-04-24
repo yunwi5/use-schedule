@@ -26,7 +26,6 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
     const confirmHandler = async () => {
         setIsEditng(false);
         const { isSuccess, message } = await updateTaskProperties(task.id, { status }, plannerType);
-        console.log(`isSuccess: ${isSuccess}, message: ${message}`);
         if (isSuccess && onInvalidate) {
             onInvalidate();
         }

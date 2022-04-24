@@ -17,6 +17,8 @@ interface Props {
     onClose: () => void;
     onEdit: () => void;
     task: AbstractTask;
+    // on Invalidate tasks items. This function prop is optional.
+    onInvalidate?: () => void;
 }
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners/sub-tasks`;
@@ -29,7 +31,7 @@ async function fetchSubTasks(context: any) {
 }
 
 const TaskDetail: React.FC<Props> = (props) => {
-    const { onClose, onEdit, task } = props;
+    const { onClose, onEdit, task, onInvalidate } = props;
     const [showSubTasks, setShowSubTasks] = useState(false);
     const { name, plannerType } = task;
 
@@ -65,7 +67,14 @@ const TaskDetail: React.FC<Props> = (props) => {
                     parentTaskId={task.id}
                 />
             )}
-            {!showSubTasks && <TaskDetailInfo onEdit={onEdit} onClose={onClose} task={task} />}
+            {!showSubTasks && (
+                <TaskDetailInfo
+                    onEdit={onEdit}
+                    onClose={onClose}
+                    task={task}
+                    onInvalidate={onInvalidate}
+                />
+            )}
         </Modal>
     );
 };

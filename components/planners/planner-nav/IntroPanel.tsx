@@ -16,7 +16,7 @@ interface Props {
     title: string;
     message: string;
     beginningPeriod: Date;
-    onMutate: () => void;
+    onMutate?: () => void;
 }
 
 const IntroPanel: React.FC<Props> = (props) => {
@@ -61,7 +61,7 @@ const IntroPanel: React.FC<Props> = (props) => {
                             size={Size.MEDIUM}
                         >
                             <FontAwesomeIcon
-                                className='mr-2 max-w-[1.3rem]'
+                                className="mr-2 max-w-[1.3rem]"
                                 icon={faChartPie as any}
                             />{" "}
                             See Statistics
@@ -72,7 +72,7 @@ const IntroPanel: React.FC<Props> = (props) => {
                             onClick={importModalHandler.bind(null, true)}
                         >
                             <FontAwesomeIcon
-                                className='mr-2 max-w-[1.3rem]'
+                                className="mr-2 max-w-[1.3rem]"
                                 icon={faCalendarCircleExclamation}
                             />
                             Import Template
@@ -80,7 +80,7 @@ const IntroPanel: React.FC<Props> = (props) => {
                     </div>
                 </div>
             )}
-            {showImportModal && (
+            {showImportModal && onMutate && (
                 <ImportModal
                     onClose={importModalHandler.bind(null, false)}
                     beginningPeriod={beginningPeriod}

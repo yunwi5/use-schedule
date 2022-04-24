@@ -30,11 +30,12 @@ interface Props {
     onClose: () => void;
     onEdit: () => void;
     task: AbstractTask;
+    onInvalidate?: () => void;
 }
 
 // This component is just for displaying. It does not do any functional stuff.
 const TaskDetailInfo: React.FC<Props> = (props) => {
-    const { onClose, onEdit, task } = props;
+    const { onClose, onEdit, task, onInvalidate } = props;
 
     const { description, category, subCategory, status, importance, duration } = task;
     const defaultValue = "-";
@@ -45,7 +46,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
     return (
         <Fragment>
             <div className={classes.grid}>
-                <TaskStatus task={task} />
+                <TaskStatus task={task} onInvalidate={onInvalidate} />
                 <div className={classes.item}>
                     <div className={classes.label}>
                         <FontAwesomeIcon icon={faStarExclamation} className={classes.icon} />

@@ -3,7 +3,7 @@ import Head from "next/head";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
 
-import CalendarContainer from "../../components/calendar/CalendarContainer";
+import CalendarMain from "../../components/calendar/CalendarMain";
 import { getTasksFromAllCollection, getTodosFromPage } from "../../db/pages-util";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { Task } from "../../models/task-models/Task";
@@ -47,10 +47,7 @@ const Calendar: NextPage<Props> = (props) => {
 
     const queryClient = useQueryClient();
 
-    const invalidateTasks = () => {
-        console.log("Invalidate tasks!");
-        queryClient.invalidateQueries("tasks");
-    };
+    const invalidateTasks = () => queryClient.invalidateQueries("tasks");
     const invalidateTodos = () => queryClient.invalidateQueries("todos");
 
     return (
@@ -62,7 +59,7 @@ const Calendar: NextPage<Props> = (props) => {
                     content="Calendar page for summarizing all user specific tasks and todos for a month"
                 />
             </Head>
-            <CalendarContainer
+            <CalendarMain
                 tasks={tasks}
                 todos={todos}
                 onInvalidateTasks={invalidateTasks}

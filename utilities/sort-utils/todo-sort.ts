@@ -1,13 +1,11 @@
 import { SortingDirection, TodoSort } from "../../models/sorting-models";
 import { Todo } from "../../models/todo-models/Todo";
-import { compareByDuration, compareByImportance, compareByCompletion } from "./sort-util";
-
-function compareByDate({ dateTime: dateTimeA }: Todo, { dateTime: dateTimeB }: Todo): number {
-    // No datetime so should come last.
-    if (!dateTimeA) return -1;
-    if (!dateTimeB) return 1;
-    return dateTimeA.getTime() - dateTimeB.getTime();
-}
+import {
+    compareByDuration,
+    compareByImportance,
+    compareByCompletion,
+    compareByDateTime,
+} from "./sort-util";
 
 function compareByCreatedOrder(
     { createdAt: createdAtA }: Todo,
@@ -24,7 +22,6 @@ export function sortTodos(
     direction: SortingDirection,
 ): Todo[] {
     const isAsc = direction === SortingDirection.Ascending;
-    console.log(`standard: ${sortingStandard}, dir: ${direction}`);
     switch (sortingStandard) {
         case TodoSort.COMPLETED:
             return todos.sort((a, b) =>
@@ -35,7 +32,9 @@ export function sortTodos(
                 isAsc ? compareByImportance(a, b) : compareByImportance(b, a),
             );
         case TodoSort.DATE:
-            return todos.sort((a, b) => (isAsc ? compareByDate(a, b) : compareByDate(b, a)));
+            return todos.sort((a, b) =>
+                isAsc ? compareByDateTime(a, b) : compareByDateTime(b, a),
+            );
         case TodoSort.ORDER:
             return todos.sort((a, b) =>
                 isAsc ? compareByCreatedOrder(a, b) : compareByCreatedOrder(b, a),

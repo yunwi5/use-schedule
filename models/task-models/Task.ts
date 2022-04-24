@@ -86,3 +86,28 @@ export type FormTaskObject = {
     isAnyDateTime?: boolean;
     templateId?: string;
 };
+
+export function isInstanceOfTask(item: object): boolean {
+    const hasId = "id" in item;
+    const hasName = "name" in item;
+    const hasDescription = "description" in item;
+    const hasDuration = "duration" in item;
+    const hasCategory = "category" in item;
+    const hasSubCategory = "subCategory" in item;
+    const hasStatus = "status" in item;
+    const hasUserId = "userId" in item;
+    const hasImportance = "importance" in item;
+    const hasPlannerType = "plannerType" in item;
+    return (
+        hasId &&
+        hasName &&
+        hasDescription &&
+        hasDuration &&
+        hasCategory &&
+        hasSubCategory &&
+        hasStatus &&
+        hasUserId &&
+        hasImportance &&
+        hasPlannerType
+    );
+}

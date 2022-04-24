@@ -65,6 +65,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, beginningPeriod, onInvalidate
                     task={task}
                     onClose={setShowDetail.bind(null, false)}
                     onEdit={editHandler}
+                    onInvalidate={onInvalidate}
                 />
             )}
             {showEditForm && (

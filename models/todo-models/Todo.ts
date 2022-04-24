@@ -26,3 +26,23 @@ export interface TodoProps {
     duration?: number;
     note?: string;
 }
+
+export function isInstanceOfTodo(item: object) {
+    const hasId = "id" in item;
+    const hasName = "name" in item;
+    const hasIsImportant = "isImportant" in item;
+    const hasIsCompleted = "isCompleted" in item;
+    const hasCreatedAt = "createdAt" in item;
+    const hasListId = "listId" in item;
+    const hasUserId = "userId" in item;
+
+    return (
+        hasId &&
+        hasName &&
+        hasIsImportant &&
+        hasIsCompleted &&
+        hasCreatedAt &&
+        hasListId &&
+        hasUserId
+    );
+}

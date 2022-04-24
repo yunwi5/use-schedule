@@ -70,12 +70,13 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
     return (
         <PlannerCard>
             <IntroPanel
-                title='Montly Planner'
-                message='Make your month strong and facinating with regularly planned montly goals and schedules. Feel free to see the analytics of your week done by our statistical analysis.'
+                title="Montly Planner"
+                message="Make your month strong and facinating with regularly planned montly goals and schedules. Feel free to see the analytics of your week done by our statistical analysis."
+                beginningPeriod={currentTimeStamp}
             />
-            <div className='rounded-md border-2 border-slate-200 bg-white mt-8'>
+            <div className="rounded-md border-2 border-slate-200 bg-white mt-8">
                 <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-                {!planner && <p className='text-center text-3xl text-slate-800'>Loading...</p>}
+                {!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
                 {planner && (
                     <MontlyTable
                         monthBeginning={currentTimeStamp}

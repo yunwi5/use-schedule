@@ -19,7 +19,7 @@ const CheckToggler: React.FC<Props> = ({ onToggle, isCompleted, className }) => 
             }`}
         >
             {isCompleted && (
-                <FontAwesomeIcon icon={faCheck} className='max-w-5 max-h-5 text-green-400' />
+                <FontAwesomeIcon icon={faCheck} className="max-w-5 max-h-5 text-green-400" />
             )}
         </div>
     );

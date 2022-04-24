@@ -1,0 +1,51 @@
+@import "../../../styles/abstract/variables";
+@import "../../../styles/abstract/mixins";
+
+.grid {
+    display: grid;
+    // each cell width should always be equal.
+    grid-template-columns: repeat(7, calc(100% / 7));
+    grid-template-rows: 2.5rem;
+    grid-auto-rows: 7rem;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .cell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .day-label {
+        border-right: 1px solid $color-primary-dark-2;
+        background-color: $color-tertiary-light-2;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .day-item {
+        border-right: 1px solid $color-primary;
+        border-top: 1px solid $color-primary;
+        overflow-y: scroll;
+        padding: 0 1px;
+        @include hide-scrollbar;
+    }
+
+    // highlight the cell that it is today
+    .current-day-item {
+        background-color: lighten($color-secondary-light-2, 3.5%);
+    }
+
+    .non-current-month-item {
+        background-color: $color-grey-light-1;
+    }
+
+    .day-number {
+        padding: 0rem 0.3rem;
+    }
+
+    .day-item:nth-of-type(7n),
+    .day-label:nth-of-type(7n) {
+        // background-color: blue;
+        border-right: none;
+    }
+}
