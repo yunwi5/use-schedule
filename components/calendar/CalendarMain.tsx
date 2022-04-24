@@ -10,6 +10,7 @@ import CalendarTodoItem from "./cards/CalendarTodoItem";
 import CalendarContainer from "./calendar-parts/CalendarContainer";
 import useDateTime, { ResetPeriod } from "../../hooks/useDateTime";
 import { CalendarItem } from "../../models/calendar-models/CalendarItem";
+import CalendarControl from "./calendar-control/CalendarControl";
 
 interface Props {
     todos: Todo[];
@@ -83,7 +84,7 @@ const CalendarMain: React.FC<Props> = (props) => {
 
     return (
         <main className="py-6 px-4 text-slate-600">
-            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-4">Calendar</h1>
+            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-4">My Calendar</h1>
             <div className="container">
                 {/* Container for calendar layout and calendar sidebar */}
                 <CalendarContainer
@@ -92,6 +93,8 @@ const CalendarMain: React.FC<Props> = (props) => {
                     onNavigateCurrentMonth={navigateCurrentMonthHandler}
                     onInvalidateItems={invalidateItems}
                 />
+                {/* Unfinished component */}
+                {/* <CalendarControl onInvalidate={invalidateItems} /> */}
             </div>
         </main>
     );

@@ -1,6 +1,9 @@
-import { faAngleLeft, faAngleRight } from "@fortawesome/pro-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilterList } from "@fortawesome/pro-duotone-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/pro-regular-svg-icons";
+
+import { Size, Theme } from "../../../models/design-models";
 import Button from "../../ui/Button";
 
 interface Props {
@@ -31,13 +34,13 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                     <FontAwesomeIcon
                         icon={faAngleLeft}
                         onClick={onNavigate.bind(null, -1)}
-                        className="w-[2rem] h-[2rem] rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
+                        className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
                     />
                     <span>{currentPeriod}</span>
                     <FontAwesomeIcon
                         icon={faAngleRight}
                         onClick={onNavigate.bind(null, 1)}
-                        className="w-[2rem] h-[2rem] rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
+                        className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
                     />
                 </div>
                 <div>
@@ -49,7 +52,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                     </Button>
                 </div>
             </div>
-            <div className="text-lg">
+            <div className="text-lg flex">
                 {/* Not implemented yet */}
                 <button
                     className={`py-1 px-3 min-w-[2rem] border-2 border-slate-500 rounded-sm hover:bg-slate-500 hover:text-slate-50 ${
@@ -67,6 +70,17 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                 >
                     Agenda
                 </button>
+                <Button
+                    className={`ml-3 max-h-[2.5rem] flex justify-center items-center !min-w-[.8rem] !bg-blue-400`}
+                    theme={Theme.TERTIARY}
+                    size={Size.SMALL}
+                >
+                    <FontAwesomeIcon
+                        icon={faFilterList}
+                        className={"inline-block max-w-[1.8rem] mr-2"}
+                    />
+                    <span className={`hidden md:inline`}>Action</span>
+                </Button>
             </div>
         </nav>
     );

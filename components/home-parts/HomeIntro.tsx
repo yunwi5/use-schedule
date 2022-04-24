@@ -58,6 +58,7 @@ const HomeIntro: React.FC = () => {
                         About Services
                     </Button>
                     <Button
+                        onClick={() => router.push("/templates/new")}
                         theme={Theme.TERTIARY}
                         size={Size.MEDIUM_LARGE}
                         className={`!rounded-full w-[12rem] hover:shadow-md hover:shadow-yellow-100`}

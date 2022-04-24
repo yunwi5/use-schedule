@@ -64,14 +64,14 @@ const PlannerFeature: React.FC<Props> = (props) => {
                     <p>
                         <FontAwesomeIcon
                             icon={faAngleRight}
-                            className={`mr-2 inline ${textHighlight} text-lg max-w-[1.2rem]`}
+                            className={`mr-2 inline ${textHighlight} text-lg max-w-[1.2rem] max-h-[1.2rem]`}
                         />
                         {paragraph1}
                     </p>
                     <p>
                         <FontAwesomeIcon
                             icon={faAngleRight}
-                            className={`mr-2 inline ${textHighlight} text-lg max-w-[1.2rem]`}
+                            className={`mr-2 inline ${textHighlight} text-lg max-w-[1.2rem] max-h-[1.2rem]`}
                         />
                         {paragraph2}
                     </p>
