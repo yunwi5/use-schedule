@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { Status } from "../../../models/task-models/Status";
 import { PlannerTask } from "../../../models/task-models/Task";
-import PlannerTaskEdit from "../../planners/planner-crud/PlannerTaskEdit";
+import PlannerTaskEdit from "../../planners/planner-crud/TaskEdit";
 import TaskDetail from "../../tasks/task-modal/task-detail/TaskDetail";
 import CalendarItemCard from "./CalendarItemCard";
 

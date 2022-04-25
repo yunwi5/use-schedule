@@ -34,37 +34,25 @@ const TaskAdd: React.FC<Props> = (props) => {
     const [userHasEdit, setUserHasEdit] = useState(false);
 
     const taskAddHandler = async (newFormTask: FormTaskObject) => {
-        console.log("from taskAddHandler!");
-        // if (!userId || !plannerMode) {
-        //     if (!userId) alert("User is not logged in!");
-        //     if (!plannerMode) alert("PlannerMode is null!");
-        //     return;
-        // }
         if (!userId) {
             if (!userId) alert("User is not logged in!");
-            // if (!plannerMode) alert("PlannerMode is null!");
             return;
         }
 
+        const plannerType = newFormTask.plannerType || plannerMode || PlannerMode.WEEKLY;
         const newTask: Task = {
             ...newFormTask,
             id: uuidv4(),
-            plannerType: plannerMode || PlannerMode.WEEKLY,
+            plannerType: plannerType,
             userId,
         };
 
-        if (plannerMode === PlannerMode.TEMPLATE && currentTemplate) {
+        if (plannerType === PlannerMode.TEMPLATE && currentTemplate) {
             newTask.templateId = currentTemplate.id;
         }
 
-        console.log("newTask:", newTask);
-
         setNotification(NotifStatus.PENDING);
-        const { isSuccess, insertedId } = await postTask(
-            newTask,
-            plannerMode || PlannerMode.WEEKLY,
-        );
-        console.log("isSuccess:", isSuccess);
+        const { isSuccess, insertedId } = await postTask(newTask, plannerType);
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS);
         } else {

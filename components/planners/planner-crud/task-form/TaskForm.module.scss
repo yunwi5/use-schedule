@@ -82,7 +82,7 @@
 		padding-left: 5px;
 	}
 
-	.category {
+	.category, .importance {
 		display: grid;
 		grid-template-rows: repeat(2, 1fr);
 		grid-template-columns: 50% 1fr;

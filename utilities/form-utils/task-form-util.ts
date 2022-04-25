@@ -29,6 +29,9 @@ export interface FormValues extends TemplateFormValues {
     // Template planner weekday inputs
     day: string;
     dueDay: string;
+
+    // Calendar planner mode choice
+    plannerType: string;
 }
 
 const DAY_IN_MINS = 60 * 24;
@@ -100,7 +103,7 @@ export function getEndTimeFormatted(watch: () => FormValues): string | null {
 export function getFormTaskObject(
     data: FormValues,
     beginningPeriod: Date,
-    plannerMode: PlannerMode,
+    isTemplateTask: boolean,
     monthDateOnly?: boolean,
 ): FormTaskObject {
     const {
@@ -120,12 +123,14 @@ export function getFormTaskObject(
         monthDay, // optional (yearly task)
         day,
         dueDay,
+        plannerType: formPlannerType,
     } = data;
 
     const duration = durationDays * (24 * 60) + durationHours * 60 + durationMinutes;
     let timeString, dueDateString;
 
-    if (plannerMode !== PlannerMode.TEMPLATE) {
+    if (!isTemplateTask) {
+        // Not template task obj
         timeString = new Date(
             `${date || beginningPeriod.toDateString()} ${
                 time || getISOTimeFormat(beginningPeriod)
@@ -142,6 +147,7 @@ export function getFormTaskObject(
         dueDateString =
             dueDate && dueTime ? new Date(`${dueDate} ${dueTime}`).toString() : undefined;
     } else {
+        // Is template task obj
         const planDayOffset = day ? getDayOffset(day as WeekDay) : undefined;
         const planDateString: string = addDays(beginningPeriod, planDayOffset || 0).toDateString();
         timeString = new Date(
@@ -155,6 +161,9 @@ export function getFormTaskObject(
             : undefined;
     }
 
+    // If the user specified planner type for this task (optional select)
+    const initialPlannerType = formPlannerType ? (formPlannerType as PlannerMode) : undefined;
+
     const newTask: FormTaskObject = {
         name,
         description,
@@ -165,6 +174,7 @@ export function getFormTaskObject(
         dueDateString,
         duration,
         status: Status.OPEN,
+        plannerType: initialPlannerType,
     };
     return newTask;
 }

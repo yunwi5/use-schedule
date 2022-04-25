@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ClickAwayListener } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-regular-svg-icons";
@@ -14,6 +14,11 @@ interface Props {
 const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showTaskAdd, setShowTaskAdd] = useState(false);
+
+    const taskAddHandler = useCallback(() => {
+        onInvalidate();
+        setShowTaskAdd(false);
+    }, [onInvalidate]);
 
     return (
         <div className="mx-auto max-w-[7rem] relative text-lg">
@@ -45,7 +50,7 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
             {showTaskAdd && (
                 <TaskAdd
                     onClose={() => setShowTaskAdd(false)}
-                    onAddTask={onInvalidate}
+                    onAddTask={taskAddHandler}
                     beginningPeriod={beginningPeriod}
                 />
             )}

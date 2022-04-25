@@ -7,10 +7,12 @@ import { CategoryList, SubCategory } from "../../../../../models/task-models/Cat
 import classes from "../TaskForm.module.scss";
 import { useAppSelector } from "../../../../../store/redux";
 import { PlannerMode, PlannerModeList } from "../../../../../models/planner-models/PlannerMode";
+import { FormValues } from "../../../../../utilities/form-utils/task-form-util";
+import { getTaskType } from "../../../../../utilities/tasks-utils/task-label";
 
 interface Props {
     initialTask?: Task;
-    register: UseFormRegister<any>;
+    register: UseFormRegister<FormValues>;
     errors: any;
     subCategoryList: SubCategory[];
 }
@@ -71,10 +73,24 @@ const GeneralInputs: React.FC<Props> = (props) => {
                 <select
                     {...register("importance")}
                     id="importance"
+                    className={classes.select}
                     defaultValue={initialTask ? initialTask.importance : ""}
                 >
                     {ImportanceList.map((imp) => (
                         <option key={imp}>{imp}</option>
+                    ))}
+                </select>
+                <label htmlFor="importance">Task Type</label>
+                <select
+                    {...register("plannerType")}
+                    id="task-type"
+                    className={classes.select}
+                    defaultValue={initialTask ? initialTask.plannerType : PlannerMode.WEEKLY}
+                >
+                    {plannerModeOptions.map((plannerMode) => (
+                        <option key={plannerMode} value={plannerMode}>
+                            {getTaskType(plannerMode)}
+                        </option>
                     ))}
                 </select>
             </div>
