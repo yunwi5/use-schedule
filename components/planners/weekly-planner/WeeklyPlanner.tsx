@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { plannerActions } from "../../../store/redux/planner-slice";
-import { isSameWeek } from "../../../utilities/time-utils/date-check";
+import { isSameWeek } from "../../../utilities/date-utils/date-check";
 import { PlannerTask, Task } from "../../../models/task-models/Task";
 import { WeeklyPlanner as Planner } from "../../../models/planner-models/WeeklyPlanner";
-import { getCurrentWeekBeginning } from "../../../utilities/time-utils/date-get";
+import { getCurrentWeekBeginning } from "../../../utilities/date-utils/date-get";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
 import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
@@ -78,7 +78,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
             />
             <PlannerTableCard>
                 <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-                {!planner && <p className='text-center text-3xl text-slate-800'>Loading...</p>}
+                {!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
                 {planner && (
                     <WeeklyTable
                         weekBeginning={currentTimeStamp}

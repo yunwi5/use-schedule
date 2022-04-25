@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addMonths, addWeeks, addYears } from "../utilities/time-utils/date-control";
+import { addMonths, addWeeks, addYears } from "../utilities/date-utils/date-control";
 import {
     getCurrentMonthBeginning,
     getCurrentWeekBeginning,
@@ -9,7 +9,7 @@ import {
     getYearEnding,
     getMonthWeekBeginning,
     getMonthWeekEnding,
-} from "../utilities/time-utils/date-get";
+} from "../utilities/date-utils/date-get";
 
 export enum ResetPeriod {
     WEEK = "week",

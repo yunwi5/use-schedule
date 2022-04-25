@@ -5,7 +5,7 @@ import { PlannerTask, Task } from "../../models/task-models/Task";
 import { Todo } from "../../models/todo-models/Todo";
 import { Calendar } from "../../models/calendar-models/Calendar";
 import { CalendarItem } from "../../models/calendar-models/CalendarItem";
-import { getCurrentMonthBeginning } from "../../utilities/time-utils/date-get";
+import { getCurrentMonthBeginning } from "../../utilities/date-utils/date-get";
 import { processTodos } from "../../utilities/todos-utils/todo-util";
 import CalendarContainer from "./calendar-parts/CalendarContainer";
 import CalendarControl from "./calendar-control/CalendarControl";

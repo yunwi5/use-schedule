@@ -1,6 +1,6 @@
 import { Todo } from "../../models/todo-models/Todo";
 import { TodoList } from "../../models/todo-models/TodoList";
-import { isOverdue } from "../time-utils/date-check";
+import { isOverdue } from "../date-utils/date-check";
 
 export function convertToTodoList(listObj: any | null): TodoList | null {
     if (!listObj) return null;

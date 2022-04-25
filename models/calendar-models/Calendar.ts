@@ -1,10 +1,10 @@
-import { isSameDate } from "../../utilities/time-utils/date-check";
-import { addDays } from "../../utilities/time-utils/date-control";
+import { isSameDate } from "../../utilities/date-utils/date-check";
+import { addDays } from "../../utilities/date-utils/date-control";
 import {
     getMonthEnding,
     getWeekBeginning,
     getWeekEnding,
-} from "../../utilities/time-utils/date-get";
+} from "../../utilities/date-utils/date-get";
 import { getMonthMember } from "../date-models/Month";
 import { CalendarItem } from "./CalendarItem";
 

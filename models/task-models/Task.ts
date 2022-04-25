@@ -5,8 +5,8 @@ import {
     getDateMonthFormat,
     getDateTimeFormat,
     getISOTimeFormat,
-} from "../../utilities/time-utils/date-format";
-import { addMinutes } from "../../utilities/time-utils/date-control";
+} from "../../utilities/date-utils/date-format";
+import { addMinutes } from "../../utilities/date-utils/date-control";
 
 export interface NoIdTask {
     id?: string;

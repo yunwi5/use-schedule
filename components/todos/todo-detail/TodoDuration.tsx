@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDurationFormat } from "../../../utilities/time-utils/date-format";
+import { getDurationFormat } from "../../../utilities/date-utils/date-format";
 import classes from "./TodoDetail.module.scss";
 
 interface Props {
@@ -40,23 +40,23 @@ const TodoDuration: React.FC<Props> = ({ duration, isEditing, onChange }) => {
                 <div className={classes.numbers}>
                     <div className={classes.number}>
                         <input
-                            name='hour'
-                            type='number'
-                            id='durationHours'
+                            name="hour"
+                            type="number"
+                            id="durationHours"
                             value={durationState.hour}
                             onChange={durationHandler}
                         />
-                        <label htmlFor='durationHours'>h</label>
+                        <label htmlFor="durationHours">h</label>
                     </div>
                     <div className={classes.number}>
                         <input
-                            name='minute'
-                            type='number'
-                            id='durationMinutes'
+                            name="minute"
+                            type="number"
+                            id="durationMinutes"
                             value={durationState.minute}
                             onChange={durationHandler}
                         />
-                        <label htmlFor='durationMinutes'>m</label>
+                        <label htmlFor="durationMinutes">m</label>
                     </div>
                 </div>
             )}

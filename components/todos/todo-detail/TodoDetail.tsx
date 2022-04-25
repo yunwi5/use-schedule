@@ -10,7 +10,7 @@ import TodoDetailInfo from "./TodoDetailInfo";
 import SubTodoList from "../sub-todos/SubTodoList";
 import useNotification from "../../../hooks/useNotification";
 import { NotifStatus } from "../../ui/Notification";
-import { getFullDateFormat } from "../../../utilities/time-utils/date-format";
+import { getFullDateFormat } from "../../../utilities/date-utils/date-format";
 import classes from "./TodoDetail.module.scss";
 
 interface Props {

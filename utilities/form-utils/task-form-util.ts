@@ -1,13 +1,12 @@
 import { FormTaskObject, Task } from "../../models/task-models/Task";
 import { Status } from "../../models/task-models/Status";
-import { addDays, addMinutes } from "../time-utils/date-control";
-import { getDayOffset, getWeekEnding } from "../time-utils/date-get";
-import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from "../time-utils/date-format";
-import { TemplateFormValues } from "../../components/planners/planner-crud/task-form/TemplateTaskForm";
+import { addDays, addMinutes } from "../date-utils/date-control";
+import { getDayOffset, getWeekEnding } from "../date-utils/date-get";
+import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from "../date-utils/date-format";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { WeekDay } from "../../models/date-models/WeekDay";
 
-export interface FormValues extends TemplateFormValues {
+export interface FormValues {
     name: string;
     description: string;
     importance: string;

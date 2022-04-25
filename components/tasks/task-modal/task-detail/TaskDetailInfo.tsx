@@ -19,7 +19,7 @@ import {
     getDateTimeFormat,
     getDurationFormat,
     getFullDateFormat,
-} from "../../../../utilities/time-utils/date-format";
+} from "../../../../utilities/date-utils/date-format";
 import { getImportanceValue } from "../../../../models/task-models/Status";
 import { ButtonTheme } from "../../../../models/design-models";
 import { PlannerMode } from "../../../../models/planner-models/PlannerMode";

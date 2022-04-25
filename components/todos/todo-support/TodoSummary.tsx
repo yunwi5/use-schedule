@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faXmark } from "@fortawesome/pro-duotone-svg-icons";
 
 import { Todo } from "../../../models/todo-models/Todo";
-import { isSameDate, isSameWeek } from "../../../utilities/time-utils/date-check";
+import { isSameDate, isSameWeek } from "../../../utilities/date-utils/date-check";
 import classes from "./TodoSummary.module.scss";
 import { useAppSelector } from "../../../store/redux";
 import { isTodoOverdue } from "../../../utilities/todos-utils/todo-util";

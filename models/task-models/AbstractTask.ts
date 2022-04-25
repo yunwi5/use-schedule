@@ -1,5 +1,5 @@
-import { getEndDateTimeFormat } from "../../utilities/time-utils/date-format";
-import { getDayName } from "../../utilities/time-utils/date-get";
+import { getEndDateTimeFormat } from "../../utilities/date-utils/date-format";
+import { getDayName } from "../../utilities/date-utils/date-get";
 import { WeekDay } from "../date-models/WeekDay";
 import { PlannerMode } from "../planner-models/PlannerMode";
 import { SubTask } from "./SubTask";

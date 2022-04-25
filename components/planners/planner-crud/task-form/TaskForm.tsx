@@ -17,7 +17,7 @@ import GeneralInputs from "./form-sections/GeneralInputs";
 import DurationInput from "./form-sections/DurationInput";
 import PlanTimeInput from "./form-sections/plan-datetime/PlanDateTimeInput";
 import DueDateTimeInput from "./form-sections/due-datetime/DueDateTimeInput";
-import { getWeekEnding } from "../../../../utilities/time-utils/date-get";
+import { getWeekEnding } from "../../../../utilities/date-utils/date-get";
 import classes from "./TaskForm.module.scss";
 import FormButtons from "./TaskFormButtons";
 import { RootStateOrAny, useSelector } from "react-redux";

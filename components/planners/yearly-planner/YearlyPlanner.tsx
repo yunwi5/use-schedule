@@ -9,8 +9,8 @@ import { PlannerTask, Task } from "../../../models/task-models/Task";
 import { YearlyPlanner as Planner } from "../../../models/planner-models/YearlyPlanner";
 import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
 import { PlannerMode } from "../../../models/planner-models/PlannerMode";
-import { getCurrentYearBeginning } from "../../../utilities/time-utils/date-get";
-import { isSameYear } from "../../../utilities/time-utils/date-check";
+import { getCurrentYearBeginning } from "../../../utilities/date-utils/date-get";
+import { isSameYear } from "../../../utilities/date-utils/date-check";
 import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
 import PlannerCard from "../../ui/cards/PlannerCard";
 
@@ -69,14 +69,14 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
     return (
         <PlannerCard>
             <IntroPanel
-                title='Yearly Planner'
-                message='Make your year strong and compact with timeply planned yearly goals added on your scheduler. Feel free to see the analytics of your week done by our statistical analysis.'
+                title="Yearly Planner"
+                message="Make your year strong and compact with timeply planned yearly goals added on your scheduler. Feel free to see the analytics of your week done by our statistical analysis."
                 beginningPeriod={currentTimeStamp}
                 onMutate={onMutate}
             />
-            <div className='rounded-md border-2 border-slate-200 bg-white mt-8'>
+            <div className="rounded-md border-2 border-slate-200 bg-white mt-8">
                 <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-                {!planner && <p className='text-center text-3xl text-slate-800'>Loading...</p>}
+                {!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
                 {planner && (
                     <YearlyTable
                         yearBeginning={currentTimeStamp}

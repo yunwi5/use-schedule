@@ -9,9 +9,9 @@ import { TaskCollection, SubTaskCollection } from "../../../../db/mongodb-consta
 import { insertManySubTasks } from "../../../../db/subtask-util";
 import { insertTask } from "../../../../db/tasks-util";
 import { getTemplateTasksWithSubTask } from "../../../../db/template-util";
-import { addDays } from "../../../../utilities/time-utils/date-control";
-import { getISOTimeFormat } from "../../../../utilities/time-utils/date-format";
-import { getDayIndexFromMon } from "../../../../utilities/time-utils/date-get";
+import { addDays } from "../../../../utilities/date-utils/date-control";
+import { getISOTimeFormat } from "../../../../utilities/date-utils/date-format";
+import { getDayIndexFromMon } from "../../../../utilities/date-utils/date-get";
 
 type Data = { message: string; data?: any };
 

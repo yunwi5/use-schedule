@@ -21,7 +21,7 @@ import { PlannerTask } from "../../models/task-models/Task";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { Status, StatusList } from "../../models/task-models/Status";
 import { copyClassObject } from "../../utilities/gen-utils/object-util";
-import { getDateMonthFormat } from "../../utilities/time-utils/date-format";
+import { getDateMonthFormat } from "../../utilities/date-utils/date-format";
 import { updateTaskProperties } from "../../lib/planners/tasks-api";
 import classes from "./TaskCard.module.scss";
 

@@ -5,8 +5,8 @@ import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
 import { faCalendarCheck, faHourglass } from "@fortawesome/pro-duotone-svg-icons";
 
 import { Todo, TodoProps } from "../../models/todo-models/Todo";
-import { isOverdue } from "../../utilities/time-utils/date-check";
-import { getDurationFormat, getFullDateFormat } from "../../utilities/time-utils/date-format";
+import { isOverdue } from "../../utilities/date-utils/date-check";
+import { getDurationFormat, getFullDateFormat } from "../../utilities/date-utils/date-format";
 import CheckToggler from "../ui/icons/CheckToggler";
 import TodoDetail from "./todo-detail/TodoDetail";
 import { useAppSelector } from "../../store/redux";
