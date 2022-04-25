@@ -86,7 +86,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                 >
                     <FontAwesomeIcon
                         icon={faFilterList}
-                        className={"inline-block max-w-[1.8rem] mr-2"}
+                        className={"inline-block max-w-[1.35rem] mr-2"}
                     />
                     <span className={`hidden md:inline`}>Action</span>
                 </Button>

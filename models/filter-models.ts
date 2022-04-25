@@ -22,3 +22,9 @@ export interface ItemTypeFilter {
     [CalendarItemType.TASK]: boolean;
     [CalendarItemType.TODO]: boolean;
 }
+
+export interface CalendarFilter {
+    statusFilter: StatusFilter;
+    importanceFilter: ImportanceFilter;
+    itemTypeFilter: ItemTypeFilter;
+}

@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CalendarItemType } from "../../models/calendar-models/CalendarItemType";
 import { CalendarMode } from "../../models/calendar-models/CalendarMode";
-import { ImportanceFilter, ItemTypeFilter, StatusFilter } from "../../models/filter-models";
+import {
+    CalendarFilter,
+    ImportanceFilter,
+    ItemTypeFilter,
+    StatusFilter,
+} from "../../models/filter-models";
 import { Importance, ImportanceList, Status, StatusList } from "../../models/task-models/Status";
 
 const defaultStatusFilter: any = {};
@@ -19,6 +24,12 @@ const defaultImportanceFilter: any = {};
 ImportanceList.forEach((im) => {
     defaultImportanceFilter[im] = true;
 });
+
+export const defaultCalendarFilter: CalendarFilter = {
+    statusFilter: defaultStatusFilter,
+    importanceFilter: defaultImportanceFilter,
+    itemTypeFilter: defaultItemTypeFilter,
+};
 
 interface CalendarState {
     calendarMode: CalendarMode;
@@ -57,6 +68,17 @@ const calendarSlice = createSlice({
         toggleItemType(state, action: PayloadAction<CalendarItemType>) {
             const targetItemType = action.payload;
             state.itemTypeFilter[targetItemType] = !state.itemTypeFilter[targetItemType];
+        },
+        setCalendarFilter(state, action: PayloadAction<CalendarFilter>) {
+            const { statusFilter, importanceFilter, itemTypeFilter } = action.payload;
+            state.statusFilter = statusFilter;
+            state.importanceFilter = importanceFilter;
+            state.itemTypeFilter = itemTypeFilter;
+        },
+        resetFilters(state) {
+            state.statusFilter = defaultStatusFilter;
+            state.importanceFilter = defaultImportanceFilter;
+            state.itemTypeFilter = defaultItemTypeFilter;
         },
     },
 });

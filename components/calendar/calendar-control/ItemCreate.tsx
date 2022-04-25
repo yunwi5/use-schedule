@@ -28,7 +28,7 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
             >
                 <FontAwesomeIcon
                     icon={faPlus}
-                    className={`max-w-[1.3rem] max-h-[1.3rem] text-xl ${classes.icon}`}
+                    className={`inline max-w-[1.3rem] max-h-[1.3rem] text-xl ${classes.icon}`}
                 />{" "}
                 <span className={classes.text}>Create</span>
             </button>

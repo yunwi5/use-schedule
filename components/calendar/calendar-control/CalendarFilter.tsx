@@ -1,4 +1,6 @@
 import React from "react";
+
+import { useAppDispatch, useAppSelector } from "../../../store/redux";
 import {
     CalendarItemType,
     CalendarItemTypeList,
@@ -12,7 +14,6 @@ import {
     Status,
     StatusList,
 } from "../../../models/task-models/Status";
-import { useAppDispatch, useAppSelector } from "../../../store/redux";
 import { calendarActions } from "../../../store/redux/calendar-slice";
 import FilterSection from "./FilterSection";
 
@@ -36,10 +37,18 @@ const CalendarFilter: React.FC = () => {
             dispatch(calendarActions.toggleItemType(itemType as CalendarItemType));
     };
 
-    // console.log("StausFilter:", statusFilter);
+    const resetFilterHandler = () => {
+        dispatch(calendarActions.resetFilters());
+    };
 
     return (
-        <div className="p-2 xl:px-5 flex flex-col gap-4 border-t-2 border-slate-300">
+        <div className="relative p-2 xl:px-5 flex flex-col gap-4 border-t-2 border-slate-300">
+            <button
+                onClick={resetFilterHandler}
+                className="absolute top-[.15rem] right-1 text-lg borderpy-1 px-2 border-1 border-blue-500 text-blue-700 hover:bg-blue-500 hover:text-blue-50 rounded-md"
+            >
+                All
+            </button>
             {/* Status Filter Section */}
             <FilterSection
                 filterName={"Status"}
