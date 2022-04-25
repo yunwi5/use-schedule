@@ -7,6 +7,7 @@ import filterSlice from "./filter-slice";
 import plannerSlice from "./planner-slice";
 import templateSlice from "./template-slice";
 import todoListSlice from "./todolist-slice";
+import calendarSlice from "./calendar-slice";
 
 const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
         planner: plannerSlice.reducer,
         template: templateSlice.reducer,
         todoList: todoListSlice.reducer,
+        calendar: calendarSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

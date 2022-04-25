@@ -10,6 +10,9 @@ import { Task } from "../../models/task-models/Task";
 import { Todo } from "../../models/todo-models/Todo";
 import { convertToTasks } from "../../utilities/tasks-utils/task-util";
 import { convertToTodos } from "../../utilities/todos-utils/todo-util";
+import { useAppDispatch } from "../../store/redux";
+import { useEffect } from "react";
+import { plannerActions } from "../../store/redux/planner-slice";
 
 interface Props {
     tasks: Task[];
@@ -49,6 +52,12 @@ const Calendar: NextPage<Props> = (props) => {
 
     const invalidateTasks = () => queryClient.invalidateQueries("tasks");
     const invalidateTodos = () => queryClient.invalidateQueries("todos");
+
+    // Need to be cleaned up.
+    const dispatch = useAppDispatch(); // dispatching plannerMode
+    useEffect(() => {
+        dispatch(plannerActions.setPlannerMode(null));
+    }, [dispatch]);
 
     return (
         <div>

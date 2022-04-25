@@ -33,10 +33,10 @@ export class Calendar {
         }
     }
 
-    getMonthYear(): string {
+    getMonthYear(short?: boolean): string {
         const month = getMonthMember(this.beginningPeriod);
         const year = this.beginningPeriod.getFullYear();
-        return `${month} ${year}`;
+        return short ? `${month.slice(0, 3)} ${year}` : `${month} ${year}`;
     }
 
     // get items of the specified date.

@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import { isInstanceOfTask, PlannerTask, Task } from "../../models/task-models/Task";
-import { isInstanceOfTodo, Todo } from "../../models/todo-models/Todo";
+import useDateTime, { ResetPeriod } from "../../hooks/useDateTime";
+import { PlannerTask, Task } from "../../models/task-models/Task";
+import { Todo } from "../../models/todo-models/Todo";
+import { Calendar } from "../../models/calendar-models/Calendar";
+import { CalendarItem } from "../../models/calendar-models/CalendarItem";
 import { getCurrentMonthBeginning } from "../../utilities/time-utils/date-get";
 import { processTodos } from "../../utilities/todos-utils/todo-util";
-import { Calendar } from "../../models/calendar-models/Calendar";
-import CalendarTaskItem from "./cards/CalendarTaskItem";
-import CalendarTodoItem from "./cards/CalendarTodoItem";
 import CalendarContainer from "./calendar-parts/CalendarContainer";
-import useDateTime, { ResetPeriod } from "../../hooks/useDateTime";
-import { CalendarItem } from "../../models/calendar-models/CalendarItem";
 import CalendarControl from "./calendar-control/CalendarControl";
+import { useAppDispatch, useAppSelector } from "../../store/redux";
+import { adjustIfOverdueTask } from "../../utilities/tasks-utils/task-util";
 
 interface Props {
     todos: Todo[];
@@ -19,10 +19,12 @@ interface Props {
     onInvalidateTodos: () => void;
 }
 
+// need to check overdue
 function processTasks(tasks: Task[]): PlannerTask[] {
     const plannerTaskList: PlannerTask[] = [];
     for (const task of tasks) {
         const convertedTask = new PlannerTask(task);
+        adjustIfOverdueTask(convertedTask);
         plannerTaskList.push(convertedTask);
     }
     return plannerTaskList;
@@ -45,6 +47,8 @@ const CalendarMain: React.FC<Props> = (props) => {
     const todos = useMemo(() => processTodos(unprocessedTodos), [unprocessedTodos]);
     const plannerTasks = useMemo(() => processTasks(tasks), [tasks]);
 
+    const { showSidebar } = useAppSelector((state) => state.calendar);
+
     const {
         currentTimeStamp: beginningPeriod,
         setCurrentTimeStamp,
@@ -57,11 +61,11 @@ const CalendarMain: React.FC<Props> = (props) => {
         setCalendar(newCalendar);
     }, [beginningPeriod, todos, plannerTasks]);
 
-    if (calendar) {
-        console.log(
-            `calendarStart: ${calendar.calendarStart.toDateString()}, calendarEnd: ${calendar.calendarEnd.toDateString()}`,
-        );
-    }
+    // if (calendar) {
+    //     console.log(
+    //         `calendarStart: ${calendar.calendarStart.toDateString()}, calendarEnd: ${calendar.calendarEnd.toDateString()}`,
+    //     );
+    // }
 
     const monthNaviagtionHandler = useCallback(
         (direction: number) => {
@@ -83,9 +87,9 @@ const CalendarMain: React.FC<Props> = (props) => {
     };
 
     return (
-        <main className="py-6 px-4 text-slate-600">
-            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-4">My Calendar</h1>
-            <div className="container">
+        <main className="py-6 pl-4 text-slate-600">
+            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-6">My Calendar</h1>
+            <div className="container flex">
                 {/* Container for calendar layout and calendar sidebar */}
                 <CalendarContainer
                     calendar={calendar}
@@ -94,7 +98,12 @@ const CalendarMain: React.FC<Props> = (props) => {
                     onInvalidateItems={invalidateItems}
                 />
                 {/* Unfinished component */}
-                {/* <CalendarControl onInvalidate={invalidateItems} /> */}
+                {showSidebar && (
+                    <CalendarControl
+                        onInvalidate={invalidateItems}
+                        beginningPeriod={beginningPeriod}
+                    />
+                )}
             </div>
         </main>
     );

@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilterList } from "@fortawesome/pro-duotone-svg-icons";
 import { faAngleLeft, faAngleRight } from "@fortawesome/pro-regular-svg-icons";
 
+import { CalendarMode } from "../../../models/calendar-models/CalendarMode";
 import { Size, Theme } from "../../../models/design-models";
 import Button from "../../ui/Button";
+import { useAppSelector } from "../../../store/redux";
+import { useDispatch } from "react-redux";
+import { calendarActions } from "../../../store/redux/calendar-slice";
 
 interface Props {
     onNavigate: (direction: number) => void;
@@ -12,20 +16,24 @@ interface Props {
     currentPeriod: string;
 }
 
-export enum CalendarMode {
-    TABLE = "table",
-    AGENDA = "agenda",
-}
-
 const CalendarNavigation: React.FC<Props> = (props) => {
     const { onNavigate, onNavigateCurrentMonth, currentPeriod } = props;
-    const [activeMode, setActiveMode] = useState(CalendarMode.TABLE);
 
-    const isTableMode = activeMode === CalendarMode.TABLE;
+    const { calendarMode } = useAppSelector((state) => state.calendar);
+    const isTableMode = calendarMode === CalendarMode.TABLE;
 
-    const calendarModeHandler = (newMode: CalendarMode) => {
-        setActiveMode(newMode);
-    };
+    const dispatch = useDispatch();
+
+    const calendarModeHandler = useCallback(
+        (newMode: CalendarMode) => {
+            dispatch(calendarActions.setCalendarMode(newMode));
+        },
+        [dispatch],
+    );
+
+    const actionHandler = useCallback(() => {
+        dispatch(calendarActions.toggleSidebar());
+    }, [dispatch]);
 
     return (
         <nav className="flex justify-between items-center ml-[-5px]">
@@ -74,6 +82,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                     className={`ml-3 max-h-[2.5rem] flex justify-center items-center !min-w-[.8rem] !bg-blue-400`}
                     theme={Theme.TERTIARY}
                     size={Size.SMALL}
+                    onClick={actionHandler}
                 >
                     <FontAwesomeIcon
                         icon={faFilterList}

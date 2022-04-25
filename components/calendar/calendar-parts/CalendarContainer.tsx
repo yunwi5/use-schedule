@@ -14,11 +14,11 @@ const CalendarContainer: React.FC<Props> = (props) => {
     const { calendar, onChangeMonth, onNavigateCurrentMonth, onInvalidateItems } = props;
 
     return (
-        <section className="flex flex-col gap-3">
+        <section className="flex-1 flex flex-col gap-3">
             <CalendarNavigation
                 onNavigate={onChangeMonth}
                 onNavigateCurrentMonth={onNavigateCurrentMonth}
-                currentPeriod={calendar.getMonthYear()}
+                currentPeriod={calendar.getMonthYear(true)}
             />
             <CalendarTable calendar={calendar} onInvalidateItems={onInvalidateItems} />
         </section>

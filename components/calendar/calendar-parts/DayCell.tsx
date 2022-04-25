@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { CalendarItem } from "../../../models/calendar-models/CalendarItem";
 import { compareByDateTime } from "../../../utilities/sort-utils/sort-util";
@@ -6,6 +6,12 @@ import { isInstanceOfTask, PlannerTask } from "../../../models/task-models/Task"
 import { isInstanceOfTodo, Todo } from "../../../models/todo-models/Todo";
 import CalendarTaskItem from "../cards/CalendarTaskItem";
 import CalendarTodoItem from "../cards/CalendarTodoItem";
+import { useAppSelector } from "../../../store/redux";
+import {
+    filterItemsByImportance,
+    filterItemsByItemType,
+    filterItemsByStatus,
+} from "../../../utilities/filter-utils/calendar-item-filter";
 import classes from "./CalendarTable.module.scss";
 
 function isCurrentDate(date: Date) {
@@ -33,10 +39,24 @@ const DayCell: React.FC<Props> = (props) => {
 
     const nonCurrentMonth = isNonCurrentMonth(beginningPeriod, date);
 
-    // For each cell, calendar items should be sorted by time in ascending order for user display.
-    const sortedItems: CalendarItem[] = items.sort((itemA, itemB) =>
-        compareByDateTime(itemA, itemB),
+    const { statusFilter, importanceFilter, itemTypeFilter } = useAppSelector(
+        (state) => state.calendar,
     );
+
+    // For each cell, calendar items should be sorted by time in ascending order for user display.
+    const sortedItems: CalendarItem[] = useMemo(
+        () => items.sort((itemA, itemB) => compareByDateTime(itemA, itemB)),
+        [items],
+    );
+
+    const filteredItems = useMemo(() => {
+        const statusFiltered = filterItemsByStatus(sortedItems, statusFilter);
+        const importanceFiltered = filterItemsByImportance(statusFiltered, importanceFilter);
+        const typeFiltered = filterItemsByItemType(importanceFiltered, itemTypeFilter);
+        return typeFiltered;
+    }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
+
+    // console.table(statusFilteredItems);
 
     return (
         <div
@@ -46,7 +66,7 @@ const DayCell: React.FC<Props> = (props) => {
         >
             <span className={classes["day-number"]}>{date.getDate()}</span>
 
-            {sortedItems.map((item) => {
+            {filteredItems.map((item) => {
                 if (isInstanceOfTodo(item)) {
                     return (
                         <CalendarTodoItem
@@ -65,7 +85,6 @@ const DayCell: React.FC<Props> = (props) => {
                         />
                     );
                 }
-                // Event item can be added later on.
             })}
         </div>
     );

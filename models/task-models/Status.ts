@@ -31,6 +31,11 @@ export const ImportanceList = [
     Importance.CRUCIAL,
 ];
 
+export function isImportance(imp: string) {
+    const importanceList: string[] = ImportanceList;
+    return importanceList.includes(imp);
+}
+
 export enum Status {
     OPEN = "Open",
     CANCELLED = "Cancelled",
@@ -46,3 +51,8 @@ export const StatusList = [
     Status.COMPLETED,
     Status.OVERDUE,
 ];
+
+export function isStatus(str: string) {
+    const statusList: string[] = StatusList;
+    return statusList.includes(str);
+}
