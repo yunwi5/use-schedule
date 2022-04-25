@@ -11,6 +11,7 @@ export interface NoIdEvent {
     // meeting links and location are unique attributes to Event only.
     meetingLink?: string;
     location?: string;
+    participants?: string[]; // list of emails of participants
 
     importance?: Importance;
     userId: string;

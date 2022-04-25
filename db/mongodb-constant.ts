@@ -14,5 +14,8 @@ export const TodoListCollection = "todo-lists";
 export const TodoCollection = "todos";
 export const SubTodoCollection = "sub-todos";
 
+// Event
+export const EventCollection = "events";
+
 // Contact section
 export const ContactCollection = "contacts";

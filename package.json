@@ -20,6 +20,8 @@
 		"@fortawesome/pro-solid-svg-icons": "^6.0.0",
 		"@fortawesome/react-fontawesome": "^0.1.17",
 		"@mui/material": "^5.4.2",
+		"@mui/x-data-grid": "^5.10.0",
+		"@mui/x-date-pickers": "^5.0.0-alpha.2",
 		"@reduxjs/toolkit": "^1.7.2",
 		"@sendgrid/client": "^7.6.2",
 		"@sendgrid/mail": "^7.6.2",

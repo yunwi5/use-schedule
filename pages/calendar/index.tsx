@@ -1,5 +1,6 @@
 import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
 
@@ -11,7 +12,6 @@ import { Todo } from "../../models/todo-models/Todo";
 import { convertToTasks } from "../../utilities/tasks-utils/task-util";
 import { convertToTodos } from "../../utilities/todos-utils/todo-util";
 import { useAppDispatch } from "../../store/redux";
-import { useEffect } from "react";
 import { plannerActions } from "../../store/redux/planner-slice";
 
 interface Props {

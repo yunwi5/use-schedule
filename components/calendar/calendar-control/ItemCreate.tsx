@@ -5,6 +5,7 @@ import { faPlus } from "@fortawesome/pro-regular-svg-icons";
 
 import TaskAdd from "../../planners/planner-crud/TaskAdd";
 import classes from "./ItemCreate.module.scss";
+import EventAdd from "../events/EventAdd";
 
 interface Props {
     onInvalidate: () => void;
@@ -14,10 +15,16 @@ interface Props {
 const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showTaskAdd, setShowTaskAdd] = useState(false);
+    const [shwoEventAdd, setShowEventAdd] = useState(false);
 
     const taskAddHandler = useCallback(() => {
         onInvalidate();
         setShowTaskAdd(false);
+    }, [onInvalidate]);
+
+    const eventAddHandler = useCallback(() => {
+        onInvalidate();
+        setShowEventAdd(false);
     }, [onInvalidate]);
 
     return (
@@ -34,8 +41,11 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
             </button>
             {showDropdown && (
                 <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
-                    <div className="w-[100%] absolute top-[105%] flex flex-col">
-                        <button className="py-2 px-4 rounded-sm bg-slate-50 text-slate-500 hover:bg-sky-200 hover:text-sky-700 border-x-2 border-t-2 border-slate-300">
+                    <div className="w-[100%] absolute z-10 top-[105%] flex flex-col">
+                        <button
+                            onClick={() => setShowEventAdd(true)}
+                            className="py-2 px-4 rounded-sm bg-slate-50 text-slate-500 hover:bg-sky-200 hover:text-sky-700 border-x-2 border-t-2 border-slate-300"
+                        >
                             Event
                         </button>
                         <button
@@ -51,6 +61,13 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
                 <TaskAdd
                     onClose={() => setShowTaskAdd(false)}
                     onAddTask={taskAddHandler}
+                    beginningPeriod={beginningPeriod}
+                />
+            )}
+            {shwoEventAdd && (
+                <EventAdd
+                    onClose={() => setShowEventAdd(false)}
+                    onAddEvent={eventAddHandler}
                     beginningPeriod={beginningPeriod}
                 />
             )}

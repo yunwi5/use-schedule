@@ -50,6 +50,15 @@
     height: 100% !important;
 }
 
+@mixin invalid-input {
+    border: 1.5px solid rgb(236, 72, 153);
+    background-color: rgb(253, 242, 248);
+
+    &:focus {
+        border: 1.5px solid rgb(236, 72, 153);
+    }
+}
+
 /* 
 0 - 600px: Phone
 600 - 900px: Tablet Portrait
