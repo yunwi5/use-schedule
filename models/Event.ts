@@ -11,7 +11,7 @@ export interface NoIdEvent {
     // meeting links and location are unique attributes to Event only.
     meetingLink?: string;
     location?: string;
-    participants?: string[]; // list of emails of participants
+    participants?: Participant[]; // list of emails of participants
 
     importance?: Importance;
     userId: string;
@@ -19,4 +19,38 @@ export interface NoIdEvent {
 
 export interface Event extends NoIdEvent {
     id: string;
+}
+
+// For PATCH request
+export interface EventProps {
+    name?: string;
+    dateTime?: Date; // Date is required for the calendar to display this event
+    status?: Status; // Event can be opened, cancelled, as well as completed, so Status enum would be relevant
+    description?: string;
+    duration?: number;
+
+    // meeting links and location are unique attributes to Event only.
+    meetingLink?: string;
+    location?: string;
+    participants?: Participant[]; // list of emails of participants
+    importance?: Importance;
+}
+
+export interface Participant {
+    name: string;
+    email: string;
+}
+
+// Bette way is to validate using validation libraries like Joi or Yup
+// TODO: Redefine this function using Joi validation
+export function isInstanceOfEvent(event: any) {
+    const hasId = "id" in event;
+    const hasName = "name" in event;
+    const hasStatus = "status" in event;
+    const hasDateTime = "dateTime" in event;
+    const hasDesc = "description" in event;
+    const hasDur = "duration" in event;
+    const notHavePlannerType = !("plannerType" in event);
+
+    return hasId && hasName && hasStatus && hasDateTime && hasDesc && hasDur && notHavePlannerType;
 }

@@ -18,11 +18,8 @@ function getShortWeekDayList() {
 
 const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const weekDayList = useMemo(() => getShortWeekDayList(), []);
-    // console.log(weekDayList);
 
     const calendarDates = calendar.generateCalendarDays();
-    // const calendarDateItems = calendarDates.map((date) => ({ date: date, day: date.getDate() }));
-    // console.log("current calendar dates:");
     // console.table(calendarDateItems);
 
     return (

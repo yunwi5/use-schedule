@@ -3,24 +3,33 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
+import axios from "axios";
 
 import CalendarMain from "../../components/calendar/CalendarMain";
-import { getTasksFromAllCollection, getTodosFromPage } from "../../db/pages-util";
+import {
+    getEventsFromPage,
+    getTasksFromAllCollection,
+    getTodosFromPage,
+} from "../../db/pages-util";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { Task } from "../../models/task-models/Task";
 import { Todo } from "../../models/todo-models/Todo";
+import { Event } from "../../models/Event";
 import { convertToTasks } from "../../utilities/tasks-utils/task-util";
 import { convertToTodos } from "../../utilities/todos-utils/todo-util";
 import { useAppDispatch } from "../../store/redux";
 import { plannerActions } from "../../store/redux/planner-slice";
+import { convertToAppObjectList } from "../../utilities/gen-utils/object-util";
 
 interface Props {
     tasks: Task[];
     todos: Todo[];
+    events: Event[];
 }
 
 const TASK_API_DOMAIN = "/api/planners";
 const TODO_API_DOMAIN = "/api/todos";
+const EVENT_API_DOMAIN = "/api/events";
 
 function fetchAllTasks() {
     return fetch(`${TASK_API_DOMAIN}`).then((res) => res.json());
@@ -29,8 +38,12 @@ function fetchAllTodos() {
     return fetch(`${TODO_API_DOMAIN}`).then((res) => res.json());
 }
 
+async function fetchAllEvents() {
+    return (await axios.get<{ message?: string; events: Event[] }>(EVENT_API_DOMAIN)).data;
+}
+
 const Calendar: NextPage<Props> = (props) => {
-    const { tasks: initialTasks, todos: initialTodos } = props;
+    const { tasks: initialTasks, todos: initialTodos, events: initialEvents } = props;
 
     const { data: taskData, isError: isTaskError } = useQuery(["tasks"], fetchAllTasks, {
         initialData: { tasks: initialTasks },
@@ -40,7 +53,7 @@ const Calendar: NextPage<Props> = (props) => {
     }
     const tasks: Task[] = taskData ? taskData.tasks : initialTasks;
 
-    const { data: todoData, isError: isTodoError } = useQuery(["todos"], fetchAllTodos, {
+    const { data: todoData, isError: isTodoError } = useQuery("todos", fetchAllTodos, {
         initialData: { todos: initialTodos },
     });
     if (isTodoError) {
@@ -48,10 +61,25 @@ const Calendar: NextPage<Props> = (props) => {
     }
     const todos: Todo[] = todoData ? todoData.todos : initialTodos;
 
+    const { data: eventData, isError: isEventError } = useQuery("events", fetchAllEvents, {
+        initialData: { events: initialEvents },
+    });
+    if (isEventError) {
+        console.log("Event error");
+    }
+    const events: Event[] = eventData ? eventData.events : [];
+
     const queryClient = useQueryClient();
 
     const invalidateTasks = () => queryClient.invalidateQueries("tasks");
     const invalidateTodos = () => queryClient.invalidateQueries("todos");
+    const invalidateEvents = () => queryClient.invalidateQueries("events");
+
+    const invalidateAll = () => {
+        invalidateTasks();
+        invalidateTodos();
+        invalidateEvents();
+    };
 
     // Need to be cleaned up.
     const dispatch = useAppDispatch(); // dispatching plannerMode
@@ -71,8 +99,8 @@ const Calendar: NextPage<Props> = (props) => {
             <CalendarMain
                 tasks={tasks}
                 todos={todos}
-                onInvalidateTasks={invalidateTasks}
-                onInvalidateTodos={invalidateTodos}
+                events={events}
+                onInvalidateAll={invalidateAll}
             />
         </div>
     );
@@ -101,14 +129,18 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
             };
         }
 
-        const userTodosPromise = getTodosFromPage(userId);
-        const userTasksPromise = getTasksFromAllCollection(userId);
+        const todosPromise = getTodosFromPage(userId);
+        const tasksPromise = getTasksFromAllCollection(userId);
+        const eventsPromise = getEventsFromPage(userId);
 
-        const [userTodoDocs, [wTaskDocs, mTaskDocs, yTaskDocs]] = await Promise.all([
-            userTodosPromise,
-            userTasksPromise,
+        const [userTodoDocs, [wTaskDocs, mTaskDocs, yTaskDocs], eventDocs] = await Promise.all([
+            todosPromise,
+            tasksPromise,
+            eventsPromise,
         ]);
+
         const userTodos = convertToTodos(userTodoDocs);
+        const userEvents: Event[] = convertToAppObjectList(eventDocs);
         const wTasks = convertToTasks(wTaskDocs, PlannerMode.WEEKLY);
         const mTasks = convertToTasks(mTaskDocs, PlannerMode.MONTLY);
         const yTasks = convertToTasks(yTaskDocs, PlannerMode.YEARLY);
@@ -117,6 +149,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
             props: {
                 todos: userTodos,
                 tasks: [...wTasks, ...mTasks, ...yTasks],
+                events: userEvents,
             },
         };
     },

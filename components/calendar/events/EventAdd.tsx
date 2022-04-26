@@ -1,8 +1,11 @@
 import React from "react";
-import { NoIdEvent } from "../../../models/Event";
-import Modal from "../../ui/modal/Modal";
-import EventForm from "./form/EventForm";
 
+import { NoIdEvent } from "../../../models/Event";
+import { postEvent } from "../../../lib/events/event-apis";
+import useNotification from "../../../hooks/useNotification";
+import Modal from "../../ui/modal/Modal";
+import { NotifStatus } from "../../ui/Notification";
+import EventForm from "./form/EventForm";
 import classes from "./EventModal.module.scss";
 
 interface Props {
@@ -12,9 +15,18 @@ interface Props {
 }
 
 const EventAdd: React.FC<Props> = ({ onClose, onAddEvent, beginningPeriod }) => {
-    const eventAddHandler = (newEvent: NoIdEvent) => {
+    const { setNotification } = useNotification();
+
+    const eventAddHandler = async (newEvent: NoIdEvent) => {
         console.log("new event:", newEvent);
-        postEvent(newEvent);
+        setNotification(NotifStatus.PENDING, "Posting your event...");
+        const { isSuccess, message } = await postEvent(newEvent);
+        if (isSuccess) {
+            setNotification(NotifStatus.SUCCESS, message);
+            onAddEvent();
+        } else {
+            setNotification(NotifStatus.ERROR, message);
+        }
     };
 
     return (

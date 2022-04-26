@@ -1,12 +1,18 @@
 import { Event } from "../../models/Event";
+import { Status } from "../../models/task-models/Status";
 
-export function convertToEvent(data: any): Event {
-    const eventId = data._id;
-    delete data["_id"];
-    const event: Event = { ...data, id: eventId };
-    return event;
+export function isOverdue(event: Event): boolean {
+    if (event.status === Status.OPEN || event.status === Status.OVERDUE) {
+        const current = new Date();
+        // current time is later than the due date, meaning overdue
+        return event.dateTime.getTime() < current.getTime();
+    }
+    return false;
 }
 
-export function convertToEvents(dataArr: any[]) {
-    return dataArr.map((data) => convertToEvent(data));
+export function adjustIfOverdueEvent(event: Event): void {
+    if (event.dateTime instanceof Date) {
+        return;
+    }
+    if (isOverdue(event)) event.status = Status.OVERDUE;
 }

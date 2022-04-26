@@ -1,7 +1,12 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 import { clientPromise } from "./mongodb-util";
-import { TaskCollection, TemplateCollection, TodoCollection } from "./mongodb-constant";
+import {
+    EventCollection,
+    TaskCollection,
+    TemplateCollection,
+    TodoCollection,
+} from "./mongodb-constant";
 import { Todo } from "../models/todo-models/Todo";
 import { TodoList } from "../models/todo-models/TodoList";
 import { convertToTodoList, convertToTodos } from "../utilities/todos-utils/todo-util";
@@ -28,6 +33,11 @@ export async function getTasksFromAllCollection(userId: string) {
 export async function getTodosFromPage(userId: string) {
     const client = await clientPromise;
     return await getItems(client, { userId }, null, TodoCollection);
+}
+
+export async function getEventsFromPage(userId: string) {
+    const client = await clientPromise;
+    return await getItems(client, { userId }, null, EventCollection);
 }
 
 export async function getTemplateTasksFromPage(templateId: string) {

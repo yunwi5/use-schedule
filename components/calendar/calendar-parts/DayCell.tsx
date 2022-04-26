@@ -13,6 +13,8 @@ import {
     filterItemsByStatus,
 } from "../../../utilities/filter-utils/calendar-item-filter";
 import classes from "./CalendarTable.module.scss";
+import { isInstanceOfEvent, Event } from "../../../models/Event";
+import CalendarEventItem from "../cards/CalendarEventItem";
 
 function isCurrentDate(date: Date) {
     const today = new Date();
@@ -81,6 +83,15 @@ const DayCell: React.FC<Props> = (props) => {
                             key={item.id}
                             beginningPeriod={beginningPeriod}
                             task={item as PlannerTask}
+                            onInvalidate={onInvalidateItems}
+                        />
+                    );
+                } else if (isInstanceOfEvent(item)) {
+                    return (
+                        <CalendarEventItem
+                            key={item.id}
+                            beginningPeriod={beginningPeriod}
+                            event={item as Event}
                             onInvalidate={onInvalidateItems}
                         />
                     );

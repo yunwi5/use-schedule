@@ -83,9 +83,8 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                             src={getStaticThemeImagePath(theme)}
                                             alt={theme.name}
                                             layout="responsive"
-                                            width="100%"
-                                            height="100%"
-                                            quality={60}
+                                            width="100"
+                                            height="100"
                                             placeholder="blur"
                                             blurDataURL={getStaticThemeImagePath(skyCloudTheme)}
                                         />
