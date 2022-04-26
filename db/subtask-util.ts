@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { NoIdSubTask, SubTask } from "../../models/task-models/SubTask";
+import { NoIdSubTask, SubTask } from "../models/task-models/SubTask";
 
 export async function getSubTasks(client: MongoClient, collection: string, parentTaskId: string) {
     const db = client.db();

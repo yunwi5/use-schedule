@@ -13,6 +13,7 @@ import { addDays } from "../../../../utilities/date-utils/date-control";
 import Button from "../../../ui/Button";
 import EventDurationInput from "./EventDurationInput";
 import classes from "./EventForm.module.scss";
+import ExitIcon from "../../../ui/icons/ExitIcon";
 
 export interface EventFormValues {
     name: string;
@@ -69,11 +70,25 @@ interface Props {
     beginningPeriod: Date;
     onSubmit(event: NoIdEvent): void;
     onClose(): void;
+    onDelete?: () => void;
 }
 
-const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, onClose }) => {
+function getInitialParticipantState(initialEvent?: Event): State {
+    return initialEvent && initialEvent.participants
+        ? { participants: initialEvent.participants }
+        : initialState;
+}
+
+const EventForm: React.FC<Props> = (props) => {
+    const { onSubmit, initialEvent, beginningPeriod, onClose, onDelete } = props;
+
     const userId = useUser().user?.sub;
-    const [participantState, dispatchParticipant] = useReducer(participantReducer, initialState);
+    const [participantState, dispatchParticipant] = useReducer(
+        participantReducer,
+        getInitialParticipantState(initialEvent),
+    );
+
+    console.log(participantState);
 
     const {
         register,
@@ -141,14 +156,8 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
-            <h2 className={classes.heading}>New Event</h2>
-            <FontAwesomeIcon
-                icon={faXmark}
-                onClick={onClose}
-                className={
-                    "max-w-[1.8rem] absolute top-1 right-1 transition-all hover:scale-110 text-3xl cursor-pointer ab"
-                }
-            />
+            <h2 className={classes.heading}>{initialEvent ? "Edit Event" : "New Event"}</h2>
+            <ExitIcon onClose={onClose} />
             <div className={classes.content}>
                 <div
                     className={`${classes.section} ${
@@ -161,6 +170,7 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
                     <input
                         type="text"
                         id="name"
+                        defaultValue={initialEvent?.name || ""}
                         {...register("name", {
                             required: "Title is required",
                             minLength: { value: 3, message: "Minimum 3 characters" },
@@ -184,16 +194,24 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
                     </div>
                 </div>
                 <div className={`${classes.section}`}>
-                    <label htmlFor="location" defaultValue="">
-                        Location
-                    </label>
-                    <input type="text" id="location" {...register("location")} />
+                    <label htmlFor="location">Location</label>
+                    <input
+                        type="text"
+                        id="location"
+                        defaultValue={initialEvent?.location}
+                        {...register("location")}
+                    />
                 </div>
                 <div className={`${classes.section}`}>
                     <label htmlFor="meeting-link" defaultValue="">
                         Meeting Link
                     </label>
-                    <input type="text" id="meeting-link" {...register("meetingLink")} />
+                    <input
+                        type="text"
+                        id="meeting-link"
+                        defaultValue={initialEvent?.meetingLink}
+                        {...register("meetingLink")}
+                    />
                 </div>
                 <div className={`${classes.section}`}>
                     <label className="flex">
@@ -236,7 +254,11 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
                     <div className={`${classes.section} w-[45%]`}>
                         <label htmlFor="duration">Duration</label>
                         {/* <input type="number" defaultValue={0} {...register("duration")} /> */}
-                        <EventDurationInput register={register} errors={errors} />
+                        <EventDurationInput
+                            register={register}
+                            errors={errors}
+                            defaultDuration={initialEvent?.duration || 0}
+                        />
                         {errors.durationHours && (
                             <p className={classes.error}>{errors.durationHours.message}</p>
                         )}
@@ -263,13 +285,29 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
                 </div>
                 <div className={`${classes.section}`}>
                     <label htmlFor="description">Description</label>
-                    <textarea id="description" cols={30} rows={3} {...register("description")} />
+                    <textarea
+                        id="description"
+                        cols={30}
+                        rows={3}
+                        defaultValue={initialEvent?.description || ""}
+                        {...register("description")}
+                    />
                 </div>
-                <div className={classes.action}>
-                    <Button type="submit" theme={Theme.TERTIARY} className={"!min-w-[8rem]"}>
-                        Confirm
+            </div>
+            <div className={classes.action}>
+                <Button type="submit" theme={Theme.TERTIARY} className={"!min-w-[8rem]"}>
+                    Confirm
+                </Button>
+                {onDelete && (
+                    <Button
+                        type="button"
+                        onClick={onDelete}
+                        theme={Theme.DANGER}
+                        className={"!min-w-[8rem]"}
+                    >
+                        Delete
                     </Button>
-                </div>
+                )}
             </div>
         </form>
     );

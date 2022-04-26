@@ -9,7 +9,6 @@ import CalendarItemCard from "./CalendarItemCard";
 
 interface Props {
     task: PlannerTask;
-    beginningPeriod: Date;
     onInvalidate: () => void;
 }
 
@@ -32,7 +31,7 @@ function getTaskStyle(task: PlannerTask) {
     return { bgClass, textClass, hoverBgClass, hoverTextClass };
 }
 
-const CalendarTaskItem: React.FC<Props> = ({ task, beginningPeriod, onInvalidate }) => {
+const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
     const { bgClass, textClass, hoverBgClass, hoverTextClass } = getTaskStyle(task);
 
     const [showDetail, setShowDetail] = useState(false);
@@ -72,7 +71,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, beginningPeriod, onInvalidate
                 <PlannerTaskEdit
                     initialTask={task}
                     onClose={setShowEditForm.bind(null, false)}
-                    beginningPeriod={beginningPeriod}
+                    beginningPeriod={task.dateTime}
                     onUpdate={updateHandler}
                 />
             )}

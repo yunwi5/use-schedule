@@ -10,9 +10,9 @@ export function getDurationFormat(minutes: number) {
     const hrs = Math.floor(remainingMinutes / 60);
     const mins = remainingMinutes % 60;
 
-    const daysSection = days ? `${days} days ` : "";
-    const hrsSection = hrs ? `${hrs} hrs ` : "";
-    const minsSection = mins ? `${mins} mins` : "";
+    const daysSection = days ? `${days} ${days > 1 ? "days" : "day"} ` : "";
+    const hrsSection = hrs ? `${hrs} ${hrs > 1 ? "hrs" : "hr"} ` : "";
+    const minsSection = mins ? `${mins} ${mins > 1 ? "mins" : "min"} ` : "";
 
     return `${daysSection} ${hrsSection} ${minsSection}`;
 }
@@ -83,4 +83,11 @@ export function getEndDateTimeFormat(startTime: Date, duration: number) {
     const estimatedEndTime = addMinutes(startTime, duration);
     const endTimeFormatted = getDateTimeFormat(estimatedEndTime);
     return endTimeFormatted;
+}
+
+// Event dateTime, format: Apr 27 2022 (Wed), 05:00 pm
+export function getEventDateTimeFormat(dateTime: Date) {
+    return `${dateTime.toDateString().slice(3)} (${dateTime
+        .toDateString()
+        .slice(0, 3)}), ${getUserTimeFormat(dateTime)}`;
 }

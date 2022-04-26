@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Event } from "../../../models/Event";
 import { Status } from "../../../models/task-models/Status";
+import EventDetail from "../events/detail/EventDetail";
+import EventEdit from "../events/EventEdit";
 import CalendarItemCard from "./CalendarItemCard";
 
 interface Props {
     event: Event;
-    beginningPeriod: Date;
     onInvalidate(): void;
 }
 
 const CalendarEventItem: React.FC<Props> = (props) => {
-    const { event, beginningPeriod, onInvalidate } = props;
+    const { event, onInvalidate } = props;
 
     //TODO: need to be implemented.
     const [showDetail, setShowDetail] = useState(false);
@@ -30,6 +31,20 @@ const CalendarEventItem: React.FC<Props> = (props) => {
             >
                 {event.name}
             </CalendarItemCard>
+            {showEditForm && (
+                <EventEdit
+                    onClose={setShowEditForm.bind(null, false)}
+                    onEditEvent={onInvalidate}
+                    event={event}
+                />
+            )}
+            {showDetail && (
+                <EventDetail
+                    onClose={setShowDetail.bind(null, false)}
+                    onInvalidate={onInvalidate}
+                    event={event}
+                />
+            )}
         </>
     );
 };

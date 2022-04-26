@@ -7,16 +7,17 @@ import classes from "./EventForm.module.scss";
 interface Props {
     register: UseFormRegister<EventFormValues>;
     errors: any;
+    defaultDuration: number;
 }
 
-const EventDurationInput: React.FC<Props> = ({ register, errors }) => {
+const EventDurationInput: React.FC<Props> = ({ register, errors, defaultDuration }) => {
     return (
         <div className="flex items-center">
             <input
                 type="number"
                 id="duration-hours"
                 className={`max-w-[42%] ${errors.durationHours ? classes["invalid-input"] : ""}`}
-                defaultValue={0}
+                defaultValue={Math.floor(defaultDuration / 60)}
                 {...register("durationHours", {
                     min: { value: 0, message: "Hours cannot be negative" },
                 })}
@@ -28,7 +29,7 @@ const EventDurationInput: React.FC<Props> = ({ register, errors }) => {
                 type="number"
                 id="duration-minutes"
                 className={`max-w-[42%] ${errors.durationMinutes ? classes["invalid-input"] : ""}`}
-                defaultValue={0}
+                defaultValue={defaultDuration % 60}
                 {...register("durationMinutes", {
                     min: { value: 0, message: "Minutes cannot be negative" },
                 })}

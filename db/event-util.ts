@@ -1,5 +1,5 @@
 import { clientPromise } from "./mongodb-util";
-import { getItems, insertItem } from "./generic";
+import { deleteItem, getItems, insertItem, updateItem } from "./generic";
 import { NoIdEvent } from "../models/Event";
 import { EventCollection } from "./mongodb-constant";
 
@@ -14,4 +14,12 @@ export async function getEvents(userId: string) {
 }
 
 // need to be implemented
-export async function patchEvent(eventProps: any) {}
+export async function updateEvent(eventId: string, eventProps: any) {
+    const client = await clientPromise;
+    return await updateItem(client, eventId, eventProps, EventCollection);
+}
+
+export async function deleteEvent(eventId: string) {
+    const client = await clientPromise;
+    return await deleteItem(client, eventId, EventCollection);
+}

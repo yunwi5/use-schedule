@@ -1,8 +1,8 @@
 import { MongoClient, ObjectId } from "mongodb";
 
-import { NoIdTask, Task } from "../../models/task-models/Task";
-import { TaskProperties } from "../../models/task-models/TaskProperties";
 import { SubTaskCollection } from "./mongodb-constant";
+import { NoIdTask, Task } from "../models/task-models/Task";
+import { TaskProperties } from "../models/task-models/TaskProperties";
 import { deleteAllSubTasksOfParent } from "./subtask-util";
 
 export async function getTasks(

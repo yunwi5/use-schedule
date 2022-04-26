@@ -35,9 +35,14 @@ const CalendarItemCard: React.FC<Props> = (props) => {
 
     const timeFormat = getISOTimeFormat(dateTime);
 
+    const clickHandler = (e: React.MouseEvent | React.TouchEvent) => {
+        // e.stopPropagation();
+        onClick();
+    };
+
     return (
         <div
-            onClick={onClick}
+            onClick={clickHandler}
             className={`flex gap-1 max-w-[20rem] h-[33px] px-2 py-1 rounded-md cursor-pointer ${
                 borderClass || ""
             } ${isCompleted ? "line-through opacity-80" : ""} ${
