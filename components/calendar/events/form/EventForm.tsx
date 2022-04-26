@@ -14,13 +14,6 @@ import Button from "../../../ui/Button";
 import EventDurationInput from "./EventDurationInput";
 import classes from "./EventForm.module.scss";
 
-interface Props {
-    initialEvent?: Event;
-    beginningPeriod: Date;
-    onSubmit(event: NoIdEvent): void;
-    onClose(): void;
-}
-
 export interface EventFormValues {
     name: string;
     date: string;
@@ -71,6 +64,13 @@ const initialState: State = {
     participants: [{ name: "", email: "" }],
 };
 
+interface Props {
+    initialEvent?: Event;
+    beginningPeriod: Date;
+    onSubmit(event: NoIdEvent): void;
+    onClose(): void;
+}
+
 const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, onClose }) => {
     const userId = useUser().user?.sub;
     const [participantState, dispatchParticipant] = useReducer(participantReducer, initialState);
@@ -87,7 +87,6 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
             alert("User is not found!");
             return;
         }
-        console.log("event data:", data);
         const {
             name,
             durationHours,
@@ -108,7 +107,6 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialEvent, beginningPeriod, o
         );
 
         const participants = participantState.participants.filter((p) => p.name && p.email);
-
         const newEvent: NoIdEvent = {
             name,
             duration,
