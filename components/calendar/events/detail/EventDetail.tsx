@@ -69,7 +69,7 @@ const EventDetail: React.FC<Props> = (props) => {
                     >
                         <FontAwesomeIcon
                             icon={faCalendarWeek}
-                            className="max-w-[1.8rem] max-h-[1.8rem] mr-1"
+                            className="inline-block max-w-[1.8rem] max-h-[1.8rem] mr-1"
                         />{" "}
                         {name}
                     </h2>

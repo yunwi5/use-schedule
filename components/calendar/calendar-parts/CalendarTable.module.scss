@@ -23,9 +23,15 @@
         justify-content: center;
     }
 
+    .day-item-wrapper {
+        position: relative;
+        overflow-x: visible;
+    }
+
     .day-item {
         border-right: 1px solid $color-primary;
         border-top: 1px solid $color-primary;
+        height: 100%;
         overflow-y: scroll;
         padding: 0 1px;
         @include hide-scrollbar;

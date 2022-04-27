@@ -95,7 +95,7 @@ const CalendarMain: React.FC<Props> = (props) => {
 
     return (
         <main className="py-6 pl-4 text-slate-600">
-            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-6">My Calendar</h1>
+            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-6">Calendar</h1>
             <div className="container flex">
                 {/* Container for calendar layout and calendar sidebar */}
                 <CalendarContainer

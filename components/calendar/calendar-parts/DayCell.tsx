@@ -16,6 +16,7 @@ import CalendarTodoItem from "../cards/CalendarTodoItem";
 import CalendarEventItem from "../cards/CalendarEventItem";
 import ItemCreatePrompt from "../calendar-control/item-create/ItemCreatePrompt";
 import classes from "./CalendarTable.module.scss";
+import { getMonthMember, Month } from "../../../models/date-models/Month";
 
 function isCurrentDate(date: Date) {
     const today = new Date();
@@ -61,63 +62,73 @@ const DayCell: React.FC<Props> = (props) => {
     }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
 
     const showItemHandler = (e: React.MouseEvent) => {
-        e.stopPropagation();
         if (
             !e.target ||
             !(e.target as any).className ||
             typeof (e.target as any).className !== "string"
         )
             return;
-        if (!(e.target as any).className.includes("day-cell")) return;
+        if (
+            !(e.target as any).className.includes("day-cell") &&
+            !(e.target as any).className.includes("day-number")
+        )
+            return;
         // Prevent propagation
-        setShowItemCreatePrompt(true);
+        setShowItemCreatePrompt((prev) => !prev);
     };
+
+    const showLeft = date.getDay() >= 5 || date.getDay() === 0;
 
     return (
         <>
             <div
-                className={`day-cell ${classes.cell} ${classes["day-item"]} ${
-                    isCurrentDate(date) ? classes["current-day-item"] : ""
-                } ${nonCurrentMonth ? classes["non-current-month-item"] : ""}`}
+                className={`bg-transparent ${classes["day-item-wrapper"]}`}
                 onClick={showItemHandler}
             >
-                <span className={classes["day-number"]}>{date.getDate()}</span>
+                <div
+                    className={`day-cell ${classes.cell} ${classes["day-item"]} ${
+                        isCurrentDate(date) ? classes["current-day-item"] : ""
+                    } ${nonCurrentMonth ? classes["non-current-month-item"] : ""}`}
+                >
+                    <span className={`day-number ${classes["day-number"]}`}>{date.getDate()}</span>
 
-                {filteredItems.map((item) => {
-                    if (isInstanceOfTodo(item)) {
-                        return (
-                            <CalendarTodoItem
-                                key={item.id}
-                                todo={item as Todo}
-                                onInvalidate={onInvalidateItems}
-                            />
-                        );
-                    } else if (isInstanceOfTask(item)) {
-                        return (
-                            <CalendarTaskItem
-                                key={item.id}
-                                task={item as PlannerTask}
-                                onInvalidate={onInvalidateItems}
-                            />
-                        );
-                    } else if (isInstanceOfEvent(item)) {
-                        return (
-                            <CalendarEventItem
-                                key={item.id}
-                                event={item as Event}
-                                onInvalidate={onInvalidateItems}
-                            />
-                        );
-                    }
-                })}
+                    {filteredItems.map((item) => {
+                        if (isInstanceOfTodo(item)) {
+                            return (
+                                <CalendarTodoItem
+                                    key={item.id}
+                                    todo={item as Todo}
+                                    onInvalidate={onInvalidateItems}
+                                />
+                            );
+                        } else if (isInstanceOfTask(item)) {
+                            return (
+                                <CalendarTaskItem
+                                    key={item.id}
+                                    task={item as PlannerTask}
+                                    onInvalidate={onInvalidateItems}
+                                />
+                            );
+                        } else if (isInstanceOfEvent(item)) {
+                            return (
+                                <CalendarEventItem
+                                    key={item.id}
+                                    event={item as Event}
+                                    onInvalidate={onInvalidateItems}
+                                />
+                            );
+                        }
+                    })}
+                </div>
+                {showItemCreatePrompt && (
+                    <ItemCreatePrompt
+                        onClose={setShowItemCreatePrompt.bind(null, false)}
+                        beginningPeriod={date}
+                        showLeft={showLeft}
+                        onAdd={onInvalidateItems}
+                    />
+                )}
             </div>
-            {showItemCreatePrompt && (
-                <ItemCreatePrompt
-                    onClose={setShowItemCreatePrompt.bind(null, false)}
-                    beginningPeriod={date}
-                    onAdd={onInvalidateItems}
-                />
-            )}
         </>
     );
 };

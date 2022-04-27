@@ -32,6 +32,11 @@ export const WeekDayListFromMonday = [
     WeekDay.ANY,
 ];
 
+export function getWeekDay(date: Date): WeekDay {
+    const day = date.getDay(); // sun: 0, mon: 1, ..., sat: 6
+    return WeekDayList[day];
+}
+
 export function getWeekDayFromIndex(index: number): WeekDay {
     if (index < WeekDayListFromMonday.length) return WeekDayListFromMonday[index];
     return WeekDay.ANY;

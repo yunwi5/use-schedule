@@ -35,7 +35,6 @@ export async function apiRequestWrapper(func: Function) {
 export async function patchEvent(eventId: string, eventProps: EventProps) {
     const {
         data: { message },
-        status,
     } = await axios.patch<{ message: string }>(`${BASE_URL}/${eventId}`, eventProps);
     return {
         isSuccess: true,
