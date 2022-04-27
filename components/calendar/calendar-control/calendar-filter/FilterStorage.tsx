@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/redux";
-import { calendarActions, defaultCalendarFilter } from "../../../store/redux/calendar-slice";
+import { useAppDispatch, useAppSelector } from "../../../../store/redux";
+import { calendarActions, defaultCalendarFilter } from "../../../../store/redux/calendar-slice";
 
 const FilterStorage: React.FC = () => {
     const dispatch = useAppDispatch();

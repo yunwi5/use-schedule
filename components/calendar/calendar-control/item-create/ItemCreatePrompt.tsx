@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TaskAdd from "../../planners/planner-crud/TaskAdd";
-import Modal from "../../ui/modal/Modal";
-import EventAdd from "../events/EventAdd";
+import TaskAdd from "../../../planners/planner-crud/TaskAdd";
+import Modal from "../../../ui/modal/Modal";
+import EventAdd from "../../events/EventAdd";
 
 interface Props {
     onClose: () => void;

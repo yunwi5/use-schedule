@@ -51,8 +51,8 @@ const CalendarItemCard: React.FC<Props> = (props) => {
                     : `${bgClass} ${textClass} ${hoverBgClass} ${hoverTextClass}`
             } text-md`}
         >
-            <time className="inline-block font-semibold">{timeFormat}</time>
-            <span className="inline-block whitespace-nowrap max-w-[90%] overflow-hidden">
+            <time className="inline-block font-semibold cursor-pointer">{timeFormat}</time>
+            <span className="inline-block whitespace-nowrap max-w-[90%] overflow-hidden cursor-pointer">
                 {props.children}
             </span>
         </div>

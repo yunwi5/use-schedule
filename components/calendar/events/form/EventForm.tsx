@@ -3,7 +3,18 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/pro-regular-svg-icons";
-import { faCalendarWeek, faX } from "@fortawesome/pro-duotone-svg-icons";
+import {
+    faAlarmClock,
+    faCalendarCheck,
+    faCalendarDay,
+    faCalendarWeek,
+    faHourglass,
+    faLocationDot,
+    faMemoPad,
+    faStarExclamation,
+    faUsers,
+    faVideo,
+} from "@fortawesome/pro-duotone-svg-icons";
 
 import { NoIdEvent, Event, Participant } from "../../../../models/Event";
 import { Importance, ImportanceList, Status } from "../../../../models/task-models/Status";
@@ -154,6 +165,8 @@ const EventForm: React.FC<Props> = (props) => {
         ? getISOTimeFormat(initialEvent.dateTime)
         : getISOTimeFormat(beginningPeriod);
 
+    const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
+
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
             <h2 className={classes.heading}>{initialEvent ? "Edit Event" : "New Event"}</h2>
@@ -179,22 +192,11 @@ const EventForm: React.FC<Props> = (props) => {
                     />
                     {errors.name && <p className={classes.error}>{errors.name.message}</p>}
                 </div>
-                <div className={`flex gap-10 items-center justify-between`}>
-                    <div className={`${classes.section} w-[45%]`}>
-                        <label htmlFor="date">Date</label>
-                        <input type="date" defaultValue={initialDateInput} {...register("date")} />
-                    </div>
-                    <div className={`${classes.section} w-[45%]`}>
-                        <label htmlFor="time">Time </label>
-                        <input
-                            type="time"
-                            defaultValue={intiialTimeInput}
-                            {...register("time", { required: "Time is requied" })}
-                        />
-                    </div>
-                </div>
                 <div className={`${classes.section}`}>
-                    <label htmlFor="location">Location</label>
+                    <label htmlFor="location">
+                        <FontAwesomeIcon icon={faLocationDot} className={labelIconClass} />
+                        Location
+                    </label>
                     <input
                         type="text"
                         id="location"
@@ -204,6 +206,7 @@ const EventForm: React.FC<Props> = (props) => {
                 </div>
                 <div className={`${classes.section}`}>
                     <label htmlFor="meeting-link" defaultValue="">
+                        <FontAwesomeIcon icon={faVideo} className={labelIconClass} />
                         Meeting Link
                     </label>
                     <input
@@ -215,7 +218,10 @@ const EventForm: React.FC<Props> = (props) => {
                 </div>
                 <div className={`${classes.section}`}>
                     <label className="flex">
-                        <span className="mr-auto">Participants </span>
+                        <span className="mr-auto">
+                            <FontAwesomeIcon icon={faUsers} className={labelIconClass} />
+                            Participants
+                        </span>
                         <button className="" type="button" onClick={addParticipantHandler}>
                             <FontAwesomeIcon icon={faPlus} /> New
                         </button>
@@ -250,9 +256,32 @@ const EventForm: React.FC<Props> = (props) => {
                         </div>
                     ))}
                 </div>
+                <div className={`flex gap-10 items-center justify-between`}>
+                    <div className={`${classes.section} w-[45%]`}>
+                        <label htmlFor="date">
+                            <FontAwesomeIcon icon={faCalendarDay} className={labelIconClass} />
+                            Date
+                        </label>
+                        <input type="date" defaultValue={initialDateInput} {...register("date")} />
+                    </div>
+                    <div className={`${classes.section} w-[45%]`}>
+                        <label htmlFor="time">
+                            <FontAwesomeIcon icon={faAlarmClock} className={labelIconClass} />
+                            Time
+                        </label>
+                        <input
+                            type="time"
+                            defaultValue={intiialTimeInput}
+                            {...register("time", { required: "Time is requied" })}
+                        />
+                    </div>
+                </div>
                 <div className={`flex gap-10 justify-between`}>
                     <div className={`${classes.section} w-[45%]`}>
-                        <label htmlFor="duration">Duration</label>
+                        <label htmlFor="duration">
+                            <FontAwesomeIcon icon={faHourglass} className={labelIconClass} />
+                            Duration
+                        </label>
                         {/* <input type="number" defaultValue={0} {...register("duration")} /> */}
                         <EventDurationInput
                             register={register}
@@ -269,7 +298,10 @@ const EventForm: React.FC<Props> = (props) => {
                         )}
                     </div>
                     <div className={`${classes.section} w-[45%]`}>
-                        <label htmlFor="importance">Importance</label>
+                        <label htmlFor="importance">
+                            <FontAwesomeIcon icon={faStarExclamation} className={labelIconClass} />
+                            Importance
+                        </label>
                         <select
                             id="importance"
                             defaultValue={Importance.IMPORTANT}
@@ -284,7 +316,10 @@ const EventForm: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 <div className={`${classes.section}`}>
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="description">
+                        <FontAwesomeIcon icon={faMemoPad} className={labelIconClass} />
+                        Description
+                    </label>
                     <textarea
                         id="description"
                         cols={30}

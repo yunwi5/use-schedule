@@ -90,7 +90,7 @@ const Calendar: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Calendar Overview</title>
+                <title>User Calendar</title>
                 <meta
                     name="description"
                     content="Calendar page for summarizing all user specific tasks and todos for a month"

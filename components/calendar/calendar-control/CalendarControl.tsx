@@ -1,7 +1,6 @@
 import React from "react";
-import CalendarFilter from "./CalendarFilter";
-import FilterStorage from "./FilterStorage";
-import ItemCreate from "./ItemCreate";
+import { CalendarFilter, FilterStorage } from "./calendar-filter";
+import ItemCreate from "./item-create/ItemCreate";
 
 interface Props {
     onInvalidate: () => void;

@@ -1,4 +1,4 @@
-@import "../../../styles/abstract/variables";
+@import "../../../../styles/abstract/variables";
 
 // Custom button style
 .create-button {
@@ -11,6 +11,10 @@
 
     -webkit-transition: all 2.5s ease-in-out;
     transition: all 2.5s ease-in-out;
+
+    & > * {
+        cursor: inherit;
+    }
 
     .icon {
         color: $color-secondary-dark-1;

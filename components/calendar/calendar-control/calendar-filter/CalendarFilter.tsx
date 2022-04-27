@@ -1,11 +1,11 @@
 import React from "react";
 
-import { useAppDispatch, useAppSelector } from "../../../store/redux";
+import { useAppDispatch, useAppSelector } from "../../../../store/redux";
 import {
     CalendarItemType,
     CalendarItemTypeList,
     isCalendarItemType,
-} from "../../../models/calendar-models/CalendarItemType";
+} from "../../../../models/calendar-models/CalendarItemType";
 import {
     Importance,
     ImportanceList,
@@ -13,8 +13,8 @@ import {
     isStatus,
     Status,
     StatusList,
-} from "../../../models/task-models/Status";
-import { calendarActions } from "../../../store/redux/calendar-slice";
+} from "../../../../models/task-models/Status";
+import { calendarActions } from "../../../../store/redux/calendar-slice";
 import FilterSection from "./FilterSection";
 
 const CalendarFilter: React.FC = () => {
