@@ -17,17 +17,17 @@ function getTaskStyle(task: PlannerTask) {
     let textClass = "text-slate-700";
     let hoverBgClass = "hover:bg-slate-400";
     let hoverTextClass = "hover:text-slate-50";
-    if (task.plannerType === PlannerMode.MONTLY) {
-        bgClass = "bg-sky-100";
-        textClass = "text-sky-700";
-        hoverBgClass = "hover:bg-sky-400";
-        hoverTextClass = "hover:text-sky-50";
-    } else if (task.plannerType === PlannerMode.YEARLY) {
-        bgClass = "bg-blue-100";
-        textClass = "text-blue-700";
-        hoverBgClass = "hover:bg-blue-400";
-        hoverTextClass = "hover:text-blue-50";
-    }
+    // if (task.plannerType === PlannerMode.MONTLY) {
+    //     bgClass = "bg-sky-100";
+    //     textClass = "text-sky-700";
+    //     hoverBgClass = "hover:bg-sky-400";
+    //     hoverTextClass = "hover:text-sky-50";
+    // } else if (task.plannerType === PlannerMode.YEARLY) {
+    //     bgClass = "bg-blue-100";
+    //     textClass = "text-blue-700";
+    //     hoverBgClass = "hover:bg-blue-400";
+    //     hoverTextClass = "hover:text-blue-50";
+    // }
     return { bgClass, textClass, hoverBgClass, hoverTextClass };
 }
 

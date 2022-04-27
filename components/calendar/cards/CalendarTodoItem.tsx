@@ -32,11 +32,10 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
                 />
             )}
             <CalendarItemCard
-                bgClass={"bg-white"}
-                textClass={"text-slate-700"}
-                hoverBgClass={"hover:bg-slate-400"}
-                hoverTextClass={"hover:text-slate-50"}
-                borderClass={"border-2 border-slate-300"}
+                bgClass={`bg-blue-100`}
+                textClass={`text-blue-700`}
+                hoverBgClass={`hover:bg-blue-500`}
+                hoverTextClass={`hover:text-blue-50`}
                 isCompleted={todo.isCompleted}
                 dueDate={todo.dateTime}
                 dateTime={todo.dateTime || null}
