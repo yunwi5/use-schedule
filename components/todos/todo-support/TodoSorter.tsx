@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import React, { useState } from "react";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 import {
     TodoSort as SortingStandard,

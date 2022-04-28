@@ -24,6 +24,7 @@ import Button from "../../../ui/Button";
 import EventEdit from "../EventEdit";
 import EmailLink from "../../../ui/EmailLink";
 import modalClasses from "../EventModal.module.scss";
+import EventStatus from "./EventStatus";
 
 interface Props {
     onClose(): void;
@@ -146,7 +147,7 @@ const EventDetail: React.FC<Props> = (props) => {
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            <div className="flex flex-col">
+                            {/* <div className="flex flex-col">
                                 <span className={`${labelClass}`}>
                                     <FontAwesomeIcon
                                         icon={faCalendarCheck}
@@ -155,7 +156,8 @@ const EventDetail: React.FC<Props> = (props) => {
                                     Status
                                 </span>
                                 <p>{status}</p>
-                            </div>
+                            </div> */}
+                            <EventStatus event={event} onEdit={onInvalidate} />
                             <div className="flex flex-col w-[7.8rem] mr-[4.2rem]">
                                 <span className={`${labelClass}`}>
                                     <FontAwesomeIcon

@@ -27,7 +27,7 @@ const IconEdit: React.FC<Props> = (props) => {
                         onClick={onEdit}
                         className={`${classes.icon} ${
                             classes["icon-" + size]
-                        } text-sky-800 ${className}`}
+                        } text-sky-600/75 ${className}`}
                     />
                 </div>
             )}

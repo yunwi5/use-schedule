@@ -3,8 +3,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import classes from "./Select.module.scss"; // MUI default style overwriting
-
 interface Props {
     sortList: string[];
     sortTarget: string | null;
