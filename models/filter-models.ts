@@ -18,7 +18,7 @@ export interface ImportanceFilter {
 }
 
 export interface ItemTypeFilter {
-    [CalendarItemType.Event]: boolean;
+    [CalendarItemType.EVENT]: boolean;
     [CalendarItemType.TASK]: boolean;
     [CalendarItemType.TODO]: boolean;
 }

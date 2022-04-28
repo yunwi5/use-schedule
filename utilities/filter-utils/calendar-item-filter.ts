@@ -70,7 +70,7 @@ export function filterItemsByItemType(
         if (isInstanceOfTask(item)) {
             return itemTypeFilter[CalendarItemType.TASK] === true;
         } else if (isInstanceOfEvent(item)) {
-            return itemTypeFilter[CalendarItemType.Event] === true;
+            return itemTypeFilter[CalendarItemType.EVENT] === true;
         } else if (isInstanceOfTodo(item)) {
             return itemTypeFilter[CalendarItemType.TODO] === true;
         }

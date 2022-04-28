@@ -4,7 +4,7 @@
 .grid {
     display: grid;
     // each cell width should always be equal.
-    grid-template-columns: repeat(7, calc(100% / 7));
+    grid-template-columns: repeat(7, minmax(7rem, calc(100%/7)));
     grid-template-rows: 2.5rem;
     grid-auto-rows: 7rem;
     border-radius: 5px;
@@ -26,11 +26,11 @@
     .day-item-wrapper {
         position: relative;
         overflow-x: visible;
-    }
-
-    .day-item {
         border-right: 1px solid $color-primary;
         border-top: 1px solid $color-primary;
+    }
+    
+    .day-item {
         height: 100%;
         overflow-y: scroll;
         padding: 0 1px;
@@ -51,7 +51,7 @@
         padding: 0rem 0.3rem;
     }
 
-    .day-item:nth-of-type(7n),
+    .day-item-wrapper:nth-of-type(7n),
     .day-label:nth-of-type(7n) {
         // background-color: blue;
         border-right: none;

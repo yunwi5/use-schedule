@@ -1,0 +1,136 @@
+@import "../../../styles/abstract/variables";
+@import "../../../styles/abstract/mixins";
+@import "../../../styles/abstract/functions";
+
+.container {
+    @include flex-center();
+    gap: 5px;
+
+    padding-left: 5px;
+    margin-bottom: 0.3rem;
+    cursor: pointer;
+    font-size: inherit;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.container .text {
+    order: 2;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    @include flex-center();
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    order: 1;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #2196f3;
+}
+
+// Event
+.container input:checked ~ .checkmark-Event {
+    background-color: item-type-bg-color(Event) !important;
+}
+
+// Task
+.container input:checked ~ .checkmark-Task {
+    background-color: item-type-bg-color(Task) !important;
+}
+
+//List Item
+.container input:checked ~ .checkmark-ListItem {
+    background-color: item-type-bg-color(ListItem) !important;
+}
+
+// Status Open
+.container input:checked ~ .checkmark-Open {
+    background-color: status-bg-color(Open) !important;
+}
+
+// Status Cancelled
+.container input:checked ~ .checkmark-Cancelled {
+    background-color: status-bg-color(Cancelled) !important;
+}
+
+// Status In Progress
+.container input:checked ~ .checkmark-InProgress {
+    background-color: status-bg-color(InProgress) !important;
+}
+
+// Status Overdue
+.container input:checked ~ .checkmark-Overdue {
+    background-color: status-bg-color(Overdue) !important;
+}
+
+// Importance Crucial
+.container input:checked ~ .checkmark-Crucial {
+    background-color: importance-bg-color(Crucial) !important;
+}
+
+// Importance Important
+.container input:checked ~ .checkmark-Important {
+    background-color: importance-bg-color(Important) !important;
+}
+
+// Importance Nice to have
+.container input:checked ~ .checkmark-Nicetohave {
+    background-color: importance-bg-color(Nicetohave) !important;
+}
+
+// Importance Trivial
+.container input:checked ~ .checkmark-Trivial {
+    background-color: importance-bg-color(Trivial) !important;
+}
+
+// Importance Extra
+.container input:checked ~ .checkmark-Extra {
+    background-color: importance-bg-color(Extra) !important;
+}
+
+
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

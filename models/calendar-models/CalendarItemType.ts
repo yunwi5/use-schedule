@@ -1,11 +1,11 @@
 export enum CalendarItemType {
     TASK = "Task",
-    Event = "Event",
+    EVENT = "Event",
     TODO = "List Item",
 }
 
 export const CalendarItemTypeList = [
-    CalendarItemType.Event,
+    CalendarItemType.EVENT,
     CalendarItemType.TASK,
     CalendarItemType.TODO,
 ];

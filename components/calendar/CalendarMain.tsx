@@ -14,13 +14,6 @@ import { adjustIfOverdueTask } from "../../utilities/tasks-utils/task-util";
 import { Event } from "../../models/Event";
 import { adjustIfOverdueEvent } from "../../utilities/event-utils/event-util";
 
-interface Props {
-    todos: Todo[];
-    tasks: Task[];
-    events: Event[];
-    onInvalidateAll(): void;
-}
-
 // need to check overdue
 function processTasks(tasks: Task[]): PlannerTask[] {
     const plannerTaskList: PlannerTask[] = [];
@@ -49,6 +42,13 @@ function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]):
     return newCalendar;
 }
 
+interface Props {
+    todos: Todo[];
+    tasks: Task[];
+    events: Event[];
+    onInvalidateAll(): void;
+}
+
 const CalendarMain: React.FC<Props> = (props) => {
     const { todos: unprocessedTodos, tasks, events: unprocessedEvents, onInvalidateAll } = props;
 
@@ -73,12 +73,6 @@ const CalendarMain: React.FC<Props> = (props) => {
         setCalendar(newCalendar);
     }, [beginningPeriod, todos, plannerTasks, events]);
 
-    // if (calendar) {
-    //     console.log(
-    //         `calendarStart: ${calendar.calendarStart.toDateString()}, calendarEnd: ${calendar.calendarEnd.toDateString()}`,
-    //     );
-    // }
-
     const monthNaviagtionHandler = useCallback(
         (direction: number) => {
             if (direction !== 1 && direction !== -1)
@@ -89,14 +83,12 @@ const CalendarMain: React.FC<Props> = (props) => {
     );
 
     // Needs testing to check if the calendar navigates to current month date correctly
-    const navigateCurrentMonthHandler = () => {
-        setCurrentTimeStamp(currentMonthBeginning);
-    };
+    const navigateCurrentMonthHandler = () => setCurrentTimeStamp(currentMonthBeginning);
 
     return (
-        <main className="py-6 pl-4 text-slate-600">
+        <main className="py-6 pl-4 text-slate-600 max-w-[100%]">
             <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-6">Calendar</h1>
-            <div className="container flex">
+            <div className="flex max-w-[100%]">
                 {/* Container for calendar layout and calendar sidebar */}
                 <CalendarContainer
                     calendar={calendar}

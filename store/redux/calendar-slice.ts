@@ -15,7 +15,7 @@ StatusList.forEach((st) => {
 });
 
 const defaultItemTypeFilter: ItemTypeFilter = {
-    [CalendarItemType.Event]: true,
+    [CalendarItemType.EVENT]: true,
     [CalendarItemType.TASK]: true,
     [CalendarItemType.TODO]: true,
 };

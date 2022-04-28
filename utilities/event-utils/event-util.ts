@@ -11,7 +11,7 @@ export function isOverdue(event: Event): boolean {
 }
 
 export function adjustIfOverdueEvent(event: Event): void {
-    if (event.dateTime instanceof Date) {
+    if (!(event.dateTime instanceof Date)) {
         return;
     }
     if (isOverdue(event)) event.status = Status.OVERDUE;

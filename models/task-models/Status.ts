@@ -24,11 +24,11 @@ export enum Importance {
 }
 
 export const ImportanceList = [
-    Importance.EXTRA,
-    Importance.TRIVIAL,
-    Importance.NICE_TO_HAVE,
-    Importance.IMPORTANT,
     Importance.CRUCIAL,
+    Importance.IMPORTANT,
+    Importance.NICE_TO_HAVE,
+    Importance.TRIVIAL,
+    Importance.EXTRA,
 ];
 
 export function isImportance(imp: string) {

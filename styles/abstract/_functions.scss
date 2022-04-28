@@ -1,0 +1,48 @@
+// Custom color funmctions
+@function status-bg-color($status) {
+    @if $status == Open {
+        @return rgb(48, 159, 149);
+    }
+    @else if $status == Cancelled {
+        @return rgb(161, 161, 170);
+    }
+    @else if $status == InProgress {
+        @return rgba(67, 56, 202, .7);
+    }
+    @else if $status == Overdue {
+        @return rgba(lighten($color-rose-dark-1, 5%), .8);
+    }
+    @return #888;
+}
+
+@function item-type-bg-color($type) {
+    @if $type == Event {
+        @return rgb(14, 165, 233);
+    }
+    @else if $type == Task {
+        @return rgb(59, 130, 246);
+    }
+    @else if $type == ListItem {
+        @return rgb(100, 116, 139);
+    }
+    @return #999;
+}
+
+@function importance-bg-color($imp) {
+    @if $imp == Crucial {
+        @return  $color-rose;
+    }
+    @else if $imp == Important {
+        @return rgba($color-rose, .9);
+    }
+    @else if $imp == Nicetohave {
+        @return rgba($color-rose, .75);
+    }
+    @else if $imp == Trivial {
+        @return rgba($color-rose, .60);
+    }
+    @else if $imp == Extra {
+        @return rgba($color-rose, .45);   
+    }
+    @return #999;
+}

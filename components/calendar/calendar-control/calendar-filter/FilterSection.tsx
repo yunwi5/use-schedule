@@ -1,4 +1,5 @@
 import React from "react";
+import Checkbox from "../../../ui/input/Checkbox";
 
 interface Props {
     filterName: string;
@@ -16,13 +17,19 @@ const FilterSection: React.FC<Props> = (props) => {
             <ul>
                 {filterList.map((item) => (
                     <li key={item} className="flex items-center gap-2">
-                        <input
+                        {/* <input
                             type="checkbox"
                             name={filterName}
                             checked={onCheck(item)}
                             onChange={() => onToggleItem(item)}
                         />
-                        <p>{item}</p>
+                        <p>{item}</p> */}
+                        <Checkbox
+                            label={item}
+                            inputName={filterName}
+                            onToggle={() => onToggleItem(item)}
+                            checked={onCheck(item)}
+                        />
                     </li>
                 ))}
             </ul>
