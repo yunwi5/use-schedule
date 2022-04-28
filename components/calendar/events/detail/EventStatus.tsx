@@ -53,13 +53,7 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
             </span>
             {isEditing ? (
                 <FormControl size="small" sx={{ mt: 1, minWidth: 120, maxWidth: 130 }}>
-                    {/* <InputLabel id="status-select-label">Status</InputLabel> */}
-                    <Select
-                        labelId="status-select-label"
-                        id="status-select"
-                        value={status}
-                        onChange={changeHandler}
-                    >
+                    <Select id="status-select" value={status} onChange={changeHandler}>
                         {StatusList.map((s) => (
                             <MenuItem key={s} value={s}>
                                 {s}

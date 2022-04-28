@@ -147,16 +147,6 @@ const EventDetail: React.FC<Props> = (props) => {
                             </div>
                         </div>
                         <div className="flex justify-between">
-                            {/* <div className="flex flex-col">
-                                <span className={`${labelClass}`}>
-                                    <FontAwesomeIcon
-                                        icon={faCalendarCheck}
-                                        className={labelIconClass}
-                                    />
-                                    Status
-                                </span>
-                                <p>{status}</p>
-                            </div> */}
                             <EventStatus event={event} onEdit={onInvalidate} />
                             <div className="flex flex-col w-[7.8rem] mr-[4.2rem]">
                                 <span className={`${labelClass}`}>
