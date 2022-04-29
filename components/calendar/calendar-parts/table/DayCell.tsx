@@ -5,16 +5,10 @@ import { compareByDateTime } from "../../../../utilities/sort-utils/sort-util";
 import { isInstanceOfTask, PlannerTask } from "../../../../models/task-models/Task";
 import { isInstanceOfTodo, Todo } from "../../../../models/todo-models/Todo";
 import { useAppSelector } from "../../../../store/redux";
-import {
-    filterItemsByImportance,
-    filterItemsByItemType,
-    filterItemsByStatus,
-    filterCalendarItems,
-} from "../../../../utilities/filter-utils/calendar-item-filter";
+import { filterCalendarItems } from "../../../../utilities/filter-utils/calendar-item-filter";
 import { isInstanceOfEvent, Event } from "../../../../models/Event";
-import CalendarTaskItem from "../../cards/CalendarTaskItem";
-import CalendarTodoItem from "../../cards/CalendarTodoItem";
-import CalendarEventItem from "../../cards/CalendarEventItem";
+
+import { CalendarTaskItem, CalendarTodoItem, CalendarEventItem } from "../../cards/table-cards/";
 import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePrompt";
 import classes from "./CalendarTable.module.scss";
 
@@ -65,7 +59,7 @@ const DayCell: React.FC<Props> = (props) => {
     }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
 
     const showItemPromptHandler = (e: React.MouseEvent) => {
-        e.stopPropagation();
+        // e.stopPropagation();
         if (
             !e.target ||
             !(e.target as any).className ||
@@ -84,9 +78,9 @@ const DayCell: React.FC<Props> = (props) => {
     const showLeft = date.getDay() >= 5 || date.getDay() === 0;
 
     return (
-        <div className={`${classes["day-item-wrapper"]}`}>
+        <div className={`${classes["day-item-wrapper"]} ${classes.cell}`}>
             <div
-                className={`day-cell ${classes.cell} ${classes["day-item"]} ${
+                className={`day-cell ${classes["day-item"]} ${
                     isCurrentDate(date) ? classes["current-day-item"] : ""
                 } ${nonCurrentMonth ? classes["non-current-month-item"] : ""}`}
                 onClick={showItemPromptHandler}

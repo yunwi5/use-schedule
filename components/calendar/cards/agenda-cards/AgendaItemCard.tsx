@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
 import {
@@ -22,6 +22,7 @@ import { Importance, Status } from "../../../../models/task-models/Status";
 import { isInstanceOfTask } from "../../../../models/task-models/Task";
 import { isInstanceOfTodo } from "../../../../models/todo-models/Todo";
 import { getDurationFormat, getUserTimeFormat } from "../../../../utilities/date-utils/date-format";
+import { useAppSelector } from "../../../../store/redux";
 
 interface Props {
     item: CalendarItem;
@@ -70,6 +71,9 @@ const AgendaItemCard: React.FC<Props> = (props) => {
         onShowDetail,
     } = props;
     const [showDropdownDetail, setShowDropdownDetail] = useState(false);
+    const externalShowDropdown: boolean = useAppSelector(
+        (state) => state.calendar.showAgendaDropdown,
+    );
 
     if (!item.dateTime) return <span />;
 
@@ -85,6 +89,10 @@ const AgendaItemCard: React.FC<Props> = (props) => {
     const iconClass = `inline-block mr-2 max-w-[1.5rem] ${iconColor}`;
 
     const toggleDropdown = () => setShowDropdownDetail((prevState) => !prevState);
+
+    useEffect(() => {
+        setShowDropdownDetail(externalShowDropdown);
+    }, [externalShowDropdown]);
 
     return (
         <li className="flex flex-col gap-2">

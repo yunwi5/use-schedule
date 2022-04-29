@@ -4,13 +4,24 @@
 .grid {
     display: grid;
     // each cell width should always be equal.
-    grid-template-columns: repeat(7, minmax(7rem, calc(100%/7)));
+    grid-template-columns: repeat(7, minmax(8rem, calc(100%/7)));
     grid-template-rows: 2.5rem;
     grid-auto-rows: 7rem;
     border-radius: 5px;
     overflow: hidden;
+    
+    // Sass for loop to apply media query
+    // overflow-x does not apply when max-width: 100%; is set. 
+    // So, need to set more "tight" max-width for every screen size.
+    @for $i from 300 through 1200 {
+        @media only screen and (max-width: #{$i}px) {
+            overflow-x: scroll;
+            max-width: calc(#{$i}px - 30px);
+        }
+    }
 
     .cell {
+        min-width: 8rem;
         display: flex;
         flex-direction: column;
         cursor: pointer;

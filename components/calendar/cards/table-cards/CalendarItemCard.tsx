@@ -1,6 +1,6 @@
 import React from "react";
-import { isOverdue } from "../../../utilities/date-utils/date-check";
-import { getISOTimeFormat } from "../../../utilities/date-utils/date-format";
+import { isOverdue } from "../../../../utilities/date-utils/date-check";
+import { getISOTimeFormat } from "../../../../utilities/date-utils/date-format";
 
 interface Props {
     bgClass: string;

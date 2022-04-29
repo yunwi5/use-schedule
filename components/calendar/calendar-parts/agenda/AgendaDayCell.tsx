@@ -65,12 +65,11 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
     return (
         <article className={`flex flex-col`}>
             <div
-                className={`item-create-indicator border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer`}
-                onClick={showItemPromptHandler}
+                className={`border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer`}
             >
                 <time
-                    className="relative transition-all"
-                    // onClick={showItemPromptHandler}
+                    className="item-create-indicator relative transition-all"
+                    onClick={showItemPromptHandler}
                 >
                     <span className="item-create-indicator hover:font-semibold">{dateFormat}</span>
                     {showItemCreatePrompt && (
@@ -89,6 +88,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                     if (isInstanceOfEvent(item)) {
                         return (
                             <AgendaEventItem
+                                key={item.id}
                                 item={item as Event}
                                 onInvalidate={onInvalidateItems}
                             />
@@ -96,13 +96,18 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                     } else if (isInstanceOfTask(item)) {
                         return (
                             <AgendaTaskItem
+                                key={item.id}
                                 item={item as PlannerTask}
                                 onInvalidate={onInvalidateItems}
                             />
                         );
                     } else if (isInstanceOfTodo(item)) {
                         return (
-                            <AgendaTodoItem item={item as Todo} onInvalidate={onInvalidateItems} />
+                            <AgendaTodoItem
+                                key={item.id}
+                                item={item as Todo}
+                                onInvalidate={onInvalidateItems}
+                            />
                         );
                     }
                 })}

@@ -7,12 +7,12 @@ import { Calendar } from "../../models/calendar-models/Calendar";
 import { CalendarItem } from "../../models/calendar-models/CalendarItem";
 import { getCurrentMonthBeginning } from "../../utilities/date-utils/date-get";
 import { processTodos } from "../../utilities/todos-utils/todo-util";
-import CalendarContainer from "./calendar-parts/CalendarContainer";
-import CalendarControl from "./calendar-control/CalendarControl";
 import { useAppSelector } from "../../store/redux";
 import { adjustIfOverdueTask } from "../../utilities/tasks-utils/task-util";
 import { Event } from "../../models/Event";
 import { adjustIfOverdueEvent } from "../../utilities/event-utils/event-util";
+import CalendarContainer from "./calendar-parts/CalendarContainer";
+import CalendarControl from "./calendar-control/CalendarControl";
 
 // need to check overdue
 function processTasks(tasks: Task[]): PlannerTask[] {
@@ -87,9 +87,9 @@ const CalendarMain: React.FC<Props> = (props) => {
     }, [beginningPeriod, todos, plannerTasks, events]);
 
     return (
-        <main className="py-6 pl-4 text-slate-600 max-w-[100%]">
-            <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-6">Calendar</h1>
-            <div className="flex max-w-[100%]">
+        <main className="py-6 pl-1 md:pl-4 text-slate-600">
+            <h1 className="text-3xl lg:text-4xl font-normal mb-3 md:mb-6">Calendar</h1>
+            <div className="flex w-[100%]">
                 {/* Container for calendar layout and calendar sidebar */}
                 <CalendarContainer
                     calendar={calendar}
@@ -104,6 +104,7 @@ const CalendarMain: React.FC<Props> = (props) => {
                     />
                 )}
             </div>
+            {/* <CalendarFooter /> */}
         </main>
     );
 };

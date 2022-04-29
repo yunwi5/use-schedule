@@ -3,6 +3,7 @@ import { Calendar } from "../../../models/calendar-models/Calendar";
 import { CalendarMode } from "../../../models/calendar-models/CalendarMode";
 import { useAppSelector } from "../../../store/redux";
 import CalendarAgenda from "./agenda/CalendarAgenda";
+import CalendarFooter from "./CalendarFooter";
 import CalendarNavigation from "./CalendarNavigation";
 import CalendarTable from "./table/CalendarTable";
 
@@ -20,7 +21,7 @@ const CalendarContainer: React.FC<Props> = (props) => {
     const isTableMode = calendarMode === CalendarMode.TABLE;
 
     return (
-        <section className="flex-1 pr-4 flex flex-col gap-3">
+        <section className="flex-1 pr-1 md:pr-4 flex flex-col gap-3 max-w-[100%]">
             <CalendarNavigation
                 onNavigate={onChangeMonth}
                 onNavigateCurrentMonth={onNavigateCurrentMonth}
@@ -32,6 +33,7 @@ const CalendarContainer: React.FC<Props> = (props) => {
             ) : (
                 <CalendarAgenda calendar={calendar} onInvalidateItems={onInvalidateItems} />
             )}
+            <CalendarFooter />
         </section>
     );
 };

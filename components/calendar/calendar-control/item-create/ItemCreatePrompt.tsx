@@ -39,7 +39,6 @@ const ItemCreatePrompt: React.FC<Props> = ({
     };
 
     const closeHandler = () => {
-        console.log("Close Prompt!");
         onClose();
     };
 
@@ -73,22 +72,22 @@ const ItemCreatePrompt: React.FC<Props> = ({
                             Task
                         </li>
                     </ul>
+                    {showEventAdd && (
+                        <EventAdd
+                            onClose={closeHandler}
+                            onAddEvent={itemAddHandler}
+                            beginningPeriod={beginningPeriod}
+                        />
+                    )}
+                    {showTaskAdd && (
+                        <TaskAdd
+                            onClose={closeHandler}
+                            onAddTask={itemAddHandler}
+                            beginningPeriod={beginningPeriod}
+                        />
+                    )}
                 </div>
             </ClickAwayListener>
-            {showEventAdd && (
-                <EventAdd
-                    onClose={onClose}
-                    onAddEvent={itemAddHandler}
-                    beginningPeriod={beginningPeriod}
-                />
-            )}
-            {showTaskAdd && (
-                <TaskAdd
-                    onClose={onClose}
-                    onAddTask={itemAddHandler}
-                    beginningPeriod={beginningPeriod}
-                />
-            )}
         </>
     );
 };

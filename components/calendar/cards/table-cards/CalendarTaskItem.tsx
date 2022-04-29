@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 
-import { Status } from "../../../models/task-models/Status";
-import { PlannerTask } from "../../../models/task-models/Task";
-import PlannerTaskEdit from "../../planners/planner-crud/TaskEdit";
-import TaskDetail from "../../tasks/task-modal/task-detail/TaskDetail";
+import { Status } from "../../../../models/task-models/Status";
+import { PlannerTask } from "../../../../models/task-models/Task";
+import PlannerTaskEdit from "../../../planners/planner-crud/TaskEdit";
+import TaskDetail from "../../../tasks/task-modal/task-detail/TaskDetail";
 import CalendarItemCard from "./CalendarItemCard";
 
 interface Props {

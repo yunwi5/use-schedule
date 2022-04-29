@@ -34,6 +34,7 @@ export const defaultCalendarFilter: CalendarFilter = {
 interface CalendarState {
     calendarMode: CalendarMode;
     showSidebar: boolean; // right sidebar for creating item and filtering
+    showAgendaDropdown: boolean; // In agenda mode, items are initially collapsed and dropdown is hidden.
     statusFilter: StatusFilter;
     importanceFilter: ImportanceFilter;
     itemTypeFilter: ItemTypeFilter;
@@ -42,6 +43,7 @@ interface CalendarState {
 const initialState: CalendarState = {
     calendarMode: CalendarMode.TABLE,
     showSidebar: true,
+    showAgendaDropdown: false,
     statusFilter: defaultStatusFilter,
     importanceFilter: defaultImportanceFilter,
     itemTypeFilter: defaultItemTypeFilter,
@@ -56,6 +58,9 @@ const calendarSlice = createSlice({
         },
         toggleSidebar(state) {
             state.showSidebar = !state.showSidebar;
+        },
+        toggleAgendaCollapsed(state) {
+            state.showAgendaDropdown = !state.showAgendaDropdown;
         },
         toggleStatus(state, action: PayloadAction<Status>) {
             const targetStatus = action.payload;

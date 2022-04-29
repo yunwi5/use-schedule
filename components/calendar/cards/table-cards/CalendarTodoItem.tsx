@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import useTodoQuery from "../../../hooks/useTodoQuery";
-import { Todo } from "../../../models/todo-models/Todo";
-import { useAppSelector } from "../../../store/redux";
-import { getShortNameWithRest } from "../../../utilities/gen-utils/string-util";
-import TodoDetail from "../../todos/todo-detail/TodoDetail";
+import useTodoQuery from "../../../../hooks/useTodoQuery";
+import { Todo } from "../../../../models/todo-models/Todo";
+import { useAppSelector } from "../../../../store/redux";
+import { getShortNameWithRest } from "../../../../utilities/gen-utils/string-util";
+import TodoDetail from "../../../todos/todo-detail/TodoDetail";
 import CalendarItemCard from "./CalendarItemCard";
 
 interface Props {
