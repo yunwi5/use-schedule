@@ -14,7 +14,8 @@ export function getDurationFormat(minutes: number) {
     const hrsSection = hrs ? `${hrs} ${hrs > 1 ? "hrs" : "hr"} ` : "";
     const minsSection = mins ? `${mins} ${mins > 1 ? "mins" : "min"} ` : "";
 
-    return `${daysSection} ${hrsSection} ${minsSection}`.trim();
+    const durationFormat = `${daysSection} ${hrsSection} ${minsSection}`.trim();
+    return durationFormat ? durationFormat : "0 hr";
 }
 
 // Not including year

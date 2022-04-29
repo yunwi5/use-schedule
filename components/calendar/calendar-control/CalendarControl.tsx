@@ -12,7 +12,7 @@ const CalendarControl: React.FC<Props> = (props) => {
 
     return (
         <>
-            <section className="xl:min-w-[10rem] pl-4 pr-3 -mt-[.3rem] flex flex-col gap-4">
+            <section className="xl:min-w-[10rem] pr-3 -mt-[.3rem] flex flex-col gap-4">
                 <ItemCreate onInvalidate={onInvalidate} beginningPeriod={beginningPeriod} />
                 <CalendarFilter />
             </section>

@@ -9,7 +9,7 @@ import { WeekNumber, getWeekFromIndex } from "../../models/date-models/WeekNumbe
 import { Planner } from "../../models/planner-models/Planner";
 import { PlannerMode } from "../../models/planner-models/PlannerMode";
 import { addDays } from "../../utilities/date-utils/date-control";
-import { getMonth, getWeekInterval } from "../../utilities/date-utils/month-util";
+import { getMonthName, getWeekInterval } from "../../utilities/date-utils/month-util";
 import { getShortName } from "../../utilities/gen-utils/string-util";
 import { sortTaskByTime } from "../../utilities/sort-utils/sort-util";
 import { getMonthEnding } from "../../utilities/date-utils/date-get";
@@ -33,7 +33,7 @@ function getHeadingLabels(plannerMode: PlannerMode, beginningPeriod: Date, index
             const shortDay = getShortName(day);
 
             const curr = addDays(beginningPeriod, index);
-            const currMonth = getMonth(curr);
+            const currMonth = getMonthName(curr);
 
             const isDateAny = day === WeekDay.ANY;
             let currDate = !isDateAny ? curr.getDate().toString() : "?";

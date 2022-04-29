@@ -8,6 +8,9 @@ export function getDayName(offset: number): WeekDay {
     offset = offset % 7;
     return WeekDayList[offset];
 }
+export function getDayNameFromDate(date: Date): WeekDay {
+    return getDayName(date.getDay());
+}
 
 export function getDayOffset(weekDay: WeekDay): number {
     if (!weekDay) return 0;

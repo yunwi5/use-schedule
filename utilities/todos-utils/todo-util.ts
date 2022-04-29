@@ -1,3 +1,4 @@
+import { Status } from "../../models/task-models/Status";
 import { Todo } from "../../models/todo-models/Todo";
 import { TodoList } from "../../models/todo-models/TodoList";
 import { isOverdue } from "../date-utils/date-check";
@@ -40,4 +41,9 @@ export function processTodos(todos: Todo[]): Todo[] {
 export function isTodoOverdue(todo: Todo): boolean {
     const overdue = !todo.isCompleted && isOverdue(todo.dateTime);
     return overdue;
+}
+
+export function getTodoStatus(todo: Todo): Status {
+    if (isTodoOverdue(todo)) return Status.OVERDUE;
+    return todo.isCompleted ? Status.COMPLETED : Status.OPEN;
 }

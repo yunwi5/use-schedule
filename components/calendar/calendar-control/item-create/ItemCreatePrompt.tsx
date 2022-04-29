@@ -1,19 +1,25 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
 import React, { useState } from "react";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+
 import TaskAdd from "../../../planners/planner-crud/TaskAdd";
-import ExitIcon from "../../../ui/icons/ExitIcon";
-import Modal from "../../../ui/modal/Modal";
 import EventAdd from "../../events/EventAdd";
+import ExitIcon from "../../../ui/icons/ExitIcon";
 
 interface Props {
     onClose: () => void;
     onAdd: () => void;
     showLeft: boolean;
     beginningPeriod: Date;
+    className?: string; // overriding existing classes such as position
 }
 
-const ItemCreatePrompt: React.FC<Props> = ({ onAdd, onClose, showLeft, beginningPeriod }) => {
+const ItemCreatePrompt: React.FC<Props> = ({
+    onAdd,
+    onClose,
+    showLeft,
+    beginningPeriod,
+    className,
+}) => {
     const [showEventAdd, setShowEventAdd] = useState(false);
     const [showTaskAdd, setShowTaskAdd] = useState(false);
 
@@ -32,22 +38,22 @@ const ItemCreatePrompt: React.FC<Props> = ({ onAdd, onClose, showLeft, beginning
         eventShowHandler(false);
     };
 
-    const promptClass = "!w-[16rem] rounded-sm !pb-1 text-xl flex flex-col gap-3";
-
     const closeHandler = () => {
         console.log("Close Prompt!");
         onClose();
     };
 
-    console.log(`showLeft: ${showLeft}`);
+    const isAdding = showTaskAdd || showEventAdd;
 
     return (
         <>
             <ClickAwayListener onClickAway={closeHandler}>
                 <div
-                    className={`absolute bg-blue-50 border-2 border-gray-300 top-2 ${
+                    className={`absolute top-2 ${
                         showLeft ? "right-[102%]" : "left-[103%]"
-                    } z-20 ${promptClass}`}
+                    } z-20 !w-[16rem] rounded-sm !pb-1 text-xl flex flex-col gap-3 bg-blue-50 border-2 border-gray-300 ${
+                        className || ""
+                    } ${isAdding ? "opacity-0 invisible" : ""}`}
                 >
                     <h2 className="text-2xl text-blue-500/75 brightness-95">
                         New Item

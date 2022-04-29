@@ -4,11 +4,10 @@ import { getMonthBeginning, getMonthEnding, getWeekBeginning, getWeekEnding } fr
 import { compareDates } from "./date-check";
 import { getIntervalFormat } from "./non-user-date-format";
 
-export function getMonth(date: Date) {
+export function getMonthName(date: Date, short: boolean = true) {
     const month = date.toLocaleDateString("en-US", {
-        month: "short",
+        month: short ? "short" : "long",
     });
-
     return month;
 }
 

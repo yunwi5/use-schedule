@@ -37,7 +37,8 @@ function processEvents(events: Event[]) {
 function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]): Calendar {
     const newCalendar = new Calendar(beginningPeriod);
     for (const item of calendarItems) {
-        newCalendar.addItem(item); // add item only when the item dateTime lies within the calendar range
+        // add item only when the item dateTime lies within the calendar range
+        newCalendar.addItem(item);
     }
     return newCalendar;
 }
@@ -67,12 +68,6 @@ const CalendarMain: React.FC<Props> = (props) => {
         addMonths: addLocalMonths,
     } = useDateTime(currentMonthBeginning, ResetPeriod.MONTH);
 
-    useEffect(() => {
-        const calendarItems: CalendarItem[] = [...plannerTasks, ...todos, ...events];
-        const newCalendar = populateCalendar(beginningPeriod, calendarItems);
-        setCalendar(newCalendar);
-    }, [beginningPeriod, todos, plannerTasks, events]);
-
     const monthNaviagtionHandler = useCallback(
         (direction: number) => {
             if (direction !== 1 && direction !== -1)
@@ -85,6 +80,12 @@ const CalendarMain: React.FC<Props> = (props) => {
     // Needs testing to check if the calendar navigates to current month date correctly
     const navigateCurrentMonthHandler = () => setCurrentTimeStamp(currentMonthBeginning);
 
+    useEffect(() => {
+        const calendarItems: CalendarItem[] = [...plannerTasks, ...todos, ...events];
+        const newCalendar: Calendar = populateCalendar(beginningPeriod, calendarItems);
+        setCalendar(newCalendar);
+    }, [beginningPeriod, todos, plannerTasks, events]);
+
     return (
         <main className="py-6 pl-4 text-slate-600 max-w-[100%]">
             <h1 className="text-xl md:text-2xl lg:text-4xl font-normal mb-6">Calendar</h1>
@@ -96,7 +97,6 @@ const CalendarMain: React.FC<Props> = (props) => {
                     onNavigateCurrentMonth={navigateCurrentMonthHandler}
                     onInvalidateItems={onInvalidateAll}
                 />
-                {/* Unfinished component */}
                 {showSidebar && (
                     <CalendarControl
                         onInvalidate={onInvalidateAll}

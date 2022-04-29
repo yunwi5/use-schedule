@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     }, []);
 
     if (!_document) {
-        return <p></p>;
+        return <span />;
     }
 
     const portalElement = _document.getElementById("modal") as HTMLElement;

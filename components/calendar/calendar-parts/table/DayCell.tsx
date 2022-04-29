@@ -1,22 +1,22 @@
 import React, { useMemo, useState } from "react";
 
-import { CalendarItem } from "../../../models/calendar-models/CalendarItem";
-import { compareByDateTime } from "../../../utilities/sort-utils/sort-util";
-import { isInstanceOfTask, PlannerTask } from "../../../models/task-models/Task";
-import { isInstanceOfTodo, Todo } from "../../../models/todo-models/Todo";
-import { useAppSelector } from "../../../store/redux";
+import { CalendarItem } from "../../../../models/calendar-models/CalendarItem";
+import { compareByDateTime } from "../../../../utilities/sort-utils/sort-util";
+import { isInstanceOfTask, PlannerTask } from "../../../../models/task-models/Task";
+import { isInstanceOfTodo, Todo } from "../../../../models/todo-models/Todo";
+import { useAppSelector } from "../../../../store/redux";
 import {
     filterItemsByImportance,
     filterItemsByItemType,
     filterItemsByStatus,
-} from "../../../utilities/filter-utils/calendar-item-filter";
-import { isInstanceOfEvent, Event } from "../../../models/Event";
-import CalendarTaskItem from "../cards/CalendarTaskItem";
-import CalendarTodoItem from "../cards/CalendarTodoItem";
-import CalendarEventItem from "../cards/CalendarEventItem";
-import ItemCreatePrompt from "../calendar-control/item-create/ItemCreatePrompt";
+    filterCalendarItems,
+} from "../../../../utilities/filter-utils/calendar-item-filter";
+import { isInstanceOfEvent, Event } from "../../../../models/Event";
+import CalendarTaskItem from "../../cards/CalendarTaskItem";
+import CalendarTodoItem from "../../cards/CalendarTodoItem";
+import CalendarEventItem from "../../cards/CalendarEventItem";
+import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePrompt";
 import classes from "./CalendarTable.module.scss";
-import { getMonthMember, Month } from "../../../models/date-models/Month";
 
 function isCurrentDate(date: Date) {
     const today = new Date();
@@ -55,13 +55,16 @@ const DayCell: React.FC<Props> = (props) => {
     );
 
     const filteredItems = useMemo(() => {
-        const statusFiltered = filterItemsByStatus(sortedItems, statusFilter);
-        const importanceFiltered = filterItemsByImportance(statusFiltered, importanceFilter);
-        const typeFiltered = filterItemsByItemType(importanceFiltered, itemTypeFilter);
-        return typeFiltered;
+        const filtered = filterCalendarItems(
+            sortedItems,
+            statusFilter,
+            importanceFilter,
+            itemTypeFilter,
+        );
+        return filtered;
     }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
 
-    const showItemHandler = (e: React.MouseEvent) => {
+    const showItemPromptHandler = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (
             !e.target ||
@@ -86,7 +89,7 @@ const DayCell: React.FC<Props> = (props) => {
                 className={`day-cell ${classes.cell} ${classes["day-item"]} ${
                     isCurrentDate(date) ? classes["current-day-item"] : ""
                 } ${nonCurrentMonth ? classes["non-current-month-item"] : ""}`}
-                onClick={showItemHandler}
+                onClick={showItemPromptHandler}
             >
                 <span className={`day-number ${classes["day-number"]}`}>{date.getDate()}</span>
 

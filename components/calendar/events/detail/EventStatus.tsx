@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarCheck } from "@fortawesome/pro-duotone-svg-icons";
+import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+
 import { Status, StatusList } from "../../../../models/task-models/Status";
-import IconEdit from "../../../ui/icons/IconEdit";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { patchEvent } from "../../../../lib/events/event-apis";
 import { Event } from "../../../../models/Event";
+import IconEdit from "../../../ui/icons/IconEdit";
 
 interface Props {
     event: Event;
@@ -16,16 +17,15 @@ const labelClass = "text-sky-600/75 font-semibold";
 const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
-    const [isEditing, setIsEditing] = useState(false);
     const [status, setStatus] = useState(event.status);
+    const [isEditing, setIsEditing] = useState(false);
 
     const confirmHandler = async () => {
         setIsEditing(false);
         if (event.status === status) return; // no change, no edit
 
         // send HTTP PATCH request
-        const { isSuccess, message } = await patchEvent(event.id, { status });
-        // console.log(message);
+        const { isSuccess } = await patchEvent(event.id, { status });
         if (isSuccess) onEdit();
     };
 

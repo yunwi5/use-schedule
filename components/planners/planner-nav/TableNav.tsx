@@ -12,7 +12,7 @@ import {
     getWeekEnding,
     getYearEnding,
 } from "../../../utilities/date-utils/date-get";
-import { getMonth } from "../../../utilities/date-utils/month-util";
+import { getMonthName } from "../../../utilities/date-utils/month-util";
 import { getMonthMember } from "../../../models/date-models/Month";
 import TableNavCard from "../../ui/cards/TableNavCard";
 
@@ -24,9 +24,9 @@ interface Props {
 
 function getPeriodFormat(beginningPeriod: Date, endingPeriod: Date): string {
     const beginDate = beginningPeriod.getDate();
-    const beginMonth = getMonth(beginningPeriod);
+    const beginMonth = getMonthName(beginningPeriod);
     const endDate = endingPeriod.getDate();
-    const endMonth = getMonth(endingPeriod);
+    const endMonth = getMonthName(endingPeriod);
     return `${beginDate}/${beginMonth} ~ ${endDate}/${endMonth}`;
 }
 

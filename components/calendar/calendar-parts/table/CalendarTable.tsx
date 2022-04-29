@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 
-import { Calendar } from "../../../models/calendar-models/Calendar";
-import { WeekDay, WeekDayListFromMonday } from "../../../models/date-models/WeekDay";
-import classes from "./CalendarTable.module.scss";
+import { Calendar } from "../../../../models/calendar-models/Calendar";
+import { WeekDay, WeekDayListFromMonday } from "../../../../models/date-models/WeekDay";
 import DayCell from "./DayCell";
+import classes from "./CalendarTable.module.scss";
 
 interface Props {
     calendar: Calendar;

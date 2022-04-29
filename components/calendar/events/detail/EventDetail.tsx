@@ -42,7 +42,6 @@ const EventDetail: React.FC<Props> = (props) => {
         name,
         description,
         dateTime,
-        status,
         importance,
         duration,
         location,
@@ -71,7 +70,7 @@ const EventDetail: React.FC<Props> = (props) => {
                         <FontAwesomeIcon
                             icon={faCalendarWeek}
                             className="inline-block max-w-[1.8rem] max-h-[1.8rem] mr-1"
-                        />{" "}
+                        />
                         {name}
                     </h2>
                     <ExitIcon onClose={onClose} className={"!-translate-y-[2px]"} />

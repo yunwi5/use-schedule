@@ -79,3 +79,15 @@ export function filterItemsByItemType(
 
     return filteredItems;
 }
+
+export function filterCalendarItems(
+    items: any[],
+    statusFilter: StatusFilter,
+    importanceFilter: ImportanceFilter,
+    itemTypeFilter: ItemTypeFilter,
+) {
+    const statusFiltered = filterItemsByStatus(items, statusFilter);
+    const importanceFiltered = filterItemsByImportance(statusFiltered, importanceFilter);
+    const typeFiltered = filterItemsByItemType(importanceFiltered, itemTypeFilter);
+    return typeFiltered;
+}

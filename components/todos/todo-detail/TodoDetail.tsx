@@ -22,12 +22,13 @@ interface Props {
         isSuccess: boolean;
         message: string;
     }>;
+    initialEditing?: boolean;
 }
 
 const TodoDetail: React.FC<Props> = (props) => {
-    const { onClose, todo, listName, onMutateTodo, onDeleteTodo } = props;
+    const { onClose, todo, listName, onMutateTodo, onDeleteTodo, initialEditing } = props;
     const [name, setName] = useState(todo.name);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(!!initialEditing);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const { setNotification } = useNotification();

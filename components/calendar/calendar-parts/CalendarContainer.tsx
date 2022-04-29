@@ -1,7 +1,10 @@
 import React from "react";
 import { Calendar } from "../../../models/calendar-models/Calendar";
+import { CalendarMode } from "../../../models/calendar-models/CalendarMode";
+import { useAppSelector } from "../../../store/redux";
+import CalendarAgenda from "./agenda/CalendarAgenda";
 import CalendarNavigation from "./CalendarNavigation";
-import CalendarTable from "./CalendarTable";
+import CalendarTable from "./table/CalendarTable";
 
 interface Props {
     calendar: Calendar;
@@ -13,14 +16,22 @@ interface Props {
 const CalendarContainer: React.FC<Props> = (props) => {
     const { calendar, onChangeMonth, onNavigateCurrentMonth, onInvalidateItems } = props;
 
+    const calendarMode = useAppSelector((state) => state.calendar.calendarMode);
+    const isTableMode = calendarMode === CalendarMode.TABLE;
+
     return (
-        <section className="flex-1 flex flex-col gap-3">
+        <section className="flex-1 pr-4 flex flex-col gap-3">
             <CalendarNavigation
                 onNavigate={onChangeMonth}
                 onNavigateCurrentMonth={onNavigateCurrentMonth}
                 currentPeriod={calendar.getMonthYear(true)}
             />
-            <CalendarTable calendar={calendar} onInvalidateItems={onInvalidateItems} />
+            {/* Display table or agenda */}
+            {isTableMode ? (
+                <CalendarTable calendar={calendar} onInvalidateItems={onInvalidateItems} />
+            ) : (
+                <CalendarAgenda calendar={calendar} onInvalidateItems={onInvalidateItems} />
+            )}
         </section>
     );
 };
