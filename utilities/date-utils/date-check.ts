@@ -16,6 +16,15 @@ export function isOverdue(d: Date | null | undefined) {
     return d.getTime() < now.getTime();
 }
 
+export function isCurrentDate(date: Date) {
+    const today = new Date();
+    return (
+        today.getFullYear() === date.getFullYear() &&
+        today.getMonth() === date.getMonth() &&
+        today.getDate() === date.getDate()
+    );
+}
+
 export function isSameDay(weekDay: WeekDay, date: Date): boolean {
     const day = WeekDayList[date.getDay()];
     return weekDay === day;

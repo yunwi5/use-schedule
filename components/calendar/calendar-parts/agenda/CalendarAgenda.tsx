@@ -1,11 +1,12 @@
-import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "@mui/material";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
+import { Button } from "@mui/material";
+
 import { Calendar } from "../../../../models/calendar-models/Calendar";
 import { useAppDispatch, useAppSelector } from "../../../../store/redux";
 import { calendarActions } from "../../../../store/redux/calendar-slice";
-import AgendaDayCell from "./AgendaDayCell";
+import { AgendaDayCell, AgendaItemsLabel } from "./index";
 
 interface Props {
     calendar: Calendar;
@@ -23,8 +24,9 @@ const CalendarAgenda: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const toggleCollapsed = () => dispatch(calendarActions.toggleAgendaCollapsed());
 
     return (
-        <section className="flex flex-col gap-5 border-t-2 border-slate-400 py-4 md:px-3 text-lg">
-            <div className="flex justify-end -mb-6">
+        <section className="flex flex-col gap-5 border-t-2 border-slate-400 pt-3 pb-6 md:px-3 text-lg">
+            <div className="flex justify-between -mb-3">
+                <AgendaItemsLabel />
                 <Button onClick={toggleCollapsed}>
                     <FontAwesomeIcon
                         icon={faAngleDown}

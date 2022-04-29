@@ -16,11 +16,8 @@ import {
 } from "@fortawesome/pro-duotone-svg-icons";
 
 import { CalendarItem } from "../../../../models/calendar-models/CalendarItem";
-import { CalendarItemType } from "../../../../models/calendar-models/CalendarItemType";
-import { isInstanceOfEvent } from "../../../../models/Event";
+import { CalendarItemType, getItemIcon } from "../../../../models/calendar-models/CalendarItemType";
 import { Importance, Status } from "../../../../models/task-models/Status";
-import { isInstanceOfTask } from "../../../../models/task-models/Task";
-import { isInstanceOfTodo } from "../../../../models/todo-models/Todo";
 import { getDurationFormat, getUserTimeFormat } from "../../../../utilities/date-utils/date-format";
 import { useAppSelector } from "../../../../store/redux";
 
@@ -34,28 +31,6 @@ interface Props {
     subCategory?: string;
     onShowDetail(): void;
     onShowEdit(): void;
-}
-
-function getCalendarItemType(item: CalendarItem): CalendarItemType {
-    if (isInstanceOfEvent(item)) {
-        return CalendarItemType.EVENT;
-    } else if (isInstanceOfTask(item)) {
-        return CalendarItemType.TASK;
-    } else if (isInstanceOfTodo(item)) {
-        return CalendarItemType.TODO;
-    }
-    return CalendarItemType.TASK;
-}
-
-function getCalendarItemIcon(itemType: CalendarItemType) {
-    const iconClass = "mr-2 max-w-[1.8rem] max-h-[1.8rem] !text-2xl inline-block shadow-md";
-    if (itemType === CalendarItemType.EVENT) {
-        return <FontAwesomeIcon icon={faCalendarStar} className={`${iconClass}`} />;
-    } else if (itemType === CalendarItemType.TASK) {
-        return <FontAwesomeIcon icon={faBallotCheck} className={`${iconClass}`} />;
-    } else if (itemType === CalendarItemType.TODO) {
-        return <FontAwesomeIcon icon={faSquareCheck} className={`${iconClass}`} />;
-    }
 }
 
 const AgendaItemCard: React.FC<Props> = (props) => {
@@ -77,7 +52,7 @@ const AgendaItemCard: React.FC<Props> = (props) => {
 
     if (!item.dateTime) return <span />;
 
-    const calendarIcon = getCalendarItemIcon(itemType);
+    const calendarIcon = getItemIcon(itemType);
     const iconColor =
         itemType === CalendarItemType.EVENT
             ? "text-sky-600/75"

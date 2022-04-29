@@ -11,15 +11,7 @@ import { isInstanceOfEvent, Event } from "../../../../models/Event";
 import { CalendarTaskItem, CalendarTodoItem, CalendarEventItem } from "../../cards/table-cards/";
 import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePrompt";
 import classes from "./CalendarTable.module.scss";
-
-function isCurrentDate(date: Date) {
-    const today = new Date();
-    return (
-        today.getFullYear() === date.getFullYear() &&
-        today.getMonth() === date.getMonth() &&
-        today.getDate() === date.getDate()
-    );
-}
+import { isCurrentDate } from "../../../../utilities/date-utils/date-check";
 
 function isNonCurrentMonth(beginningPeriod: Date, date: Date) {
     return beginningPeriod.getMonth() !== date.getMonth();
