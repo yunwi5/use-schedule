@@ -28,8 +28,6 @@ const DayCell: React.FC<Props> = (props) => {
     const { date, items, beginningPeriod, onInvalidateItems } = props;
     const [showItemCreatePrompt, setShowItemCreatePrompt] = useState(false);
 
-    const nonCurrentMonth = isNonCurrentMonth(beginningPeriod, date);
-
     const { statusFilter, importanceFilter, itemTypeFilter } = useAppSelector(
         (state) => state.calendar,
     );
@@ -41,13 +39,7 @@ const DayCell: React.FC<Props> = (props) => {
     );
 
     const filteredItems = useMemo(() => {
-        const filtered = filterCalendarItems(
-            sortedItems,
-            statusFilter,
-            importanceFilter,
-            itemTypeFilter,
-        );
-        return filtered;
+        return filterCalendarItems(sortedItems, statusFilter, importanceFilter, itemTypeFilter);
     }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
 
     const showItemPromptHandler = (e: React.MouseEvent) => {
@@ -67,7 +59,9 @@ const DayCell: React.FC<Props> = (props) => {
         setShowItemCreatePrompt((prev) => !prev);
     };
 
-    const showLeft = date.getDay() >= 5 || date.getDay() === 0;
+    const nonCurrentMonth = isNonCurrentMonth(beginningPeriod, date);
+
+    const showPromptOnLeft = date.getDay() >= 5 || date.getDay() === 0;
 
     return (
         <div className={`${classes["day-item-wrapper"]} ${classes.cell}`}>
@@ -111,7 +105,7 @@ const DayCell: React.FC<Props> = (props) => {
                 <ItemCreatePrompt
                     onClose={setShowItemCreatePrompt.bind(null, false)}
                     beginningPeriod={date}
-                    showLeft={showLeft}
+                    showLeft={showPromptOnLeft}
                     onAdd={onInvalidateItems}
                 />
             )}

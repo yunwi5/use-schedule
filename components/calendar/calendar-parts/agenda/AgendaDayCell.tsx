@@ -1,16 +1,16 @@
 import React, { useMemo, useState } from "react";
+import { useAppSelector } from "../../../../store/redux";
+
 import { CalendarItem } from "../../../../models/calendar-models/CalendarItem";
 import { Event, isInstanceOfEvent } from "../../../../models/Event";
 import { isInstanceOfTask, PlannerTask } from "../../../../models/task-models/Task";
 import { isInstanceOfTodo, Todo } from "../../../../models/todo-models/Todo";
-import { useAppSelector } from "../../../../store/redux";
 import { getDayNameFromDate } from "../../../../utilities/date-utils/date-get";
 import { getMonthName } from "../../../../utilities/date-utils/month-util";
 import { filterCalendarItems } from "../../../../utilities/filter-utils/calendar-item-filter";
 import { compareByDateTime } from "../../../../utilities/sort-utils/sort-util";
 import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePrompt";
-import { AgendaEventItem, AgendaTaskItem } from "../../cards/agenda-cards";
-import AgendaTodoItem from "../../cards/agenda-cards/AgendaTodoItem";
+import { AgendaEventItem, AgendaTaskItem, AgendaTodoItem } from "../../cards/agenda-cards";
 
 interface Props {
     date: Date;
@@ -41,17 +41,11 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
     );
 
     const filteredItems = useMemo(() => {
-        const filtered = filterCalendarItems(
-            sortedItems,
-            statusFilter,
-            importanceFilter,
-            itemTypeFilter,
-        );
-        return filtered;
+        return filterCalendarItems(sortedItems, statusFilter, importanceFilter, itemTypeFilter);
     }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
 
     const showItemPromptHandler = (e: React.MouseEvent) => {
-        e.stopPropagation();
+        // e.stopPropagation();
         if (
             !e.target ||
             !(e.target as any).className ||

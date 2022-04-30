@@ -39,7 +39,7 @@ export default withApiAuthRequired(async function handler(
         let q = req.query.q; // Search query
         if (Array.isArray(q)) q = q.join("");
 
-        let tasks;
+        let tasks = [];
         try {
             let result;
             if (!collection || collection === "any" || collection === "all") {

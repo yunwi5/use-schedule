@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
     CalendarItemType,
     CalendarItemTypeList,
@@ -23,4 +23,4 @@ const AgendaItemsLabel = () => (
     </div>
 );
 
-export default AgendaItemsLabel;
+export default memo(AgendaItemsLabel);

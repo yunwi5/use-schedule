@@ -1,4 +1,3 @@
-import React, { Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/pro-duotone-svg-icons";
 import { faCheck, faXmark } from "@fortawesome/pro-solid-svg-icons";
@@ -10,7 +9,7 @@ interface Props {
     isEditing: boolean;
     onEdit: () => void;
     onCheck: () => void;
-    onCancel: () => void;
+    onCancel?: () => void;
     size?: Size;
     className?: string;
 }
@@ -40,13 +39,15 @@ const IconEdit: React.FC<Props> = (props) => {
                             classes["icon-" + size]
                         } text-teal-600 ${className}`}
                     />
-                    <FontAwesomeIcon
-                        icon={faXmark}
-                        className={`${classes.icon} ${
-                            classes["icon-" + size]
-                        } text-rose-600 ${className}`}
-                        onClick={onCancel}
-                    />
+                    {onCancel && (
+                        <FontAwesomeIcon
+                            icon={faXmark}
+                            className={`${classes.icon} ${
+                                classes["icon-" + size]
+                            } text-rose-600 ${className}`}
+                            onClick={onCancel}
+                        />
+                    )}
                 </div>
             )}
         </>

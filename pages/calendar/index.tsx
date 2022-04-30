@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useQuery, useQueryClient } from "react-query";
-import axios from "axios";
 
 import CalendarMain from "../../components/calendar/CalendarMain";
 import {
@@ -20,26 +19,14 @@ import { convertToTodos } from "../../utilities/todos-utils/todo-util";
 import { useAppDispatch } from "../../store/redux";
 import { plannerActions } from "../../store/redux/planner-slice";
 import { convertToAppObjectList } from "../../utilities/gen-utils/object-util";
+import { fetchAllTasks } from "../../lib/planners/tasks-api";
+import { fetchAllTodos } from "../../lib/todos/todo-list-api";
+import { fetchAllEvents } from "../../lib/events/event-apis";
 
 interface Props {
     tasks: Task[];
     todos: Todo[];
     events: Event[];
-}
-
-const TASK_API_DOMAIN = "/api/planners";
-const TODO_API_DOMAIN = "/api/todos";
-const EVENT_API_DOMAIN = "/api/events";
-
-function fetchAllTasks() {
-    return fetch(`${TASK_API_DOMAIN}`).then((res) => res.json());
-}
-function fetchAllTodos() {
-    return fetch(`${TODO_API_DOMAIN}`).then((res) => res.json());
-}
-
-async function fetchAllEvents() {
-    return (await axios.get<{ message?: string; events: Event[] }>(EVENT_API_DOMAIN)).data;
 }
 
 const Calendar: NextPage<Props> = (props) => {

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardCheck } from "@fortawesome/pro-duotone-svg-icons";
 
-import { StatusList } from "../../../../models/task-models/Status";
+import { Status, StatusList } from "../../../../models/task-models/Status";
 import IconEdit from "../../../ui/icons/IconEdit";
 import classes from "./TaskDetail.module.scss";
 import { AbstractTask } from "../../../../models/task-models/AbstractTask";
@@ -18,22 +18,25 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
     const [status, setStatus] = useState<string>(initialStatus);
     const [isEditing, setIsEditng] = useState(false);
 
-    const statusHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newStatus = e.target.value;
-        setStatus(newStatus);
-    };
-
     const confirmHandler = async () => {
         setIsEditng(false);
-        const { isSuccess, message } = await updateTaskProperties(task.id, { status }, plannerType);
-        if (isSuccess && onInvalidate) {
-            onInvalidate();
-        }
+        changeHandler(status as Status); // patching current status
     };
 
-    const cancelHandler = () => {
-        setIsEditng(false);
-        setStatus(initialStatus);
+    const changeHandler = (newStatus: Status) => {
+        setStatus(newStatus);
+        requestHandler(newStatus);
+    };
+
+    const requestHandler = async (newStatus: Status) => {
+        if (newStatus === initialStatus) return;
+        // Send HTTP PATCH request
+        const { isSuccess } = await updateTaskProperties(
+            task.id,
+            { status: newStatus },
+            plannerType,
+        );
+        if (isSuccess && onInvalidate) onInvalidate();
     };
 
     return (
@@ -46,7 +49,6 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
                         isEditing={isEditing}
                         onEdit={() => setIsEditng(true)}
                         onCheck={confirmHandler}
-                        onCancel={cancelHandler}
                         className={"!text-[100%]"}
                     />
                 </div>
@@ -55,7 +57,9 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
             {isEditing && (
                 <select
                     className={"mt-2 p-1 cursor-pointer max-w-[10.5rem]"}
-                    onChange={statusHandler}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                        changeHandler(e.target.value as Status)
+                    }
                     value={status}
                 >
                     {StatusList.map((st) => (

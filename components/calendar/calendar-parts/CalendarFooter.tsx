@@ -4,12 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 const CalendarFooter: React.FC = () => {
-    const colorIndicator = "ml-1 w-[9px] h-[9px] -translate-y-[2px]";
+    const colorIndicator = "ml-1 inline-block w-[9px] h-[9px] -translate-y-[2px]";
 
     return (
         <div className="mt-4">
             <div className="flex gap-2">
-                <FontAwesomeIcon icon={faQuoteLeft} className="icon mt-1" />
+                <FontAwesomeIcon
+                    icon={faQuoteLeft}
+                    className="inline-block max-w-[1.2rem] max-h-[1.2rem] icon mt-1"
+                />
                 <p className="">
                     Calendar item colors are based on item type. Event item is colored with{" "}
                     <FontAwesomeIcon icon={faCircle} className={`${colorIndicator} text-sky-500`} />{" "}
@@ -27,7 +30,10 @@ const CalendarFooter: React.FC = () => {
                 </p>
             </div>
             <div className="flex gap-2 mt-2">
-                <FontAwesomeIcon icon={faQuoteLeft} className="icon mt-1" />
+                <FontAwesomeIcon
+                    icon={faQuoteLeft}
+                    className="max-w-[1.2rem] max-h-[1.2rem] icon mt-1"
+                />
                 <p>
                     Overdue items are colored with{" "}
                     <FontAwesomeIcon

@@ -20,21 +20,22 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
     const [status, setStatus] = useState(event.status);
     const [isEditing, setIsEditing] = useState(false);
 
-    const confirmHandler = async () => {
+    const confirmHandler = () => {
         setIsEditing(false);
-        if (event.status === status) return; // no change, no edit
+        changeHandler(status);
+    };
 
+    const changeHandler = (newStatus: Status) => {
+        setStatus(newStatus);
+        statusRequestHandler(newStatus);
+    };
+
+    const statusRequestHandler = async (newStatus: Status) => {
+        if (event.status === newStatus) return; // no change, no edit
         // send HTTP PATCH request
-        const { isSuccess } = await patchEvent(event.id, { status });
+        const { isSuccess, message } = await patchEvent(event.id, { status: newStatus });
         if (isSuccess) onEdit();
     };
-
-    const cancelHandler = () => {
-        setIsEditing(false);
-        setStatus(event.status); // back to original status
-    };
-
-    const changeHandler = (e: SelectChangeEvent) => setStatus(e.target.value as Status);
 
     return (
         <div className="flex-1 flex flex-col">
@@ -46,14 +47,17 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
                         isEditing={isEditing}
                         onEdit={() => setIsEditing(true)}
                         onCheck={confirmHandler}
-                        onCancel={cancelHandler}
                         className={"!text-[100%]"}
                     />
                 </div>
             </span>
             {isEditing ? (
                 <FormControl size="small" sx={{ mt: 1, minWidth: 120, maxWidth: 130 }}>
-                    <Select id="status-select" value={status} onChange={changeHandler}>
+                    <Select
+                        id="status-select"
+                        value={status}
+                        onChange={(e: SelectChangeEvent) => changeHandler(e.target.value as Status)}
+                    >
                         {StatusList.map((s) => (
                             <MenuItem key={s} value={s}>
                                 {s}

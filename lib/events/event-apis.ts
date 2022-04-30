@@ -1,8 +1,13 @@
 import axios from "axios";
-import { EventProps, NoIdEvent } from "../../models/Event";
+import { Event, EventProps, NoIdEvent } from "../../models/Event";
 
 // axios.defaults.baseURL = "api/events";
 const BASE_URL = "/api/events";
+
+// Error handling is done by react-query, so it would not be needed inside the function
+export async function fetchAllEvents() {
+    return (await axios.get<{ message?: string; events: Event[] }>(BASE_URL)).data;
+}
 
 export async function postEvent(event: NoIdEvent) {
     let message = "";

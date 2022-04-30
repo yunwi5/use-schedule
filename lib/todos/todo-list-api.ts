@@ -5,6 +5,11 @@ const TODO_API_DOMAIN = process.env.API_DOMIN_RELATIVE
     ? `${process.env.API_DOMIN_RELATIVE}/todos`
     : "api/todos";
 
+// Error handling is done by react-query, so it would not be needed inside the function
+export function fetchAllTodos() {
+    return fetch(`${TODO_API_DOMAIN}`).then((res) => res.json());
+}
+
 // Todo List APIs
 export async function postTodoList(list: NoIdTodoList) {
     let message = "";

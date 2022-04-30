@@ -3,7 +3,14 @@ import { Task } from "../../models/task-models/Task";
 import { TaskProperties } from "../../models/task-models/TaskProperties";
 import { TaskCollection } from "../../db/mongodb-constant";
 
-function getCollectionOfPlaner(plannerMode: PlannerMode): TaskCollection {
+const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
+
+// Error handling is done by react-query, so it would not be needed inside the function
+export function fetchAllTasks() {
+    return fetch(`${API_DOMAIN}`).then((res) => res.json());
+}
+
+function getPlannerCollection(plannerMode: PlannerMode): TaskCollection {
     switch (plannerMode) {
         case PlannerMode.WEEKLY:
             return TaskCollection.WEEKLY_TASKS;
@@ -16,10 +23,8 @@ function getCollectionOfPlaner(plannerMode: PlannerMode): TaskCollection {
     }
 }
 
-const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
-
 export async function postTask(newTask: Task, plannerMode: PlannerMode) {
-    const collection = getCollectionOfPlaner(plannerMode);
+    const collection = getPlannerCollection(plannerMode);
 
     let insertedId: null | string = null;
     let res;
@@ -46,8 +51,8 @@ export async function postTask(newTask: Task, plannerMode: PlannerMode) {
     return { isSuccess: true, insertedId };
 }
 
-export async function updateTask(taskId: string, updatedTask: Task, plannerMode: PlannerMode) {
-    const collection = getCollectionOfPlaner(plannerMode);
+export async function replaceTask(taskId: string, updatedTask: Task, plannerMode: PlannerMode) {
+    const collection = getPlannerCollection(plannerMode);
 
     let res;
     try {
@@ -71,7 +76,7 @@ export async function updateTask(taskId: string, updatedTask: Task, plannerMode:
 }
 
 export async function deleteTask(taskId: string, plannerMode: PlannerMode) {
-    const collection = getCollectionOfPlaner(plannerMode);
+    const collection = getPlannerCollection(plannerMode);
 
     let res;
     try {
@@ -95,7 +100,7 @@ export async function updateTaskProperties(
     updateProps: TaskProperties,
     plannerMode: PlannerMode,
 ) {
-    const collection = getCollectionOfPlaner(plannerMode);
+    const collection = getPlannerCollection(plannerMode);
 
     let res,
         message = "";

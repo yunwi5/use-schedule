@@ -5,7 +5,7 @@ import TaskForm from "./task-form/TaskForm";
 import PlannerModal from "../planner-modal/PlannerModal";
 import useTemplate from "../../../hooks/useTemplate";
 import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { deleteTask, updateTask } from "../../../lib/planners/tasks-api";
+import { deleteTask, replaceTask } from "../../../lib/planners/tasks-api";
 import { NotifStatus } from "../../ui/Notification";
 import useNotification from "../../../hooks/useNotification";
 import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
@@ -56,7 +56,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
         }
 
         setNotification(NotifStatus.PENDING, `Currently editing task ${updatedTask.name}`);
-        const { isSuccess } = await updateTask(
+        const { isSuccess } = await replaceTask(
             initialTask.id,
             updatedTask,
             initialTask.plannerType || PlannerMode.WEEKLY,
