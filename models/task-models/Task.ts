@@ -7,6 +7,7 @@ import {
     getISOTimeFormat,
 } from "../../utilities/date-utils/date-format";
 import { addMinutes } from "../../utilities/date-utils/date-control";
+import { validateTask } from "../../schemas/validation";
 
 export interface NoIdTask {
     id?: string;
@@ -87,7 +88,8 @@ export type FormTaskObject = {
     templateId?: string;
 };
 
-export function isInstanceOfTask(item: object): boolean {
+// Old way of validating task. Deprecated.
+export function isInstanceOfTaskV0(item: object): boolean {
     const hasId = "id" in item;
     const hasName = "name" in item;
     const hasDescription = "description" in item;
@@ -110,4 +112,18 @@ export function isInstanceOfTask(item: object): boolean {
         hasImportance &&
         hasPlannerType
     );
+}
+
+export function isInstanceOfTask(item: object): boolean {
+    const { isValid, message } = validateTask(item);
+    const isValid0 = isInstanceOfTaskV0(item);
+
+    // if (isValid === isValid0) {
+    //     console.log("Task validation Same!");
+    // }
+    if (isValid !== isValid0) {
+        console.log(message);
+    }
+
+    return isValid0;
 }

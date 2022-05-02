@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useNotification from "../../../hooks/useNotification";
 import Modal from "../../ui/modal/Modal";
-import { Event, NoIdEvent } from "../../../models/Event";
+import { Event, NoIdEvent, EventProps } from "../../../models/Event";
 import classes from "./EventModal.module.scss";
 import EventForm from "./form/EventForm";
 import { deleteEvent, patchEvent } from "../../../lib/events/event-apis";
@@ -18,9 +18,10 @@ const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { setNotification } = useNotification();
 
-    const eventEditHandler = async (editedEvent: NoIdEvent) => {
+    const eventEditHandler = async (editedEvent: EventProps) => {
         // Send HTTP PATCH request with given event id
         setNotification(NotifStatus.PENDING, "Updating event...");
+        delete editedEvent["status"];
         const { isSuccess, message } = await patchEvent(event.id, editedEvent);
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, message);

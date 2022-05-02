@@ -1,3 +1,4 @@
+import { validateEvent } from "../schemas/validation";
 import { Importance, Status } from "./task-models/Status";
 
 export interface NoIdEvent {
@@ -42,8 +43,7 @@ export interface Participant {
 }
 
 // Bette way is to validate using validation libraries like Joi or Yup
-// TODO: Redefine this function using Joi validation
-export function isInstanceOfEvent(event: any) {
+export function isInstanceOfEventV0(event: any) {
     const hasId = "id" in event;
     const hasName = "name" in event;
     const hasStatus = "status" in event;
@@ -53,4 +53,14 @@ export function isInstanceOfEvent(event: any) {
     const notHavePlannerType = !("plannerType" in event);
 
     return hasId && hasName && hasStatus && hasDateTime && hasDesc && hasDur && notHavePlannerType;
+}
+
+export function isInstanceOfEvent(event: any) {
+    const { isValid, message } = validateEvent(event);
+    const isValid0 = isInstanceOfEventV0(event);
+    if (isValid !== isValid0) {
+        console.warn(message);
+    }
+
+    return isValid;
 }

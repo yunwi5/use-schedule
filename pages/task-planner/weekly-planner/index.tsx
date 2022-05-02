@@ -43,12 +43,12 @@ const WeeklyPlanner: NextPage<Props> = (props) => {
             <Head>
                 <title>Weekly Task Planner</title>
                 <meta
-                    name='description'
-                    content='Weekly task planner for users to manage and allocate their tasks'
+                    name="description"
+                    content="Weekly task planner for users to manage and allocate their tasks"
                 />
             </Head>
             {isLoading && (
-                <div className='flex justify-center items-center mt-6'>
+                <div className="flex justify-center items-center mt-6">
                     <LoadingSpinner />
                 </div>
             )}
@@ -75,8 +75,6 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 
         const data = await getTasksFromPage(TaskCollection.WEEKLY_TASKS, userId);
         const userTasks = convertToTasks(data);
-        console.log("From server");
-        console.log(userTasks);
 
         return {
             props: {

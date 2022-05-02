@@ -1,3 +1,5 @@
+import { validateTodo } from "../../schemas/validation";
+
 export interface NoIdTodo {
     id?: string;
     name: string;
@@ -27,7 +29,7 @@ export interface TodoProps {
     note?: string;
 }
 
-export function isInstanceOfTodo(item: object) {
+export function isInstanceOfTodoV0(item: object) {
     const hasId = "id" in item;
     const hasName = "name" in item;
     const hasIsImportant = "isImportant" in item;
@@ -45,4 +47,15 @@ export function isInstanceOfTodo(item: object) {
         hasListId &&
         hasUserId
     );
+}
+
+export function isInstanceOfTodo(item: object) {
+    const { isValid, message } = validateTodo(item);
+    const isValid0 = isInstanceOfTodoV0(item);
+
+    if (!isValid && isValid0) {
+        console.warn(message);
+    }
+
+    return isValid0;
 }

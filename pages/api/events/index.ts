@@ -2,6 +2,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { getEvents, insertEvent } from "../../../db/event-util";
 import { NoIdEvent, Event } from "../../../models/Event";
+import { validateEvent } from "../../../schemas/validation";
 import { convertToAppObjectList } from "../../../utilities/gen-utils/object-util";
 
 type Data =
@@ -18,6 +19,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === "POST") {
         const newEvent = req.body;
+
+        const { isValid, message } = validateEvent(newEvent);
+        console.log("newEvent:", newEvent);
+        console.log(message);
+        if (!isValid) {
+            return res.status(400).json({ message });
+        }
+
         let result;
         try {
             result = await insertEvent(newEvent);

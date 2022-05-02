@@ -1,8 +1,8 @@
 import { getSession } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next/types";
-import { deleteEvent, getEvents, insertEvent, updateEvent } from "../../../db/event-util";
-import { NoIdEvent, Event, EventProps } from "../../../models/Event";
-import { convertToAppObjectList } from "../../../utilities/gen-utils/object-util";
+import { deleteEvent, updateEvent } from "../../../db/event-util";
+import { EventProps } from "../../../models/Event";
+import { validateEventProps } from "../../../schemas/validation";
 
 type Data = { message: string };
 
@@ -18,6 +18,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === "PATCH") {
         const eventProps: EventProps = req.body;
+
+        const { isValid, message } = validateEventProps(eventProps);
+        if (!isValid) {
+            return res.status(400).json({ message });
+        }
+
         let result;
         try {
             result = await updateEvent(eventId, eventProps);

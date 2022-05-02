@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/pro-regular-svg-icons";
 import {
     faAlarmClock,
-    faCalendarCheck,
     faCalendarDay,
     faCalendarWeek,
     faHourglass,
@@ -104,7 +103,6 @@ const EventForm: React.FC<Props> = (props) => {
     const {
         register,
         handleSubmit,
-        control,
         formState: { errors },
     } = useForm<EventFormValues>();
 
@@ -140,7 +138,7 @@ const EventForm: React.FC<Props> = (props) => {
             location,
             dateTime,
             meetingLink,
-            description,
+            description: description || "",
             participants,
             status: Status.OPEN,
             userId,
@@ -178,7 +176,7 @@ const EventForm: React.FC<Props> = (props) => {
                     }`}
                 >
                     <label htmlFor="name">
-                        <FontAwesomeIcon icon={faCalendarWeek} /> Title
+                        <FontAwesomeIcon icon={faCalendarWeek} className={labelIconClass} /> Title
                     </label>
                     <input
                         type="text"
@@ -223,7 +221,8 @@ const EventForm: React.FC<Props> = (props) => {
                             Participants
                         </span>
                         <button className="" type="button" onClick={addParticipantHandler}>
-                            <FontAwesomeIcon icon={faPlus} /> New
+                            <FontAwesomeIcon icon={faPlus} className={`${labelIconClass} !mr-0`} />{" "}
+                            New
                         </button>
                     </label>
                     {participantState.participants.map((p, idx) => (

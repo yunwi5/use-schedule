@@ -3,10 +3,10 @@ import Joi from "joi";
 export const taskSchema: Joi.ObjectSchema<any> = Joi.object({
     name: Joi.string().required(),
     timeString: Joi.string().required(),
-    description: Joi.string().required(),
+    description: Joi.string().empty("").required(),
     duration: Joi.number().required(),
     category: Joi.string().required(),
-    subCategory: Joi.string().required(),
+    subCategory: Joi.string().empty(""),
     status: Joi.string().required(),
     userId: Joi.string().required(),
     importance: Joi.string().required(),
@@ -37,20 +37,6 @@ export const templateSchema: Joi.ObjectSchema<any> = Joi.object({
     userId: Joi.string().required(),
 });
 
-export const eventSchema = Joi.object({
-    id: Joi.string(),
-    name: Joi.string().required(),
-    dateTime: Joi.alternatives().try(Joi.string(), Joi.date()).required(),
-    status: Joi.string().required(),
-    description: Joi.string().required(),
-    duration: Joi.number().required(),
-    meetingLink: Joi.string(),
-    location: Joi.string(),
-    importance: Joi.string(),
-    participants: Joi.alternatives(Joi.array(), Joi.object()),
-    userId: Joi.string(),
-});
-
 // Validate subTasks properties object. This is not an entire SubTask object, so there is no required().
 // It contain all subTasks props that can be updated.
 export const subTaskPropsSchema: Joi.ObjectSchema<any> = Joi.object({
@@ -72,10 +58,10 @@ export const templatePropsSchema: Joi.ObjectSchema<any> = Joi.object({
 export const taskPropsSchema: Joi.ObjectSchema<any> = Joi.object({
     name: Joi.string(),
     timeString: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().empty(""),
     duration: Joi.number(),
     category: Joi.string(),
-    subCategory: Joi.string(),
+    subCategory: Joi.string().empty(""),
     status: Joi.string(),
     userId: Joi.string(),
     importance: Joi.string(),

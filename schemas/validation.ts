@@ -16,6 +16,7 @@ import {
     todoPropsSchema,
     subTodoPropsSchema,
 } from "./todo-schemas";
+import { eventSchema, eventPropsSchema, participantSchema } from "./event-schemas";
 
 function doValidation({ error }: { error?: Joi.ValidationError }, subject: string = "Object") {
     let message: string;
@@ -77,4 +78,13 @@ export function validateTodoProps(todoProps: any) {
 
 export function validateSubTodoProps(subTodoProps: any) {
     return doValidation(subTodoPropsSchema.validate(subTodoProps), "Todo List properties");
+}
+
+// Validate events / event props
+export function validateEvent(event: any) {
+    return doValidation(eventSchema.validate(event), "Event");
+}
+
+export function validateEventProps(eventProps: any) {
+    return doValidation(eventPropsSchema.validate(eventProps), "Event properties");
 }
