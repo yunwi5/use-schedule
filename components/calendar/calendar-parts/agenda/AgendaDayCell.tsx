@@ -11,6 +11,7 @@ import { filterCalendarItems } from "../../../../utilities/filter-utils/calendar
 import { compareByDateTime } from "../../../../utilities/sort-utils/sort-util";
 import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePrompt";
 import { AgendaEventItem, AgendaTaskItem, AgendaTodoItem } from "../../cards/agenda-cards";
+import { isCurrentDate } from "../../../../utilities/date-utils/date-check";
 
 interface Props {
     date: Date;
@@ -56,16 +57,23 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
         setShowItemCreatePrompt((prev) => !prev);
     };
 
+    const isCurrent = isCurrentDate(date);
+
     return (
         <article className={`flex flex-col`}>
             <div
-                className={`border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer`}
+                className={`border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer ${
+                    isCurrent ? "" : ""
+                }`}
             >
                 <time
                     className="item-create-indicator relative transition-all"
                     onClick={showItemPromptHandler}
                 >
-                    <span className="item-create-indicator hover:font-semibold">{dateFormat}</span>
+                    <span className="item-create-indicator hover:font-semibold">
+                        {dateFormat}{" "}
+                        {isCurrent ? <span className="text-blue-500/75">(Today)</span> : ""}
+                    </span>
                     {showItemCreatePrompt && (
                         <ItemCreatePrompt
                             onClose={setShowItemCreatePrompt.bind(null, false)}

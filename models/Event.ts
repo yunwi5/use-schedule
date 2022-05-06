@@ -43,7 +43,7 @@ export interface Participant {
 }
 
 // Bette way is to validate using validation libraries like Joi or Yup
-export function isInstanceOfEventV0(event: any) {
+export function isInstanceOfEvent(event: any) {
     const hasId = "id" in event;
     const hasName = "name" in event;
     const hasStatus = "status" in event;
@@ -55,12 +55,12 @@ export function isInstanceOfEventV0(event: any) {
     return hasId && hasName && hasStatus && hasDateTime && hasDesc && hasDur && notHavePlannerType;
 }
 
-export function isInstanceOfEvent(event: any) {
-    const { isValid, message } = validateEvent(event);
-    const isValid0 = isInstanceOfEventV0(event);
-    if (isValid !== isValid0) {
-        console.warn(message);
-    }
+// export function isInstanceOfEvent(event: any) {
+//     const { isValid, message } = validateEvent(event);
+//     const isValid0 = isInstanceOfEventV0(event);
+//     if (isValid !== isValid0) {
+//         console.warn(message);
+//     }
 
-    return isValid;
-}
+//     return isValid;
+// }
