@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import useNotification from "../../../hooks/useNotification";
-import Modal from "../../ui/modal/Modal";
-import { Event, NoIdEvent, EventProps } from "../../../models/Event";
-import classes from "./EventModal.module.scss";
-import EventForm from "./form/EventForm";
-import { deleteEvent, patchEvent } from "../../../lib/events/event-apis";
-import { NotifStatus } from "../../ui/Notification";
-import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
+import React, { useState } from 'react';
+import useNotification from '../../../hooks/useNotification';
+import Modal from '../../ui/modal/Modal';
+import { Event, NoIdEvent, EventProps } from '../../../models/Event';
+import classes from './EventModal.module.scss';
+import EventForm from './form/EventForm';
+import { deleteEvent, patchEvent } from '../../../lib/events/event-apis';
+import { NotifStatus } from '../../ui/Notification';
+import DeleteModal from '../../ui/modal/modal-variation/DeleteModal';
 
 interface Props {
     onClose: () => void;
@@ -20,8 +20,8 @@ const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
 
     const eventEditHandler = async (editedEvent: EventProps) => {
         // Send HTTP PATCH request with given event id
-        setNotification(NotifStatus.PENDING, "Updating event...");
-        delete editedEvent["status"];
+        setNotification(NotifStatus.PENDING, 'Updating event...');
+        delete editedEvent['status'];
         const { isSuccess, message } = await patchEvent(event.id, editedEvent);
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, message);
@@ -35,7 +35,7 @@ const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
     const eventDeleteHandler = async () => {
         // send HTTP DELETE request
         const { isSuccess, message } = await deleteEvent(event.id);
-        setNotification(NotifStatus.PENDING, "Deleting Event...");
+        setNotification(NotifStatus.PENDING, 'Deleting Event...');
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, message);
             onClose();
@@ -51,7 +51,7 @@ const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
 
     return (
         <>
-            <Modal onClose={onClose} classes={`modal ${classes.modal}`}>
+            <Modal onClose={onClose} modalClass={`modal ${classes.modal}`}>
                 <EventForm
                     onSubmit={eventEditHandler}
                     onClose={onClose}

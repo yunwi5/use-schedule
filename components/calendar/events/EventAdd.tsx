@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { NoIdEvent } from "../../../models/Event";
-import { postEvent } from "../../../lib/events/event-apis";
-import useNotification from "../../../hooks/useNotification";
-import Modal from "../../ui/modal/Modal";
-import { NotifStatus } from "../../ui/Notification";
-import { addDays, addMinutes } from "../../../utilities/date-utils/date-control";
-import EventForm from "./form/EventForm";
-import classes from "./EventModal.module.scss";
+import { NoIdEvent } from '../../../models/Event';
+import { postEvent } from '../../../lib/events/event-apis';
+import useNotification from '../../../hooks/useNotification';
+import Modal from '../../ui/modal/Modal';
+import { NotifStatus } from '../../ui/Notification';
+import { addDays, addMinutes } from '../../../utilities/date-utils/date-control';
+import EventForm from './form/EventForm';
+import classes from './EventModal.module.scss';
 
 interface Props {
     onClose: () => void;
@@ -20,8 +20,8 @@ const EventAdd: React.FC<Props> = ({ onClose, onAddEvent, beginningPeriod: initi
     const { setNotification } = useNotification();
 
     const eventAddHandler = async (newEvent: NoIdEvent) => {
-        console.log("new event:", newEvent);
-        setNotification(NotifStatus.PENDING, "Posting your event...");
+        console.log('new event:', newEvent);
+        setNotification(NotifStatus.PENDING, 'Posting your event...');
         const { isSuccess, message } = await postEvent(newEvent);
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, message);
@@ -32,7 +32,7 @@ const EventAdd: React.FC<Props> = ({ onClose, onAddEvent, beginningPeriod: initi
     };
 
     return (
-        <Modal onClose={onClose} classes={`modal ${classes.modal}`}>
+        <Modal onClose={onClose} modalClass={`modal ${classes.modal}`}>
             <EventForm
                 onSubmit={eventAddHandler}
                 onClose={onClose}

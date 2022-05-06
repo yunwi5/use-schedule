@@ -1,17 +1,21 @@
-@import "../../../../styles/abstract/variables";
-@import "../../../../styles/abstract/mixins";
+@import '../../../../styles/abstract/variables';
+@import '../../../../styles/abstract/mixins';
+@import '../../../../styles/abstract/functions';
+
+$min-cell-width: 8rem;
 
 .grid {
     display: grid;
     // each cell width should always be equal.
-    grid-template-columns: repeat(7, minmax(8rem, calc(100%/7)));
+    grid-template-columns: repeat(7, minmax(8rem, calc(100% / 7)));
     grid-template-rows: 2.5rem;
     grid-auto-rows: 7rem;
     border-radius: 5px;
     overflow: hidden;
-    
+    position: relative;
+
     // Sass for loop to apply media query
-    // overflow-x does not apply when max-width: 100%; is set. 
+    // overflow-x does not apply when max-width: 100%; is set.
     // So, need to set more "tight" max-width for every screen size.
     @for $i from 300 through 1200 {
         @media only screen and (max-width: #{$i}px) {
@@ -21,10 +25,11 @@
     }
 
     .cell {
-        min-width: 8rem;
+        min-width: $min-cell-width;
         display: flex;
         flex-direction: column;
         cursor: pointer;
+        transition: all 0.5s ease-in-out;
     }
 
     .day-label {
@@ -40,7 +45,7 @@
         border-right: 1px solid $color-primary;
         border-top: 1px solid $color-primary;
     }
-    
+
     .day-item {
         height: 100%;
         overflow-y: scroll;
@@ -55,7 +60,7 @@
 
     .non-current-month-item {
         background-color: $color-grey-light-1;
-        opacity: .85;
+        opacity: 0.85;
     }
 
     .day-number {
@@ -64,7 +69,38 @@
 
     .day-item-wrapper:nth-of-type(7n),
     .day-label:nth-of-type(7n) {
-        // background-color: blue;
         border-right: none;
+    }
+
+    .navigator {
+        display: none;
+        @include respond(900px) {
+            display: block;
+        }
+    }
+}
+
+@for $i from 0 through 4 {
+    .grid-#{$i} {
+        // background-color: violet;
+        // For mobile screen, scroll pos can be max 2.
+        & .cell {
+            position: relative;
+            left: calc(-#{$i} * 2 * #{$min-cell-width});
+        }
+
+        // For tablet screen, scroll pos can be max 1.
+        $left-scroll-pos: min($i, 1);
+        @media only screen and (min-width: 650px) {
+            .cell {
+                left: calc(-#{$left-scroll-pos} * 2 * #{$min-cell-width});
+            }
+        }
+
+        @media only screen and (min-width: 800px) {
+            .cell {
+                left: calc(-#{$left-scroll-pos} * #{$min-cell-width});
+            }
+        }
     }
 }

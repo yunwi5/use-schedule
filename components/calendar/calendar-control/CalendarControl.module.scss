@@ -1,0 +1,46 @@
+@import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+@import '../../../styles/abstract/functions';
+
+$filter-break-point: 1250px;
+@mixin narrow-screen-dipslay {
+    display: none;
+    @include respond($filter-break-point) {
+        display: block;
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 8.8rem;
+    right: 0;
+    padding: 0.9rem 0;
+    border-radius: 3px;
+    filter: brightness(95%);
+    background-color: $color-primary-light-1;
+    animation: none;
+    z-index: 50;
+    @include narrow-screen-dipslay;
+
+    .calendar-control {
+        margin-top: 0;
+        padding: 0 0.5rem;
+        min-width: 10rem;
+        min-height: 53.5rem;
+    }
+}
+
+.backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+    @include narrow-screen-dipslay;
+}
+
+.control-container {
+    @include respond($filter-break-point) {
+        display: none;
+    }
+
+    .calendar-control {
+        margin-top: -0.47rem;
+    }
+}

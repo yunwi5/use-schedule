@@ -1,20 +1,20 @@
-import React, { useCallback, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation } from "@fortawesome/pro-duotone-svg-icons";
-import { faCheck, faXmark } from "@fortawesome/pro-regular-svg-icons";
-import { css } from "@emotion/react";
-import ClipLoader from "react-spinners/ClipLoader";
+import React, { useCallback, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation } from '@fortawesome/pro-duotone-svg-icons';
+import { faCheck, faXmark } from '@fortawesome/pro-regular-svg-icons';
+import { css } from '@emotion/react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
-import useNotification from "../../../hooks/useNotification";
-import { NotifStatus } from "../../ui/Notification";
-import { useAppSelector } from "../../../store/redux";
-import { getFullDateFormat } from "../../../utilities/date-utils/date-format";
-import { Template } from "../../../models/template-models/Template";
-import { transferTemplateToWeekly } from "../../../lib/templates/templates-api";
-import { Theme } from "../../../models/design-models";
-import Button from "../../ui/Button";
-import Modal from "../../ui/modal/Modal";
-import classes from "./ImportModal.module.scss";
+import useNotification from '../../../hooks/useNotification';
+import { NotifStatus } from '../../ui/Notification';
+import { useAppSelector } from '../../../store/redux';
+import { getFullDateFormat } from '../../../utilities/date-utils/date-format';
+import { Template } from '../../../models/template-models/Template';
+import { transferTemplateToWeekly } from '../../../lib/templates/templates-api';
+import { Theme } from '../../../models/design-models';
+import Button from '../../ui/Button';
+import Modal from '../../ui/modal/Modal';
+import classes from './ImportModal.module.scss';
 
 interface Props {
     onClose(): void;
@@ -44,7 +44,7 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
     const importHandler = async () => {
         if (!beginningPeriod || !selectedTemp) return;
 
-        setNotification(NotifStatus.PENDING, "Transferring template tasks...");
+        setNotification(NotifStatus.PENDING, 'Transferring template tasks...');
         setLoading(true);
         const { isSuccess, data } = await transferTemplateToWeekly(
             selectedTemp.id,
@@ -63,7 +63,7 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
     // console.log(`beginningPeriod: ${beginningPeriod ? beginningPeriod.toString() : ''}`);
 
     return (
-        <Modal onClose={onClose} classes={`${classes.modal}`}>
+        <Modal onClose={onClose} modalClass={`${classes.modal}`}>
             <FontAwesomeIcon
                 icon={faXmark}
                 className={`${classes.icon} ${classes.exit}`}
@@ -75,7 +75,7 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
                     <div
                         key={temp.id}
                         className={`${classes.template} ${
-                            selectedTemp?.id === temp.id ? classes.selected : ""
+                            selectedTemp?.id === temp.id ? classes.selected : ''
                         }`}
                         onClick={selectHandler.bind(null, temp)}
                     >
@@ -89,7 +89,7 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
             {selectedTemp && (
                 <p className={classes.message}>
                     <FontAwesomeIcon icon={faCircleExclamation} className={classes.info} />
-                    All tasks & sub tasks of your template{" "}
+                    All tasks & sub tasks of your template{' '}
                     <span>&quot;{selectedTemp.name}&quot; </span> will be imported to the week
                     beginning at &nbsp;<time>{getFullDateFormat(beginningPeriod)}</time>.
                 </p>

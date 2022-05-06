@@ -1,17 +1,17 @@
-import { useCallback, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/pro-duotone-svg-icons";
+import { useCallback, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/pro-duotone-svg-icons';
 
-import { AbstractTask } from "../../../../models/task-models/AbstractTask";
-import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import { SubTask } from "../../../../models/task-models/SubTask";
-import { getTaskType } from "../../../../utilities/tasks-utils/task-label";
-import Modal from "../../../ui/modal/Modal";
-import SubTaskList from "../../sub-tasks/SubTaskList";
-import TaskDetailInfo from "./TaskDetailInfo";
-import TaskDetailNav from "./TaskDetailNav";
-import classes from "./TaskDetail.module.scss";
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
+import { SubTask } from '../../../../models/task-models/SubTask';
+import { getTaskType } from '../../../../utilities/tasks-utils/task-label';
+import Modal from '../../../ui/modal/Modal';
+import SubTaskList from '../../sub-tasks/SubTaskList';
+import TaskDetailInfo from './TaskDetailInfo';
+import TaskDetailNav from './TaskDetailNav';
+import classes from './TaskDetail.module.scss';
 
 interface Props {
     onClose: () => void;
@@ -37,21 +37,21 @@ const TaskDetail: React.FC<Props> = (props) => {
 
     // testing QueryClient
     const queryClient = useQueryClient();
-    const { isLoading, error, data } = useQuery(["subTasks", task.id], fetchSubTasks);
+    const { isLoading, error, data } = useQuery(['subTasks', task.id], fetchSubTasks);
 
     const invalidateSubTasks = useCallback(() => {
-        queryClient.invalidateQueries(["subTasks", task.id]);
+        queryClient.invalidateQueries(['subTasks', task.id]);
     }, [queryClient, task]);
 
     if (error) {
-        let errMessage = error instanceof Error ? error.message : "Fetching has errors.";
+        let errMessage = error instanceof Error ? error.message : 'Fetching has errors.';
         console.log(errMessage);
     }
 
     let subTasks: SubTask[] = !error && data ? data.subTasks : [];
 
     return (
-        <Modal onClose={onClose} classes={`text-semibold ${classes.modal}`}>
+        <Modal onClose={onClose} modalClass={`text-semibold ${classes.modal}`}>
             <h2>{name}</h2>
             <FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
             <TaskDetailNav

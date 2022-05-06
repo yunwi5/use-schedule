@@ -1,11 +1,11 @@
-import React from "react";
-import { Calendar } from "../../../models/calendar-models/Calendar";
-import { CalendarMode } from "../../../models/calendar-models/CalendarMode";
-import { useAppSelector } from "../../../store/redux";
-import CalendarAgenda from "./agenda/CalendarAgenda";
-import CalendarFooter from "./CalendarFooter";
-import CalendarNavigation from "./CalendarNavigation";
-import CalendarTable from "./table/CalendarTable";
+import React from 'react';
+import { Calendar } from '../../../models/calendar-models/Calendar';
+import { CalendarMode } from '../../../models/calendar-models/CalendarMode';
+import { useAppSelector } from '../../../store/redux';
+import CalendarAgenda from './agenda/CalendarAgenda';
+import CalendarFooter from './CalendarFooter';
+import CalendarNavigation from './CalendarNavigation';
+import CalendarTable from './table/CalendarTable';
 
 interface Props {
     calendar: Calendar;

@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/pro-regular-svg-icons";
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/pro-regular-svg-icons';
 import {
-    faBallotCheck,
     faCalendarCheck,
-    faCalendarStar,
     faDiagramNested,
     faHourglass,
     faListTree,
     faLocationDot,
     faMagnifyingGlass,
     faPenToSquare,
-    faSquareCheck,
     faStarExclamation,
-} from "@fortawesome/pro-duotone-svg-icons";
+} from '@fortawesome/pro-duotone-svg-icons';
 
-import { CalendarItem } from "../../../../models/calendar-models/CalendarItem";
-import { CalendarItemType, getItemIcon } from "../../../../models/calendar-models/CalendarItemType";
-import { Importance, Status } from "../../../../models/task-models/Status";
-import { getDurationFormat, getUserTimeFormat } from "../../../../utilities/date-utils/date-format";
-import { useAppSelector } from "../../../../store/redux";
+import { CalendarItem } from '../../../../models/calendar-models/CalendarItem';
+import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
+import { Importance, Status } from '../../../../models/task-models/Status';
+import { getDurationFormat, getUserTimeFormat } from '../../../../utilities/date-utils/date-format';
+import { useAppSelector } from '../../../../store/redux';
+import DropDownToggler from '../../../ui/icons/DropDownToggler';
 
 interface Props {
     item: CalendarItem;
@@ -50,24 +48,24 @@ const AgendaItemCard: React.FC<Props> = (props) => {
         (state) => state.calendar.showAgendaDropdown,
     );
 
+    useEffect(() => {
+        setShowDropdownDetail(externalShowDropdown);
+    }, [externalShowDropdown]);
+
     if (!item.dateTime) return <span />;
 
     const calendarIcon = getItemIcon(itemType);
     const iconColor =
         itemType === CalendarItemType.EVENT
-            ? "text-sky-600/75"
+            ? 'text-sky-600/75'
             : itemType === CalendarItemType.TASK
-            ? "text-blue-600/75"
-            : "text-indigo-500/75";
+            ? 'text-blue-600/75'
+            : 'text-indigo-500/75';
 
-    const bgColor = "bg-slate-50";
+    const bgColor = 'bg-slate-50';
     const iconClass = `inline-block mr-2 max-w-[1.5rem] ${iconColor}`;
 
     const toggleDropdown = () => setShowDropdownDetail((prevState) => !prevState);
-
-    useEffect(() => {
-        setShowDropdownDetail(externalShowDropdown);
-    }, [externalShowDropdown]);
 
     return (
         <li className="flex flex-col gap-2">
@@ -84,18 +82,15 @@ const AgendaItemCard: React.FC<Props> = (props) => {
                 >
                     {item.name}
                 </h5>
-                <FontAwesomeIcon
-                    icon={faAngleDown}
-                    onClick={toggleDropdown}
-                    className={`${iconClass} text-2xl hover:scale-125 ml-auto !text-slate-400 cursor-pointer transition-all ${
-                        showDropdownDetail ? "rotate-180" : ""
-                    }`}
+                <DropDownToggler
+                    onToggle={toggleDropdown}
+                    showDropDown={showDropdownDetail}
+                    className={iconClass}
                 />
             </div>
             {showDropdownDetail && (
-                // ml 2.75rem;
                 <div
-                    className={`pl-11 pt-1 pb-2 border-b-2 border-slate-300 flex items-center ${bgColor}`}
+                    className={`pl-2 sm:pl-11 pt-1 pb-2 border-b-2 border-slate-300 flex items-center ${bgColor}`}
                 >
                     <div className="flex gap-3 md:gap-6 flex-wrap mr-4 lg:flex-nowrap">
                         <div>

@@ -1,5 +1,5 @@
 @mixin after-underline($color-1, $color-2) {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: -5px;
@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    @if (direction == "row" or direction == "column") {
+    @if (direction == 'row' or direction == 'column') {
         flex-direction: direction;
     }
 }
@@ -108,6 +108,11 @@ ORDER: Base + Typography > general layout + grid > page layout > components
     @if ($breakpoint == big-desktop) {
         @media only screen and (min-width: 112.5em) {
             // 1800px
+            @content;
+        }
+    } @else {
+        @media only screen and (max-width: $breakpoint) {
+            // custom value media query
             @content;
         }
     }

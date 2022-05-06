@@ -13,6 +13,8 @@ import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePromp
 import { AgendaEventItem, AgendaTaskItem, AgendaTodoItem } from "../../cards/agenda-cards";
 import { isCurrentDate } from "../../../../utilities/date-utils/date-check";
 
+import classes from "./AgendaDayCell.module.scss";
+
 interface Props {
     date: Date;
     items: CalendarItem[];
@@ -57,22 +59,19 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
         setShowItemCreatePrompt((prev) => !prev);
     };
 
-    const isCurrent = isCurrentDate(date);
-
     return (
-        <article className={`flex flex-col`}>
+        <article className={`flex flex-col`} id={date.toDateString()}>
             <div
-                className={`border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer ${
-                    isCurrent ? "" : ""
-                }`}
+                className={`flex h-9 border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer ${classes["cell-header"]}`}
             >
+                <div className={`w-1 h-[100%] mr-1 bg-blue-300 ${classes.prefix}`} />
                 <time
                     className="item-create-indicator relative transition-all"
                     onClick={showItemPromptHandler}
                 >
                     <span className="item-create-indicator hover:font-semibold">
                         {dateFormat}{" "}
-                        {isCurrent ? <span className="text-blue-500/75">(Today)</span> : ""}
+                        {isCurrentDate(date) && <span className={`text-blue-500/75`}>(Today)</span>}
                     </span>
                     {showItemCreatePrompt && (
                         <ItemCreatePrompt
