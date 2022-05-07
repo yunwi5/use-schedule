@@ -27,9 +27,10 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
         <>
             <CalendarItemCard
                 bgClass={'bg-white'}
-                textClass={'text-blue-700'}
+                textClass={'text-blue-500/80'}
                 hoverBgClass={'hover:bg-blue-500/70'}
                 hoverTextClass={'hover:text-blue-50'}
+                borderClass={'border-blue-500/80'}
                 dateTime={task.dateTime}
                 isCompleted={task.status === Status.COMPLETED}
                 dueDate={task.dueDate}

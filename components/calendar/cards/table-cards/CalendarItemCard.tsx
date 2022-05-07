@@ -1,6 +1,6 @@
-import React from "react";
-import { isOverdue } from "../../../../utilities/date-utils/date-check";
-import { getISOTimeFormat } from "../../../../utilities/date-utils/date-format";
+import React from 'react';
+import { isOverdue } from '../../../../utilities/date-utils/date-check';
+import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
 interface Props {
     bgClass: string;
@@ -43,11 +43,11 @@ const CalendarItemCard: React.FC<Props> = (props) => {
     return (
         <div
             onClick={clickHandler}
-            className={`flex gap-1 max-w-[20rem] h-[33px] px-2 py-1 rounded-md cursor-pointer ${
-                borderClass || ""
-            } ${isCompleted ? "line-through opacity-80" : ""} ${
+            className={`flex gap-1 max-w-[20rem] h-[33px] px-2 py-1 rounded-md cursor-pointer border-[.9px] ${
+                borderClass || ''
+            } ${isCompleted ? 'line-through opacity-80' : ''} ${
                 overdue
-                    ? "border-2 border-rose-300 bg-white opacity-80 hover:opacity-100 hover:bg-rose-50 text-rose-500"
+                    ? '!border-rose-300 bg-white opacity-80 hover:opacity-100 hover:bg-rose-50 text-rose-500'
                     : `${bgClass} ${textClass} ${hoverBgClass} ${hoverTextClass}`
             } text-md`}
         >

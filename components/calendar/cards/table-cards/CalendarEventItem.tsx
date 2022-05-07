@@ -21,9 +21,10 @@ const CalendarEventItem: React.FC<Props> = (props) => {
         <>
             <CalendarItemCard
                 bgClass={`bg-white`}
-                textClass={`text-sky-700`}
+                textClass={`text-sky-600/80`}
                 hoverBgClass={`hover:bg-sky-500/70`}
                 hoverTextClass={`hover:text-sky-50`}
+                borderClass={'border-sky-500/80'}
                 dateTime={event.dateTime}
                 isCompleted={event.status === Status.COMPLETED}
                 dueDate={event.dateTime}

@@ -31,8 +31,8 @@
         @return rgb(14, 165, 233);
     } @else if $type == Task {
         @return rgb(59, 130, 246);
-    } @else if $type == ListItem {
-        @return rgb(100, 116, 139);
+    } @else if $type == TodoList {
+        @return rgb(99, 102, 241);
     }
     @return #999;
 }

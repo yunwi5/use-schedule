@@ -1,6 +1,6 @@
-@import "../../../styles/abstract/variables";
-@import "../../../styles/abstract/mixins";
-@import "../../../styles/abstract/functions";
+@import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+@import '../../../styles/abstract/functions';
 
 .container {
     @include flex-center();
@@ -59,8 +59,8 @@
 }
 
 //List Item
-.container input:checked ~ .checkmark-ListItem {
-    background-color: item-type-bg-color(ListItem) !important;
+.container input:checked ~ .checkmark-TodoList {
+    background-color: item-type-bg-color(TodoList) !important;
 }
 
 // Status Open
@@ -108,12 +108,9 @@
     background-color: importance-bg-color(Extra) !important;
 }
 
-
-
-
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
-    content: "";
+    content: '';
     display: none;
 }
 
