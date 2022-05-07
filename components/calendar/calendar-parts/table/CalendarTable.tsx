@@ -39,7 +39,6 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     useLayoutEffect(() => {
         if (gridRef.current === null) return;
         gridRef.current.className = `${classes.grid} ${classes[`grid-${leftPos}`]}`;
-        console.log('new grid class:', gridRef.current.className);
     }, [leftPos]);
 
     const showLeftScrollNav = leftPos !== 0;

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboardCheck } from "@fortawesome/pro-duotone-svg-icons";
+import React, { useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClipboardCheck } from '@fortawesome/pro-duotone-svg-icons';
 
-import { Status, StatusList } from "../../../../models/task-models/Status";
-import IconEdit from "../../../ui/icons/IconEdit";
-import classes from "./TaskDetail.module.scss";
-import { AbstractTask } from "../../../../models/task-models/AbstractTask";
-import { updateTaskProperties } from "../../../../lib/planners/tasks-api";
+import { Status, StatusList } from '../../../../models/task-models/Status';
+import IconEdit from '../../../ui/icons/IconEdit';
+import classes from './TaskDetail.module.scss';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import { updateTaskProperties } from '../../../../lib/planners/tasks-api';
 
 interface Props {
     task: AbstractTask;
@@ -49,14 +49,14 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
                         isEditing={isEditing}
                         onEdit={() => setIsEditng(true)}
                         onCheck={confirmHandler}
-                        className={"!text-[100%]"}
+                        className={'!text-[100%]'}
                     />
                 </div>
             </div>
             {!isEditing && <p className={`${classes.value}`}>{status}</p>}
             {isEditing && (
                 <select
-                    className={"mt-2 p-1 cursor-pointer max-w-[10.5rem]"}
+                    className={'mt-2 p-1 cursor-pointer max-w-[10.5rem]'}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                         changeHandler(e.target.value as Status)
                     }

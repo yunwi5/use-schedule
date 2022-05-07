@@ -1,28 +1,27 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { FormTaskObject, Task } from "../../../../models/task-models/Task";
+import { FormTaskObject, Task } from '../../../../models/task-models/Task';
 import {
     CategoryList,
     getSubCategory,
     Category,
     SubCategory,
-} from "../../../../models/task-models/Category";
+} from '../../../../models/task-models/Category';
 import {
     FormValues,
     getFormTaskObject,
     userHasInputs,
-} from "../../../../utilities/form-utils/task-form-util";
-import GeneralInputs from "./form-sections/GeneralInputs";
-import DurationInput from "./form-sections/DurationInput";
-import PlanTimeInput from "./form-sections/plan-datetime/PlanDateTimeInput";
-import DueDateTimeInput from "./form-sections/due-datetime/DueDateTimeInput";
-import { getWeekEnding } from "../../../../utilities/date-utils/date-get";
-import classes from "./TaskForm.module.scss";
-import FormButtons from "./TaskFormButtons";
-import { RootStateOrAny, useSelector } from "react-redux";
-import { useAppSelector } from "../../../../store/redux";
-import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
+} from '../../../../utilities/form-utils/task-form-util';
+import GeneralInputs from './form-sections/GeneralInputs';
+import DurationInput from './form-sections/DurationInput';
+import PlanTimeInput from './form-sections/plan-datetime/PlanDateTimeInput';
+import DueDateTimeInput from './form-sections/due-datetime/DueDateTimeInput';
+import { getWeekEnding } from '../../../../utilities/date-utils/date-get';
+import classes from './TaskForm.module.scss';
+import FormButtons from './TaskFormButtons';
+import { useAppSelector } from '../../../../store/redux';
+import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
 
 interface Props {
     onSubmit: (newTask: FormTaskObject) => void;
@@ -70,7 +69,7 @@ const TaskForm: React.FC<Props> = (props) => {
             const weekEnding = getWeekEnding(beginningPeriod);
             newTask.dueDateString = weekEnding.toString();
         }
-        console.log("newTask:", newTask);
+        console.log('newTask:', newTask);
         onSubmit(newTask);
     };
 
@@ -83,7 +82,7 @@ const TaskForm: React.FC<Props> = (props) => {
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
-            <section className={classes["form-content"]}>
+            <section className={classes['form-content']}>
                 <GeneralInputs
                     initialTask={initialTask}
                     register={register}

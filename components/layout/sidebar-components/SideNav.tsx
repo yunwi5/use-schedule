@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { useAppSelector } from "../../../store/redux";
-import { Template } from "../../../models/template-models/Template";
-import { getShortNameWithRest } from "../../../utilities/gen-utils/string-util";
-import NavList from "./NavList";
-import classes from "../Layout.module.scss";
-import ActiveNavLink from "../../ui/design-elements/ActiveNavLink";
+import { useAppSelector } from '../../../store/redux';
+import { Template } from '../../../models/template-models/Template';
+import { getShortNameWithRest } from '../../../utilities/gen-utils/string-util';
+import NavList from './NavList';
+import classes from '../Layout.module.scss';
+import ActiveNavLink from '../../ui/design-elements/ActiveNavLink';
 
 interface Props {
     onToggleSidebar: () => void;
@@ -27,51 +27,51 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
 
     const timePlannerItems = [
         {
-            name: "Weekly Planners",
-            link: "/task-planner/weekly-planner",
+            name: 'Weekly Planners',
+            link: '/task-planner/weekly-planner',
         },
         {
-            name: "Montly Planners",
-            link: "/task-planner/montly-planner",
+            name: 'Montly Planners',
+            link: '/task-planner/montly-planner',
         },
         {
-            name: "Yearly Planners",
-            link: "/task-planner/yearly-planner",
+            name: 'Yearly Planners',
+            link: '/task-planner/yearly-planner',
         },
     ];
     const templateItems = [
         ...userTemplateItems,
         {
-            name: "+ Add New",
-            link: "/templates/new",
+            name: '+ Add New',
+            link: '/templates/new',
         },
     ];
     const dataAnalysisItems = [
         {
-            name: "Weekly Analysis",
-            link: "/",
+            name: 'Weekly Analysis',
+            link: '/',
         },
         {
-            name: "Montly Analysis",
-            link: "/",
+            name: 'Montly Analysis',
+            link: '/',
         },
         {
-            name: "Yearly Analysis",
-            link: "/",
+            name: 'Yearly Analysis',
+            link: '/',
         },
     ];
 
     // Need to fetch some existing custom lists for the user.
-    const todoItems = [...userTodoLists, { name: "+ New List", link: "/todos/new" }];
+    const todoItems = [...userTodoLists, { name: '+ New List', link: '/todos/new' }];
 
     return (
         <nav
             className={`bg-slate-400 mw-[11rem] h-full p-2 flex flex-col items-start ${
-                showSidebar ? "translate-x-0" : "-translate-x-full"
+                showSidebar ? 'translate-x-0' : '-translate-x-full'
             } ease-in-out duration-[.5s] ${classes.sidenav}`}
         >
             <ActiveNavLink
-                href={"/calendar"}
+                href={'/calendar'}
                 className={`text-[1.4rem] text-gray-100 hover:text-sky-300 mt-1 border-l-[2.7px] border-transparent`}
                 activeClassName="pl-2 font-bold brightness-105 border-l-[2.5px] text-blue-300 border-sky-300 border-blue-300"
             >
@@ -79,7 +79,7 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
             </ActiveNavLink>
             <div>
                 <NavList listName="Periodic Planners" items={timePlannerItems} />
-                <NavList listName="Planner Templates" items={templateItems} />
+                <NavList listName="Time Tables" items={templateItems} />
                 <NavList listName="Data Analysis" items={dataAnalysisItems} />
                 <NavList listName="Custom Lists" items={todoItems} />
             </div>
