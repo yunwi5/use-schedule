@@ -75,15 +75,15 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                 <div className="pl-2 sm:pl-0 pr-7 sm:pr-0 py-3 sm:py-0 text-lg flex justify-between sm:justify-start bg-slate-100 sm:bg-transparent border-t-2 border-slate-300 sm:border-t-0">
                     {/* Not implemented yet */}
                     <button
-                        className={`py-1 px-3 min-w-[2rem] border-2 border-slate-500 rounded-sm hover:bg-slate-500 hover:text-slate-50 ${
+                        className={`py-1 px-3 min-w-[5.55rem] border-2 border-slate-500 rounded-sm hover:bg-slate-500 hover:text-slate-50 ${
                             isTableMode ? 'bg-slate-500 text-slate-50' : ''
                         }`}
                         onClick={calendarModeHandler.bind(null, CalendarMode.TABLE)}
                     >
-                        Month
+                        Table
                     </button>
                     <button
-                        className={`py-1 px-3 mr-auto min-w-[2rem] border-2 border-slate-500 rounded-sm hover:bg-slate-500 hover:text-slate-50 ${
+                        className={`py-1 px-3 min-w-[5.55rem] mr-auto border-2 border-slate-500 rounded-sm hover:bg-slate-500 hover:text-slate-50 ${
                             !isTableMode ? 'bg-slate-500 text-slate-50' : ''
                         }`}
                         onClick={calendarModeHandler.bind(null, CalendarMode.AGENDA)}

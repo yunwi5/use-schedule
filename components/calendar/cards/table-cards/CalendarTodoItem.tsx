@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import useTodoQuery from "../../../../hooks/useTodoQuery";
-import { Todo } from "../../../../models/todo-models/Todo";
-import { useAppSelector } from "../../../../store/redux";
-import { getShortNameWithRest } from "../../../../utilities/gen-utils/string-util";
-import TodoDetail from "../../../todos/todo-detail/TodoDetail";
-import CalendarItemCard from "./CalendarItemCard";
+import useTodoQuery from '../../../../hooks/useTodoQuery';
+import { Todo } from '../../../../models/todo-models/Todo';
+import { useAppSelector } from '../../../../store/redux';
+import { getShortNameWithRest } from '../../../../utilities/gen-utils/string-util';
+import TodoDetail from '../../../todos/todo-detail/TodoDetail';
+import CalendarItemCard from './CalendarItemCard';
 
 interface Props {
     todo: Todo;
@@ -25,18 +25,18 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
             {showDetail && (
                 <TodoDetail
                     todo={todo}
-                    listName={parentList ? parentList.name : ""}
+                    listName={parentList ? parentList.name : ''}
                     onClose={setShowDetail.bind(null, false)}
                     onMutateTodo={patchTodo}
                     onDeleteTodo={deleteTodo}
                 />
             )}
             <CalendarItemCard
-                bgClass={"bg-slate-50/70"}
-                textClass={"text-slate-700"}
-                hoverBgClass={"hover:bg-slate-400"}
-                hoverTextClass={"hover:text-slate-50"}
-                borderClass={"border-2 border-slate-300"}
+                bgClass={'bg-white'}
+                textClass={'text-slate-700'}
+                hoverBgClass={'hover:bg-slate-400'}
+                hoverTextClass={'hover:text-slate-50'}
+                borderClass={'border-2 border-slate-300'}
                 isCompleted={todo.isCompleted}
                 dueDate={todo.dateTime}
                 dateTime={todo.dateTime || null}

@@ -78,7 +78,7 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
                 Calendar
             </ActiveNavLink>
             <div>
-                <NavList listName="Periodic Planners" items={timePlannerItems} />
+                <NavList listName="Task Planners" items={timePlannerItems} />
                 <NavList listName="Time Tables" items={templateItems} />
                 <NavList listName="Data Analysis" items={dataAnalysisItems} />
                 <NavList listName="Custom Lists" items={todoItems} />

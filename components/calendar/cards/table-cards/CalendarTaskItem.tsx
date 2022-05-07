@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState } from 'react';
 
-import { Status } from "../../../../models/task-models/Status";
-import { PlannerTask } from "../../../../models/task-models/Task";
-import PlannerTaskEdit from "../../../planners/planner-crud/TaskEdit";
-import TaskDetail from "../../../tasks/task-modal/task-detail/TaskDetail";
-import CalendarItemCard from "./CalendarItemCard";
+import { Status } from '../../../../models/task-models/Status';
+import { PlannerTask } from '../../../../models/task-models/Task';
+import PlannerTaskEdit from '../../../planners/planner-crud/TaskEdit';
+import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
+import CalendarItemCard from './CalendarItemCard';
 
 interface Props {
     task: PlannerTask;
@@ -26,10 +26,10 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
     return (
         <>
             <CalendarItemCard
-                bgClass={"bg-blue-50/70"}
-                textClass={"text-blue-700"}
-                hoverBgClass={"hover:bg-blue-500/70"}
-                hoverTextClass={"hover:text-blue-50"}
+                bgClass={'bg-white'}
+                textClass={'text-blue-700'}
+                hoverBgClass={'hover:bg-blue-500/70'}
+                hoverTextClass={'hover:text-blue-50'}
                 dateTime={task.dateTime}
                 isCompleted={task.status === Status.COMPLETED}
                 dueDate={task.dueDate}

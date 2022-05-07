@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Event } from "../../../../models/Event";
-import { Status } from "../../../../models/task-models/Status";
-import EventDetail from "../../events/detail/EventDetail";
-import EventEdit from "../../events/EventEdit";
-import CalendarItemCard from "./CalendarItemCard";
+import React, { useState } from 'react';
+import { Event } from '../../../../models/Event';
+import { Status } from '../../../../models/task-models/Status';
+import EventDetail from '../../events/detail/EventDetail';
+import EventEdit from '../../events/EventEdit';
+import CalendarItemCard from './CalendarItemCard';
 
 interface Props {
     event: Event;
@@ -20,7 +20,7 @@ const CalendarEventItem: React.FC<Props> = (props) => {
     return (
         <>
             <CalendarItemCard
-                bgClass={`bg-sky-50/80`}
+                bgClass={`bg-white`}
                 textClass={`text-sky-700`}
                 hoverBgClass={`hover:bg-sky-500/70`}
                 hoverTextClass={`hover:text-sky-50`}
