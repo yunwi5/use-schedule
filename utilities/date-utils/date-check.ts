@@ -1,9 +1,9 @@
-import { getWeekBeginning, getWeekEnding } from "./date-get";
-import { WeekDay, WeekDayList } from "../../models/date-models/WeekDay";
+import { getWeekBeginning, getWeekEnding } from './date-get';
+import { WeekDay, WeekDayList } from '../../models/date-models/WeekDay';
 
 export function isInvalidDate(date: Date | null | undefined): boolean {
     if (!date) return true;
-    return date.toString() === "Invalid Date";
+    return date.toString() === 'Invalid Date';
 }
 
 export function isSunday(date: Date) {
@@ -72,4 +72,9 @@ export function isSameYear(yearBeginning: Date, date: Date): boolean {
 
 export function compareDates(date1: Date, date2: Date): boolean {
     return date1.getTime() < date2.getTime();
+}
+
+export function dateIsBetween(date: Date, lowerBound: Date, upperBound: Date): boolean {
+    if (!date) return false;
+    return date.getTime() >= lowerBound.getTime() && date.getTime() <= upperBound.getTime();
 }

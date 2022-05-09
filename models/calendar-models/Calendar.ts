@@ -1,12 +1,12 @@
-import { isSameDate } from "../../utilities/date-utils/date-check";
-import { addDays } from "../../utilities/date-utils/date-control";
+import { dateIsBetween, isSameDate } from '../../utilities/date-utils/date-check';
+import { addDays } from '../../utilities/date-utils/date-control';
 import {
     getMonthEnding,
     getWeekBeginning,
     getWeekEnding,
-} from "../../utilities/date-utils/date-get";
-import { getMonthMember } from "../date-models/Month";
-import { CalendarItem } from "./CalendarItem";
+} from '../../utilities/date-utils/date-get';
+import { getMonthMember } from '../date-models/Month';
+import { CalendarItem } from './CalendarItem';
 
 export class Calendar {
     public calendarStart;
@@ -62,9 +62,4 @@ export class Calendar {
         }
         return calendarDates;
     }
-}
-
-function dateIsBetween(date: Date, lowerBound: Date, upperBound: Date): boolean {
-    if (!date) return false;
-    return date.getTime() >= lowerBound.getTime() && date.getTime() <= upperBound.getTime();
 }
