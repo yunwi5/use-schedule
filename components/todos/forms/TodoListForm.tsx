@@ -8,7 +8,7 @@ import { Size } from "../../../models/design-models";
 
 import { TodoList, TodoListProperties } from "../../../models/todo-models/TodoList";
 import { useAppSelector } from "../../../store/redux";
-import Button from "../../ui/Button";
+import Button from "../../ui/buttons/Button";
 import LoadingSpinner from "../../ui/design-elements/LoadingSpinner";
 import EditDelete from "../../ui/icons/EditDelete";
 import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";

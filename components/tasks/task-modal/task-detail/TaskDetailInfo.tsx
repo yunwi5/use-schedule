@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/pro-duotone-svg-icons";
 
 import { AbstractTask } from "../../../../models/task-models/AbstractTask";
-import Button from "../../../ui/Button";
+import Button from "../../../ui/buttons/Button";
 import {
     getDateTimeFormat,
     getDurationFormat,

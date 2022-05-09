@@ -7,7 +7,7 @@ import { faStarExclamation, faMemo } from '@fortawesome/pro-duotone-svg-icons';
 
 import { Template, TemplateFormObj } from '../../../models/template-models/Template';
 import { Size } from '../../../models/design-models';
-import Button from '../../ui/Button';
+import Button from '../../ui/buttons/Button';
 import EditDelete from '../../ui/icons/EditDelete';
 import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
 import classes from './TemplateForm.module.scss';

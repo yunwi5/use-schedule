@@ -8,7 +8,7 @@ import {
 import { faXmark } from "@fortawesome/pro-regular-svg-icons";
 
 import { Size, Theme } from "../../../models/design-models";
-import Button from "../../ui/Button";
+import Button from "../../ui/buttons/Button";
 import ImportModal from "../planner-modal/ImportModal";
 import classes from "./IntroPanel.module.scss";
 

@@ -20,7 +20,7 @@ import { Importance, ImportanceList, Status } from "../../../../models/task-mode
 import { Theme } from "../../../../models/design-models";
 import { getISODateFormat, getISOTimeFormat } from "../../../../utilities/date-utils/date-format";
 import { addDays } from "../../../../utilities/date-utils/date-control";
-import Button from "../../../ui/Button";
+import Button from "../../../ui/buttons/Button";
 import EventDurationInput from "./EventDurationInput";
 import classes from "./EventForm.module.scss";
 import ExitIcon from "../../../ui/icons/ExitIcon";

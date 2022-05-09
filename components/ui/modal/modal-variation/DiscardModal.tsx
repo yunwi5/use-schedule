@@ -1,5 +1,5 @@
 import { Theme } from '../../../../models/design-models';
-import Button from '../../Button';
+import Button from '../../buttons/Button';
 import Modal from '../Modal';
 import classes from './GeneralModal.module.scss';
 

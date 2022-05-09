@@ -1,5 +1,5 @@
 import React from "react";
-import { Theme, ButtonTheme, Size } from "../../models/design-models";
+import { Theme, ButtonTheme, Size } from "../../../models/design-models";
 import classes from "./Button.module.scss";
 
 interface Props {

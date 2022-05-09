@@ -1,29 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import useDateTime, { ResetPeriod } from "../../hooks/useDateTime";
-import { PlannerTask, Task } from "../../models/task-models/Task";
-import { Todo } from "../../models/todo-models/Todo";
-import { Calendar } from "../../models/calendar-models/Calendar";
-import { CalendarItem } from "../../models/calendar-models/CalendarItem";
-import { getCurrentMonthBeginning } from "../../utilities/date-utils/date-get";
-import { processTodos } from "../../utilities/todos-utils/todo-util";
-import { useAppSelector } from "../../store/redux";
-import { adjustIfOverdueTask } from "../../utilities/tasks-utils/task-util";
-import { Event } from "../../models/Event";
-import { adjustIfOverdueEvent } from "../../utilities/event-utils/event-util";
-import CalendarContainer from "./calendar-parts/CalendarContainer";
-import CalendarControl from "./calendar-control/CalendarControl";
-
-// need to check overdue
-function processTasks(tasks: Task[]): PlannerTask[] {
-    const plannerTaskList: PlannerTask[] = [];
-    for (const task of tasks) {
-        const convertedTask = new PlannerTask(task);
-        adjustIfOverdueTask(convertedTask);
-        plannerTaskList.push(convertedTask);
-    }
-    return plannerTaskList;
-}
+import useDateTime, { ResetPeriod } from '../../hooks/useDateTime';
+import { PlannerTask, Task } from '../../models/task-models/Task';
+import { Todo } from '../../models/todo-models/Todo';
+import { Calendar } from '../../models/calendar-models/Calendar';
+import { CalendarItem } from '../../models/calendar-models/CalendarItem';
+import { getCurrentMonthBeginning } from '../../utilities/date-utils/date-get';
+import { processTodos } from '../../utilities/todos-utils/todo-util';
+import { useAppSelector } from '../../store/redux';
+import { adjustIfOverdueTask, processTasks } from '../../utilities/tasks-utils/task-util';
+import { Event } from '../../models/Event';
+import { adjustIfOverdueEvent } from '../../utilities/event-utils/event-util';
+import CalendarContainer from './calendar-parts/CalendarContainer';
+import CalendarControl from './calendar-control/CalendarControl';
+import PageHeading from '../ui/typography/PageHeading';
 
 function processEvents(events: Event[]) {
     const eventsList: Event[] = events.map((ev) => {
@@ -71,7 +61,7 @@ const CalendarMain: React.FC<Props> = (props) => {
     const monthNaviagtionHandler = useCallback(
         (direction: number) => {
             if (direction !== 1 && direction !== -1)
-                throw new Error("Direction parameter is wrong!");
+                throw new Error('Direction parameter is wrong!');
             addLocalMonths(direction);
         },
         [addLocalMonths],
@@ -88,7 +78,7 @@ const CalendarMain: React.FC<Props> = (props) => {
 
     return (
         <main className="py-6 pl-1 md:pl-4 text-slate-600">
-            <h1 className="text-3xl lg:text-4xl font-normal mb-3 md:mb-6">Calendar</h1>
+            <PageHeading title={'Calendar'} />
             <div className="flex w-[100%]">
                 {/* Container for calendar layout and calendar sidebar */}
                 <CalendarContainer

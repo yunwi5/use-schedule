@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/pro-duotone-svg-icons';
 import { faCheck, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { css } from '@emotion/react';
-import ClipLoader from 'react-spinners/ClipLoader';
 
 import useNotification from '../../../hooks/useNotification';
 import { NotifStatus } from '../../ui/Notification';
@@ -12,7 +11,7 @@ import { getFullDateFormat } from '../../../utilities/date-utils/date-format';
 import { Template } from '../../../models/template-models/Template';
 import { transferTemplateToWeekly } from '../../../lib/templates/templates-api';
 import { Theme } from '../../../models/design-models';
-import Button from '../../ui/Button';
+import Button from '../../ui/buttons/Button';
 import Modal from '../../ui/modal/Modal';
 import classes from './ImportModal.module.scss';
 

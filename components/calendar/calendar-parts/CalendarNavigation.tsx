@@ -7,7 +7,7 @@ import { Size, Theme } from '../../../models/design-models';
 import { useAppSelector } from '../../../store/redux';
 import { useDispatch } from 'react-redux';
 import { calendarActions } from '../../../store/redux/calendar-slice';
-import Button from '../../ui/Button';
+import Button from '../../ui/buttons/Button';
 import DropDownToggler from '../../ui/icons/DropDownToggler';
 import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
 import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
@@ -44,7 +44,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
     return (
         <nav className="flex justify-between gap-3 flex-col px-1 sm:px-0 sm:gap-0 sm:flex-row sm:items-center ml-[-5px]">
             <div className="flex justify-between sm:justify-start gap-[2px] lg:gap-4 items-center text-slate-800 text-xl">
-                <PeriodNavigator currentPeriod={currentPeriod} onNavigate={onNavigate} />
+                <PeriodNavigator onNavigate={onNavigate}>{currentPeriod}</PeriodNavigator>
                 <a className="ml-auto" href={`#${new Date().toDateString()}`}>
                     <Button
                         onClick={onNavigateCurrentMonth}

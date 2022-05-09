@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Size, Theme } from "../../../../models/design-models";
-import Button from "../../../ui/Button";
+import Button from "../../../ui/buttons/Button";
 import classes from "./TaskForm.module.scss";
 
 interface Props {

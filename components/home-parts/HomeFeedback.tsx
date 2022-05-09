@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessages, faQuoteLeft } from "@fortawesome/pro-duotone-svg-icons";
 
 import { Size, Theme } from "../../models/design-models";
-import Button from "../ui/Button";
+import Button from "../ui/buttons/Button";
 import { getHomeImagePath } from "./helper";
 import classes from "./Home.module.scss";
 

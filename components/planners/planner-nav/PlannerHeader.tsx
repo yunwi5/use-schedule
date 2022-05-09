@@ -8,7 +8,7 @@ import { filterActions } from "../../../store/redux/filter-slice";
 import PlannerTaskAdd from "../planner-crud/TaskAdd";
 import Searchbar from "../../ui/searchbar/Searchbar";
 import PlannerFilter from "../planner-support/PlannerFilter";
-import Button from "../../ui/Button";
+import Button from "../../ui/buttons/Button";
 import { Theme, Size, ButtonTheme } from "../../../models/design-models";
 import classes from "./PlannerHeader.module.scss";
 

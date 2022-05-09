@@ -20,7 +20,7 @@ import {
 } from '../../../../utilities/date-utils/date-format';
 import Modal from '../../../ui/modal/Modal';
 import ExitIcon from '../../../ui/icons/ExitIcon';
-import Button from '../../../ui/Button';
+import Button from '../../../ui/buttons/Button';
 import EventEdit from '../EventEdit';
 import EmailLink from '../../../ui/EmailLink';
 import modalClasses from '../EventModal.module.scss';

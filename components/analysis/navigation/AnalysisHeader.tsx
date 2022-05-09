@@ -5,19 +5,35 @@ import React from 'react';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { useAppSelector } from '../../../store/redux';
+import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
 import { getTaskType } from '../../../utilities/tasks-utils/task-label';
-import Button from '../../ui/Button';
+import ActiveButton from '../../ui/buttons/ActiveButton';
+import Button from '../../ui/buttons/Button';
 import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
 
 interface Props {
-    currentPeriod: string;
+    currentPeriod: Date;
     onNavigate(dir: number): void;
+    onNavigateCurrent(): void;
     currentMode: AnalysisMode;
     onChangeMode(newMode: AnalysisMode): void;
 }
 
+function getCurrentPeriodLabel(plannerMode: PlannerMode | null): string {
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+            return 'This Week';
+        case PlannerMode.MONTLY:
+            return 'This Month';
+        case PlannerMode.YEARLY:
+            return 'This Year';
+        default:
+            return 'This Week';
+    }
+}
+
 const AnalysisHeader: React.FC<Props> = (props) => {
-    const { currentPeriod, onNavigate, currentMode, onChangeMode } = props;
+    const { currentPeriod, onNavigate, currentMode, onChangeMode, onNavigateCurrent } = props;
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
@@ -25,16 +41,38 @@ const AnalysisHeader: React.FC<Props> = (props) => {
     const taskType: string = getTaskType(plannerMode || PlannerMode.WEEKLY);
 
     return (
-        <nav className="-ml-2 flex gap-4 items-center">
-            <PeriodNavigator currentPeriod={currentPeriod} onNavigate={onNavigate} />
+        <nav className="-ml-2 flex gap-[5.5rem] items-center text-xl">
             <div className="flex gap-2">
-                <Button className="">{taskType + 's'}</Button>
-                <Button className="">All Tasks</Button>
+                <PeriodNavigator onNavigate={onNavigate}>
+                    {getNavigationPeriod(currentPeriod, plannerMode)}
+                </PeriodNavigator>
+                <Button
+                    onClick={onNavigateCurrent}
+                    className={`max-h-[2.7rem] !py-2 flex justify-center items-center`}
+                >
+                    {getCurrentPeriodLabel(plannerMode)}
+                </Button>
             </div>
-            <FontAwesomeIcon
-                icon={faInfoCircle}
-                className="max-w-[2rem] max-h-[2rem] text-3xl text-sky-600/80"
-            />
+            <div className="flex gap-2 items-center">
+                <ActiveButton
+                    className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
+                    isActive={currentMode === AnalysisMode.ONLY_CURRENT_PLANNER}
+                    onClick={onChangeMode.bind(null, AnalysisMode.ONLY_CURRENT_PLANNER)}
+                >
+                    {taskType + 's'}
+                </ActiveButton>
+                <ActiveButton
+                    className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
+                    isActive={currentMode === AnalysisMode.ALL_PLANNERS}
+                    onClick={onChangeMode.bind(null, AnalysisMode.ALL_PLANNERS)}
+                >
+                    All Tasks
+                </ActiveButton>
+                <FontAwesomeIcon
+                    icon={faInfoCircle}
+                    className="ml-3 max-w-[2rem] max-h-[2rem] text-3xl text-sky-600/80 shadow-sm cursor-pointer transition-all hover:scale-125 hover:text-blue-500"
+                />
+            </div>
         </nav>
     );
 };

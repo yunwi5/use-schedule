@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import { Size, Theme } from "../../../models/design-models";
-import Button from "../../ui/Button";
+import Button from "../../ui/buttons/Button";
 import classes from "../Home.module.scss";
 
 interface Props {

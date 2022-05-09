@@ -7,7 +7,7 @@ import useNotification from "../../hooks/useNotification";
 import { NotifStatus } from "../ui/Notification";
 import { postContact } from "../../lib/contacts/contact";
 import { Size } from "../../models/design-models";
-import Button from "../ui/Button";
+import Button from "../ui/buttons/Button";
 import LoadingSpinner from "../ui/design-elements/LoadingSpinner";
 import classes from "./ContactForm.module.scss";
 

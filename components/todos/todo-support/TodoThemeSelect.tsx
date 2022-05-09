@@ -12,7 +12,7 @@ import {
     ThemesList,
 } from "../../../models/CustomTheme";
 import { useAppSelector } from "../../../store/redux";
-import Button from "../../ui/Button";
+import Button from "../../ui/buttons/Button";
 import classes from "./TodoThemeSelect.module.scss";
 
 interface Props {

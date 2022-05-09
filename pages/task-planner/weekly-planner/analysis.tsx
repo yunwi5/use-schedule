@@ -11,10 +11,6 @@ import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { useQuery, useQueryClient } from 'react-query';
 import { fetchAllTasks, fetchPeriodicTasks } from '../../../lib/planners/tasks-api';
 import AnalysisMain from '../../../components/analysis/AnalysisMain';
-import { useAppDispatch } from '../../../store/redux';
-import { useEffect } from 'react';
-import { plannerActions } from '../../../store/redux/planner-slice';
-import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 
 interface Props {
     initialAllTasks: Task[];
@@ -25,7 +21,6 @@ interface Props {
 const WeeklyAnalysis: NextPage<Props> = (props) => {
     // Initial user tasks fetched from the server
     const { initialAllTasks, initialWeeklyTasks } = props;
-    const dispatch = useAppDispatch();
 
     // const queryClient = useQueryClient();
     const {
@@ -52,10 +47,6 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
     const weeklyTasks: Task[] = weeklyTasksData ? weeklyTasksData.tasks : [];
     // console.log('weeklyTasks:');
     // console.table(weeklyTasks);
-
-    useEffect(() => {
-        dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
-    }, [dispatch]);
 
     return (
         <div>
