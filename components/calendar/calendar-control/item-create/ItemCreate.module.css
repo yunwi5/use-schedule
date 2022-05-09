@@ -1,0 +1,28 @@
+.create-button {
+  display: block;
+  margin: auto;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  border-radius: 100px;
+  border: 1.75px solid #94a3b8;
+  -webkit-transition: all 2.5s ease-in-out;
+  transition: all 2.5s ease-in-out;
+}
+
+.create-button > * {
+  cursor: inherit;
+}
+
+.create-button .icon {
+  color: #0ea5e9;
+}
+
+.create-button .text {
+  color: #3b82f6;
+}
+
+.create-button:hover {
+  background-image: -webkit-gradient(linear, left top, right top, from(#f0f9ff), to(#eff6ff));
+  background-image: linear-gradient(to right, #f0f9ff, #eff6ff);
+}
+/*# sourceMappingURL=ItemCreate.module.css.map */

@@ -1,4 +1,5 @@
 import { ChartData } from '../../models/analyzer-models/helper-models';
+import { getRecentTrendBackgroundColor } from '../gen-utils/color-util';
 
 export interface FrequencyMap {
     [key: string]: number;
@@ -25,4 +26,19 @@ export function generateChartData(
         return data;
     });
     return chartDataList;
+}
+
+export function generateLineChartData(
+    recentTrendMap: FrequencyMap,
+    labelCallback: (date: Date) => string,
+): ChartData[] {
+    const trendChartData: ChartData[] = Object.entries(recentTrendMap).map(([timeLine, freq]) => {
+        const data: ChartData = {
+            label: labelCallback(new Date(timeLine)),
+            value: freq,
+            backgroundColor: getRecentTrendBackgroundColor(),
+        };
+        return data;
+    });
+    return trendChartData;
 }

@@ -1,0 +1,29 @@
+.modal .heading {
+  padding: .6rem 2rem;
+  background-color: #e2e8f0;
+  border-bottom: 2px solid rgba(100, 116, 139, 0.6);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #475569;
+}
+
+.modal .heading .icon {
+  position: absolute;
+  left: 2.5rem;
+  max-width: 2.2rem;
+  font-size: 2.2rem;
+  cursor: pointer;
+}
+
+.modal .heading h3 {
+  font-size: 2rem;
+  text-align: center;
+}
+/*# sourceMappingURL=PlannerModal.module.css.map */

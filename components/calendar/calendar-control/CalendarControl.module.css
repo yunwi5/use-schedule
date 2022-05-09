@@ -1,0 +1,67 @@
+/* 
+0 - 600px: Phone
+600 - 900px: Tablet Portrait
+900 - 1200px: Tablet Landscape
+1200 - 1800px: is where our normal style applies
+1800 + : Big Desktop
+*/
+/*
+$breakpoint argument choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + Typography > general layout + grid > page layout > components
+
+1em = 16px
+*/
+.modal {
+  position: absolute;
+  top: 8.8rem;
+  right: 0;
+  padding: 0.9rem 0;
+  border-radius: 3px;
+  -webkit-filter: brightness(95%);
+          filter: brightness(95%);
+  background-color: #f1f5f9;
+  -webkit-animation: none;
+          animation: none;
+  z-index: 50;
+  display: none;
+}
+
+@media only screen and (max-width: 1250px) {
+  .modal {
+    display: block;
+  }
+}
+
+.modal .calendar-control {
+  margin-top: 0;
+  padding: 0 0.5rem;
+  min-width: 10rem;
+  min-height: 53.5rem;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
+}
+
+@media only screen and (max-width: 1250px) {
+  .backdrop {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .control-container {
+    display: none;
+  }
+}
+
+.control-container .calendar-control {
+  margin-top: -0.47rem;
+}
+/*# sourceMappingURL=CalendarControl.module.css.map */

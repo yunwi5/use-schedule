@@ -74,7 +74,8 @@ const AnalysisMain: React.FC<Props> = (props) => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
     }, [dispatch]);
 
-    if (analyzer) console.table(analyzer.generateRecentPeriodData(10, TrendOption.TOTAL));
+    if (analyzer) console.table(analyzer.generateRecentPeriodCountData(10));
+    if (analyzer) console.table(analyzer.generateRecentPeriodDurationData(10));
 
     return (
         <main className="py-6 pl-1 md:pl-4 text-slate-600">

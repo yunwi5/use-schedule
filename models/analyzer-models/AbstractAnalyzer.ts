@@ -26,6 +26,7 @@ import {
     generateDayPeriodMap,
     generateWeekDayMap,
 } from '../../utilities/analysis-utils/periodic-data';
+import { Status } from '../task-models/Status';
 
 export abstract class AbstractAnalyzer {
     abstract previousBeginningPeriod: Date;
@@ -44,7 +45,8 @@ export abstract class AbstractAnalyzer {
     abstract addTask(task: AbstractTask): void;
 
     // For weekly, montly or yearly trend analysis (i.e. recent 5 weeks trend data)
-    abstract generateRecentPeriodData(numPeriod: number, option: TrendOption): ChartData[];
+    abstract generateRecentPeriodCountData(numPeriod: number, status?: Status): ChartData[];
+    abstract generateRecentPeriodDurationData(numPeriod: number, status?: Status): ChartData[];
 
     //TODO: 5 implemented methods
     //TODO: 3 categorical data (status, importance, category)

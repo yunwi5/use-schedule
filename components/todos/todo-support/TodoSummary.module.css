@@ -1,0 +1,51 @@
+.grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(11rem, auto))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(11rem, auto));
+  grid-column-gap: 1.5rem;
+  grid-row-gap: .3rem;
+}
+
+.exit,
+.show {
+  position: absolute;
+  cursor: pointer;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  color: #475569;
+}
+
+.exit:hover,
+.show:hover {
+  color: #2563eb;
+  -webkit-transform: scale(115%);
+          transform: scale(115%);
+}
+
+.exit {
+  top: .45rem;
+  right: .6rem;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.show {
+  right: 1rem;
+  top: -5px;
+  max-width: 3rem;
+  max-height: 3rem;
+  font-size: 2.1rem;
+}
+
+.icon-light {
+  color: white;
+}
+
+.icon-light:hover {
+  color: #dbeafe;
+  -webkit-transform: scale(115%);
+          transform: scale(115%);
+}
+/*# sourceMappingURL=TodoSummary.module.css.map */

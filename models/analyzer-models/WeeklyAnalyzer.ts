@@ -1,14 +1,19 @@
-import { FrequencyMap, generateChartData } from '../../utilities/analysis-utils';
+import { FrequencyMap, generateLineChartData } from '../../utilities/analysis-utils';
 import { generateRecentWeeksFrequencyMap } from '../../utilities/analysis-utils/trend-data';
 import { dateIsBetween } from '../../utilities/date-utils/date-check';
 import { addWeeks } from '../../utilities/date-utils/date-control';
 import { getWeekEnding } from '../../utilities/date-utils/date-get';
 import { getMonthName } from '../../utilities/date-utils/month-util';
-import { getRecentTrendBackgroundColor } from '../../utilities/gen-utils/color-util';
 import { PlannerMode } from '../planner-models/PlannerMode';
+import { Status } from '../task-models/Status';
 import { PlannerTask } from '../task-models/Task';
 import { AbstractAnalyzer } from './AbstractAnalyzer';
-import { ChartData, TrendOption } from './helper-models';
+import { ChartData } from './helper-models';
+
+function getWeekBeginningLabel(date: Date): string {
+    const month = getMonthName(date);
+    return `${date.getDate()} ${month}`;
+}
 
 export class WeeklyAnalyzer extends AbstractAnalyzer {
     previousBeginningPeriod: Date;
@@ -39,29 +44,50 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
     }
 
     // Not implemented yet
-    generateRecentPeriodData(numPeriod: number = 5, option: TrendOption = TrendOption.TOTAL) {
+    generateRecentPeriodCountData(numPeriod: number = 5, statusFilter?: Status): ChartData[] {
+        // optional filter
+        let filteredTasks = statusFilter
+            ? this.allTasks.filter((t) => t.status === statusFilter)
+            : this.allTasks;
+
         // This method generates data based on this.allTasks.
         const recentTrendMap: FrequencyMap = generateRecentWeeksFrequencyMap(
-            this.allTasks,
+            filteredTasks,
             this.currentBeginningPeriod,
             numPeriod,
+            false,
         );
-        const trendChartData: ChartData[] = Object.entries(recentTrendMap).map(
-            ([timeLine, freq]) => {
-                const data: ChartData = {
-                    label: getWeekBeginningLabel(new Date(timeLine)),
-                    value: freq,
-                    backgroundColor: getRecentTrendBackgroundColor(),
-                };
-                return data;
-            },
+        const trendChartData: ChartData[] = generateLineChartData(
+            recentTrendMap,
+            getWeekBeginningLabel,
         );
         // console.table(trendChartData);
         return trendChartData;
     }
-}
 
-function getWeekBeginningLabel(date: Date): string {
-    const month = getMonthName(date);
-    return `${date.getDate()} ${month}`;
+    // Trend based on total hours.
+    generateRecentPeriodDurationData(numPeriod: number, statusFilter?: Status): ChartData[] {
+        // optional filter
+        let filteredTasks = statusFilter
+            ? this.allTasks.filter((t) => t.status === statusFilter)
+            : this.allTasks;
+
+        const recentTrendMap: FrequencyMap = generateRecentWeeksFrequencyMap(
+            filteredTasks,
+            this.currentBeginningPeriod,
+            numPeriod,
+            true,
+        );
+
+        const trendChartData: ChartData[] = generateLineChartData(
+            recentTrendMap,
+            getWeekBeginningLabel,
+        );
+        trendChartData.forEach((data) => {
+            const totalHours = Math.round(data.value / 60);
+            data.value = totalHours;
+        });
+        // console.table(trendChartData);
+        return trendChartData;
+    }
 }

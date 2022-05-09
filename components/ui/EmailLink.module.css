@@ -1,0 +1,25 @@
+.email {
+  position: relative;
+}
+
+.email .popup {
+  background-color: #e0f2fe;
+  padding: .3rem .6rem;
+  min-width: 5rem;
+  color: #38bdf8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: none;
+  opacity: 0;
+  border-radius: 3px;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+
+.email:hover .popup {
+  top: 100%;
+  visibility: visible;
+  opacity: 1;
+}
+/*# sourceMappingURL=EmailLink.module.css.map */

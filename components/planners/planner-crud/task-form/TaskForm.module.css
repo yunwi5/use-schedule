@@ -1,0 +1,398 @@
+.form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  color: #334155;
+  font-size: 1.2rem;
+  padding-right: 2px;
+}
+
+.form input,
+.form textarea {
+  background-color: #fff;
+}
+
+.form .form-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1rem 1.4rem;
+  overflow-y: scroll;
+  max-height: 570px;
+}
+
+.form .section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1rem 0.2rem;
+  border-bottom: 2.1px solid rgba(148, 163, 184, 0.7);
+}
+
+.form .section input,
+.form .section textarea {
+  border: 1.5px solid #475569;
+  padding: 4px 8px;
+}
+
+.form .section input:focus,
+.form .section textarea:focus {
+  border: 1.5px solid transparent;
+}
+
+.form .error {
+  color: #fb7185;
+}
+
+.form input[aria-invalid='true'],
+.form textarea[aria-invalid='true'] {
+  border: 1.5px solid #f43f5e;
+}
+
+.form input[aria-invalid='true']:focus,
+.form textarea[aria-invalid='true']:focus {
+  outline: 2px solid #f43f5e;
+}
+
+.form select {
+  width: clamp(10rem, 175px, 80%);
+  padding: 0.4rem 0;
+}
+
+.form .name,
+.form .description,
+.form .importance,
+.form .date,
+.form .time,
+.form .duration__endtime,
+.form .month,
+.form .day,
+.form .weekday {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 7px;
+}
+
+.form .name input,
+.form .name textarea,
+.form .description input,
+.form .description textarea,
+.form .importance input,
+.form .importance textarea,
+.form .date input,
+.form .date textarea,
+.form .time input,
+.form .time textarea,
+.form .duration__endtime input,
+.form .duration__endtime textarea,
+.form .month input,
+.form .month textarea,
+.form .day input,
+.form .day textarea,
+.form .weekday input,
+.form .weekday textarea {
+  max-width: 95%;
+}
+
+.form .importance,
+.form .category,
+.form .datetime,
+.form .dueDatetime,
+.form .duration,
+.form .weekday {
+  padding-left: 5px;
+}
+
+.form .category,
+.form .importance {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (1fr)[2];
+      grid-template-rows: repeat(2, 1fr);
+  -ms-grid-columns: 50% 1fr;
+      grid-template-columns: 50% 1fr;
+  grid-row-gap: 0.7rem;
+  grid-column-gap: 1rem;
+  padding: 1rem 5px;
+}
+
+.form .category label,
+.form .importance label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.form .category .select,
+.form .importance .select {
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  -ms-grid-column-align: start;
+      justify-self: start;
+}
+
+.form .btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  padding: 1.3rem 1.9rem;
+}
+
+.datetime,
+.dueDatetime {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.datetime .date,
+.datetime .time,
+.datetime .month,
+.datetime .day,
+.datetime .weekday,
+.dueDatetime .date,
+.dueDatetime .time,
+.dueDatetime .month,
+.dueDatetime .day,
+.dueDatetime .weekday {
+  cursor: not-allowed;
+}
+
+.datetime .date input,
+.datetime .time input,
+.datetime .month input,
+.datetime .day input,
+.datetime .weekday input,
+.dueDatetime .date input,
+.dueDatetime .time input,
+.dueDatetime .month input,
+.dueDatetime .day input,
+.dueDatetime .weekday input {
+  width: 175px;
+}
+
+.datetime .date input:disabled,
+.datetime .date select:disabled,
+.datetime .time input:disabled,
+.datetime .time select:disabled,
+.datetime .month input:disabled,
+.datetime .month select:disabled,
+.datetime .day input:disabled,
+.datetime .day select:disabled,
+.datetime .weekday input:disabled,
+.datetime .weekday select:disabled,
+.dueDatetime .date input:disabled,
+.dueDatetime .date select:disabled,
+.dueDatetime .time input:disabled,
+.dueDatetime .time select:disabled,
+.dueDatetime .month input:disabled,
+.dueDatetime .month select:disabled,
+.dueDatetime .day input:disabled,
+.dueDatetime .day select:disabled,
+.dueDatetime .weekday input:disabled,
+.dueDatetime .weekday select:disabled {
+  opacity: 0.5;
+}
+
+.datetime .date input:disabled ~ label,
+.datetime .date select:disabled ~ label,
+.datetime .time input:disabled ~ label,
+.datetime .time select:disabled ~ label,
+.datetime .month input:disabled ~ label,
+.datetime .month select:disabled ~ label,
+.datetime .day input:disabled ~ label,
+.datetime .day select:disabled ~ label,
+.datetime .weekday input:disabled ~ label,
+.datetime .weekday select:disabled ~ label,
+.dueDatetime .date input:disabled ~ label,
+.dueDatetime .date select:disabled ~ label,
+.dueDatetime .time input:disabled ~ label,
+.dueDatetime .time select:disabled ~ label,
+.dueDatetime .month input:disabled ~ label,
+.dueDatetime .month select:disabled ~ label,
+.dueDatetime .day input:disabled ~ label,
+.dueDatetime .day select:disabled ~ label,
+.dueDatetime .weekday input:disabled ~ label,
+.dueDatetime .weekday select:disabled ~ label {
+  opacity: 0.5;
+}
+
+.datetime .date label,
+.datetime .time label,
+.datetime .weekday label,
+.dueDatetime .date label,
+.dueDatetime .time label,
+.dueDatetime .weekday label {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+}
+
+.datetime .date input,
+.datetime .date select,
+.datetime .time input,
+.datetime .time select,
+.datetime .weekday input,
+.datetime .weekday select,
+.dueDatetime .date input,
+.dueDatetime .date select,
+.dueDatetime .time input,
+.dueDatetime .time select,
+.dueDatetime .weekday input,
+.dueDatetime .weekday select {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+}
+
+.datetime .date,
+.datetime .month,
+.datetime .weekday,
+.dueDatetime .date,
+.dueDatetime .month,
+.dueDatetime .weekday {
+  width: 50%;
+}
+
+.datetime .time,
+.datetime .day,
+.dueDatetime .time,
+.dueDatetime .day {
+  margin-left: 1rem;
+}
+
+.datetime .options,
+.dueDatetime .options {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 1rem;
+  padding-left: 5px;
+}
+
+.datetime .checkbox,
+.dueDatetime .checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.5rem;
+  font-size: 85%;
+}
+
+.datetime .checkbox label,
+.dueDatetime .checkbox label {
+  -webkit-transform: translateY(-0.08rem);
+          transform: translateY(-0.08rem);
+}
+
+.duration {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.duration > *:first-child {
+  width: 50%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 1;
+          flex: 1 0 1;
+}
+
+.duration > *:nth-child(2) {
+  width: 50%;
+}
+
+.duration__input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 7px;
+}
+
+.duration__heading {
+  grid-column: 1 / -1;
+}
+
+.duration .numbers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.duration .numbers .number label {
+  margin-left: 0.25rem;
+}
+
+.duration .numbers .number input {
+  max-width: 3.8rem;
+}
+
+.duration .numbers .number:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.duration .numbers .numbers-short input {
+  max-width: 3.8rem;
+}
+
+.duration .numbers .numbers-long input {
+  max-width: 4.6rem;
+}
+
+.duration .messages {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 0rem;
+  margin-top: 0.3rem;
+}
+
+.duration .error {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / span 2;
+  line-height: 25px;
+}
+
+.duration__endtime {
+  padding-left: 1.1rem;
+  padding-top: 0.3rem;
+}
+
+.duration__endtime .date {
+  color: #0284c7;
+}
+/*# sourceMappingURL=TaskForm.module.css.map */
