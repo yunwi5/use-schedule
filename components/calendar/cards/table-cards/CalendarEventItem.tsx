@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 import { Event } from '../../../../models/Event';
 import { Status } from '../../../../models/task-models/Status';
 import EventDetail from '../../events/detail/EventDetail';
@@ -28,6 +29,7 @@ const CalendarEventItem: React.FC<Props> = (props) => {
                 dateTime={event.dateTime}
                 isCompleted={event.status === Status.COMPLETED}
                 dueDate={event.dateTime}
+                itemType={CalendarItemType.EVENT}
                 onClick={setShowDetail.bind(null, true)}
             >
                 {event.name}

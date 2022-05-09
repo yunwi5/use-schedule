@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import useTodoQuery from '../../../../hooks/useTodoQuery';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 import { Todo } from '../../../../models/todo-models/Todo';
 import { useAppSelector } from '../../../../store/redux';
 import { getShortNameWithRest } from '../../../../utilities/gen-utils/string-util';
@@ -40,6 +41,7 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
                 isCompleted={todo.isCompleted}
                 dueDate={todo.dateTime}
                 dateTime={todo.dateTime || null}
+                itemType={CalendarItemType.TODO}
                 onClick={setShowDetail.bind(null, true)}
             >
                 {getShortNameWithRest(todo.name, 10, 2)}

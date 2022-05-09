@@ -49,15 +49,15 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
     const dataAnalysisItems = [
         {
             name: 'Weekly Analysis',
-            link: '/',
+            link: '/task-planner/weekly-planner/analysis',
         },
         {
             name: 'Montly Analysis',
-            link: '/',
+            link: '/task-planner/weekly-planner/analysis',
         },
         {
             name: 'Yearly Analysis',
-            link: '/',
+            link: '/task-planner/weekly-planner/analysis',
         },
     ];
 

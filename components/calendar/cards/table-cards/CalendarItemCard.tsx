@@ -1,4 +1,5 @@
 import React from 'react';
+import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
 import { isOverdue } from '../../../../utilities/date-utils/date-check';
 import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
@@ -9,6 +10,7 @@ interface Props {
     hoverTextClass: string;
     dateTime: Date | null;
     dueDate: Date | null | undefined;
+    itemType: CalendarItemType;
     borderClass?: string;
     isCompleted?: boolean;
     onClick: () => void;
@@ -24,6 +26,7 @@ const CalendarItemCard: React.FC<Props> = (props) => {
         isCompleted,
         dateTime,
         dueDate,
+        itemType,
         onClick,
     } = props;
 
@@ -43,7 +46,7 @@ const CalendarItemCard: React.FC<Props> = (props) => {
     return (
         <div
             onClick={clickHandler}
-            className={`flex gap-1 max-w-[20rem] h-[33px] px-2 py-1 rounded-md cursor-pointer border-[.9px] ${
+            className={`flex items-center gap-1 max-w-[20rem] h-[33px] px-1 py-1 rounded-md cursor-pointer border-[.9px] ${
                 borderClass || ''
             } ${isCompleted ? 'line-through opacity-80' : ''} ${
                 overdue
@@ -51,6 +54,7 @@ const CalendarItemCard: React.FC<Props> = (props) => {
                     : `${bgClass} ${textClass} ${hoverBgClass} ${hoverTextClass}`
             } text-md`}
         >
+            {getItemIcon(itemType, 'mr-0')}
             <time className="inline-block font-semibold cursor-pointer">{timeFormat}</time>
             <span className="inline-block whitespace-nowrap max-w-[90%] overflow-hidden cursor-pointer">
                 {props.children}

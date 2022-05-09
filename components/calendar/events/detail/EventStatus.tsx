@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCheck } from "@fortawesome/pro-duotone-svg-icons";
-import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarCheck } from '@fortawesome/pro-duotone-svg-icons';
+import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
-import { Status, StatusList } from "../../../../models/task-models/Status";
-import { patchEvent } from "../../../../lib/events/event-apis";
-import { Event } from "../../../../models/Event";
-import IconEdit from "../../../ui/icons/IconEdit";
+import { Status, StatusList } from '../../../../models/task-models/Status';
+import { patchEvent } from '../../../../lib/events/event-apis';
+import { Event } from '../../../../models/Event';
+import IconEdit from '../../../ui/icons/IconEdit';
 
 interface Props {
     event: Event;
     onEdit: () => void;
 }
 
-const labelClass = "text-sky-600/75 font-semibold";
+const labelClass = 'text-sky-600/75 font-semibold';
 const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
@@ -34,6 +34,8 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
         if (event.status === newStatus) return; // no change, no edit
         // send HTTP PATCH request
         const { isSuccess, message } = await patchEvent(event.id, { status: newStatus });
+        console.log('Event status patch:', isSuccess, message);
+        console.log('onEdit:', onEdit);
         if (isSuccess) onEdit();
     };
 
@@ -47,7 +49,7 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
                         isEditing={isEditing}
                         onEdit={() => setIsEditing(true)}
                         onCheck={confirmHandler}
-                        className={"!text-[100%]"}
+                        className={'!text-[100%]'}
                     />
                 </div>
             </span>

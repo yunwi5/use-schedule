@@ -1,22 +1,24 @@
-import { Task } from "../../models/task-models/Task";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { Status } from "../../models/task-models/Status";
-import { SubTask } from "../../models/task-models/SubTask";
+import { Task } from '../../models/task-models/Task';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { Status } from '../../models/task-models/Status';
+import { SubTask } from '../../models/task-models/SubTask';
 
 export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];
     for (const document of data) {
-        const task = {
-            // For un-adjusted tasks already added to weekly planner
-            plannerType: document.plannerType || plannerMode || PlannerMode.WEEKLY,
-            ...document,
-            id: document._id.toString(),
-        };
-        delete task._id;
-
-        tasks.push(task as Task);
+        try {
+            const task = {
+                // For un-adjusted tasks already added to weekly planner
+                plannerType: document.plannerType || plannerMode || PlannerMode.WEEKLY,
+                ...document,
+                id: document._id.toString(),
+            };
+            delete task._id;
+            tasks.push(task as Task);
+        } catch (err) {
+            console.log(err);
+        }
     }
-
     return tasks;
 }
 

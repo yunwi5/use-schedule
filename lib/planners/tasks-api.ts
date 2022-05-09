@@ -1,13 +1,18 @@
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { Task } from "../../models/task-models/Task";
-import { TaskProperties } from "../../models/task-models/TaskProperties";
-import { TaskCollection } from "../../db/mongodb-constant";
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { Task } from '../../models/task-models/Task';
+import { TaskProperties } from '../../models/task-models/TaskProperties';
+import { TaskCollection } from '../../db/mongodb-constant';
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
 
 // Error handling is done by react-query, so it would not be needed inside the function
-export function fetchAllTasks() {
+export async function fetchAllTasks() {
     return fetch(`${API_DOMAIN}`).then((res) => res.json());
+}
+
+export async function fetchPeriodicTasks(context: any) {
+    const [name, collection] = context.queryKey;
+    return fetch(`${API_DOMAIN}?collection=${collection}`).then((res) => res.json());
 }
 
 function getPlannerCollection(plannerMode: PlannerMode): TaskCollection {
@@ -31,15 +36,15 @@ export async function postTask(newTask: Task, plannerMode: PlannerMode) {
     try {
         // Send rquest.
         res = await fetch(`${API_DOMAIN}?collection=${collection}`, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(newTask),
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
         });
 
         const data = await res.json();
-        console.log("post data:", data);
+        console.log('post data:', data);
         insertedId = data.insertedId.toString();
     } catch (err) {
         console.error(err);
@@ -57,14 +62,14 @@ export async function replaceTask(taskId: string, updatedTask: Task, plannerMode
     let res;
     try {
         res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
-            method: "PUT",
+            method: 'PUT',
             body: JSON.stringify(updatedTask),
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
         });
         const data = await res.json();
-        console.log("Put request response:", data);
+        console.log('Put request response:', data);
     } catch (err) {
         console.error(err);
     }
@@ -81,10 +86,10 @@ export async function deleteTask(taskId: string, plannerMode: PlannerMode) {
     let res;
     try {
         res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
-            method: "DELETE",
+            method: 'DELETE',
         });
         const data = await res.json();
-        console.log("Delete data:", data);
+        console.log('Delete data:', data);
     } catch (err) {
         console.error(err);
     }
@@ -103,25 +108,25 @@ export async function updateTaskProperties(
     const collection = getPlannerCollection(plannerMode);
 
     let res,
-        message = "";
+        message = '';
     try {
         res = await fetch(`${API_DOMAIN}/task-update/${taskId}`, {
-            method: "PATCH",
+            method: 'PATCH',
             body: JSON.stringify({
                 updateProps,
                 collection,
             }),
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
         });
     } catch (err) {
-        message = err instanceof Error ? err.message : "Patching task props did not work.";
+        message = err instanceof Error ? err.message : 'Patching task props did not work.';
         console.error(message);
     }
 
     if (!res || !res.ok) {
         return { isSuccess: false, message };
     }
-    return { isSuccess: true, message: "Patching task props successful" };
+    return { isSuccess: true, message: 'Patching task props successful' };
 }

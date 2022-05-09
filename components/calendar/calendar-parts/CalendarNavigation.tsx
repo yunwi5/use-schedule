@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilterList } from '@fortawesome/pro-duotone-svg-icons';
-import { faAngleLeft, faAngleRight } from '@fortawesome/pro-regular-svg-icons';
 
 import { CalendarMode } from '../../../models/calendar-models/CalendarMode';
 import { Size, Theme } from '../../../models/design-models';
@@ -11,6 +10,7 @@ import { calendarActions } from '../../../store/redux/calendar-slice';
 import Button from '../../ui/Button';
 import DropDownToggler from '../../ui/icons/DropDownToggler';
 import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
+import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
 
 interface Props {
     onNavigate: (direction: number) => void;
@@ -44,19 +44,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
     return (
         <nav className="flex justify-between gap-3 flex-col px-1 sm:px-0 sm:gap-0 sm:flex-row sm:items-center ml-[-5px]">
             <div className="flex justify-between sm:justify-start gap-[2px] lg:gap-4 items-center text-slate-800 text-xl">
-                <div className="flex gap-1 items-center">
-                    <FontAwesomeIcon
-                        icon={faAngleLeft}
-                        onClick={onNavigate.bind(null, -1)}
-                        className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
-                    />
-                    <span>{currentPeriod}</span>
-                    <FontAwesomeIcon
-                        icon={faAngleRight}
-                        onClick={onNavigate.bind(null, 1)}
-                        className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
-                    />
-                </div>
+                <PeriodNavigator currentPeriod={currentPeriod} onNavigate={onNavigate} />
                 <a className="ml-auto" href={`#${new Date().toDateString()}`}>
                     <Button
                         onClick={onNavigateCurrentMonth}

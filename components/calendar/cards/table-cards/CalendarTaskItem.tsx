@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
 import { Status } from '../../../../models/task-models/Status';
 import { PlannerTask } from '../../../../models/task-models/Task';
@@ -34,6 +35,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
                 dateTime={task.dateTime}
                 isCompleted={task.status === Status.COMPLETED}
                 dueDate={task.dueDate}
+                itemType={CalendarItemType.TASK}
                 onClick={setShowDetail.bind(null, true)}
             >
                 {task.name}
