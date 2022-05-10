@@ -16,8 +16,13 @@ import { plannerActions } from '../../store/redux/planner-slice';
 import { getCurrentWeekBeginning } from '../../utilities/date-utils/date-get';
 import { getTaskType } from '../../utilities/tasks-utils/task-label';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
+import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
 import PageHeading from '../ui/typography/PageHeading';
+import { StatusAnalysis } from './categorical-analysis';
+import CategoryAnalysis from './categorical-analysis/CategoryAnalysis';
+import ImportanceAnalysis from './categorical-analysis/ImportanceAnalysis';
 import AnalysisHeader from './navigation/AnalysisHeader';
+import PeriodicAnalysis from './periodic-analysis/PeriodicAnalysis';
 
 interface Props {
     allTasks: Task[];
@@ -74,12 +79,12 @@ const AnalysisMain: React.FC<Props> = (props) => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
     }, [dispatch]);
 
-    if (analyzer) console.table(analyzer.generateRecentPeriodCountData(10));
-    if (analyzer) console.table(analyzer.generateRecentPeriodDurationData(10));
+    // if (analyzer) console.table(analyzer.generateRecentPeriodCountData(10));
+    // if (analyzer) console.table(analyzer.generateRecentPeriodDurationData(10));
 
     return (
-        <main className="py-6 pl-1 md:pl-4 text-slate-600">
-            <div className="flex flex-col gap-4">
+        <main className="py-6 md:pl-4 text-slate-600">
+            <div className="flex pl-3 flex-col gap-4">
                 <PageHeading title={`${taskType} Analysis (${currentPeriod.getFullYear()})`} />
                 <AnalysisHeader
                     currentPeriod={currentPeriod}
@@ -89,8 +94,17 @@ const AnalysisMain: React.FC<Props> = (props) => {
                     onNavigateCurrent={() => setCurrentTimeStamp(weekBeginning)}
                 />
             </div>
+            {!analyzer && <LoadingSpinner />}
+            {analyzer && (
+                <div className="mt-6 pl-6 flex flex-col gap-16">
+                    <PeriodicAnalysis analyzer={analyzer} />
+                    <StatusAnalysis analyzer={analyzer} />
+                    <ImportanceAnalysis analyzer={analyzer} />
+                    <CategoryAnalysis analyzer={analyzer} />
+                </div>
+            )}
             {/* Some testing */}
-            <h3>Status Data:</h3>
+            {/* <h3>Status Data:</h3>
             <ul>
                 {analyzer &&
                     analyzer.generateStatusData().map((chartData) => (
@@ -171,7 +185,7 @@ const AnalysisMain: React.FC<Props> = (props) => {
                             </li>
                         );
                     })}
-            </ul>
+            </ul> */}
         </main>
     );
 };

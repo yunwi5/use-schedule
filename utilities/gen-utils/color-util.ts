@@ -7,7 +7,11 @@ function rgbToHex(r: number, g: number, b: number): string {
     function toHex(a: number) {
         if (a <= 0) return '00';
         else if (a >= 255) return 'FF';
-        else return a.toString(16).toUpperCase();
+        else {
+            let hexValue = a.toString(16);
+            if (hexValue.length === 1) hexValue = '0' + hexValue;
+            return hexValue;
+        }
     }
     return toHex(r) + toHex(g) + toHex(b);
 }
@@ -30,7 +34,7 @@ export function getStatusBackgroundColor(status: string): string {
 }
 
 export function getStatusBorderColor(status: string): string {
-    switch (status) {
+    switch (status.trim()) {
         case Status.OPEN:
             return rgbToHex(20, 184, 166); // Teal
         case Status.IN_PROGRESS:
@@ -49,17 +53,46 @@ export function getStatusBorderColor(status: string): string {
 export function getImportanceBackgroundColor(importance: string): string {
     switch (importance) {
         case Importance.CRUCIAL:
-            return rgbToHex(199, 18, 60); // rose
-        case Importance.IMPORTANT:
             return rgbToHex(244, 63, 94);
-        case Importance.NICE_TO_HAVE:
+        case Importance.IMPORTANT:
             return rgbToHex(253, 164, 175);
-        case Importance.TRIVIAL:
+        case Importance.NICE_TO_HAVE:
             return rgbToHex(254, 205, 211);
-        case Importance.EXTRA:
+        case Importance.TRIVIAL:
             return rgbToHex(255, 228, 230);
+        case Importance.EXTRA:
+            return rgbToHex(255, 241, 242);
         default:
             return rgbToHex(255, 228, 230);
+    }
+}
+
+export function getImportanceBorderColor(importance: string): string {
+    switch (importance) {
+        case Importance.CRUCIAL:
+            return rgbToHex(244, 63, 94);
+        case Importance.IMPORTANT:
+            return rgbToHex(253, 164, 175);
+        default:
+            return rgbToHex(100, 116, 139);
+    }
+}
+
+export function getCategoryBorderColor(category: string): string {
+    // 500 line
+    switch (category) {
+        case Category.HOME:
+            return rgbToHex(59, 130, 246); // Blue
+        case Category.LEISURE:
+            return rgbToHex(6, 182, 212); // Cyan
+        case Category.PERSONAL:
+            return rgbToHex(234, 179, 8); // yellow
+        case Category.SCHOOL_UNIVERSITY:
+            return rgbToHex(139, 92, 246); // Violet
+        case Category.WORK:
+            return rgbToHex(217, 70, 239); // Fuchsia
+        default:
+            return rgbToHex(100, 116, 139); // Slate
     }
 }
 

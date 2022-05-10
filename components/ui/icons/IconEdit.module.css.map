@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,KAAK,CAAC;EACL,MAAM,EAAE,OAAO;EACf,SAAS,EAAE,MAAM;CACjB;;AAED,AAAA,WAAW,CAAC;EACX,SAAS,EAAE,IAAI;CACf;;AAED,AAAA,YAAY,CAAC;EACZ,SAAS,EAAE,IAAI;CACf;;AAED,AAAA,WAAW,CAAC;EACX,SAAS,EAAE,IAAI;CACf",
-    "sources": [
-        "IconEdit.module.scss"
-    ],
-    "names": [],
-    "file": "IconEdit.module.css"
-}
