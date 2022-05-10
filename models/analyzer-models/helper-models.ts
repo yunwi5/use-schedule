@@ -39,3 +39,17 @@ export interface LineChartDataSet {
     backgroundColor: string;
     borderColor: string;
 }
+
+export enum RecentPeriod {
+    FIVE = 5,
+    TEN = 10,
+    FIFTEEN = 15,
+    TWENTY = 20,
+}
+
+export const RecentPeriodList = [
+    RecentPeriod.FIVE,
+    RecentPeriod.TEN,
+    RecentPeriod.FIFTEEN,
+    RecentPeriod.TWENTY,
+];

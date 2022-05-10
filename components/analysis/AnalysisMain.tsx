@@ -2,11 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import useDateTime, { ResetPeriod } from '../../hooks/useDateTime';
 import { AbstractAnalyzer } from '../../models/analyzer-models/AbstractAnalyzer';
-import {
-    AnalysisMode,
-    AnalysisOption,
-    TrendOption,
-} from '../../models/analyzer-models/helper-models';
+import { AnalysisMode } from '../../models/analyzer-models/helper-models';
 import { WeeklyAnalyzer } from '../../models/analyzer-models/WeeklyAnalyzer';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
@@ -17,12 +13,10 @@ import { getCurrentWeekBeginning } from '../../utilities/date-utils/date-get';
 import { getTaskType } from '../../utilities/tasks-utils/task-label';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
-import PageHeading from '../ui/typography/PageHeading';
-import { StatusAnalysis } from './categorical-analysis';
-import CategoryAnalysis from './categorical-analysis/CategoryAnalysis';
-import ImportanceAnalysis from './categorical-analysis/ImportanceAnalysis';
+import CategoricalDataAnalysis from './categorical-analysis/CategoricalDataAnalysis';
 import AnalysisHeader from './navigation/AnalysisHeader';
 import PeriodicAnalysis from './periodic-analysis/PeriodicAnalysis';
+import TrendAnalysis from './trend-analysis/TrendAnalysis';
 
 interface Props {
     allTasks: Task[];
@@ -80,12 +74,10 @@ const AnalysisMain: React.FC<Props> = (props) => {
     }, [dispatch]);
 
     // if (analyzer) console.table(analyzer.generateRecentPeriodCountData(10));
-    // if (analyzer) console.table(analyzer.generateRecentPeriodDurationData(10));
 
     return (
         <main className="py-6 md:pl-4 text-slate-600">
-            <div className="flex pl-3 flex-col gap-4">
-                <PageHeading title={`${taskType} Analysis (${currentPeriod.getFullYear()})`} />
+            <div className="mt-3 flex pl-3 flex-col gap-4">
                 <AnalysisHeader
                     currentPeriod={currentPeriod}
                     onNavigate={weekNavigateHandler}
@@ -96,96 +88,12 @@ const AnalysisMain: React.FC<Props> = (props) => {
             </div>
             {!analyzer && <LoadingSpinner />}
             {analyzer && (
-                <div className="mt-6 pl-6 flex flex-col gap-16">
+                <div className="mt-10 pl-6 flex flex-col gap-16">
+                    <TrendAnalysis analyzer={analyzer} />
                     <PeriodicAnalysis analyzer={analyzer} />
-                    <StatusAnalysis analyzer={analyzer} />
-                    <ImportanceAnalysis analyzer={analyzer} />
-                    <CategoryAnalysis analyzer={analyzer} />
+                    <CategoricalDataAnalysis analyzer={analyzer} />
                 </div>
             )}
-            {/* Some testing */}
-            {/* <h3>Status Data:</h3>
-            <ul>
-                {analyzer &&
-                    analyzer.generateStatusData().map((chartData) => (
-                        <li
-                            key={chartData.label}
-                            style={{ backgroundColor: `#${chartData.backgroundColor}` }}
-                        >
-                            <span>{chartData.label}: </span>
-                            <span>{chartData.value}</span>
-                        </li>
-                    ))}
-            </ul>
-            <br />
-            <br />
-            <h3>Importance Data:</h3>
-            <ul>
-                {analyzer &&
-                    analyzer.generateImportanceData(AnalysisOption.PREVIOUS).map((chartData) => {
-                        return (
-                            <li
-                                key={chartData.label}
-                                // className="bg-slate-300"
-                                style={{ backgroundColor: `#${chartData.backgroundColor}` }}
-                            >
-                                <span>{chartData.label}: </span>
-                                <span>{chartData.value}</span>
-                            </li>
-                        );
-                    })}
-            </ul>
-            <br />
-            <br />
-            <h3>Category Data:</h3>
-            <ul>
-                {analyzer &&
-                    analyzer.generateCategoryData().map((chartData) => {
-                        return (
-                            <li
-                                key={chartData.label}
-                                style={{ backgroundColor: `#${chartData.backgroundColor}` }}
-                            >
-                                <span>{chartData.label}: </span>
-                                <span>{chartData.value}</span>
-                            </li>
-                        );
-                    })}
-            </ul>
-            <br />
-            <br />
-            <h3>WeekDay Data:</h3>
-            <ul>
-                {analyzer &&
-                    analyzer.generateWeekDayData().map((chartData) => {
-                        return (
-                            <li
-                                key={chartData.label}
-                                style={{ backgroundColor: `#${chartData.backgroundColor}` }}
-                            >
-                                <span>{chartData.label}: </span>
-                                <span>{chartData.value}</span>
-                            </li>
-                        );
-                    })}
-            </ul>
-            <br />
-            <br />
-            <h3>DayPeriod Data:</h3>
-            <ul>
-                {analyzer &&
-                    analyzer.generateDayPeriodData().map((chartData) => {
-                        return (
-                            <li
-                                key={chartData.label}
-                                style={{ backgroundColor: `#${chartData.backgroundColor}` }}
-                            >
-                                <span>{chartData.label}: </span>
-                                <span>{chartData.value}</span>
-                            </li>
-                        );
-                    })}
-            </ul> */}
         </main>
     );
 };

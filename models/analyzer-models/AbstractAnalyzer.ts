@@ -45,8 +45,8 @@ export abstract class AbstractAnalyzer {
     abstract addTask(task: AbstractTask): void;
 
     // For weekly, montly or yearly trend analysis (i.e. recent 5 weeks trend data)
-    abstract generateRecentPeriodCountData(numPeriod: number, status?: Status): ChartData[];
-    abstract generateRecentPeriodDurationData(numPeriod: number, status?: Status): ChartData[];
+    abstract generateRecentPeriodCountData(numPeriod: number, status?: string): ChartData[];
+    abstract generateRecentPeriodDurationData(numPeriod: number, status?: string): ChartData[];
 
     //TODO: 5 implemented methods
     //TODO: 3 categorical data (status, importance, category)

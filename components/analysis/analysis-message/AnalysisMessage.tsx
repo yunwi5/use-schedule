@@ -5,8 +5,8 @@ import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { Theme } from '../../../models/design-models';
 import { useAppSelector } from '../../../store/redux';
 import { round } from '../../../utilities/gen-utils/calc-util';
-import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import Button from '../../ui/buttons/Button';
+import { getPeriodName } from '../../../utilities/gen-utils/label-util';
 
 interface Props {
     currentChartDataArray: ChartData[];
@@ -28,19 +28,6 @@ const chartSimpleIcon = (
     />
 );
 const analysisIcons = [chartPieIcon, chartSimpleIcon];
-
-function getPeriodName(plannerMode: PlannerMode | null) {
-    switch (plannerMode) {
-        case PlannerMode.WEEKLY:
-            return 'week';
-        case PlannerMode.MONTLY:
-            return 'month';
-        case PlannerMode.YEARLY:
-            return 'year';
-        default:
-            return '';
-    }
-}
 
 const AnalysisMessage: React.FC<Props> = ({
     currentChartDataArray,

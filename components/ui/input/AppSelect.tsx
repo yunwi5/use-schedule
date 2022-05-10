@@ -5,16 +5,17 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface Props {
     label: string;
-    value: string;
+    value: string | number;
     onChange(value: string): void;
-    options: string[];
+    options: string[] | number[];
+    optionLabels?: string[];
     className?: string;
     id?: string;
     labelId?: string;
 }
 
 const AppSelect: React.FC<Props> = (props) => {
-    const { id, labelId, className, onChange, options, label, value } = props;
+    const { id, labelId, className, onChange, options, optionLabels, label, value } = props;
 
     return (
         <FormControl sx={{ minWidth: 110 }} size="small" className={className || ''}>
@@ -28,7 +29,7 @@ const AppSelect: React.FC<Props> = (props) => {
             >
                 {options.map((opt, idx) => (
                     <MenuItem key={idx} value={opt}>
-                        {opt}
+                        {optionLabels && optionLabels.length > idx ? optionLabels[idx] : opt}
                     </MenuItem>
                 ))}
             </Select>

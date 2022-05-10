@@ -5,7 +5,7 @@ import { addWeeks } from '../../utilities/date-utils/date-control';
 import { getWeekEnding } from '../../utilities/date-utils/date-get';
 import { getMonthName } from '../../utilities/date-utils/month-util';
 import { PlannerMode } from '../planner-models/PlannerMode';
-import { Status } from '../task-models/Status';
+import { isStatus, Status } from '../task-models/Status';
 import { PlannerTask } from '../task-models/Task';
 import { AbstractAnalyzer } from './AbstractAnalyzer';
 import { ChartData } from './helper-models';
@@ -45,8 +45,9 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
 
     // Not implemented yet
     generateRecentPeriodCountData(numPeriod: number = 5, statusFilter?: Status): ChartData[] {
+        const validStatus: boolean = isStatus(statusFilter || '');
         // optional filter
-        let filteredTasks = statusFilter
+        let filteredTasks = validStatus
             ? this.allTasks.filter((t) => t.status === statusFilter)
             : this.allTasks;
 
@@ -60,15 +61,18 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
         const trendChartData: ChartData[] = generateLineChartData(
             recentTrendMap,
             getWeekBeginningLabel,
+            'rgb(224, 242, 254)', // light blue
+            'rgb(14, 165, 233)', // blue
         );
         // console.table(trendChartData);
-        return trendChartData;
+        return trendChartData.reverse();
     }
 
     // Trend based on total hours.
-    generateRecentPeriodDurationData(numPeriod: number, statusFilter?: Status): ChartData[] {
+    generateRecentPeriodDurationData(numPeriod: number, statusFilter?: string): ChartData[] {
+        const validStatus: boolean = isStatus(statusFilter || '');
         // optional filter
-        let filteredTasks = statusFilter
+        let filteredTasks = validStatus
             ? this.allTasks.filter((t) => t.status === statusFilter)
             : this.allTasks;
 
@@ -82,12 +86,13 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
         const trendChartData: ChartData[] = generateLineChartData(
             recentTrendMap,
             getWeekBeginningLabel,
+            'rgb(219, 234, 254)', // light blue
+            'rgb(59, 130, 246)', // blue
         );
         trendChartData.forEach((data) => {
             const totalHours = Math.round(data.value / 60);
             data.value = totalHours;
         });
-        // console.table(trendChartData);
-        return trendChartData;
+        return trendChartData.reverse();
     }
 }

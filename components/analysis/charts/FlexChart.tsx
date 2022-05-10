@@ -13,6 +13,7 @@ import { Pie, Doughnut, PolarArea, Bar } from 'react-chartjs-2';
 
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import AppSelect from '../../ui/input/AppSelect';
+import { generateChartDataset } from '../../../utilities/chart-utils';
 
 ChartJS.register(
     CategoryScale,
@@ -22,7 +23,7 @@ ChartJS.register(
     ArcElement,
     Tooltip,
     Legend,
-); // registration for pie chart
+); // registration
 
 const exampleOptions = {
     responsive: true,
@@ -30,9 +31,14 @@ const exampleOptions = {
         legend: {
             position: 'top' as const,
         },
-        title: {
-            display: true,
-            text: 'Chart.js Bar Chart',
+    },
+};
+
+const pieOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'right' as const,
         },
     },
 };
@@ -60,10 +66,7 @@ interface Props {
 const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) => {
     const [flexChartType, setFlexChartType] = useState<FlexChartType>(FlexChartType.PIE); // Pie chart by default
 
-    const labels = chartDataArray.map((cd) => cd.label);
-    const data = chartDataArray.map((cd) => cd.value);
-    const backgroundColor = chartDataArray.map((cd) => `#${cd.backgroundColor}`);
-    const borderColor = chartDataArray.map((cd) => 'rgba(255, 255, 255)'); // defaut border color
+    const { labels, data, backgroundColor, borderColor } = generateChartDataset(chartDataArray);
 
     const pieOrDoughnutData = {
         labels,
@@ -84,7 +87,11 @@ const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) 
     };
 
     return (
-        <section className="basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3">
+        <section
+            className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3 ${
+                flexChartType === FlexChartType.BAR ? 'mb-[6rem]' : ''
+            }`}
+        >
             <div className="flex justify-between items-center">
                 <h3 className="text-3xl capitalize">{chartTitle}</h3>
                 <AppSelect
@@ -96,11 +103,15 @@ const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) 
                     labelId={`app-select-${chartTitle}-label`}
                 />
             </div>
-            <div className="container">
-                {flexChartType === FlexChartType.PIE && <Pie data={pieOrDoughnutData} />}
-                {flexChartType === FlexChartType.DOUGHNUT && <Doughnut data={pieOrDoughnutData} />}
+            <div className={`container ${flexChartType === FlexChartType.BAR ? '' : '-mt-[3rem]'}`}>
+                {flexChartType === FlexChartType.PIE && (
+                    <Pie options={pieOptions} data={pieOrDoughnutData} />
+                )}
+                {flexChartType === FlexChartType.DOUGHNUT && (
+                    <Doughnut options={pieOptions} data={pieOrDoughnutData} />
+                )}
                 {flexChartType === FlexChartType.POLAR_AREA && (
-                    <PolarArea data={pieOrDoughnutData} />
+                    <PolarArea options={pieOptions} data={pieOrDoughnutData} />
                 )}
                 {flexChartType === FlexChartType.BAR && (
                     <Bar options={exampleOptions} data={barChartData} />

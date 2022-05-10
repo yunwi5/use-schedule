@@ -5,7 +5,7 @@ import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helpe
 import { getStatusBorderColor } from '../../../utilities/gen-utils/color-util';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import { FlexChart } from '../charts';
-import AnalysisSectionWrapper from './AnalysisSectionWrapper';
+import AnalysisSectionWrapper from '../containers/ChartSectionContainer';
 
 interface Props {
     analyzer: AbstractAnalyzer;

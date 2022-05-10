@@ -1,16 +1,16 @@
-import { Fragment, useEffect, useCallback } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
-import { UseFormRegister } from "react-hook-form";
+import { Fragment, useEffect, useCallback } from 'react';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { UseFormRegister } from 'react-hook-form';
 
-import { getInitialDateTimeInput } from "../../../../../../utilities/form-utils/task-form-util";
-import { Task } from "../../../../../../models/task-models/Task";
-import { PlannerMode } from "../../../../../../models/planner-models/PlannerMode";
-import { getPlannerLabel } from "../../../../../../utilities/gen-utils/label-util";
-import MonthDateInput from "../time-inputs/MonthDateInput";
-import TimeInput from "./TimeInput";
-import DateInput from "./DateInput";
-import classes from "../../TaskForm.module.scss";
-import WeekdayInput from "./WeekdayInput";
+import { getInitialDateTimeInput } from '../../../../../../utilities/form-utils/task-form-util';
+import { Task } from '../../../../../../models/task-models/Task';
+import { PlannerMode } from '../../../../../../models/planner-models/PlannerMode';
+import { getPeriodName } from '../../../../../../utilities/gen-utils/label-util';
+import MonthDateInput from '../time-inputs/MonthDateInput';
+import TimeInput from './TimeInput';
+import DateInput from './DateInput';
+import classes from '../../TaskForm.module.scss';
+import WeekdayInput from './WeekdayInput';
 
 interface Props {
     initialTask?: Task;
@@ -36,7 +36,7 @@ const PlanDateTimeInput: React.FC<Props> = (props) => {
 
     const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
     const isYearlyMode = plannerMode === PlannerMode.YEARLY;
-    const plannerLabel = getPlannerLabel(plannerMode);
+    const plannerLabel = getPeriodName(plannerMode);
 
     // Initial input for datetime
     const { defaultDate, defaultTime } = getInitialDateTimeInput(initialTask, beginningPeriod);

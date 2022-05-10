@@ -31,12 +31,15 @@ export function generateChartData(
 export function generateLineChartData(
     recentTrendMap: FrequencyMap,
     labelCallback: (date: Date) => string,
+    backgroundColor?: string,
+    borderColor?: string,
 ): ChartData[] {
     const trendChartData: ChartData[] = Object.entries(recentTrendMap).map(([timeLine, freq]) => {
         const data: ChartData = {
             label: labelCallback(new Date(timeLine)),
             value: freq,
-            backgroundColor: getRecentTrendBackgroundColor(),
+            backgroundColor: backgroundColor ?? getRecentTrendBackgroundColor(),
+            borderColor: borderColor,
         };
         return data;
     });

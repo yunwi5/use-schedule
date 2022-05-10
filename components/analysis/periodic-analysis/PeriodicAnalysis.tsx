@@ -1,6 +1,7 @@
 import React from 'react';
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { FlexChart } from '../charts';
+import AnalysisSectionContainer from '../containers/AnalysisSectionContainer';
 
 interface Props {
     analyzer: AbstractAnalyzer;
@@ -11,8 +12,7 @@ const PeriodicAnalysis: React.FC<Props> = ({ analyzer }) => {
     const dayPeriodChartDataArray = analyzer.generateDayPeriodData();
 
     return (
-        <section>
-            <h2 className="mb-3 text-4xl capitalize">Periodic Data Analysis</h2>
+        <AnalysisSectionContainer title={'Periodic Data Analysis'}>
             <div className="flex flex-wrap gap-[6rem] items-center">
                 <FlexChart
                     chartTitle={'Weekday Distribution'}
@@ -25,7 +25,7 @@ const PeriodicAnalysis: React.FC<Props> = ({ analyzer }) => {
                     chartDataArray={dayPeriodChartDataArray}
                 />
             </div>
-        </section>
+        </AnalysisSectionContainer>
     );
 };
 

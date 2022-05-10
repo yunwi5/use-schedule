@@ -5,6 +5,11 @@ import React from 'react';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { useAppSelector } from '../../../store/redux';
+import {
+    getMonthEnding,
+    getWeekEnding,
+    getYearEnding,
+} from '../../../utilities/date-utils/date-get';
 import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
 import { getTaskType } from '../../../utilities/tasks-utils/task-label';
 import ActiveButton from '../../ui/buttons/ActiveButton';
@@ -32,19 +37,36 @@ function getCurrentPeriodLabel(plannerMode: PlannerMode | null): string {
     }
 }
 
+function getPeriodEnding(plannerMode: PlannerMode | null, period: Date) {
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+            return getWeekEnding(period);
+        case PlannerMode.MONTLY:
+            return getMonthEnding(period);
+        case PlannerMode.YEARLY:
+            return getYearEnding(period);
+        default:
+            return period;
+    }
+}
+
 const AnalysisHeader: React.FC<Props> = (props) => {
     const { currentPeriod, onNavigate, currentMode, onChangeMode, onNavigateCurrent } = props;
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
+    const endingPeriod = getPeriodEnding(plannerMode, currentPeriod);
 
     // For writing label to indicate to the user.
     const taskType: string = getTaskType(plannerMode || PlannerMode.WEEKLY);
 
     return (
-        <nav className="-ml-2 flex gap-[5.5rem] items-center text-xl">
+        <nav className="-ml-2 flex justify-between pr-10 gap-[5.5rem] items-center text-xl">
             <div className="flex gap-2">
                 <PeriodNavigator onNavigate={onNavigate}>
-                    {getNavigationPeriod(currentPeriod, plannerMode)}
+                    {`${getNavigationPeriod(
+                        currentPeriod,
+                        plannerMode,
+                    )}  (${endingPeriod.getFullYear()})`}
                 </PeriodNavigator>
                 <Button
                     onClick={onNavigateCurrent}
