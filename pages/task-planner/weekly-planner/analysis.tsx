@@ -10,7 +10,7 @@ import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { fetchAllTasks, fetchPeriodicTasks } from '../../../lib/planners/tasks-api';
 import { getCurrentWeekBeginning, getWeekBeginning } from '../../../utilities/date-utils/date-get';
-import AnalysisMain from '../../../components/analysis/AnalysisMain';
+import WeeklyAnalysis from '../../../components/analysis/analysis-main/WeeklyAnalysis';
 
 interface Props {
     initialAllTasks: Task[];
@@ -19,7 +19,7 @@ interface Props {
 }
 
 //TODO: Need to handle navigation between weeks!
-const WeeklyAnalysis: NextPage<Props> = (props) => {
+const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     // Initial user tasks fetched from the server
     const { initialAllTasks, initialWeeklyTasks, initialStartDate } = props;
 
@@ -56,7 +56,7 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
                     content="Analyze user's weekly task data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"
                 />
             </Head>
-            <AnalysisMain
+            <WeeklyAnalysis
                 allTasks={allTasks}
                 periodicTasks={weeklyTasks}
                 beginningDate={beginningDate}
@@ -100,4 +100,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-export default WeeklyAnalysis;
+export default WeeklyAnalysisPage;

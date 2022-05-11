@@ -80,6 +80,19 @@ const FlexChart: React.FC<Props> = (props) => {
                 label: chartLabel,
                 data,
                 backgroundColor,
+                borderColor: 'rgb(255, 255, 255)',
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const barData = {
+        labels,
+        datasets: [
+            {
+                label: chartLabel,
+                data,
+                backgroundColor: backgroundColor && backgroundColor?.map((bg) => `${bg}bd`), // control opacity only for bar chart
                 borderColor,
                 borderWidth: 1,
             },
@@ -115,7 +128,7 @@ const FlexChart: React.FC<Props> = (props) => {
                 )}
                 {flexChartType === FlexChartType.BAR && (
                     // Increase height with vh setting
-                    <Bar options={barOptions} height="55vh" width="80vw" data={pieOrDoughnutData} />
+                    <Bar options={barOptions} height="55vh" width="80vw" data={barData} />
                 )}
             </div>
         </section>

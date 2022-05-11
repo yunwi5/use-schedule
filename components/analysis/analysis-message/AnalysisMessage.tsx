@@ -71,7 +71,7 @@ const AnalysisMessage: React.FC<Props> = ({
         // const percentageChange = changeInPercentage(previouStatusData.value, currentValue);
         const difference = currentValue - previouStatusData.value;
         const labelElement = (
-            <span className="brightness-50" style={{ color: `#${labelColorCallback(label)}` }}>
+            <span className="" style={{ color: `#${labelColorCallback(label)}` }}>
                 {label}
             </span>
         );
@@ -105,7 +105,8 @@ const AnalysisMessage: React.FC<Props> = ({
         </p>
     );
 
-    const paragraphs = [porportionAnalysisElement, comparisonAnalysisElement];
+    let paragraphs = [porportionAnalysisElement];
+    if (showComparison) paragraphs.push(comparisonAnalysisElement);
 
     return (
         <div
@@ -116,14 +117,18 @@ const AnalysisMessage: React.FC<Props> = ({
             {paragraphs.map((para, idx) => (
                 <div
                     key={idx}
-                    className={`flex gap-3 ${showComparison ? 'max-w-[36rem] xl:max-w-[49%]' : ''}`}
+                    className={`flex gap-3 transition-all lg:pr-5 ${
+                        showComparison ? 'max-w-[36rem] xl:max-w-[49%]' : ''
+                    }`}
                 >
                     {analysisIcons[idx]}
                     {para}
                 </div>
             ))}
             <Button
-                className="mt-2 !bg-transparent !border-blue-400 !text-blue-600"
+                className={`${
+                    showComparison ? '' : 'mt-2'
+                } !bg-transparent !border-blue-400 !text-blue-600`}
                 theme={Theme.TERTIARY}
                 onClick={onShowComparison}
             >

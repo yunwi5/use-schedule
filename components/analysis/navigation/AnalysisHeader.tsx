@@ -18,7 +18,7 @@ import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
 
 interface Props {
     currentPeriod: Date;
-    onNavigate(dir: number): void;
+    onNavigate(dir?: number): void;
     onNavigateCurrent(): void;
     currentMode: AnalysisMode;
     onChangeMode(newMode: AnalysisMode): void;
@@ -51,7 +51,7 @@ function getPeriodEnding(plannerMode: PlannerMode | null, period: Date) {
 }
 
 const AnalysisHeader: React.FC<Props> = (props) => {
-    const { currentPeriod, onNavigate, currentMode, onChangeMode, onNavigateCurrent } = props;
+    const { currentPeriod, onNavigate, currentMode, onChangeMode } = props;
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const endingPeriod = getPeriodEnding(plannerMode, currentPeriod);
@@ -69,7 +69,7 @@ const AnalysisHeader: React.FC<Props> = (props) => {
                     )}  (${endingPeriod.getFullYear()})`}
                 </PeriodNavigator>
                 <Button
-                    onClick={onNavigateCurrent}
+                    onClick={onNavigate}
                     className={`max-h-[2.7rem] !py-2 flex justify-center items-center`}
                 >
                     {getCurrentPeriodLabel(plannerMode)}

@@ -82,8 +82,9 @@ const LinearChart: React.FC<Props> = (props) => {
                 label: chartLabel,
                 data: dataArray,
                 fill: true,
-                backgroundColor: backgroundColor || 'rgb(219, 234, 254)',
+                backgroundColor: backgroundColor || 'rgba(219, 234, 254, .8)',
                 borderColor: borderColor,
+                borderWidth: 1.5,
             },
         ],
     };

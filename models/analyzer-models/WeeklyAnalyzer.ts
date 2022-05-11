@@ -61,7 +61,7 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
         const trendChartData: ChartData[] = generateLineChartData(
             recentTrendMap,
             getWeekBeginningLabel,
-            'rgb(224, 242, 254)', // light blue
+            'rgba(224, 242, 254, .7)', // light blue
             'rgb(14, 165, 233)', // blue
         );
         // console.table(trendChartData);
@@ -86,7 +86,7 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
         const trendChartData: ChartData[] = generateLineChartData(
             recentTrendMap,
             getWeekBeginningLabel,
-            'rgb(219, 234, 254)', // light blue
+            'rgba(219, 234, 254, .7)', // light blue
             'rgb(59, 130, 246)', // blue
         );
         trendChartData.forEach((data) => {

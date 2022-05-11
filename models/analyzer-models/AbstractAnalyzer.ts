@@ -15,11 +15,15 @@ import {
 } from '../../utilities/analysis-utils/categorical-data';
 import {
     getCategoryBackgroundColor,
+    getCategoryBorderColor,
     getDayPeriodBackgroundColor,
+    getDayPeriodBorderColor,
     getImportanceBackgroundColor,
+    getImportanceBorderColor,
     getStatusBackgroundColor,
     getStatusBorderColor,
     getWeekDayBackgroundColor,
+    getWeekDayBorderColor,
 } from '../../utilities/gen-utils/color-util';
 import { FrequencyMap, generateChartData } from '../../utilities/analysis-utils';
 import {
@@ -69,6 +73,7 @@ export abstract class AbstractAnalyzer {
         const importanceChartData: ChartData[] = generateChartData(
             importanceMap,
             getImportanceBackgroundColor,
+            getImportanceBorderColor,
         );
         return importanceChartData;
     }
@@ -80,6 +85,7 @@ export abstract class AbstractAnalyzer {
         const categoryChartData: ChartData[] = generateChartData(
             categoryMap,
             getCategoryBackgroundColor,
+            getCategoryBorderColor,
         );
         return categoryChartData;
     }
@@ -92,6 +98,7 @@ export abstract class AbstractAnalyzer {
         const weekDayChartData: ChartData[] = generateChartData(
             weekDayMap,
             getWeekDayBackgroundColor,
+            getWeekDayBorderColor,
         );
         // Generate map for {[WeekDay]: number} - frequency map
         // Convert the WeekDay frequency map to ChartData[] array
@@ -105,6 +112,7 @@ export abstract class AbstractAnalyzer {
         const dayPeriodChartData: ChartData[] = generateChartData(
             dayPeriodMap,
             getDayPeriodBackgroundColor,
+            getDayPeriodBorderColor,
         );
         return dayPeriodChartData;
     }

@@ -65,6 +65,12 @@ const radarOptions = {
     },
 };
 
+const FIRST_BACKGROUND = 'rgba(249, 168, 212, .7)'; // pink-300
+const FIRST_BORDER = 'rgb(236, 72, 153)'; // pink-500
+
+const SECOND_BACKGROUND = 'rgba(125, 211, 252, .7)'; // sky-300
+const SECOND_BORDER = 'rgb(14, 165, 233)'; // sky-500
+
 const ComparisonChart: React.FC<Props> = (props) => {
     const { chartTitle, firstDataSet, secondDataSet, disableRadar } = props;
     const [chartType, setChartType] = useState<ComparisonChartType>(ComparisonChartType.BAR);
@@ -72,21 +78,22 @@ const ComparisonChart: React.FC<Props> = (props) => {
     const firstColumn = generateChartDataset(firstDataSet.data);
     const secondColumn = generateChartDataset(secondDataSet.data);
 
+    // set default background and border colors with rgba.
     const data = {
         labels: firstColumn.labels,
         datasets: [
             {
                 label: firstDataSet.label,
                 data: firstColumn.data,
-                backgroundColor: firstColumn.backgroundColor,
-                borderColor: firstColumn.borderColor,
+                backgroundColor: FIRST_BACKGROUND,
+                borderColor: FIRST_BORDER,
                 borderWidth: 1,
             },
             {
                 label: secondDataSet.label,
                 data: secondColumn.data,
-                backgroundColor: secondColumn.backgroundColor,
-                borderColor: secondColumn.borderColor,
+                backgroundColor: SECOND_BACKGROUND,
+                borderColor: SECOND_BORDER,
                 borderWidth: 1,
             },
         ],

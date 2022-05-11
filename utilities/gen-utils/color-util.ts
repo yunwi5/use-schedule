@@ -16,6 +16,7 @@ function rgbToHex(r: number, g: number, b: number): string {
     return toHex(r) + toHex(g) + toHex(b);
 }
 
+//TODO: Needs refactoring
 export function getStatusBackgroundColor(status: string): string {
     switch (status) {
         case Status.OPEN:

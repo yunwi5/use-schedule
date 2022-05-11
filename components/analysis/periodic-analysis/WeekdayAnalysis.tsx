@@ -22,8 +22,6 @@ const WeekdayAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
         [analyzer],
     );
 
-    const toggleShowComparison = () => setShowComparison((prevState) => !prevState);
-
     return (
         <ChartSectionContainer showComparison={showComparison}>
             <FlexChartContainer>
@@ -38,15 +36,15 @@ const WeekdayAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'WeekDay comparison'}
-                    firstDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
-                    secondDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                    firstDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                    secondDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
                 />
             )}
             <AnalysisMessage
                 currentChartDataArray={currentChartDataArray}
                 previousChartDataArray={previousChartDataArray}
                 labelColorCallback={getWeekDayBorderColor}
-                onShowComparison={toggleShowComparison}
+                onShowComparison={() => setShowComparison((prevState) => !prevState)}
                 showComparison={showComparison}
             />
         </ChartSectionContainer>
