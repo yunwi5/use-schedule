@@ -1,17 +1,21 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
 import { getStatusBorderColor } from '../../../utilities/gen-utils/color-util';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
-import { FlexChart } from '../charts';
-import AnalysisSectionWrapper from '../containers/ChartSectionContainer';
+import ComparisonChart from '../charts/ComparisonChart';
+import FlexChart, { FlexChartType } from '../charts/FlexChart';
+import { ChartSectionContainer, FlexChartContainer } from '../containers';
 
 interface Props {
     analyzer: AbstractAnalyzer;
+    timeFrame: string;
 }
 
-const StatusAnalysis: React.FC<Props> = ({ analyzer }) => {
+const StatusAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+    const [showComparison, setShowComparison] = useState(false);
+
     const currentStatusChartData: ChartData[] = useMemo(
         () => analyzer.generateStatusData(),
         [analyzer],
@@ -22,18 +26,30 @@ const StatusAnalysis: React.FC<Props> = ({ analyzer }) => {
     );
 
     return (
-        <AnalysisSectionWrapper title={'Status Analysis'}>
-            <FlexChart
-                chartTitle={'Status Distribution'}
-                chartLabel={'Task Status'}
-                chartDataArray={currentStatusChartData}
-            />
+        <ChartSectionContainer showComparison={showComparison}>
+            <FlexChartContainer>
+                <FlexChart
+                    chartTitle={'Status Distribution'}
+                    chartLabel={'Task Status'}
+                    chartDataArray={currentStatusChartData}
+                    initialChartType={FlexChartType.BAR}
+                />
+            </FlexChartContainer>
+            {showComparison && (
+                <ComparisonChart
+                    chartTitle={'Status comparison'}
+                    firstDataSet={{ label: `This ${timeFrame}`, data: currentStatusChartData }}
+                    secondDataSet={{ label: `Last ${timeFrame}`, data: previousStatusChartData }}
+                />
+            )}
             <AnalysisMessage
                 currentChartDataArray={currentStatusChartData}
                 previousChartDataArray={previousStatusChartData}
                 labelColorCallback={getStatusBorderColor}
+                showComparison={showComparison}
+                onShowComparison={() => setShowComparison((ps) => !ps)}
             />
-        </AnalysisSectionWrapper>
+        </ChartSectionContainer>
     );
 };
 

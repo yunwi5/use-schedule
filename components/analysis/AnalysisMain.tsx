@@ -7,12 +7,13 @@ import { WeeklyAnalyzer } from '../../models/analyzer-models/WeeklyAnalyzer';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { PlannerTask, Task } from '../../models/task-models/Task';
-import { useAppDispatch } from '../../store/redux';
+import { useAppDispatch, useAppSelector } from '../../store/redux';
 import { plannerActions } from '../../store/redux/planner-slice';
 import { getCurrentWeekBeginning } from '../../utilities/date-utils/date-get';
+import { getPeriodName } from '../../utilities/gen-utils/label-util';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
-import CategoricalDataAnalysis from './categorical-analysis/CategoricalDataAnalysis';
+import CategoricalDataAnalysis from './categorical-analysis/CategoricalAnalysis';
 import AnalysisHeader from './navigation/AnalysisHeader';
 import PeriodicAnalysis from './periodic-analysis/PeriodicAnalysis';
 import TrendAnalysis from './trend-analysis/TrendAnalysis';
@@ -71,6 +72,9 @@ const AnalysisMain: React.FC<Props> = (props) => {
     // console.log('beginningDate:', beginningDate);
     // console.log('currentPeriod:', currentPeriod);
 
+    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
+    const timeFrame = getPeriodName(plannerMode);
+
     return (
         <main className="py-6 md:pl-4 text-slate-600">
             <div className="mt-3 flex pl-3 flex-col gap-4">
@@ -82,12 +86,16 @@ const AnalysisMain: React.FC<Props> = (props) => {
                     onNavigateCurrent={() => setCurrentTimeStamp(currentWeekBeginning)}
                 />
             </div>
-            {!analyzer && <LoadingSpinner />}
+            {!analyzer && (
+                <div className="flex justify-center items-center">
+                    <LoadingSpinner />
+                </div>
+            )}
             {analyzer && (
                 <div className="mt-10 pl-6 flex flex-col gap-16">
                     <TrendAnalysis analyzer={analyzer} />
                     <PeriodicAnalysis analyzer={analyzer} />
-                    <CategoricalDataAnalysis analyzer={analyzer} />
+                    <CategoricalDataAnalysis analyzer={analyzer} timeFrame={timeFrame} />
                 </div>
             )}
         </main>

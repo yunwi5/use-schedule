@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption } from '../../../models/analyzer-models/helper-models';
@@ -6,12 +6,17 @@ import { getDayPeriodBorderColor } from '../../../utilities/gen-utils/color-util
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ChartSectionContainer from '../containers/ChartSectionContainer';
 import { FlexChart } from '../charts';
+import ComparisonChart from '../charts/ComparisonChart';
+import FlexChartContainer from '../containers/FlexChartContainer';
 
 interface Props {
     analyzer: AbstractAnalyzer;
+    timeFrame: string;
 }
 
-const DayPeriodAnalysis: React.FC<Props> = ({ analyzer }) => {
+const DayPeriodAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+    const [showComparison, setShowComparison] = useState(false);
+
     const currentChartDataArray = useMemo(() => analyzer.generateDayPeriodData(), [analyzer]);
     const previousChartDataArray = useMemo(
         () => analyzer.generateDayPeriodData(AnalysisOption.PREVIOUS),
@@ -19,16 +24,28 @@ const DayPeriodAnalysis: React.FC<Props> = ({ analyzer }) => {
     );
 
     return (
-        <ChartSectionContainer>
-            <FlexChart
-                chartTitle={'AM/PM Distribution'}
-                chartLabel="AM/PM"
-                chartDataArray={currentChartDataArray}
-            />
+        <ChartSectionContainer showComparison={showComparison}>
+            <FlexChartContainer>
+                <FlexChart
+                    chartTitle={'AM/PM Distribution'}
+                    chartLabel="AM/PM"
+                    chartDataArray={currentChartDataArray}
+                />
+            </FlexChartContainer>
+            {showComparison && (
+                <ComparisonChart
+                    chartTitle={'AM/PM comparison'}
+                    firstDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
+                    secondDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                    disableRadar={true}
+                />
+            )}
             <AnalysisMessage
                 currentChartDataArray={currentChartDataArray}
                 previousChartDataArray={previousChartDataArray}
                 labelColorCallback={getDayPeriodBorderColor}
+                showComparison={showComparison}
+                onShowComparison={() => setShowComparison((ps) => !ps)}
             />
         </ChartSectionContainer>
     );

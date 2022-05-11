@@ -44,7 +44,7 @@ const pieOptions = {
     },
 };
 
-enum FlexChartType {
+export enum FlexChartType {
     BAR = 'Bar',
     PIE = 'Pie',
     DOUGHNUT = 'Doughnut',
@@ -62,10 +62,14 @@ interface Props {
     chartTitle: string;
     chartLabel: string;
     chartDataArray: ChartData[];
+    initialChartType?: FlexChartType;
 }
 
-const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) => {
-    const [flexChartType, setFlexChartType] = useState<FlexChartType>(FlexChartType.PIE); // Pie chart by default
+const FlexChart: React.FC<Props> = (props) => {
+    const { chartTitle, chartLabel, chartDataArray, initialChartType } = props;
+    const [flexChartType, setFlexChartType] = useState<FlexChartType>(
+        initialChartType || FlexChartType.PIE,
+    ); // Pie chart by default
 
     const { labels, data, backgroundColor, borderColor } = generateChartDataset(chartDataArray);
 
@@ -82,15 +86,10 @@ const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) 
         ],
     };
 
-    // const barChartData = {
-    //     labels,
-    //     datasets: [{ label: chartLabel, data, backgroundColor }],
-    // };
-
     return (
         <section
             className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3 ${
-                flexChartType === FlexChartType.BAR ? 'mb-[6rem]' : ''
+                flexChartType === FlexChartType.BAR ? '' : ''
             }`}
         >
             <div className="flex justify-between items-start">

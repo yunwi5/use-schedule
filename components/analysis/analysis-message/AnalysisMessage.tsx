@@ -12,7 +12,8 @@ interface Props {
     currentChartDataArray: ChartData[];
     previousChartDataArray: ChartData[];
     labelColorCallback: (label: string) => string;
-    onShowComparisonChart?: () => void;
+    onShowComparison?: () => void;
+    showComparison?: boolean;
 }
 
 const chartPieIcon = (
@@ -33,6 +34,8 @@ const AnalysisMessage: React.FC<Props> = ({
     currentChartDataArray,
     previousChartDataArray,
     labelColorCallback,
+    onShowComparison,
+    showComparison,
 }) => {
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const periodName = getPeriodName(plannerMode);
@@ -68,7 +71,9 @@ const AnalysisMessage: React.FC<Props> = ({
         // const percentageChange = changeInPercentage(previouStatusData.value, currentValue);
         const difference = currentValue - previouStatusData.value;
         const labelElement = (
-            <span style={{ color: `#${labelColorCallback(label)}` }}>{label}</span>
+            <span className="brightness-50" style={{ color: `#${labelColorCallback(label)}` }}>
+                {label}
+            </span>
         );
         const ending: string = idx === currentChartDataArray.length - 1 ? '' : ', ';
 
@@ -103,9 +108,13 @@ const AnalysisMessage: React.FC<Props> = ({
     const paragraphs = [porportionAnalysisElement, comparisonAnalysisElement];
 
     return (
-        <div className="max-w-[45rem] flex flex-col gap-3 text-lg xl:pr-12">
+        <div
+            className={`flex flex-col self-center gap-3 text-lg ${
+                showComparison ? '!max-w-none flex-wrap justify-between !flex-row' : 'max-w-[40rem]'
+            }`}
+        >
             {paragraphs.map((para, idx) => (
-                <div key={idx} className="flex gap-3">
+                <div key={idx} className={`flex gap-3 ${showComparison ? 'xl:max-w-[49%]' : ''}`}>
                     {analysisIcons[idx]}
                     {para}
                 </div>
@@ -113,8 +122,9 @@ const AnalysisMessage: React.FC<Props> = ({
             <Button
                 className="mt-2 !bg-transparent !border-blue-400 !text-blue-600"
                 theme={Theme.TERTIARY}
+                onClick={onShowComparison}
             >
-                Show Comparison
+                {showComparison ? 'Hide Comparison' : 'Show Comparison'}
             </Button>
         </div>
     );

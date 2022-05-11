@@ -10,9 +10,7 @@ import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { fetchAllTasks, fetchPeriodicTasks } from '../../../lib/planners/tasks-api';
 import { getCurrentWeekBeginning, getWeekBeginning } from '../../../utilities/date-utils/date-get';
-import { Size } from '../../../models/design-models';
 import AnalysisMain from '../../../components/analysis/AnalysisMain';
-import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
 
 interface Props {
     initialAllTasks: Task[];
@@ -30,22 +28,20 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
         ? getWeekBeginning(new Date(initialStartDate))
         : getCurrentWeekBeginning();
 
-    const {
-        data: allTasksData,
-        isLoading: allTasksLoading,
-        error: allTasksError,
-    } = useQuery('all-tasks', fetchAllTasks, { initialData: { tasks: initialAllTasks } });
+    const { data: allTasksData, error: allTasksError } = useQuery('all-tasks', fetchAllTasks, {
+        initialData: { tasks: initialAllTasks },
+    });
 
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);
     let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
 
-    const {
-        data: weeklyTasksData,
-        isLoading: weeklyTasksLoading,
-        error: weeklyTasksError,
-    } = useQuery(['weekly-tasks', TaskCollection.WEEKLY_TASKS], fetchPeriodicTasks, {
-        initialData: { tasks: initialWeeklyTasks },
-    });
+    const { data: weeklyTasksData, error: weeklyTasksError } = useQuery(
+        ['weekly-tasks', TaskCollection.WEEKLY_TASKS],
+        fetchPeriodicTasks,
+        {
+            initialData: { tasks: initialWeeklyTasks },
+        },
+    );
 
     if (weeklyTasksError) console.error('Weeklt tasks error!', weeklyTasksError);
 
@@ -60,11 +56,6 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
                     content="Analyze user's weekly task data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"
                 />
             </Head>
-            {weeklyTasksLoading && (
-                <div className="flex justify-center items-center mt-6">
-                    <LoadingSpinner size={Size.LARGE} />
-                </div>
-            )}
             <AnalysisMain
                 allTasks={allTasks}
                 periodicTasks={weeklyTasks}

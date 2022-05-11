@@ -22,6 +22,11 @@ export interface ChartData {
     borderColor?: string;
 }
 
+export interface DataSet {
+    label: string;
+    data: ChartData[];
+}
+
 // Dataset supply for Pie, Doughnut, Polar and Bar charts
 export interface FlexChartDataSet {
     titleLabel: string;
