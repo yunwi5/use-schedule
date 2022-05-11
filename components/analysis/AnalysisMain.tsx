@@ -44,6 +44,8 @@ const AnalysisMain: React.FC<Props> = (props) => {
             : processedAllTasks;
 
     const dispatch = useAppDispatch();
+    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
+    const timeFrame = getPeriodName(plannerMode);
 
     const currentWeekBeginning = getCurrentWeekBeginning(); // current timestemp -> DateTime now.
     const {
@@ -69,15 +71,9 @@ const AnalysisMain: React.FC<Props> = (props) => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
     }, [dispatch]);
 
-    // console.log('beginningDate:', beginningDate);
-    // console.log('currentPeriod:', currentPeriod);
-
-    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
-    const timeFrame = getPeriodName(plannerMode);
-
     return (
         <main className="py-6 md:pl-4 text-slate-600">
-            <div className="mt-3 flex pl-3 flex-col gap-4">
+            <div className="mt-3 mb-10 flex pl-3 flex-col gap-4">
                 <AnalysisHeader
                     currentPeriod={currentPeriod}
                     onNavigate={weekNavigateHandler}
@@ -92,9 +88,9 @@ const AnalysisMain: React.FC<Props> = (props) => {
                 </div>
             )}
             {analyzer && (
-                <div className="mt-10 pl-6 flex flex-col gap-16">
+                <div className="pl-6 flex flex-col gap-16">
                     <TrendAnalysis analyzer={analyzer} />
-                    <PeriodicAnalysis analyzer={analyzer} />
+                    <PeriodicAnalysis analyzer={analyzer} timeFrame={timeFrame} />
                     <CategoricalDataAnalysis analyzer={analyzer} timeFrame={timeFrame} />
                 </div>
             )}

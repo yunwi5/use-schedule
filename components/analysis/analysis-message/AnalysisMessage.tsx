@@ -114,7 +114,10 @@ const AnalysisMessage: React.FC<Props> = ({
             }`}
         >
             {paragraphs.map((para, idx) => (
-                <div key={idx} className={`flex gap-3 ${showComparison ? 'xl:max-w-[49%]' : ''}`}>
+                <div
+                    key={idx}
+                    className={`flex gap-3 ${showComparison ? 'max-w-[36rem] xl:max-w-[49%]' : ''}`}
+                >
                     {analysisIcons[idx]}
                     {para}
                 </div>
