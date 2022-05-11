@@ -1,4 +1,5 @@
 import { ChartData } from '../../models/analyzer-models/helper-models';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { getRecentTrendBackgroundColor } from '../gen-utils/color-util';
 
 export interface FrequencyMap {
@@ -44,4 +45,19 @@ export function generateLineChartData(
         return data;
     });
     return trendChartData;
+}
+
+// Data analysis link with initial starting date
+export function getDataAnalysisLink(plannerMode: PlannerMode | null, beginningPeriod: Date) {
+    const dateStr = beginningPeriod.toDateString();
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+            return `/task-planner/weekly-planner/analysis?start_date=${dateStr}`;
+        case PlannerMode.MONTLY:
+            return `/task-planner/montly-planner/analysis?start_date=${dateStr}`;
+        case PlannerMode.YEARLY:
+            return `/task-planner/yearly-planner/analysis?start_date=${dateStr}`;
+        default:
+            return `/task-planner/weekly-planner/analysis?start_date=${dateStr}`;
+    }
 }

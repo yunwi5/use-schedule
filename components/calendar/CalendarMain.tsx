@@ -8,7 +8,7 @@ import { CalendarItem } from '../../models/calendar-models/CalendarItem';
 import { getCurrentMonthBeginning } from '../../utilities/date-utils/date-get';
 import { processTodos } from '../../utilities/todos-utils/todo-util';
 import { useAppSelector } from '../../store/redux';
-import { adjustIfOverdueTask, processTasks } from '../../utilities/tasks-utils/task-util';
+import { adjustOverdueTask, processTasks } from '../../utilities/tasks-utils/task-util';
 import { Event } from '../../models/Event';
 import { adjustIfOverdueEvent } from '../../utilities/event-utils/event-util';
 import CalendarContainer from './calendar-parts/CalendarContainer';

@@ -1,29 +1,20 @@
 import React from 'react';
+
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
-import { FlexChart } from '../charts';
 import AnalysisSectionContainer from '../containers/AnalysisSectionContainer';
+import DayPeriodAnalysis from './DayPeriodAnalysis';
+import WeekdayAnalysis from './WeekdayAnalysis';
 
 interface Props {
     analyzer: AbstractAnalyzer;
 }
 
 const PeriodicAnalysis: React.FC<Props> = ({ analyzer }) => {
-    const weekdayChartDataArray = analyzer.generateWeekDayData();
-    const dayPeriodChartDataArray = analyzer.generateDayPeriodData();
-
     return (
         <AnalysisSectionContainer title={'Periodic Data Analysis'}>
-            <div className="flex flex-wrap gap-[6rem] items-center">
-                <FlexChart
-                    chartTitle={'Weekday Distribution'}
-                    chartLabel="WeekDay"
-                    chartDataArray={weekdayChartDataArray}
-                />
-                <FlexChart
-                    chartTitle={'AM/PM Distribution'}
-                    chartLabel="AM/PM"
-                    chartDataArray={dayPeriodChartDataArray}
-                />
+            <div className="flex flex-col gap-2">
+                <WeekdayAnalysis analyzer={analyzer} />
+                <DayPeriodAnalysis analyzer={analyzer} />
             </div>
         </AnalysisSectionContainer>
     );

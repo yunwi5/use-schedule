@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
@@ -12,9 +12,13 @@ interface Props {
 }
 
 const CategoryAnalysis: React.FC<Props> = ({ analyzer }) => {
-    const currentChartDataArray: ChartData[] = analyzer.generateCategoryData();
-    const previousChartDataArray: ChartData[] = analyzer.generateCategoryData(
-        AnalysisOption.PREVIOUS,
+    const currentChartDataArray: ChartData[] = useMemo(
+        () => analyzer.generateCategoryData(),
+        [analyzer],
+    );
+    const previousChartDataArray: ChartData[] = useMemo(
+        () => analyzer.generateCategoryData(AnalysisOption.PREVIOUS),
+        [analyzer],
     );
 
     return (

@@ -7,10 +7,9 @@ import { WeeklyAnalyzer } from '../../models/analyzer-models/WeeklyAnalyzer';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { PlannerTask, Task } from '../../models/task-models/Task';
-import { useAppDispatch, useAppSelector } from '../../store/redux';
+import { useAppDispatch } from '../../store/redux';
 import { plannerActions } from '../../store/redux/planner-slice';
 import { getCurrentWeekBeginning } from '../../utilities/date-utils/date-get';
-import { getTaskType } from '../../utilities/tasks-utils/task-label';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
 import CategoricalDataAnalysis from './categorical-analysis/CategoricalDataAnalysis';
@@ -21,6 +20,7 @@ import TrendAnalysis from './trend-analysis/TrendAnalysis';
 interface Props {
     allTasks: Task[];
     periodicTasks: Task[]; // Either weekly, montly or yearly tasks specific
+    beginningDate: Date;
 }
 
 function populateAnalyzer(analyzer: AbstractAnalyzer, tasks: AbstractTask[]) {
@@ -31,7 +31,7 @@ function populateAnalyzer(analyzer: AbstractAnalyzer, tasks: AbstractTask[]) {
 }
 
 const AnalysisMain: React.FC<Props> = (props) => {
-    const { allTasks, periodicTasks } = props;
+    const { allTasks, periodicTasks, beginningDate } = props;
     const [analysisMode, setAnalysisMode] = useState(AnalysisMode.ONLY_CURRENT_PLANNER);
     const [analyzer, setAnalyzer] = useState<AbstractAnalyzer | null>(null);
 
@@ -44,17 +44,12 @@ const AnalysisMain: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch();
 
-    const weekBeginning = getCurrentWeekBeginning();
-    dispatch(plannerActions.setBeginningPeriod(weekBeginning.toString()));
+    const currentWeekBeginning = getCurrentWeekBeginning(); // current timestemp -> DateTime now.
     const {
         currentTimeStamp: currentPeriod,
         addWeeks: addLocalWeeks,
         setCurrentTimeStamp,
-    } = useDateTime(weekBeginning, ResetPeriod.WEEK);
-
-    const plannerMode: PlannerMode | null = useAppSelector((state) => state.planner.plannerMode);
-
-    const taskType: string = getTaskType(plannerMode || PlannerMode.WEEKLY);
+    } = useDateTime(beginningDate, ResetPeriod.WEEK);
 
     // If the week beginning changes, the planner also has to change to load new tasks according to
     // Changed week beginning.
@@ -73,7 +68,8 @@ const AnalysisMain: React.FC<Props> = (props) => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
     }, [dispatch]);
 
-    // if (analyzer) console.table(analyzer.generateRecentPeriodCountData(10));
+    // console.log('beginningDate:', beginningDate);
+    // console.log('currentPeriod:', currentPeriod);
 
     return (
         <main className="py-6 md:pl-4 text-slate-600">
@@ -83,7 +79,7 @@ const AnalysisMain: React.FC<Props> = (props) => {
                     onNavigate={weekNavigateHandler}
                     currentMode={analysisMode}
                     onChangeMode={(newMode: AnalysisMode) => setAnalysisMode(newMode)}
-                    onNavigateCurrent={() => setCurrentTimeStamp(weekBeginning)}
+                    onNavigateCurrent={() => setCurrentTimeStamp(currentWeekBeginning)}
                 />
             </div>
             {!analyzer && <LoadingSpinner />}

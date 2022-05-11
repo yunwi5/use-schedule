@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { addMonths, addWeeks, addYears } from "../utilities/date-utils/date-control";
+import { useState, useEffect } from 'react';
+import { addMonths, addWeeks, addYears } from '../utilities/date-utils/date-control';
 import {
     getCurrentMonthBeginning,
     getCurrentWeekBeginning,
@@ -7,14 +7,12 @@ import {
     getMonthEnding,
     getWeekEnding,
     getYearEnding,
-    getMonthWeekBeginning,
-    getMonthWeekEnding,
-} from "../utilities/date-utils/date-get";
+} from '../utilities/date-utils/date-get';
 
 export enum ResetPeriod {
-    WEEK = "week",
-    MONTH = "month",
-    YEAR = "year",
+    WEEK = 'week',
+    MONTH = 'month',
+    YEAR = 'year',
 }
 
 function getNewTimeStamp(resetPeriod: ResetPeriod) {
@@ -30,60 +28,52 @@ function getNewTimeStamp(resetPeriod: ResetPeriod) {
     }
 }
 
-const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
-    const [currentTimeStamp, setCurrentTimeStamp] = useState<Date>(beginningPeriod);
+const defaultTimeStamp = getCurrentWeekBeginning();
+
+const useDateTime = (initialPeriod?: Date, resetPeriod?: ResetPeriod) => {
+    const [currentTimeStamp, setCurrentTimeStamp] = useState<Date>(
+        initialPeriod || defaultTimeStamp,
+    );
 
     // Handle navigation
     const addWeekHandler = (weeksToAdd: number) => {
-        if (!currentTimeStamp) throw new Error("Current local Datetime is null!");
+        if (!currentTimeStamp) throw new Error('Current local Datetime is null!');
         const addedPeriod = addWeeks(currentTimeStamp, weeksToAdd);
         setCurrentTimeStamp(addedPeriod);
     };
 
     const addMonthHandler = (monthsToAdd: number) => {
-        if (!currentTimeStamp) throw new Error("Current local Datetime is null!");
+        if (!currentTimeStamp) throw new Error('Current local Datetime is null!');
         const addedTimestamp = addMonths(currentTimeStamp, monthsToAdd);
         setCurrentTimeStamp(addedTimestamp);
     };
 
     const addYearHandler = (yearsToAdd: number) => {
-        if (!currentTimeStamp) throw new Error("Current local Datetime is null!");
+        if (!currentTimeStamp) throw new Error('Current local Datetime is null!');
         const addedTimestamp = addYears(currentTimeStamp, yearsToAdd);
         setCurrentTimeStamp(addedTimestamp);
     };
 
     useEffect(() => {
-        const storedDate = localStorage.getItem("dateTime");
+        const storedDate = localStorage.getItem('dateTime');
         // console.log("storedDate:", storedDate);
-        // Fixed
-        if (!storedDate || resetPeriod) {
-            const newTimeStamp = getNewTimeStamp(resetPeriod || ResetPeriod.WEEK);
-            setCurrentTimeStamp(newTimeStamp);
-        } else {
+        if (initialPeriod) return; // if default period is given, no action to change it brutally.
+        if (storedDate) {
             const current = new Date(storedDate);
             setCurrentTimeStamp(current);
+        } else {
+            const newTimeStamp = getNewTimeStamp(resetPeriod || ResetPeriod.WEEK);
+            setCurrentTimeStamp(newTimeStamp);
         }
-    }, []);
+    }, [initialPeriod, resetPeriod]);
 
     useEffect(() => {
-        if (currentTimeStamp) localStorage.setItem("dateTime", currentTimeStamp.toString());
-        // console.log(`Save timestamp ${currentTimeStamp}`);
-        // console.log(`CMWB: ${monthWeekBeginning}, CMWE: ${monthWeekEnding}`);
+        if (currentTimeStamp) localStorage.setItem('dateTime', currentTimeStamp.toString());
     }, [currentTimeStamp]);
 
-    // const weekEnding = currentTimeStamp ? getWeekEnding(currentTimeStamp) : null;
     const weekEnding = getWeekEnding(currentTimeStamp);
-    // const monthEnding = currentTimeStamp ? getMonthEnding(currentTimeStamp) : null;
     const monthEnding = getMonthEnding(currentTimeStamp);
-    // const yearEnding = currentTimeStamp ? getYearEnding(currentTimeStamp) : null;
     const yearEnding = getYearEnding(currentTimeStamp);
-
-    // const monthWeekBeginning = currentTimeStamp ? getMonthWeekBeginning(currentTimeStamp) : null;
-    const monthWeekBeginning = getMonthWeekBeginning(currentTimeStamp);
-    // const monthWeekEnding = currentTimeStamp ? getMonthWeekEnding(currentTimeStamp) : null;
-    const monthWeekEnding = getMonthWeekEnding(currentTimeStamp);
-
-    // console.log(`timeStamp: ${currentTimeStamp}, weekEnding: ${weekEnding}`);
 
     return {
         currentTimeStamp: currentTimeStamp,
@@ -94,8 +84,6 @@ const useDateTime = (beginningPeriod: Date, resetPeriod?: ResetPeriod) => {
         weekEnding,
         monthEnding,
         yearEnding,
-        monthWeekBeginning,
-        monthWeekEnding,
     };
 };
 

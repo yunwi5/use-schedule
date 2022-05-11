@@ -13,13 +13,13 @@ interface Props {
 }
 
 const SideNav: React.FC<Props> = ({ showSidebar }) => {
-    const templates = useAppSelector((state) => state.template.templates);
+    const templates = useAppSelector((state) => state.template.templates) || [];
     const userTemplateItems = templates.map((tem: Template) => ({
         name: getShortNameWithRest(tem.name, 15),
         link: `/templates/${tem.id}`,
     }));
 
-    const todoLists = useAppSelector((state) => state.todoList.lists);
+    const todoLists = useAppSelector((state) => state.todoList.lists) || [];
     const userTodoLists = todoLists.map((list) => ({
         name: getShortNameWithRest(list.name, 15),
         link: `/todos/${list.id}`,

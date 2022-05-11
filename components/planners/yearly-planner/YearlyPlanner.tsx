@@ -1,18 +1,18 @@
-import React, { FC, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { FC, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import IntroPanel from "../planner-nav/IntroPanel";
-import YearlyTable from "./YearlyTable";
-import PlannerHeader from "../planner-nav/PlannerHeader";
-import { plannerActions } from "../../../store/redux/planner-slice";
-import { PlannerTask, Task } from "../../../models/task-models/Task";
-import { YearlyPlanner as Planner } from "../../../models/planner-models/YearlyPlanner";
-import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
-import { getCurrentYearBeginning } from "../../../utilities/date-utils/date-get";
-import { isSameYear } from "../../../utilities/date-utils/date-check";
-import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
-import PlannerCard from "../../ui/cards/PlannerCard";
+import IntroPanel from '../planner-nav/IntroPanel';
+import YearlyTable from './YearlyTable';
+import PlannerHeader from '../planner-nav/PlannerHeader';
+import { plannerActions } from '../../../store/redux/planner-slice';
+import { PlannerTask, Task } from '../../../models/task-models/Task';
+import { YearlyPlanner as Planner } from '../../../models/planner-models/YearlyPlanner';
+import useDateTime, { ResetPeriod } from '../../../hooks/useDateTime';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import { getCurrentYearBeginning } from '../../../utilities/date-utils/date-get';
+import { isSameYear } from '../../../utilities/date-utils/date-check';
+import { adjustOverdueTask } from '../../../utilities/tasks-utils/task-util';
+import PlannerCard from '../../ui/cards/PlannerCard';
 
 interface Props {
     yearlyTasks: Task[];
@@ -27,7 +27,7 @@ function populateYearlyPlanner(tasks: Task[], yearBeginning: Date): Planner {
         let taskDate = new Date(task.timeString);
         const sameYear = isSameYear(yearBeginning, taskDate);
 
-        adjustIfOverdueTask(task);
+        adjustOverdueTask(task);
 
         if (sameYear) {
             const plannerTask = new PlannerTask(task);
@@ -61,7 +61,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
     }, []);
 
     const yearNavigateHandler = (direction: number) => {
-        if (direction !== 1 && direction !== -1) throw new Error("Direction parameter is wrong!");
+        if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
         // Hook call
         addLocalYears(direction);
     };

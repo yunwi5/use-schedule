@@ -1,18 +1,18 @@
-import React, { FC, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { FC, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { plannerActions } from "../../../store/redux/planner-slice";
-import IntroPanel from "../planner-nav/IntroPanel";
-import MontlyTable from "./MontlyTable";
-import PlannerHeader from "../planner-nav/PlannerHeader";
-import { PlannerTask, Task } from "../../../models/task-models/Task";
-import { MontlyPlanner as Planner } from "../../../models/planner-models/MontlyPlanner";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
-import { getCurrentMonthBeginning } from "../../../utilities/date-utils/date-get";
-import { isSameMonth, isSameYear } from "../../../utilities/date-utils/date-check";
-import useDateTime, { ResetPeriod } from "../../../hooks/useDateTime";
-import { adjustIfOverdueTask } from "../../../utilities/tasks-utils/task-util";
-import PlannerCard from "../../ui/cards/PlannerCard";
+import { plannerActions } from '../../../store/redux/planner-slice';
+import IntroPanel from '../planner-nav/IntroPanel';
+import MontlyTable from './MontlyTable';
+import PlannerHeader from '../planner-nav/PlannerHeader';
+import { PlannerTask, Task } from '../../../models/task-models/Task';
+import { MontlyPlanner as Planner } from '../../../models/planner-models/MontlyPlanner';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import { getCurrentMonthBeginning } from '../../../utilities/date-utils/date-get';
+import { isSameMonth, isSameYear } from '../../../utilities/date-utils/date-check';
+import useDateTime, { ResetPeriod } from '../../../hooks/useDateTime';
+import { adjustOverdueTask } from '../../../utilities/tasks-utils/task-util';
+import PlannerCard from '../../ui/cards/PlannerCard';
 
 interface Props {
     // Not constructed as planner tasks yet.
@@ -28,7 +28,7 @@ function populateMontlyPlanner(tasks: Task[], monthBeginning: Date): Planner {
         const sameYear = isSameYear(monthBeginning, taskDate);
         const sameMonth = isSameMonth(monthBeginning, taskDate);
 
-        adjustIfOverdueTask(task);
+        adjustOverdueTask(task);
 
         if (sameMonth && sameYear) {
             const plannerTask = new PlannerTask(task);
@@ -62,7 +62,7 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
     }, []);
 
     const monthNaviagtionHandler = (direction: number) => {
-        if (direction !== 1 && direction !== -1) throw new Error("Direction parameter is wrong!");
+        if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
         // Hook fn call
         addLocalMonths(direction);
     };

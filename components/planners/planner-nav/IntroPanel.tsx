@@ -1,16 +1,19 @@
-import React, { useState, Fragment } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, Fragment } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCalendarCircleExclamation,
     faChartPie,
     faCircleInfo,
-} from "@fortawesome/pro-duotone-svg-icons";
-import { faXmark } from "@fortawesome/pro-regular-svg-icons";
+} from '@fortawesome/pro-duotone-svg-icons';
+import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
-import { Size, Theme } from "../../../models/design-models";
-import Button from "../../ui/buttons/Button";
-import ImportModal from "../planner-modal/ImportModal";
-import classes from "./IntroPanel.module.scss";
+import { useAppSelector } from '../../../store/redux';
+import { Size, Theme } from '../../../models/design-models';
+import ImportModal from '../planner-modal/ImportModal';
+import Button from '../../ui/buttons/Button';
+import Link from 'next/link';
+import { getDataAnalysisLink } from '../../../utilities/analysis-utils';
+import classes from './IntroPanel.module.scss';
 
 interface Props {
     title: string;
@@ -24,13 +27,11 @@ const IntroPanel: React.FC<Props> = (props) => {
     const [showPanel, setShowPanel] = useState(true);
     const [showImportModal, setShowImportModal] = useState(false);
 
-    const showPanelHandler = (show: boolean) => {
-        setShowPanel(show);
-    };
+    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
+    const statisticsLink = getDataAnalysisLink(plannerMode, beginningPeriod);
 
-    const importModalHandler = (show: boolean) => {
-        setShowImportModal(show);
-    };
+    const showPanelHandler = (show: boolean) => () => setShowPanel(show); // currying fn
+    const importModalHandler = (show: boolean) => () => setShowImportModal(show); // currying fn
 
     return (
         <Fragment>
@@ -39,7 +40,7 @@ const IntroPanel: React.FC<Props> = (props) => {
                     <FontAwesomeIcon
                         icon={faCircleInfo}
                         className={classes.show}
-                        onClick={showPanelHandler.bind(null, true)}
+                        onClick={showPanelHandler(true)}
                     />
                 </div>
             )}
@@ -47,29 +48,32 @@ const IntroPanel: React.FC<Props> = (props) => {
                 <div className={classes.panel}>
                     <h2>{title}</h2>
                     <p>{message}</p>
-
                     <FontAwesomeIcon
                         icon={faXmark}
                         className={classes.exit}
-                        onClick={showPanelHandler.bind(null, false)}
+                        onClick={showPanelHandler(false)}
                     />
 
                     <div className={classes.actions}>
-                        <Button
-                            className={`mr-4 flex items-center ${classes.btn}`}
-                            theme={Theme.SECONDARY}
-                            size={Size.MEDIUM}
-                        >
-                            <FontAwesomeIcon
-                                className="mr-2 max-w-[1.3rem]"
-                                icon={faChartPie as any}
-                            />{" "}
-                            See Statistics
-                        </Button>
+                        <Link href={statisticsLink}>
+                            <a>
+                                <Button
+                                    className={`mr-4 flex items-center ${classes.btn}`}
+                                    theme={Theme.SECONDARY}
+                                    size={Size.MEDIUM}
+                                >
+                                    <FontAwesomeIcon
+                                        className="mr-2 max-w-[1.3rem]"
+                                        icon={faChartPie as any}
+                                    />{' '}
+                                    See Statistics
+                                </Button>
+                            </a>
+                        </Link>
                         <Button
                             className={`mr-4 flex items-center ${classes.btn}`}
                             theme={Theme.TERTIARY}
-                            onClick={importModalHandler.bind(null, true)}
+                            onClick={importModalHandler(true)}
                         >
                             <FontAwesomeIcon
                                 className="mr-2 max-w-[1.3rem]"
@@ -82,7 +86,7 @@ const IntroPanel: React.FC<Props> = (props) => {
             )}
             {showImportModal && onMutate && (
                 <ImportModal
-                    onClose={importModalHandler.bind(null, false)}
+                    onClose={importModalHandler(false)}
                     beginningPeriod={beginningPeriod}
                     onMutate={onMutate}
                 />

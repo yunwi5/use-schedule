@@ -25,8 +25,9 @@ ChartJS.register(
     Legend,
 ); // registration
 
-const exampleOptions = {
+const barOptions = {
     responsive: true,
+    // maintainAspectRatio: false, // experimental
     plugins: {
         legend: {
             position: 'top' as const,
@@ -81,10 +82,10 @@ const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) 
         ],
     };
 
-    const barChartData = {
-        labels,
-        datasets: [{ label: chartLabel, data, backgroundColor }],
-    };
+    // const barChartData = {
+    //     labels,
+    //     datasets: [{ label: chartLabel, data, backgroundColor }],
+    // };
 
     return (
         <section
@@ -92,8 +93,8 @@ const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) 
                 flexChartType === FlexChartType.BAR ? 'mb-[6rem]' : ''
             }`}
         >
-            <div className="flex justify-between items-center">
-                <h3 className="text-3xl capitalize">{chartTitle}</h3>
+            <div className="flex justify-between items-start">
+                <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>
                 <AppSelect
                     label="Chart Type"
                     value={flexChartType}
@@ -114,7 +115,8 @@ const FlexChart: React.FC<Props> = ({ chartTitle, chartLabel, chartDataArray }) 
                     <PolarArea options={pieOptions} data={pieOrDoughnutData} />
                 )}
                 {flexChartType === FlexChartType.BAR && (
-                    <Bar options={exampleOptions} data={barChartData} />
+                    // Increase height with vh setting
+                    <Bar options={barOptions} height="55vh" width="80vw" data={pieOrDoughnutData} />
                 )}
             </div>
         </section>

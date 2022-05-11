@@ -2,27 +2,34 @@ import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { getSession } from '@auth0/nextjs-auth0';
+import { useQuery } from 'react-query';
 
 import { getTasksFromPage, getTasksFromAllCollection } from '../../../db/pages-util';
 import { TaskCollection } from '../../../db/mongodb-constant';
 import { Task } from '../../../models/task-models/Task';
-import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
-import { useQuery, useQueryClient } from 'react-query';
 import { fetchAllTasks, fetchPeriodicTasks } from '../../../lib/planners/tasks-api';
+import { getCurrentWeekBeginning, getWeekBeginning } from '../../../utilities/date-utils/date-get';
+import { Size } from '../../../models/design-models';
 import AnalysisMain from '../../../components/analysis/AnalysisMain';
+import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
 
 interface Props {
     initialAllTasks: Task[];
     initialWeeklyTasks: Task[];
+    initialStartDate: string;
 }
 
 //TODO: Need to handle navigation between weeks!
 const WeeklyAnalysis: NextPage<Props> = (props) => {
     // Initial user tasks fetched from the server
-    const { initialAllTasks, initialWeeklyTasks } = props;
+    const { initialAllTasks, initialWeeklyTasks, initialStartDate } = props;
 
-    // const queryClient = useQueryClient();
+    // make sure it is always beginning of week, not just random day
+    const beginningDate = initialStartDate.trim()
+        ? getWeekBeginning(new Date(initialStartDate))
+        : getCurrentWeekBeginning();
+
     const {
         data: allTasksData,
         isLoading: allTasksLoading,
@@ -31,8 +38,6 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
 
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);
     let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
-    // console.log('allTasks:');
-    // console.table(allTasks);
 
     const {
         data: weeklyTasksData,
@@ -45,8 +50,6 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
     if (weeklyTasksError) console.error('Weeklt tasks error!', weeklyTasksError);
 
     const weeklyTasks: Task[] = weeklyTasksData ? weeklyTasksData.tasks : [];
-    // console.log('weeklyTasks:');
-    // console.table(weeklyTasks);
 
     return (
         <div>
@@ -59,16 +62,20 @@ const WeeklyAnalysis: NextPage<Props> = (props) => {
             </Head>
             {weeklyTasksLoading && (
                 <div className="flex justify-center items-center mt-6">
-                    <LoadingSpinner />
+                    <LoadingSpinner size={Size.LARGE} />
                 </div>
             )}
-            <AnalysisMain allTasks={allTasks} periodicTasks={weeklyTasks} />
+            <AnalysisMain
+                allTasks={allTasks}
+                periodicTasks={weeklyTasks}
+                beginningDate={beginningDate}
+            />
         </div>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { req, res } = context;
+    const { req, res, query } = context;
     const session = getSession(req, res);
     if (!session) {
         return {
@@ -80,6 +87,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     const userId = session.user.sub;
 
+    const { start_date } = query;
+    const startDate: string = Array.isArray(start_date)
+        ? start_date.join(' ')
+        : start_date || getCurrentWeekBeginning().toDateString();
     const allTasksPromise = getTasksFromAllCollection(userId);
     const weeklyTasksPromise = getTasksFromPage(TaskCollection.WEEKLY_TASKS, userId);
 
@@ -93,6 +104,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {
             initialAllTasks: convertToTasks(allTasksData),
             initialWeeklyTasks: convertToTasks(weeklyTasksData),
+            initialStartDate: startDate,
         },
     };
 };

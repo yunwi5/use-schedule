@@ -8,7 +8,7 @@ import { WeeklyPlanner as Planner } from '../../../models/planner-models/WeeklyP
 import { getCurrentWeekBeginning } from '../../../utilities/date-utils/date-get';
 import useDateTime, { ResetPeriod } from '../../../hooks/useDateTime';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
-import { adjustIfOverdueTask } from '../../../utilities/tasks-utils/task-util';
+import { adjustOverdueTask } from '../../../utilities/tasks-utils/task-util';
 import IntroPanel from '../planner-nav/IntroPanel';
 import PlannerHeader from '../planner-nav/PlannerHeader';
 import WeeklyTable from './WeeklyTable';
@@ -25,7 +25,7 @@ function populateWeeklyPlanner(tasks: Task[], weekBeginning: Date): Planner {
     for (const task of tasks) {
         let taskDate = new Date(task.timeString);
         const sameWeek = isSameWeek(weekBeginning, taskDate);
-        adjustIfOverdueTask(task);
+        adjustOverdueTask(task);
 
         if (sameWeek) {
             const plannerTask = new PlannerTask(task);

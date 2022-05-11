@@ -39,16 +39,18 @@ const AnalysisMessage: React.FC<Props> = ({
 
     const totalNumTasks = currentChartDataArray.reduce((acc, curr) => acc + curr.value, 0);
     const proportionMessageBeginning = 'We identified that ';
-    const proportionMessagesList: JSX.Element[] = currentChartDataArray.map((statusData) => {
+    const proportionMessagesList: JSX.Element[] = currentChartDataArray.map((statusData, idx) => {
         // statusData.label
         const { value, label } = statusData;
         const proportion = round((value / totalNumTasks) * 100, 1);
         const hexColor = `#${labelColorCallback(label).toLowerCase()}`;
+        const ending: string = idx === currentChartDataArray.length - 1 ? '.' : ', ';
         const message = (
-            <>
+            <span key={idx}>
                 <strong className="text-slate-500/90">{proportion}%</strong> of tasks are{' '}
-                <span style={{ color: hexColor }}>{label}</span>.&nbsp;
-            </>
+                <span style={{ color: hexColor }}>{label}</span>
+                {ending}
+            </span>
         );
         return message;
     });
@@ -72,26 +74,26 @@ const AnalysisMessage: React.FC<Props> = ({
 
         if (difference === 0)
             return (
-                <>
+                <span key={idx}>
                     the same amount of {labelElement} tasks{ending}
-                </>
+                </span>
             );
         if (difference > 0)
             return (
-                <>
+                <span key={idx}>
                     <strong className="text-slate-500/90">{difference}</strong> more {labelElement}{' '}
                     tasks{ending}
-                </>
+                </span>
             );
         else
             return (
-                <>
+                <span key={idx}>
                     <strong className="text-slate-500/90">{-difference}</strong> less {labelElement}{' '}
                     tasks{ending}
-                </>
+                </span>
             );
     });
-    const ComparisonMessageEnding = `compared to last ${periodName}.`;
+    const ComparisonMessageEnding = `compared to the last ${periodName}.`;
     const comparisonAnalysisElement = (
         <p>
             {ComparisonMessageBeginning} {comparisonMessages} {ComparisonMessageEnding}
@@ -102,10 +104,10 @@ const AnalysisMessage: React.FC<Props> = ({
 
     return (
         <div className="max-w-[45rem] flex flex-col gap-3 text-lg xl:pr-12">
-            {paragraphs.map((p, idx) => (
+            {paragraphs.map((para, idx) => (
                 <div key={idx} className="flex gap-3">
                     {analysisIcons[idx]}
-                    <p>{p}</p>
+                    {para}
                 </div>
             ))}
             <Button

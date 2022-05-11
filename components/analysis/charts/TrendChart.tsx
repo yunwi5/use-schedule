@@ -91,7 +91,7 @@ const LinearChart: React.FC<Props> = (props) => {
     const filterStatusList = ['All', ...StatusList];
 
     return (
-        <div className="basis-1/2 mt-2 max-w-[45%] flex flex-col gap-3">
+        <div className="basis-1/2 mt-2  xl:max-w-[45%] flex flex-col gap-3">
             <div className="flex justify-between items-center">
                 <h3 className="text-[1.65rem] capitalize">{chartTitle}</h3>
                 <div className="ml-auto flex gap-2">

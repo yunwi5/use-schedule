@@ -62,19 +62,19 @@ export function isOverdue(task: Task): boolean {
     return current.getTime() > dueDate.getTime();
 }
 
-export function adjustIfOverdueTask(task: Task): void {
+export function adjustOverdueTask(task: Task): void {
     if (isOverdue(task)) task.status = Status.OVERDUE;
 }
 
 export function adjustOverdueTasks(tasks: Task[]): void {
-    tasks.forEach((task) => adjustIfOverdueTask(task));
+    tasks.forEach((task) => adjustOverdueTask(task));
 }
 
 export function processTasks(tasks: Task[]): PlannerTask[] {
     const plannerTaskList: PlannerTask[] = [];
     for (const task of tasks) {
         const convertedTask = new PlannerTask(task);
-        adjustIfOverdueTask(convertedTask);
+        adjustOverdueTask(convertedTask);
         plannerTaskList.push(convertedTask);
     }
     return plannerTaskList;
