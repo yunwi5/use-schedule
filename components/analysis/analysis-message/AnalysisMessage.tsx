@@ -14,6 +14,7 @@ interface Props {
     labelColorCallback: (label: string) => string;
     onShowComparison?: () => void;
     showComparison?: boolean;
+    preposition?: string;
 }
 
 const chartPieIcon = (
@@ -30,15 +31,19 @@ const chartSimpleIcon = (
 );
 const analysisIcons = [chartPieIcon, chartSimpleIcon];
 
-const AnalysisMessage: React.FC<Props> = ({
-    currentChartDataArray,
-    previousChartDataArray,
-    labelColorCallback,
-    onShowComparison,
-    showComparison,
-}) => {
+const AnalysisMessage: React.FC<Props> = (props) => {
+    const {
+        currentChartDataArray,
+        previousChartDataArray,
+        labelColorCallback,
+        onShowComparison,
+        showComparison,
+        preposition: prep,
+    } = props;
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const periodName = getPeriodName(plannerMode);
+
+    const preposition: string = prep ?? '';
 
     const totalNumTasks = currentChartDataArray.reduce((acc, curr) => acc + curr.value, 0);
     const proportionMessageBeginning = 'We identified that ';
@@ -51,7 +56,7 @@ const AnalysisMessage: React.FC<Props> = ({
         const message = (
             <span key={idx}>
                 <strong className="text-slate-500/90">{proportion}%</strong> of tasks are{' '}
-                <span style={{ color: hexColor }}>{label}</span>
+                {preposition} <span style={{ color: hexColor }}>{label}</span>
                 {ending}
             </span>
         );
@@ -111,29 +116,31 @@ const AnalysisMessage: React.FC<Props> = ({
     return (
         <div
             className={`flex flex-col self-center gap-3 text-lg ${
-                showComparison ? '!max-w-none flex-wrap justify-between !flex-row' : 'max-w-[40rem]'
+                showComparison ? '' : 'max-w-[40rem]'
             }`}
         >
-            {paragraphs.map((para, idx) => (
-                <div
-                    key={idx}
-                    className={`flex gap-3 transition-all lg:pr-5 ${
-                        showComparison ? 'max-w-[36rem] xl:max-w-[49%]' : ''
-                    }`}
+            <div className={'flex flex-col lg:flex-row gap-3'}>
+                {paragraphs.map((para, idx) => (
+                    <div
+                        key={idx}
+                        className={`pr-5 md:pr-8 lg:pr-5 flex gap-3 transition-all lg:max-w-none ${
+                            showComparison ? 'lg:w-[49%]' : ''
+                        }`}
+                    >
+                        {analysisIcons[idx]}
+                        {para}
+                    </div>
+                ))}
+            </div>
+            <div className={`w-full mt-2`}>
+                <Button
+                    className={`!bg-transparent !border-blue-400 !text-blue-600`}
+                    theme={Theme.TERTIARY}
+                    onClick={onShowComparison}
                 >
-                    {analysisIcons[idx]}
-                    {para}
-                </div>
-            ))}
-            <Button
-                className={`${
-                    showComparison ? '' : 'mt-2'
-                } !bg-transparent !border-blue-400 !text-blue-600`}
-                theme={Theme.TERTIARY}
-                onClick={onShowComparison}
-            >
-                {showComparison ? 'Hide Comparison' : 'Show Comparison'}
-            </Button>
+                    {showComparison ? 'Hide Comparison' : 'Show Comparison'}
+                </Button>
+            </div>
         </div>
     );
 };

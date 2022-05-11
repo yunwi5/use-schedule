@@ -42,9 +42,7 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
             initialData: { tasks: initialWeeklyTasks },
         },
     );
-
     if (weeklyTasksError) console.error('Weeklt tasks error!', weeklyTasksError);
-
     const weeklyTasks: Task[] = weeklyTasksData ? weeklyTasksData.tasks : [];
 
     return (

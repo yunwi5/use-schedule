@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
-import { AnalysisOption } from '../../../models/analyzer-models/helper-models';
+import { AnalysisOption, FlexChartType } from '../../../models/analyzer-models/helper-models';
 import { getWeekDayBorderColor } from '../../../utilities/gen-utils/color-util';
-import FlexChart, { FlexChartType } from '../charts/FlexChart';
+import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
 import { FlexChartContainer, ChartSectionContainer } from '../containers';
@@ -43,6 +43,7 @@ const WeekdayAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             <AnalysisMessage
                 currentChartDataArray={currentChartDataArray}
                 previousChartDataArray={previousChartDataArray}
+                preposition={'on'}
                 labelColorCallback={getWeekDayBorderColor}
                 onShowComparison={() => setShowComparison((prevState) => !prevState)}
                 showComparison={showComparison}

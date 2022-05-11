@@ -1,13 +1,6 @@
 import { PlannerMode } from '../planner-models/PlannerMode';
 import { AbstractTask } from '../task-models/AbstractTask';
-import {
-    TrendOption,
-    AnalysisOption,
-    AnalysisMode,
-    ChartData,
-    FlexChartDataSet,
-    LineChartDataSet,
-} from './helper-models';
+import { AnalysisOption, ChartData } from './helper-models';
 import {
     generateStatusMap,
     generateImportanceMap,

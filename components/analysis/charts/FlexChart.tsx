@@ -11,7 +11,11 @@ import {
 } from 'chart.js';
 import { Pie, Doughnut, PolarArea, Bar } from 'react-chartjs-2';
 
-import { ChartData } from '../../../models/analyzer-models/helper-models';
+import {
+    ChartData,
+    FlexChartType,
+    FlexChartTypeList,
+} from '../../../models/analyzer-models/helper-models';
 import AppSelect from '../../ui/input/AppSelect';
 import { generateChartDataset } from '../../../utilities/chart-utils';
 
@@ -43,20 +47,6 @@ const pieOptions = {
         },
     },
 };
-
-export enum FlexChartType {
-    BAR = 'Bar',
-    PIE = 'Pie',
-    DOUGHNUT = 'Doughnut',
-    POLAR_AREA = 'Polar Area',
-}
-
-const FlexChartTypeList = [
-    FlexChartType.BAR,
-    FlexChartType.DOUGHNUT,
-    FlexChartType.PIE,
-    FlexChartType.POLAR_AREA,
-];
 
 interface Props {
     chartTitle: string;
@@ -92,7 +82,7 @@ const FlexChart: React.FC<Props> = (props) => {
             {
                 label: chartLabel,
                 data,
-                backgroundColor: backgroundColor && backgroundColor?.map((bg) => `${bg}bd`), // control opacity only for bar chart
+                backgroundColor: backgroundColor?.map((bg) => `${bg}bd`), // control opacity only for bar chart
                 borderColor,
                 borderWidth: 1,
             },
@@ -116,7 +106,11 @@ const FlexChart: React.FC<Props> = (props) => {
                     labelId={`app-select-${chartTitle}-label`}
                 />
             </div>
-            <div className={`container ${flexChartType === FlexChartType.BAR ? '' : '-mt-[3rem]'}`}>
+            <div
+                className={`container ${
+                    flexChartType === FlexChartType.BAR ? '' : '-mt-[3rem] -mb-[4rem]'
+                }`}
+            >
                 {flexChartType === FlexChartType.PIE && (
                     <Pie options={pieOptions} data={pieOrDoughnutData} />
                 )}

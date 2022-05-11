@@ -27,24 +27,6 @@ export interface DataSet {
     data: ChartData[];
 }
 
-// Dataset supply for Pie, Doughnut, Polar and Bar charts
-export interface FlexChartDataSet {
-    titleLabel: string;
-    dataLabels: string[];
-    data: number;
-    backgroundColors: string[];
-    borderColors: string[];
-}
-
-// Dataset supply for Line chart, where each column has the same bg and border color.
-export interface LineChartDataSet {
-    titleLabel: string;
-    dataLabels: string[];
-    data: number;
-    backgroundColor: string;
-    borderColor: string;
-}
-
 export enum RecentPeriod {
     FIVE = 5,
     TEN = 10,
@@ -58,3 +40,27 @@ export const RecentPeriodList = [
     RecentPeriod.FIFTEEN,
     RecentPeriod.TWENTY,
 ];
+
+export enum FlexChartType {
+    BAR = 'Bar',
+    PIE = 'Pie',
+    DOUGHNUT = 'Doughnut',
+    POLAR_AREA = 'Polar Area',
+}
+
+export const FlexChartTypeList = [
+    FlexChartType.BAR,
+    FlexChartType.DOUGHNUT,
+    FlexChartType.PIE,
+    FlexChartType.POLAR_AREA,
+];
+
+export enum ComparisonChartType {
+    BAR = 'Bar',
+    RADAR = 'Radar',
+}
+
+export const ComparisonChartTypeList = Object.freeze([
+    ComparisonChartType.BAR,
+    ComparisonChartType.RADAR,
+]);

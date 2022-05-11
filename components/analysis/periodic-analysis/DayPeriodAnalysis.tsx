@@ -43,6 +43,7 @@ const DayPeriodAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             <AnalysisMessage
                 currentChartDataArray={currentChartDataArray}
                 previousChartDataArray={previousChartDataArray}
+                preposition={'in'}
                 labelColorCallback={getDayPeriodBorderColor}
                 showComparison={showComparison}
                 onShowComparison={() => setShowComparison((ps) => !ps)}

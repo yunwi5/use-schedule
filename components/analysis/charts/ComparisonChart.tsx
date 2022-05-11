@@ -14,7 +14,11 @@ import {
 } from 'chart.js';
 
 import { Bar, Radar } from 'react-chartjs-2';
-import { DataSet } from '../../../models/analyzer-models/helper-models';
+import {
+    ComparisonChartType,
+    ComparisonChartTypeList,
+    DataSet,
+} from '../../../models/analyzer-models/helper-models';
 import { generateChartDataset } from '../../../utilities/chart-utils';
 import AppSelect from '../../ui/input/AppSelect';
 
@@ -38,13 +42,6 @@ interface Props {
     thirdDataSet?: DataSet;
     disableRadar?: boolean;
 }
-
-export enum ComparisonChartType {
-    BAR = 'Bar',
-    RADAR = 'Radar',
-}
-
-const ComparisonChartTypeList = [ComparisonChartType.BAR, ComparisonChartType.RADAR];
 
 const barOptions = {
     responsive: true,

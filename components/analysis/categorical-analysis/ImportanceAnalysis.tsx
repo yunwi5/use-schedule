@@ -1,9 +1,13 @@
 import { useMemo, useState } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
-import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
+import {
+    AnalysisOption,
+    ChartData,
+    FlexChartType,
+} from '../../../models/analyzer-models/helper-models';
 import { getImportanceBorderColor } from '../../../utilities/gen-utils/color-util';
-import FlexChart, { FlexChartType } from '../charts/FlexChart';
+import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
 import { FlexChartContainer, ChartSectionContainer } from '../containers';

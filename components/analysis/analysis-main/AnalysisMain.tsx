@@ -10,8 +10,8 @@ import { useAppSelector } from '../../../store/redux';
 import { getPeriodName } from '../../../utilities/gen-utils/label-util';
 import { processTasks } from '../../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
-import CategoricalDataAnalysis from '../categorical-analysis/CategoricalAnalysis';
 import AnalysisHeader from '../navigation/AnalysisHeader';
+import CategoricalDataAnalysis from '../categorical-analysis/CategoricalAnalysis';
 import PeriodicAnalysis from '../periodic-analysis/PeriodicAnalysis';
 import TrendAnalysis from '../trend-analysis/TrendAnalysis';
 

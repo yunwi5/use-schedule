@@ -27,6 +27,7 @@ const CategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
 
     return (
         <ChartSectionContainer showComparison={showComparison}>
+            {/* <div className={`${showComparison ? 'flex-1 flex flex-col lg:flex-row' : ''}`}> */}
             <FlexChartContainer>
                 <FlexChart
                     chartTitle={'category distribution'}
@@ -41,10 +42,12 @@ const CategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                     secondDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
                 />
             )}
+            {/* </div> */}
             <AnalysisMessage
                 currentChartDataArray={currentChartDataArray}
                 previousChartDataArray={previousChartDataArray}
                 labelColorCallback={getCategoryBorderColor}
+                preposition={'about'}
                 showComparison={showComparison}
                 onShowComparison={() => setShowComparison((ps) => !ps)}
             />

@@ -7,7 +7,7 @@ interface Props {
     label: string;
     value: string | number;
     onChange(value: string): void;
-    options: string[] | number[];
+    options: string[] | readonly string[] | number[] | readonly number[];
     optionLabels?: string[];
     className?: string;
     id?: string;

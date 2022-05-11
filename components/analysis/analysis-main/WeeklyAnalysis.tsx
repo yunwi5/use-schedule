@@ -21,12 +21,12 @@ const WeeklyAnalysis: React.FC<Props> = (props) => {
     const currentWeekBeginning = getCurrentWeekBeginning(); // current timestemp -> DateTime now.
     const {
         currentTimeStamp: currentPeriod,
-        addWeeks: addLocalWeeks,
+        addWeeks,
         setCurrentTimeStamp,
     } = useDateTime(beginningDate, ResetPeriod.WEEK);
 
     // If the week beginning changes, the planner also has to change to load new tasks according to
-    // Changed week beginning.
+    // the changed week beginning.
     const weekNavigateHandler = (direction?: number) => {
         if (typeof direction !== 'number') {
             setCurrentTimeStamp(currentWeekBeginning);
@@ -36,8 +36,7 @@ const WeeklyAnalysis: React.FC<Props> = (props) => {
             console.error('Direction parameter is wrong!');
             return;
         }
-        // Hook call
-        addLocalWeeks(direction);
+        addWeeks(direction);
     };
 
     useEffect(() => {
