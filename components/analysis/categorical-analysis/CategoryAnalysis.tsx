@@ -3,14 +3,13 @@ import { useMemo, useState } from 'react';
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
 import { Theme } from '../../../models/design-models';
-import { Category } from '../../../models/task-models/Category';
 import { getCategoryBorderColor } from '../../../utilities/gen-utils/color-util';
-import Button from '../../ui/buttons/Button';
-import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
 import { ChartSectionContainer, FlexChartContainer } from '../containers';
+import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import SubCategoryAnalysis from './SubCategoryAnalysis';
+import Button from '../../ui/buttons/Button';
 
 interface Props {
     analyzer: AbstractAnalyzer;

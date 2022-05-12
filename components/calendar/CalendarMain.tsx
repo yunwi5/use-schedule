@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useDateTime, { ResetPeriod } from '../../hooks/useDateTime';
-import { PlannerTask, Task } from '../../models/task-models/Task';
+import { Task } from '../../models/task-models/Task';
 import { Todo } from '../../models/todo-models/Todo';
 import { Calendar } from '../../models/calendar-models/Calendar';
 import { CalendarItem } from '../../models/calendar-models/CalendarItem';
 import { getCurrentMonthBeginning } from '../../utilities/date-utils/date-get';
 import { processTodos } from '../../utilities/todos-utils/todo-util';
 import { useAppSelector } from '../../store/redux';
-import { adjustOverdueTask, processTasks } from '../../utilities/tasks-utils/task-util';
+import { processTasks } from '../../utilities/tasks-utils/task-util';
 import { Event } from '../../models/Event';
 import { adjustIfOverdueEvent } from '../../utilities/event-utils/event-util';
 import CalendarContainer from './calendar-parts/CalendarContainer';

@@ -1,6 +1,7 @@
 import { faInfoCircle } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useState } from 'react';
+import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
 
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
@@ -14,6 +15,7 @@ import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
 import { getTaskType } from '../../../utilities/tasks-utils/task-label';
 import ActiveButton from '../../ui/buttons/ActiveButton';
 import Button from '../../ui/buttons/Button';
+import DropDownToggler from '../../ui/icons/DropDownToggler';
 import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
 
 interface Props {
@@ -52,6 +54,9 @@ function getPeriodEnding(plannerMode: PlannerMode | null, period: Date) {
 
 const AnalysisHeader: React.FC<Props> = (props) => {
     const { currentPeriod, onNavigate, currentMode, onChangeMode } = props;
+    // Show dropdown navigation for mobile screen (< 768px)
+    const [showDropDown, setShowDropDown] = useState(true);
+    useWindowInnerWidth({ breakPoint: 768, breakPointCallback: () => setShowDropDown(true) });
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const endingPeriod = getPeriodEnding(plannerMode, currentPeriod);
@@ -60,41 +65,46 @@ const AnalysisHeader: React.FC<Props> = (props) => {
     const taskType: string = getTaskType(plannerMode || PlannerMode.WEEKLY);
 
     return (
-        <nav className="-ml-2 flex justify-between pr-10 gap-[5.5rem] items-center text-xl">
-            <div className="flex gap-2">
+        <nav className="ml-3 md:-ml-2 flex flex-col md:flex-row justify-between pr-5 xl:pr-10 gap-3 lg:gap-[5.5rem] md:items-center text-xl">
+            <div className="flex gap-2 items-center">
                 <PeriodNavigator onNavigate={onNavigate}>
-                    {`${getNavigationPeriod(
-                        currentPeriod,
-                        plannerMode,
-                    )}  (${endingPeriod.getFullYear()})`}
+                    {`${getNavigationPeriod(currentPeriod, plannerMode)}`}
+                    <span className="hidden ml-3 lg:inline">({endingPeriod.getFullYear()})</span>
                 </PeriodNavigator>
                 <Button
                     onClick={onNavigate}
-                    className={`max-h-[2.7rem] !py-2 flex justify-center items-center`}
+                    className={`!ml-auto max-h-[2.7rem] !py-2 flex justify-center items-center`}
                 >
                     {getCurrentPeriodLabel(plannerMode)}
                 </Button>
-            </div>
-            <div className="flex gap-2 items-center">
-                <ActiveButton
-                    className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
-                    isActive={currentMode === AnalysisMode.ONLY_CURRENT_PLANNER}
-                    onClick={onChangeMode.bind(null, AnalysisMode.ONLY_CURRENT_PLANNER)}
-                >
-                    {taskType + 's'}
-                </ActiveButton>
-                <ActiveButton
-                    className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
-                    isActive={currentMode === AnalysisMode.ALL_PLANNERS}
-                    onClick={onChangeMode.bind(null, AnalysisMode.ALL_PLANNERS)}
-                >
-                    All Tasks
-                </ActiveButton>
-                <FontAwesomeIcon
-                    icon={faInfoCircle}
-                    className="ml-3 max-w-[2rem] max-h-[2rem] text-3xl text-sky-600/80 shadow-sm cursor-pointer transition-all hover:scale-125 hover:text-blue-500"
+                <DropDownToggler
+                    onToggle={() => setShowDropDown((prev) => !prev)}
+                    showDropDown={showDropDown}
+                    className={`md:hidden !text-3xl !ml-1`}
                 />
             </div>
+            {showDropDown && (
+                <div className="flex gap-2 items-center pt-3 md:pt-0 border-t-2 md:border-0 border-slate-300">
+                    <ActiveButton
+                        className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
+                        isActive={currentMode === AnalysisMode.ONLY_CURRENT_PLANNER}
+                        onClick={onChangeMode.bind(null, AnalysisMode.ONLY_CURRENT_PLANNER)}
+                    >
+                        {taskType + 's'}
+                    </ActiveButton>
+                    <ActiveButton
+                        className="mr-auto !min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
+                        isActive={currentMode === AnalysisMode.ALL_PLANNERS}
+                        onClick={onChangeMode.bind(null, AnalysisMode.ALL_PLANNERS)}
+                    >
+                        All Tasks
+                    </ActiveButton>
+                    <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        className="ml-1 lg:ml-3 max-w-[2rem] max-h-[2rem] text-3xl text-sky-600/80 shadow-sm cursor-pointer transition-all hover:scale-125 hover:text-blue-500"
+                    />
+                </div>
+            )}
         </nav>
     );
 };

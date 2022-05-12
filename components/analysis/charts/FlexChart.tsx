@@ -16,8 +16,8 @@ import {
     FlexChartType,
     FlexChartTypeList,
 } from '../../../models/analyzer-models/helper-models';
-import AppSelect from '../../ui/input/AppSelect';
 import { generateChartDataset } from '../../../utilities/chart-utils';
+import AppSelect from '../../ui/input/AppSelect';
 
 ChartJS.register(
     CategoryScale,
@@ -109,15 +109,15 @@ const FlexChart: React.FC<Props> = (props) => {
         >
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                 <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>
-                {/* additionalSelect is undefind most of the cases, so it would not display in that case. */}
-                {additionalSelect ? (
-                    <div className="flex gap-2 md:translate-x-[4rem] xl:translate-x-[5.5rem]">
-                        {additionalSelect}
-                        {chartTypeSelect}
-                    </div>
-                ) : (
-                    <>{chartTypeSelect}</>
-                )}
+                <div
+                    className={`flex gap-2 ${
+                        additionalSelect ? 'md:translate-x-[4rem] xl:translate-x-[5.5rem]' : ''
+                    }`}
+                >
+                    {/* additionalSelect is undefind most of the cases, so it would not display in that case. */}
+                    {additionalSelect}
+                    {chartTypeSelect}
+                </div>
             </div>
             <div
                 className={`container ${
