@@ -47,14 +47,14 @@ const AnalysisMessage: React.FC<Props> = (props) => {
     const periodName = getPeriodName(plannerMode);
 
     const preposition: string = prep ?? '';
-
     const totalNumTasks = currentChartDataArray.reduce((acc, curr) => acc + curr.value, 0);
+
+    // Proportion message (% of total in each period)
     const proportionMessageBeginning = 'We identified that ';
     const proportionMessagesList: JSX.Element[] = currentChartDataArray.map((statusData, idx) => {
-        // statusData.label
         const { value, label } = statusData;
         const proportion = round((value / totalNumTasks) * 100, 1);
-        const hexColor = `#${labelColorCallback(label).toLowerCase()}`;
+        const hexColor = `#${labelColorCallback(label)}`;
         const ending: string = idx === currentChartDataArray.length - 1 ? '.' : ', ';
         const message = (
             <span key={idx}>
@@ -71,18 +71,19 @@ const AnalysisMessage: React.FC<Props> = (props) => {
         </p>
     );
 
+    // Comparison message (to the last period)
     const ComparisonMessageBeginning = 'We identified that you have ';
     const comparisonMessages = currentChartDataArray.map((statusData, idx) => {
         const { value: currentValue, label } = statusData;
         const previouStatusData = previousChartDataArray.find((data) => data.label === label);
         if (!previouStatusData) return '';
-        // const percentageChange = changeInPercentage(previouStatusData.value, currentValue);
         const difference = currentValue - previouStatusData.value;
         const labelElement = (
             <span className="" style={{ color: `#${labelColorCallback(label)}` }}>
                 {label}
             </span>
         );
+        const suffix = difference > 1 ? 's' : '';
         const ending: string = idx === currentChartDataArray.length - 1 ? '' : ', ';
 
         if (difference === 0)
@@ -95,14 +96,16 @@ const AnalysisMessage: React.FC<Props> = (props) => {
             return (
                 <span key={idx}>
                     <strong className="text-slate-500/90">{difference}</strong> more {labelElement}{' '}
-                    tasks{ending}
+                    tasks{suffix}
+                    {ending}
                 </span>
             );
         else
             return (
                 <span key={idx}>
                     <strong className="text-slate-500/90">{-difference}</strong> less {labelElement}{' '}
-                    tasks{ending}
+                    tasks{suffix}
+                    {ending}
                 </span>
             );
     });

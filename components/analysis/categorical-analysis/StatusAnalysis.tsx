@@ -42,8 +42,8 @@ const StatusAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'Status comparison'}
-                    firstDataSet={{ label: `This ${timeFrame}`, data: currentStatusChartData }}
-                    secondDataSet={{ label: `Last ${timeFrame}`, data: previousStatusChartData }}
+                    firstDataSet={{ label: `Last ${timeFrame}`, data: previousStatusChartData }}
+                    secondDataSet={{ label: `This ${timeFrame}`, data: currentStatusChartData }}
                 />
             )}
             <AnalysisMessage

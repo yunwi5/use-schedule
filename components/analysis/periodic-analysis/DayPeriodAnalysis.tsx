@@ -35,8 +35,8 @@ const DayPeriodAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'AM/PM comparison'}
-                    firstDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
-                    secondDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                    firstDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                    secondDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
                     disableRadar={true}
                 />
             )}

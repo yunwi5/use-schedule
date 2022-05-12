@@ -61,6 +61,7 @@ const TrendMessage: React.FC<Props> = (props) => {
                     busiest {timeFrame} in terms of total tasks in the recent {totalTasksNumPeriods}{' '}
                     {timeFrame}s.
                 </span>
+                &nbsp;
                 <span>
                     This is{' '}
                     <strong className="text-slate-500/80">

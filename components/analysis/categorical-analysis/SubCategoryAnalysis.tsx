@@ -55,13 +55,13 @@ const SubCategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'Subcategory comparison'}
-                    secondDataSet={{
-                        label: `This ${timeFrame}`,
-                        data: currentSubCategoryArray,
-                    }}
                     firstDataSet={{
                         label: `Last ${timeFrame}`,
                         data: previousSubCategoryArray,
+                    }}
+                    secondDataSet={{
+                        label: `This ${timeFrame}`,
+                        data: currentSubCategoryArray,
                     }}
                 />
             )}

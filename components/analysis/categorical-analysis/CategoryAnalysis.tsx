@@ -42,8 +42,8 @@ const CategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                 {showComparison && (
                     <ComparisonChart
                         chartTitle={'Category comparison'}
-                        firstDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
-                        secondDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                        firstDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
+                        secondDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
                     />
                 )}
                 <AnalysisMessage
