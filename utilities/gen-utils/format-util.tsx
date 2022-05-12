@@ -3,26 +3,26 @@ import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { getWeekEnding } from '../date-utils/date-get';
 import { getMonthName } from '../date-utils/month-util';
 
-export function getDaySuffixed(date: Date): JSX.Element {
-    const day = date.getDate();
+export function getRankingSuffixed(num: number, suffixFontSize: string = '10px') {
+    const numToSuffix = Math.round(num); // only integer value
 
     const smallFontSize = {
-        fontSize: '10px',
+        fontSize: suffixFontSize,
     };
 
-    if (day === 1)
+    if (numToSuffix === 1)
         return (
             <span>
                 1<small style={smallFontSize}>st</small>
             </span>
         );
-    if (day === 2)
+    if (numToSuffix === 2)
         return (
             <span>
                 2<small style={smallFontSize}>nd</small>
             </span>
         );
-    if (day === 3)
+    if (numToSuffix === 3)
         return (
             <span>
                 3<small style={smallFontSize}>rd</small>
@@ -30,10 +30,15 @@ export function getDaySuffixed(date: Date): JSX.Element {
         );
     return (
         <span>
-            {day}
+            {numToSuffix}
             <small style={smallFontSize}>th</small>
         </span>
     );
+}
+
+export function getDaySuffixed(date: Date): JSX.Element {
+    const day = date.getDate();
+    return getRankingSuffixed(day);
 }
 
 function getPeriodFormat(beginningPeriod: Date, endingPeriod: Date): string {

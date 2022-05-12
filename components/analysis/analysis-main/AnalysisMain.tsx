@@ -39,15 +39,13 @@ function populateAnalyzer(plannerMode: PlannerMode, currentPeriod: Date, tasks: 
 
 const AnalysisMain: React.FC<Props> = (props) => {
     const { allTasks, periodicTasks, currentPeriod, onNavigate } = props;
-    const [analysisMode, setAnalysisMode] = useState(AnalysisMode.ONLY_CURRENT_PLANNER);
+    const [analysisMode, setAnalysisMode] = useState(AnalysisMode.ALL_PLANNERS);
     const [analyzer, setAnalyzer] = useState<AbstractAnalyzer | null>(null);
 
     const processedAllTasks = useMemo(() => processTasks(allTasks), [allTasks]);
     const processedPeriodicTasks = useMemo(() => processTasks(periodicTasks), [periodicTasks]);
     const tasksToAnalyze: PlannerTask[] =
-        analysisMode === AnalysisMode.ONLY_CURRENT_PLANNER
-            ? processedPeriodicTasks
-            : processedAllTasks;
+        analysisMode === AnalysisMode.ALL_PLANNERS ? processedAllTasks : processedPeriodicTasks;
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const timeFrame = getPeriodName(plannerMode);
@@ -76,7 +74,7 @@ const AnalysisMain: React.FC<Props> = (props) => {
             )}
             {analyzer && (
                 <div className="pl-6 flex flex-col gap-16">
-                    <TrendAnalysis analyzer={analyzer} />
+                    <TrendAnalysis analyzer={analyzer} timeFrame={timeFrame} />
                     <PeriodicAnalysis analyzer={analyzer} timeFrame={timeFrame} />
                     <CategoricalDataAnalysis analyzer={analyzer} timeFrame={timeFrame} />
                 </div>

@@ -1,14 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { RecentPeriod } from '../../../models/analyzer-models/helper-models';
+import TrendMessage from '../analysis-message/TrendMessage';
 import TrendChart from '../charts/TrendChart';
 import AnalysisSectionContainer from '../containers/AnalysisSectionContainer';
 
 interface Props {
     analyzer: AbstractAnalyzer;
+    timeFrame: string;
 }
 
-const TrendAnalysis: React.FC<Props> = ({ analyzer }) => {
+const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
     const [countTrendPeriods, setCountTrendPeriods] = useState<RecentPeriod>(RecentPeriod.FIVE);
     const [countFilterStatus, setCountFilterStatus] = useState<string>('');
 
@@ -26,10 +28,10 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer }) => {
 
     return (
         <AnalysisSectionContainer title={'Trend Data Analysis'}>
-            <div className="flex flex-wrap gap-[6rem] items-center">
+            <div className="mb-6 flex flex-wrap gap-[6rem] items-center">
                 <TrendChart
-                    chartTitle={'Number of tasks'}
-                    chartLabel="Total Tasks"
+                    chartTitle={'Total tasks'}
+                    chartLabel="Tasks"
                     chartDataArray={totalTasksTrend}
                     numPeriods={countTrendPeriods}
                     onChangeNumPeriods={setCountTrendPeriods}
@@ -38,7 +40,7 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer }) => {
                 />
                 <TrendChart
                     chartTitle={'Total hours'}
-                    chartLabel="Total Hours"
+                    chartLabel="Hours"
                     chartDataArray={totalHoursTrend}
                     numPeriods={hoursTrendPeriods}
                     onChangeNumPeriods={setHoursTrendPeriods}
@@ -46,6 +48,11 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer }) => {
                     onChangeFilterStatus={setHoursFilterStatus}
                 />
             </div>
+            <TrendMessage
+                totalTasksTrend={totalTasksTrend}
+                totalHoursTrend={totalHoursTrend}
+                timeFrame={timeFrame}
+            />
         </AnalysisSectionContainer>
     );
 };

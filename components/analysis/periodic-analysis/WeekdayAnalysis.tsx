@@ -32,7 +32,6 @@ const WeekdayAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                     initialChartType={FlexChartType.BAR}
                 />
             </FlexChartContainer>
-            {/* Can add ComparisonChart for comparing current, previous and accumulated weekday data */}
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'WeekDay comparison'}
