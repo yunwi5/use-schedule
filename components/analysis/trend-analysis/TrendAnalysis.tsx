@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { RecentPeriod } from '../../../models/analyzer-models/helper-models';
 import TrendMessage from '../analysis-message/TrendMessage';
@@ -17,12 +18,18 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
     const [hoursTrendPeriods, setHoursTrendPeriods] = useState<RecentPeriod>(RecentPeriod.FIVE);
     const [hoursFilterStatus, setHoursFilterStatus] = useState<string>('');
 
-    const totalTasksTrend = useMemo(
-        () => analyzer.generateRecentPeriodCountData(countTrendPeriods, countFilterStatus),
+    const [totalTasksTrend, filteredTotalTasksTrend] = useMemo(
+        () => [
+            analyzer.generateRecentPeriodCountData(countTrendPeriods),
+            analyzer.generateRecentPeriodCountData(countTrendPeriods, countFilterStatus),
+        ],
         [analyzer, countTrendPeriods, countFilterStatus],
     );
-    const totalHoursTrend = useMemo(
-        () => analyzer.generateRecentPeriodDurationData(hoursTrendPeriods, hoursFilterStatus),
+    const [totalHoursTrend, filteredTotalHoursTrend] = useMemo(
+        () => [
+            analyzer.generateRecentPeriodDurationData(hoursTrendPeriods),
+            analyzer.generateRecentPeriodDurationData(hoursTrendPeriods, hoursFilterStatus),
+        ],
         [analyzer, hoursTrendPeriods, hoursFilterStatus],
     );
 
@@ -32,7 +39,7 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                 <TrendChart
                     chartTitle={'Total tasks'}
                     chartLabel="Tasks"
-                    chartDataArray={totalTasksTrend}
+                    chartDataArray={filteredTotalTasksTrend}
                     numPeriods={countTrendPeriods}
                     onChangeNumPeriods={setCountTrendPeriods}
                     filterStatus={countFilterStatus}
@@ -41,7 +48,7 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                 <TrendChart
                     chartTitle={'Total hours'}
                     chartLabel="Hours"
-                    chartDataArray={totalHoursTrend}
+                    chartDataArray={filteredTotalHoursTrend}
                     numPeriods={hoursTrendPeriods}
                     onChangeNumPeriods={setHoursTrendPeriods}
                     filterStatus={hoursFilterStatus}

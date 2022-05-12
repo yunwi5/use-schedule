@@ -6,7 +6,10 @@ import { useAppSelector } from '../../../store/redux';
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { Theme } from '../../../models/design-models';
 import { getPeriodName } from '../../../utilities/gen-utils/label-util';
-import { round } from '../../../utilities/gen-utils/calc-util';
+import {
+    generateComparisonMessages,
+    generateProportionMessages,
+} from '../../../utilities/analysis-utils/analysis-message-generation';
 import Button from '../../ui/buttons/Button';
 
 interface Props {
@@ -41,30 +44,19 @@ const AnalysisMessage: React.FC<Props> = (props) => {
         onShowComparison,
         showComparison,
         preposition: prep,
-        additionalButton, // additional button like showing subcategory etc
+        additionalButton,
     } = props;
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const periodName = getPeriodName(plannerMode);
-
     const preposition: string = prep ?? '';
-    const totalNumTasks = currentChartDataArray.reduce((acc, curr) => acc + curr.value, 0);
 
     // Proportion message (% of total in each period)
     const proportionMessageBeginning = 'We identified that ';
-    const proportionMessagesList: JSX.Element[] = currentChartDataArray.map((statusData, idx) => {
-        const { value, label } = statusData;
-        const proportion = round((value / totalNumTasks) * 100, 1);
-        const hexColor = `#${labelColorCallback(label)}`;
-        const ending: string = idx === currentChartDataArray.length - 1 ? '.' : ', ';
-        const message = (
-            <span key={idx}>
-                <strong className="text-slate-500/90">{proportion}%</strong> of tasks are{' '}
-                {preposition} <span style={{ color: hexColor }}>{label}</span>
-                {ending}
-            </span>
-        );
-        return message;
-    });
+    const proportionMessagesList: JSX.Element[] = generateProportionMessages(
+        currentChartDataArray,
+        preposition,
+        labelColorCallback,
+    );
     const porportionAnalysisElement = (
         <p className={`${showComparison ? '' : 'inline ml-2'}`}>
             {proportionMessageBeginning} {proportionMessagesList}
@@ -73,46 +65,15 @@ const AnalysisMessage: React.FC<Props> = (props) => {
 
     // Comparison message (to the last period)
     const ComparisonMessageBeginning = 'We identified that you have ';
-    const comparisonMessages = currentChartDataArray.map((statusData, idx) => {
-        const { value: currentValue, label } = statusData;
-        const previouStatusData = previousChartDataArray.find((data) => data.label === label);
-        if (!previouStatusData) return '';
-        const difference = currentValue - previouStatusData.value;
-        const labelElement = (
-            <span className="" style={{ color: `#${labelColorCallback(label)}` }}>
-                {label}
-            </span>
-        );
-        const suffix = difference > 1 ? 's' : '';
-        const ending: string = idx === currentChartDataArray.length - 1 ? '' : ', ';
-
-        if (difference === 0)
-            return (
-                <span key={idx}>
-                    the same amount of {labelElement} tasks{ending}
-                </span>
-            );
-        if (difference > 0)
-            return (
-                <span key={idx}>
-                    <strong className="text-slate-500/90">{difference}</strong> more {labelElement}{' '}
-                    tasks{suffix}
-                    {ending}
-                </span>
-            );
-        else
-            return (
-                <span key={idx}>
-                    <strong className="text-slate-500/90">{-difference}</strong> less {labelElement}{' '}
-                    tasks{suffix}
-                    {ending}
-                </span>
-            );
-    });
-    const ComparisonMessageEnding = `compared to the last ${periodName}.`;
+    const comparisonMessages = generateComparisonMessages(
+        previousChartDataArray,
+        currentChartDataArray,
+        labelColorCallback,
+    );
+    const comparisonMessageEnding = `compared to the last ${periodName}.`;
     const comparisonAnalysisElement = (
         <p>
-            {ComparisonMessageBeginning} {comparisonMessages} {ComparisonMessageEnding}
+            {ComparisonMessageBeginning} {comparisonMessages} {comparisonMessageEnding}
         </p>
     );
 
