@@ -1,12 +1,13 @@
-import { faChartPie, faChartSimple } from '@fortawesome/pro-duotone-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartPie, faChartSimple } from '@fortawesome/pro-duotone-svg-icons';
+
+import { useAppSelector } from '../../../store/redux';
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { Theme } from '../../../models/design-models';
-import { useAppSelector } from '../../../store/redux';
+import { getPeriodName } from '../../../utilities/gen-utils/label-util';
 import { round } from '../../../utilities/gen-utils/calc-util';
 import Button from '../../ui/buttons/Button';
-import { getPeriodName } from '../../../utilities/gen-utils/label-util';
 
 interface Props {
     currentChartDataArray: ChartData[];
@@ -15,6 +16,7 @@ interface Props {
     onShowComparison?: () => void;
     showComparison?: boolean;
     preposition?: string;
+    additionalButton?: JSX.Element;
 }
 
 const chartPieIcon = (
@@ -39,6 +41,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
         onShowComparison,
         showComparison,
         preposition: prep,
+        additionalButton, // additional button like showing subcategory etc
     } = props;
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const periodName = getPeriodName(plannerMode);
@@ -63,7 +66,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
         return message;
     });
     const porportionAnalysisElement = (
-        <p>
+        <p className={`${showComparison ? '' : 'inline ml-2'}`}>
             {proportionMessageBeginning} {proportionMessagesList}
         </p>
     );
@@ -123,8 +126,8 @@ const AnalysisMessage: React.FC<Props> = (props) => {
                 {paragraphs.map((para, idx) => (
                     <div
                         key={idx}
-                        className={`pr-5 md:pr-8 lg:pr-5 flex gap-3 transition-all lg:max-w-none ${
-                            showComparison ? 'lg:w-[49%]' : ''
+                        className={`pr-5 md:pr-8 lg:pr-5 transition-all lg:max-w-none ${
+                            showComparison ? 'lg:w-[49%] flex gap-3' : ''
                         }`}
                     >
                         {analysisIcons[idx]}
@@ -132,7 +135,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
                     </div>
                 ))}
             </div>
-            <div className={`w-full mt-2`}>
+            <div className={`w-full mt-2 flex flex-wrap flex-col sm:flex-row gap-4`}>
                 <Button
                     className={`!bg-transparent !border-blue-400 !text-blue-600`}
                     theme={Theme.TERTIARY}
@@ -140,6 +143,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
                 >
                     {showComparison ? 'Hide Comparison' : 'Show Comparison'}
                 </Button>
+                {additionalButton}
             </div>
         </div>
     );

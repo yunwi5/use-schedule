@@ -38,3 +38,16 @@ export function generateCategoryMap(tasks: AbstractTask[]) {
     });
     return categoryMap;
 }
+
+export function generateSubCategoryMap(tasks: AbstractTask[], subCategoryMapList: string[]) {
+    const subCategoryMap: FrequencyMap = getInitialFrequencyMap(subCategoryMapList);
+    tasks.forEach((task) => {
+        if (!task.subCategory) {
+            if ('Others' in subCategoryMap) subCategoryMap['Others'] += 1;
+            else subCategoryMap['Others'] = 1;
+        }
+        if (task.subCategory in subCategoryMap) subCategoryMap[task.subCategory] += 1;
+        else subCategoryMap[task.subCategory] = 1;
+    });
+    return subCategoryMap;
+}

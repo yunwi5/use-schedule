@@ -5,6 +5,7 @@ import {
     generateStatusMap,
     generateImportanceMap,
     generateCategoryMap,
+    generateSubCategoryMap,
 } from '../../utilities/analysis-utils/categorical-data';
 import {
     getCategoryBackgroundColor,
@@ -15,15 +16,22 @@ import {
     getImportanceBorderColor,
     getStatusBackgroundColor,
     getStatusBorderColor,
+    getSubCategoryBackgroundColorPallets,
+    getSubCategoryBorderColorPallets,
     getWeekDayBackgroundColor,
     getWeekDayBorderColor,
 } from '../../utilities/gen-utils/color-util';
-import { FrequencyMap, generateChartData } from '../../utilities/analysis-utils';
+import {
+    FrequencyMap,
+    generateChartData,
+    generateSubCategoryChartData,
+} from '../../utilities/analysis-utils';
 import {
     generateDayPeriodMap,
     generateWeekDayMap,
 } from '../../utilities/analysis-utils/periodic-data';
 import { Status } from '../task-models/Status';
+import { Category, getSubCategory } from '../task-models/Category';
 
 export abstract class AbstractAnalyzer {
     abstract previousBeginningPeriod: Date;
@@ -81,6 +89,19 @@ export abstract class AbstractAnalyzer {
             getCategoryBorderColor,
         );
         return categoryChartData;
+    }
+
+    generateSubCategoryData(
+        category: Category,
+        option: AnalysisOption = AnalysisOption.CURRENT,
+    ): ChartData[] {
+        const subCategoryList = getSubCategory(category);
+        const selectedTasks = this.selectRequestedTasks(option);
+        const categoryTasks = selectedTasks.filter((t) => t.category === category);
+
+        const subCategoryMap: FrequencyMap = generateSubCategoryMap(categoryTasks, subCategoryList);
+        const subCategoryChartData = generateSubCategoryChartData(subCategoryMap, subCategoryList);
+        return subCategoryChartData;
     }
 
     //TODO: 2 day periodical data (weekday, day period)

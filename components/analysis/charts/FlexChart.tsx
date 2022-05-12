@@ -49,14 +49,15 @@ const pieOptions = {
 };
 
 interface Props {
-    chartTitle: string;
+    chartTitle: string | JSX.Element;
     chartLabel: string;
     chartDataArray: ChartData[];
     initialChartType?: FlexChartType;
+    additionalSelect?: JSX.Element;
 }
 
 const FlexChart: React.FC<Props> = (props) => {
-    const { chartTitle, chartLabel, chartDataArray, initialChartType } = props;
+    const { chartTitle, chartLabel, chartDataArray, initialChartType, additionalSelect } = props;
     const [flexChartType, setFlexChartType] = useState<FlexChartType>(
         initialChartType || FlexChartType.PIE,
     ); // Pie chart by default
@@ -89,22 +90,34 @@ const FlexChart: React.FC<Props> = (props) => {
         ],
     };
 
+    const chartTypeSelect = (
+        <AppSelect
+            label="Chart Type"
+            value={flexChartType}
+            onChange={(val: string) => setFlexChartType(val as FlexChartType)}
+            options={FlexChartTypeList}
+            id={`app-select-${chartTitle}`}
+            labelId={`app-select-${chartTitle}-label`}
+        />
+    );
+
     return (
         <section
             className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3 ${
                 flexChartType === FlexChartType.BAR ? '' : ''
             }`}
         >
-            <div className="flex justify-between items-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                 <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>
-                <AppSelect
-                    label="Chart Type"
-                    value={flexChartType}
-                    onChange={(val: string) => setFlexChartType(val as FlexChartType)}
-                    options={FlexChartTypeList}
-                    id={`app-select-${chartTitle}`}
-                    labelId={`app-select-${chartTitle}-label`}
-                />
+                {/* additionalSelect is undefind most of the cases, so it would not display in that case. */}
+                {additionalSelect ? (
+                    <div className="flex gap-2 md:translate-x-[4rem] xl:translate-x-[5.5rem]">
+                        {additionalSelect}
+                        {chartTypeSelect}
+                    </div>
+                ) : (
+                    <>{chartTypeSelect}</>
+                )}
             </div>
             <div
                 className={`container ${

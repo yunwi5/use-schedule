@@ -1,6 +1,10 @@
 import { ChartData } from '../../models/analyzer-models/helper-models';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
-import { getRecentTrendBackgroundColor } from '../gen-utils/color-util';
+import {
+    getRecentTrendBackgroundColor,
+    getSubCategoryBackgroundColorPallets,
+    getSubCategoryBorderColorPallets,
+} from '../gen-utils/color-util';
 
 export interface FrequencyMap {
     [key: string]: number;
@@ -14,19 +18,36 @@ export function getInitialFrequencyMap(list: string[]) {
 
 export function generateChartData(
     freqMap: FrequencyMap,
-    bgColorFnCallback: (name: string) => string,
+    bgColorFnCallback?: (name: string) => string,
     borderColorFnCallback?: (name: string) => string,
 ): ChartData[] {
     const chartDataList: ChartData[] = Object.entries(freqMap).map(([cat, freq]) => {
         const data: ChartData = {
             label: cat,
             value: freq,
-            backgroundColor: bgColorFnCallback(cat),
+            backgroundColor: bgColorFnCallback ? bgColorFnCallback(cat) : 'aaaaaabd', // default colors can be given
+            borderColor: borderColorFnCallback ? borderColorFnCallback(cat) : '555555',
         };
-        if (borderColorFnCallback) data.borderColor = borderColorFnCallback(cat);
         return data;
     });
     return chartDataList;
+}
+
+// Subcategory chart data is different from others
+// because subcategory does not have particular bg color and border color associated to each one
+// therefore, color pallets (rainbow based) are generated for every subcategory list
+export function generateSubCategoryChartData(
+    subCategoryMap: FrequencyMap,
+    subCategoryList: string[],
+) {
+    let subCategoryChartData: ChartData[] = generateChartData(subCategoryMap);
+    const backgroundColors = getSubCategoryBackgroundColorPallets(subCategoryList);
+    const borderColors = getSubCategoryBorderColorPallets(subCategoryList);
+    return subCategoryChartData.map((scData, idx) => ({
+        ...scData,
+        backgroundColor: backgroundColors[idx],
+        borderColor: borderColors[idx],
+    }));
 }
 
 export function generateLineChartData(

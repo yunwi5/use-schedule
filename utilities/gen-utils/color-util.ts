@@ -186,3 +186,46 @@ export function getDayPeriodBorderColor(dayPeriod: string) {
 export function getRecentTrendBackgroundColor(period?: string) {
     return rgbToHex(191, 219, 254);
 }
+
+export function getSubCategoryBackgroundColorPallets(subCategoryList: string[]) {
+    // 200 tone
+    let subCategoryBgListDefault = [
+        rgbToHex(254, 205, 211), // Rose
+        rgbToHex(254, 215, 170), // Ornage,
+        rgbToHex(254, 240, 138), // Yellow
+        rgbToHex(153, 246, 228), // Teal
+        rgbToHex(191, 219, 254), // Blue
+        rgbToHex(199, 210, 254), // Indigo
+        rgbToHex(221, 214, 254), // violet
+        rgbToHex(245, 208, 254), // funchsia
+        rgbToHex(203, 213, 225), // Slate
+    ];
+
+    const len = subCategoryList.length;
+    const subCategoryBgList = subCategoryBgListDefault
+        .slice(0, len - 1)
+        .concat([rgbToHex(203, 213, 225)]);
+
+    return subCategoryBgList;
+}
+
+export function getSubCategoryBorderColorPallets(subCategoryList: string[]) {
+    const subCategoryBorderListDefault = [
+        rgbToHex(244, 63, 94), // Rose,
+        rgbToHex(249, 115, 22), // Orange,
+        rgbToHex(234, 179, 8), // Yellow,
+        rgbToHex(20, 184, 166), // Teal
+        rgbToHex(59, 130, 246), // Blue
+        rgbToHex(99, 102, 241), // Indigo
+        rgbToHex(139, 92, 246), // Violet
+        rgbToHex(217, 70, 239), // Fuchsia
+        rgbToHex(100, 116, 139), // Slate
+    ];
+
+    const len = subCategoryList.length;
+    const subCategoryBorderList = subCategoryBorderListDefault
+        .slice(0, len - 1)
+        .concat([rgbToHex(203, 213, 225)]);
+
+    return subCategoryBorderList;
+}
