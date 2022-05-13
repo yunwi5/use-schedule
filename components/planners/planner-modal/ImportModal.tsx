@@ -30,36 +30,46 @@ const override = css`
 `;
 
 const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) => {
-    const [selectedTemp, setSelectedTemp] = useState<Template | null>(null);
+    const [selectedTemps, setSelectedTemps] = useState<Template[]>([]);
     const templates = useAppSelector((state) => state.template.templates);
 
-    const [loading, setLoading] = useState(false);
     const { setNotification } = useNotification();
 
-    const selectHandler = useCallback((temp: Template | null) => {
-        setSelectedTemp(temp);
-    }, []);
-
     const importHandler = async () => {
-        if (!beginningPeriod || !selectedTemp) return;
+        if (!beginningPeriod || !selectedTemps.length) return;
 
         setNotification(NotifStatus.PENDING, 'Transferring template tasks...');
-        setLoading(true);
-        const { isSuccess, data } = await transferTemplateToWeekly(
-            selectedTemp.id,
-            new Date(beginningPeriod),
+        const importPromises: Promise<{ isSuccess: boolean; data: any }>[] = selectedTemps.map(
+            (template) => transferTemplateToWeekly(template.id, new Date(beginningPeriod)),
         );
-        if (isSuccess) {
-            setNotification(NotifStatus.SUCCESS);
+        const importResults = await Promise.all(importPromises);
+        const successCounts = importResults.reduce(
+            (acc, res) => (res.isSuccess ? acc + 1 : acc),
+            0,
+        );
+        if (successCounts > 0) {
+            setNotification(NotifStatus.SUCCESS, `Importing ${successCounts} tables successful!`);
             onMutate();
             onClose();
         } else {
             setNotification(NotifStatus.ERROR);
         }
-        setLoading(false);
     };
 
-    // console.log(`beginningPeriod: ${beginningPeriod ? beginningPeriod.toString() : ''}`);
+    const selectHandler = useCallback(
+        (temp: Template) => {
+            if (selectedTemps.includes(temp)) {
+                setSelectedTemps(selectedTemps.filter((t) => t.id !== temp.id));
+            } else {
+                setSelectedTemps([...selectedTemps, temp]);
+            }
+        },
+        [selectedTemps],
+    );
+
+    const clearHandler = useCallback(() => setSelectedTemps([]), []);
+
+    const checkIfSelected = (template: Template) => selectedTemps.includes(template);
 
     return (
         <Modal onClose={onClose} modalClass={`${classes.modal}`}>
@@ -68,38 +78,44 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
                 className={`${classes.icon} ${classes.exit}`}
                 onClick={onClose}
             />
-            <h2 className={classes.heading}>Select a template to import</h2>
+            <h2 className={classes.heading}>Select table(s) to import</h2>
             <div className={classes.container}>
+                {templates.length === 0 && <h2>You have no time tables yet!</h2>}
                 {templates.map((temp) => (
                     <div
                         key={temp.id}
                         className={`${classes.template} ${
-                            selectedTemp?.id === temp.id ? classes.selected : ''
+                            checkIfSelected(temp) ? classes.selected : ''
                         }`}
                         onClick={selectHandler.bind(null, temp)}
                     >
                         <p className={classes.text}>{temp.name}</p>
-                        {selectedTemp?.id === temp.id && (
+                        {checkIfSelected(temp) && (
                             <FontAwesomeIcon icon={faCheck} className={classes.icon} />
                         )}
                     </div>
                 ))}
             </div>
-            {selectedTemp && (
+            {selectedTemps.length > 0 && (
                 <p className={classes.message}>
                     <FontAwesomeIcon icon={faCircleExclamation} className={classes.info} />
-                    All tasks & sub tasks of your template{' '}
-                    <span>&quot;{selectedTemp.name}&quot; </span> will be imported to the week
-                    beginning at &nbsp;<time>{getFullDateFormat(beginningPeriod)}</time>.
+                    All tasks & sub tasks of your template{selectedTemps.length > 1 ? 's ' : ' '}
+                    {selectedTemps.map((temp, idx) => (
+                        <span key={temp.id}>
+                            <span className={'!font-medium'}>
+                                {idx === selectedTemps.length - 1 ? 'and ' : ' '}
+                            </span>
+                            &quot;{temp.name}&quot;
+                            {idx < selectedTemps.length - 2 ? ', ' : ' '}
+                        </span>
+                    ))}
+                    will be imported to the week beginning at &nbsp;
+                    <time>{getFullDateFormat(beginningPeriod)}</time>.
                 </p>
             )}
             {/* <ClipLoader color="#000000" loading={true} css={override} size={150} /> */}
             <div className={classes.control}>
-                <Button
-                    theme={Theme.WARNING}
-                    className={classes.btn}
-                    onClick={selectHandler.bind(null, null)}
-                >
+                <Button theme={Theme.WARNING} className={classes.btn} onClick={clearHandler}>
                     Clear
                 </Button>
                 <Button theme={Theme.TERTIARY} className={classes.btn} onClick={importHandler}>

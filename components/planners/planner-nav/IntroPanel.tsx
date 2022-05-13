@@ -14,6 +14,7 @@ import Button from '../../ui/buttons/Button';
 import Link from 'next/link';
 import { getDataAnalysisLink } from '../../../utilities/analysis-utils';
 import classes from './IntroPanel.module.scss';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 
 interface Props {
     title: string;
@@ -32,6 +33,8 @@ const IntroPanel: React.FC<Props> = (props) => {
 
     const showPanelHandler = (show: boolean) => () => setShowPanel(show); // currying fn
     const importModalHandler = (show: boolean) => () => setShowImportModal(show); // currying fn
+
+    const showTemplateImport = plannerMode === PlannerMode.WEEKLY;
 
     return (
         <Fragment>
@@ -66,21 +69,23 @@ const IntroPanel: React.FC<Props> = (props) => {
                                         className="mr-2 max-w-[1.3rem]"
                                         icon={faChartPie as any}
                                     />{' '}
-                                    See Statistics
+                                    Statistics
                                 </Button>
                             </a>
                         </Link>
-                        <Button
-                            className={`mr-4 flex items-center ${classes.btn}`}
-                            theme={Theme.TERTIARY}
-                            onClick={importModalHandler(true)}
-                        >
-                            <FontAwesomeIcon
-                                className="mr-2 max-w-[1.3rem]"
-                                icon={faCalendarCircleExclamation}
-                            />
-                            Import Template
-                        </Button>
+                        {showTemplateImport && (
+                            <Button
+                                className={`mr-4 flex items-center ${classes.btn}`}
+                                theme={Theme.TERTIARY}
+                                onClick={importModalHandler(true)}
+                            >
+                                <FontAwesomeIcon
+                                    className="mr-2 max-w-[1.3rem]"
+                                    icon={faCalendarCircleExclamation}
+                                />
+                                Time Table
+                            </Button>
+                        )}
                     </div>
                 </div>
             )}
