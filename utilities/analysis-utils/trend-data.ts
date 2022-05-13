@@ -1,6 +1,6 @@
 import { FrequencyMap } from '.';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
-import { addWeeks, addYears } from '../date-utils/date-control';
+import { addMonths, addWeeks, addYears } from '../date-utils/date-control';
 import { getWeekEnding, getYearEnding } from '../date-utils/date-get';
 
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -20,6 +20,16 @@ function getNumberOfWeeksDiff(currentPeriod: Date, dateToTest: Date) {
     // If weeksDiff < 0, this means dateToTest is after week ending
     // If weekDiff > 0, this means dateToTest is before week ending (currentWeek for before)
     return weeksDiff;
+}
+
+function getNumberOfMonthsDiff(currentPeriod: Date, dateToTest: Date) {
+    dateToTest.setHours(12);
+
+    // e.g. currentPeriod: 2022 May, dateToTest: 2021 March
+    const yearsDiff = currentPeriod.getFullYear() - dateToTest.getFullYear(); // e.g. 2022 - 2021 = 1 (year)
+    const monthDiff = currentPeriod.getMonth() - dateToTest.getMonth(); // e.g. May - March = 2 (month)
+    const totalMonthDiff = yearsDiff * 12 + monthDiff; //  total month diff in across multiple years
+    return totalMonthDiff;
 }
 
 function getNumberOfYearsDiff(currentPeriod: Date, dateToTest: Date) {
@@ -75,6 +85,41 @@ export function generateRecentWeeksFrequencyMap(
     return recentWeeksFreqMap;
 }
 
+export function generateRecentMonthsFrequencyMap(
+    tasks: AbstractTask[],
+    currentPeriod: Date,
+    numPeriod: number,
+    addByDuration?: boolean,
+) {
+    const recentMonthsList: Date[] = []; // O(t) spcae
+    const recentMonthsFreqMap: FrequencyMap = {}; // O(t) space
+
+    // e.g. recent 5 months
+    // 0 to -4 months
+    // O(t) time
+    for (let i = 0; i < numPeriod; i++) {
+        const monthBeginning = addMonths(currentPeriod, -i);
+        recentMonthsList.push(monthBeginning);
+        recentMonthsFreqMap[monthBeginning.toString()] = 0;
+    }
+
+    // O(n) time
+    tasks.forEach((task) => {
+        // O(1) time
+        const taskMonthDiff = getNumberOfMonthsDiff(currentPeriod, task.dateTime);
+        if (taskMonthDiff < 0) return;
+        if (taskMonthDiff >= recentMonthsList.length) return;
+
+        const monthBeginning = recentMonthsList[taskMonthDiff];
+        const monthBeginningStr = monthBeginning.toString();
+        if (monthBeginningStr in recentMonthsFreqMap)
+            recentMonthsFreqMap[monthBeginningStr] += addByDuration ? task.duration : 1;
+        else recentMonthsFreqMap[monthBeginningStr] = addByDuration ? task.duration : 1;
+    });
+
+    return recentMonthsFreqMap;
+}
+
 export function generateRecentYearsFrequencyMap(
     tasks: AbstractTask[],
     currentPeriod: Date,
@@ -93,15 +138,14 @@ export function generateRecentYearsFrequencyMap(
         recentYearsFreqMap[yearBeginning.toString()] = 0;
     }
 
-    // const recentWeeksFrequencyList: Array<{ [key: string]: number }> = [];
     // O(n) time
     tasks.forEach((task) => {
         // O(1) time
-        const taskWeekDiff = getNumberOfYearsDiff(currentPeriod, task.dateTime);
-        if (taskWeekDiff < 0) return;
-        if (taskWeekDiff >= recentYearsList.length) return;
+        const taskYearDiff = getNumberOfYearsDiff(currentPeriod, task.dateTime);
+        if (taskYearDiff < 0) return;
+        if (taskYearDiff >= recentYearsList.length) return;
 
-        const yearBeginning = recentYearsList[taskWeekDiff];
+        const yearBeginning = recentYearsList[taskYearDiff];
         const yearBeginningStr = yearBeginning.toString();
         if (yearBeginningStr in recentYearsFreqMap)
             recentYearsFreqMap[yearBeginningStr] += addByDuration ? task.duration : 1;

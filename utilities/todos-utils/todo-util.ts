@@ -1,7 +1,7 @@
-import { Status } from "../../models/task-models/Status";
-import { Todo } from "../../models/todo-models/Todo";
-import { TodoList } from "../../models/todo-models/TodoList";
-import { isOverdue } from "../date-utils/date-check";
+import { Status } from '../../models/task-models/Status';
+import { Todo } from '../../models/todo-models/Todo';
+import { TodoList } from '../../models/todo-models/TodoList';
+import { isOverdue } from '../date-utils/date-check';
 
 export function convertToTodoList(listObj: any | null): TodoList | null {
     if (!listObj) return null;
@@ -30,6 +30,7 @@ export function convertToTodos(array: any[] | null): Todo[] {
 
 // Convert string type createdAt and dateTime to Date object
 export function processTodos(todos: Todo[]): Todo[] {
+    if (!todos) return [];
     return todos.map((todo) => {
         let dt: Date | undefined = undefined;
         if (todo.dateTime) dt = new Date(todo.dateTime);

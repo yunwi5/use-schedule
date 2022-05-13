@@ -15,6 +15,7 @@ import AnalysisHeader from '../navigation/AnalysisHeader';
 import CategoricalDataAnalysis from '../categorical-analysis/CategoricalAnalysis';
 import PeriodicAnalysis from '../periodic-analysis/PeriodicAnalysis';
 import TrendAnalysis from '../trend-analysis/TrendAnalysis';
+import { MontlyAnalyzer } from '../../../models/analyzer-models/MontlyAnalyzer';
 
 interface Props {
     allTasks: Task[];
@@ -28,7 +29,7 @@ function populateAnalyzer(plannerMode: PlannerMode, currentPeriod: Date, tasks: 
     if (plannerMode === PlannerMode.WEEKLY) {
         analyzer = new WeeklyAnalyzer(currentPeriod);
     } else if (plannerMode === PlannerMode.MONTLY) {
-        analyzer = new WeeklyAnalyzer(currentPeriod);
+        analyzer = new MontlyAnalyzer(currentPeriod);
     } else {
         analyzer = new YearlyAnalyzer(currentPeriod);
     }
