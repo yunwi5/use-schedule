@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
 import { WeeklyAnalyzer } from '../../../models/analyzer-models/WeeklyAnalyzer';
+import { YearlyAnalyzer } from '../../../models/analyzer-models/YearlyAnalyzer';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../../models/task-models/AbstractTask';
 import { PlannerTask, Task } from '../../../models/task-models/Task';
@@ -29,7 +30,7 @@ function populateAnalyzer(plannerMode: PlannerMode, currentPeriod: Date, tasks: 
     } else if (plannerMode === PlannerMode.MONTLY) {
         analyzer = new WeeklyAnalyzer(currentPeriod);
     } else {
-        analyzer = new WeeklyAnalyzer(currentPeriod);
+        analyzer = new YearlyAnalyzer(currentPeriod);
     }
     for (const task of tasks) {
         analyzer.addTask(task);

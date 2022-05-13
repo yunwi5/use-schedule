@@ -13,8 +13,8 @@ interface Props {
 const TrendMessage: React.FC<Props> = (props) => {
     const { totalTasksTrend, totalHoursTrend, timeFrame } = props;
 
-    const totalTasksNumPeriods = totalTasksTrend.length; // 5, 10, 15 or 20
-    const totalHoursNumPeriods = totalHoursTrend.length;
+    const totalTasksNumPeriods = totalTasksTrend.length || 0; // 5, 10, 15 or 20
+    const totalHoursNumPeriods = totalHoursTrend.length || 0;
 
     const mostRecentTotalTask: ChartData = totalTasksTrend[totalTasksNumPeriods - 1];
     const mostRecentTotalHours: ChartData = totalHoursTrend[totalHoursNumPeriods - 1];
@@ -43,7 +43,7 @@ const TrendMessage: React.FC<Props> = (props) => {
                 <span>
                     You have{' '}
                     <strong className="text-slate-500/80">{mostRecentTotalTask.value}</strong> tasks
-                    to do this week, and you are supposed to spend{' '}
+                    to do this {timeFrame}, and you are expected to spend{' '}
                     <strong className="text-slate-500/80">{mostRecentTotalHours.value}</strong>{' '}
                     hours on them.{' '}
                 </span>

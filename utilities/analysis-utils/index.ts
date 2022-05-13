@@ -60,7 +60,7 @@ export function generateLineChartData(
         const data: ChartData = {
             label: labelCallback(new Date(timeLine)),
             value: freq,
-            backgroundColor: backgroundColor ?? getRecentTrendBackgroundColor(),
+            backgroundColor: backgroundColor ?? '',
             borderColor: borderColor,
         };
         return data;

@@ -57,7 +57,7 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
         },
         {
             name: 'Yearly Analysis',
-            link: '/task-planner/weekly-planner/analysis',
+            link: '/task-planner/yearly-planner/analysis',
         },
     ];
 

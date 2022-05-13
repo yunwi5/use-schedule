@@ -1,6 +1,7 @@
-import { resetHoursAndMinutes } from "./date-control";
-import { WeekDay, WeekDayList } from "../../models/date-models/WeekDay";
-import { mod } from "../gen-utils/calc-util";
+import { resetHoursAndMinutes } from './date-control';
+import { WeekDay, WeekDayList } from '../../models/date-models/WeekDay';
+import { mod } from '../gen-utils/calc-util';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
 
 const NUM_DAYS_PER_WEEK = 7;
 
@@ -19,7 +20,7 @@ export function getDayOffset(weekDay: WeekDay): number {
     return offset;
 }
 
-export function getDayIndexFromMon(date: Date): number {
+export function getDayIndexFromMonth(date: Date): number {
     const dayIndex = date.getDay(); // sun: 0, mon: 1, ..., sat: 6
     const dayIndexFromMon = dayIndex === 0 ? 6 : dayIndex - 1;
     return dayIndexFromMon;
@@ -29,18 +30,6 @@ export function getCurrentWeekBeginning() {
     const current = new Date();
     const currentWeekBeginning = getWeekBeginning(current);
     return currentWeekBeginning;
-}
-
-export function getCurrentMonthBeginning() {
-    const current = new Date();
-    const currentWeekBeginning = getMonthBeginning(current);
-    return currentWeekBeginning;
-}
-
-export function getCurrentYearBeginning() {
-    const current = new Date();
-    const currentYearBeginning = getYearBeginning(current);
-    return currentYearBeginning;
 }
 
 export function getWeekBeginning(date: Date): Date {
@@ -71,6 +60,12 @@ export function getWeekEnding(date: Date): Date {
     return weekEnding;
 }
 
+export function getCurrentMonthBeginning() {
+    const current = new Date();
+    const currentWeekBeginning = getMonthBeginning(current);
+    return currentWeekBeginning;
+}
+
 // Needs to be tested
 export function getMonthBeginning(date: Date): Date {
     const firstday = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -85,6 +80,12 @@ export function getMonthEnding(date: Date): Date {
     return lastDay;
 }
 
+export function getCurrentYearBeginning() {
+    const current = new Date();
+    const currentYearBeginning = getYearBeginning(current);
+    return currentYearBeginning;
+}
+
 export function getYearBeginning(date: Date): Date {
     const firstYearDay = new Date(date.getFullYear(), 0, 1);
     return firstYearDay;
@@ -94,10 +95,16 @@ export function getYearEnding(date: Date): Date {
     const lastYearDay = new Date(date.getFullYear(), 12, 0);
     lastYearDay.setHours(23);
     lastYearDay.setMinutes(59);
+    lastYearDay.setSeconds(59);
     return lastYearDay;
 }
 
 // Below 3 functions are not being used at the moment.
+export function getCurrentMonthWeekBeginning(): Date {
+    const current = new Date();
+    return getMonthWeekBeginning(current);
+}
+
 // Beginning date of a calendar month (e.g. 31th Jan inside Feb calendar section)
 export function getMonthWeekBeginning(date: Date): Date {
     const monthBeginning = getMonthBeginning(date);
@@ -112,7 +119,16 @@ export function getMonthWeekEnding(date: Date): Date {
     return monthWeekEnd;
 }
 
-export function getCurrentMonthWeekBeginning(): Date {
-    const current = new Date();
-    return getMonthWeekBeginning(current);
+// find ending period of the date period based on PlannerMode
+export function getPlannerPeriodEnding(plannerMode: PlannerMode | null, period: Date) {
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+            return getWeekEnding(period);
+        case PlannerMode.MONTLY:
+            return getMonthEnding(period);
+        case PlannerMode.YEARLY:
+            return getYearEnding(period);
+        default:
+            return period;
+    }
 }

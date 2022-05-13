@@ -1,16 +1,12 @@
 import { faInfoCircle } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
 
+import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { useAppSelector } from '../../../store/redux';
-import {
-    getMonthEnding,
-    getWeekEnding,
-    getYearEnding,
-} from '../../../utilities/date-utils/date-get';
+import { getPlannerPeriodEnding } from '../../../utilities/date-utils/date-get';
 import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
 import { getTaskType } from '../../../utilities/tasks-utils/task-label';
 import ActiveButton from '../../ui/buttons/ActiveButton';
@@ -39,16 +35,22 @@ function getCurrentPeriodLabel(plannerMode: PlannerMode | null): string {
     }
 }
 
-function getPeriodEnding(plannerMode: PlannerMode | null, period: Date) {
+function getNavigationPeriodFormat(currentPeriod: Date, plannerMode: PlannerMode | null) {
+    const endingPeriod = getPlannerPeriodEnding(plannerMode, currentPeriod);
+    const navPeriod = getNavigationPeriod(currentPeriod, plannerMode);
     switch (plannerMode) {
         case PlannerMode.WEEKLY:
-            return getWeekEnding(period);
+            return (
+                <>
+                    {navPeriod}
+                    <span className="hidden ml-3 lg:inline">({endingPeriod.getFullYear()})</span>
+                </>
+            );
         case PlannerMode.MONTLY:
-            return getMonthEnding(period);
         case PlannerMode.YEARLY:
-            return getYearEnding(period);
+            return navPeriod;
         default:
-            return period;
+            return 'Mode is null';
     }
 }
 
@@ -59,18 +61,14 @@ const AnalysisHeader: React.FC<Props> = (props) => {
     useWindowInnerWidth({ breakPoint: 768, breakPointCallback: () => setShowDropDown(true) });
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
-    const endingPeriod = getPeriodEnding(plannerMode, currentPeriod);
-
     // For writing label to indicate to the user.
     const taskType: string = getTaskType(plannerMode || PlannerMode.WEEKLY);
+    const navPeriodFormat = getNavigationPeriodFormat(currentPeriod, plannerMode);
 
     return (
         <nav className="ml-3 md:-ml-2 flex flex-col md:flex-row justify-between pr-5 xl:pr-10 gap-3 lg:gap-[5.5rem] md:items-center text-xl">
             <div className="flex gap-2 items-center">
-                <PeriodNavigator onNavigate={onNavigate}>
-                    {`${getNavigationPeriod(currentPeriod, plannerMode)}`}
-                    <span className="hidden ml-3 lg:inline">({endingPeriod.getFullYear()})</span>
-                </PeriodNavigator>
+                <PeriodNavigator onNavigate={onNavigate}>{navPeriodFormat}</PeriodNavigator>
                 <Button
                     onClick={onNavigate}
                     className={`!ml-auto max-h-[2.7rem] !py-2 flex justify-center items-center`}

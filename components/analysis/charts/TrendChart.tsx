@@ -57,6 +57,9 @@ interface Props {
     onChangeFilterStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
+const DEFAULT_BACKGROUND = 'rgba(224, 242, 254, .7)';
+const DEFAULT_BORDER = 'rgb(14, 165, 233)';
+
 const LinearChart: React.FC<Props> = (props) => {
     const {
         chartTitle,
@@ -72,8 +75,8 @@ const LinearChart: React.FC<Props> = (props) => {
     const periodName = getPeriodName(plannerMode);
 
     const { labels, data: dataArray } = generateChartDataset(chartDataArray, false);
-    const backgroundColor = chartDataArray[0].backgroundColor;
-    const borderColor = chartDataArray[0].borderColor;
+    const backgroundColor = chartDataArray.length > 0 ? chartDataArray[0].backgroundColor : null;
+    const borderColor = chartDataArray.length > 0 ? chartDataArray[0].borderColor : null;
 
     const data = {
         labels,
@@ -82,8 +85,8 @@ const LinearChart: React.FC<Props> = (props) => {
                 label: chartLabel,
                 data: dataArray,
                 fill: true,
-                backgroundColor: backgroundColor || 'rgba(219, 234, 254, .8)',
-                borderColor: borderColor,
+                backgroundColor: backgroundColor || DEFAULT_BACKGROUND,
+                borderColor: borderColor || DEFAULT_BORDER,
                 borderWidth: 1.5,
             },
         ],

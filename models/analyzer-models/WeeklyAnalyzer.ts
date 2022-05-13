@@ -4,6 +4,7 @@ import { dateIsBetween } from '../../utilities/date-utils/date-check';
 import { addWeeks } from '../../utilities/date-utils/date-control';
 import { getWeekEnding } from '../../utilities/date-utils/date-get';
 import { getMonthName } from '../../utilities/date-utils/month-util';
+import { filterItemsOnStatus } from '../../utilities/filter-utils/status-filter';
 import { PlannerMode } from '../planner-models/PlannerMode';
 import { isStatus, Status } from '../task-models/Status';
 import { PlannerTask } from '../task-models/Task';
@@ -45,11 +46,7 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
 
     // Not implemented yet
     generateRecentPeriodCountData(numPeriod: number = 5, statusFilter?: Status): ChartData[] {
-        const validStatus: boolean = isStatus(statusFilter || '');
-        // optional filter
-        let filteredTasks = validStatus
-            ? this.allTasks.filter((t) => t.status === statusFilter)
-            : this.allTasks;
+        let filteredTasks = filterItemsOnStatus(this.allTasks, statusFilter);
 
         // This method generates data based on this.allTasks.
         const recentTrendMap: FrequencyMap = generateRecentWeeksFrequencyMap(
@@ -70,11 +67,8 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
 
     // Trend based on total hours.
     generateRecentPeriodDurationData(numPeriod: number, statusFilter?: string): ChartData[] {
-        const validStatus: boolean = isStatus(statusFilter || '');
         // optional filter
-        let filteredTasks = validStatus
-            ? this.allTasks.filter((t) => t.status === statusFilter)
-            : this.allTasks;
+        let filteredTasks = filterItemsOnStatus(this.allTasks, statusFilter);
 
         const recentTrendMap: FrequencyMap = generateRecentWeeksFrequencyMap(
             filteredTasks,

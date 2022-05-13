@@ -1,5 +1,6 @@
 import { FrequencyMap, getInitialFrequencyMap } from '.';
 import { DayPeriod, DayPeriodList } from '../../models/date-models/DayPeriod';
+import { getMonthMember, Month, MonthList } from '../../models/date-models/Month';
 import { getWeekDay, WeekDay, WeekDayListFromMonday } from '../../models/date-models/WeekDay';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 
@@ -31,4 +32,16 @@ export function generateWeekDayMap(tasks: AbstractTask[]): FrequencyMap {
         else weekDayMap[weekDay] = 1;
     });
     return weekDayMap;
+}
+
+export function generateMonthMap(tasks: AbstractTask[]): FrequencyMap {
+    // MonthList from January to December
+    const monthMap = getInitialFrequencyMap(MonthList);
+
+    tasks.forEach((task) => {
+        const month: Month = getMonthMember(new Date(task.dateTime));
+        if (month in monthMap) monthMap[month] += 1;
+        else monthMap[month] = 1;
+    });
+    return monthMap;
 }

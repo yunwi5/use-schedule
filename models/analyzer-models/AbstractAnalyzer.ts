@@ -104,7 +104,6 @@ export abstract class AbstractAnalyzer {
         return subCategoryChartData;
     }
 
-    //TODO: 2 day periodical data (weekday, day period)
     generateWeekDayData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
         const selectedTasks = this.selectRequestedTasks(option);
         const weekDayMap: FrequencyMap = generateWeekDayMap(selectedTasks);

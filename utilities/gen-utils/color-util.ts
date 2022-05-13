@@ -1,4 +1,5 @@
 import { DayPeriod } from '../../models/date-models/DayPeriod';
+import { Month, MonthList } from '../../models/date-models/Month';
 import { WeekDay } from '../../models/date-models/WeekDay';
 import { Category } from '../../models/task-models/Category';
 import { Importance, Status } from '../../models/task-models/Status';
@@ -14,6 +15,76 @@ function rgbToHex(r: number, g: number, b: number): string {
         }
     }
     return toHex(r) + toHex(g) + toHex(b);
+}
+
+const ROSE_200 = rgbToHex(254, 205, 211);
+const ORANGE_200 = rgbToHex(254, 215, 170);
+const YELLOW_200 = rgbToHex(254, 240, 138);
+const LIME_200 = rgbToHex(217, 249, 157);
+const TEAL_200 = rgbToHex(153, 246, 228);
+const CYAN_200 = rgbToHex(165, 243, 252);
+const SKY_200 = rgbToHex(186, 230, 253);
+const BLUE_200 = rgbToHex(191, 219, 254);
+const INDIGO_200 = rgbToHex(199, 210, 254);
+const VIOLET_200 = rgbToHex(221, 214, 254);
+const PURPLE_200 = rgbToHex(233, 213, 255);
+const FUCHSIA_200 = rgbToHex(245, 208, 254);
+const PINK_200 = rgbToHex(251, 207, 232);
+const SLATE_200 = rgbToHex(203, 213, 225);
+
+const ROSE_500 = rgbToHex(244, 63, 94);
+const ORANGE_500 = rgbToHex(249, 115, 22);
+const YELLOW_500 = rgbToHex(234, 179, 8);
+const LIME_500 = rgbToHex(132, 204, 22); // rgb(132, 204, 22)
+const TEAL_500 = rgbToHex(20, 184, 166); // rgb(20, 184, 166)
+const CYAN_500 = rgbToHex(6, 182, 212); // rgb(6, 182, 212)
+const SKY_500 = rgbToHex(14, 165, 233); // rgb(14, 165, 233)
+const BLUE_500 = rgbToHex(59, 130, 246); // rgb(59, 130, 246)
+const INDIGO_500 = rgbToHex(99, 102, 241); // rgb(99, 102, 241)
+const VIOLET_500 = rgbToHex(139, 92, 246); // rgb(139, 92, 246)
+const PURPLE_500 = rgbToHex(168, 85, 247); // rgb(168, 85, 247)
+const FUCHSIA_500 = rgbToHex(217, 70, 239); // rgb(217, 70, 239)
+const PINK_500 = rgbToHex(236, 72, 153); // rgb(236, 72, 153)
+const SLATE_500 = rgbToHex(100, 116, 139); // rgb(100, 116, 139)
+
+export function getMonthBackgroundColor(month: string) {
+    const monthColorPallets = [
+        ROSE_200,
+        ORANGE_200,
+        YELLOW_200,
+        LIME_200,
+        TEAL_200,
+        CYAN_200,
+        SKY_200,
+        BLUE_200,
+        INDIGO_200,
+        VIOLET_200,
+        PURPLE_200,
+        FUCHSIA_200,
+    ];
+    const index = (MonthList as string[]).indexOf(month);
+    if (index >= 0) return monthColorPallets[index];
+    return SLATE_200;
+}
+
+export function getMonthBorderColor(month: string) {
+    const monthColorPallets = [
+        ROSE_500,
+        ORANGE_500,
+        YELLOW_500,
+        LIME_500,
+        TEAL_500,
+        CYAN_500,
+        SKY_500,
+        BLUE_500,
+        INDIGO_500,
+        VIOLET_500,
+        PURPLE_500,
+        FUCHSIA_500,
+    ];
+    const index = (MonthList as string[]).indexOf(month);
+    if (index >= 0) return monthColorPallets[index];
+    return SLATE_500;
 }
 
 //TODO: Needs refactoring

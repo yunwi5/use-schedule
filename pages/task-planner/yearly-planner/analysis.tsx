@@ -9,23 +9,23 @@ import { TaskCollection } from '../../../db/mongodb-constant';
 import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { fetchAllTasks, fetchPeriodicTasks } from '../../../lib/planners/tasks-api';
-import { getCurrentWeekBeginning, getWeekBeginning } from '../../../utilities/date-utils/date-get';
-import WeeklyAnalysis from '../../../components/analysis/analysis-main/WeeklyAnalysis';
+import { getCurrentYearBeginning, getYearBeginning } from '../../../utilities/date-utils/date-get';
+import YearlyAnalysis from '../../../components/analysis/analysis-main/YearlyAnalysis';
 
 interface Props {
     initialAllTasks: Task[];
-    initialWeeklyTasks: Task[];
+    initialYearlyTasks: Task[];
     initialStartDate: string;
 }
 
 const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     // Initial user tasks fetched from the server
-    const { initialAllTasks, initialWeeklyTasks, initialStartDate } = props;
+    const { initialAllTasks, initialYearlyTasks, initialStartDate } = props;
 
     // make sure it is always beginning of week, not just random day
     const beginningDate = initialStartDate.trim()
-        ? getWeekBeginning(new Date(initialStartDate))
-        : getCurrentWeekBeginning();
+        ? getYearBeginning(new Date(initialStartDate))
+        : getCurrentYearBeginning();
 
     const { data: allTasksData, error: allTasksError } = useQuery('all-tasks', fetchAllTasks, {
         initialData: { tasks: initialAllTasks },
@@ -34,26 +34,26 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);
     let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
 
-    const { data: weeklyTasksData, error: weeklyTasksError } = useQuery(
-        ['weekly-tasks', TaskCollection.WEEKLY_TASKS],
+    const { data: yearlyTasksData, error: weeklyTasksError } = useQuery(
+        ['yearly-tasks', TaskCollection.YEARLY_TASKS],
         fetchPeriodicTasks,
         {
-            initialData: { tasks: initialWeeklyTasks },
+            initialData: { tasks: initialYearlyTasks },
         },
     );
     if (weeklyTasksError) console.error('Weeklt tasks error!', weeklyTasksError);
-    const weeklyTasks: Task[] = weeklyTasksData ? weeklyTasksData.tasks : [];
+    const weeklyTasks: Task[] = yearlyTasksData ? yearlyTasksData.tasks : [];
 
     return (
         <div>
             <Head>
-                <title>Weekly Task Analysis</title>
+                <title>Yearly Task Analysis</title>
                 <meta
                     name="description"
-                    content="Analyze user's weekly task data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"
+                    content="Analyze user's yearly task data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"
                 />
             </Head>
-            <WeeklyAnalysis
+            <YearlyAnalysis
                 allTasks={allTasks}
                 periodicTasks={weeklyTasks}
                 beginningDate={beginningDate}
@@ -78,20 +78,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { start_date } = query;
     const startDate: string = Array.isArray(start_date)
         ? start_date.join(' ')
-        : start_date || getCurrentWeekBeginning().toDateString();
+        : start_date || getCurrentYearBeginning().toDateString();
     const allTasksPromise = getTasksFromAllCollection(userId);
-    const weeklyTasksPromise = getTasksFromPage(TaskCollection.WEEKLY_TASKS, userId);
+    const yearlyTasksPromise = getTasksFromPage(TaskCollection.YEARLY_TASKS, userId);
 
-    // Need to convert to App style object (i.e. id instead of _id)
-    const [allTasksData, weeklyTasksData] = await Promise.all([
+    const [allTasksData, yearlyTasksData] = await Promise.all([
         allTasksPromise,
-        weeklyTasksPromise,
+        yearlyTasksPromise,
     ]);
 
     return {
         props: {
             initialAllTasks: convertToTasks(allTasksData),
-            initialWeeklyTasks: convertToTasks(weeklyTasksData),
+            initialYearlyTasks: convertToTasks(yearlyTasksData),
             initialStartDate: startDate,
         },
     };
