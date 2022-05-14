@@ -21,14 +21,13 @@ import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util
 
 interface Props {
     initialAllTasks: Task[];
-    initialWeeklyTasks: Task[];
     initialEvents: IEvent[];
     initialStartDate: string;
 }
 
 const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     // Initial user tasks fetched from the server
-    const { initialAllTasks, initialWeeklyTasks, initialEvents, initialStartDate } = props;
+    const { initialAllTasks, initialEvents, initialStartDate } = props;
 
     // make sure it is always beginning of week, not just random day
     const beginningDate = initialStartDate.trim()
@@ -41,16 +40,6 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
 
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);
     let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
-
-    const { data: weeklyTasksData, error: weeklyTasksError } = useQuery(
-        ['weekly-tasks', TaskCollection.WEEKLY_TASKS],
-        fetchPeriodicTasks,
-        {
-            initialData: { tasks: initialWeeklyTasks },
-        },
-    );
-    if (weeklyTasksError) console.error('Weeklt tasks error!', weeklyTasksError);
-    const weeklyTasks: Task[] = weeklyTasksData ? weeklyTasksData.tasks : [];
 
     const { data: eventData, isError: isEventError } = useQuery('events', fetchAllEvents, {
         initialData: { events: initialEvents },
@@ -92,20 +81,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         ? start_date.join(' ')
         : start_date || getCurrentWeekBeginning().toDateString();
     const allTasksPromise = getTasksFromAllCollection(userId);
-    const weeklyTasksPromise = getTasksFromPage(TaskCollection.WEEKLY_TASKS, userId);
     const eventsPromise = getEventsFromPage(userId);
 
     // Need to convert to App style object (i.e. id instead of _id)
-    const [allTasksData, weeklyTasksData, eventsData] = await Promise.all([
-        allTasksPromise,
-        weeklyTasksPromise,
-        eventsPromise,
-    ]);
+    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
 
     return {
         props: {
             initialAllTasks: convertToTasks(allTasksData),
-            initialWeeklyTasks: convertToTasks(weeklyTasksData),
             initialEvents: convertToAppObjectList(eventsData),
             initialStartDate: startDate,
         },

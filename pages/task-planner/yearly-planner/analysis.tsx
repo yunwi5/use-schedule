@@ -12,7 +12,7 @@ import {
 import { TaskCollection } from '../../../db/mongodb-constant';
 import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
-import { fetchAllTasks, fetchPeriodicTasks } from '../../../lib/planners/tasks-api';
+import { fetchAllTasks } from '../../../lib/planners/tasks-api';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 import { getCurrentYearBeginning, getYearBeginning } from '../../../utilities/date-utils/date-get';
 import YearlyAnalysis from '../../../components/analysis/analysis-main/YearlyAnalysis';
@@ -21,7 +21,6 @@ import { fetchAllEvents } from '../../../lib/events/event-apis';
 
 interface Props {
     initialAllTasks: Task[];
-    initialYearlyTasks: Task[];
     initialEvents: IEvent[];
     initialStartDate: string;
 }
@@ -81,19 +80,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         ? start_date.join(' ')
         : start_date || getCurrentYearBeginning().toDateString();
     const allTasksPromise = getTasksFromAllCollection(userId);
-    const yearlyTasksPromise = getTasksFromPage(TaskCollection.YEARLY_TASKS, userId);
     const eventsPromise = getEventsFromPage(userId);
 
-    const [allTasksData, yearlyTasksData, eventsData] = await Promise.all([
-        allTasksPromise,
-        yearlyTasksPromise,
-        eventsPromise,
-    ]);
+    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
 
     return {
         props: {
             initialAllTasks: convertToTasks(allTasksData),
-            initialYearlyTasks: convertToTasks(yearlyTasksData),
             initialEvents: convertToAppObjectList(eventsData),
             initialStartDate: startDate,
         },

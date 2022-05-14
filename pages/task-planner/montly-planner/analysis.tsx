@@ -4,12 +4,7 @@ import Head from 'next/head';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useQuery } from 'react-query';
 
-import {
-    getTasksFromPage,
-    getTasksFromAllCollection,
-    getEventsFromPage,
-} from '../../../db/pages-util';
-import { TaskCollection } from '../../../db/mongodb-constant';
+import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { fetchAllTasks } from '../../../lib/planners/tasks-api';
@@ -24,13 +19,12 @@ import { IEvent } from '../../../models/Event';
 
 interface Props {
     initialAllTasks: Task[];
-    initialMontlyTasks: Task[];
     initialEvents: IEvent[];
     initialStartDate: string;
 }
 
 const WeeklyAnalysisPage: NextPage<Props> = (props) => {
-    const { initialAllTasks, initialMontlyTasks, initialEvents, initialStartDate } = props;
+    const { initialAllTasks, initialEvents, initialStartDate } = props;
 
     // make sure it is always beginning of month, not just random day
     const beginningDate = initialStartDate.trim()
@@ -84,20 +78,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         ? start_date.join(' ')
         : start_date || getCurrentMonthBeginning().toDateString();
     const allTasksPromise = getTasksFromAllCollection(userId);
-    const monthTasksPromise = getTasksFromPage(TaskCollection.MONTLY_TASKS, userId);
     const eventsPromise = getEventsFromPage(userId);
 
     // Need to convert to App style object (i.e. id instead of _id)
-    const [allTasksData, monthTasksData, eventsData] = await Promise.all([
-        allTasksPromise,
-        monthTasksPromise,
-        eventsPromise,
-    ]);
+    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
 
     return {
         props: {
             initialAllTasks: convertToTasks(allTasksData),
-            initialMontlyTasks: convertToTasks(monthTasksData),
             initialEvents: convertToAppObjectList(eventsData),
             initialStartDate: startDate,
         },

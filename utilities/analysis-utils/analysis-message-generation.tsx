@@ -10,7 +10,7 @@ export function generateProportionMessages(
     const totalNumTasks = currentChartDataArray.reduce((acc, curr) => acc + curr.value, 0);
     return currentChartDataArray.map((statusData, idx) => {
         const { value, label } = statusData;
-        const proportion = round((value / totalNumTasks) * 100, 1);
+        const proportion = round((value / (totalNumTasks || 1)) * 100, 1);
         const hexColor = `#${labelColorCallback(label)}`;
         const ending: string = idx === currentChartDataArray.length - 1 ? '.' : ', ';
         const message = (
