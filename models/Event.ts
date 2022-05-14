@@ -1,5 +1,4 @@
-import { validateEvent } from "../schemas/validation";
-import { Importance, Status } from "./task-models/Status";
+import { Importance, Status } from './task-models/Status';
 
 export interface NoIdEvent {
     id?: string;
@@ -14,11 +13,11 @@ export interface NoIdEvent {
     location?: string;
     participants?: Participant[]; // list of emails of participants
 
-    importance?: Importance;
+    importance: Importance;
     userId: string;
 }
 
-export interface Event extends NoIdEvent {
+export interface IEvent extends NoIdEvent {
     id: string;
 }
 
@@ -44,13 +43,13 @@ export interface Participant {
 
 // Bette way is to validate using validation libraries like Joi or Yup
 export function isInstanceOfEvent(event: any) {
-    const hasId = "id" in event;
-    const hasName = "name" in event;
-    const hasStatus = "status" in event;
-    const hasDateTime = "dateTime" in event;
-    const hasDesc = "description" in event;
-    const hasDur = "duration" in event;
-    const notHavePlannerType = !("plannerType" in event);
+    const hasId = 'id' in event;
+    const hasName = 'name' in event;
+    const hasStatus = 'status' in event;
+    const hasDateTime = 'dateTime' in event;
+    const hasDesc = 'description' in event;
+    const hasDur = 'duration' in event;
+    const notHavePlannerType = !('plannerType' in event);
 
     return hasId && hasName && hasStatus && hasDateTime && hasDesc && hasDur && notHavePlannerType;
 }

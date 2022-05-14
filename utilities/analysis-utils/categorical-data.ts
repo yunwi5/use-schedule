@@ -1,53 +1,66 @@
 import { FrequencyMap, getInitialFrequencyMap } from '.';
-import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { CategoryList } from '../../models/task-models/Category';
 import { ImportanceList, StatusList } from '../../models/task-models/Status';
 
-export function generateStatusMap(tasks: AbstractTask[]): FrequencyMap {
+interface IStatus {
+    status: string;
+}
+export function generateStatusMap(items: IStatus[]): FrequencyMap {
     const statusMap: FrequencyMap = getInitialFrequencyMap(StatusList);
-    tasks.forEach((task) => {
-        if (task.status in statusMap) {
-            statusMap[task.status] += 1;
+    items.forEach((item) => {
+        if (item.status in statusMap) {
+            statusMap[item.status] += 1;
         } else {
-            statusMap[task.status] = 1;
+            statusMap[item.status] = 1;
         }
     });
     return statusMap;
 }
 
-export function generateImportanceMap(tasks: AbstractTask[]) {
+interface ImportanceItem {
+    importance: string;
+}
+export function generateImportanceMap(items: ImportanceItem[]) {
     const importanceMap: FrequencyMap = getInitialFrequencyMap(ImportanceList);
-    tasks.forEach((task) => {
-        if (task.importance in importanceMap) {
-            importanceMap[task.importance] += 1;
+    items.forEach((item) => {
+        if (item.importance in importanceMap) {
+            importanceMap[item.importance] += 1;
         } else {
-            importanceMap[task.importance] = 1;
+            importanceMap[item.importance] = 1;
         }
     });
     return importanceMap;
 }
 
-export function generateCategoryMap(tasks: AbstractTask[]) {
+interface CategoryItem {
+    category?: string;
+}
+export function generateCategoryMap(items: CategoryItem[]) {
     const categoryMap: FrequencyMap = getInitialFrequencyMap(CategoryList);
-    tasks.forEach((task) => {
-        if (task.category in categoryMap) {
-            categoryMap[task.category] += 1;
+    items.forEach((item) => {
+        if (!item.category) {
+            if ('Others' in categoryMap) categoryMap['Others'] += 1;
+            else categoryMap['Others'] = 1;
+        } else if (item.category in categoryMap) {
+            categoryMap[item.category] += 1;
         } else {
-            categoryMap[task.category] = 1;
+            categoryMap[item.category] = 1;
         }
     });
     return categoryMap;
 }
 
-export function generateSubCategoryMap(tasks: AbstractTask[], subCategoryMapList: string[]) {
+interface SubCategoryItem {
+    subCategory?: string;
+}
+export function generateSubCategoryMap(items: SubCategoryItem[], subCategoryMapList: string[]) {
     const subCategoryMap: FrequencyMap = getInitialFrequencyMap(subCategoryMapList);
-    tasks.forEach((task) => {
-        if (!task.subCategory) {
+    items.forEach((item) => {
+        if (!item.subCategory) {
             if ('Others' in subCategoryMap) subCategoryMap['Others'] += 1;
             else subCategoryMap['Others'] = 1;
-        }
-        if (task.subCategory in subCategoryMap) subCategoryMap[task.subCategory] += 1;
-        else subCategoryMap[task.subCategory] = 1;
+        } else if (item.subCategory in subCategoryMap) subCategoryMap[item.subCategory] += 1;
+        else subCategoryMap[item.subCategory] = 1;
     });
     return subCategoryMap;
 }

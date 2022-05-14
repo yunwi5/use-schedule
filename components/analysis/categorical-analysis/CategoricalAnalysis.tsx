@@ -1,22 +1,24 @@
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
+import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 import AnalysisSectionContainer from '../containers/AnalysisSectionContainer';
 import CategoryAnalysis from './CategoryAnalysis';
 import ImportanceAnalysis from './ImportanceAnalysis';
 import StatusAnalysis from './StatusAnalysis';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
+const CategoricalAnalysis: React.FC = () => {
+    const { analyzer } = useAnalysisContext();
+    if (!analyzer) return <div></div>;
 
-const CategoricalAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => (
-    <AnalysisSectionContainer title="Categorical Data Analysis">
-        <div className="flex flex-col gap-2">
-            <StatusAnalysis analyzer={analyzer} timeFrame={timeFrame} />
-            <ImportanceAnalysis analyzer={analyzer} timeFrame={timeFrame} />
-            <CategoryAnalysis analyzer={analyzer} timeFrame={timeFrame} />
-        </div>
-    </AnalysisSectionContainer>
-);
+    return (
+        <AnalysisSectionContainer title="Categorical Data Analysis">
+            <div className="flex flex-col gap-2">
+                <StatusAnalysis />
+                <ImportanceAnalysis />
+                {analyzer.analysisMode === AnalysisMode.TASKS && <CategoryAnalysis />}
+            </div>
+        </AnalysisSectionContainer>
+    );
+};
 
 export default CategoricalAnalysis;

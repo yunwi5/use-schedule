@@ -1,6 +1,6 @@
 import { PlannerMode } from '../planner-models/PlannerMode';
 import { AbstractTask } from '../task-models/AbstractTask';
-import { AnalysisOption, ChartData } from './helper-models';
+import { AnalysisMode, AnalysisOption, ChartData } from './helper-models';
 import {
     generateStatusMap,
     generateImportanceMap,
@@ -16,8 +16,6 @@ import {
     getImportanceBorderColor,
     getStatusBackgroundColor,
     getStatusBorderColor,
-    getSubCategoryBackgroundColorPallets,
-    getSubCategoryBorderColorPallets,
     getWeekDayBackgroundColor,
     getWeekDayBorderColor,
 } from '../../utilities/gen-utils/color-util';
@@ -30,24 +28,30 @@ import {
     generateDayPeriodMap,
     generateWeekDayMap,
 } from '../../utilities/analysis-utils/periodic-data';
-import { Status } from '../task-models/Status';
 import { Category, getSubCategory } from '../task-models/Category';
+import { IEvent } from '../Event';
+import { AnalysisItem } from './AnalysisItem';
 
 export abstract class AbstractAnalyzer {
     abstract previousBeginningPeriod: Date;
     currentBeginningPeriod: Date;
 
     abstract plannerMode: PlannerMode;
-    allTasks: AbstractTask[] = [];
-    previousPeriodTasks: AbstractTask[] = [];
-    currentPeriodTasks: AbstractTask[] = [];
+    analysisMode: AnalysisMode;
 
-    constructor(beginningPeriod: Date) {
+    allItems: AnalysisItem[] = [];
+    previousPeriodItems: AnalysisItem[] = [];
+    currentPeriodItems: AnalysisItem[] = [];
+
+    constructor(beginningPeriod: Date, analysisMode = AnalysisMode.ALL) {
         this.currentBeginningPeriod = beginningPeriod;
+        this.analysisMode = analysisMode;
     }
 
-    // Two abstract methods
-    abstract addTask(task: AbstractTask): void;
+    // Abstract methods
+    // abstract addTask(task: AbstractTask): void;
+    // abstract addEvent(event: IEvent): void;
+    abstract addItem(item: AnalysisItem): void;
 
     // For weekly, montly or yearly trend analysis (i.e. recent 5 weeks trend data)
     abstract generateRecentPeriodCountData(numPeriod: number, status?: string): ChartData[];
@@ -56,8 +60,8 @@ export abstract class AbstractAnalyzer {
     //TODO: 5 implemented methods
     //TODO: 3 categorical data (status, importance, category)
     generateStatusData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
-        const selectedTasks = this.selectRequestedTasks(option);
-        const statusMap: FrequencyMap = generateStatusMap(selectedTasks);
+        const selectedItems = this.selectRequestedItems(option);
+        const statusMap: FrequencyMap = generateStatusMap(selectedItems);
 
         const statusChartData: ChartData[] = generateChartData(
             statusMap,
@@ -68,8 +72,8 @@ export abstract class AbstractAnalyzer {
     }
 
     generateImportanceData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
-        const selectedTasks = this.selectRequestedTasks(option);
-        const importanceMap: FrequencyMap = generateImportanceMap(selectedTasks);
+        const selectedItems = this.selectRequestedItems(option);
+        const importanceMap: FrequencyMap = generateImportanceMap(selectedItems);
 
         const importanceChartData: ChartData[] = generateChartData(
             importanceMap,
@@ -80,8 +84,10 @@ export abstract class AbstractAnalyzer {
     }
 
     generateCategoryData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
-        const selectedTasks = this.selectRequestedTasks(option);
-        const categoryMap: FrequencyMap = generateCategoryMap(selectedTasks);
+        const selectedItems = this.selectRequestedItems(option);
+        const categoryItems = selectedItems.filter((item) => !!item.category);
+        // const selectedItems = this.selectRequestedTasks(option);
+        const categoryMap: FrequencyMap = generateCategoryMap(categoryItems);
 
         const categoryChartData: ChartData[] = generateChartData(
             categoryMap,
@@ -96,17 +102,20 @@ export abstract class AbstractAnalyzer {
         option: AnalysisOption = AnalysisOption.CURRENT,
     ): ChartData[] {
         const subCategoryList = getSubCategory(category);
-        const selectedTasks = this.selectRequestedTasks(option);
-        const categoryTasks = selectedTasks.filter((t) => t.category === category);
 
-        const subCategoryMap: FrequencyMap = generateSubCategoryMap(categoryTasks, subCategoryList);
+        const selectedItems = this.selectRequestedItems(option);
+        const categoryItems = selectedItems.filter(
+            (item) => item.category === category && !!item.subCategory,
+        );
+
+        const subCategoryMap: FrequencyMap = generateSubCategoryMap(categoryItems, subCategoryList);
         const subCategoryChartData = generateSubCategoryChartData(subCategoryMap, subCategoryList);
         return subCategoryChartData;
     }
 
     generateWeekDayData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
-        const selectedTasks = this.selectRequestedTasks(option);
-        const weekDayMap: FrequencyMap = generateWeekDayMap(selectedTasks);
+        const selectedItems = this.selectRequestedItems(option);
+        const weekDayMap: FrequencyMap = generateWeekDayMap(selectedItems);
 
         const weekDayChartData: ChartData[] = generateChartData(
             weekDayMap,
@@ -119,8 +128,8 @@ export abstract class AbstractAnalyzer {
     }
 
     generateDayPeriodData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
-        const selectedTasks = this.selectRequestedTasks(option);
-        const dayPeriodMap: FrequencyMap = generateDayPeriodMap(selectedTasks);
+        const selectedItems = this.selectRequestedItems(option);
+        const dayPeriodMap: FrequencyMap = generateDayPeriodMap(selectedItems);
 
         const dayPeriodChartData: ChartData[] = generateChartData(
             dayPeriodMap,
@@ -130,17 +139,27 @@ export abstract class AbstractAnalyzer {
         return dayPeriodChartData;
     }
 
-    // utility method for selecting requested tasks (3 options)
-    selectRequestedTasks(analysisOption: AnalysisOption): AbstractTask[] {
+    // either requested events, tasks or both.
+    selectRequestedItems(analysisOption: AnalysisOption): AnalysisItem[] {
         switch (analysisOption) {
             case AnalysisOption.ALL:
-                return this.allTasks;
+                // if (this.analysisMode === AnalysisMode.TASKS) return this.allTasks;
+                // if (this.analysisMode === AnalysisMode.EVENTS) return this.allEvents;
+                // return [...this.allTasks, ...this.allEvents];
+                return this.allItems;
             case AnalysisOption.CURRENT:
-                return this.currentPeriodTasks;
+                // if (this.analysisMode === AnalysisMode.TASKS) return this.currentPeriodTasks;
+                // if (this.analysisMode === AnalysisMode.EVENTS) return this.currentPeriodEvents;
+                // return [...this.currentPeriodTasks, ...this.currentPeriodEvents];
+                return this.currentPeriodItems;
             case AnalysisOption.PREVIOUS:
-                return this.previousPeriodTasks;
+                // if (this.analysisMode === AnalysisMode.TASKS) return this.previousPeriodTasks;
+                // if (this.analysisMode === AnalysisMode.EVENTS) return this.previousPeriodEvents;
+                // return [...this.previousPeriodTasks, ...this.previousPeriodEvents];
+                return this.previousPeriodItems;
             default:
-                return this.currentPeriodTasks;
+                // return [...this.allTasks, ...this.allEvents];
+                return this.allItems;
         }
     }
 }

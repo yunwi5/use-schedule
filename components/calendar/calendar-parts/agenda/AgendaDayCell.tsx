@@ -1,19 +1,19 @@
-import React, { useMemo, useState } from "react";
-import { useAppSelector } from "../../../../store/redux";
+import React, { useMemo, useState } from 'react';
+import { useAppSelector } from '../../../../store/redux';
 
-import { CalendarItem } from "../../../../models/calendar-models/CalendarItem";
-import { Event, isInstanceOfEvent } from "../../../../models/Event";
-import { isInstanceOfTask, PlannerTask } from "../../../../models/task-models/Task";
-import { isInstanceOfTodo, Todo } from "../../../../models/todo-models/Todo";
-import { getDayNameFromDate } from "../../../../utilities/date-utils/date-get";
-import { getMonthName } from "../../../../utilities/date-utils/month-util";
-import { filterCalendarItems } from "../../../../utilities/filter-utils/calendar-item-filter";
-import { compareByDateTime } from "../../../../utilities/sort-utils/sort-util";
-import ItemCreatePrompt from "../../calendar-control/item-create/ItemCreatePrompt";
-import { AgendaEventItem, AgendaTaskItem, AgendaTodoItem } from "../../cards/agenda-cards";
-import { isCurrentDate } from "../../../../utilities/date-utils/date-check";
+import { CalendarItem } from '../../../../models/calendar-models/CalendarItem';
+import { IEvent, isInstanceOfEvent } from '../../../../models/Event';
+import { isInstanceOfTask, PlannerTask } from '../../../../models/task-models/Task';
+import { isInstanceOfTodo, Todo } from '../../../../models/todo-models/Todo';
+import { getDayNameFromDate } from '../../../../utilities/date-utils/date-get';
+import { getMonthName } from '../../../../utilities/date-utils/month-util';
+import { filterCalendarItems } from '../../../../utilities/filter-utils/calendar-item-filter';
+import { compareByDateTime } from '../../../../utilities/sort-utils/sort-util';
+import ItemCreatePrompt from '../../calendar-control/item-create/ItemCreatePrompt';
+import { AgendaEventItem, AgendaTaskItem, AgendaTodoItem } from '../../cards/agenda-cards';
+import { isCurrentDate } from '../../../../utilities/date-utils/date-check';
 
-import classes from "./AgendaDayCell.module.scss";
+import classes from './AgendaDayCell.module.scss';
 
 interface Props {
     date: Date;
@@ -52,17 +52,17 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
         if (
             !e.target ||
             !(e.target as any).className ||
-            typeof (e.target as any).className !== "string"
+            typeof (e.target as any).className !== 'string'
         )
             return;
-        if (!(e.target as any).className.includes("item-create-indicator")) return;
+        if (!(e.target as any).className.includes('item-create-indicator')) return;
         setShowItemCreatePrompt((prev) => !prev);
     };
 
     return (
         <article className={`flex flex-col`} id={date.toDateString()}>
             <div
-                className={`flex h-9 border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer ${classes["cell-header"]}`}
+                className={`flex h-9 border-b-2 pb-2 text-lg text-slate-500 border-slate-200 cursor-pointer ${classes['cell-header']}`}
             >
                 <div className={`w-1 h-[100%] mr-1 bg-blue-300 ${classes.prefix}`} />
                 <time
@@ -70,7 +70,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                     onClick={showItemPromptHandler}
                 >
                     <span className="item-create-indicator hover:font-semibold">
-                        {dateFormat}{" "}
+                        {dateFormat}{' '}
                         {isCurrentDate(date) && <span className={`text-blue-500/75`}>(Today)</span>}
                     </span>
                     {showItemCreatePrompt && (
@@ -79,7 +79,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                             beginningPeriod={date}
                             showLeft={false}
                             onAdd={onInvalidateItems}
-                            className={"top-1 translate-x-3"}
+                            className={'top-1 translate-x-3'}
                         />
                     )}
                 </time>
@@ -90,7 +90,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                         return (
                             <AgendaEventItem
                                 key={item.id}
-                                item={item as Event}
+                                item={item as IEvent}
                                 onInvalidate={onInvalidateItems}
                             />
                         );

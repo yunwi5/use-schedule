@@ -11,10 +11,12 @@ import { getYearEnding } from '../../utilities/date-utils/date-get';
 import { PlannerMode } from '../planner-models/PlannerMode';
 import { Status } from '../task-models/Status';
 import { PlannerTask } from '../task-models/Task';
-import { AnalysisOption, ChartData } from './helper-models';
+import { AnalysisMode, AnalysisOption, ChartData } from './helper-models';
 import { filterItemsOnStatus } from '../../utilities/filter-utils/status-filter';
 import { generateMonthMap } from '../../utilities/analysis-utils/periodic-data';
 import { getMonthBackgroundColor, getMonthBorderColor } from '../../utilities/gen-utils/color-util';
+import { IEvent } from '../Event';
+import { AnalysisItem } from './AnalysisItem';
 
 const getYearBeginningLabel = (date: Date) => '' + date.getFullYear();
 
@@ -22,31 +24,31 @@ export class YearlyAnalyzer extends AbstractAnalyzer {
     previousBeginningPeriod: Date;
     plannerMode: PlannerMode = PlannerMode.YEARLY;
 
-    constructor(beginningPeriod: Date) {
-        super(beginningPeriod);
+    constructor(beginningPeriod: Date, analysisMode: AnalysisMode = AnalysisMode.ALL) {
+        super(beginningPeriod, analysisMode);
         const lastYearBeginning = addYears(beginningPeriod, -1);
         this.previousBeginningPeriod = lastYearBeginning;
     }
 
-    addTask(task: PlannerTask): void {
+    addItem(item: AnalysisItem): void {
         const currentYearEnding = getYearEnding(this.currentBeginningPeriod);
         const previousYearEnding = getYearEnding(this.previousBeginningPeriod);
 
         if (
-            dateIsBetween(new Date(task.dateTime), this.currentBeginningPeriod, currentYearEnding)
+            dateIsBetween(new Date(item.dateTime), this.currentBeginningPeriod, currentYearEnding)
         ) {
-            this.currentPeriodTasks.push(task);
+            this.currentPeriodItems.push(item);
         } else if (
-            dateIsBetween(new Date(task.dateTime), this.previousBeginningPeriod, previousYearEnding)
+            dateIsBetween(new Date(item.dateTime), this.previousBeginningPeriod, previousYearEnding)
         ) {
-            this.previousPeriodTasks.push(task);
+            this.previousPeriodItems.push(item);
         }
-        this.allTasks.push(task);
+        this.allItems.push(item);
     }
 
     generateMonthData(option: AnalysisOption = AnalysisOption.CURRENT): ChartData[] {
-        const selectedTasks = this.selectRequestedTasks(option);
-        const monthMap: FrequencyMap = generateMonthMap(selectedTasks);
+        const selectedItems = this.selectRequestedItems(option);
+        const monthMap: FrequencyMap = generateMonthMap(selectedItems);
 
         const monthChartDataArray = generateChartData(
             monthMap,
@@ -57,10 +59,10 @@ export class YearlyAnalyzer extends AbstractAnalyzer {
     }
 
     generateRecentPeriodCountData(numPeriod: number = 5, statusFilter?: Status): ChartData[] {
-        const filteredTasks = filterItemsOnStatus(this.allTasks, statusFilter);
+        const filteredItems = filterItemsOnStatus(this.allItems, statusFilter) as AnalysisItem[];
 
         const recentTrendMap: FrequencyMap = generateRecentYearsFrequencyMap(
-            filteredTasks,
+            filteredItems,
             this.currentBeginningPeriod,
             numPeriod,
             false,
@@ -74,10 +76,10 @@ export class YearlyAnalyzer extends AbstractAnalyzer {
     }
 
     generateRecentPeriodDurationData(numPeriod: number, statusFilter?: string): ChartData[] {
-        const filteredTasks = filterItemsOnStatus(this.allTasks, statusFilter);
+        const filteredItems = filterItemsOnStatus(this.allItems, statusFilter) as AnalysisItem[];
 
         const recentTrendMap: FrequencyMap = generateRecentYearsFrequencyMap(
-            filteredTasks,
+            filteredItems,
             this.currentBeginningPeriod,
             numPeriod,
             true,

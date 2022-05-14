@@ -6,26 +6,23 @@ import {
     ChartData,
     FlexChartType,
 } from '../../../models/analyzer-models/helper-models';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 import { getStatusBorderColor } from '../../../utilities/gen-utils/color-util';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
 import FlexChart from '../charts/FlexChart';
 import { ChartSectionContainer, FlexChartContainer } from '../containers';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
-
-const StatusAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+const StatusAnalysis: React.FC = () => {
+    const { analyzer, timeFrame } = useAnalysisContext();
     const [showComparison, setShowComparison] = useState(false);
 
     const currentStatusChartData: ChartData[] = useMemo(
-        () => analyzer.generateStatusData(),
+        () => analyzer?.generateStatusData() || [],
         [analyzer],
     );
     const previousStatusChartData: ChartData[] = useMemo(
-        () => analyzer.generateStatusData(AnalysisOption.PREVIOUS),
+        () => analyzer?.generateStatusData(AnalysisOption.PREVIOUS) || [],
         [analyzer],
     );
 

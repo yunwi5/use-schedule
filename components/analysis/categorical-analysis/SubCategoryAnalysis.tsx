@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
 import { Category, CategoryList } from '../../../models/task-models/Category';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 import { getCategoryBorderColor } from '../../../utilities/gen-utils/color-util';
 import AppSelect from '../../ui/input/AppSelect';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
@@ -10,21 +11,17 @@ import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
 import { ChartSectionContainer, FlexChartContainer } from '../containers';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
-
-const SubCategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+const SubCategoryAnalysis: React.FC = () => {
+    const { analyzer, timeFrame } = useAnalysisContext();
     const [showComparison, setShowComparison] = useState(false);
     const [activeCategory, setActiveCategory] = useState(Category.SCHOOL_UNIVERSITY);
 
     const currentSubCategoryArray: ChartData[] = useMemo(
-        () => analyzer.generateSubCategoryData(activeCategory),
+        () => analyzer?.generateSubCategoryData(activeCategory) || [],
         [analyzer, activeCategory],
     );
     const previousSubCategoryArray: ChartData[] = useMemo(
-        () => analyzer.generateSubCategoryData(activeCategory, AnalysisOption.PREVIOUS),
+        () => analyzer?.generateSubCategoryData(activeCategory, AnalysisOption.PREVIOUS) || [],
         [analyzer, activeCategory],
     );
 

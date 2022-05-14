@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 
 import useDateTime, { ResetPeriod } from '../../../hooks/useDateTime';
+import { IEvent } from '../../../models/Event';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { Task } from '../../../models/task-models/Task';
 import { useAppDispatch } from '../../../store/redux';
 import { plannerActions } from '../../../store/redux/planner-slice';
 import { getCurrentYearBeginning } from '../../../utilities/date-utils/date-get';
 import AnalysisMain from './AnalysisMain';
+import { AnalysisContextProvider } from '../../../store/context/analysis-context';
 
 interface Props {
-    allTasks: Task[];
-    periodicTasks: Task[]; // Either weekly, montly or yearly tasks specific
+    tasks: Task[];
+    events: IEvent[];
     beginningDate: Date;
 }
 
@@ -44,7 +46,13 @@ const YearlyAnalysis: React.FC<Props> = (props) => {
     }, [dispatch]);
 
     return (
-        <AnalysisMain {...props} onNavigate={yearNavigateHandler} currentPeriod={currentPeriod} />
+        <AnalysisContextProvider>
+            <AnalysisMain
+                {...props}
+                onNavigate={yearNavigateHandler}
+                currentPeriod={currentPeriod}
+            />
+        </AnalysisContextProvider>
     );
 };
 

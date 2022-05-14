@@ -7,18 +7,15 @@ import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
 import { FlexChartContainer, ChartSectionContainer } from '../containers';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
-
-const WeekdayAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+const WeekdayAnalysis: React.FC = () => {
+    const { analyzer, timeFrame } = useAnalysisContext();
     const [showComparison, setShowComparison] = useState(false);
 
-    const currentChartDataArray = useMemo(() => analyzer.generateWeekDayData(), [analyzer]);
+    const currentChartDataArray = useMemo(() => analyzer?.generateWeekDayData() || [], [analyzer]);
     const previousChartDataArray = useMemo(
-        () => analyzer.generateWeekDayData(AnalysisOption.PREVIOUS),
+        () => analyzer?.generateWeekDayData(AnalysisOption.PREVIOUS) || [],
         [analyzer],
     );
 
@@ -42,9 +39,9 @@ const WeekdayAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
             <AnalysisMessage
                 currentChartDataArray={currentChartDataArray}
                 previousChartDataArray={previousChartDataArray}
-                preposition={'on'}
                 labelColorCallback={getWeekDayBorderColor}
                 onShowComparison={() => setShowComparison((prevState) => !prevState)}
+                preposition={'on'}
                 showComparison={showComparison}
             />
         </ChartSectionContainer>

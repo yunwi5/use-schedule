@@ -4,6 +4,7 @@ import { round } from '../gen-utils/calc-util';
 export function generateProportionMessages(
     currentChartDataArray: ChartData[],
     preposition: string,
+    itemName: string,
     labelColorCallback: (label: string) => string,
 ) {
     const totalNumTasks = currentChartDataArray.reduce((acc, curr) => acc + curr.value, 0);
@@ -14,7 +15,7 @@ export function generateProportionMessages(
         const ending: string = idx === currentChartDataArray.length - 1 ? '.' : ', ';
         const message = (
             <span key={idx}>
-                <strong className="text-slate-500/90">{proportion}%</strong> of tasks are{' '}
+                <strong className="text-slate-500/90">{proportion}%</strong> of {itemName}s are{' '}
                 {preposition} <span style={{ color: hexColor }}>{label}</span>
                 {ending}
             </span>
@@ -26,6 +27,7 @@ export function generateProportionMessages(
 export function generateComparisonMessages(
     previousChartDataArray: ChartData[],
     currentChartDataArray: ChartData[],
+    itemName: string,
     labelColorCallback: (label: string) => string,
 ) {
     const comparisonMessages = currentChartDataArray.map((statusData, idx) => {
@@ -34,9 +36,7 @@ export function generateComparisonMessages(
         if (!previouStatusData) return '';
         const difference = currentValue - previouStatusData.value;
         const labelElement = (
-            <span className="" style={{ color: `#${labelColorCallback(label)}` }}>
-                {label}
-            </span>
+            <span style={{ color: `#${labelColorCallback(label)}` }}>{label}</span>
         );
         const suffix = Math.abs(difference) > 1 ? 's' : '';
         const ending: string = idx === currentChartDataArray.length - 1 ? '' : ', ';
@@ -44,14 +44,15 @@ export function generateComparisonMessages(
         if (difference === 0)
             return (
                 <span key={idx}>
-                    the same amount of {labelElement} tasks{ending}
+                    the same amount of {labelElement} {itemName}s{ending}
                 </span>
             );
         if (difference > 0)
             return (
                 <span key={idx}>
                     <strong className="text-slate-500/90">{difference}</strong> more {labelElement}{' '}
-                    task{suffix}
+                    {itemName}
+                    {suffix}
                     {ending}
                 </span>
             );
@@ -59,7 +60,8 @@ export function generateComparisonMessages(
             return (
                 <span key={idx}>
                     <strong className="text-slate-500/90">{-difference}</strong> less {labelElement}{' '}
-                    task{suffix}
+                    {itemName}
+                    {suffix}
                     {ending}
                 </span>
             );

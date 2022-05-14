@@ -12,7 +12,7 @@ import {
     faVideo,
 } from '@fortawesome/pro-duotone-svg-icons';
 
-import { Event } from '../../../../models/Event';
+import { IEvent } from '../../../../models/Event';
 import { Theme } from '../../../../models/design-models';
 import {
     getDurationFormat,
@@ -29,7 +29,7 @@ import EventStatus from './EventStatus';
 interface Props {
     onClose(): void;
     onInvalidate(): void;
-    event: Event;
+    event: IEvent;
 }
 
 const googleMapBaseURL = 'http://maps.google.com/maps?q=';

@@ -9,20 +9,11 @@ import { getCurrentMonthBeginning } from '../../utilities/date-utils/date-get';
 import { processTodos } from '../../utilities/todos-utils/todo-util';
 import { useAppSelector } from '../../store/redux';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
-import { Event } from '../../models/Event';
-import { adjustIfOverdueEvent } from '../../utilities/event-utils/event-util';
+import { IEvent } from '../../models/Event';
+import { adjustIfOverdueEvent, processEvents } from '../../utilities/event-utils/event-util';
 import CalendarContainer from './calendar-parts/CalendarContainer';
 import CalendarControl from './calendar-control/CalendarControl';
 import PageHeading from '../ui/typography/PageHeading';
-
-function processEvents(events: Event[]) {
-    const eventsList: Event[] = events.map((ev) => {
-        ev.dateTime = new Date(ev.dateTime);
-        adjustIfOverdueEvent(ev);
-        return ev;
-    });
-    return eventsList;
-}
 
 function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]): Calendar {
     const newCalendar = new Calendar(beginningPeriod);
@@ -36,7 +27,7 @@ function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]):
 interface Props {
     todos: Todo[];
     tasks: Task[];
-    events: Event[];
+    events: IEvent[];
     onInvalidateAll(): void;
 }
 
@@ -94,7 +85,6 @@ const CalendarMain: React.FC<Props> = (props) => {
                     />
                 )}
             </div>
-            {/* <CalendarFooter /> */}
         </main>
     );
 };

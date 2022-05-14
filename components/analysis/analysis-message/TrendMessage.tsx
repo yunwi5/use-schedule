@@ -3,15 +3,16 @@ import { faChartLine } from '@fortawesome/pro-duotone-svg-icons';
 
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { getRankingSuffixed } from '../../../utilities/gen-utils/format-util';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
 interface Props {
     totalTasksTrend: ChartData[];
     totalHoursTrend: ChartData[];
-    timeFrame: string; // week, month or year
 }
 
 const TrendMessage: React.FC<Props> = (props) => {
-    const { totalTasksTrend, totalHoursTrend, timeFrame } = props;
+    const { totalTasksTrend, totalHoursTrend } = props;
+    const { timeFrame, itemName } = useAnalysisContext();
 
     const totalTasksNumPeriods = totalTasksTrend.length || 0; // 5, 10, 15 or 20
     const totalHoursNumPeriods = totalHoursTrend.length || 0;
@@ -42,8 +43,8 @@ const TrendMessage: React.FC<Props> = (props) => {
                 />
                 <span>
                     You have{' '}
-                    <strong className="text-slate-500/80">{mostRecentTotalTask.value}</strong> tasks
-                    to do this {timeFrame}, and you are expected to spend{' '}
+                    <strong className="text-slate-500/80">{mostRecentTotalTask.value}</strong>{' '}
+                    {itemName}s to do this {timeFrame}, and you are expected to spend{' '}
                     <strong className="text-slate-500/80">{mostRecentTotalHours.value}</strong>{' '}
                     hours on them.{' '}
                 </span>
@@ -58,8 +59,8 @@ const TrendMessage: React.FC<Props> = (props) => {
                     <strong className="text-slate-500/80">
                         {getRankingSuffixed(numMoreBusyPeriods + 1, '1rem')}
                     </strong>{' '}
-                    busiest {timeFrame} in terms of total tasks in the recent {totalTasksNumPeriods}{' '}
-                    {timeFrame}s.
+                    busiest {timeFrame} in terms of total {itemName}s in the recent{' '}
+                    {totalTasksNumPeriods} {timeFrame}s.
                 </span>
                 &nbsp;
                 <span>

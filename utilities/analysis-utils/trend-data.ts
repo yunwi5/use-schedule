@@ -1,5 +1,4 @@
 import { FrequencyMap } from '.';
-import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { addMonths, addWeeks, addYears } from '../date-utils/date-control';
 import { getWeekEnding, getYearEnding } from '../date-utils/date-get';
 
@@ -45,12 +44,17 @@ function getNumberOfYearsDiff(currentPeriod: Date, dateToTest: Date) {
     return yearsDiff;
 }
 
+interface ITrendItem {
+    dateTime: Date;
+    duration: number;
+}
+
 // Worse solution (but easier) runs O(n * t) time.
 // Current solution has
-// Time complexity O(n + t), where t is numPeriods and n is numberOfTasks
+// Time complexity O(n + t), where t is numPeriods and n is numberOfitems
 // Space complexity O(t)
 export function generateRecentWeeksFrequencyMap(
-    tasks: AbstractTask[],
+    items: ITrendItem[],
     currentPeriod: Date,
     numPeriod: number,
     addByDuration?: boolean,
@@ -69,24 +73,24 @@ export function generateRecentWeeksFrequencyMap(
 
     // const recentWeeksFrequencyList: Array<{ [key: string]: number }> = [];
     // O(n) time
-    tasks.forEach((task) => {
+    items.forEach((item) => {
         // O(1) time
-        const taskWeekDiff = getNumberOfWeeksDiff(currentPeriod, task.dateTime);
-        if (taskWeekDiff < 0) return;
-        if (taskWeekDiff >= recentWeeksList.length) return;
+        const itemWeekDiff = getNumberOfWeeksDiff(currentPeriod, item.dateTime);
+        if (itemWeekDiff < 0) return;
+        if (itemWeekDiff >= recentWeeksList.length) return;
 
-        const weekBeginning = recentWeeksList[taskWeekDiff];
+        const weekBeginning = recentWeeksList[itemWeekDiff];
         const weekBeginningStr = weekBeginning.toString();
         if (weekBeginningStr in recentWeeksFreqMap)
-            recentWeeksFreqMap[weekBeginningStr] += addByDuration ? task.duration : 1;
-        else recentWeeksFreqMap[weekBeginningStr] = addByDuration ? task.duration : 1;
+            recentWeeksFreqMap[weekBeginningStr] += addByDuration ? item.duration : 1;
+        else recentWeeksFreqMap[weekBeginningStr] = addByDuration ? item.duration : 1;
     });
 
     return recentWeeksFreqMap;
 }
 
 export function generateRecentMonthsFrequencyMap(
-    tasks: AbstractTask[],
+    items: ITrendItem[],
     currentPeriod: Date,
     numPeriod: number,
     addByDuration?: boolean,
@@ -104,24 +108,24 @@ export function generateRecentMonthsFrequencyMap(
     }
 
     // O(n) time
-    tasks.forEach((task) => {
+    items.forEach((item) => {
         // O(1) time
-        const taskMonthDiff = getNumberOfMonthsDiff(currentPeriod, task.dateTime);
-        if (taskMonthDiff < 0) return;
-        if (taskMonthDiff >= recentMonthsList.length) return;
+        const itemMonthDiff = getNumberOfMonthsDiff(currentPeriod, item.dateTime);
+        if (itemMonthDiff < 0) return;
+        if (itemMonthDiff >= recentMonthsList.length) return;
 
-        const monthBeginning = recentMonthsList[taskMonthDiff];
+        const monthBeginning = recentMonthsList[itemMonthDiff];
         const monthBeginningStr = monthBeginning.toString();
         if (monthBeginningStr in recentMonthsFreqMap)
-            recentMonthsFreqMap[monthBeginningStr] += addByDuration ? task.duration : 1;
-        else recentMonthsFreqMap[monthBeginningStr] = addByDuration ? task.duration : 1;
+            recentMonthsFreqMap[monthBeginningStr] += addByDuration ? item.duration : 1;
+        else recentMonthsFreqMap[monthBeginningStr] = addByDuration ? item.duration : 1;
     });
 
     return recentMonthsFreqMap;
 }
 
 export function generateRecentYearsFrequencyMap(
-    tasks: AbstractTask[],
+    items: ITrendItem[],
     currentPeriod: Date,
     numPeriod: number,
     addByDuration?: boolean,
@@ -139,17 +143,17 @@ export function generateRecentYearsFrequencyMap(
     }
 
     // O(n) time
-    tasks.forEach((task) => {
+    items.forEach((item) => {
         // O(1) time
-        const taskYearDiff = getNumberOfYearsDiff(currentPeriod, task.dateTime);
-        if (taskYearDiff < 0) return;
-        if (taskYearDiff >= recentYearsList.length) return;
+        const itemYearDiff = getNumberOfYearsDiff(currentPeriod, item.dateTime);
+        if (itemYearDiff < 0) return;
+        if (itemYearDiff >= recentYearsList.length) return;
 
-        const yearBeginning = recentYearsList[taskYearDiff];
+        const yearBeginning = recentYearsList[itemYearDiff];
         const yearBeginningStr = yearBeginning.toString();
         if (yearBeginningStr in recentYearsFreqMap)
-            recentYearsFreqMap[yearBeginningStr] += addByDuration ? task.duration : 1;
-        else recentYearsFreqMap[yearBeginningStr] = addByDuration ? task.duration : 1;
+            recentYearsFreqMap[yearBeginningStr] += addByDuration ? item.duration : 1;
+        else recentYearsFreqMap[yearBeginningStr] = addByDuration ? item.duration : 1;
     });
 
     return recentYearsFreqMap;

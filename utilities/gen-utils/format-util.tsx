@@ -63,7 +63,7 @@ export function getNavigationPeriod(
         const month = getMonthMember(beginningPeriod);
         navPeriod = (
             <>
-                <span className="text-gray-600 text-[110%] font-semibold">{month}</span> ({year})
+                <span className="text-gray-600 text-[110%]">{month}</span> ({year})
             </>
         );
     } else if (plannerMode === PlannerMode.YEARLY) {

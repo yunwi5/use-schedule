@@ -6,7 +6,7 @@ import { WeeklyAnalyzer } from '../../../models/analyzer-models/WeeklyAnalyzer';
 import { YearlyAnalyzer } from '../../../models/analyzer-models/YearlyAnalyzer';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../../models/task-models/AbstractTask';
-import { PlannerTask, Task } from '../../../models/task-models/Task';
+import { Task } from '../../../models/task-models/Task';
 import { useAppSelector } from '../../../store/redux';
 import { getPeriodName } from '../../../utilities/gen-utils/label-util';
 import { processTasks } from '../../../utilities/tasks-utils/task-util';
@@ -16,47 +16,76 @@ import CategoricalDataAnalysis from '../categorical-analysis/CategoricalAnalysis
 import PeriodicAnalysis from '../periodic-analysis/PeriodicAnalysis';
 import TrendAnalysis from '../trend-analysis/TrendAnalysis';
 import { MontlyAnalyzer } from '../../../models/analyzer-models/MontlyAnalyzer';
+import { IEvent } from '../../../models/Event';
+import { processEvents } from '../../../utilities/event-utils/event-util';
+import {
+    AnalysisContextProvider,
+    useAnalysisContext,
+} from '../../../store/context/analysis-context';
 
 interface Props {
-    allTasks: Task[];
-    periodicTasks: Task[]; // Either weekly, montly or yearly tasks specific
+    tasks: Task[];
+    periodicTasks?: Task[]; // Either weekly, montly or yearly tasks specific
+    events: IEvent[];
     currentPeriod: Date;
     onNavigate(dir?: number): void; // Can handle both navigate back & forwards as well as to current period
 }
 
-function populateAnalyzer(plannerMode: PlannerMode, currentPeriod: Date, tasks: AbstractTask[]) {
+function populateAnalyzer(
+    plannerMode: PlannerMode,
+    analysisMode: AnalysisMode,
+    currentPeriod: Date,
+    tasks: AbstractTask[],
+    events: IEvent[],
+) {
     let analyzer: AbstractAnalyzer;
     if (plannerMode === PlannerMode.WEEKLY) {
-        analyzer = new WeeklyAnalyzer(currentPeriod);
+        analyzer = new WeeklyAnalyzer(currentPeriod, analysisMode);
     } else if (plannerMode === PlannerMode.MONTLY) {
-        analyzer = new MontlyAnalyzer(currentPeriod);
+        analyzer = new MontlyAnalyzer(currentPeriod, analysisMode);
     } else {
-        analyzer = new YearlyAnalyzer(currentPeriod);
+        analyzer = new YearlyAnalyzer(currentPeriod, analysisMode);
     }
-    for (const task of tasks) {
-        analyzer.addTask(task);
+    if (analysisMode === AnalysisMode.EVENTS || analysisMode === AnalysisMode.ALL) {
+        for (const event of events) analyzer.addItem(event);
+    }
+    if (analysisMode === AnalysisMode.TASKS || analysisMode === AnalysisMode.ALL) {
+        for (const task of tasks) analyzer.addItem(task);
     }
     return analyzer;
 }
 
 const AnalysisMain: React.FC<Props> = (props) => {
-    const { allTasks, periodicTasks, currentPeriod, onNavigate } = props;
-    const [analysisMode, setAnalysisMode] = useState(AnalysisMode.ALL_PLANNERS);
-    const [analyzer, setAnalyzer] = useState<AbstractAnalyzer | null>(null);
+    const { tasks: allTasks, currentPeriod, events, onNavigate } = props;
+    const { analyzer, plannerMode, analysisMode, updateAnalyzer, updateAnalysisMode } =
+        useAnalysisContext();
 
-    const processedAllTasks = useMemo(() => processTasks(allTasks), [allTasks]);
-    const processedPeriodicTasks = useMemo(() => processTasks(periodicTasks), [periodicTasks]);
-    const tasksToAnalyze: PlannerTask[] =
-        analysisMode === AnalysisMode.ALL_PLANNERS ? processedAllTasks : processedPeriodicTasks;
-
-    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
-    const timeFrame = getPeriodName(plannerMode);
+    const processedTasks = useMemo(() => processTasks(allTasks), [allTasks]);
+    const processedEvents = useMemo(() => processEvents(events), [events]);
 
     useEffect(() => {
         if (!plannerMode) return;
-        const newAnalyzer = populateAnalyzer(plannerMode, currentPeriod, tasksToAnalyze);
-        setAnalyzer(newAnalyzer);
-    }, [plannerMode, currentPeriod, tasksToAnalyze]);
+        // add events as well
+        const newAnalyzer = populateAnalyzer(
+            plannerMode,
+            analysisMode,
+            currentPeriod,
+            processedTasks,
+            processedEvents,
+        );
+        updateAnalyzer(newAnalyzer);
+    }, [plannerMode, analysisMode, currentPeriod, processedTasks, processedEvents, updateAnalyzer]);
+
+    const analysisModeHandler = (targetMode: AnalysisMode) => {
+        // should be either tasks, events or all (should not be neither).
+        if (targetMode === AnalysisMode.EVENTS) {
+            if (analysisMode === AnalysisMode.TASKS) updateAnalysisMode(AnalysisMode.ALL);
+            else if (analysisMode === AnalysisMode.ALL) updateAnalysisMode(AnalysisMode.TASKS);
+        } else if (targetMode === AnalysisMode.TASKS) {
+            if (analysisMode === AnalysisMode.EVENTS) updateAnalysisMode(AnalysisMode.ALL);
+            else if (analysisMode === AnalysisMode.ALL) updateAnalysisMode(AnalysisMode.EVENTS);
+        }
+    };
 
     return (
         <main className="py-6 md:pl-4 text-slate-600">
@@ -65,7 +94,7 @@ const AnalysisMain: React.FC<Props> = (props) => {
                     currentPeriod={currentPeriod}
                     onNavigate={onNavigate}
                     currentMode={analysisMode}
-                    onChangeMode={(newMode: AnalysisMode) => setAnalysisMode(newMode)}
+                    onChangeMode={analysisModeHandler}
                     onNavigateCurrent={onNavigate}
                 />
             </div>
@@ -76,9 +105,9 @@ const AnalysisMain: React.FC<Props> = (props) => {
             )}
             {analyzer && (
                 <div className="pl-6 flex flex-col gap-20">
-                    <TrendAnalysis analyzer={analyzer} timeFrame={timeFrame} />
-                    <PeriodicAnalysis analyzer={analyzer} timeFrame={timeFrame} />
-                    <CategoricalDataAnalysis analyzer={analyzer} timeFrame={timeFrame} />
+                    <TrendAnalysis />
+                    <PeriodicAnalysis />
+                    <CategoricalDataAnalysis />
                 </div>
             )}
         </main>

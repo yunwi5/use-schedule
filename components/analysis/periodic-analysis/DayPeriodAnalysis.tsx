@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption } from '../../../models/analyzer-models/helper-models';
 import { getDayPeriodBorderColor } from '../../../utilities/gen-utils/color-util';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
@@ -8,18 +7,18 @@ import ChartSectionContainer from '../containers/ChartSectionContainer';
 import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
 import FlexChartContainer from '../containers/FlexChartContainer';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
-
-const DayPeriodAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+const DayPeriodAnalysis: React.FC = () => {
+    const { analyzer, timeFrame } = useAnalysisContext();
     const [showComparison, setShowComparison] = useState(false);
 
-    const currentChartDataArray = useMemo(() => analyzer.generateDayPeriodData(), [analyzer]);
+    const currentChartDataArray = useMemo(
+        () => analyzer?.generateDayPeriodData() || [],
+        [analyzer],
+    );
     const previousChartDataArray = useMemo(
-        () => analyzer.generateDayPeriodData(AnalysisOption.PREVIOUS),
+        () => analyzer?.generateDayPeriodData(AnalysisOption.PREVIOUS) || [],
         [analyzer],
     );
 

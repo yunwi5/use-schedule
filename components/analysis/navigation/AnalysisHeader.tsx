@@ -8,7 +8,6 @@ import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { useAppSelector } from '../../../store/redux';
 import { getPlannerPeriodEnding } from '../../../utilities/date-utils/date-get';
 import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
-import { getTaskType } from '../../../utilities/tasks-utils/task-label';
 import ActiveButton from '../../ui/buttons/ActiveButton';
 import Button from '../../ui/buttons/Button';
 import DropDownToggler from '../../ui/icons/DropDownToggler';
@@ -62,7 +61,6 @@ const AnalysisHeader: React.FC<Props> = (props) => {
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     // For writing label to indicate to the user.
-    const taskType: string = getTaskType(plannerMode || PlannerMode.WEEKLY);
     const navPeriodFormat = getNavigationPeriodFormat(currentPeriod, plannerMode);
 
     return (
@@ -85,17 +83,21 @@ const AnalysisHeader: React.FC<Props> = (props) => {
                 <div className="flex gap-2 items-center pt-3 md:pt-0 border-t-2 md:border-0 border-slate-300">
                     <ActiveButton
                         className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
-                        isActive={currentMode === AnalysisMode.ONLY_CURRENT_PLANNER}
-                        onClick={onChangeMode.bind(null, AnalysisMode.ONLY_CURRENT_PLANNER)}
+                        isActive={
+                            currentMode === AnalysisMode.EVENTS || currentMode === AnalysisMode.ALL
+                        }
+                        onClick={onChangeMode.bind(null, AnalysisMode.EVENTS)}
                     >
-                        {taskType + 's'}
+                        Events
                     </ActiveButton>
                     <ActiveButton
                         className="mr-auto !min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
-                        isActive={currentMode === AnalysisMode.ALL_PLANNERS}
-                        onClick={onChangeMode.bind(null, AnalysisMode.ALL_PLANNERS)}
+                        isActive={
+                            currentMode === AnalysisMode.TASKS || currentMode === AnalysisMode.ALL
+                        }
+                        onClick={onChangeMode.bind(null, AnalysisMode.TASKS)}
                     >
-                        All Tasks
+                        Tasks
                     </ActiveButton>
                     <FontAwesomeIcon
                         icon={faInfoCircle}

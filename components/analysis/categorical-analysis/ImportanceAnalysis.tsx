@@ -11,21 +11,18 @@ import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
 import { FlexChartContainer, ChartSectionContainer } from '../containers';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
-
-const ImportanceAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+const ImportanceAnalysis: React.FC = () => {
+    const { analyzer, timeFrame } = useAnalysisContext();
     const [showComparison, setShowComparison] = useState(false);
 
     const currentChartDataArray: ChartData[] = useMemo(
-        () => analyzer.generateImportanceData(),
+        () => analyzer?.generateImportanceData() || [],
         [analyzer],
     );
     const previousChartDataArray: ChartData[] = useMemo(
-        () => analyzer.generateImportanceData(AnalysisOption.PREVIOUS),
+        () => analyzer?.generateImportanceData(AnalysisOption.PREVIOUS) || [],
         [analyzer],
     );
 

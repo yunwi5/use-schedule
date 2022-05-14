@@ -1,16 +1,16 @@
-import axios from "axios";
-import { Event, EventProps, NoIdEvent } from "../../models/Event";
+import axios from 'axios';
+import { IEvent, EventProps, NoIdEvent } from '../../models/Event';
 
 // axios.defaults.baseURL = "api/events";
-const BASE_URL = "/api/events";
+const BASE_URL = '/api/events';
 
 // Error handling is done by react-query, so it would not be needed inside the function
 export async function fetchAllEvents() {
-    return (await axios.get<{ message?: string; events: Event[] }>(BASE_URL)).data;
+    return (await axios.get<{ message?: string; events: IEvent[] }>(BASE_URL)).data;
 }
 
 export async function postEvent(event: NoIdEvent) {
-    let message = "";
+    let message = '';
     try {
         const {
             data: { message, insertedId },
@@ -22,17 +22,17 @@ export async function postEvent(event: NoIdEvent) {
             insertedId,
         };
     } catch (err) {
-        message = err instanceof Error ? err.message : "Posting event did not work.";
+        message = err instanceof Error ? err.message : 'Posting event did not work.';
     }
     return { isSuccess: false, message };
 }
 
 export async function apiRequestWrapper(func: Function) {
-    let message = "";
+    let message = '';
     try {
         return await func();
     } catch (err) {
-        message = err instanceof Error ? err.message : "Posting event did not work.";
+        message = err instanceof Error ? err.message : 'Posting event did not work.';
     }
     return { isSuccess: false, message };
 }
@@ -69,7 +69,7 @@ export async function patchEventWrapper(eventId: string, eventProps: EventProps)
 // }
 
 export async function deleteEvent(eventId: string) {
-    let message = "";
+    let message = '';
     try {
         const {
             data: { message },
@@ -79,7 +79,7 @@ export async function deleteEvent(eventId: string) {
             message,
         };
     } catch (err) {
-        message = err instanceof Error ? err.message : "Posting event did not work.";
+        message = err instanceof Error ? err.message : 'Posting event did not work.';
     }
     return { isSuccess: false, message };
 }

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { CalendarItemType } from "../../../../models/calendar-models/CalendarItemType";
-import { Event } from "../../../../models/Event";
-import { Importance } from "../../../../models/task-models/Status";
-import EventDetail from "../../events/detail/EventDetail";
-import EventEdit from "../../events/EventEdit";
-import AgendaItemCard from "./AgendaItemCard";
+import React, { useState } from 'react';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
+import { IEvent } from '../../../../models/Event';
+import { Importance } from '../../../../models/task-models/Status';
+import EventDetail from '../../events/detail/EventDetail';
+import EventEdit from '../../events/EventEdit';
+import AgendaItemCard from './AgendaItemCard';
 
 interface Props {
-    item: Event;
+    item: IEvent;
     onInvalidate(): void;
 }
 

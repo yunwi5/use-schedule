@@ -2,16 +2,13 @@ import React, { useMemo, useState } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { RecentPeriod } from '../../../models/analyzer-models/helper-models';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 import TrendMessage from '../analysis-message/TrendMessage';
 import TrendChart from '../charts/TrendChart';
 import AnalysisSectionContainer from '../containers/AnalysisSectionContainer';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
-
-const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
+const TrendAnalysis: React.FC = () => {
+    const { analyzer, itemName } = useAnalysisContext();
     const [countTrendPeriods, setCountTrendPeriods] = useState<RecentPeriod>(RecentPeriod.FIVE);
     const [countFilterStatus, setCountFilterStatus] = useState<string>('');
 
@@ -20,15 +17,15 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
 
     const [totalTasksTrend, filteredTotalTasksTrend] = useMemo(
         () => [
-            analyzer.generateRecentPeriodCountData(countTrendPeriods),
-            analyzer.generateRecentPeriodCountData(countTrendPeriods, countFilterStatus),
+            analyzer?.generateRecentPeriodCountData(countTrendPeriods) || [],
+            analyzer?.generateRecentPeriodCountData(countTrendPeriods, countFilterStatus) || [],
         ],
         [analyzer, countTrendPeriods, countFilterStatus],
     );
     const [totalHoursTrend, filteredTotalHoursTrend] = useMemo(
         () => [
-            analyzer.generateRecentPeriodDurationData(hoursTrendPeriods),
-            analyzer.generateRecentPeriodDurationData(hoursTrendPeriods, hoursFilterStatus),
+            analyzer?.generateRecentPeriodDurationData(hoursTrendPeriods) || [],
+            analyzer?.generateRecentPeriodDurationData(hoursTrendPeriods, hoursFilterStatus) || [],
         ],
         [analyzer, hoursTrendPeriods, hoursFilterStatus],
     );
@@ -37,8 +34,8 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
         <AnalysisSectionContainer title={'Trend Data Analysis'}>
             <div className="mb-6 flex flex-wrap gap-[6rem] items-center">
                 <TrendChart
-                    chartTitle={'Total tasks'}
-                    chartLabel="Tasks"
+                    chartTitle={`Total ${itemName}s`}
+                    chartLabel={`${itemName}s`}
                     chartDataArray={filteredTotalTasksTrend}
                     numPeriods={countTrendPeriods}
                     onChangeNumPeriods={setCountTrendPeriods}
@@ -55,11 +52,7 @@ const TrendAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                     onChangeFilterStatus={setHoursFilterStatus}
                 />
             </div>
-            <TrendMessage
-                totalTasksTrend={totalTasksTrend}
-                totalHoursTrend={totalHoursTrend}
-                timeFrame={timeFrame}
-            />
+            <TrendMessage totalTasksTrend={totalTasksTrend} totalHoursTrend={totalHoursTrend} />
         </AnalysisSectionContainer>
     );
 };

@@ -5,11 +5,11 @@ import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 import { Status, StatusList } from '../../../../models/task-models/Status';
 import { patchEvent } from '../../../../lib/events/event-apis';
-import { Event } from '../../../../models/Event';
+import { IEvent } from '../../../../models/Event';
 import IconEdit from '../../../ui/icons/IconEdit';
 
 interface Props {
-    event: Event;
+    event: IEvent;
     onEdit: () => void;
 }
 

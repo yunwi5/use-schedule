@@ -6,10 +6,10 @@ import { getWeekEnding } from '../../utilities/date-utils/date-get';
 import { getMonthName } from '../../utilities/date-utils/month-util';
 import { filterItemsOnStatus } from '../../utilities/filter-utils/status-filter';
 import { PlannerMode } from '../planner-models/PlannerMode';
-import { isStatus, Status } from '../task-models/Status';
-import { PlannerTask } from '../task-models/Task';
+import { Status } from '../task-models/Status';
 import { AbstractAnalyzer } from './AbstractAnalyzer';
-import { ChartData } from './helper-models';
+import { AnalysisItem } from './AnalysisItem';
+import { AnalysisMode, ChartData } from './helper-models';
 
 function getWeekBeginningLabel(date: Date): string {
     const month = getMonthName(date);
@@ -20,37 +20,32 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
     previousBeginningPeriod: Date;
     plannerMode: PlannerMode = PlannerMode.WEEKLY;
 
-    constructor(beginningPeriod: Date) {
-        super(beginningPeriod);
+    constructor(beginningPeriod: Date, analysisMode: AnalysisMode = AnalysisMode.ALL) {
+        super(beginningPeriod, analysisMode);
         const lastWeekBeginning = addWeeks(beginningPeriod, -1);
         this.previousBeginningPeriod = lastWeekBeginning;
     }
 
-    addTask(task: PlannerTask): void {
+    addItem(item: AnalysisItem): void {
         const currentWeekEnding = getWeekEnding(this.currentBeginningPeriod);
         const previousWeekEnding = getWeekEnding(this.previousBeginningPeriod);
 
-        if (
-            dateIsBetween(new Date(task.dateTime), this.currentBeginningPeriod, currentWeekEnding)
-        ) {
+        if (dateIsBetween(item.dateTime, this.currentBeginningPeriod, currentWeekEnding)) {
             // Task dateTime is this Week
-            this.currentPeriodTasks.push(task);
-        } else if (
-            dateIsBetween(new Date(task.dateTime), this.previousBeginningPeriod, previousWeekEnding)
-        ) {
+            this.currentPeriodItems.push(item);
+        } else if (dateIsBetween(item.dateTime, this.previousBeginningPeriod, previousWeekEnding)) {
             // Task dateTIme is previous week
-            this.previousPeriodTasks.push(task);
+            this.previousPeriodItems.push(item);
         }
-        this.allTasks.push(task);
+        this.allItems.push(item);
     }
 
-    // Not implemented yet
     generateRecentPeriodCountData(numPeriod: number = 5, statusFilter?: Status): ChartData[] {
-        let filteredTasks = filterItemsOnStatus(this.allTasks, statusFilter);
+        let filteredItems = filterItemsOnStatus(this.allItems, statusFilter) as AnalysisItem[];
 
         // This method generates data based on this.allTasks.
         const recentTrendMap: FrequencyMap = generateRecentWeeksFrequencyMap(
-            filteredTasks,
+            filteredItems,
             this.currentBeginningPeriod,
             numPeriod,
             false,
@@ -68,10 +63,10 @@ export class WeeklyAnalyzer extends AbstractAnalyzer {
     // Trend based on total hours.
     generateRecentPeriodDurationData(numPeriod: number, statusFilter?: string): ChartData[] {
         // optional filter
-        let filteredTasks = filterItemsOnStatus(this.allTasks, statusFilter);
+        let filteredItems = filterItemsOnStatus(this.allItems, statusFilter) as AnalysisItem[];
 
         const recentTrendMap: FrequencyMap = generateRecentWeeksFrequencyMap(
-            filteredTasks,
+            filteredItems,
             this.currentBeginningPeriod,
             numPeriod,
             true,

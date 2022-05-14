@@ -11,8 +11,9 @@ export enum AnalysisOption {
 }
 
 export enum AnalysisMode {
-    ALL_PLANNERS = 'All Tasks',
-    ONLY_CURRENT_PLANNER = 'Current Tasks',
+    TASKS = 'Tasks',
+    EVENTS = 'Events',
+    ALL = 'All',
 }
 
 export interface ChartData {

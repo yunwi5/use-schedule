@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useNotification from '../../../hooks/useNotification';
 import Modal from '../../ui/modal/Modal';
-import { Event, NoIdEvent, EventProps } from '../../../models/Event';
+import { IEvent, NoIdEvent, EventProps } from '../../../models/Event';
 import classes from './EventModal.module.scss';
 import EventForm from './form/EventForm';
 import { deleteEvent, patchEvent } from '../../../lib/events/event-apis';
@@ -11,7 +11,7 @@ import DeleteModal from '../../ui/modal/modal-variation/DeleteModal';
 interface Props {
     onClose: () => void;
     onEditEvent: () => void;
-    event: Event;
+    event: IEvent;
 }
 
 const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {

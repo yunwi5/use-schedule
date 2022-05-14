@@ -10,22 +10,20 @@ import { ChartSectionContainer, FlexChartContainer } from '../containers';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import SubCategoryAnalysis from './SubCategoryAnalysis';
 import Button from '../../ui/buttons/Button';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
-interface Props {
-    analyzer: AbstractAnalyzer;
-    timeFrame: string;
-}
+const CategoryAnalysis: React.FC = () => {
+    const { analyzer, timeFrame } = useAnalysisContext();
 
-const CategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
     const [showComparison, setShowComparison] = useState(false);
     const [showSubCategory, setShowSubCategory] = useState(false);
 
     const currentChartDataArray: ChartData[] = useMemo(
-        () => analyzer.generateCategoryData(),
+        () => analyzer?.generateCategoryData() || [],
         [analyzer],
     );
     const previousChartDataArray: ChartData[] = useMemo(
-        () => analyzer.generateCategoryData(AnalysisOption.PREVIOUS),
+        () => analyzer?.generateCategoryData(AnalysisOption.PREVIOUS) || [],
         [analyzer],
     );
 
@@ -64,7 +62,7 @@ const CategoryAnalysis: React.FC<Props> = ({ analyzer, timeFrame }) => {
                     }
                 />
             </ChartSectionContainer>
-            {showSubCategory && <SubCategoryAnalysis analyzer={analyzer} timeFrame={timeFrame} />}
+            {showSubCategory && <SubCategoryAnalysis />}
         </>
     );
 };

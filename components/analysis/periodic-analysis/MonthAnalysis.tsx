@@ -1,10 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { YearlyAnalyzer } from '../../../models/analyzer-models/YearlyAnalyzer';
-import { AnalysisOption, FlexChartType } from '../../../models/analyzer-models/helper-models';
-import {
-    getMonthBorderColor,
-    getWeekDayBorderColor,
-} from '../../../utilities/gen-utils/color-util';
+import { AnalysisOption } from '../../../models/analyzer-models/helper-models';
+import { getMonthBorderColor } from '../../../utilities/gen-utils/color-util';
 import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';

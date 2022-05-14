@@ -1,8 +1,8 @@
-import React, { useReducer } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
-import { useForm } from "react-hook-form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faXmark } from "@fortawesome/pro-regular-svg-icons";
+import React, { useReducer } from 'react';
+import { useUser } from '@auth0/nextjs-auth0';
+import { useForm } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import {
     faAlarmClock,
     faCalendarDay,
@@ -13,17 +13,17 @@ import {
     faStarExclamation,
     faUsers,
     faVideo,
-} from "@fortawesome/pro-duotone-svg-icons";
+} from '@fortawesome/pro-duotone-svg-icons';
 
-import { NoIdEvent, Event, Participant } from "../../../../models/Event";
-import { Importance, ImportanceList, Status } from "../../../../models/task-models/Status";
-import { Theme } from "../../../../models/design-models";
-import { getISODateFormat, getISOTimeFormat } from "../../../../utilities/date-utils/date-format";
-import { addDays } from "../../../../utilities/date-utils/date-control";
-import Button from "../../../ui/buttons/Button";
-import EventDurationInput from "./EventDurationInput";
-import classes from "./EventForm.module.scss";
-import ExitIcon from "../../../ui/icons/ExitIcon";
+import { NoIdEvent, IEvent, Participant } from '../../../../models/Event';
+import { Importance, ImportanceList, Status } from '../../../../models/task-models/Status';
+import { Theme } from '../../../../models/design-models';
+import { getISODateFormat, getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
+import { addDays } from '../../../../utilities/date-utils/date-control';
+import Button from '../../../ui/buttons/Button';
+import EventDurationInput from './EventDurationInput';
+import classes from './EventForm.module.scss';
+import ExitIcon from '../../../ui/icons/ExitIcon';
 
 export interface EventFormValues {
     name: string;
@@ -43,9 +43,9 @@ interface State {
 }
 
 enum ActionType {
-    ADD = "add",
-    DELETE = "delete",
-    EDIT = "edit",
+    ADD = 'add',
+    DELETE = 'delete',
+    EDIT = 'edit',
 }
 
 type Action =
@@ -58,7 +58,7 @@ type Action =
 function participantReducer(state: State, action: Action) {
     const newParts = [...state.participants];
     if (action.action === ActionType.ADD) {
-        newParts.push({ name: "", email: "" });
+        newParts.push({ name: '', email: '' });
     } else if (action.action === ActionType.EDIT) {
         const existingPart = state.participants[action.index];
         const partToEdit = { ...existingPart };
@@ -72,18 +72,18 @@ function participantReducer(state: State, action: Action) {
 }
 
 const initialState: State = {
-    participants: [{ name: "", email: "" }],
+    participants: [{ name: '', email: '' }],
 };
 
 interface Props {
-    initialEvent?: Event;
+    initialEvent?: IEvent;
     beginningPeriod: Date;
     onSubmit(event: NoIdEvent): void;
     onClose(): void;
     onDelete?: () => void;
 }
 
-function getInitialParticipantState(initialEvent?: Event): State {
+function getInitialParticipantState(initialEvent?: IEvent): State {
     return initialEvent && initialEvent.participants
         ? { participants: initialEvent.participants }
         : initialState;
@@ -108,7 +108,7 @@ const EventForm: React.FC<Props> = (props) => {
 
     const submitHandler = (data: EventFormValues) => {
         if (!userId) {
-            alert("User is not found!");
+            alert('User is not found!');
             return;
         }
         const {
@@ -122,7 +122,7 @@ const EventForm: React.FC<Props> = (props) => {
             date,
             time,
         } = data;
-        const duration = parseInt(durationHours + "") * 60 + parseInt(durationMinutes + "");
+        const duration = parseInt(durationHours + '') * 60 + parseInt(durationMinutes + '');
 
         const dateTime = new Date(
             `${date || beginningPeriod.toDateString()} ${
@@ -138,7 +138,7 @@ const EventForm: React.FC<Props> = (props) => {
             location,
             dateTime,
             meetingLink,
-            description: description || "",
+            description: description || '',
             participants,
             status: Status.OPEN,
             userId,
@@ -167,12 +167,12 @@ const EventForm: React.FC<Props> = (props) => {
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
-            <h2 className={classes.heading}>{initialEvent ? "Edit Event" : "New Event"}</h2>
+            <h2 className={classes.heading}>{initialEvent ? 'Edit Event' : 'New Event'}</h2>
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
                 <div
                     className={`${classes.section} ${
-                        errors.name ? classes["invalid-section"] : ""
+                        errors.name ? classes['invalid-section'] : ''
                     }`}
                 >
                     <label htmlFor="name">
@@ -181,11 +181,11 @@ const EventForm: React.FC<Props> = (props) => {
                     <input
                         type="text"
                         id="name"
-                        defaultValue={initialEvent?.name || ""}
-                        {...register("name", {
-                            required: "Title is required",
-                            minLength: { value: 3, message: "Minimum 3 characters" },
-                            maxLength: { value: 50, message: "Maximum 50 characters" },
+                        defaultValue={initialEvent?.name || ''}
+                        {...register('name', {
+                            required: 'Title is required',
+                            minLength: { value: 3, message: 'Minimum 3 characters' },
+                            maxLength: { value: 50, message: 'Maximum 50 characters' },
                         })}
                     />
                     {errors.name && <p className={classes.error}>{errors.name.message}</p>}
@@ -199,7 +199,7 @@ const EventForm: React.FC<Props> = (props) => {
                         type="text"
                         id="location"
                         defaultValue={initialEvent?.location}
-                        {...register("location")}
+                        {...register('location')}
                     />
                 </div>
                 <div className={`${classes.section}`}>
@@ -211,7 +211,7 @@ const EventForm: React.FC<Props> = (props) => {
                         type="text"
                         id="meeting-link"
                         defaultValue={initialEvent?.meetingLink}
-                        {...register("meetingLink")}
+                        {...register('meetingLink')}
                     />
                 </div>
                 <div className={`${classes.section}`}>
@@ -221,7 +221,7 @@ const EventForm: React.FC<Props> = (props) => {
                             Participants
                         </span>
                         <button className="" type="button" onClick={addParticipantHandler}>
-                            <FontAwesomeIcon icon={faPlus} className={`${labelIconClass} !mr-0`} />{" "}
+                            <FontAwesomeIcon icon={faPlus} className={`${labelIconClass} !mr-0`} />{' '}
                             New
                         </button>
                     </label>
@@ -261,7 +261,7 @@ const EventForm: React.FC<Props> = (props) => {
                             <FontAwesomeIcon icon={faCalendarDay} className={labelIconClass} />
                             Date
                         </label>
-                        <input type="date" defaultValue={initialDateInput} {...register("date")} />
+                        <input type="date" defaultValue={initialDateInput} {...register('date')} />
                     </div>
                     <div className={`${classes.section} w-[45%]`}>
                         <label htmlFor="time">
@@ -271,7 +271,7 @@ const EventForm: React.FC<Props> = (props) => {
                         <input
                             type="time"
                             defaultValue={intiialTimeInput}
-                            {...register("time", { required: "Time is requied" })}
+                            {...register('time', { required: 'Time is requied' })}
                         />
                     </div>
                 </div>
@@ -304,7 +304,7 @@ const EventForm: React.FC<Props> = (props) => {
                         <select
                             id="importance"
                             defaultValue={Importance.IMPORTANT}
-                            {...register("importance")}
+                            {...register('importance')}
                         >
                             {ImportanceList.map((imp) => (
                                 <option key={imp} value={imp}>
@@ -323,13 +323,13 @@ const EventForm: React.FC<Props> = (props) => {
                         id="description"
                         cols={30}
                         rows={3}
-                        defaultValue={initialEvent?.description || ""}
-                        {...register("description")}
+                        defaultValue={initialEvent?.description || ''}
+                        {...register('description')}
                     />
                 </div>
             </div>
             <div className={classes.action}>
-                <Button type="submit" theme={Theme.TERTIARY} className={"!min-w-[8rem]"}>
+                <Button type="submit" theme={Theme.TERTIARY} className={'!min-w-[8rem]'}>
                     Confirm
                 </Button>
                 {onDelete && (
@@ -337,7 +337,7 @@ const EventForm: React.FC<Props> = (props) => {
                         type="button"
                         onClick={onDelete}
                         theme={Theme.DANGER}
-                        className={"!min-w-[8rem]"}
+                        className={'!min-w-[8rem]'}
                     >
                         Delete
                     </Button>

@@ -2,7 +2,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faChartSimple } from '@fortawesome/pro-duotone-svg-icons';
 
-import { useAppSelector } from '../../../store/redux';
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { Theme } from '../../../models/design-models';
 import { getPeriodName } from '../../../utilities/gen-utils/label-util';
@@ -11,6 +10,7 @@ import {
     generateProportionMessages,
 } from '../../../utilities/analysis-utils/analysis-message-generation';
 import Button from '../../ui/buttons/Button';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
 interface Props {
     currentChartDataArray: ChartData[];
@@ -46,8 +46,8 @@ const AnalysisMessage: React.FC<Props> = (props) => {
         preposition: prep,
         additionalButton,
     } = props;
-    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
-    const periodName = getPeriodName(plannerMode);
+    const { plannerMode, itemName } = useAnalysisContext();
+    const periodName = getPeriodName(plannerMode); // either week, month or year
     const preposition: string = prep ?? '';
 
     // Proportion message (% of total in each period)
@@ -55,6 +55,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
     const proportionMessagesList: JSX.Element[] = generateProportionMessages(
         currentChartDataArray,
         preposition,
+        itemName,
         labelColorCallback,
     );
     const porportionAnalysisElement = (
@@ -68,6 +69,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
     const comparisonMessages = generateComparisonMessages(
         previousChartDataArray,
         currentChartDataArray,
+        itemName,
         labelColorCallback,
     );
     const comparisonMessageEnding = `compared to the last ${periodName}.`;

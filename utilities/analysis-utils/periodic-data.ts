@@ -1,21 +1,16 @@
 import { FrequencyMap, getInitialFrequencyMap } from '.';
-import { DayPeriod, DayPeriodList } from '../../models/date-models/DayPeriod';
+import { DayPeriodList, getDayPeriod } from '../../models/date-models/DayPeriod';
 import { getMonthMember, Month, MonthList } from '../../models/date-models/Month';
 import { getWeekDay, WeekDay, WeekDayListFromMonday } from '../../models/date-models/WeekDay';
-import { AbstractTask } from '../../models/task-models/AbstractTask';
 
-function getDayPeriod(date: Date): DayPeriod {
-    if (date.getHours() < 12) {
-        return DayPeriod.AM;
-    }
-    return DayPeriod.PM;
+interface DateTimeItem {
+    dateTime: Date;
 }
-
-export function generateDayPeriodMap(tasks: AbstractTask[]): FrequencyMap {
+export function generateDayPeriodMap(items: DateTimeItem[]): FrequencyMap {
     const dayPeriodMap: FrequencyMap = getInitialFrequencyMap(DayPeriodList);
 
-    tasks.forEach((task) => {
-        const dayPeriod = getDayPeriod(task.dateTime);
+    items.forEach((item) => {
+        const dayPeriod = getDayPeriod(item.dateTime);
         dayPeriodMap[dayPeriod] += 1;
     });
     return dayPeriodMap;
@@ -23,23 +18,23 @@ export function generateDayPeriodMap(tasks: AbstractTask[]): FrequencyMap {
 
 const weekDayList: WeekDay[] = WeekDayListFromMonday.filter((wd) => wd !== WeekDay.ANY);
 
-export function generateWeekDayMap(tasks: AbstractTask[]): FrequencyMap {
+export function generateWeekDayMap(items: DateTimeItem[]): FrequencyMap {
     const weekDayMap = getInitialFrequencyMap(weekDayList);
 
-    tasks.forEach((task) => {
-        const weekDay: WeekDay = getWeekDay(task.dateTime);
+    items.forEach((item) => {
+        const weekDay: WeekDay = getWeekDay(item.dateTime);
         if (weekDay in weekDayMap) weekDayMap[weekDay] += 1;
         else weekDayMap[weekDay] = 1;
     });
     return weekDayMap;
 }
 
-export function generateMonthMap(tasks: AbstractTask[]): FrequencyMap {
+export function generateMonthMap(items: DateTimeItem[]): FrequencyMap {
     // MonthList from January to December
     const monthMap = getInitialFrequencyMap(MonthList);
 
-    tasks.forEach((task) => {
-        const month: Month = getMonthMember(new Date(task.dateTime));
+    items.forEach((item) => {
+        const month: Month = getMonthMember(new Date(item.dateTime));
         if (month in monthMap) monthMap[month] += 1;
         else monthMap[month] = 1;
     });
