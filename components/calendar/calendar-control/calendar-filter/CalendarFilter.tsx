@@ -46,7 +46,7 @@ const CalendarFilter: React.FC = () => {
     return (
         <div className="py-2 px-2 xl:px-3 relative flex-1 flex flex-col gap-2">
             <div className="pb-1 flex justify-between items-center border-b-2 border-slate-300">
-                <h5 className="text-lg font-semibold text-slate-500">Filter</h5>
+                <h5 className="text-lg text-slate-500">Filter</h5>
                 <button
                     onClick={resetFilterHandler}
                     className="-mr-2 text-lg borderpy-1 px-4 border-1 border-blue-500 text-blue-700 transition-all duration-300 hover:bg-blue-500 hover:text-blue-50 rounded-md"

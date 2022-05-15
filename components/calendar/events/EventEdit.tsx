@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import useNotification from '../../../hooks/useNotification';
 import Modal from '../../ui/modal/Modal';
 import { IEvent, NoIdEvent, EventProps } from '../../../models/Event';
-import classes from './EventModal.module.scss';
 import EventForm from './form/EventForm';
 import { deleteEvent, patchEvent } from '../../../lib/events/event-apis';
 import { NotifStatus } from '../../ui/Notification';
@@ -51,7 +50,10 @@ const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
 
     return (
         <>
-            <Modal onClose={onClose} modalClass={`modal ${classes.modal}`}>
+            <Modal
+                onClose={onClose}
+                modalClass={`modal gap-[1.2rem] text-[1.1rem] min-h-[28rem] max-h-[700px]`}
+            >
                 <EventForm
                     onSubmit={eventEditHandler}
                     onClose={onClose}

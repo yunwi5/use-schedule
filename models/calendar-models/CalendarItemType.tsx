@@ -28,7 +28,7 @@ export function getItemTextColorClass(itemType: CalendarItemType) {
     }
 }
 
-export function getItemIcon(itemType: CalendarItemType, className: string = '') {
+export function getItemIcon(itemType: string, className: string = '') {
     const iconClass = `mr-2 max-w-[1.8rem] max-h-[1.8rem] inline-block shadow-md ${className}`;
     if (itemType === CalendarItemType.EVENT) {
         return <FontAwesomeIcon icon={faCalendarStar} className={`${iconClass}`} />;
@@ -37,4 +37,5 @@ export function getItemIcon(itemType: CalendarItemType, className: string = '') 
     } else if (itemType === CalendarItemType.TODO) {
         return <FontAwesomeIcon icon={faSquareCheck} className={`${iconClass}`} />;
     }
+    return <FontAwesomeIcon icon={faBallotCheck} className={`${iconClass}`} />;
 }

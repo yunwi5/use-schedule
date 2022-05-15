@@ -1,27 +1,35 @@
 .modal {
     display: flex;
-	flex-direction: column;
-	gap: .5rem;
-	color: $color-primary-dark-3;
-	padding: .7rem 1.4rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: $color-primary-dark-3;
+    padding: 0.7rem 1.4rem;
 
-	width: 32rem;
-	left: calc(50% - 16rem);
+    width: 32rem;
+    left: calc(50% - 16rem);
 }
 
+@mixin icon-basic {
+    max-width: 2.1rem;
+    cursor: pointer;
+}
+
+.icon-basic {
+    @include icon-basic;
+}
 
 .mui-light-select {
     // select box border
     .MuiOutlinedInput-root {
         // border: 1px solid white;
-		color: white;
-		z-index: 2;
+        color: white;
+        z-index: 2;
     }
 
     // label
     .MuiInputLabel-formControl {
         color: white !important;
-		z-index: 3;
+        z-index: 3;
     }
 
     // select down-side icon
@@ -29,8 +37,8 @@
         color: white;
     }
 
-	// input
-	.MuiSelect-nativeInput {
-		// color: white;
-	}
+    // input
+    .MuiSelect-nativeInput {
+        // color: white;
+    }
 }

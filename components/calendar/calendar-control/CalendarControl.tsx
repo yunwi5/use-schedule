@@ -6,21 +6,27 @@ import { useAppDispatch } from '../../../store/redux';
 import { calendarActions } from '../../../store/redux/calendar-slice';
 import Modal from '../../ui/modal/Modal';
 import classes from './CalendarControl.module.scss';
+import CalendarImportExport from './calendar-import-export/CalendarImportExport';
+import { AbstractTask } from '../../../models/task-models/AbstractTask';
+import { IEvent } from '../../../models/Event';
 
 interface Props {
     onInvalidate: () => void;
     beginningPeriod: Date;
+    tasks: AbstractTask[];
+    events: IEvent[];
 }
 
 const CalendarControl: React.FC<Props> = (props) => {
-    const { onInvalidate, beginningPeriod } = props;
+    const { onInvalidate, beginningPeriod, tasks, events } = props;
 
     const dispatch = useAppDispatch();
 
     const content = (
         <>
             <ItemCreate onInvalidate={onInvalidate} beginningPeriod={beginningPeriod} />
-            <nav className="max-h-[44.5rem] flex-1 flex flex-col gap-4 border-l-2 border-t-2 border-slate-200">
+            <nav className="max-h-[44.5rem] flex-1 flex flex-col gap-1 border-l-2 border-t-2 border-slate-200">
+                <CalendarImportExport tasks={tasks} events={events} />
                 <CalendarFilter />
             </nav>
         </>

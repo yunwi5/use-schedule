@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAlarmClock,
-    faCalendarCheck,
     faCalendarWeek,
     faHourglass,
     faLocationDot,
@@ -23,8 +22,8 @@ import ExitIcon from '../../../ui/icons/ExitIcon';
 import Button from '../../../ui/buttons/Button';
 import EventEdit from '../EventEdit';
 import EmailLink from '../../../ui/EmailLink';
-import modalClasses from '../EventModal.module.scss';
 import EventStatus from './EventStatus';
+import WrapperModal from '../../../ui/modal/modal-variation/WrapperModal';
 
 interface Props {
     onClose(): void;
@@ -62,7 +61,7 @@ const EventDetail: React.FC<Props> = (props) => {
 
     return (
         <>
-            <Modal onClose={onClose} modalClass={`modal ${modalClasses.modal} !px-2`}>
+            <WrapperModal onClose={onClose}>
                 <article className="min-h-[27rem] relative flex flex-col gap-3 justify-between text-slate-600">
                     <h2
                         className={`text-3xl pb-2 border-b-2 border-sky-400/50 whitespace-nowrap overflow-hidden`}
@@ -175,7 +174,7 @@ const EventDetail: React.FC<Props> = (props) => {
                         </Button>
                     </div>
                 </article>
-            </Modal>
+            </WrapperModal>
             {showEditModal && (
                 <EventEdit
                     onClose={() => setShowEditModal(false)}

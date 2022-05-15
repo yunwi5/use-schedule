@@ -1,12 +1,14 @@
 .parent-hider {
     .child-hider {
-        transition: all 0.35s ease-in-out;
+        transition: opacity 0.35s ease-in-out;
         visibility: hidden;
         opacity: 0;
+        order: 100;
     }
 
     &:hover .child-hider {
         opacity: 1;
         visibility: visible;
+        order: 0;
     }
 }

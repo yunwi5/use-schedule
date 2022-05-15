@@ -27,9 +27,7 @@ export async function getTasksFromAllCollection(userId: string, search?: string)
     const wtPromise = getTasks(client, TaskCollection.WEEKLY_TASKS, userId, search);
     const mtPromise = getTasks(client, TaskCollection.MONTLY_TASKS, userId, search);
     const ytPromise = getTasks(client, TaskCollection.YEARLY_TASKS, userId, search);
-    let result = await Promise.all([wtPromise, mtPromise, ytPromise]);
-    console.log('search result:', result);
-    return result;
+    return await Promise.all([wtPromise, mtPromise, ytPromise]);
 }
 
 export async function getTodosFromPage(userId: string) {

@@ -7,7 +7,6 @@ import Modal from '../../ui/modal/Modal';
 import { NotifStatus } from '../../ui/Notification';
 import { addDays, addMinutes } from '../../../utilities/date-utils/date-control';
 import EventForm from './form/EventForm';
-import classes from './EventModal.module.scss';
 
 interface Props {
     onClose: () => void;
@@ -32,7 +31,10 @@ const EventAdd: React.FC<Props> = ({ onClose, onAddEvent, beginningPeriod: initi
     };
 
     return (
-        <Modal onClose={onClose} modalClass={`modal ${classes.modal}`}>
+        <Modal
+            onClose={onClose}
+            modalClass={`modal gap-[1.2rem] text-[1.1rem] min-h-[28rem] max-h-[700px]`}
+        >
             <EventForm
                 onSubmit={eventAddHandler}
                 onClose={onClose}
