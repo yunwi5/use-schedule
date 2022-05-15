@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import type { NextPage } from "next";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { getSession } from "@auth0/nextjs-auth0";
+import { useEffect, useState } from 'react';
+import type { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { getSession } from '@auth0/nextjs-auth0';
 
-import TaskSearch from "../../components/task-search/TaskSearch";
-import { getSearchedTasks } from "../../lib/planners/search-api";
-import { PlannerTask, Task } from "../../models/task-models/Task";
+import TaskSearch from '../../components/task-search/TaskSearch';
+import { PlannerTask, Task } from '../../models/task-models/Task';
+import { getTasksFromAllCollection } from '../../db/pages-util';
+import { convertToTasks } from '../../utilities/tasks-utils/task-util';
 
 interface Props {
     searchedTasks: Task[];
@@ -43,16 +44,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (!session || !session.user) {
         return {
             redirect: {
-                destination: "/api/auth/login",
+                destination: '/api/auth/login',
                 permanent: false,
             },
         };
     }
+    const userId = session.user.sub;
 
-    const { q = "" } = query;
-    let searchWord = Array.isArray(q) ? q.join("") : q;
+    const { q = '' } = query;
+    let searchWord = Array.isArray(q) ? q.join('') : q;
 
-    const searchedTasks: Task[] = await getSearchedTasks(searchWord, req.headers.cookie);
+    const searchedTaskDocuments = (await getTasksFromAllCollection(userId, searchWord)).reduce(
+        (accList, curr) => accList.concat(curr),
+        [],
+    );
+    const searchedTasks = convertToTasks(searchedTaskDocuments);
 
     return {
         props: {

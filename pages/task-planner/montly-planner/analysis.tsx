@@ -2,20 +2,19 @@ import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { getSession } from '@auth0/nextjs-auth0';
-import { useQuery } from 'react-query';
 
 import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
-import { fetchAllTasks } from '../../../lib/planners/tasks-api';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 import {
     getCurrentMonthBeginning,
     getMonthBeginning,
 } from '../../../utilities/date-utils/date-get';
 import MontlyAnalysis from '../../../components/analysis/analysis-main/MontlyAnalysis';
-import { fetchAllEvents } from '../../../lib/events/event-apis';
 import { IEvent } from '../../../models/Event';
+import useEventQuery from '../../../hooks/useEventQuery';
+import useTaskQuery from '../../../hooks/useTaskQuery';
 
 interface Props {
     initialAllTasks: Task[];
@@ -31,20 +30,8 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
         ? getMonthBeginning(new Date(initialStartDate))
         : getCurrentMonthBeginning();
 
-    const { data: allTasksData, error: allTasksError } = useQuery('all-tasks', fetchAllTasks, {
-        initialData: { tasks: initialAllTasks },
-    });
-
-    if (allTasksError) console.error('All tasks fetching error!', allTasksError);
-    let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
-
-    const { data: eventData, isError: isEventError } = useQuery('events', fetchAllEvents, {
-        initialData: { events: initialEvents },
-    });
-    if (isEventError) {
-        console.log('Event error');
-    }
-    const events: IEvent[] = eventData ? eventData.events : [];
+    const { allTasks } = useTaskQuery(initialAllTasks);
+    const { events } = useEventQuery(initialEvents);
 
     return (
         <div>

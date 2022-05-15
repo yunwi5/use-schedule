@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/pro-solid-svg-icons';
 
-import { useAppDispatch, useAppSelector } from "../../../../store/redux";
+import { useAppDispatch, useAppSelector } from '../../../../store/redux';
 import {
     CalendarItemType,
     CalendarItemTypeList,
     isCalendarItemType,
-} from "../../../../models/calendar-models/CalendarItemType";
+} from '../../../../models/calendar-models/CalendarItemType';
 import {
     Importance,
     ImportanceList,
@@ -13,9 +15,9 @@ import {
     isStatus,
     Status,
     StatusList,
-} from "../../../../models/task-models/Status";
-import { calendarActions } from "../../../../store/redux/calendar-slice";
-import FilterSection from "./FilterSection";
+} from '../../../../models/task-models/Status';
+import { calendarActions } from '../../../../store/redux/calendar-slice';
+import FilterSection from './FilterSection';
 
 const CalendarFilter: React.FC = () => {
     const { statusFilter, importanceFilter, itemTypeFilter } = useAppSelector(
@@ -42,16 +44,19 @@ const CalendarFilter: React.FC = () => {
     };
 
     return (
-        <div className="relative p-2 xl:px-5 flex flex-col gap-4 border-t-2 border-slate-300">
-            <button
-                onClick={resetFilterHandler}
-                className="absolute top-[.15rem] right-1 text-lg borderpy-1 px-2 border-1 border-blue-500 text-blue-700 hover:bg-blue-500 hover:text-blue-50 rounded-md"
-            >
-                All
-            </button>
+        <div className="py-2 px-2 xl:px-3 relative flex-1 flex flex-col gap-2">
+            <div className="pb-1 flex justify-between items-center border-b-2 border-slate-300">
+                <h5 className="text-lg font-semibold text-slate-500">Filter</h5>
+                <button
+                    onClick={resetFilterHandler}
+                    className="-mr-2 text-lg borderpy-1 px-4 border-1 border-blue-500 text-blue-700 transition-all duration-300 hover:bg-blue-500 hover:text-blue-50 rounded-md"
+                >
+                    All
+                </button>
+            </div>
             {/* Status Filter Section */}
             <FilterSection
-                filterName={"Status"}
+                filterName={'Status'}
                 filterList={StatusList}
                 onToggleItem={toggleStatusHandler}
                 onCheck={(status: string) =>
@@ -59,7 +64,7 @@ const CalendarFilter: React.FC = () => {
                 }
             />
             <FilterSection
-                filterName={"Importance"}
+                filterName={'Importance'}
                 filterList={ImportanceList}
                 onToggleItem={toggleImportanceHandler}
                 onCheck={(imp: string) =>
@@ -67,7 +72,7 @@ const CalendarFilter: React.FC = () => {
                 }
             />
             <FilterSection
-                filterName={"Categories"}
+                filterName={'Categories'}
                 filterList={CalendarItemTypeList}
                 onToggleItem={toggleItemTypeHandler}
                 onCheck={(type: string) =>

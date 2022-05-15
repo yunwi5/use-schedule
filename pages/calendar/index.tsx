@@ -2,7 +2,6 @@ import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { useQuery, useQueryClient } from 'react-query';
 
 import CalendarMain from '../../components/calendar/CalendarMain';
 import {
@@ -19,9 +18,9 @@ import { convertToTodos } from '../../utilities/todos-utils/todo-util';
 import { useAppDispatch } from '../../store/redux';
 import { plannerActions } from '../../store/redux/planner-slice';
 import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
-import { fetchAllTasks } from '../../lib/planners/tasks-api';
-import { fetchAllTodos } from '../../lib/todos/todo-list-api';
-import { fetchAllEvents } from '../../lib/events/event-apis';
+import useEventQuery from '../../hooks/useEventQuery';
+import useTaskQuery from '../../hooks/useTaskQuery';
+import useTodoQuery from '../../hooks/useTodoQuery';
 
 interface Props {
     tasks: Task[];
@@ -32,35 +31,9 @@ interface Props {
 const Calendar: NextPage<Props> = (props) => {
     const { tasks: initialTasks, todos: initialTodos, events: initialEvents } = props;
 
-    const { data: taskData, isError: isTaskError } = useQuery(['tasks'], fetchAllTasks, {
-        initialData: { tasks: initialTasks },
-    });
-    if (isTaskError) {
-        console.log('Task error');
-    }
-    const tasks: Task[] = taskData ? taskData.tasks : initialTasks;
-
-    const { data: todoData, isError: isTodoError } = useQuery('todos', fetchAllTodos, {
-        initialData: { todos: initialTodos },
-    });
-    if (isTodoError) {
-        console.log('Todo error');
-    }
-    const todos: Todo[] = todoData ? todoData.todos : initialTodos;
-
-    const { data: eventData, isError: isEventError } = useQuery('events', fetchAllEvents, {
-        initialData: { events: initialEvents },
-    });
-    if (isEventError) {
-        console.log('Event error');
-    }
-    const events: IEvent[] = eventData ? eventData.events : [];
-
-    const queryClient = useQueryClient();
-
-    const invalidateTasks = () => queryClient.invalidateQueries('tasks');
-    const invalidateTodos = () => queryClient.invalidateQueries('todos');
-    const invalidateEvents = () => queryClient.invalidateQueries('events');
+    const { events, invalidateEvents } = useEventQuery(initialEvents);
+    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery(initialTasks);
+    const { todos, invalidateTodos } = useTodoQuery(null, null, initialTodos);
 
     const invalidateAll = () => {
         invalidateTasks();

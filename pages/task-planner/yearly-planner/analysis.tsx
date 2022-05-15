@@ -2,22 +2,16 @@ import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { getSession } from '@auth0/nextjs-auth0';
-import { useQuery } from 'react-query';
 
-import {
-    getTasksFromPage,
-    getTasksFromAllCollection,
-    getEventsFromPage,
-} from '../../../db/pages-util';
-import { TaskCollection } from '../../../db/mongodb-constant';
+import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
-import { fetchAllTasks } from '../../../lib/planners/tasks-api';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 import { getCurrentYearBeginning, getYearBeginning } from '../../../utilities/date-utils/date-get';
-import YearlyAnalysis from '../../../components/analysis/analysis-main/YearlyAnalysis';
 import { IEvent } from '../../../models/Event';
-import { fetchAllEvents } from '../../../lib/events/event-apis';
+import YearlyAnalysis from '../../../components/analysis/analysis-main/YearlyAnalysis';
+import useEventQuery from '../../../hooks/useEventQuery';
+import useTaskQuery from '../../../hooks/useTaskQuery';
 
 interface Props {
     initialAllTasks: Task[];
@@ -33,20 +27,8 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
         ? getYearBeginning(new Date(initialStartDate))
         : getCurrentYearBeginning();
 
-    const { data: allTasksData, error: allTasksError } = useQuery('all-tasks', fetchAllTasks, {
-        initialData: { tasks: initialAllTasks },
-    });
-
-    if (allTasksError) console.error('All tasks fetching error!', allTasksError);
-    let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
-
-    const { data: eventData, isError: isEventError } = useQuery('events', fetchAllEvents, {
-        initialData: { events: initialEvents },
-    });
-    if (isEventError) {
-        console.log('Event error');
-    }
-    const events: IEvent[] = eventData ? eventData.events : [];
+    const { allTasks } = useTaskQuery(initialAllTasks);
+    const { events } = useEventQuery(initialEvents);
 
     return (
         <div>

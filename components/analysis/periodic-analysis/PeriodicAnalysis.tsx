@@ -8,7 +8,7 @@ import MonthAnalysis from './MonthAnalysis';
 import WeekdayAnalysis from './WeekdayAnalysis';
 
 const PeriodicAnalysis: React.FC = () => {
-    const { analyzer, timeFrame } = useAnalysisContext();
+    const { analyzer } = useAnalysisContext();
     if (!analyzer) return <div>No analyzer found.</div>;
 
     return (

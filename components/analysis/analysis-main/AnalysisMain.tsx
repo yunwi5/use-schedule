@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
@@ -7,8 +7,6 @@ import { YearlyAnalyzer } from '../../../models/analyzer-models/YearlyAnalyzer';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../../models/task-models/AbstractTask';
 import { Task } from '../../../models/task-models/Task';
-import { useAppSelector } from '../../../store/redux';
-import { getPeriodName } from '../../../utilities/gen-utils/label-util';
 import { processTasks } from '../../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
 import AnalysisHeader from '../navigation/AnalysisHeader';
@@ -18,10 +16,7 @@ import TrendAnalysis from '../trend-analysis/TrendAnalysis';
 import { MontlyAnalyzer } from '../../../models/analyzer-models/MontlyAnalyzer';
 import { IEvent } from '../../../models/Event';
 import { processEvents } from '../../../utilities/event-utils/event-util';
-import {
-    AnalysisContextProvider,
-    useAnalysisContext,
-} from '../../../store/context/analysis-context';
+import { useAnalysisContext } from '../../../store/context/analysis-context';
 
 interface Props {
     tasks: Task[];
@@ -65,7 +60,6 @@ const AnalysisMain: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (!plannerMode) return;
-        // add events as well
         const newAnalyzer = populateAnalyzer(
             plannerMode,
             analysisMode,

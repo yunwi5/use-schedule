@@ -10,7 +10,7 @@ import { processTodos } from '../../utilities/todos-utils/todo-util';
 import { useAppSelector } from '../../store/redux';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
 import { IEvent } from '../../models/Event';
-import { adjustIfOverdueEvent, processEvents } from '../../utilities/event-utils/event-util';
+import { processEvents } from '../../utilities/event-utils/event-util';
 import CalendarContainer from './calendar-parts/CalendarContainer';
 import CalendarControl from './calendar-control/CalendarControl';
 import PageHeading from '../ui/typography/PageHeading';

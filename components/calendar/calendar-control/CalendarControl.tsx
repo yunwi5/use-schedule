@@ -20,7 +20,9 @@ const CalendarControl: React.FC<Props> = (props) => {
     const content = (
         <>
             <ItemCreate onInvalidate={onInvalidate} beginningPeriod={beginningPeriod} />
-            <CalendarFilter />
+            <nav className="max-h-[44.5rem] flex-1 flex flex-col gap-4 border-l-2 border-t-2 border-slate-200">
+                <CalendarFilter />
+            </nav>
         </>
     );
 
@@ -38,9 +40,9 @@ const CalendarControl: React.FC<Props> = (props) => {
                 </section>
                 {/* Providing initial calendar filtering options that user has previously stored. */}
             </Modal>
-            <div className={classes['control-container']}>
+            <div className={`${classes['control-container']}`}>
                 <section
-                    className={`xl:min-w-[10rem] pr-3 -mt-[.47rem] flex flex-col gap-3 ${classes['calendar-control']}`}
+                    className={`flex-1 xl:min-w-[10rem] pr-3 -mt-[.47rem] flex flex-col gap-3 ${classes['calendar-control']}`}
                 >
                     {content}
                 </section>

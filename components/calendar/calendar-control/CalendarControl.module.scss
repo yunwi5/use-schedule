@@ -36,6 +36,8 @@ $filter-break-point: 1250px;
 }
 
 .control-container {
+    display: flex;
+    flex-direction: column;
     @include respond($filter-break-point) {
         display: none;
     }

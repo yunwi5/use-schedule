@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/pro-regular-svg-icons';
 
 interface Props {
-    onToggle(): void;
+    onToggle(e?: React.MouseEvent): void;
     showDropDown: boolean;
     className?: string;
 }
