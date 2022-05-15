@@ -8,6 +8,7 @@ import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 interface Props {
     tasks: AbstractTask[];
     events: IEvent[];
+    beginningPeriod: Date;
 }
 
 const CalendarImportExport: React.FC<Props> = (props) => {

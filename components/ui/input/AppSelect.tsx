@@ -18,7 +18,7 @@ const AppSelect: React.FC<Props> = (props) => {
     const { id, labelId, className, onChange, options, optionLabels, label, value } = props;
 
     return (
-        <FormControl sx={{ minWidth: 110 }} size="small" className={className || ''}>
+        <FormControl sx={{ minWidth: 95 }} size="small" className={className || ''}>
             <InputLabel id={labelId || 'app-select-label'}>{label}</InputLabel>
             <Select
                 labelId={labelId || 'app-select-label'}

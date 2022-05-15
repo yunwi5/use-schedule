@@ -26,7 +26,11 @@ const CalendarControl: React.FC<Props> = (props) => {
         <>
             <ItemCreate onInvalidate={onInvalidate} beginningPeriod={beginningPeriod} />
             <nav className="max-h-[44.5rem] flex-1 flex flex-col gap-1 border-l-2 border-t-2 border-slate-200">
-                <CalendarImportExport tasks={tasks} events={events} />
+                <CalendarImportExport
+                    tasks={tasks}
+                    events={events}
+                    beginningPeriod={beginningPeriod}
+                />
                 <CalendarFilter />
             </nav>
         </>

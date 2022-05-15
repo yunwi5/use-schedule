@@ -1,25 +1,30 @@
-import { faCalendarArrowDown, faFileCsv } from '@fortawesome/pro-duotone-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarArrowDown, faFileCsv } from '@fortawesome/pro-duotone-svg-icons';
+
 import { CalendarItemType, getItemIcon } from '../../models/calendar-models/CalendarItemType';
 import { Theme } from '../../models/design-models';
 import { IEvent } from '../../models/Event';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { downloadFile } from '../../utilities/export-utils';
-import { createIcsEvents } from '../../utilities/export-utils/ics-export';
+import { createIcsFile } from '../../utilities/export-utils/ics-export';
 import ActiveButton from '../ui/buttons/ActiveButton';
 import Button from '../ui/buttons/Button';
 import ExitIcon from '../ui/icons/ExitIcon';
 import WrapperModal from '../ui/modal/modal-variation/WrapperModal';
+import MonthIntervalInput from '../ui/intervals/MonthIntervalInput';
+import YearIntervalInput from '../ui/intervals/YearIntervalInput';
+import WeekIntervalInput from '../ui/intervals/WeekIntervalInput';
 
 enum ExportFileType {
     ICS = 'Ics',
     CSV = 'Csv',
 }
-const ExportFileTypeList = [ExportFileType.CSV, ExportFileType.ICS];
+const ExportFileTypeList = [ExportFileType.ICS, ExportFileType.CSV];
 const exportFileTypeIcons = [
-    <FontAwesomeIcon key={1} icon={faFileCsv} className="icon-medium mr-2" />,
     <FontAwesomeIcon key={2} icon={faCalendarArrowDown} className="icon-medium mr-2" />,
+    <FontAwesomeIcon key={1} icon={faFileCsv} className="icon-medium mr-2" />,
 ];
 
 enum ExportPeriod {
@@ -35,7 +40,7 @@ const ExportPeriodList = [
     ExportPeriod.ALL,
 ];
 
-const ExportItemTypeList = [CalendarItemType.TASK, CalendarItemType.EVENT];
+const ExportItemTypeList = [CalendarItemType.EVENT, CalendarItemType.TASK];
 
 function getExportIcsFileName(exportItems: CalendarItemType[]) {
     return exportItems.map((item) => `${item.toLowerCase()}s`).join('-and-') + '.ics';
@@ -45,13 +50,25 @@ interface Props {
     onClose: () => void;
     tasks: AbstractTask[];
     events: IEvent[];
+    beginningPeriod?: Date;
 }
 
-const ExportModal: React.FC<Props> = ({ onClose, tasks, events }) => {
+interface ExportInterval {
+    startDate: Date | null;
+    endDate: Date | null;
+}
+
+const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod }) => {
+    const { user } = useUser();
     const [exportFileType, setExportFileType] = useState<ExportFileType>(ExportFileType.ICS);
     const [exportItems, setExportItems] = useState<CalendarItemType[]>([CalendarItemType.EVENT]);
     const [exportItemError, setExportItemError] = useState<string | null>(null);
     const [exportPeriod, setExportPeriod] = useState<ExportPeriod>(ExportPeriod.ALL);
+
+    const [exportInterval, setExportInterval] = useState<ExportInterval>({
+        startDate: null,
+        endDate: null,
+    });
 
     const fileTypeHandler = (newFileType: ExportFileType) => {
         setExportFileType(newFileType);
@@ -70,18 +87,28 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events }) => {
         setExportPeriod(exportPeriod);
     };
 
+    const exportIntervalHandler = (newInterval: ExportInterval) => {
+        setExportInterval(newInterval);
+    };
+
     const exportHandler = async () => {
         if (exportItems.length === 0) {
             setExportItemError('You need to choose at least one item type!');
             return;
         }
-        const icsResult = createIcsEvents(events);
-        // window.open('data:text/calendar;charset=utf8,' + escape(icsResult));
+        const includeEvents = exportItems.includes(CalendarItemType.EVENT);
+        const includeTasks = exportItems.includes(CalendarItemType.TASK);
+        let icsResult = createIcsFile(
+            includeEvents ? events : null,
+            includeTasks ? tasks : null,
+            user,
+        );
+        // console.log('ics text:', icsResult);
         downloadFile(getExportIcsFileName(exportItems), icsResult);
     };
 
     return (
-        <WrapperModal onClose={onClose} className="flex flex-col min-h-[29rem]">
+        <WrapperModal onClose={onClose} className="flex flex-col min-h-[29.1rem]">
             <div className="relative p-1 flex-1 flex flex-col gap-5 text-slate-600">
                 <ExitIcon onClose={onClose} className="text-slate-400 hover:text-slate-600" />
                 <h2 className="capitalize text-2xl pb-2 border-b-2 border-slate-200">
@@ -137,7 +164,31 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events }) => {
                     </div>
                 </div>
 
-                <div className="mt-auto flex justify-center">
+                {exportPeriod !== ExportPeriod.ALL && beginningPeriod && (
+                    <div className="flex flex-col gap-4 text-xl">
+                        <h3>Choose your preferred interval</h3>
+                        {exportPeriod === ExportPeriod.WEEK && (
+                            <WeekIntervalInput
+                                beginningPeriod={beginningPeriod}
+                                onChangeInterval={exportIntervalHandler}
+                            />
+                        )}
+                        {exportPeriod === ExportPeriod.MONTH && (
+                            <MonthIntervalInput
+                                beginningPeriod={beginningPeriod}
+                                onChangeInterval={exportIntervalHandler}
+                            />
+                        )}
+                        {exportPeriod === ExportPeriod.YEAR && (
+                            <YearIntervalInput
+                                beginningPeriod={beginningPeriod}
+                                onChangeInterval={exportIntervalHandler}
+                            />
+                        )}
+                    </div>
+                )}
+
+                <div className="mt-3 flex justify-center">
                     <Button
                         className="!min-w-[8rem]"
                         theme={Theme.TERTIARY}
@@ -146,7 +197,6 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events }) => {
                         Download
                     </Button>
                 </div>
-                <iframe id="my_iframe" style={{ display: 'none' }}></iframe>
             </div>
         </WrapperModal>
     );
