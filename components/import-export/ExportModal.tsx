@@ -131,7 +131,7 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
                     </div>
                 </div>
                 <div className="flex flex-col gap-3 text-xl">
-                    <h3>Choose Item Type(s) to Export</h3>
+                    <h3>Choose item yype(s) to export</h3>
                     <div className="flex gap-3">
                         {ExportItemTypeList.map((itemType) => (
                             <ActiveButton
@@ -149,7 +149,7 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
                 </div>
 
                 <div className="flex flex-col gap-3 text-xl">
-                    <h3>Choose the Period</h3>
+                    <h3>Choose the period</h3>
                     <div className="flex gap-3">
                         {ExportPeriodList.map((period) => (
                             <ActiveButton
