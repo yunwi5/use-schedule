@@ -29,6 +29,12 @@ export function addYears(date: Date, numYears: number = 1): Date {
     return dateCopy;
 }
 
+export function setHMSToEnd(date: Date) {
+    date.setHours(23);
+    date.setMinutes(59);
+    date.setSeconds(59);
+}
+
 // Reset day time to 0:0
 export function resetHoursAndMinutes(date: Date): Date {
     const dateCpy = new Date(date);

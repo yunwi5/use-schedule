@@ -37,11 +37,6 @@ function getDescriptionFormat(desc: string): string {
     return desc.trim();
 }
 
-function getTimeZoneString() {
-    // This will need to be fixed.
-    return 'TZID=Pacific/Auckland:';
-}
-
 export function createIcsFile(
     events: IEvent[] | null,
     tasks: AbstractTask[] | null,

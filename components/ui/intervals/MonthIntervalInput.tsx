@@ -1,16 +1,31 @@
-import { useState } from 'react';
-import { getMonthMember, Month, MonthList } from '../../../models/date-models/Month';
-import { addMonths } from '../../../utilities/date-utils/date-control';
+import { useEffect, useState } from 'react';
+import { getMonthIndex, getMonthMember, Month, MonthList } from '../../../models/date-models/Month';
+import { setHMSToEnd } from '../../../utilities/date-utils/date-control';
 import { getCurrentYearBeginning } from '../../../utilities/date-utils/date-get';
+import { getYearList } from '../../../utilities/date-utils/yaer-util';
 import AppSelect from '../input/AppSelect';
 
 interface Props {
     beginningPeriod: Date;
     onChangeInterval: (newInterval: { startDate: Date; endDate: Date }) => void;
+    error: string | null;
+}
+
+function getStartDateFromYearAndMonth(year: number, month: Month) {
+    const monthIndex = getMonthIndex(month);
+    const date = new Date(year, monthIndex, 1);
+    return date;
+}
+
+function getEndDateFromYearAndMonth(year: number, month: Month) {
+    const monthIndex = getMonthIndex(month);
+    const ending = new Date(year, monthIndex + 1, 0);
+    setHMSToEnd(ending);
+    return ending;
 }
 
 // need to be moved to different file later on
-const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval }) => {
+const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval, error }) => {
     const [startMonth, setStartMonth] = useState<Month>(getMonthMember(beginningPeriod));
     const [startYear, setStartYear] = useState(beginningPeriod.getFullYear());
     const [endMonth, setEndMonth] = useState<Month>(getMonthMember(beginningPeriod));
@@ -33,17 +48,21 @@ const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval
         setEndYear(parseInt(newEndYear));
     };
 
-    const currentYear = getCurrentYearBeginning().getFullYear();
-    let yearList: number[] = [];
-    for (let i = -3; i < 5; i++) {
-        yearList.push(currentYear - i);
-    }
+    useEffect(() => {
+        const startDate: Date = getStartDateFromYearAndMonth(startYear, startMonth);
+        const endDate: Date = getEndDateFromYearAndMonth(endYear, endMonth);
+        // validation is done by parent component
+        onChangeInterval({ startDate, endDate });
+    }, [onChangeInterval, startMonth, startYear, endMonth, endYear]);
+
+    const yearList = getYearList();
 
     return (
-        <div className="flex flex-col lg:flex-row items-center gap-3 text-lg">
+        <div className="flex flex-wrap flex-col lg:flex-row items-center gap-3 text-lg">
             <div className="flex gap-2">
                 <AppSelect
                     onChange={monthChangeHandler}
+                    error={!!error}
                     id="month-input"
                     label={'Start of'}
                     value={startMonth}
@@ -53,6 +72,7 @@ const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval
                     onChange={yearChangeHandler}
                     id="year-input"
                     label="Start of"
+                    error={!!error}
                     value={startYear}
                     options={yearList}
                 />
@@ -63,6 +83,7 @@ const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval
                     onChange={endMonthChangeHandler}
                     id="month-input-end"
                     label={'End of'}
+                    error={!!error}
                     value={endMonth}
                     options={MonthList}
                 />
@@ -70,10 +91,12 @@ const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval
                     onChange={endYearChangeHandler}
                     id="year-input-end"
                     label="End of"
+                    error={!!error}
                     value={endYear}
                     options={yearList}
                 />
             </div>
+            {error && <p className="error-message -mt-1 w-full">{error}</p>}
         </div>
     );
 };

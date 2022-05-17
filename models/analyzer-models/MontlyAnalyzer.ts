@@ -1,26 +1,15 @@
 import { AbstractAnalyzer } from './AbstractAnalyzer';
-import {
-    FrequencyMap,
-    generateChartData,
-    generateLineChartData,
-} from '../../utilities/analysis-utils';
-import {
-    generateRecentMonthsFrequencyMap,
-    generateRecentYearsFrequencyMap,
-} from '../../utilities/analysis-utils/trend-data';
+import { FrequencyMap, generateLineChartData } from '../../utilities/analysis-utils';
+import { generateRecentMonthsFrequencyMap } from '../../utilities/analysis-utils/trend-data';
 import { dateIsBetween } from '../../utilities/date-utils/date-check';
-import { addMonths, addYears } from '../../utilities/date-utils/date-control';
-import { getMonthEnding, getYearEnding } from '../../utilities/date-utils/date-get';
+import { addMonths } from '../../utilities/date-utils/date-control';
+import { getMonthEnding } from '../../utilities/date-utils/date-get';
 import { PlannerMode } from '../planner-models/PlannerMode';
 import { Status } from '../task-models/Status';
-import { PlannerTask } from '../task-models/Task';
-import { AnalysisMode, AnalysisOption, ChartData } from './helper-models';
+import { AnalysisMode, ChartData } from './helper-models';
 import { filterItemsOnStatus } from '../../utilities/filter-utils/status-filter';
-import { generateMonthMap } from '../../utilities/analysis-utils/periodic-data';
-import { getMonthBackgroundColor, getMonthBorderColor } from '../../utilities/gen-utils/color-util';
 import { getMonthMember } from '../date-models/Month';
 import { AnalysisItem } from './AnalysisItem';
-import { IEvent } from '../Event';
 
 const getMonthBeginningLabel = (date: Date) => `${getMonthMember(date)}`;
 

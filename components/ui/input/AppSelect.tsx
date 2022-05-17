@@ -8,6 +8,7 @@ interface Props {
     value: string | number;
     onChange(value: string): void;
     options: string[] | readonly string[] | number[] | readonly number[];
+    error?: boolean;
     optionLabels?: string[];
     className?: string;
     id?: string;
@@ -15,10 +16,10 @@ interface Props {
 }
 
 const AppSelect: React.FC<Props> = (props) => {
-    const { id, labelId, className, onChange, options, optionLabels, label, value } = props;
+    const { id, labelId, className, onChange, options, optionLabels, label, value, error } = props;
 
     return (
-        <FormControl sx={{ minWidth: 95 }} size="small" className={className || ''}>
+        <FormControl sx={{ minWidth: 95 }} size="small" className={className || ''} error={error}>
             <InputLabel id={labelId || 'app-select-label'}>{label}</InputLabel>
             <Select
                 labelId={labelId || 'app-select-label'}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarArrowDown, faFileCsv } from '@fortawesome/pro-duotone-svg-icons';
@@ -16,6 +16,7 @@ import WrapperModal from '../ui/modal/modal-variation/WrapperModal';
 import MonthIntervalInput from '../ui/intervals/MonthIntervalInput';
 import YearIntervalInput from '../ui/intervals/YearIntervalInput';
 import WeekIntervalInput from '../ui/intervals/WeekIntervalInput';
+import { filterItemsOnInterval } from '../../utilities/filter-utils/date-filter';
 
 enum ExportFileType {
     ICS = 'Ics',
@@ -64,6 +65,7 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
     const [exportItems, setExportItems] = useState<CalendarItemType[]>([CalendarItemType.EVENT]);
     const [exportItemError, setExportItemError] = useState<string | null>(null);
     const [exportPeriod, setExportPeriod] = useState<ExportPeriod>(ExportPeriod.ALL);
+    const [error, setError] = useState<string | null>(null);
 
     const [exportInterval, setExportInterval] = useState<ExportInterval>({
         startDate: null,
@@ -83,13 +85,20 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
         }
     };
 
-    const exportPeriodHandler = (exportPeriod: ExportPeriod) => {
+    const exportPeriodHandler = useCallback((exportPeriod: ExportPeriod) => {
         setExportPeriod(exportPeriod);
-    };
+    }, []);
 
-    const exportIntervalHandler = (newInterval: ExportInterval) => {
+    const exportIntervalHandler = useCallback((newInterval: ExportInterval) => {
+        const { startDate, endDate } = newInterval;
+        // No change, when the interval is invalid
+        if (startDate && endDate && startDate.getTime() >= endDate.getTime()) {
+            setError('Invalid interval. Start date should be earlier than end date.');
+            return;
+        }
+        setError(null);
         setExportInterval(newInterval);
-    };
+    }, []);
 
     const exportHandler = async () => {
         if (exportItems.length === 0) {
@@ -98,12 +107,28 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
         }
         const includeEvents = exportItems.includes(CalendarItemType.EVENT);
         const includeTasks = exportItems.includes(CalendarItemType.TASK);
+
+        const { startDate, endDate } = exportInterval;
+        let filteredEvents = events,
+            filteredTasks = tasks;
+        // Apply date filter only when filter interval exists.
+        if (exportPeriod !== ExportPeriod.ALL && startDate && endDate) {
+            filteredEvents = filterItemsOnInterval(events, startDate, endDate) as IEvent[];
+            filteredTasks = filterItemsOnInterval(tasks, startDate, endDate) as AbstractTask[];
+        }
+        console.log('filtered tasks:');
+        console.table(
+            filteredTasks.map((task) => ({
+                name: task.name,
+                dateTime: task.dateTime.toLocaleDateString(),
+            })),
+        );
+
         let icsResult = createIcsFile(
-            includeEvents ? events : null,
-            includeTasks ? tasks : null,
+            includeEvents ? filteredEvents : null,
+            includeTasks ? filteredTasks : null,
             user,
         );
-        // console.log('ics text:', icsResult);
         downloadFile(getExportIcsFileName(exportItems), icsResult);
     };
 
@@ -171,18 +196,21 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
                             <WeekIntervalInput
                                 beginningPeriod={beginningPeriod}
                                 onChangeInterval={exportIntervalHandler}
+                                error={error}
                             />
                         )}
                         {exportPeriod === ExportPeriod.MONTH && (
                             <MonthIntervalInput
                                 beginningPeriod={beginningPeriod}
                                 onChangeInterval={exportIntervalHandler}
+                                error={error}
                             />
                         )}
                         {exportPeriod === ExportPeriod.YEAR && (
                             <YearIntervalInput
                                 beginningPeriod={beginningPeriod}
                                 onChangeInterval={exportIntervalHandler}
+                                error={error}
                             />
                         )}
                     </div>

@@ -50,6 +50,10 @@ export function getMonthFromIndex(index: number) {
     return Month.ANY;
 }
 
+export function getMonthIndex(month: Month): number {
+    return MonthList.indexOf(month);
+}
+
 // Needs testing
 export function getMonthMember(date: Date | null) {
     if (!date) return Month.ANY;
