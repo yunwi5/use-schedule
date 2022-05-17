@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DropDownToggler from '../../../ui/icons/DropDownToggler';
-import Checkbox from '../../../ui/input/Checkbox';
+import Checkbox from '../../../ui/input/AppCheckbox';
 
 interface Props {
     filterName: string;

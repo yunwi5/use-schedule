@@ -1,6 +1,8 @@
+import { useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { fetchAllEvents } from '../lib/events/event-apis';
 import { IEvent } from '../models/Event';
+import { processEvents } from '../utilities/event-utils/event-util';
 
 const useEventQuery = (initialEvents?: IEvent[]) => {
     const queryClient = useQueryClient();
@@ -10,12 +12,14 @@ const useEventQuery = (initialEvents?: IEvent[]) => {
     if (isEventError) {
         console.log('Event error');
     }
-    const events: IEvent[] = eventData ? eventData.events : [];
+    const events: IEvent[] = useMemo(() => (eventData ? eventData.events : []), [eventData]);
 
     const invalidateEvents = () => queryClient.invalidateQueries('events');
 
+    const processedEvents = useMemo(() => processEvents(events), [events]);
+
     return {
-        events,
+        events: processedEvents,
         invalidateEvents,
     };
 };

@@ -132,3 +132,10 @@ export function getPlannerPeriodEnding(plannerMode: PlannerMode | null, period: 
             return period;
     }
 }
+
+const ONE_MIN = 1000 * 60;
+// Difference in minutes.
+export function getTimeDifferenceInMinutes(date1: Date, date2: Date) {
+    const timeDiffInMs = date1.getTime() - date2.getTime();
+    return Math.floor(timeDiffInMs / ONE_MIN);
+}

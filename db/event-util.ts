@@ -1,11 +1,16 @@
-import { clientPromise } from "./mongodb-util";
-import { deleteItem, getItems, insertItem, updateItem } from "./generic";
-import { NoIdEvent } from "../models/Event";
-import { EventCollection } from "./mongodb-constant";
+import { clientPromise } from './mongodb-util';
+import { deleteItem, getItems, insertItem, insertManyItems, updateItem } from './generic';
+import { NoIdEvent } from '../models/Event';
+import { EventCollection } from './mongodb-constant';
 
 export async function insertEvent(event: NoIdEvent) {
     const client = await clientPromise;
     return await insertItem(client, event, EventCollection);
+}
+
+export async function insertEvents(events: NoIdEvent[]) {
+    const client = await clientPromise;
+    return await insertManyItems(client, events, EventCollection);
 }
 
 export async function getEvents(userId: string) {

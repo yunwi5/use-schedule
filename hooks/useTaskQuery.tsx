@@ -1,6 +1,8 @@
+import { useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { fetchAllTasks } from '../lib/planners/tasks-api';
-import { Task } from '../models/task-models/Task';
+import { PlannerTask, Task } from '../models/task-models/Task';
+import { processTasks } from '../utilities/tasks-utils/task-util';
 
 const useTaskQuery = (initialAllTasks?: Task[]) => {
     const queryClient = useQueryClient();
@@ -10,12 +12,14 @@ const useTaskQuery = (initialAllTasks?: Task[]) => {
     });
 
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);
-    let allTasks: Task[] = allTasksData ? allTasksData.tasks : [];
+    let allTasks: Task[] = useMemo(() => (allTasksData ? allTasksData.tasks : []), [allTasksData]);
 
     const invalidateAllTasks = () => queryClient.invalidateQueries('all-tasks');
 
+    const processedTasks: PlannerTask[] = useMemo(() => processTasks(allTasks), [allTasks]);
+
     return {
-        allTasks,
+        allTasks: processedTasks,
         invalidateAllTasks,
     };
 };

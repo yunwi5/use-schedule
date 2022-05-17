@@ -2,19 +2,19 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faUpload } from '@fortawesome/pro-duotone-svg-icons';
 import ExportModal from '../../../import-export/ExportModal';
-import { IEvent } from '../../../../models/Event';
-import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import ImportModal from '../../../import-export/ImportModal';
 
 interface Props {
-    tasks: AbstractTask[];
-    events: IEvent[];
     beginningPeriod: Date;
+    onInvalidate: () => void;
 }
 
 const CalendarImportExport: React.FC<Props> = (props) => {
     const [showExportModal, setShowExportModal] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false);
 
     const toggleExportModal = () => setShowExportModal((ps) => !ps);
+    const toggleImportModal = () => setShowImportModal((ps) => !ps);
 
     return (
         <>
@@ -23,7 +23,10 @@ const CalendarImportExport: React.FC<Props> = (props) => {
                     <h5 className="text-lg text-slate-500">Externals</h5>
                 </div>
                 <div>
-                    <button className="parent-hider font-semibold flex items-center transition-all py-1 hover:py-2 rounded-md hover:px-3 hover:bg-blue-500/70 hover:text-sky-50">
+                    <button
+                        className="parent-hider font-semibold flex items-center transition-all py-1 hover:py-2 rounded-md hover:px-3 hover:bg-blue-500/70 hover:text-sky-50"
+                        onClick={toggleImportModal}
+                    >
                         <FontAwesomeIcon
                             icon={faUpload}
                             className={`icon-medium mr-1 child-hider`}
@@ -45,6 +48,7 @@ const CalendarImportExport: React.FC<Props> = (props) => {
                 </div>
             </section>
             {showExportModal && <ExportModal onClose={toggleExportModal} {...props} />}
+            {showImportModal && <ImportModal onClose={toggleImportModal} {...props} />}
         </>
     );
 };

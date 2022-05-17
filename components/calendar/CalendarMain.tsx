@@ -80,8 +80,6 @@ const CalendarMain: React.FC<Props> = (props) => {
                 />
                 {showSidebar && (
                     <CalendarControl
-                        tasks={plannerTasks}
-                        events={events}
                         onInvalidate={onInvalidateAll}
                         beginningPeriod={beginningPeriod}
                     />

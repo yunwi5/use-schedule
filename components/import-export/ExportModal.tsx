@@ -17,6 +17,8 @@ import MonthIntervalInput from '../ui/intervals/MonthIntervalInput';
 import YearIntervalInput from '../ui/intervals/YearIntervalInput';
 import WeekIntervalInput from '../ui/intervals/WeekIntervalInput';
 import { filterItemsOnInterval } from '../../utilities/filter-utils/date-filter';
+import useTaskQuery from '../../hooks/useTaskQuery';
+import useEventQuery from '../../hooks/useEventQuery';
 
 enum ExportFileType {
     ICS = 'Ics',
@@ -49,8 +51,6 @@ function getExportIcsFileName(exportItems: CalendarItemType[]) {
 
 interface Props {
     onClose: () => void;
-    tasks: AbstractTask[];
-    events: IEvent[];
     beginningPeriod?: Date;
 }
 
@@ -59,7 +59,9 @@ interface ExportInterval {
     endDate: Date | null;
 }
 
-const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod }) => {
+const ExportModal: React.FC<Props> = ({ onClose, beginningPeriod }) => {
+    const { allTasks: tasks } = useTaskQuery();
+    const { events } = useEventQuery();
     const { user } = useUser();
     const [exportFileType, setExportFileType] = useState<ExportFileType>(ExportFileType.ICS);
     const [exportItems, setExportItems] = useState<CalendarItemType[]>([CalendarItemType.EVENT]);
@@ -221,6 +223,7 @@ const ExportModal: React.FC<Props> = ({ onClose, tasks, events, beginningPeriod 
                         className="!min-w-[8rem]"
                         theme={Theme.TERTIARY}
                         onClick={exportHandler}
+                        disabled={!!error}
                     >
                         Download
                     </Button>

@@ -1,5 +1,5 @@
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
-import { Task } from '../../models/task-models/Task';
+import { NoIdTask, Task } from '../../models/task-models/Task';
 import { TaskProperties } from '../../models/task-models/TaskProperties';
 import { TaskCollection } from '../../db/mongodb-constant';
 
@@ -54,6 +54,30 @@ export async function postTask(newTask: Task, plannerMode: PlannerMode) {
         return { isSuccess: false };
     }
     return { isSuccess: true, insertedId };
+}
+
+export async function postTasks(newTasks: NoIdTask[], plannerMode: PlannerMode) {
+    const collection = getPlannerCollection(plannerMode);
+    let res;
+    try {
+        // Send rquest.
+        res = await fetch(`${API_DOMAIN}?collection=${collection}&many=true`, {
+            method: 'POST',
+            body: JSON.stringify(newTasks),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await res.json();
+        return {
+            isSuccess: true,
+            message: `${data.insertedCount} tasks were imported!`,
+            insertedCount: data.insertedCount,
+        };
+    } catch (err) {
+        const message = err instanceof Error ? err.message : 'Inserting tasks did not work.';
+        return { isSuccess: false, message };
+    }
 }
 
 export async function replaceTask(taskId: string, updatedTask: Task, plannerMode: PlannerMode) {

@@ -22,13 +22,13 @@ const CalendarEventItem: React.FC<Props> = (props) => {
         <>
             <CalendarItemCard
                 bgClass={`bg-white`}
-                textClass={`text-sky-600/80`}
-                hoverBgClass={`hover:bg-sky-500/70`}
+                textClass={`text-sky-600/70`}
+                hoverBgClass={`hover:bg-sky-500/60`}
                 hoverTextClass={`hover:text-sky-50`}
-                borderClass={'border-sky-500/80'}
+                borderClass={'border-sky-500/70'}
                 dateTime={event.dateTime}
                 isCompleted={event.status === Status.COMPLETED}
-                dueDate={event.dateTime}
+                overdue={event.status === Status.OVERDUE}
                 itemType={CalendarItemType.EVENT}
                 onClick={setShowDetail.bind(null, true)}
             >

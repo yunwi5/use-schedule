@@ -5,6 +5,7 @@ import { CalendarItemType } from '../../../../models/calendar-models/CalendarIte
 import { Todo } from '../../../../models/todo-models/Todo';
 import { useAppSelector } from '../../../../store/redux';
 import { getShortNameWithRest } from '../../../../utilities/gen-utils/string-util';
+import { isTodoOverdue } from '../../../../utilities/todos-utils/todo-util';
 import TodoDetail from '../../../todos/todo-detail/TodoDetail';
 import CalendarItemCard from './CalendarItemCard';
 
@@ -39,7 +40,7 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
                 hoverTextClass={'hover:text-indigo-50'}
                 borderClass={'border-2 border-indigo-500/80'}
                 isCompleted={todo.isCompleted}
-                dueDate={todo.dateTime}
+                overdue={isTodoOverdue(todo)}
                 dateTime={todo.dateTime || null}
                 itemType={CalendarItemType.TODO}
                 onClick={setShowDetail.bind(null, true)}

@@ -34,7 +34,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
                 borderClass={'border-blue-500/80'}
                 dateTime={task.dateTime}
                 isCompleted={task.status === Status.COMPLETED}
-                dueDate={task.dueDate}
+                overdue={task.status === Status.OVERDUE}
                 itemType={CalendarItemType.TASK}
                 onClick={setShowDetail.bind(null, true)}
             >

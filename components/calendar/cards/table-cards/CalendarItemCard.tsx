@@ -1,6 +1,5 @@
 import React from 'react';
 import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
-import { isOverdue } from '../../../../utilities/date-utils/date-check';
 import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
     hoverBgClass: string;
     hoverTextClass: string;
     dateTime: Date | null;
-    dueDate: Date | null | undefined;
+    overdue: boolean;
     itemType: CalendarItemType;
     borderClass?: string;
     isCompleted?: boolean;
@@ -25,12 +24,10 @@ const CalendarItemCard: React.FC<Props> = (props) => {
         borderClass,
         isCompleted,
         dateTime,
-        dueDate,
+        overdue,
         itemType,
         onClick,
     } = props;
-
-    const overdue = !isCompleted && isOverdue(dueDate);
 
     if (!dateTime) {
         return <span />;

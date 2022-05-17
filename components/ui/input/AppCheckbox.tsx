@@ -1,5 +1,5 @@
-import React from "react";
-import classes from "./Checkbox.module.scss";
+import React from 'react';
+import classes from './AppCheckbox.module.scss';
 
 interface Props {
     label: string;
@@ -17,7 +17,7 @@ const Checkbox: React.FC<Props> = (props) => {
             <input name={inputName} onChange={onToggle} type="checkbox" checked={checked} />
             <span
                 className={`${classes.checkmark} ${
-                    classes["checkmark-" + label.split(" ").join("")]
+                    classes['checkmark-' + label.split(' ').join('')]
                 }`}
             ></span>
         </label>

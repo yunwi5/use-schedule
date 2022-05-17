@@ -27,12 +27,22 @@ export async function postEvent(event: NoIdEvent) {
     return { isSuccess: false, message };
 }
 
-export async function apiRequestWrapper(func: Function) {
+export async function postEvents(events: NoIdEvent[]) {
     let message = '';
     try {
-        return await func();
+        const {
+            data: { insertedCount },
+        } = await axios.post<{ insertedCount: number; message: string }>(
+            `${BASE_URL}?many=true`,
+            events,
+        );
+        return {
+            isSuccess: true,
+            message: `${insertedCount} events were imported!`,
+            insertedCount,
+        };
     } catch (err) {
-        message = err instanceof Error ? err.message : 'Posting event did not work.';
+        message = err instanceof Error ? err.message : 'Posting events did not work.';
     }
     return { isSuccess: false, message };
 }
@@ -45,6 +55,16 @@ export async function patchEvent(eventId: string, eventProps: EventProps) {
         isSuccess: true,
         message,
     };
+}
+
+export async function apiRequestWrapper(func: Function) {
+    let message = '';
+    try {
+        return await func();
+    } catch (err) {
+        message = err instanceof Error ? err.message : 'Posting event did not work.';
+    }
+    return { isSuccess: false, message };
 }
 
 export async function patchEventWrapper(eventId: string, eventProps: EventProps) {

@@ -75,7 +75,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         let taskInsertPromises = [];
         for (const task of adjustedTasks) {
-            const taskPromise = insertTask(client, TaskCollection.WEEKLY_TASKS, task);
+            const taskPromise = insertTask(TaskCollection.WEEKLY_TASKS, task);
             taskInsertPromises.push(taskPromise);
         }
 

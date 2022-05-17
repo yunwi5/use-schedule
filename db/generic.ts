@@ -1,7 +1,7 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId } from 'mongodb';
 
 export interface SortSpec {
-    [key: string]: 1 | -1 | "asc" | "desc" | "ascending" | "descending";
+    [key: string]: 1 | -1 | 'asc' | 'desc' | 'ascending' | 'descending';
 }
 
 // General
@@ -27,6 +27,12 @@ export async function getItems(
 export async function insertItem(client: MongoClient, newItem: object, collection: string) {
     const db = client.db();
     const res = await db.collection(collection).insertOne(newItem);
+    return res;
+}
+
+export async function insertManyItems(client: MongoClient, newItems: object[], collection: string) {
+    const db = client.db();
+    const res = await db.collection(collection).insertMany(newItems);
     return res;
 }
 

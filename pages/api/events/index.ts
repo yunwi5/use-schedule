@@ -1,6 +1,7 @@
 import { getSession } from '@auth0/nextjs-auth0';
+import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { getEvents, insertEvent } from '../../../db/event-util';
+import { getEvents, insertEvent, insertEvents } from '../../../db/event-util';
 import { NoIdEvent, IEvent } from '../../../models/Event';
 import { validateEvent } from '../../../schemas/validation';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
@@ -8,7 +9,14 @@ import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util
 type Data =
     | { message: string }
     | { message: string; insertedId: string }
-    | { message: string; events: IEvent[] };
+    | { message: string; events: IEvent[] }
+    | {
+          message: string;
+          insertedIds: {
+              [key: number]: ObjectId;
+          };
+          insertedCount: number;
+      };
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const session = getSession(req, res);
@@ -19,25 +27,48 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === 'POST') {
         const newEvent = req.body;
+        const { many } = req.query;
 
-        const { isValid, message } = validateEvent(newEvent);
-        console.log('newEvent:', newEvent);
-        console.log(message);
-        if (!isValid) {
-            return res.status(400).json({ message });
+        if (!many) {
+            const { isValid, message } = validateEvent(newEvent);
+            if (!isValid) {
+                return res.status(400).json({ message });
+            }
         }
 
         let result;
-        try {
-            result = await insertEvent(newEvent);
-        } catch (err) {
-            const message = err instanceof Error ? err.message : 'Inserting event did not work.';
-            return res.status(500).json({ message });
+        if (!Array.isArray(newEvent)) {
+            let insertedId = '';
+            try {
+                result = await insertEvent(newEvent);
+                insertedId = result.insertedId.toString();
+            } catch (err) {
+                const message =
+                    err instanceof Error ? err.message : 'Inserting event(s) did not work.';
+                return res.status(500).json({ message });
+            }
+            return res.status(201).json({
+                message: 'Inserting event successful',
+                insertedId,
+            });
+        } else {
+            let insertedIds: {
+                    [key: number]: ObjectId;
+                } = [],
+                insertedCount = 0;
+            try {
+                result = await insertEvents(newEvent);
+                insertedIds = result.insertedIds;
+                insertedCount = result.insertedCount;
+            } catch (err) {
+                const message =
+                    err instanceof Error ? err.message : 'Inserting events did not work.';
+                return res.status(500).json({ message });
+            }
+            return res
+                .status(201)
+                .json({ message: 'Inserting events successful', insertedIds, insertedCount });
         }
-        return res.status(201).json({
-            message: 'Inserting event successful',
-            insertedId: result.insertedId.toString(),
-        });
     } else if (req.method === 'GET') {
         let events: IEvent[] = [];
         try {

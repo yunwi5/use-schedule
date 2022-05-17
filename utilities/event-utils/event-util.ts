@@ -20,7 +20,7 @@ export function adjustIfOverdueEvent(event: IEvent): void {
 export function processEvents(events: IEvent[]) {
     const eventsList: IEvent[] = events.map((ev) => {
         ev.dateTime = new Date(ev.dateTime);
-        adjustIfOverdueEvent(ev);
+        // adjustIfOverdueEvent(ev);    // may not be a good user experience
         return ev;
     });
     return eventsList;

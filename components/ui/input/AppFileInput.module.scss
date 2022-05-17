@@ -1,0 +1,43 @@
+@import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + .label {
+    display: inline-block;
+    font-weight: 500;
+    border-radius: 3px;
+    color: $color-grey-dark-4;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer; /* "hand" cursor */
+    background-color: $color-grey-light-2;
+}
+
+.inputfile:focus + .label,
+.inputfile + .label:hover {
+    background-color: lighten($color-grey-light-3, 10%);
+}
+
+.inputfile:focus + .label {
+    outline: 2px solid $color-primary-light-4;
+    outline: -webkit-focus-ring-color auto 5px;
+    /*  
+    -webkit-focus-ring-color auto 5px is a little trick for obtaining 
+    default outline looks on Chrome, Opera and Safari.
+    */
+}
+
+.inputfile + .label * {
+    pointer-events: none;
+}
+
+.output {
+    margin-top: 5rem;
+}
