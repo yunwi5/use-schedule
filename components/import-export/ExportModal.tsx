@@ -118,14 +118,6 @@ const ExportModal: React.FC<Props> = ({ onClose, beginningPeriod }) => {
             filteredEvents = filterItemsOnInterval(events, startDate, endDate) as IEvent[];
             filteredTasks = filterItemsOnInterval(tasks, startDate, endDate) as AbstractTask[];
         }
-        console.log('filtered tasks:');
-        console.table(
-            filteredTasks.map((task) => ({
-                name: task.name,
-                dateTime: task.dateTime.toLocaleDateString(),
-            })),
-        );
-
         let icsResult = createIcsFile(
             includeEvents ? filteredEvents : null,
             includeTasks ? filteredTasks : null,

@@ -1,11 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAsterisk, faCalendarArrowDown, faFileCsv } from '@fortawesome/pro-duotone-svg-icons';
 
 import { CalendarItemType, getItemIcon } from '../../models/calendar-models/CalendarItemType';
 import { Theme } from '../../models/design-models';
-import { IEvent } from '../../models/Event';
 import ActiveButton from '../ui/buttons/ActiveButton';
 import Button from '../ui/buttons/Button';
 import ExitIcon from '../ui/icons/ExitIcon';
@@ -25,18 +22,19 @@ import { postTasks } from '../../lib/planners/tasks-api';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import useNotification from '../../hooks/useNotification';
 import { NotifStatus } from '../ui/Notification';
+import { useAppSelector } from '../../store/redux';
 
 interface Props {
-    onInvalidate?: () => void;
     onClose(): void;
+    onInvalidate?: () => void;
 }
 
 const ImportItemTypeList = [CalendarItemType.EVENT, CalendarItemType.TASK];
 
 const ImportModal: React.FC<Props> = (props) => {
     const { onInvalidate, onClose } = props;
-    const { user } = useUser();
-    const userId = user?.sub;
+    const userId = useUser().user?.sub;
+    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
     const [importItemType, setImportItemType] = useState<CalendarItemType>(CalendarItemType.TASK);
     const [importItemCategory, setImportItemCategory] = useState<Category>(Category.OTHERS);
@@ -44,14 +42,12 @@ const ImportModal: React.FC<Props> = (props) => {
     const { setNotification } = useNotification();
 
     const fileInputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.name);
         const file = e.target.files?.item(0);
         if (!file) {
             console.log('File was nout found.');
             return;
         }
         const text = await file.text();
-        // console.log('text:', text);
         const { error, events } = parseIcal(text);
         if (error) {
             console.error('Error occured while parsign ical!');
@@ -61,9 +57,7 @@ const ImportModal: React.FC<Props> = (props) => {
         setEventJSONArray(events);
     };
 
-    const itemTypeHandler = (itemType: CalendarItemType) => {
-        setImportItemType(itemType);
-    };
+    const itemTypeHandler = (itemType: CalendarItemType) => () => setImportItemType(itemType);
 
     const uploadHandler = async () => {
         if (!userId) {
@@ -75,7 +69,7 @@ const ImportModal: React.FC<Props> = (props) => {
         setNotification(NotifStatus.PENDING);
         if (importItemType === CalendarItemType.EVENT) {
             let importedEvents = convertEventJSONArraytoAppEventArray(eventJSONArray, userId);
-            const { isSuccess: s, message: m, insertedCount } = await postEvents(importedEvents);
+            const { isSuccess: s, message: m } = await postEvents(importedEvents);
             isSuccess = s;
             message = m;
         } else if (importItemType === CalendarItemType.TASK) {
@@ -84,14 +78,12 @@ const ImportModal: React.FC<Props> = (props) => {
                 userId,
                 importItemCategory,
             );
-            const {
-                isSuccess: s,
-                message: m,
-                insertedCount,
-            } = await postTasks(importedTasks, PlannerMode.WEEKLY);
+            const { isSuccess: s, message: m } = await postTasks(
+                importedTasks,
+                plannerMode || PlannerMode.WEEKLY,
+            );
             isSuccess = s;
             message = m;
-            console.log('inserted count:', insertedCount);
         }
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, message);
@@ -109,7 +101,7 @@ const ImportModal: React.FC<Props> = (props) => {
                 <h2 className="capitalize text-2xl pb-2 border-b-2 border-slate-200">
                     Import calendar items
                 </h2>
-                <div className="flex flex-col gap-3 text-xl">
+                <SectionWrapper>
                     <h3>Attach your file (Ical or Csv)</h3>
                     <div className="flex flex-col gap-3">
                         <AppFileInput onChange={fileInputHandler} />
@@ -118,7 +110,7 @@ const ImportModal: React.FC<Props> = (props) => {
                             external file to transfer tasks or events from other applications.
                         </p>
                     </div>
-                </div>
+                </SectionWrapper>
                 <SectionWrapper>
                     <h3>Import As</h3>
                     <div className="flex gap-3">
@@ -127,7 +119,7 @@ const ImportModal: React.FC<Props> = (props) => {
                                 key={itemType}
                                 isActive={itemType === importItemType}
                                 className="thinner-btn !min-w-[7rem] !shadow-md"
-                                onClick={itemTypeHandler.bind(null, itemType)}
+                                onClick={itemTypeHandler(itemType)}
                             >
                                 {getItemIcon(itemType)}
                                 {itemType}
@@ -138,7 +130,7 @@ const ImportModal: React.FC<Props> = (props) => {
                 {importItemType === CalendarItemType.TASK && (
                     <SectionWrapper>
                         <h3>Select a category for these tasks</h3>
-                        <div className="flex pr-4">
+                        <div className="flex">
                             <AppSelect
                                 label={'Category'}
                                 value={importItemCategory}
