@@ -54,7 +54,6 @@ const ImportModal: React.FC<Props> = (props) => {
             console.log(error);
             return;
         }
-        // console.table(events);
         setEventJSONArray(events);
     };
 

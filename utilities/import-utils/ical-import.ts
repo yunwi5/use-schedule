@@ -1,9 +1,9 @@
-import ICalParser, { Attendee, DateTimeObject, EventJSON } from 'ical-js-parser';
-import { IEvent, NoIdEvent, Participant } from '../../models/Event';
+import ICalParser, { EventJSON } from 'ical-js-parser';
+import { NoIdEvent } from '../../models/Event';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Category } from '../../models/task-models/Category';
 import { Importance, Status } from '../../models/task-models/Status';
-import { NoIdTask, Task } from '../../models/task-models/Task';
+import { NoIdTask } from '../../models/task-models/Task';
 import { addWeeks } from '../date-utils/date-control';
 import { getTimeDifferenceInMinutes } from '../date-utils/date-get';
 import { getRRuleRecurringEvents, getRRuleRecurringTasks } from './ical-event-frequency';
@@ -45,11 +45,7 @@ export function convertToAppEvents(eventJSON: EventJSON, userId: string): NoIdEv
     if (rrule) {
         // console.log(rrule);
         const { freq, untilDate: ud, count } = rrule;
-        let untilDate: Date;
-        if (!ud) {
-            // console.log('count:', count);
-            untilDate = generateDatesFromInterval(startDate, count || 1);
-        } else untilDate = ud;
+        let untilDate: Date = ud ? ud : generateDatesFromInterval(startDate, count || 1);
 
         // console.log('freq:', freq);
         const recurringEvents = getRRuleRecurringEvents({
@@ -91,24 +87,20 @@ export function convertToAppTasks(
         userId,
     };
 
+    const rrule = parseRRule(eventJSON);
     //Handle reccurring task
-    // const rrule = parseRRule(eventJSON);
-    // if (rrule) {
-    //     const { freq, untilDate: ud, count } = rrule;
-    //     let untilDate: Date;
-    //     if (!ud) {
-    //         untilDate = generateIntervalDates(startDate, count || 1);
-    //     } else untilDate = ud;
-
-    //     const recurringEvents = getRRuleRecurringTasks({
-    //         freq,
-    //         startDate,
-    //         untilDate,
-    //         item: newTask,
-    //     });
-    //     // console.table(recurringEvents);
-    //     return recurringEvents;
-    // }
+    if (rrule) {
+        // console.log(rrule);
+        const { freq, untilDate: ud, count } = rrule;
+        let untilDate: Date = ud ? ud : generateDatesFromInterval(startDate, count || 1);
+        const recurringTasks = getRRuleRecurringTasks({
+            freq,
+            startDate,
+            untilDate,
+            item: newTask,
+        });
+        return recurringTasks;
+    }
     // No recurring event, so just return an array of a single non-recurring task.
     return [newTask];
 }
