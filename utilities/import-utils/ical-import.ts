@@ -4,95 +4,27 @@ import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Category } from '../../models/task-models/Category';
 import { Importance, Status } from '../../models/task-models/Status';
 import { NoIdTask, Task } from '../../models/task-models/Task';
+import { addWeeks } from '../date-utils/date-control';
 import { getTimeDifferenceInMinutes } from '../date-utils/date-get';
+import { getRRuleRecurringEvents, getRRuleRecurringTasks } from './ical-event-frequency';
+import { parseIcalAttendees, parseIcalDate, parseRRule } from './ical-parse';
 
-// Parse from JSON to iCal string
-// const resultString = ICalParser.toString(someJSONevent);
-
-/*
-Example parsed event object:
-Object {​
-    begin: "VEVENT"
-    description: "Computer Graphics & Image Proc"
-    dtend: Object { value: "20220301T120000", timezone: "Pacific/Auckland" }
-    dtstamp: Object { value: "20220515T162500Z" }
-    dtstart: Object { value: "20220301T110000", timezone: "Pacific/Auckland" }
-    location: "109-B28"
-    rrule: "FREQ=WEEKLY;UNTIL=20220412T120030Z"
-    summary: "COMPSCI 373"
-    uid: "20220516T042518NZST-3238FMmP70@uoacal.auckland.ac.nz"
-    organizer: {
-        EMAIL: "buia@test.com",
-        mailto: "buia@test.com"
-    },
-    attendee: [
-        {
-            PARTSTAT: "ACCEPTED",
-            CUTYPE: "INDIVIDUAL",
-            ROLE: "REQ-PARTICIPANT",
-            EMAIL: "bata123@test2.org",
-            mailto: "bata123@test2.org"
-        }
-    ],
-    end: "VEVENT"
-}
-*/
-
-export function parseIcal(iCalString: string): { error?: string; events: EventJSON[] } {
-    // Parse from iCal string to JSON
-    const resultJSON = ICalParser.toJSON(iCalString);
-    console.log('parsed JSON:', resultJSON);
-    const todos = resultJSON.todos; // not handled at the moment.
-    const events = resultJSON.events;
-
-    // errors are retrieved as an array
-    if (resultJSON.errors.length > 0) {
-        const error = resultJSON.errors.join('\n');
-        return { error, events: [] };
-    }
-    return { events: events };
-}
-
-export function convertToAppAttendees(attendees: Attendee[] | undefined): Participant[] {
-    if (!attendees) return [];
-    return attendees.map((att, idx) => ({
-        name: att.CN || att.EMAIL || `Attendee ${idx + 1}`,
-        email: att.EMAIL || att.mailto,
-    }));
-}
-
-export function convertToDate(dateObj: DateTimeObject): Date {
-    const dateStr = dateObj.value;
-    // format: "20210401T103000Z"
-    const [datePart, timePart] = dateStr.split('T');
-    const year = parseInt(datePart.substring(0, 4));
-    // JS date is 0 indexed, while Ical date is 1 indexed.
-    const month = parseInt(datePart.substring(4, 6)) - 1;
-    const day = parseInt(datePart.substring(6, 8));
-
-    const hour = parseInt(timePart.substring(0, 2));
-    const minute = parseInt(timePart.substring(2, 4));
-    const second = parseInt(timePart.substring(4, 6));
-
-    const resultDate = new Date(year, month, day);
-    resultDate.setHours(hour);
-    resultDate.setMinutes(minute);
-    resultDate.setSeconds(second);
-    return resultDate;
+function generateDatesFromInterval(startDate: Date, count: number) {
+    return addWeeks(startDate, count);
 }
 
 // Need to update for recurring event!
-export function convertToAppEvent(eventJSON: EventJSON, userId: string): NoIdEvent {
+export function convertToAppEvents(eventJSON: EventJSON, userId: string): NoIdEvent[] {
     let name = eventJSON.summary || 'Event',
         description = eventJSON.description || '',
-        dateTime = convertToDate(eventJSON.dtstart),
         meetingLink = '',
         location = eventJSON.location,
-        participants = convertToAppAttendees(eventJSON.attendee);
+        participants = parseIcalAttendees(eventJSON.attendee);
 
-    const endTime: Date = convertToDate(eventJSON.dtend);
-    const duration = Math.abs(getTimeDifferenceInMinutes(endTime, dateTime));
-    console.log('duration:', duration);
+    const startDate = parseIcalDate(eventJSON.dtstart);
+    // Careful: dtend can be null
+    const endDate: Date = eventJSON.dtend ? parseIcalDate(eventJSON.dtend) : startDate;
+    const duration = Math.abs(getTimeDifferenceInMinutes(endDate, startDate));
     // status in this app, and the status in ICalendar are different. Cannot transfer.
 
     const newEvent: NoIdEvent = {
@@ -100,33 +32,56 @@ export function convertToAppEvent(eventJSON: EventJSON, userId: string): NoIdEve
         description,
         meetingLink,
         location,
-        dateTime,
+        dateTime: startDate,
         duration,
         participants,
         status: Status.OPEN, // by default
         importance: Importance.IMPORTANT, // by default
         userId,
     };
-    return newEvent;
-}
 
-export function convertEventJSONArraytoAppEventArray(eventJSONArr: EventJSON[], userId: string) {
-    return eventJSONArr.map((eventJSON) => convertToAppEvent(eventJSON, userId));
+    // Handle reccurring event
+    const rrule = parseRRule(eventJSON);
+    if (rrule) {
+        // console.log(rrule);
+        const { freq, untilDate: ud, count } = rrule;
+        let untilDate: Date;
+        if (!ud) {
+            // console.log('count:', count);
+            untilDate = generateDatesFromInterval(startDate, count || 1);
+        } else untilDate = ud;
+
+        // console.log('freq:', freq);
+        const recurringEvents = getRRuleRecurringEvents({
+            freq,
+            startDate,
+            untilDate,
+            item: newEvent,
+        });
+        return recurringEvents;
+    }
+    // No recurring event, so just return an array of a single non-recurring event.
+    return [newEvent];
 }
 
 // Need to update for recurring task!
-export function convertToAppTask(eventJSON: EventJSON, userId: string, category: Category) {
+export function convertToAppTasks(
+    eventJSON: EventJSON,
+    userId: string,
+    category: Category,
+): NoIdTask[] {
     let name = eventJSON.summary || 'Event',
-        description = eventJSON.description || '',
-        dateTime = convertToDate(eventJSON.dtstart);
+        description = eventJSON.description || '';
 
-    const endTime: Date = convertToDate(eventJSON.dtend);
-    const duration = Math.abs(getTimeDifferenceInMinutes(endTime, dateTime));
+    const startDate = parseIcalDate(eventJSON.dtstart);
+    // Careful: dtend can be null
+    const endDate: Date = eventJSON.dtend ? parseIcalDate(eventJSON.dtend) : startDate;
+    const duration = Math.abs(getTimeDifferenceInMinutes(endDate, startDate));
 
     const newTask: NoIdTask = {
         name,
         description,
-        timeString: dateTime.toString(),
+        timeString: startDate.toString(),
         duration,
         status: Status.OPEN,
         importance: Importance.IMPORTANT,
@@ -135,7 +90,46 @@ export function convertToAppTask(eventJSON: EventJSON, userId: string, category:
         subCategory: 'Others',
         userId,
     };
-    return newTask;
+
+    //Handle reccurring task
+    // const rrule = parseRRule(eventJSON);
+    // if (rrule) {
+    //     const { freq, untilDate: ud, count } = rrule;
+    //     let untilDate: Date;
+    //     if (!ud) {
+    //         untilDate = generateIntervalDates(startDate, count || 1);
+    //     } else untilDate = ud;
+
+    //     const recurringEvents = getRRuleRecurringTasks({
+    //         freq,
+    //         startDate,
+    //         untilDate,
+    //         item: newTask,
+    //     });
+    //     // console.table(recurringEvents);
+    //     return recurringEvents;
+    // }
+    // No recurring event, so just return an array of a single non-recurring task.
+    return [newTask];
+}
+
+export function convertEventJSONArraytoAppEventArray(
+    eventJSONArr: EventJSON[],
+    userId: string,
+): NoIdEvent[] {
+    const resultArr: NoIdEvent[] = [];
+    // const rruleCount = eventJSONArr.reduce((acc, curr) => (curr.rrule ? acc + 1 : acc), 0);
+    // console.log('rrule count:', rruleCount);
+    eventJSONArr.forEach((eventJSON) => {
+        try {
+            const appEvents = convertToAppEvents(eventJSON, userId);
+            resultArr.push(...appEvents);
+        } catch (err) {
+            console.log('Error occured for event:', eventJSON);
+            console.log(err);
+        }
+    });
+    return resultArr;
 }
 
 export function convertEventJSONArraytoAppTaskArray(
@@ -143,5 +137,14 @@ export function convertEventJSONArraytoAppTaskArray(
     userId: string,
     category: Category,
 ): NoIdTask[] {
-    return eventJSONArr.map((eventJSON) => convertToAppTask(eventJSON, userId, category));
+    const result: NoIdTask[] = [];
+    eventJSONArr.forEach((eventJSON) => {
+        try {
+            result.push(...convertToAppTasks(eventJSON, userId, category));
+        } catch (err) {
+            console.log('Error occured for event:', eventJSON);
+            console.log(err);
+        }
+    });
+    return result;
 }

@@ -14,7 +14,6 @@ import { Category, CategoryList } from '../../models/task-models/Category';
 import {
     convertEventJSONArraytoAppEventArray,
     convertEventJSONArraytoAppTaskArray,
-    parseIcal,
 } from '../../utilities/import-utils/ical-import';
 import { EventJSON } from 'ical-js-parser';
 import { postEvents } from '../../lib/events/event-apis';
@@ -23,6 +22,7 @@ import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import useNotification from '../../hooks/useNotification';
 import { NotifStatus } from '../ui/Notification';
 import { useAppSelector } from '../../store/redux';
+import { parseIcal } from '../../utilities/import-utils/ical-parse';
 
 interface Props {
     onClose(): void;
@@ -54,6 +54,7 @@ const ImportModal: React.FC<Props> = (props) => {
             console.log(error);
             return;
         }
+        // console.table(events);
         setEventJSONArray(events);
     };
 
@@ -66,32 +67,34 @@ const ImportModal: React.FC<Props> = (props) => {
         }
         let isSuccess,
             message = '';
-        setNotification(NotifStatus.PENDING);
+        // setNotification(NotifStatus.PENDING);
         if (importItemType === CalendarItemType.EVENT) {
             let importedEvents = convertEventJSONArraytoAppEventArray(eventJSONArray, userId);
-            const { isSuccess: s, message: m } = await postEvents(importedEvents);
-            isSuccess = s;
-            message = m;
+            console.log(`${importedEvents.length} events produced.`);
+            // const { isSuccess: s, message: m } = await postEvents(importedEvents);
+            // isSuccess = s;
+            // message = m;
         } else if (importItemType === CalendarItemType.TASK) {
             let importedTasks = convertEventJSONArraytoAppTaskArray(
                 eventJSONArray,
                 userId,
                 importItemCategory,
             );
-            const { isSuccess: s, message: m } = await postTasks(
-                importedTasks,
-                plannerMode || PlannerMode.WEEKLY,
-            );
-            isSuccess = s;
-            message = m;
+            console.log(`${importedTasks.length} tasks produced.`);
+            // const { isSuccess: s, message: m } = await postTasks(
+            //     importedTasks,
+            //     plannerMode || PlannerMode.WEEKLY,
+            // );
+            // isSuccess = s;
+            // message = m;
         }
-        if (isSuccess) {
-            setNotification(NotifStatus.SUCCESS, message);
-            onInvalidate && onInvalidate();
-            onClose();
-        } else {
-            setNotification(NotifStatus.ERROR, message);
-        }
+        // if (isSuccess) {
+        //     setNotification(NotifStatus.SUCCESS, message);
+        //     onInvalidate && onInvalidate();
+        //     onClose();
+        // } else {
+        //     setNotification(NotifStatus.ERROR, message);
+        // }
     };
 
     return (
@@ -106,7 +109,7 @@ const ImportModal: React.FC<Props> = (props) => {
                     <div className="flex flex-col gap-3">
                         <AppFileInput onChange={fileInputHandler} />
                         <p className="text-base">
-                            We currently receive ICalendar (.ics) file or Csv (.csv) file as an
+                            We receive ICalendar (.ics) file or csv file (MS Outlook format) as an
                             external file to transfer tasks or events from other applications.
                         </p>
                     </div>
