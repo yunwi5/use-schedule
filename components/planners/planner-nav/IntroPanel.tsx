@@ -18,6 +18,8 @@ import { getDataAnalysisLink } from '../../../utilities/analysis-utils';
 import classes from './IntroPanel.module.scss';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import ImportModal from '../../import-export/ImportModal';
+import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
+import ExportModal from '../../import-export/ExportModal';
 
 interface Props {
     title: string;
@@ -32,6 +34,8 @@ const IntroPanel: React.FC<Props> = (props) => {
     const [showTemplateModal, setShowTemplateModal] = useState(false);
     // handling external file input (ics or csv)
     const [showImportModal, setShowImportModal] = useState(false);
+    // handling external file output (ics or csv)
+    const [showExportModal, setShowExportModal] = useState(false);
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     const statisticsLink = getDataAnalysisLink(plannerMode, beginningPeriod);
@@ -39,6 +43,7 @@ const IntroPanel: React.FC<Props> = (props) => {
     const showPanelHandler = (show: boolean) => () => setShowPanel(show); // currying fn
     const templateModalHandler = (show: boolean) => () => setShowTemplateModal(show); // currying fn
     const importModalHandler = (show: boolean) => () => setShowImportModal(show); // currying fn
+    const exportModalHandler = (show: boolean) => () => setShowExportModal(show); // currying fn
 
     const showTemplateImport = plannerMode === PlannerMode.WEEKLY;
 
@@ -101,6 +106,7 @@ const IntroPanel: React.FC<Props> = (props) => {
                         </Button>
                         <Button
                             className={`mr-4 flex items-center px-[0.7rem] !max-w-none !bg-transparent !text-blue-600/80 !border-blue-600/80 hover:!bg-blue-500 hover:!text-blue-50`}
+                            onClick={exportModalHandler(true)}
                         >
                             <FontAwesomeIcon icon={faFileExport} className="icon-medium mr-2" />{' '}
                             Export
@@ -116,7 +122,17 @@ const IntroPanel: React.FC<Props> = (props) => {
                 />
             )}
             {showImportModal && (
-                <ImportModal onClose={importModalHandler(false)} onInvalidate={onMutate} />
+                <ImportModal
+                    defaultItemType={CalendarItemType.TASK}
+                    onClose={importModalHandler(false)}
+                    onInvalidate={onMutate}
+                />
+            )}
+            {showExportModal && (
+                <ExportModal
+                    onClose={exportModalHandler(false)}
+                    beginningPeriod={beginningPeriod}
+                />
             )}
         </Fragment>
     );

@@ -27,16 +27,19 @@ import { parseIcal } from '../../utilities/import-utils/ical-parse';
 interface Props {
     onClose(): void;
     onInvalidate?: () => void;
+    defaultItemType?: CalendarItemType;
 }
 
 const ImportItemTypeList = [CalendarItemType.EVENT, CalendarItemType.TASK];
 
 const ImportModal: React.FC<Props> = (props) => {
-    const { onInvalidate, onClose } = props;
+    const { onInvalidate, onClose, defaultItemType } = props;
     const userId = useUser().user?.sub;
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
-    const [importItemType, setImportItemType] = useState<CalendarItemType>(CalendarItemType.TASK);
+    const [importItemType, setImportItemType] = useState<CalendarItemType>(
+        defaultItemType || CalendarItemType.EVENT,
+    );
     const [importItemCategory, setImportItemCategory] = useState<Category>(Category.OTHERS);
     const [eventJSONArray, setEventJSONArray] = useState<EventJSON[]>([]);
     const { setNotification } = useNotification();
@@ -66,13 +69,13 @@ const ImportModal: React.FC<Props> = (props) => {
         }
         let isSuccess,
             message = '';
-        // setNotification(NotifStatus.PENDING);
+        setNotification(NotifStatus.PENDING);
         if (importItemType === CalendarItemType.EVENT) {
             let importedEvents = convertEventJSONArraytoAppEventArray(eventJSONArray, userId);
             console.log(`${importedEvents.length} events produced.`);
-            // const { isSuccess: s, message: m } = await postEvents(importedEvents);
-            // isSuccess = s;
-            // message = m;
+            const { isSuccess: s, message: m } = await postEvents(importedEvents);
+            isSuccess = s;
+            message = m;
         } else if (importItemType === CalendarItemType.TASK) {
             let importedTasks = convertEventJSONArraytoAppTaskArray(
                 eventJSONArray,
@@ -80,20 +83,21 @@ const ImportModal: React.FC<Props> = (props) => {
                 importItemCategory,
             );
             console.log(`${importedTasks.length} tasks produced.`);
-            // const { isSuccess: s, message: m } = await postTasks(
-            //     importedTasks,
-            //     plannerMode || PlannerMode.WEEKLY,
-            // );
-            // isSuccess = s;
-            // message = m;
+            const { isSuccess: s, message: m } = await postTasks(
+                importedTasks,
+                plannerMode || PlannerMode.WEEKLY,
+            );
+            isSuccess = s;
+            message = m;
         }
-        // if (isSuccess) {
-        //     setNotification(NotifStatus.SUCCESS, message);
-        //     onInvalidate && onInvalidate();
-        //     onClose();
-        // } else {
-        //     setNotification(NotifStatus.ERROR, message);
-        // }
+
+        if (isSuccess) {
+            setNotification(NotifStatus.SUCCESS, message);
+            onInvalidate && onInvalidate();
+            onClose();
+        } else {
+            setNotification(NotifStatus.ERROR, message);
+        }
     };
 
     return (
