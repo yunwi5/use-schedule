@@ -7,7 +7,7 @@ import { shuffleList } from "../../utilities/gen-utils/list-util";
 import { adjustOverdueTasks } from "../../utilities/tasks-utils/task-util";
 import SearchTaskList from "./SearchTaskList";
 import TaskSort from "./TaskSorter";
-import PageNav from "../ui/PageNav";
+import PageNav from "../ui/navigation/PageNav";
 import classes from "./TaskSearch.module.scss";
 
 interface Props {

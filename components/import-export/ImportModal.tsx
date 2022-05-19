@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 
+import useNotification from '../../hooks/useNotification';
+import { useAppSelector } from '../../store/redux';
 import { CalendarItemType, getItemIcon } from '../../models/calendar-models/CalendarItemType';
 import { Theme } from '../../models/design-models';
 import ActiveButton from '../ui/buttons/ActiveButton';
@@ -19,9 +21,7 @@ import { EventJSON } from 'ical-js-parser';
 import { postEvents } from '../../lib/events/event-apis';
 import { postTasks } from '../../lib/planners/tasks-api';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
-import useNotification from '../../hooks/useNotification';
 import { NotifStatus } from '../ui/Notification';
-import { useAppSelector } from '../../store/redux';
 import { parseIcal } from '../../utilities/import-utils/ical-parse';
 
 interface Props {

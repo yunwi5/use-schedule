@@ -72,6 +72,7 @@ export function parseIcalDate(dateObj: DateTimeObject | string): Date {
     return resultDate;
 }
 
+const ICALDATE_LENGTH = 15;
 export function parseRRule({ rrule }: EventJSON) {
     // need to handle every format
     // rrule format1: FREQ=WEEKLY;UNTIL=20210401T103000Z
@@ -79,13 +80,13 @@ export function parseRRule({ rrule }: EventJSON) {
     if (rrule) {
         let freqIndex = rrule.indexOf('FREQ=');
         let startIndex = freqIndex + 5;
-        let freqEndIndex = rrule.indexOf(';', freqIndex);
-        let freqPart = rrule.substring(startIndex, freqEndIndex);
+        let endIndex = rrule.indexOf(';', freqIndex);
+        let freqPart = rrule.substring(startIndex, endIndex);
 
         if (rrule.includes('UNTIL=')) {
             let untilIndex = rrule.indexOf('UNTIL=');
             let startIndex = untilIndex + 6;
-            const untilStr = rrule.substring(startIndex, startIndex + 15);
+            const untilStr = rrule.substring(startIndex, startIndex + ICALDATE_LENGTH);
             const untilDate = parseIcalDate(untilStr);
             return { freq: freqPart, untilDate };
         } else if (rrule.includes('COUNT=')) {

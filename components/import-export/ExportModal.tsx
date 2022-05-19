@@ -13,10 +13,8 @@ import ActiveButton from '../ui/buttons/ActiveButton';
 import Button from '../ui/buttons/Button';
 import ExitIcon from '../ui/icons/ExitIcon';
 import WrapperModal from '../ui/modal/modal-variation/WrapperModal';
-import MonthIntervalInput from '../ui/intervals/MonthIntervalInput';
-import YearIntervalInput from '../ui/intervals/YearIntervalInput';
-import WeekIntervalInput from '../ui/intervals/WeekIntervalInput';
 import { filterItemsOnInterval } from '../../utilities/filter-utils/date-filter';
+import { WeekIntervalInput, YearIntervalInput, MonthIntervalInput } from '../ui/intervals';
 import useTaskQuery from '../../hooks/useTaskQuery';
 import useEventQuery from '../../hooks/useEventQuery';
 
