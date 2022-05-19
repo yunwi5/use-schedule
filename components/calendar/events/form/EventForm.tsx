@@ -76,11 +76,12 @@ const initialState: State = {
 };
 
 interface Props {
-    initialEvent?: IEvent;
     beginningPeriod: Date;
     onSubmit(event: NoIdEvent): void;
     onClose(): void;
     onDelete?: () => void;
+    initialEvent?: IEvent;
+    heading?: string;
 }
 
 function getInitialParticipantState(initialEvent?: IEvent): State {
@@ -90,7 +91,7 @@ function getInitialParticipantState(initialEvent?: IEvent): State {
 }
 
 const EventForm: React.FC<Props> = (props) => {
-    const { onSubmit, initialEvent, beginningPeriod, onClose, onDelete } = props;
+    const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete } = props;
 
     const userId = useUser().user?.sub;
     const [participantState, dispatchParticipant] = useReducer(
@@ -163,11 +164,13 @@ const EventForm: React.FC<Props> = (props) => {
         ? getISOTimeFormat(initialEvent.dateTime)
         : getISOTimeFormat(beginningPeriod);
 
+    const headingText = heading || (initialEvent ? 'Edit Event' : 'New Event');
+
     const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
-            <h2 className={classes.heading}>{initialEvent ? 'Edit Event' : 'New Event'}</h2>
+            <h2 className={classes.heading}>{headingText}</h2>
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
                 <div

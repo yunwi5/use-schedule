@@ -1,10 +1,10 @@
-import { FormTaskObject, Task } from "../../models/task-models/Task";
-import { Status } from "../../models/task-models/Status";
-import { addDays, addMinutes } from "../date-utils/date-control";
-import { getDayOffset, getWeekEnding } from "../date-utils/date-get";
-import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from "../date-utils/date-format";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { WeekDay } from "../../models/date-models/WeekDay";
+import { FormTaskObject, Task } from '../../models/task-models/Task';
+import { Status } from '../../models/task-models/Status';
+import { addDays, addMinutes } from '../date-utils/date-control';
+import { getDayOffset, getWeekEnding } from '../date-utils/date-get';
+import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from '../date-utils/date-format';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { WeekDay } from '../../models/date-models/WeekDay';
 
 export interface FormValues {
     name: string;
@@ -72,14 +72,17 @@ export function getInitialDateTimeInput(initialTask: Task | undefined, beginning
     if (initialTask && initialTask.timeString) {
         defaultDateTime = new Date(initialTask.timeString);
     }
-
+    // bug: somehow day is 1 day forward than it should be.
+    defaultDateTime = addDays(defaultDateTime, -1);
     const defaultDate = getISODateFormat(defaultDateTime);
     const defaultTime = getISOTimeFormat(defaultDateTime);
     return { defaultDate, defaultTime };
 }
 
 export function getInitialEndtimeInput(beginningPeriod: Date) {
-    const weekEnding = getWeekEnding(beginningPeriod);
+    let weekEnding = getWeekEnding(beginningPeriod);
+    // bug: somehow day is 1 day forward than it should be.
+    weekEnding = addDays(weekEnding, -1);
     const defaultEndDate = getISODateFormat(weekEnding);
     const defaultEndTime = getISOTimeFormat(weekEnding);
     return { defaultEndDate, defaultEndTime };

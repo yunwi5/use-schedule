@@ -22,11 +22,12 @@ import classes from './TaskForm.module.scss';
 import FormButtons from './TaskFormButtons';
 import { useAppSelector } from '../../../../store/redux';
 import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
+import { addDays } from '../../../../utilities/date-utils/date-control';
 
 interface Props {
     onSubmit: (newTask: FormTaskObject) => void;
     beginningPeriod: Date;
-    onHasEdit: (hasEdit: boolean) => void;
+    onHasEdit?: (hasEdit: boolean) => void;
     userHasEdit?: boolean;
     isEdit?: boolean;
     initialTask?: Task;
@@ -76,7 +77,7 @@ const TaskForm: React.FC<Props> = (props) => {
     const category = watch().category || (initialTask ? initialTask.category : CategoryList[0]);
     const subCategoryList: SubCategory[] = getSubCategory(category as Category);
 
-    if (!userHasEdit && userHasInputs(watch)) {
+    if (!userHasEdit && userHasInputs(watch) && onHasEdit) {
         onHasEdit(true);
     }
 

@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
 import { Category, CategoryList } from '../../../models/task-models/Category';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
@@ -10,6 +9,9 @@ import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
 import { ChartSectionContainer, FlexChartContainer } from '../containers';
+
+// 'Others' category does not have any subcategories, so should not be an option.
+const SelectCategoryList = CategoryList.filter((cat) => cat !== Category.OTHERS);
 
 const SubCategoryAnalysis: React.FC = () => {
     const { analyzer, timeFrame } = useAnalysisContext();
@@ -41,7 +43,7 @@ const SubCategoryAnalysis: React.FC = () => {
                             label="Category"
                             value={activeCategory}
                             onChange={(val: string) => setActiveCategory(val as Category)}
-                            options={CategoryList}
+                            options={SelectCategoryList}
                             id={`app-select-subcategory`}
                             labelId={`app-select-subcategory-label`}
                             className="ml-11"

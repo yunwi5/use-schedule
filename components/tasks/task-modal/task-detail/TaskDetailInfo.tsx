@@ -1,51 +1,76 @@
-import { Fragment } from "react";
-import Rating from "@mui/material/Rating";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from 'react';
+import Rating from '@mui/material/Rating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAlarmClock,
     faCalendarExclamation,
-    faClipboardCheck,
     faDiagramNested,
     faHourglass,
     faListTree,
     faStarExclamation,
     faHourglassEnd,
     faMemoCircleInfo,
-} from "@fortawesome/pro-duotone-svg-icons";
+} from '@fortawesome/pro-duotone-svg-icons';
 
-import { AbstractTask } from "../../../../models/task-models/AbstractTask";
-import Button from "../../../ui/buttons/Button";
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import {
     getDateTimeFormat,
     getDurationFormat,
     getFullDateFormat,
-} from "../../../../utilities/date-utils/date-format";
-import { getImportanceValue } from "../../../../models/task-models/Status";
-import { ButtonTheme } from "../../../../models/design-models";
-import { PlannerMode } from "../../../../models/planner-models/PlannerMode";
-import classes from "./TaskDetail.module.scss";
-import TaskStatus from "./TaskStatus";
+} from '../../../../utilities/date-utils/date-format';
+import { getImportanceValue } from '../../../../models/task-models/Status';
+import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
+import classes from './TaskDetail.module.scss';
+import TaskStatus from './TaskStatus';
+import OperationList from '../../../ui/OperationList';
+import useTaskDelete from '../../../../hooks/task-hooks/useTaskDelete';
+import TaskDuplicate from '../../../planners/planner-crud/TaskDuplicate';
 
 interface Props {
     onClose: () => void;
     onEdit: () => void;
     task: AbstractTask;
     onInvalidate?: () => void;
+    onShowDetail: (show: boolean) => void;
 }
 
 // This component is just for displaying. It does not do any functional stuff.
 const TaskDetailInfo: React.FC<Props> = (props) => {
-    const { onClose, onEdit, task, onInvalidate } = props;
+    const { onClose, onEdit, task, onInvalidate, onShowDetail } = props;
+    const [showDuplicateModal, setShowDuplicateModal] = useState(false);
 
-    const { description, category, subCategory, status, importance, duration } = task;
-    const defaultValue = "-";
+    const { deleteTask } = useTaskDelete({
+        task,
+        onDelete: () => {
+            onClose();
+            onInvalidate && onInvalidate();
+        },
+    });
+
+    const duplicateHandler = () => {
+        onInvalidate && onInvalidate();
+        onClose();
+    };
+
+    const modalHandler = (show: boolean) => {
+        if (show) {
+            setShowDuplicateModal(true);
+            onShowDetail(false);
+        } else {
+            setShowDuplicateModal(false);
+            onShowDetail(true);
+        }
+    };
+
+    const { description, category, subCategory, importance, duration } = task;
+    const defaultValue = '-';
 
     const { plannedDateFormat, dueDateFormat, endTimeFormat } = getTaskDetailDateTimeFormat(task);
     const durationFormat = getDurationFormat(duration).trim() || defaultValue;
 
     return (
-        <Fragment>
-            <div className={classes.grid}>
+        <>
+            <div className={`${classes.grid}`}>
                 <TaskStatus task={task} onInvalidate={onInvalidate} />
                 <div className={classes.item}>
                     <div className={classes.label}>
@@ -123,14 +148,21 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
             </div>
 
             <div className={classes.actions}>
-                <Button theme={ButtonTheme.SECONDARY} onClick={onEdit}>
-                    Edit
-                </Button>
-                <Button theme={ButtonTheme.DANGER} onClick={onClose}>
-                    Close
-                </Button>
+                <OperationList
+                    onEdit={onEdit}
+                    onDelete={deleteTask}
+                    onDuplicate={modalHandler.bind(null, true)}
+                    hoverColorClass="hover:text-blue-500/90"
+                />
             </div>
-        </Fragment>
+            {showDuplicateModal && (
+                <TaskDuplicate
+                    task={task}
+                    onClose={modalHandler.bind(null, false)}
+                    onDuplicate={duplicateHandler}
+                />
+            )}
+        </>
     );
 };
 
@@ -141,10 +173,10 @@ function hasSetTime(date: Date) {
     return !(is12am || isEndOfDay);
 }
 
-function getTaskDetailDateTimeFormat(task: AbstractTask, defaultValue: string = "-") {
-    let plannedDateFormat = "",
-        dueDateFormat = "",
-        endTimeFormat = "";
+function getTaskDetailDateTimeFormat(task: AbstractTask, defaultValue: string = '-') {
+    let plannedDateFormat = '',
+        dueDateFormat = '',
+        endTimeFormat = '';
     switch (task.plannerType) {
         case PlannerMode.WEEKLY:
         case PlannerMode.TEMPLATE:
@@ -167,7 +199,7 @@ function getTaskDetailDateTimeFormat(task: AbstractTask, defaultValue: string = 
     }
 
     if (task.isAnyDateTime) {
-        plannedDateFormat = "Any Time";
+        plannedDateFormat = 'Any Time';
         endTimeFormat = defaultValue;
     }
 

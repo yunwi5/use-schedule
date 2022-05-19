@@ -94,7 +94,7 @@ const IntroPanel: React.FC<Props> = (props) => {
                                     className="mr-2 max-w-[1.3rem]"
                                     icon={faCalendarCircleExclamation}
                                 />
-                                Time Table
+                                Time Tables
                             </Button>
                         )}
                         <Button

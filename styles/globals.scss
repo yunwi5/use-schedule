@@ -31,6 +31,9 @@ select {
     .icon-medium {
         @apply max-w-[1.35rem] max-h-[1.35rem] inline-block shadow-md;
     }
+    .icon-large {
+        @apply max-w-[2.2rem] max-h-[2.2rem] inline-block;
+    }
     .thinner-btn {
         @apply max-h-[2.7rem] flex justify-center items-center;
     }

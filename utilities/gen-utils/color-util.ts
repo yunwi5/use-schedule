@@ -275,7 +275,8 @@ export function getSubCategoryBackgroundColorPallets(subCategoryList: string[]) 
     const len = subCategoryList.length;
     const subCategoryBgList = subCategoryBgListDefault
         .slice(0, len - 1)
-        .concat([rgbToHex(203, 213, 225)]);
+        .concat([rgbToHex(203, 213, 225)])
+        .concat(subCategoryBgListDefault.slice(len - 1));
 
     return subCategoryBgList;
 }

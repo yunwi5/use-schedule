@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import React, { useCallback, useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0';
 
-import TaskForm from "./task-form/TaskForm";
-import PlannerModal from "../planner-modal/PlannerModal";
-import useTemplate from "../../../hooks/useTemplate";
-import { FormTaskObject, PlannerTask, Task } from "../../../models/task-models/Task";
-import { deleteTask, replaceTask } from "../../../lib/planners/tasks-api";
-import { NotifStatus } from "../../ui/Notification";
-import useNotification from "../../../hooks/useNotification";
-import DeleteModal from "../../ui/modal/modal-variation/DeleteModal";
-import DiscardModal from "../../ui/modal/modal-variation/DiscardModal";
-import { PlannerMode } from "../../../models/planner-models/PlannerMode";
-import { TemplateTask } from "../../../models/template-models/TemplateTask";
-import { AbstractTask } from "../../../models/task-models/AbstractTask";
+import TaskForm from './task-form/TaskForm';
+import PlannerModal from '../planner-modal/PlannerModal';
+import useTemplate from '../../../hooks/useTemplate';
+import { FormTaskObject, PlannerTask, Task } from '../../../models/task-models/Task';
+import { replaceTask } from '../../../lib/planners/tasks-api';
+import { NotifStatus } from '../../ui/Notification';
+import useNotification from '../../../hooks/useNotification';
+import DeleteModal from '../../ui/modal/modal-variation/DeleteModal';
+import DiscardModal from '../../ui/modal/modal-variation/DiscardModal';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import { TemplateTask } from '../../../models/template-models/TemplateTask';
+import { AbstractTask } from '../../../models/task-models/AbstractTask';
+import useTaskDelete from '../../../hooks/task-hooks/useTaskDelete';
 
 interface Props {
     onClose: () => void;
@@ -27,6 +28,8 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
     const userId = user ? user.sub : null;
 
     const { setNotification } = useNotification();
+    const { deleteTask } = useTaskDelete({ task: initialTask, onDelete: onUpdate });
+
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showDiscardModal, setShowDiscardModal] = useState(false);
 
@@ -36,7 +39,7 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
 
     const taskEditHandler = async (newFormTask: FormTaskObject) => {
         if (!userId) {
-            alert("User is not logged in!");
+            alert('User is not logged in!');
             return;
         }
         const newTask: Task = {
@@ -64,25 +67,10 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, `Editing task was successful!`);
         } else {
-            setNotification(NotifStatus.ERROR, "Sorry, editing task went wrong...");
+            setNotification(NotifStatus.ERROR, 'Sorry, editing task went wrong...');
         }
         onUpdate(updatedTask);
         onClose();
-    };
-
-    const taskDeleteHandler = async () => {
-        setShowDeleteModal(false);
-        setNotification(NotifStatus.PENDING);
-        const { isSuccess } = await deleteTask(
-            initialTask.id,
-            initialTask.plannerType || PlannerMode.WEEKLY,
-        );
-        if (isSuccess) {
-            setNotification(NotifStatus.SUCCESS, "Delete task successful!");
-        } else {
-            setNotification(NotifStatus.ERROR, "Delete task went wrong");
-        }
-        onUpdate();
     };
 
     const closeHandler = useCallback(() => {
@@ -98,11 +86,11 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
     );
 
     return (
-        <PlannerModal onClose={closeHandler} title={"Edit Task"}>
+        <PlannerModal onClose={closeHandler} title={'Edit Task'}>
             {showDeleteModal && (
                 <DeleteModal
                     targetName={initialTask.name}
-                    onAction={taskDeleteHandler}
+                    onAction={deleteTask}
                     onClose={setShowDeleteModal.bind(null, false)}
                 />
             )}

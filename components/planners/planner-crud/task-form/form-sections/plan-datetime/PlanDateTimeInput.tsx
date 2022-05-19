@@ -2,7 +2,10 @@ import { Fragment, useEffect, useCallback } from 'react';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { UseFormRegister } from 'react-hook-form';
 
-import { getInitialDateTimeInput } from '../../../../../../utilities/form-utils/task-form-util';
+import {
+    FormValues,
+    getInitialDateTimeInput,
+} from '../../../../../../utilities/form-utils/task-form-util';
 import { Task } from '../../../../../../models/task-models/Task';
 import { PlannerMode } from '../../../../../../models/planner-models/PlannerMode';
 import { getPeriodName } from '../../../../../../utilities/gen-utils/label-util';
@@ -14,8 +17,7 @@ import WeekdayInput from './WeekdayInput';
 
 interface Props {
     initialTask?: Task;
-    // register: UseFormRegister<FormValues>;
-    register: UseFormRegister<any>;
+    register: UseFormRegister<FormValues>;
     beginningPeriod: Date;
     isAnyTime: boolean;
     onAnyTime: React.Dispatch<React.SetStateAction<boolean>>;

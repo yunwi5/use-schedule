@@ -1,0 +1,21 @@
+@import '../../styles/abstract/variables';
+
+.operation {
+    position: relative;
+    .operation-label {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 2rem;
+        transition: all 0.3s ease-in-out;
+    }
+
+    &:hover .operation-label {
+        display: inline-block;
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -2.25rem);
+    }
+}

@@ -32,10 +32,11 @@ async function fetchSubTasks(context: any) {
 
 const TaskDetail: React.FC<Props> = (props) => {
     const { onClose, onEdit, task, onInvalidate } = props;
+    const [showTaskDetail, setShowTaskDetail] = useState(true);
     const [showSubTasks, setShowSubTasks] = useState(false);
+
     const { name, plannerType } = task;
 
-    // testing QueryClient
     const queryClient = useQueryClient();
     const { isLoading, error, data } = useQuery(['subTasks', task.id], fetchSubTasks);
 
@@ -51,7 +52,10 @@ const TaskDetail: React.FC<Props> = (props) => {
     let subTasks: SubTask[] = !error && data ? data.subTasks : [];
 
     return (
-        <Modal onClose={onClose} modalClass={`text-semibold ${classes.modal}`}>
+        <Modal
+            onClose={onClose}
+            modalClass={`text-semibold ${classes.modal} ${!showTaskDetail ? 'invisible' : ''}`}
+        >
             <h2>{name}</h2>
             <FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
             <TaskDetailNav
@@ -69,6 +73,7 @@ const TaskDetail: React.FC<Props> = (props) => {
             )}
             {!showSubTasks && (
                 <TaskDetailInfo
+                    onShowDetail={(show: boolean) => setShowTaskDetail(show)}
                     onEdit={onEdit}
                     onClose={onClose}
                     task={task}

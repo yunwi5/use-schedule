@@ -1,5 +1,5 @@
-@import "../../../../styles/abstract/variables";
-@import "../../../../styles/abstract/mixins";
+@import '../../../../styles/abstract/variables';
+@import '../../../../styles/abstract/mixins';
 
 .form {
     position: relative;
@@ -11,6 +11,7 @@
 
     .heading {
         font-size: 1.8rem;
+        text-transform: capitalize;
         border-bottom: 1px solid $color-primary-light-4;
     }
 

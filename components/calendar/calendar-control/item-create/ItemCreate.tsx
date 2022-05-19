@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { ClickAwayListener } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/pro-regular-svg-icons";
+import React, { useCallback, useState } from 'react';
+import { ClickAwayListener } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 
-import TaskAdd from "../../../planners/planner-crud/TaskAdd";
-import EventAdd from "../../events/EventAdd";
-import classes from "./ItemCreate.module.scss";
+import TaskAdd from '../../../planners/planner-crud/TaskAdd';
+import EventAdd from '../../events/EventAdd';
+import classes from './ItemCreate.module.scss';
 
 interface Props {
     onInvalidate: () => void;
@@ -31,12 +31,12 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
         <div className="mx-auto max-w-[7rem] relative text-lg">
             <button
                 onClick={() => setShowDropdown((prev) => !prev)}
-                className={`${classes["create-button"]}`}
+                className={`${classes['create-button']}`}
             >
                 <FontAwesomeIcon
                     icon={faPlus}
                     className={`inline max-w-[1.3rem] max-h-[1.3rem] text-xl ${classes.icon}`}
-                />{" "}
+                />{' '}
                 <span className={classes.text}>Create</span>
             </button>
             {showDropdown && (
@@ -67,7 +67,7 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
             {shwoEventAdd && (
                 <EventAdd
                     onClose={() => setShowEventAdd(false)}
-                    onAddEvent={eventAddHandler}
+                    onAdd={eventAddHandler}
                     beginningPeriod={beginningPeriod}
                 />
             )}

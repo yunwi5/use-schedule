@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
+import React, { useState } from 'react';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
-import TaskAdd from "../../../planners/planner-crud/TaskAdd";
-import EventAdd from "../../events/EventAdd";
-import ExitIcon from "../../../ui/icons/ExitIcon";
+import TaskAdd from '../../../planners/planner-crud/TaskAdd';
+import EventAdd from '../../events/EventAdd';
+import ExitIcon from '../../../ui/icons/ExitIcon';
 
 interface Props {
     onClose: () => void;
@@ -49,10 +49,10 @@ const ItemCreatePrompt: React.FC<Props> = ({
             <ClickAwayListener onClickAway={closeHandler}>
                 <div
                     className={`absolute top-2 ${
-                        showLeft ? "right-[102%]" : "left-[103%]"
+                        showLeft ? 'right-[102%]' : 'left-[103%]'
                     } z-20 !w-[16rem] rounded-sm !pb-1 text-xl flex flex-col gap-3 bg-blue-50 border-2 border-gray-300 ${
-                        className || ""
-                    } ${isAdding ? "opacity-0 invisible" : ""}`}
+                        className || ''
+                    } ${isAdding ? 'opacity-0 invisible' : ''}`}
                 >
                     <h2 className="text-2xl text-blue-500/75 brightness-95">
                         New Item
@@ -75,7 +75,7 @@ const ItemCreatePrompt: React.FC<Props> = ({
                     {showEventAdd && (
                         <EventAdd
                             onClose={closeHandler}
-                            onAddEvent={itemAddHandler}
+                            onAdd={itemAddHandler}
                             beginningPeriod={beginningPeriod}
                         />
                     )}

@@ -24,6 +24,9 @@ import EventEdit from '../EventEdit';
 import EmailLink from '../../../ui/EmailLink';
 import EventStatus from './EventStatus';
 import WrapperModal from '../../../ui/modal/modal-variation/WrapperModal';
+import useEventDelete from '../../../../hooks/event-hooks/useEventDelete';
+import OperationList from '../../../ui/OperationList';
+import EventDuplicate from '../EventDuplicate';
 
 interface Props {
     onClose(): void;
@@ -36,6 +39,8 @@ const googleMapBaseURL = 'http://maps.google.com/maps?q=';
 const EventDetail: React.FC<Props> = (props) => {
     const { onClose, onInvalidate, event } = props;
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+    const { deleteEvent } = useEventDelete({ onClose, event, onInvalidate });
 
     const {
         name,
@@ -56,6 +61,11 @@ const EventDetail: React.FC<Props> = (props) => {
 
     const editEventHandler = () => {
         setShowEditModal(false);
+        onInvalidate();
+    };
+
+    const eventDuplicateHandler = () => {
+        setShowDuplicateModal(false);
         onInvalidate();
     };
 
@@ -169,9 +179,11 @@ const EventDetail: React.FC<Props> = (props) => {
                         </div>
                     </div>
                     <div className="mt-3 lg:px-3">
-                        <Button onClick={() => setShowEditModal(true)} theme={Theme.SECONDARY}>
-                            Edit
-                        </Button>
+                        <OperationList
+                            onEdit={() => setShowEditModal(true)}
+                            onDelete={deleteEvent}
+                            onDuplicate={() => setShowDuplicateModal(true)}
+                        />
                     </div>
                 </article>
             </WrapperModal>
@@ -180,6 +192,13 @@ const EventDetail: React.FC<Props> = (props) => {
                     onClose={() => setShowEditModal(false)}
                     onEditEvent={editEventHandler}
                     event={event}
+                />
+            )}
+            {showDuplicateModal && (
+                <EventDuplicate
+                    onClose={() => setShowDuplicateModal(false)}
+                    event={event}
+                    onDuplicate={eventDuplicateHandler}
                 />
             )}
         </>
