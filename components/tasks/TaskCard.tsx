@@ -65,14 +65,14 @@ const TaskCard: React.FC<Props> = (props) => {
     const { dueDate, category, subCategory, importance, status, comment } = task;
     const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 
+    const showEditHandler = () => {
+        setShowDetail(false);
+        setIsEditing(true);
+    };
+
     const updateTaskHandler = (updatedTask?: AbstractTask) => {
         onMutate();
         if (updatedTask) setTask(updatedTask);
-    };
-
-    const editHandler = () => {
-        setShowDetail(false);
-        setIsEditing(true);
     };
 
     const statusChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -108,7 +108,6 @@ const TaskCard: React.FC<Props> = (props) => {
     const { planDateFormat, dueDateFormat } = getCardDateTimeFormat(task);
 
     const hideStatus = task.plannerType === PlannerMode.TEMPLATE;
-    // Status color indicator
     const statusClass = 'status-' + status.toLowerCase().replace(' ', '');
 
     return (
@@ -126,7 +125,7 @@ const TaskCard: React.FC<Props> = (props) => {
             {showDetail && (
                 <TaskDetail
                     onClose={setShowDetail.bind(null, false)}
-                    onEdit={editHandler}
+                    onEdit={showEditHandler}
                     task={task}
                     onInvalidate={onMutate}
                 />
