@@ -64,6 +64,10 @@ $color-rose-dark-3: rgb(190, 18, 60);
 $color-rose-dark-4: rgb(159, 18, 57);
 $color-rose-dark-5: rgb(136, 19, 55);
 
+$color-yellow-light-1: rgb(254, 252, 232);
+$color-yellow-light-2: rgb(254, 249, 195);
+$color-yellow-light-3: rgb(254, 240, 138);
+
 $color-amber-light-1: rgb(255, 251, 235);
 $color-amber-light-2: rgb(254, 243, 199);
 $color-amber-light-3: rgb(253, 230, 138);
@@ -90,7 +94,7 @@ $color-grey-dark-6: rgb(65, 62, 62);
 
 $color-black: #111;
 
-$shadow-light: 0 2rem 5rem rgba(0, 0, 0, .10);
+$shadow-light: 0 2rem 5rem rgba(0, 0, 0, 0.1);
 $shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.25);
 
 // Components size

@@ -20,7 +20,7 @@
 
 .app {
     display: grid;
-    grid-template-columns: min-content 1fr;
+    grid-template-columns: max-content 1fr;
     grid-template-rows: max-content 1fr;
     max-width: 100vw;
 
@@ -34,9 +34,9 @@
     }
 
     .sidenav {
-        & > * {
-            min-width: max-content;
-        }
+        // & > * {
+        // min-width: max-content;
+        // }
     }
 
     .content {
@@ -46,6 +46,14 @@
     .footer {
         grid-column: 1 / -1;
         justify-self: center;
+    }
+
+    // for tablet land to mobile screens
+    .full-screen-navigation {
+        display: none;
+        @include respond(1100px) {
+            display: block;
+        }
     }
 
     @include respond(1100px) {

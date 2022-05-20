@@ -23,7 +23,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
 
     // Show dropdown navigation for mobile screen (< 640px)
     const [showDropDown, setShowDropDown] = useState(true);
-    useWindowInnerWidth({ breakPoint: 640, breakPointCallback: () => setShowDropDown(true) });
+    useWindowInnerWidth({ breakPoint: 640, aboveBreakPointCallback: () => setShowDropDown(true) });
 
     const { calendarMode } = useAppSelector((state) => state.calendar);
     const isTableMode = calendarMode === CalendarMode.TABLE;

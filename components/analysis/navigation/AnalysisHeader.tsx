@@ -57,7 +57,7 @@ const AnalysisHeader: React.FC<Props> = (props) => {
     const { currentPeriod, onNavigate, currentMode, onChangeMode } = props;
     // Show dropdown navigation for mobile screen (< 768px)
     const [showDropDown, setShowDropDown] = useState(true);
-    useWindowInnerWidth({ breakPoint: 768, breakPointCallback: () => setShowDropDown(true) });
+    useWindowInnerWidth({ breakPoint: 768, aboveBreakPointCallback: () => setShowDropDown(true) });
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     // For writing label to indicate to the user.

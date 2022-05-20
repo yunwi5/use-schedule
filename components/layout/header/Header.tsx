@@ -13,6 +13,8 @@ interface Props {
     onToggleSidebar: () => void;
 }
 
+const linkClass = 'hover:text-blue-400';
+
 const Header: React.FC<Props> = ({ onToggleSidebar }) => {
     const [showSearch, setShowSearch] = useState(true); // Show or hide full searchbar on the mobile screen
     const { user, isLoading } = useUser();
@@ -71,7 +73,5 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
         </header>
     );
 };
-
-const linkClass = 'hover:text-blue-400';
 
 export default Header;

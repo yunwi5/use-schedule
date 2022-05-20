@@ -22,11 +22,11 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     useWindowInnerWidth({
         breakPoint: 650,
         // Control max scrolling position of calendar table relative to window inner width.
-        breakPointCallback: () => setMaxScrollPos(1),
-        nonBreackPointCallback: () => setMaxScrollPos(2),
+        aboveBreakPointCallback: () => setMaxScrollPos(1),
+        belowBreakPointCallback: () => setMaxScrollPos(2),
     });
     // The scroll navigator dissapeared at 900px, so scroll pos should be reset at 900px.
-    useWindowInnerWidth({ breakPoint: 900, breakPointCallback: () => setLeftPos(0) });
+    useWindowInnerWidth({ breakPoint: 900, aboveBreakPointCallback: () => setLeftPos(0) });
 
     const weekDayList = useMemo(() => getShortWeekDayList(), []);
     const calendarDates = calendar.generateCalendarDays();

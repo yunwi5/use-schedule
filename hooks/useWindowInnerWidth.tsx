@@ -2,24 +2,28 @@ import React, { useLayoutEffect } from 'react';
 
 interface Props {
     breakPoint: number;
-    breakPointCallback: Function;
-    nonBreackPointCallback?: Function;
+    aboveBreakPointCallback?: Function;
+    belowBreakPointCallback?: Function;
 }
 
 // Update DOM elements dynamically according to window.innerWidth - similar to media query
-const useWindowInnerWidth = ({ breakPoint, breakPointCallback, nonBreackPointCallback }: Props) => {
+const useWindowInnerWidth = ({
+    breakPoint,
+    aboveBreakPointCallback,
+    belowBreakPointCallback,
+}: Props) => {
     useLayoutEffect(() => {
         const updateDropDownVisibility = () => {
             const newWindowWidth = window.innerWidth;
             if (newWindowWidth >= breakPoint) {
-                breakPointCallback();
+                aboveBreakPointCallback && aboveBreakPointCallback();
             } else {
-                nonBreackPointCallback && nonBreackPointCallback();
+                belowBreakPointCallback && belowBreakPointCallback();
             }
         };
         window.addEventListener('resize', updateDropDownVisibility);
         return () => window.removeEventListener('resize', updateDropDownVisibility);
-    }, [breakPoint, breakPointCallback, nonBreackPointCallback]);
+    }, [breakPoint, aboveBreakPointCallback, belowBreakPointCallback]);
 
     return {};
 };
