@@ -1,11 +1,12 @@
-@import "../../styles/abstract/variables";
+@import '../../styles/abstract/variables';
+@import '../../styles/abstract/mixins';
 
 .add-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color .5s, color .5s, width .9s ease-in-out;
-    padding: .5rem;
+    transition: background-color 0.5s, color 0.5s, width 0.9s ease-in-out;
+    padding: 0.5rem;
 
     .add-icon-text {
         display: none;
@@ -13,11 +14,16 @@
     }
 
     &:hover {
-        gap: .5rem;
-        width: auto;
+        gap: 0.5rem;
         min-width: 9rem;
         font-size: 1.5rem !important;
         border-radius: 12px;
+        padding: 0.25rem 0.5rem;
+
+        @include respond(phone) {
+            min-width: 0;
+            font-size: inherit;
+        }
     }
 
     &:hover .add-icon-text {

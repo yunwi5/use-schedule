@@ -1,41 +1,39 @@
-@import "../../../styles/main";
+@import '../../../styles/main';
 
 .search {
-	display: flex;
-	font-size: 1.2rem;
-	background-color: $color-tertiary-light-3;
-	border-radius: 5px;
+    flex: 1;
+    display: flex;
+    font-size: 1.2rem;
+    background-color: $color-tertiary-light-3;
+    border-radius: 5px;
 
-	&:focus-within {
-		// border: 1px solid $color-secondary;
-	}
+    .input {
+        flex: 1;
+        min-width: 20rem;
+        padding: 0.45rem 0.8rem;
+        border: 1px solid transparent;
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
 
-	.input {
-		min-width: 20rem;
-		padding: .45rem .8rem;
-		border: 1px solid transparent;
-		border-top-left-radius: inherit;
-		border-bottom-left-radius: inherit;
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-primary;
+        }
+    }
 
-		&:focus {
-			outline: none;
-			border: 1.5px solid $color-primary;
-		}
-	}
+    .button {
+        border-radius: inherit;
+        font-size: 115%;
+        padding: 0.2rem 0.7rem;
+        background-color: inherit;
 
-	.button {
-		border-radius: inherit;
-		font-size: 115%;
-		padding: .2rem .7rem;
-		background-color: inherit;
-
-		&:hover {
-			background-color: $color-tertiary-light-4;
-		}
-	}
-	// icon inside button
-	.icon {
-		@include icon-basic;
-		max-width: 1.7rem;
-	}
+        &:hover {
+            background-color: $color-tertiary-light-4;
+        }
+    }
+    // icon inside button
+    .icon {
+        @include icon-basic;
+        max-width: 1.7rem;
+    }
 }

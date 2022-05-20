@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/pro-duotone-svg-icons";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/pro-duotone-svg-icons';
 
-import HeaderSearch from "./HeaderSearch";
-import UserPicCircle from "../../ui/design-elements/UserPicCircle";
-import headerClasses from "./Header.module.scss";
-import layoutClasses from "../Layout.module.scss";
+import HeaderSearch from './HeaderSearch';
+import UserPicCircle from '../../ui/design-elements/UserPicCircle';
+import headerClasses from './Header.module.scss';
+import layoutClasses from '../Layout.module.scss';
 
 interface Props {
     onToggleSidebar: () => void;
@@ -31,8 +31,8 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                     onClick={onToggleSidebar}
                 />
                 <Link href="/">
-                    <a className={`text-2xl ml-4 ${showSearch ? headerClasses.hide : ""}`}>
-                        Task Manager
+                    <a className={`text-2xl ml-4 ${showSearch ? headerClasses.hide : ''}`}>
+                        UseSchedule
                     </a>
                 </Link>
                 <HeaderSearch onShowSearch={setShowSearch} showSearch={showSearch} />
@@ -62,7 +62,9 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                         <Link href="/api/auth/logout">
                             <a className={linkClass}>Logout</a>
                         </Link>
-                        <UserPicCircle pictureLink={user.picture} userName={user.name} />
+                        <div className="flex-1 pr-0 sm:pr-1 ml-auto flex justify-end">
+                            <UserPicCircle pictureLink={user.picture} userName={user.name} />
+                        </div>
                     </>
                 )}
             </div>
@@ -70,6 +72,6 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
     );
 };
 
-const linkClass = "hover:text-blue-400";
+const linkClass = 'hover:text-blue-400';
 
 export default Header;

@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faXmark } from "@fortawesome/pro-duotone-svg-icons";
+import React, { useMemo, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faXmark } from '@fortawesome/pro-duotone-svg-icons';
 
-import { Todo } from "../../../models/todo-models/Todo";
-import { isSameDate, isSameWeek } from "../../../utilities/date-utils/date-check";
-import classes from "./TodoSummary.module.scss";
-import { useAppSelector } from "../../../store/redux";
-import { isTodoOverdue } from "../../../utilities/todos-utils/todo-util";
+import { Todo } from '../../../models/todo-models/Todo';
+import { isSameDate, isSameWeek } from '../../../utilities/date-utils/date-check';
+import classes from './TodoSummary.module.scss';
+import { useAppSelector } from '../../../store/redux';
+import { isTodoOverdue } from '../../../utilities/todos-utils/todo-util';
 
 interface Props {
     todos: Todo[];
@@ -57,28 +57,30 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
 
     const theme = useAppSelector((state) => state.todoList.currentActiveTheme);
 
-    const countClass = `font-semibold ${theme ? "text-cyan-50" : "text-blue-500"}`;
-    const overdueClass = "font-semibold !text-rose-400";
-    const textClass = `text-lg ${theme ? "text-gray-200" : "text-slate-700"}`;
+    const countClass = `font-semibold ${theme ? 'text-cyan-50' : 'text-blue-500'}`;
+    const overdueClass = 'font-semibold !text-rose-400';
+    const textClass = `text-lg ${theme ? 'text-gray-200' : 'text-slate-700'}`;
 
     return (
         <>
             {!showSummary && (
-                <div className={`absolute right-0 top-2 translate-x-[3.5rem] z-5`}>
+                <div
+                    className={`absolute -top-[2.8rem] -right-[1.1rem] md:right-0 md:top-2 md:translate-x-[3.5rem] z-5`}
+                >
                     <FontAwesomeIcon
                         icon={faCircleInfo}
-                        className={`${classes.show} ${theme ? classes["icon-light"] : ""}`}
+                        className={`${classes.show} ${theme ? classes['icon-light'] : ''}`}
                         onClick={showSummaryHandler.bind(null, true)}
                     />
                 </div>
             )}
             {showSummary && (
                 <div
-                    className={`max-h-[11rem] transition-all !duration-150 relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
-                        theme ? "border-slate-50" : "border-sky-300"
-                    } ${theme ? "bg-sky-50/25" : ""}`}
+                    className={`max-h-none sm:max-h-[11rem] transition-all !duration-150 relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
+                        theme ? 'border-slate-50' : 'border-sky-300'
+                    } ${theme ? 'bg-sky-50/25' : ''}`}
                 >
-                    <h3 className={`text-xl ${theme ? "text-cyan-50" : "text-blue-500"}`}>
+                    <h3 className={`text-xl ${theme ? 'text-cyan-50' : 'text-blue-500'}`}>
                         Summary
                     </h3>
                     {/* Change to responsive grid layout that has two columns on the large screen and one column on the small screen */}
@@ -107,7 +109,7 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
                     </ul>
                     <FontAwesomeIcon
                         icon={faXmark}
-                        className={`${classes.exit} ${theme ? classes["icon-light"] : ""}`}
+                        className={`${classes.exit} ${theme ? classes['icon-light'] : ''}`}
                         onClick={showSummaryHandler.bind(null, false)}
                     />
                 </div>

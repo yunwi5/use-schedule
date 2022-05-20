@@ -1,49 +1,58 @@
+@import '../../styles/main';
+
+@mixin hide-side {
+    grid-template-rows: max-content 1fr min-content;
+    .content {
+        justify-self: center;
+        grid-row: 2 / span 1;
+        grid-column: 1 / -1;
+        width: 100%; // added
+    }
+
+    .sidenav {
+        display: none;
+    }
+
+    .footer {
+        grid-row: 3 / span 1;
+    }
+}
+
 .app {
-	display: grid;
-	grid-template-columns: min-content 1fr;
-	grid-template-rows: max-content 1fr;
-	max-width: 100vw;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: max-content 1fr;
+    max-width: 100vw;
 
-	$delay: .6s;
+    $delay: 0.6s;
 
-	transition: all $delay ease-in-out;
-	justify-content: center;
+    transition: all $delay ease-in-out;
+    justify-content: center;
 
-	.header {
-		grid-column: 1 / -1;
-	}
+    .header {
+        grid-column: 1 / -1;
+    }
 
-	.sidenav {
-		& > * {
-			min-width: max-content;
-		}
-	}
+    .sidenav {
+        & > * {
+            min-width: max-content;
+        }
+    }
 
-	.content {
-		transition: all $delay ease-in-out;
-		// max-width: 90rem;
-	}
+    .content {
+        transition: all $delay ease-in-out;
+    }
 
-	.footer {
-		grid-column: 1 / -1;
-		justify-self: center;
-	}
+    .footer {
+        grid-column: 1 / -1;
+        justify-self: center;
+    }
+
+    @include respond(1100px) {
+        @include hide-side;
+    }
 }
 
 .hide-side {
-	grid-template-rows: max-content 1fr min-content;
-	.content {
-		justify-self: center;
-		grid-row: 2 / span 1;
-		grid-column: 1 / -1;
-		width: 100%;		// added
-	}
-
-	.sidenav {
-		display: none;
-	}
-
-	.footer {
-		grid-row: 3 / span 1;
-	}
+    @include hide-side;
 }

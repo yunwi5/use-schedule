@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/pro-regular-svg-icons";
+import React, { useCallback, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 
-import useTodoQuery from "../../hooks/useTodoQuery";
-import { Todo } from "../../models/todo-models/Todo";
-import { TodoList } from "../../models/todo-models/TodoList";
-import { SortingDirection, TodoSort } from "../../models/sorting-models";
-import { sortTodos } from "../../utilities/sort-utils/todo-sort";
-import TodoCard from "./TodoCard";
-import TodoForm from "./forms/TodoForm";
-import TodoSorter from "./todo-support/TodoSorter";
-import classes from "./TodoListSection.module.scss";
-import { useAppSelector } from "../../store/redux";
-import Link from "next/link";
+import useTodoQuery from '../../hooks/useTodoQuery';
+import { Todo } from '../../models/todo-models/Todo';
+import { TodoList } from '../../models/todo-models/TodoList';
+import { SortingDirection, TodoSort } from '../../models/sorting-models';
+import { sortTodos } from '../../utilities/sort-utils/todo-sort';
+import TodoCard from './TodoCard';
+import TodoForm from './forms/TodoForm';
+import TodoSorter from './todo-support/TodoSorter';
+import classes from './TodoListSection.module.scss';
+import { useAppSelector } from '../../store/redux';
+import Link from 'next/link';
 
 interface Props {
     todos: Todo[];
@@ -46,15 +46,17 @@ const TodoListSection: React.FC<Props> = (props) => {
                 <TodoSorter onSort={sortHandler} />
                 <Link href="#todo-form">
                     <a
-                        className={`w-10 h-10 md:w-14 md:h-14 text-slate-500 border-2 border-slate-300 rounded-full text-3xl hover:bg-slate-500 hover:text-slate-100 ${
-                            classes["add-icon"]
-                        } ${theme ? "hover:bg-transparent" : ""}`}
+                        className={`sm:w-10 sm:h-10 md:w-14 md:h-14 text-slate-500 border-2 border-slate-300 rounded-full text-3xl hover:bg-slate-500 hover:text-slate-100 ${
+                            classes['add-icon']
+                        } ${theme ? 'hover:bg-transparent' : ''}`}
                     >
                         <FontAwesomeIcon
                             icon={faPlus}
-                            className={`max-w-[3rem] max-h-[3rem] ${theme ? "text-white" : ""}`}
+                            className={`max-w-[3rem] max-h-[3rem] ${theme ? 'text-white' : ''}`}
                         />
-                        <span className={`${classes["add-icon-text"]}`}>Add Todo</span>
+                        <span className={`${classes['add-icon-text']}`}>
+                            Add <span className="hidden sm:inline">Todo</span>
+                        </span>
                     </a>
                 </Link>
             </div>
@@ -62,7 +64,7 @@ const TodoListSection: React.FC<Props> = (props) => {
                 {sortedTodos.map((todo) => (
                     <TodoCard
                         key={todo.id}
-                        listName={todoList ? todoList.name : ""}
+                        listName={todoList ? todoList.name : ''}
                         todo={todo}
                         onMutateTodo={patchTodo}
                         onDeleteTodo={deleteTodo}
