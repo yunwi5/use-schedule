@@ -24,7 +24,7 @@ const FullScreenNavigation: React.FC<Props> = ({ onToggleSidebar, showSidebar })
     return (
         <div
             className={`${layoutClasses['full-screen-navigation']} ${classes.navigation} ${
-                showSidebar ? classes['navigation-visible'] : classes['navigation-hidden']
+                showSidebar ? classes['navigation-visible'] : ''
             }`}
         >
             <div className={classes.exit} onClick={onToggleSidebar}>

@@ -14,6 +14,10 @@ import { processEvents } from '../../utilities/event-utils/event-util';
 import CalendarContainer from './calendar-parts/CalendarContainer';
 import CalendarControl from './calendar-control/CalendarControl';
 import PageHeading from '../ui/typography/PageHeading';
+import { useRouter } from 'next/router';
+import { getMonthMember } from '../../models/date-models/Month';
+import { getISODateFormat, getISOYearMonthFormat } from '../../utilities/date-utils/date-format';
+import { addMonths } from '../../utilities/date-utils/date-control';
 
 function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]): Calendar {
     const newCalendar = new Calendar(beginningPeriod);
@@ -33,6 +37,7 @@ interface Props {
 
 const CalendarMain: React.FC<Props> = (props) => {
     const { todos: unprocessedTodos, tasks, events: unprocessedEvents, onInvalidateAll } = props;
+    const router = useRouter();
 
     const currentMonthBeginning = getCurrentMonthBeginning();
     const [calendar, setCalendar] = useState<Calendar>(new Calendar(currentMonthBeginning));
@@ -66,6 +71,16 @@ const CalendarMain: React.FC<Props> = (props) => {
         const newCalendar: Calendar = populateCalendar(beginningPeriod, calendarItems);
         setCalendar(newCalendar);
     }, [beginningPeriod, todos, plannerTasks, events]);
+
+    useEffect(() => {
+        router.push(
+            `${router.pathname}/?date=${getISOYearMonthFormat(beginningPeriod)}`,
+            undefined,
+            {
+                shallow: true,
+            },
+        );
+    }, [beginningPeriod]);
 
     return (
         <main className="py-6 pl-1 md:pl-4 text-slate-600">

@@ -7,16 +7,10 @@ import Notification from '../ui/Notification';
 import NotificationContext from '../../store/context/notification-context';
 import FullScreenNavigation from './full-screen-navigation/FullScreenNavigation';
 import classes from './Layout.module.scss';
-import useWindowInnerWidth from '../../hooks/useWindowInnerWidth';
 
 const Layout: React.FC = (props) => {
     const [showSidebar, setShowSidebar] = useState(true);
     const activeNotification = useContext(NotificationContext).notification;
-
-    useWindowInnerWidth({
-        breakPoint: 1150,
-        aboveBreakPointCallback: () => setShowSidebar(true),
-    });
 
     const toggleSidebarHandler = () => {
         setShowSidebar((prev) => !prev);

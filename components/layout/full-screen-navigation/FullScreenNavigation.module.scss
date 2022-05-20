@@ -94,7 +94,6 @@
         font-weight: 300;
         padding: 0.3rem 1rem;
         color: #fff;
-        text-decoration: none;
         text-transform: uppercase;
         background-image: linear-gradient(120deg, transparent 0%, transparent 50%, #fff 50%);
         background-size: 220%;
@@ -108,10 +107,6 @@
             font-size: 1.25rem;
         }
 
-        span {
-            display: inline-block;
-            margin-right: 1rem;
-        }
         &:hover,
         &:active {
             background-position: 100%;
@@ -122,9 +117,9 @@
 }
 
 .navigation-visible {
-    z-index: 9000;
+    // z-index: 9000;
     .background {
-        transform: scale(6000);
+        transform: scale(7000);
     }
 
     .exit {
