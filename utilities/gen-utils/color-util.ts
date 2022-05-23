@@ -31,6 +31,25 @@ const PURPLE_200 = rgbToHex(233, 213, 255);
 const FUCHSIA_200 = rgbToHex(245, 208, 254);
 const PINK_200 = rgbToHex(251, 207, 232);
 const SLATE_200 = rgbToHex(203, 213, 225);
+const GRAY_200 = rgbToHex(229, 231, 235);
+
+export const Pallete200 = {
+    ROSE: ROSE_200,
+    ORANGE: ORANGE_200,
+    YELLOW: YELLOW_200,
+    LIME: LIME_200,
+    TEAL: TEAL_200,
+    CYAN: CYAN_200,
+    SKY: SKY_200,
+    BLUE: BLUE_200,
+    INDIGO: INDIGO_200,
+    VIOLET: VIOLET_200,
+    PURPLE: PURPLE_200,
+    FUCHSIA: FUCHSIA_200,
+    PINK: PINK_200,
+    SLATE: SLATE_200,
+    GRAY: GRAY_200,
+};
 
 const ROSE_500 = rgbToHex(244, 63, 94);
 const ORANGE_500 = rgbToHex(249, 115, 22);

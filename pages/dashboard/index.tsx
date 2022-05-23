@@ -10,6 +10,7 @@ import { convertToTasks } from '../../utilities/tasks-utils/task-util';
 import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
 import { getEventsFromPage, getTasksFromAllCollection } from '../../db/pages-util';
 import DashboardMain from '../../components/dashboard/DashboardMain';
+import { DashboardContextProvider } from '../../components/dashboard/dashboard-context';
 
 interface Props {
     initialTasks: Task[];
@@ -19,8 +20,13 @@ interface Props {
 const DashboardPage: NextPage<Props> = (props) => {
     const { initialTasks, initialEvents } = props;
 
-    const { allTasks: tasks } = useTaskQuery(initialTasks);
-    const { events } = useEventQuery(initialEvents);
+    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery(initialTasks);
+    const { events, invalidateEvents } = useEventQuery(initialEvents);
+
+    const invalidateAll = () => {
+        invalidateTasks();
+        invalidateEvents();
+    };
 
     return (
         <div>
@@ -31,7 +37,9 @@ const DashboardPage: NextPage<Props> = (props) => {
                     content="Dashboard that summarizes user schedules with charts and tables"
                 />
             </Head>
-            <DashboardMain tasks={tasks} events={events} />
+            <DashboardContextProvider events={events} tasks={tasks}>
+                <DashboardMain tasks={tasks} events={events} />
+            </DashboardContextProvider>
         </div>
     );
 };

@@ -1,11 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
-import { WeeklyAnalyzer } from '../../../models/analyzer-models/WeeklyAnalyzer';
-import { YearlyAnalyzer } from '../../../models/analyzer-models/YearlyAnalyzer';
-import { PlannerMode } from '../../../models/planner-models/PlannerMode';
-import { AbstractTask } from '../../../models/task-models/AbstractTask';
 import { Task } from '../../../models/task-models/Task';
 import { processTasks } from '../../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
@@ -13,10 +8,10 @@ import AnalysisHeader from '../navigation/AnalysisHeader';
 import CategoricalDataAnalysis from '../categorical-analysis/CategoricalAnalysis';
 import PeriodicAnalysis from '../periodic-analysis/PeriodicAnalysis';
 import TrendAnalysis from '../trend-analysis/TrendAnalysis';
-import { MontlyAnalyzer } from '../../../models/analyzer-models/MontlyAnalyzer';
 import { IEvent } from '../../../models/Event';
 import { processEvents } from '../../../utilities/event-utils/event-util';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
+import { populateAnalyzer } from '../../../utilities/analysis-utils';
 
 interface Props {
     tasks: Task[];
@@ -24,30 +19,6 @@ interface Props {
     events: IEvent[];
     currentPeriod: Date;
     onNavigate(dir?: number): void; // Can handle both navigate back & forwards as well as to current period
-}
-
-function populateAnalyzer(
-    plannerMode: PlannerMode,
-    analysisMode: AnalysisMode,
-    currentPeriod: Date,
-    tasks: AbstractTask[],
-    events: IEvent[],
-) {
-    let analyzer: AbstractAnalyzer;
-    if (plannerMode === PlannerMode.WEEKLY) {
-        analyzer = new WeeklyAnalyzer(currentPeriod, analysisMode);
-    } else if (plannerMode === PlannerMode.MONTLY) {
-        analyzer = new MontlyAnalyzer(currentPeriod, analysisMode);
-    } else {
-        analyzer = new YearlyAnalyzer(currentPeriod, analysisMode);
-    }
-    if (analysisMode === AnalysisMode.EVENTS || analysisMode === AnalysisMode.ALL) {
-        for (const event of events) analyzer.addItem(event);
-    }
-    if (analysisMode === AnalysisMode.TASKS || analysisMode === AnalysisMode.ALL) {
-        for (const task of tasks) analyzer.addItem(task);
-    }
-    return analyzer;
 }
 
 const AnalysisMain: React.FC<Props> = (props) => {

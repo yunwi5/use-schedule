@@ -11,13 +11,13 @@ const PeriodNavigator: React.FC<Props> = ({ onNavigate, children }) => (
         <FontAwesomeIcon
             icon={faAngleLeft}
             onClick={onNavigate.bind(null, -1)}
-            className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
+            className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] max-h-[2rem] cursor-pointer"
         />
         <span>{children}</span>
         <FontAwesomeIcon
             icon={faAngleRight}
             onClick={onNavigate.bind(null, 1)}
-            className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] cursor-pointer"
+            className="w-[2rem] h-[2rem] inline-block rounded-full text-3xl border-2 border-transparent hover:border-slate-500 hover:bg-slate-500 hover:text-slate-50  max-w-[2rem] max-h-[2rem] cursor-pointer"
         />
     </div>
 );

@@ -2,6 +2,7 @@ import { PlannerTask, Task } from '../../models/task-models/Task';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Status } from '../../models/task-models/Status';
 import { SubTask } from '../../models/task-models/SubTask';
+import { v4 as uuidv4 } from 'uuid';
 
 export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];
@@ -11,7 +12,7 @@ export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
                 // For un-adjusted tasks already added to weekly planner
                 plannerType: document.plannerType || plannerMode || PlannerMode.WEEKLY,
                 ...document,
-                id: document._id.toString(),
+                id: document._id?.toString() || uuidv4(),
             };
             delete task._id;
             tasks.push(task as Task);
