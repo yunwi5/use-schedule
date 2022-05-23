@@ -35,5 +35,6 @@
     .icon {
         @include icon-basic;
         max-width: 1.7rem;
+        min-width: 1.35rem;
     }
 }

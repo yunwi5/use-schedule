@@ -6,38 +6,40 @@ import useEventQuery from '../../hooks/useEventQuery';
 import useTaskQuery from '../../hooks/useTaskQuery';
 import { IEvent } from '../../models/Event';
 import { Task } from '../../models/task-models/Task';
+import { convertToTasks } from '../../utilities/tasks-utils/task-util';
+import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
+import { getEventsFromPage, getTasksFromAllCollection } from '../../db/pages-util';
+import DashboardMain from '../../components/dashboard/DashboardMain';
 
 interface Props {
-    tasks: Task[];
-    events: IEvent[];
+    initialTasks: Task[];
+    initialEvents: IEvent[];
 }
 
 const DashboardPage: NextPage<Props> = (props) => {
-    const { tasks: initialTasks, events: initialEvents } = props;
+    const { initialTasks, initialEvents } = props;
 
-    const { allTasks } = useTaskQuery(initialTasks);
+    const { allTasks: tasks } = useTaskQuery(initialTasks);
     const { events } = useEventQuery(initialEvents);
 
     return (
         <div>
             <Head>
-                <title>UseSchedule | Dashboard</title>
+                <title>User Dashboard | UseSchedule</title>
                 <meta
                     name="description"
                     content="Dashboard that summarizes user schedules with charts and tables"
                 />
             </Head>
-            <h1>Dashboard</h1>
+            <DashboardMain tasks={tasks} events={events} />
         </div>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { req, res } = context;
-
-    const userContext = getSession(req, res);
-    const userId = userContext?.user.sub;
-    if (!userId) {
+    const { req, res, query } = context;
+    const session = getSession(req, res);
+    if (!session) {
         return {
             redirect: {
                 destination: '/login',
@@ -45,11 +47,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     }
+    const userId = session.user.sub;
+
+    const allTasksPromise = getTasksFromAllCollection(userId);
+    const eventsPromise = getEventsFromPage(userId);
+
+    // Need to convert to App style object (i.e. id instead of _id)
+    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
 
     return {
         props: {
-            tasks: [],
-            events: [],
+            initialAllTasks: convertToTasks(allTasksData),
+            initialEvents: convertToAppObjectList(eventsData),
         },
     };
 };

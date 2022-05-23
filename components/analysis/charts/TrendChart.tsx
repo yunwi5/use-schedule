@@ -37,13 +37,14 @@ ChartJS.register(
 export const options = {
     responsive: true,
     plugins: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
         legend: {
             position: 'top' as const, // control data labels position
         },
-        // title: {
-        //     display: true,
-        //     text: 'Chart.js Line Chart',
-        // },
     },
 };
 
