@@ -13,10 +13,7 @@ interface Props {
 
 const CalendarEventItem: React.FC<Props> = (props) => {
     const { event, onInvalidate } = props;
-
-    //TODO: need to be implemented.
     const [showDetail, setShowDetail] = useState(false);
-    const [showEditForm, setShowEditForm] = useState(false);
 
     return (
         <>
@@ -34,13 +31,13 @@ const CalendarEventItem: React.FC<Props> = (props) => {
             >
                 {event.name}
             </CalendarItemCard>
-            {showEditForm && (
+            {/* {showEditForm && (
                 <EventEdit
                     onClose={setShowEditForm.bind(null, false)}
                     onEditEvent={onInvalidate}
                     event={event}
                 />
-            )}
+            )} */}
             {showDetail && (
                 <EventDetail
                     onClose={setShowDetail.bind(null, false)}

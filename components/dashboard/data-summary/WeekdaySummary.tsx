@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { ChartData } from '../../../models/analyzer-models/helper-models';
+
 import SummaryCard from '../cards/SummaryCard';
 import SummaryHeading from '../cards/SummaryHeading';
 import MiniChart, { MiniChartType } from '../charts/MiniChart';
 import { useDashboardContext } from '../dashboard-context';
+import { ChartData } from '../../../models/analyzer-models/helper-models';
 
 const WeekdaySummary: React.FC = () => {
     const { analyzer } = useDashboardContext();
@@ -21,7 +21,7 @@ const WeekdaySummary: React.FC = () => {
         <SummaryCard>
             <SummaryHeading>Weekday Comparison</SummaryHeading>
             <div className="flex gap-3 items-center justify-around">
-                <div className="py-1 //pl-3">
+                <div className="py-1 pl-2">
                     <h2 className="relative text-4xl text-slate-500 font-semibold">
                         {totalCount}
                         <span className="text-base text-slate-400">&nbsp;total</span>

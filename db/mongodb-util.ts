@@ -10,4 +10,5 @@ export async function connectDatabase() {
 }
 
 // Direct way
-export const clientPromise = connectDatabase();
+// Stop using this.
+// export const clientPromise = connectDatabase();

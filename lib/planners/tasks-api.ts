@@ -1,7 +1,7 @@
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NoIdTask, Task } from '../../models/task-models/Task';
 import { TaskProperties } from '../../models/task-models/TaskProperties';
-import { TaskCollection } from '../../db/mongodb-constant';
+import { TaskCollection } from '../../db/collections';
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
 

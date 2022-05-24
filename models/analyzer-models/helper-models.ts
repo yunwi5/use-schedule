@@ -28,6 +28,13 @@ export interface DataSet {
     data: ChartData[];
 }
 
+export interface TrendDataSet {
+    label: string;
+    data: ChartData[];
+    backgroundColor: string;
+    borderColor: string;
+}
+
 export enum RecentPeriod {
     FIVE = 5,
     TEN = 10,

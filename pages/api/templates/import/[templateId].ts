@@ -5,7 +5,7 @@ import { connectDatabase } from '../../../../db/mongodb-util';
 import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
 import { NoIdSubTask } from '../../../../models/task-models/SubTask';
 import { NoIdTask } from '../../../../models/task-models/Task';
-import { TaskCollection, SubTaskCollection } from '../../../../db/mongodb-constant';
+import { TaskCollection, SubTaskCollection } from '../../../../db/collections';
 import { insertManySubTasks } from '../../../../db/subtask-util';
 import { insertTask } from '../../../../db/tasks-util';
 import { getTemplateTasksWithSubTask } from '../../../../db/template-util';

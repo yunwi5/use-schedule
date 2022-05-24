@@ -2,15 +2,15 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { getSession } from '@auth0/nextjs-auth0';
 
-import useEventQuery from '../../hooks/useEventQuery';
-import useTaskQuery from '../../hooks/useTaskQuery';
 import { IEvent } from '../../models/Event';
 import { Task } from '../../models/task-models/Task';
-import { convertToTasks } from '../../utilities/tasks-utils/task-util';
+import { convertToTasks, processTasks } from '../../utilities/tasks-utils/task-util';
 import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
 import { getEventsFromPage, getTasksFromAllCollection } from '../../db/pages-util';
 import DashboardMain from '../../components/dashboard/DashboardMain';
 import { DashboardContextProvider } from '../../components/dashboard/dashboard-context';
+import { AbstractTask } from '../../models/task-models/AbstractTask';
+import { processEvents } from '../../utilities/event-utils/event-util';
 
 interface Props {
     initialTasks: Task[];
@@ -20,13 +20,8 @@ interface Props {
 const DashboardPage: NextPage<Props> = (props) => {
     const { initialTasks, initialEvents } = props;
 
-    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery(initialTasks);
-    const { events, invalidateEvents } = useEventQuery(initialEvents);
-
-    const invalidateAll = () => {
-        invalidateTasks();
-        invalidateEvents();
-    };
+    const tasks: AbstractTask[] = processTasks(initialTasks);
+    const events: IEvent[] = processEvents(initialEvents);
 
     return (
         <div>
@@ -61,11 +56,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const eventsPromise = getEventsFromPage(userId);
 
     // Need to convert to App style object (i.e. id instead of _id)
-    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
+    const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
+        allTasksPromise,
+        eventsPromise,
+    ]);
+    const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
 
     return {
         props: {
-            initialAllTasks: convertToTasks(allTasksData),
+            initialAllTasks: convertToTasks(allTasks),
             initialEvents: convertToAppObjectList(eventsData),
         },
     };

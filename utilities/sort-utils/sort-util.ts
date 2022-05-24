@@ -1,4 +1,4 @@
-import { Task } from "../../models/task-models/Task";
+import { Task } from '../../models/task-models/Task';
 
 export function sortTaskByTime(taskA: Task, taskB: Task) {
     return new Date(taskA.timeString) < new Date(taskB.timeString) ? -1 : 1;
@@ -7,7 +7,6 @@ export function sortTaskByTime(taskA: Task, taskB: Task) {
 interface IDateTime {
     dateTime?: Date;
 }
-
 export function compareByDateTime(
     { dateTime: dateTimeA }: IDateTime,
     { dateTime: dateTimeB }: IDateTime,

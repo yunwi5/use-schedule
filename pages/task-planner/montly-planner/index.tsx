@@ -1,21 +1,21 @@
-import { NextPage } from "next";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { useQuery, useQueryClient } from "react-query";
+import { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useQuery, useQueryClient } from 'react-query';
 
-import { getTasksFromPage } from "../../../db/pages-util";
-import { TaskCollection } from "../../../db/mongodb-constant";
-import { Task } from "../../../models/task-models/Task";
-import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
-import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
-import MontlyPlannerMain from "../../../components/planners/montly-planner/MontlyPlanner";
+import { getTasksFromPage } from '../../../db/pages-util';
+import { TaskCollection } from '../../../db/collections';
+import { Task } from '../../../models/task-models/Task';
+import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
+import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
+import MontlyPlannerMain from '../../../components/planners/montly-planner/MontlyPlanner';
 
 interface Props {
     initialTasks: Task[];
 }
 
-const API_DOMIN = "/api/planners";
+const API_DOMIN = '/api/planners';
 const collection = TaskCollection.MONTLY_TASKS;
 
 async function getTasks() {
@@ -24,12 +24,12 @@ async function getTasks() {
 
 const MontlyPlanner: NextPage<Props> = ({ initialTasks }) => {
     const queryClient = useQueryClient();
-    const { data, isLoading, error } = useQuery("tasks", getTasks, {
+    const { data, isLoading, error } = useQuery('tasks', getTasks, {
         initialData: { tasks: initialTasks },
     });
 
     const invalidateData = () => {
-        queryClient.invalidateQueries("tasks");
+        queryClient.invalidateQueries('tasks');
     };
 
     if (error) console.error(error);
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         if (!session)
             return {
                 redirect: {
-                    destination: "/login",
+                    destination: '/login',
                     permanent: false,
                 },
             };

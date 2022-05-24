@@ -99,17 +99,16 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
             eventsPromise,
         ]);
 
-        const userTodos = convertToTodos(userTodoDocs);
-        const userEvents: IEvent[] = convertToAppObjectList(eventDocs);
-        const wTasks = convertToTasks(wTaskDocs, PlannerMode.WEEKLY);
-        const mTasks = convertToTasks(mTaskDocs, PlannerMode.MONTLY);
-        const yTasks = convertToTasks(yTaskDocs, PlannerMode.YEARLY);
+        const taskDocs = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
+        const tasks = convertToTasks(taskDocs);
+        const todos = convertToTodos(userTodoDocs);
+        const events: IEvent[] = convertToAppObjectList(eventDocs);
 
         return {
             props: {
-                todos: userTodos,
-                tasks: [...wTasks, ...mTasks, ...yTasks],
-                events: userEvents,
+                todos,
+                tasks,
+                events,
             },
         };
     },

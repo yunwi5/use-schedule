@@ -45,9 +45,6 @@ const CompletionSummary: React.FC = () => {
     const { completionChartData, nonCompletionChartData } =
         generateBinaryCompletionData(statusChartArray);
 
-    console.log('completionChartData:', completionChartData);
-    console.log('nonCompletionChartData:', nonCompletionChartData);
-
     const completedProportion = round(
         (completionChartData.value / (completionChartData.value + nonCompletionChartData.value)) *
             100,

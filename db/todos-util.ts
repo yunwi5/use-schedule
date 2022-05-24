@@ -1,11 +1,11 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId } from 'mongodb';
 
-import { TodoListCollection, TodoCollection, SubTodoCollection } from "./mongodb-constant";
-import { TodoList, TodoListProperties } from "../models/todo-models/TodoList";
-import { NoIdTodo, TodoProps } from "../models/todo-models/Todo";
-import { NoIdSubTodo } from "../models/todo-models/SubTodo";
-import { SubItemProps } from "../models/utility-models";
-import { deleteItem, getItems, insertItem, updateItem } from "./generic";
+import { TodoListCollection, TodoCollection, SubTodoCollection } from './collections';
+import { TodoList, TodoListProperties } from '../models/todo-models/TodoList';
+import { NoIdTodo, TodoProps } from '../models/todo-models/Todo';
+import { NoIdSubTodo } from '../models/todo-models/SubTodo';
+import { SubItemProps } from '../models/utility-models';
+import { deleteItem, getItems, insertItem, updateItem } from './generic';
 
 // Todo list and its items
 export async function getTodoListAndItems(client: MongoClient, listId: string) {
@@ -30,7 +30,7 @@ export async function getAllTodoLists(client: MongoClient, userId: string) {
 
 export async function insertTodoList(client: MongoClient, list: TodoList) {
     const listNoId: { id?: string } = { ...list };
-    delete listNoId["id"];
+    delete listNoId['id'];
     const db = client.db();
     const res = await db.collection(TodoListCollection).insertOne(listNoId);
     return res;

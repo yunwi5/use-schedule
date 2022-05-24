@@ -24,8 +24,8 @@ export class YearlyAnalyzer extends AbstractAnalyzer {
     previousBeginningPeriod: Date;
     plannerMode: PlannerMode = PlannerMode.YEARLY;
 
-    constructor(beginningPeriod: Date, analysisMode: AnalysisMode = AnalysisMode.ALL) {
-        super(beginningPeriod, analysisMode);
+    constructor(beginningPeriod: Date) {
+        super(beginningPeriod);
         const lastYearBeginning = addYears(beginningPeriod, -1);
         this.previousBeginningPeriod = lastYearBeginning;
     }

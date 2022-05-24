@@ -12,6 +12,7 @@ import { IEvent } from '../../../models/Event';
 import YearlyAnalysis from '../../../components/analysis/analysis-main/YearlyAnalysis';
 import useEventQuery from '../../../hooks/useEventQuery';
 import useTaskQuery from '../../../hooks/useTaskQuery';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     initialAllTasks: Task[];
@@ -33,7 +34,7 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Yearly Data Analysis</title>
+                <title>Yearly Data Analysis | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Analyze user's yearly task data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"

@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { MongoClient } from "mongodb";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { MongoClient } from 'mongodb';
 
-import { SubTask } from "../../../../../models/task-models/SubTask";
-import { connectDatabase } from "../../../../../db/mongodb-util";
-import { getSubTasks, insertSubTask } from "../../../../../db/subtask-util";
-import { SubTaskCollection } from "../../../../../db/mongodb-constant";
-import { covertToSubTasks } from "../../../../../utilities/tasks-utils/task-util";
-import { validateSubTask } from "../../../../../schemas/validation";
+import { SubTask } from '../../../../../models/task-models/SubTask';
+import { connectDatabase } from '../../../../../db/mongodb-util';
+import { getSubTasks, insertSubTask } from '../../../../../db/subtask-util';
+import { SubTaskCollection } from '../../../../../db/collections';
+import { covertToSubTasks } from '../../../../../utilities/tasks-utils/task-util';
+import { validateSubTask } from '../../../../../schemas/validation';
 
 type Data =
     | { message: string }
@@ -20,16 +20,16 @@ export default withApiAuthRequired(async function handler(
 ) {
     const session = getSession(req, res);
     if (!session) {
-        return res.status(400).json({ message: "User not found" });
+        return res.status(400).json({ message: 'User not found' });
     }
 
     const { parentTaskId: initialParentTaskId, collection: initialCollection } = req.query;
     let parentTaskId = Array.isArray(initialParentTaskId)
-        ? initialParentTaskId.join("")
+        ? initialParentTaskId.join('')
         : initialParentTaskId;
 
     let collection = Array.isArray(initialCollection)
-        ? initialCollection.join("")
+        ? initialCollection.join('')
         : initialCollection;
     if (!collection) collection = SubTaskCollection; // Default collection is SubTaskCollection
 
@@ -38,11 +38,11 @@ export default withApiAuthRequired(async function handler(
         client = await connectDatabase();
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "Could not connect to database" });
+        return res.status(500).json({ message: 'Could not connect to database' });
     }
 
     // Handle GET request
-    if (req.method === "GET") {
+    if (req.method === 'GET') {
         let data: SubTask[];
         try {
             let result = await getSubTasks(client, collection, parentTaskId);
@@ -50,13 +50,13 @@ export default withApiAuthRequired(async function handler(
         } catch (err) {
             console.error(err);
             client.close();
-            return res.status(500).json({ message: "Getting subTasks did not work." });
+            return res.status(500).json({ message: 'Getting subTasks did not work.' });
         }
 
-        res.status(200).json({ message: "Getting subTasks successful!", subTasks: data });
-    } else if (req.method === "POST") {
+        res.status(200).json({ message: 'Getting subTasks successful!', subTasks: data });
+    } else if (req.method === 'POST') {
         const subTask = req.body;
-        delete subTask["id"];
+        delete subTask['id'];
         subTask.parentTaskId = parentTaskId; // Double check
 
         const { isValid, message } = validateSubTask(subTask);
@@ -72,15 +72,15 @@ export default withApiAuthRequired(async function handler(
         } catch (err) {
             console.error(err);
             client.close();
-            return res.status(500).json({ message: "Inserting subTask item did not work." });
+            return res.status(500).json({ message: 'Inserting subTask item did not work.' });
         }
 
         res.status(201).json({
-            message: "Successfully post a new subTask!",
+            message: 'Successfully post a new subTask!',
             insertedId: result.insertedId.toString(),
         });
     } else {
-        return res.status(403).json({ message: "Invalid request method." });
+        return res.status(403).json({ message: 'Invalid request method.' });
     }
 
     client.close();

@@ -8,16 +8,20 @@ export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];
     for (const document of data) {
         try {
+            if (document._id === undefined) {
+                console.log('No _id document:', document);
+            }
             const task = {
                 // For un-adjusted tasks already added to weekly planner
                 plannerType: document.plannerType || plannerMode || PlannerMode.WEEKLY,
                 ...document,
-                id: document._id?.toString() || uuidv4(),
+                id: document._id.toString(),
             };
             delete task._id;
             tasks.push(task as Task);
         } catch (err) {
-            console.log(err);
+            const errMessage = err instanceof Error ? err.message : '';
+            console.log(errMessage);
         }
     }
     return tasks;
@@ -72,6 +76,11 @@ export function adjustOverdueTasks(tasks: Task[]): void {
 }
 
 export function processTasks(tasks: Task[]): PlannerTask[] {
+    if (!Array.isArray(tasks)) {
+        console.warn('Tasks is not array!');
+        console.log('Tasks:', tasks);
+        return [];
+    }
     const plannerTaskList: PlannerTask[] = [];
     for (const task of tasks) {
         const convertedTask = new PlannerTask(task);

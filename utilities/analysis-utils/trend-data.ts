@@ -9,8 +9,10 @@ const ONE_YEAR_IN_MS = ONE_DAY_IN_MS * 365; // 1 year always 365 days??
 // Further testing could be needed.
 function getNumberOfWeeksDiff(currentPeriod: Date, dateToTest: Date) {
     // prevent weird error, where Monday 00:00 is treated as previous week Sunday
-    // set every datetime to noon
-    dateToTest.setHours(12);
+    // set every datetime to noon to prevent weird date miscalculation bug
+    // prevent bug caused by modifying the date.
+    const dateCopy = new Date(dateToTest);
+    dateCopy.setHours(12);
 
     const weekEnding = getWeekEnding(currentPeriod);
     const timeDiff: number = weekEnding.getTime() - dateToTest.getTime();

@@ -65,6 +65,25 @@ const PURPLE_500 = rgbToHex(168, 85, 247); // rgb(168, 85, 247)
 const FUCHSIA_500 = rgbToHex(217, 70, 239); // rgb(217, 70, 239)
 const PINK_500 = rgbToHex(236, 72, 153); // rgb(236, 72, 153)
 const SLATE_500 = rgbToHex(100, 116, 139); // rgb(100, 116, 139)
+const GRAY_500 = rgbToHex(107, 114, 128);
+
+export const Pallete500 = {
+    ROSE: ROSE_500,
+    ORANGE: ORANGE_500,
+    YELLOW: YELLOW_500,
+    LIME: LIME_500,
+    TEAL: TEAL_500,
+    CYAN: CYAN_500,
+    SKY: SKY_500,
+    BLUE: BLUE_500,
+    INDIGO: INDIGO_500,
+    VIOLET: VIOLET_500,
+    PURPLE: PURPLE_500,
+    FUCHSIA: FUCHSIA_500,
+    PINK: PINK_500,
+    SLATE: SLATE_500,
+    GRAY: GRAY_500,
+};
 
 export function getMonthBackgroundColor(month: string) {
     const monthColorPallets = [

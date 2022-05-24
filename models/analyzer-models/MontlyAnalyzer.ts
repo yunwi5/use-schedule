@@ -17,8 +17,8 @@ export class MontlyAnalyzer extends AbstractAnalyzer {
     previousBeginningPeriod: Date;
     plannerMode: PlannerMode = PlannerMode.MONTLY;
 
-    constructor(beginningPeriod: Date, analysisMode: AnalysisMode = AnalysisMode.ALL) {
-        super(beginningPeriod, analysisMode);
+    constructor(beginningPeriod: Date) {
+        super(beginningPeriod);
         const lastMonthBeginning = addMonths(beginningPeriod, -1);
         this.previousBeginningPeriod = lastMonthBeginning;
     }

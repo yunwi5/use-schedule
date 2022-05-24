@@ -15,6 +15,7 @@ import MontlyAnalysis from '../../../components/analysis/analysis-main/MontlyAna
 import { IEvent } from '../../../models/Event';
 import useEventQuery from '../../../hooks/useEventQuery';
 import useTaskQuery from '../../../hooks/useTaskQuery';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     initialAllTasks: Task[];
@@ -36,7 +37,7 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Montly Data Analysis</title>
+                <title>Montly Data Analysis | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Analyze user's montly task data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"

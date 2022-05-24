@@ -97,11 +97,11 @@ export function populateAnalyzer(
 ) {
     let analyzer: AbstractAnalyzer;
     if (plannerMode === PlannerMode.WEEKLY) {
-        analyzer = new WeeklyAnalyzer(currentPeriod, analysisMode);
+        analyzer = new WeeklyAnalyzer(currentPeriod);
     } else if (plannerMode === PlannerMode.MONTLY) {
-        analyzer = new MontlyAnalyzer(currentPeriod, analysisMode);
+        analyzer = new MontlyAnalyzer(currentPeriod);
     } else {
-        analyzer = new YearlyAnalyzer(currentPeriod, analysisMode);
+        analyzer = new YearlyAnalyzer(currentPeriod);
     }
     if (analysisMode === AnalysisMode.EVENTS || analysisMode === AnalysisMode.ALL) {
         for (const event of events) analyzer.addItem(event);

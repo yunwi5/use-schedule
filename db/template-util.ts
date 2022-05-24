@@ -1,9 +1,9 @@
-import { MongoClient, ObjectId, WithId } from "mongodb";
+import { MongoClient, ObjectId, WithId } from 'mongodb';
 
-import { TemplateCollection, TaskCollection, SubTaskCollection } from "./mongodb-constant";
-import { Template, TemplateProperties } from "../models/template-models/Template";
-import { Task } from "../models/task-models/Task";
-import { convertToTasks, covertToSubTasks } from "../utilities/tasks-utils/task-util";
+import { TemplateCollection, TaskCollection, SubTaskCollection } from './collections';
+import { Template, TemplateProperties } from '../models/template-models/Template';
+import { Task } from '../models/task-models/Task';
+import { convertToTasks, covertToSubTasks } from '../utilities/tasks-utils/task-util';
 
 // Template Task CRUD operations
 export async function getTemplateTasksById(client: MongoClient, templateId: string) {
@@ -50,7 +50,7 @@ export async function getAllTemplates(client: MongoClient, userId: string) {
 }
 
 export async function getTemplateById(client: MongoClient, templateId: string) {
-    if (!templateId) throw new Error("templateId not found.");
+    if (!templateId) throw new Error('templateId not found.');
     const db = client.db();
     const res = await db.collection(TemplateCollection).findOne({ _id: new ObjectId(templateId) });
     return res;
@@ -61,7 +61,7 @@ export async function updateTemplateById(
     templateId: string,
     templateProps: TemplateProperties,
 ) {
-    if (!templateId) throw new Error("templateId not found.");
+    if (!templateId) throw new Error('templateId not found.');
     const db = client.db();
     const res = await db
         .collection(TemplateCollection)
@@ -71,7 +71,7 @@ export async function updateTemplateById(
 }
 
 export async function deleteTemplateById(client: MongoClient, templateId: string) {
-    if (!templateId) throw new Error("templateId not found.");
+    if (!templateId) throw new Error('templateId not found.');
     const db = client.db();
     const res = await db
         .collection(TemplateCollection)

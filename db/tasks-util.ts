@@ -1,10 +1,10 @@
 import { MongoClient, ObjectId } from 'mongodb';
 
-import { SubTaskCollection } from './mongodb-constant';
+import { SubTaskCollection } from './collections';
 import { NoIdTask, Task } from '../models/task-models/Task';
 import { TaskProperties } from '../models/task-models/TaskProperties';
 import { deleteAllSubTasksOfParent } from './subtask-util';
-import { clientPromise } from './mongodb-util';
+import { connectDatabase } from './mongodb-util';
 
 export async function getTasks(
     client: MongoClient,
@@ -22,32 +22,30 @@ export async function getTasks(
 }
 
 export async function insertTask(collection: string, task: Task | NoIdTask) {
-    const client = await clientPromise;
+    const client = await connectDatabase();
     const db = client.db();
     const res = await db.collection(collection).insertOne(task);
+    client.close();
     return res;
 }
 
 export async function insertManyTasks(collection: string, tasks: Task[]) {
-    const client = await clientPromise;
+    const client = await connectDatabase();
     const db = client.db();
     const res = await db.collection(collection).insertMany(tasks);
+    client.close();
     return res;
 }
 
 export async function replaceTask(client: MongoClient, collection: string, task: Task) {
     const db = client.db();
-
     const taskObjToSend: { id?: string } = { ...task };
     delete taskObjToSend.id;
-
-    console.log('collection:', collection);
 
     const res = await db
         .collection(collection)
         .replaceOne({ _id: new ObjectId(task.id) }, taskObjToSend);
 
-    console.log('Replace result:', res);
     return res;
 }
 
@@ -61,16 +59,13 @@ export async function updateTaskProperties(
     const res = await db
         .collection(collection)
         .updateOne({ _id: new ObjectId(taskId) }, { $set: { ...updateProps } });
-
-    console.log('Update properties result:', res);
+    // console.log('Update properties result:', res);
     return res;
 }
 
 export async function deleteTask(client: MongoClient, collection: string, taskId: string) {
     const db = client.db();
     const res = await db.collection(collection).deleteOne({ _id: new ObjectId(taskId) });
-
     await deleteAllSubTasksOfParent(client, SubTaskCollection, taskId); // Delete all of its subtasks
-
     return res;
 }

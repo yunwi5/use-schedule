@@ -1,6 +1,6 @@
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { Task } from "../../models/task-models/Task";
-import { TaskCollection } from "../../db/mongodb-constant";
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { Task } from '../../models/task-models/Task';
+import { TaskCollection } from '../../db/collections';
 
 const API_DOMAIN = `${process.env.API_DOMAIN_FULL}/planners`;
 
@@ -26,7 +26,7 @@ export async function getTasksFromCollection(
 }
 
 // Full url is true by default
-export async function getSearchedTasks(searchWord: string, cookie: string = "") {
+export async function getSearchedTasks(searchWord: string, cookie: string = '') {
     const weeklyPromise: Promise<Task[]> = getTasksFromCollection(
         TaskCollection.WEEKLY_TASKS,
         cookie,

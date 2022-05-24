@@ -12,6 +12,7 @@ import { IEvent } from '../../../models/Event';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 import useEventQuery from '../../../hooks/useEventQuery';
 import useTaskQuery from '../../../hooks/useTaskQuery';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     initialAllTasks: Task[];
@@ -34,7 +35,7 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Weekly Data Analysis</title>
+                <title>Weekly Data Analysis | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Analyze user's weekly task and event data with data visualization methods specifically charts. Use line chart to represent user task trend, pie/doughnut chart to represent task data in a specific period"
@@ -66,11 +67,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const eventsPromise = getEventsFromPage(userId);
 
     // Need to convert to App style object (i.e. id instead of _id)
-    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
+    const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
+        allTasksPromise,
+        eventsPromise,
+    ]);
+    const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
 
     return {
         props: {
-            initialAllTasks: convertToTasks(allTasksData),
+            initialAllTasks: convertToTasks(allTasks),
             initialEvents: convertToAppObjectList(eventsData),
             initialStartDate: startDate,
         },

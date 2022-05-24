@@ -3,12 +3,26 @@ import { addMinutes, addMonths } from './date-control';
 
 const ONE_DAY = 60 * 24;
 
-export function getDurationFormat(minutes: number) {
-    const days = Math.floor(minutes / ONE_DAY);
+function getDurationDayHourMinutes(totalMinutes: number) {
+    const days = Math.floor(totalMinutes / ONE_DAY);
+    const remainingMinutes = totalMinutes % ONE_DAY;
+    const hours = Math.floor(remainingMinutes / 60);
+    const minutes = remainingMinutes % 60;
+    return { days, hours, minutes };
+}
 
-    const remainingMinutes = minutes % ONE_DAY;
-    const hrs = Math.floor(remainingMinutes / 60);
-    const mins = remainingMinutes % 60;
+export function getShortDurationFormat(minutes: number) {
+    const { days, hours: hrs, minutes: mins } = getDurationDayHourMinutes(minutes);
+
+    const daysSection = days ? `${days} d ` : '';
+    const hrsSection = hrs ? `${hrs} h ` : '';
+    const minsSection = mins ? `${mins} m` : '';
+    const durationFormat = `${daysSection} ${hrsSection} ${minsSection}`.trim();
+    return durationFormat ? durationFormat : '0 hr';
+}
+
+export function getDurationFormat(minutes: number) {
+    const { days, hours: hrs, minutes: mins } = getDurationDayHourMinutes(minutes);
 
     const daysSection = days ? `${days} ${days > 1 ? 'days' : 'day'} ` : '';
     const hrsSection = hrs ? `${hrs} ${hrs > 1 ? 'hrs' : 'hr'} ` : '';

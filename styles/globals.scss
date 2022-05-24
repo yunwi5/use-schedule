@@ -29,7 +29,7 @@ select {
     .dynamic-btn {
     }
     .icon-medium {
-        @apply max-w-[1.35rem] max-h-[1.35rem] inline-block shadow-md;
+        @apply max-w-[1.35rem] max-h-[1.35rem] inline-block;
     }
     .icon-large {
         @apply max-w-[2.2rem] max-h-[2.2rem] inline-block;

@@ -102,11 +102,7 @@ const FlexChart: React.FC<Props> = (props) => {
     );
 
     return (
-        <section
-            className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3 ${
-                flexChartType === FlexChartType.BAR ? '' : ''
-            }`}
-        >
+        <section className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3`}>
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                 <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>
                 <div

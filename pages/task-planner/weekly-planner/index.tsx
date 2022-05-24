@@ -1,21 +1,21 @@
-import { NextPage } from "next";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-import { getTasksFromPage } from "../../../db/pages-util";
-import { TaskCollection } from "../../../db/mongodb-constant";
-import { Task } from "../../../models/task-models/Task";
-import WeeklyPlannerMain from "../../../components/planners/weekly-planner/WeeklyPlanner";
-import LoadingSpinner from "../../../components/ui/design-elements/LoadingSpinner";
-import { convertToTasks } from "../../../utilities/tasks-utils/task-util";
-import { useQuery, useQueryClient } from "react-query";
+import { getTasksFromPage } from '../../../db/pages-util';
+import { TaskCollection } from '../../../db/collections';
+import { Task } from '../../../models/task-models/Task';
+import WeeklyPlannerMain from '../../../components/planners/weekly-planner/WeeklyPlanner';
+import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
+import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
+import { useQuery, useQueryClient } from 'react-query';
 
 interface Props {
     initialTasks: Task[];
 }
 
-const API_DOMIN = "/api/planners";
+const API_DOMIN = '/api/planners';
 const collection = TaskCollection.WEEKLY_TASKS;
 
 async function getTasks() {
@@ -25,12 +25,12 @@ async function getTasks() {
 const WeeklyPlanner: NextPage<Props> = (props) => {
     const { initialTasks } = props;
     const queryClient = useQueryClient();
-    const { data, isLoading, error } = useQuery("tasks", getTasks, {
+    const { data, isLoading, error } = useQuery('tasks', getTasks, {
         initialData: { tasks: initialTasks },
     });
 
     const invalidateData = () => {
-        queryClient.invalidateQueries("tasks");
+        queryClient.invalidateQueries('tasks');
     };
 
     if (error) console.error(error);
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         if (!session)
             return {
                 redirect: {
-                    destination: "/login",
+                    destination: '/login',
                     permanent: false,
                 },
             };
