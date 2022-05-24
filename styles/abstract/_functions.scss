@@ -22,6 +22,8 @@
         @return rgba(67, 56, 202, 0.7);
     } @else if $status == Overdue {
         @return rgba(lighten($color-rose-dark-1, 5%), 0.8);
+    } @else if $status == Completed {
+        @return rgba(147, 197, 253, 0.9);
     }
     @return #888;
 }

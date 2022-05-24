@@ -148,7 +148,7 @@ const ExportModal: React.FC<Props> = ({ onClose, beginningPeriod }) => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-3 text-xl">
-                    <h3>Choose item yype(s) to export</h3>
+                    <h3>Choose item type(s) to export</h3>
                     <div className="flex gap-3">
                         {ExportItemTypeList.map((itemType) => (
                             <ActiveButton

@@ -1,0 +1,66 @@
+@import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+@import '../../../styles/abstract/functions';
+
+.bar-proportion,
+.status-color-label {
+    transition: all 0.35s ease-in-out;
+}
+
+.bar-proportion {
+    position: relative;
+    .proportion-label {
+        @include pos-center;
+        padding: 0.5rem 1rem;
+        background-color: rgba($color-grey-dark-4, 0.85);
+        color: $color-grey-light-1;
+        visibility: hidden;
+        opacity: 0;
+        white-space: nowrap;
+        border-radius: 3px;
+        transition: all 0.35s ease-in-out;
+    }
+    &:hover {
+        .proportion-label {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 1.8rem);
+        }
+    }
+
+    &:first-child {
+        border-top-left-radius: 3.5px;
+        border-bottom-left-radius: 3.5px;
+    }
+    &:last-child {
+        border-top-right-radius: 3.5px;
+        border-bottom-right-radius: 3.5px;
+    }
+}
+
+.status-Completed {
+    $bg-color: status-bg-color(Completed);
+    &:hover {
+        background-color: darken($bg-color, 10%) !important;
+    }
+}
+
+.status-Open {
+    $bg-color: status-bg-color(Open);
+    &:hover {
+        background-color: lighten($bg-color, 10%) !important;
+    }
+}
+.status-Overdue {
+    $bg-color: status-bg-color(Overdue);
+    &:hover {
+        background-color: $bg-color !important;
+    }
+}
+
+.status-InProgress {
+    $bg-color: status-bg-color(InProgress);
+    &:hover {
+        background-color: lighten($bg-color, 15%) !important;
+    }
+}

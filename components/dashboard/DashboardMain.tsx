@@ -2,6 +2,7 @@ import React from 'react';
 import { IEvent } from '../../models/Event';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import DataSummary from './data-summary/DataSummary';
+import ProgressSummary from './progress/ProgressSummary';
 import TrendComparison from './trend/TrendComparison';
 import UpcomingTable from './upcoming-table/UpcomingTable';
 
@@ -12,9 +13,9 @@ interface Props {
 
 const DashboardMain: React.FC<Props> = () => {
     return (
-        <main className="flex flex-col gap-4 p-3 text-slate-700">
+        <main className="flex flex-col gap-4 p-3 pb-7 text-slate-700">
             <DataSummary />
-            <div className="flex gap-3">
+            <div className="flex flex-col lg:flex-row gap-3">
                 <div className="w-full lg:w-[50%] shadow-md rounded-md border-2 border-slate-200">
                     <UpcomingTable />
                 </div>
@@ -24,6 +25,7 @@ const DashboardMain: React.FC<Props> = () => {
                     <TrendComparison />
                 </section>
             </div>
+            <ProgressSummary />
         </main>
     );
 };

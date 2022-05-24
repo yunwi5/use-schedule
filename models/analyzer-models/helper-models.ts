@@ -16,6 +16,16 @@ export enum AnalysisMode {
     ALL = 'All',
 }
 
+export const AnalysisModeList = [AnalysisMode.ALL, AnalysisMode.EVENTS, AnalysisMode.TASKS];
+
+export enum ProgressMode {
+    WEEK = 'Week',
+    MONTH = 'Month',
+    YEAR = 'Year',
+}
+
+export const ProgressModeList = [ProgressMode.WEEK, ProgressMode.MONTH, ProgressMode.YEAR];
+
 export interface ChartData {
     label: string;
     value: number;

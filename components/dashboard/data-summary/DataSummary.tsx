@@ -6,7 +6,7 @@ import WeekdaySummary from './WeekdaySummary';
 
 const DataSummary: React.FC = () => {
     return (
-        <div className="max-h-[15rem] flex flex-col md:flex-row flex-wrap xl:flex-nowrap gap-3">
+        <div className="xl:max-h-[15rem] flex flex-col lg:flex-row flex-wrap xl:flex-nowrap gap-3">
             <CompletionSummary />
             <WeekdaySummary />
             <DayPeriodSummary />
