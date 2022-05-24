@@ -1,4 +1,3 @@
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisMode } from '../../../models/analyzer-models/helper-models';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 import AnalysisSectionContainer from '../containers/AnalysisSectionContainer';
@@ -7,7 +6,7 @@ import ImportanceAnalysis from './ImportanceAnalysis';
 import StatusAnalysis from './StatusAnalysis';
 
 const CategoricalAnalysis: React.FC = () => {
-    const { analyzer } = useAnalysisContext();
+    const { analyzer, analysisMode } = useAnalysisContext();
     if (!analyzer) return <div></div>;
 
     return (
@@ -15,7 +14,7 @@ const CategoricalAnalysis: React.FC = () => {
             <div className="flex flex-col gap-2">
                 <StatusAnalysis />
                 <ImportanceAnalysis />
-                {analyzer.analysisMode === AnalysisMode.TASKS && <CategoryAnalysis />}
+                {analysisMode === AnalysisMode.TASKS && <CategoryAnalysis />}
             </div>
         </AnalysisSectionContainer>
     );

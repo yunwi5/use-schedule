@@ -40,7 +40,7 @@ const UpcomingTable: React.FC = () => {
 
     return (
         <div className={''}>
-            <div className="py-2 px-3 flex justify-between items-center bg-slate-100 border-b-2 border-slate-300">
+            <div className="py-2 px-3 flex justify-between items-center bg-slate-200 border-b-2 border-slate-300">
                 <h3 className="text-2xl">Upcomings</h3>
                 <div className="text-lg flex gap-2 items-center">
                     {UpcomingItemModeList.map((itemMode) => (

@@ -7,7 +7,6 @@ import {
     ProgressModeList,
 } from '../../../models/analyzer-models/helper-models';
 import { ProgressAnalyzer } from '../../../models/analyzer-models/ProgressAnalyzer';
-import { populateAnalyzer } from '../../../utilities/analysis-utils';
 import AppSelect from '../../ui/input/AppSelect';
 import { useDashboardContext } from '../dashboard-context';
 import ProgressBar from './ProgressBar';
@@ -18,7 +17,6 @@ const ProgressSummary: React.FC = () => {
     const [progressMode, setProgressMode] = useState<ProgressMode>(ProgressMode.WEEK); // week by default
     const [analysisMode, setAnalysisMode] = useState(AnalysisMode.ALL);
     const [progressAnalyzer, setProgressAnalyzer] = useState<ProgressAnalyzer | null>(null);
-    populateAnalyzer;
 
     const statusProgressArray: ChartData[] = useMemo(() => {
         return progressAnalyzer?.getProgressData(progressMode) || [];

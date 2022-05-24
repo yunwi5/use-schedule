@@ -1,7 +1,7 @@
 import React from 'react';
+
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { round } from '../../../utilities/gen-utils/calc-util';
-
 import classes from './ProgressBar.module.scss';
 
 interface Props {
@@ -12,6 +12,7 @@ const ProgressBar: React.FC<Props> = ({ progressArray }) => {
     const total = progressArray.reduce((acc, data) => acc + data.value, 0);
     return (
         <div className="py-2 px-0 sm:px-1 md:px-3 lg:px-6 xl:px-9 flex flex-col gap-10">
+            {/* Bar */}
             <div className="flex h-[2rem] sm:h-[2.5rem] w-full shadow-md">
                 {progressArray.map((chartData) => {
                     const { backgroundColor: bgc, borderColor: bc, label, value } = chartData;
@@ -33,7 +34,9 @@ const ProgressBar: React.FC<Props> = ({ progressArray }) => {
                             } ${classes[`status-${label.split(' ').join('')}`]}`}
                             style={style}
                         >
-                            <span>{rounded > 0 ? `${rounded}%` : ''}</span>
+                            <span className={`hidden sm:inline-block`}>
+                                {rounded > 0 ? `${rounded}%` : ''}
+                            </span>
                             <div className={classes['proportion-label']}>
                                 {value} {label}
                             </div>

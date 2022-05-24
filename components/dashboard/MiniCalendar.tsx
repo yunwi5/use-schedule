@@ -2,6 +2,7 @@ import React from 'react';
 import { getMonthMember } from '../../models/date-models/Month';
 import MiniNavigator from '../ui/navigation/MiniNavigator';
 import SummaryCard from './cards/SummaryCard';
+import SummaryHeading from './cards/SummaryHeading';
 import { useDashboardContext } from './dashboard-context';
 
 const MiniCalendar: React.FC = () => {
@@ -11,7 +12,9 @@ const MiniCalendar: React.FC = () => {
 
     return (
         <SummaryCard>
-            <MiniNavigator onNavigate={() => {}}>{periodLabel}</MiniNavigator>
+            <SummaryHeading>
+                <MiniNavigator onNavigate={() => {}}>{periodLabel}</MiniNavigator>
+            </SummaryHeading>
         </SummaryCard>
     );
 };
