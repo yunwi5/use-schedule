@@ -38,7 +38,14 @@
     }
 
     // input
-    .MuiSelect-nativeInput {
-        // color: white;
+    //.MuiSelect-nativeInput {
+    // color: white;
+    //}
+}
+
+.calendar-nav-button {
+    .css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+        text-transform: capitalize !important;
+        padding: 0 !important;
     }
 }

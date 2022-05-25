@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuora } from '@fortawesome/free-brands-svg-icons';
 import { faComputerMouse, faEnvelopes, faMessageQuote } from '@fortawesome/pro-duotone-svg-icons';
 
 import { getAboutLink, getContactLink } from '../../../utilities/link-utils';
@@ -30,15 +29,15 @@ const NavigationGuide: React.FC = () => {
                 {guidances.map((guide, idx) => (
                     <div key={idx} className={`flex flex-col gap-1 p-2`}>
                         <p className={`font-semibold`}>
-                            <FontAwesomeIcon
-                                icon={faQuora as any}
-                                className={`icon-medium text-xl mr-2`}
-                            />
+                            <span className={`font-serif text-xl font-bold text-slate-500/90`}>
+                                Q
+                            </span>
+                            &ensp;
                             {guide.suggestionText}
                         </p>
                         <Link href={guide.link}>
                             <a
-                                className={`ml-5 w-fit inline-block text-xl text-sky-600/90 hover:text-blue-700 drawing-underline`}
+                                className={`ml-6 w-fit inline-block text-sky-600/90 hover:text-blue-700 drawing-underline`}
                             >
                                 <FontAwesomeIcon icon={guide.icon} className={`icon-medium`} />{' '}
                                 {guide.linkText}
@@ -49,7 +48,7 @@ const NavigationGuide: React.FC = () => {
                 <p className={`px-2 sm:flex sm:gap-1 sm:items-baseline`}>
                     <FontAwesomeIcon
                         icon={faMessageQuote}
-                        className={`mr-1 translate-y-1 text-xl`}
+                        className={`icon-medium mr-1 translate-y-1 text-xl`}
                     />{' '}
                     <span>
                         Our goal is to provide the best user experience for you so that you find

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import useDateTime from '../../hooks/useDateTime';
 import useEventQuery from '../../hooks/useEventQuery';
@@ -19,6 +19,7 @@ interface IDashboardContext {
     events: IEvent[];
     currentPeriod: Date;
     onInvalidate(): void;
+    onChangeDate(date: Date): void;
 }
 
 const DashboardContext = React.createContext<IDashboardContext>({
@@ -27,6 +28,7 @@ const DashboardContext = React.createContext<IDashboardContext>({
     events: [],
     currentPeriod: new Date(),
     onInvalidate: () => {},
+    onChangeDate: () => {},
 });
 
 // custom hook for dashboard
@@ -49,9 +51,15 @@ export const DashboardContextProvider: React.FC<Props> = (props) => {
         invalidateEvents();
     };
 
-    // const currentWeekBegining = getCurrentWeekBeginning();
     const today = new Date();
     const { currentTimeStamp, setCurrentTimeStamp } = useDateTime(today);
+
+    const dateHandler = useCallback(
+        (newDate: Date) => {
+            setCurrentTimeStamp(newDate);
+        },
+        [setCurrentTimeStamp],
+    );
 
     // Dashboard is week based.
     useEffect(() => {
@@ -77,6 +85,7 @@ export const DashboardContextProvider: React.FC<Props> = (props) => {
         events,
         tasks,
         onInvalidate: invalidateAll,
+        onChangeDate: dateHandler,
     };
 
     return <DashboardContext.Provider value={contextValue}>{children}</DashboardContext.Provider>;

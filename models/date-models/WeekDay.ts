@@ -1,14 +1,14 @@
 export enum WeekDay {
-    MONDAY = "Monday",
-    TUESDAY = "Tuesday",
-    WEDNESDAY = "Wednesday",
-    THURSDAY = "Thursday",
-    FRIDAY = "Friday",
-    SATURDAY = "Saturday",
-    SUNDAY = "Sunday",
-    ANY = "Any",
+    MONDAY = 'Monday',
+    TUESDAY = 'Tuesday',
+    WEDNESDAY = 'Wednesday',
+    THURSDAY = 'Thursday',
+    FRIDAY = 'Friday',
+    SATURDAY = 'Saturday',
+    SUNDAY = 'Sunday',
+    ANY = 'Any',
 }
-// Do not fix this.
+// Used for date & day calculation
 export const WeekDayList = [
     WeekDay.SUNDAY,
     WeekDay.MONDAY,
@@ -19,8 +19,18 @@ export const WeekDayList = [
     WeekDay.SATURDAY,
 ];
 
+export const WeekdayListMondayToSunday = [
+    WeekDay.MONDAY,
+    WeekDay.TUESDAY,
+    WeekDay.WEDNESDAY,
+    WeekDay.THURSDAY,
+    WeekDay.FRIDAY,
+    WeekDay.SATURDAY,
+    WeekDay.SUNDAY,
+];
+
 // This is for user interface only
-// This includes any
+// This includes ANY day
 export const WeekDayListFromMonday = [
     WeekDay.MONDAY,
     WeekDay.TUESDAY,
