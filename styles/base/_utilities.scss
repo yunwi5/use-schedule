@@ -12,3 +12,37 @@
         order: 0;
     }
 }
+
+.hide-scrollbar {
+    @include hide-scrollbar;
+}
+
+@keyframes LeftRightDrawing {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.drawing-underline {
+    position: relative;
+    margin-bottom: 3px;
+    overflow: visible;
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 102%;
+        width: 100%;
+        height: 1.7px !important;
+        background-color: currentColor;
+        opacity: 0;
+    }
+
+    &:hover::after {
+        opacity: 1;
+        animation: LeftRightDrawing 0.3s ease-in-out;
+    }
+}

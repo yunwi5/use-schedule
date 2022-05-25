@@ -60,7 +60,7 @@ const UpcomingTable: React.FC = () => {
                     ))}
                 </div>
             </div>
-            <ul className={`max-h-[20.7rem] overflow-scroll`}>
+            <ul className={`max-h-[21rem] overflow-scroll`}>
                 {upcomingItems.map((item, idx) => {
                     if (isInstanceOfEvent(item)) {
                         return <UpcomingEventItem key={item.id} event={item as IEvent} />;

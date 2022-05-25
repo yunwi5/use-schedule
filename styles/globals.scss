@@ -40,4 +40,10 @@ select {
     .error-message {
         @apply text-rose-500/90;
     }
+    .flex-center {
+        @apply flex justify-center items-center;
+    }
+    .full-w-h {
+        @apply w-full h-full;
+    }
 }

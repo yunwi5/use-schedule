@@ -1,5 +1,4 @@
-import { CustomTheme } from "../CustomTheme";
-import { Todo } from "./Todo";
+import { Todo } from './Todo';
 
 export interface NoIdTodoList {
     id?: string;

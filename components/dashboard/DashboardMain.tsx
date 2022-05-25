@@ -6,9 +6,9 @@ import ProgressSummary from './progress/ProgressSummary';
 import TrendComparison from './trend/TrendComparison';
 import UpcomingTable from './tables/upcoming-table/UpcomingTable';
 import TemplateTable from './tables/template-table/TemplateTable';
-import TableCard from './cards/TableCard';
 import PlannerNavigation from './navigation-sections/PlannerNavigation';
 import TodoListTable from './tables/todolist-table/TodoListTable';
+import NavigationGuide from './navigation-sections/NavigationGuide';
 
 interface Props {
     tasks: AbstractTask[];
@@ -24,13 +24,13 @@ const DashboardMain: React.FC<Props> = () => {
                 <TrendComparison />
             </div>
             <ProgressSummary />
-            <div className="flex flex-col lg:flex-row flex-wrap gap-3">
+            <div className="flex flex-col mt-6 lg:flex-row flex-wrap gap-3">
                 <TemplateTable />
                 <PlannerNavigation />
             </div>
             <div className="flex flex-col lg:flex-row flex-wrap gap-3">
                 <TodoListTable />
-                <div />
+                <NavigationGuide />
             </div>
         </main>
     );
