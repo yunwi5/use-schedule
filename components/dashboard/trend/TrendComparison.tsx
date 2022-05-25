@@ -6,6 +6,7 @@ import {
     TrendDataSet,
 } from '../../../models/analyzer-models/helper-models';
 import { Pallete200, Pallete500 } from '../../../utilities/gen-utils/color-util';
+import TableCard from '../cards/TableCard';
 import MultipleTrendChart from '../charts/MultipleTrendChart';
 import { useDashboardContext } from '../dashboard-context';
 
@@ -53,12 +54,14 @@ const TrendComparison: React.FC = () => {
     const datasetArray: TrendDataSet[] = [allItemDataset, eventItemDataset, taskItemDataset];
 
     return (
-        <MultipleTrendChart
-            chartTitle={`Recent Trend`}
-            numPeriods={numPeriods}
-            onChangeNumPeriods={setNumPeriods}
-            datasetArray={datasetArray}
-        />
+        <TableCard className={`lg:w-[50%] p-2`}>
+            <MultipleTrendChart
+                chartTitle={`Recent Trend`}
+                numPeriods={numPeriods}
+                onChangeNumPeriods={setNumPeriods}
+                datasetArray={datasetArray}
+            />
+        </TableCard>
     );
 };
 

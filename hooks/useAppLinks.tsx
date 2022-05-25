@@ -25,8 +25,8 @@ const useAppLinks = () => {
             link: '/task-planner/weekly-planner',
         },
         {
-            name: 'Montly Planner',
-            link: '/task-planner/montly-planner',
+            name: 'Monthly Planner',
+            link: '/task-planner/monthly-planner',
         },
         {
             name: 'Yearly Planner',
@@ -46,8 +46,8 @@ const useAppLinks = () => {
             link: '/task-planner/weekly-planner/analysis',
         },
         {
-            name: 'Montly Analysis',
-            link: '/task-planner/montly-planner/analysis',
+            name: 'Monthly Analysis',
+            link: '/task-planner/monthly-planner/analysis',
         },
         {
             name: 'Yearly Analysis',

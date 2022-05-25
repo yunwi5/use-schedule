@@ -11,3 +11,10 @@ export function changeInPercentage(oldValue: number, newValue: number) {
     const amountChange = ((newValue - oldValue) / oldValue) * 100;
     return round(amountChange, 1); // round to 1dp.
 }
+
+interface IDuration {
+    duration: number;
+}
+export function getTotalDuration(durationObjectArr: IDuration[]) {
+    return durationObjectArr.reduce((accDur, curr) => accDur + (curr.duration || 0), 0);
+}

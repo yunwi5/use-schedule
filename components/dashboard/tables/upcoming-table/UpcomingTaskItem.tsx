@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
-import { AbstractTask } from '../../../models/task-models/AbstractTask';
-import TaskDetail from '../../tasks/task-modal/task-detail/TaskDetail';
-import UpcomingItemCard from '../cards/UpcomingItemCard';
-import { useDashboardContext } from '../dashboard-context';
-import TaskEdit from '../../planners/planner-crud/TaskEdit';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
+import UpcomingItemCard from '../../cards/UpcomingItemCard';
+import { useDashboardContext } from '../../dashboard-context';
+import TaskEdit from '../../../planners/planner-crud/TaskEdit';
 
 interface Props {
     task: AbstractTask;

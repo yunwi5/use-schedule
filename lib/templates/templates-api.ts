@@ -20,7 +20,7 @@ export async function getTemplateTasks(context: any) {
     return fetch(`${API_TEMPLATE_DOMAIN}/${collection}/${templateId}`).then((res) => res.json());
 }
 
-// Tried axios. Is it inconsistent?
+// By id
 export async function getTemplateTasksById(templateId: string) {
     const { data } = await axios.get<{ message: string; tasks?: Task[] }>(
         `${API_TEMPLATE_DOMAIN}/${collection}/${templateId}`,

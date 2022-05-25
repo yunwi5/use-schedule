@@ -98,7 +98,7 @@ const MultipleTrendChart: React.FC<Props> = (props) => {
         <div className="pt-1">
             <div className="flex justify-between items-center">
                 <h3 className="text-2xl capitalize">{chartTitle}</h3>
-                <div className="pr-4 ml-auto flex gap-2">
+                <div className="pr-0 md:pr-2 lg:pr-4 ml-auto flex gap-2">
                     {/* May not need status filter */}
                     {filterStatus && onChangeFilterStatus && (
                         <AppSelect

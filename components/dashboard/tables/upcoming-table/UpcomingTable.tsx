@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { AnalysisItem } from '../../../models/analyzer-models/AnalysisItem';
-import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
-import { IEvent, isInstanceOfEvent } from '../../../models/Event';
-import { AbstractTask } from '../../../models/task-models/AbstractTask';
-import { isInstanceOfTask } from '../../../models/task-models/Task';
-import { compareByDateTime } from '../../../utilities/sort-utils/sort-util';
-import { useDashboardContext } from '../dashboard-context';
+import { AnalysisItem } from '../../../../models/analyzer-models/AnalysisItem';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
+import { IEvent, isInstanceOfEvent } from '../../../../models/Event';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import { isInstanceOfTask } from '../../../../models/task-models/Task';
+import { compareByDateTime } from '../../../../utilities/sort-utils/sort-util';
+import TableCard from '../../cards/TableCard';
+import { useDashboardContext } from '../../dashboard-context';
 import UpcomingEventItem from './UpcomingEventItem';
 import UpcomingTaskItem from './UpcomingTaskItem';
 
@@ -39,7 +40,7 @@ const UpcomingTable: React.FC = () => {
     }, [mode, currentPeriod, events, tasks]);
 
     return (
-        <div className={''}>
+        <TableCard className={`lg:w-[50%]`}>
             <div className="py-2 px-3 flex justify-between items-center bg-slate-200 border-b-2 border-slate-300">
                 <h3 className="text-2xl">Upcomings</h3>
                 <div className="text-lg flex gap-2 items-center">
@@ -69,7 +70,7 @@ const UpcomingTable: React.FC = () => {
                     return <span key={idx} />;
                 })}
             </ul>
-        </div>
+        </TableCard>
     );
 };
 

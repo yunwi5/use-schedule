@@ -15,12 +15,29 @@ export function getImportanceValue(importance: string) {
     }
 }
 
+export function getImportanceName(value: number) {
+    switch (value) {
+        case 1:
+            return Importance.EXTRA;
+        case 2:
+            return Importance.TRIVIAL;
+        case 3:
+            return Importance.NICE_TO_HAVE;
+        case 4:
+            return Importance.IMPORTANT;
+        case 5:
+            return Importance.CRUCIAL;
+        default:
+            return Importance.EXTRA;
+    }
+}
+
 export enum Importance {
-    EXTRA = "Extra",
-    TRIVIAL = "Trivial",
-    NICE_TO_HAVE = "Nice to have",
-    IMPORTANT = "Important",
-    CRUCIAL = "Crucial",
+    EXTRA = 'Extra',
+    TRIVIAL = 'Trivial',
+    NICE_TO_HAVE = 'Nice to have',
+    IMPORTANT = 'Important',
+    CRUCIAL = 'Crucial',
 }
 
 export const ImportanceList = [
@@ -37,11 +54,11 @@ export function isImportance(imp: string) {
 }
 
 export enum Status {
-    OPEN = "Open",
-    CANCELLED = "Cancelled",
-    IN_PROGRESS = "In Progress",
-    COMPLETED = "Completed",
-    OVERDUE = "Overdue",
+    OPEN = 'Open',
+    CANCELLED = 'Cancelled',
+    IN_PROGRESS = 'In Progress',
+    COMPLETED = 'Completed',
+    OVERDUE = 'Overdue',
 }
 
 export const StatusList = [
