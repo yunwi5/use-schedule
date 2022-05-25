@@ -58,7 +58,7 @@ const MiniCalendar: React.FC = () => {
                 {weekdayLabels.map((weekday) => (
                     <div
                         key={weekday}
-                        className={`py-1 md:py-0 flex-center px-1 font-semibold bg-slate-200`}
+                        className={`py-1 md:py-0 flex-center px-1 bg-slate-200`}
                     >
                         {weekday}
                     </div>

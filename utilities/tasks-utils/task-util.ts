@@ -8,7 +8,7 @@ export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];
     for (const document of data) {
         try {
-            if (document._id === undefined) {
+            if (document === undefined || document._id === undefined) {
                 console.log('No _id document:', document);
             }
             const task = {

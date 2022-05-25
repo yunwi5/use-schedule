@@ -68,9 +68,9 @@ export function generateRecentWeeksFrequencyMap(
     // 0 to -4 weeks
     // O(t) time
     for (let i = 0; i < numPeriod; i++) {
-        const weekBeginning = addWeeks(currentPeriod, -i);
-        recentWeeksList.push(weekBeginning);
-        recentWeeksFreqMap[weekBeginning.toString()] = 0;
+        const weekEnding = addWeeks(getWeekEnding(currentPeriod), -i);
+        recentWeeksList.push(weekEnding);
+        recentWeeksFreqMap[weekEnding.toString()] = 0;
     }
 
     // const recentWeeksFrequencyList: Array<{ [key: string]: number }> = [];
@@ -81,8 +81,8 @@ export function generateRecentWeeksFrequencyMap(
         if (itemWeekDiff < 0) return;
         if (itemWeekDiff >= recentWeeksList.length) return;
 
-        const weekBeginning = recentWeeksList[itemWeekDiff];
-        const weekBeginningStr = weekBeginning.toString();
+        const weekEnding = recentWeeksList[itemWeekDiff];
+        const weekBeginningStr = weekEnding.toString();
         if (weekBeginningStr in recentWeeksFreqMap)
             recentWeeksFreqMap[weekBeginningStr] += addByDuration ? item.duration : 1;
         else recentWeeksFreqMap[weekBeginningStr] = addByDuration ? item.duration : 1;

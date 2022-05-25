@@ -65,11 +65,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const allTasksPromise = getTasksFromAllCollection(userId);
     const eventsPromise = getEventsFromPage(userId);
 
-    const [allTasksData, eventsData] = await Promise.all([allTasksPromise, eventsPromise]);
+    const [[wTaskData, mTaskData, yTaskData], eventsData] = await Promise.all([
+        allTasksPromise,
+        eventsPromise,
+    ]);
+    const allTaskData = [...wTaskData, ...mTaskData, ...yTaskData];
 
     return {
         props: {
-            initialAllTasks: convertToTasks(allTasksData),
+            initialAllTasks: convertToTasks(allTaskData),
             initialEvents: convertToAppObjectList(eventsData),
             initialStartDate: startDate,
         },
