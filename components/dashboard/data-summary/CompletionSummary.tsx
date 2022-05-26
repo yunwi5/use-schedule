@@ -37,6 +37,13 @@ function generateBinaryCompletionData(statusChartArray: ChartData[]) {
     };
 }
 
+const infoText = (
+    <>
+        <span className={`font-semibold text-lg`}>Completion summary</span> shows the proportions of
+        events/tasks you have done for the currently selected week.
+    </>
+);
+
 const CompletionSummary: React.FC = () => {
     const { analyzer } = useDashboardContext();
     if (!analyzer) return <div />;
@@ -55,7 +62,7 @@ const CompletionSummary: React.FC = () => {
 
     return (
         <SummaryCard>
-            <SummaryHeading>Weekly Completion&nbsp;</SummaryHeading>
+            <SummaryHeading info={infoText}>Weekly Completion&nbsp;</SummaryHeading>
             <div className="flex gap-3 items-center justify-around">
                 <div className="py-1 pl-3">
                     <h2 className="text-4xl text-slate-500 font-semibold">

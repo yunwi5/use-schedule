@@ -6,6 +6,13 @@ import MiniChart, { MiniChartType } from '../charts/MiniChart';
 import { useDashboardContext } from '../dashboard-context';
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 
+const info = (
+    <>
+        <span className={`font-semibold text-lg`}>Weekday summary</span> <br />
+        shows the distribution of events/tasks from Monday to Friday for a selected week.
+    </>
+);
+
 const WeekdaySummary: React.FC = () => {
     const { analyzer } = useDashboardContext();
     if (!analyzer) return <div />;
@@ -19,7 +26,7 @@ const WeekdaySummary: React.FC = () => {
 
     return (
         <SummaryCard>
-            <SummaryHeading>Weekday Comparison</SummaryHeading>
+            <SummaryHeading info={info}>Weekday Comparison</SummaryHeading>
             <div className="flex gap-3 items-center justify-around">
                 <div className="py-1 pl-2">
                     <h2 className="relative text-4xl text-slate-500 font-semibold">

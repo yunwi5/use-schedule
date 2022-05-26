@@ -12,6 +12,13 @@ import SummaryHeading from '../cards/SummaryHeading';
 import { useDashboardContext } from '../dashboard-context';
 import MiniCalendarCell from './MiniCalendarCell';
 
+const info = (
+    <>
+        <span className={`font-semibold text-lg`}>Mini Calendar</span> <br />
+        allows you to navigate. The data will be adjusted to your chosen date & week.
+    </>
+);
+
 const weekdayLabels = WeekdayListMondayToSunday.map((weekday) => weekday.substring(0, 3));
 
 const MiniCalendar: React.FC = () => {
@@ -46,7 +53,7 @@ const MiniCalendar: React.FC = () => {
 
     return (
         <SummaryCard className={`!gap-0 pt-4 sm:pt-3 lg:pt-2`}>
-            <SummaryHeading>
+            <SummaryHeading info={info}>
                 <MiniNavigator onNavigate={monthNavigateHandler}>{periodLabel}</MiniNavigator>
                 <Button className="calendar-nav-button" onClick={todayNavigateHandler}>
                     <span className={`capitalize`}>Today</span>
@@ -56,10 +63,7 @@ const MiniCalendar: React.FC = () => {
                 className={`pt-2 grid grid-cols-7 ${numRows >= 6 ? 'text-[0.9rem]' : 'text-base'}`}
             >
                 {weekdayLabels.map((weekday) => (
-                    <div
-                        key={weekday}
-                        className={`py-1 md:py-0 flex-center px-1 bg-slate-200`}
-                    >
+                    <div key={weekday} className={`py-1 md:py-0 flex-center px-1 bg-slate-200`}>
                         {weekday}
                     </div>
                 ))}

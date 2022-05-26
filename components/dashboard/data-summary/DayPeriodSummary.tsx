@@ -6,6 +6,13 @@ import SummaryHeading from '../cards/SummaryHeading';
 import MiniChart, { MiniChartType } from '../charts/MiniChart';
 import { useDashboardContext } from '../dashboard-context';
 
+const info = (
+    <>
+        <span className={`font-semibold text-lg`}>AM/PM Summary</span> <br /> shows the distribution
+        of events/tasks between AM and PM for a selected week.
+    </>
+);
+
 const DayPeriodSummary = () => {
     const { analyzer } = useDashboardContext();
     if (!analyzer) return <div />;
@@ -16,7 +23,7 @@ const DayPeriodSummary = () => {
 
     return (
         <SummaryCard>
-            <SummaryHeading>AM/PM Comparison</SummaryHeading>
+            <SummaryHeading info={info}>AM/PM Comparison</SummaryHeading>
             <div className="flex gap-3 items-center justify-around">
                 <div className="py-3 pl-1">
                     {chartDataArray.map((data) => (

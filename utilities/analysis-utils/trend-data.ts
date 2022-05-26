@@ -73,7 +73,6 @@ export function generateRecentWeeksFrequencyMap(
         recentWeeksFreqMap[weekEnding.toString()] = 0;
     }
 
-    // const recentWeeksFrequencyList: Array<{ [key: string]: number }> = [];
     // O(n) time
     items.forEach((item) => {
         // O(1) time

@@ -1,0 +1,13 @@
+.info {
+    position: relative;
+    .info-text {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 100%;
+        transform: translateX(-50%);
+    }
+    &:hover .info-text {
+        display: block;
+    }
+}
