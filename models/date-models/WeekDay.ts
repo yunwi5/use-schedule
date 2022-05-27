@@ -19,7 +19,7 @@ export const WeekDayList = [
     WeekDay.SATURDAY,
 ];
 
-export const WeekdayListMondayToSunday = [
+export const WeekdayListMondayToSunday = Object.freeze([
     WeekDay.MONDAY,
     WeekDay.TUESDAY,
     WeekDay.WEDNESDAY,
@@ -27,7 +27,7 @@ export const WeekdayListMondayToSunday = [
     WeekDay.FRIDAY,
     WeekDay.SATURDAY,
     WeekDay.SUNDAY,
-];
+]);
 
 // This is for user interface only
 // This includes ANY day

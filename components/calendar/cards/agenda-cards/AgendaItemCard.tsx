@@ -15,7 +15,10 @@ import {
 import { CalendarItem } from '../../../../models/calendar-models/CalendarItem';
 import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
 import { Importance, Status } from '../../../../models/task-models/Status';
-import { getDurationFormat, getUserTimeFormat } from '../../../../utilities/date-utils/date-format';
+import {
+    getDurationFormat,
+    getLongUserTimeFormat,
+} from '../../../../utilities/date-utils/date-format';
 import { useAppSelector } from '../../../../store/redux';
 import DropDownToggler from '../../../ui/icons/DropDownToggler';
 
@@ -74,7 +77,7 @@ const AgendaItemCard: React.FC<Props> = (props) => {
                 <time
                     className={`ml-2 md:ml-4 font-semibold text-slate-400 min-w-[5.7rem] w-[5.7rem]`}
                 >
-                    {getUserTimeFormat(item.dateTime)}
+                    {getLongUserTimeFormat(item.dateTime)}
                 </time>
                 <h5
                     className="ml-3 md:ml-6 font-semibold text-slate-500 cursor-pointer"

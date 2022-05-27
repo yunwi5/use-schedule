@@ -1,0 +1,13 @@
+.card {
+    .status-checker {
+        visibility: hidden;
+    }
+
+    &:hover {
+        transform: translate(-50%, -1rem) !important;
+        .status-checker {
+            // display: block;
+            visibility: visible;
+        }
+    }
+}

@@ -82,11 +82,12 @@ export function getISOTimeFormat(date: Date): string {
     return `${hours}:${minutes}`;
 }
 
-// More user friendly tiem display
-export function getUserTimeFormat(date: Date): string {
+// More user friendly time display
+// format: 11:00
+export function getLongUserTimeFormat(date: Date): string {
     let hours = '' + (date.getHours() % 12 === 0 ? 12 : date.getHours() % 12);
     let minutes = '' + date.getMinutes().toString();
-    let suffix = date.getHours() > 12 ? 'pm' : 'am';
+    let suffix = date.getHours() >= 12 ? 'pm' : 'am';
 
     if (hours.length === 1) hours = '0' + hours;
     if (minutes.length === 1) minutes = '0' + minutes;
@@ -94,11 +95,21 @@ export function getUserTimeFormat(date: Date): string {
     return `${hours}:${minutes} ${suffix}`;
 }
 
+// More user friendly and even shorter time display
+// format: 11am (if only hours) | 12:15pm (if both hours and minutes)
+export function getShortUserTimeFormat(date: Date) {
+    let hours = date.getHours() % 12 === 0 ? 12 : date.getHours() % 12;
+    const ampm = date.getHours() >= 12 ? 'pm' : 'am';
+    const minutes = date.getMinutes();
+    const format = `${hours}${minutes > 0 ? `:${minutes}` : ''}${ampm}`;
+    return format;
+}
+
 // For user display
 export function getDateTimeFormat(date: Date | undefined) {
     if (!date) return 'N/A';
     const dateFormat = getFullDateFormat(date);
-    const timeFormat = getUserTimeFormat(date);
+    const timeFormat = getLongUserTimeFormat(date);
     return `${timeFormat}  ${dateFormat}`;
 }
 
@@ -112,5 +123,5 @@ export function getEndDateTimeFormat(startTime: Date, duration: number) {
 export function getEventDateTimeFormat(dateTime: Date) {
     return `${dateTime.toDateString().slice(3)} (${dateTime
         .toDateString()
-        .slice(0, 3)}), ${getUserTimeFormat(dateTime)}`;
+        .slice(0, 3)}), ${getLongUserTimeFormat(dateTime)}`;
 }

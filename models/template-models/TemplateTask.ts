@@ -1,13 +1,13 @@
-import { AbstractTask } from "../task-models/AbstractTask";
-import { Task } from "../task-models/Task";
-import { PlannerMode } from "../planner-models/PlannerMode";
+import { AbstractTask } from '../task-models/AbstractTask';
+import { Task } from '../task-models/Task';
+import { PlannerMode } from '../planner-models/PlannerMode';
 import {
     getEndDateTimeFormat,
     getISOTimeFormat,
-    getUserTimeFormat,
-} from "../../utilities/date-utils/date-format";
-import { addMinutes } from "../../utilities/date-utils/date-control";
-import { getDayName } from "../../utilities/date-utils/date-get";
+    getLongUserTimeFormat,
+} from '../../utilities/date-utils/date-format';
+import { addMinutes } from '../../utilities/date-utils/date-control';
+import { getDayName } from '../../utilities/date-utils/date-get';
 
 export class TemplateTask extends AbstractTask {
     templateId: string;
@@ -18,7 +18,7 @@ export class TemplateTask extends AbstractTask {
     }
 
     get durationFormat(): string {
-        if (!this.duration) return getUserTimeFormat(this.dateTime);
+        if (!this.duration) return getLongUserTimeFormat(this.dateTime);
 
         let endTime: null | Date = null;
         if (this.duration) endTime = addMinutes(this.dateTime, this.duration);
@@ -34,18 +34,18 @@ export class TemplateTask extends AbstractTask {
     }
 
     get planDateFormat(): string {
-        if (this.isAnyDateTime) return "Any Time";
-        return `${this.weekDay} ${getUserTimeFormat(this.dateTime)}`;
+        if (this.isAnyDateTime) return 'Any Time';
+        return `${this.weekDay} ${getLongUserTimeFormat(this.dateTime)}`;
     }
 
     get dueDateFormat(): string {
-        if (!this.dueDate) return "";
-        return `${this.dueDateWeekDay} ${getUserTimeFormat(this.dueDate)}`;
+        if (!this.dueDate) return '';
+        return `${this.dueDateWeekDay} ${getLongUserTimeFormat(this.dueDate)}`;
     }
 
     get endTimeFormat(): string {
-        if (!this.duration) return "";
+        if (!this.duration) return '';
         const endTime = addMinutes(this.dateTime, this.duration);
-        return `${getDayName(endTime.getDay())} ${getUserTimeFormat(endTime)}`;
+        return `${getDayName(endTime.getDay())} ${getLongUserTimeFormat(endTime)}`;
     }
 }

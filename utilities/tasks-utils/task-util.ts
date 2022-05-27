@@ -54,7 +54,7 @@ export function isAnyPlanTime(beginningPeriod: Date, date: Date | string) {
 }
 
 // Check if the task is overdue.
-export function isOverdue(task: Task): boolean {
+export function isTaskOverdue(task: Task): boolean {
     if (!task.dueDateString) return false;
     if (
         task.status === Status.COMPLETED ||
@@ -68,7 +68,7 @@ export function isOverdue(task: Task): boolean {
 }
 
 export function adjustOverdueTask(task: Task): void {
-    if (isOverdue(task)) task.status = Status.OVERDUE;
+    if (isTaskOverdue(task)) task.status = Status.OVERDUE;
 }
 
 export function adjustOverdueTasks(tasks: Task[]): void {

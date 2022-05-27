@@ -44,3 +44,15 @@ export function resetHoursAndMinutes(date: Date): Date {
     dateCpy.setMilliseconds(0);
     return dateCpy;
 }
+
+export function getDayStart(date: Date): Date {
+    return resetHoursAndMinutes(date);
+}
+
+export function getDayEnd(date: Date): Date {
+    const dateCpy = new Date(date);
+    dateCpy.setHours(23);
+    dateCpy.setMinutes(59);
+    dateCpy.setSeconds(59);
+    return dateCpy;
+}

@@ -17,6 +17,10 @@
     @include hide-scrollbar;
 }
 
+.pos-horizontal-center {
+    @include pos-horizontal-center;
+}
+
 @keyframes LeftRightDrawing {
     0% {
         width: 0;

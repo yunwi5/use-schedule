@@ -1,176 +1,176 @@
-@import "../../styles/main";
+@import '../../styles/main';
 
 .commentIcon {
-	opacity: 0;
-	visibility: hidden;
-	transform: translateY(1.3rem);
-	transition: all .3s ease;
-	font-size: 1.4rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1.3rem);
+    transition: all 0.3s ease;
+    font-size: 1.4rem;
 
-	&:hover {
-		font-size: 1.5rem;
-	}
+    &:hover {
+        font-size: 1.5rem;
+    }
 }
 
 .task:hover {
-	animation: UpDown .5s ease;
+    animation: UpDown 0.5s ease;
 
-	.commentIcon {
-		opacity: 1;
-		visibility: visible;
-		transform: translateY(-12px);
-		max-width: 2rem;
-	}
+    .commentIcon {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(-12px);
+        max-width: 2rem;
+    }
 }
 
 .task {
-	display: flex;
-	flex-direction: column;
-	background-color: rgba($color-primary-light-1, 1);
-	width: clamp(50%, 66rem, 75rem);
+    display: flex;
+    flex-direction: column;
+    background-color: $color-primary-light-1;
+    width: clamp(50%, 66rem, 75rem);
 
-	padding: .8rem 1.5rem;
-	padding-left: 1.7rem;
-	gap: 3.2rem;
-	font-size: 1.15rem;
-	box-shadow: $shadow-light;
-	border-radius: 3px;
+    padding: 0.8rem 1.5rem;
+    padding-left: 1.7rem;
+    gap: 3.2rem;
+    font-size: 1.15rem;
+    box-shadow: $shadow-light;
+    border-radius: 3px;
 
-	position: relative;
+    position: relative;
 
-	&__decorator {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 1.2%;
-		height: 100%;
-		z-index: 0;
-		border-radius: inherit;
-	}
+    &__decorator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1.2%;
+        height: 100%;
+        z-index: 0;
+        border-radius: inherit;
+    }
 
-	&__heading,
-	&__body {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+    &__heading,
+    &__body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-		& > * {
-			display: flex;
-			align-items: center;
-		}
-	}
+        & > * {
+            display: flex;
+            align-items: center;
+        }
+    }
 
-	&__name {
-		font-size: 1.4rem;
-		font-weight: 600;
-		color: $color-primary-dark-3;
-	}
+    &__name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: $color-primary-dark-3;
+    }
 
-	&__time {
-		margin-left: 1.7rem;
-		font-weight: 650;
-	}
+    &__time {
+        margin-left: 1.7rem;
+        font-weight: 650;
+    }
 
-	&__dueDate {
-		margin-left: .7rem;
-		margin-right: auto;
-		transform: translateY(-2px);
-		font-weight: 600;
-	}
+    &__dueDate {
+        margin-left: 0.7rem;
+        margin-right: auto;
+        transform: translateY(-2px);
+        font-weight: 600;
+    }
 
-	&__time,
-	&__dueDate {
-		color: rgba($color-primary-dark-1, .8);
-	}
+    &__time,
+    &__dueDate {
+        color: rgba($color-primary-dark-1, 0.8);
+    }
 
-	&__select {
-		border-radius: 3px;
-		padding: .5rem .6rem;
-		font-size: inherit;
-	}
+    &__select {
+        border-radius: 3px;
+        padding: 0.5rem 0.6rem;
+        font-size: inherit;
+    }
 
-	.icon {
-		font-size: 120%;
-		max-width: 22.5px;
-		margin-right: 5px;
-		color: $color-primary-dark-3;
-	}
+    .icon {
+        font-size: 120%;
+        max-width: 22.5px;
+        margin-right: 5px;
+        color: $color-primary-dark-3;
+    }
 
-	&__icon_small {
-		max-width: .35rem;
-		font-size: 30%;
-		margin: 0 5px;
-	}
+    &__icon_small {
+        max-width: 0.35rem;
+        font-size: 30%;
+        margin: 0 5px;
+    }
 
-	&__body {
-		font-size: inherit;
-	}
+    &__body {
+        font-size: inherit;
+    }
 
-	&__category {
-		display: flex;
-		align-items: center;
+    &__category {
+        display: flex;
+        align-items: center;
 
-		.icon {
-			margin-right: .5rem;
-			color: rgb(29, 78, 216);
-		}
-	}
+        .icon {
+            margin-right: 0.5rem;
+            color: rgb(29, 78, 216);
+        }
+    }
 
-	&__importance {
-		margin-left: 1rem;
-		padding-left: 1rem;
-		border-left: 2.5px solid $color-primary-dark-3;
-		.icon {
-			color: $color-amber-dark-1;
-		}
-	}
+    &__importance {
+        margin-left: 1rem;
+        padding-left: 1rem;
+        border-left: 2.5px solid $color-primary-dark-3;
+        .icon {
+            color: $color-amber-dark-1;
+        }
+    }
 
-	&__status {
-		margin-left: 1rem;
-		padding-left: 1rem;
-		border-left: 2.5px solid $color-primary-dark-3;
+    &__status {
+        margin-left: 1rem;
+        padding-left: 1rem;
+        border-left: 2.5px solid $color-primary-dark-3;
 
-		.icon {
-			color: inherit;
-		}
-	}
+        .icon {
+            color: inherit;
+        }
+    }
 
-	&__btns {
-		margin-left: auto;
-	}
+    &__btns {
+        margin-left: auto;
+    }
 
-	&__detail,
-	&__edit {
-		padding: .3rem .6rem;
-		border-radius: 3.5px;
-		min-width: 5.5rem;
+    &__detail,
+    &__edit {
+        padding: 0.3rem 0.6rem;
+        border-radius: 3.5px;
+        min-width: 5.5rem;
 
-		.icon {
-			display: inline-block;
-			color: inherit;
-		}
-	}
+        .icon {
+            display: inline-block;
+            color: inherit;
+        }
+    }
 
-	&__detail {
-		margin-right: 1rem;
-		border: 2px solid rgb(2, 132, 199);
-		background-color: rgba(224, 242, 254, .7);
-		color: $color-secondary-dark-4;
+    &__detail {
+        margin-right: 1rem;
+        border: 2px solid rgb(2, 132, 199);
+        background-color: rgba(224, 242, 254, 0.7);
+        color: $color-secondary-dark-4;
 
-		&:hover {
-			background-color: rgb(2, 132, 199);
-			color: $color-secondary-light-1;
-		}
-	}
+        &:hover {
+            background-color: rgb(2, 132, 199);
+            color: $color-secondary-light-1;
+        }
+    }
 
-	&__edit {
-		border: 2px solid rgb(219, 39, 119);
-		background-color: rgba(251, 231, 243, .7);
-		color: rgb(157, 23, 77);
+    &__edit {
+        border: 2px solid rgb(219, 39, 119);
+        background-color: rgba(251, 231, 243, 0.7);
+        color: rgb(157, 23, 77);
 
-		&:hover {
-			background-color: rgb(219, 39, 119);
-			color: rgb(253, 242, 248);
-		}
-	}
+        &:hover {
+            background-color: rgb(219, 39, 119);
+            color: rgb(253, 242, 248);
+        }
+    }
 }
