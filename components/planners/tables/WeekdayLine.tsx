@@ -49,7 +49,7 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => 
 
     return (
         <div className={`w-[calc(100%/7)]`}>
-            <WeekdayLabel date={date} />
+            {/* <WeekdayLabel date={date} /> */}
             <ul className={`relative px-1 pt-1`}>
                 {filteredTaskList.map((task, idx) => {
                     const hours = task.dateTime.getHours();
