@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { getWeekDay } from '../../../models/date-models/WeekDay';
+import React, { useEffect, useState } from 'react';
 import { AbstractTask } from '../../../models/task-models/AbstractTask';
+import { useAppSelector } from '../../../store/redux';
 import { mod } from '../../../utilities/gen-utils/calc-util';
+import { applyTaskFilter } from '../../../utilities/tasks-utils/filter-util';
 import TaskCardSmall from '../../tasks/TaskCardSmall';
 import DynamicStatusPalleteProvider from '../../ui/colors/DynamicStatusPalleteProvider';
+import WeekdayLabel from './WeekdayLabel';
 
 interface Props {
     date: Date;
@@ -25,21 +27,31 @@ function getInitialTimeLineFreqMap() {
 }
 
 const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => {
-    const dayMember = getWeekDay(date).substring(0, 3); // e.g. Monday
-    const dayNumber = date.getDate(); // e.g. 26th
+    const { searchWord, filterTarget, mainFilter, subFilter } = useAppSelector(
+        (state) => state.filter,
+    );
+    const [filteredTaskList, setFilteredTaskList] = useState<AbstractTask[]>(tasks);
+
+    useEffect(() => {
+        const searchedList = tasks.filter((task) =>
+            task.name.toLowerCase().includes(searchWord.toLowerCase()),
+        );
+        const newFiltered = applyTaskFilter(
+            searchedList,
+            filterTarget,
+            mainFilter,
+            subFilter,
+        ) as AbstractTask[];
+        setFilteredTaskList(newFiltered);
+    }, [searchWord, filterTarget, mainFilter, subFilter, tasks]);
 
     const timeLineFreqMap = getInitialTimeLineFreqMap();
 
     return (
         <div className={`w-[calc(100%/7)]`}>
-            <div
-                className={`h-[5rem] py-1 flex flex-col justify-center items-center border-b-2 border-b-slate-300`}
-            >
-                <h3 className={`capitalize text-3xl font-normal text-slate-500/90`}>{dayMember}</h3>
-                <p className={`text-slate-600 font-semibold`}>{dayNumber}</p>
-            </div>
+            <WeekdayLabel date={date} />
             <ul className={`relative px-1 pt-1`}>
-                {tasks.map((task, idx) => {
+                {filteredTaskList.map((task, idx) => {
                     const hours = task.dateTime.getHours();
                     const heightOffset = timeLineFreqMap[hours] * 2 + 'rem';
 
