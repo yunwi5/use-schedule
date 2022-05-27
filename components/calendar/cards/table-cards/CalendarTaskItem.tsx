@@ -3,7 +3,6 @@ import { CalendarItemType } from '../../../../models/calendar-models/CalendarIte
 
 import { Status } from '../../../../models/task-models/Status';
 import { PlannerTask } from '../../../../models/task-models/Task';
-import PlannerTaskEdit from '../../../planners/planner-crud/TaskEdit';
 import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
 import CalendarItemCard from './CalendarItemCard';
 
@@ -14,15 +13,6 @@ interface Props {
 
 const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
     const [showDetail, setShowDetail] = useState(false);
-    const [showEditForm, setShowEditForm] = useState(false);
-
-    const editHandler = useCallback(() => {
-        setShowEditForm(true);
-        setShowDetail(false);
-    }, []);
-    const updateHandler = (updateTask?: PlannerTask) => {
-        onInvalidate();
-    };
 
     return (
         <>
@@ -44,16 +34,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
                 <TaskDetail
                     task={task}
                     onClose={setShowDetail.bind(null, false)}
-                    onEdit={editHandler}
                     onInvalidate={onInvalidate}
-                />
-            )}
-            {showEditForm && (
-                <PlannerTaskEdit
-                    initialTask={task}
-                    onClose={setShowEditForm.bind(null, false)}
-                    beginningPeriod={task.dateTime}
-                    onUpdate={updateHandler}
                 />
             )}
         </>

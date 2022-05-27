@@ -25,19 +25,47 @@ import TaskStatus from './TaskStatus';
 import OperationList from '../../../ui/OperationList';
 import useTaskDelete from '../../../../hooks/task-hooks/useTaskDelete';
 import TaskDuplicate from '../../../planners/planner-crud/TaskDuplicate';
+import TaskEdit from '../../../planners/planner-crud/TaskEdit';
 
 interface Props {
     onClose: () => void;
-    onEdit: () => void;
     task: AbstractTask;
     onInvalidate?: () => void;
     onShowDetail: (show: boolean) => void;
 }
 
-// This component is just for displaying. It does not do any functional stuff.
+enum ModalEventType {
+    SHOW = 'Show',
+    UPDATE = 'Update',
+    CLOSE = 'Close',
+}
+
 const TaskDetailInfo: React.FC<Props> = (props) => {
-    const { onClose, onEdit, task, onInvalidate, onShowDetail } = props;
+    const { onClose, task, onInvalidate, onShowDetail } = props;
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    const editHandler = (eventType: ModalEventType) => {
+        if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
+            setShowEditModal(false);
+            onShowDetail(true);
+            if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
+        } else {
+            setShowEditModal(true);
+            onShowDetail(false);
+        }
+    };
+
+    const duplicateHandler = (eventType: ModalEventType) => {
+        if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
+            setShowDuplicateModal(false);
+            onShowDetail(true);
+            if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
+        } else {
+            setShowDuplicateModal(true);
+            onShowDetail(false);
+        }
+    };
 
     const { deleteTask } = useTaskDelete({
         task,
@@ -46,21 +74,6 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
             onInvalidate && onInvalidate();
         },
     });
-
-    const duplicateHandler = () => {
-        onInvalidate && onInvalidate();
-        onClose();
-    };
-
-    const modalHandler = (show: boolean) => {
-        if (show) {
-            setShowDuplicateModal(true);
-            onShowDetail(false);
-        } else {
-            setShowDuplicateModal(false);
-            onShowDetail(true);
-        }
-    };
 
     const { description, category, subCategory, importance, duration } = task;
     const defaultValue = '-';
@@ -149,17 +162,25 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 
             <div className={classes.actions}>
                 <OperationList
-                    onEdit={onEdit}
+                    onEdit={editHandler.bind(null, ModalEventType.SHOW)}
                     onDelete={deleteTask}
-                    onDuplicate={modalHandler.bind(null, true)}
+                    onDuplicate={duplicateHandler.bind(null, ModalEventType.SHOW)}
                     hoverColorClass="hover:text-blue-500/90"
                 />
             </div>
+            {showEditModal && (
+                <TaskEdit
+                    onClose={editHandler.bind(null, ModalEventType.CLOSE)}
+                    onUpdate={editHandler.bind(null, ModalEventType.UPDATE)}
+                    beginningPeriod={task.dateTime}
+                    initialTask={task}
+                />
+            )}
             {showDuplicateModal && (
                 <TaskDuplicate
                     task={task}
-                    onClose={modalHandler.bind(null, false)}
-                    onDuplicate={duplicateHandler}
+                    onClose={duplicateHandler.bind(null, ModalEventType.CLOSE)}
+                    onDuplicate={duplicateHandler.bind(null, ModalEventType.UPDATE)}
                 />
             )}
         </>

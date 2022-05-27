@@ -22,7 +22,7 @@ interface Props {
     initialTask: Task;
 }
 
-const PlannerTaskAdd: React.FC<Props> = (props) => {
+const TaskEdit: React.FC<Props> = (props) => {
     const { onClose, onUpdate, beginningPeriod, initialTask } = props;
     const { user } = useUser();
     const userId = user ? user.sub : null;
@@ -110,4 +110,4 @@ const PlannerTaskAdd: React.FC<Props> = (props) => {
     );
 };
 
-export default PlannerTaskAdd;
+export default TaskEdit;

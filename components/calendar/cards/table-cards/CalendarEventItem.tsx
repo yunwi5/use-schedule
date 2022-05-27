@@ -31,13 +31,6 @@ const CalendarEventItem: React.FC<Props> = (props) => {
             >
                 {event.name}
             </CalendarItemCard>
-            {/* {showEditForm && (
-                <EventEdit
-                    onClose={setShowEditForm.bind(null, false)}
-                    onEditEvent={onInvalidate}
-                    event={event}
-                />
-            )} */}
             {showDetail && (
                 <EventDetail
                     onClose={setShowDetail.bind(null, false)}

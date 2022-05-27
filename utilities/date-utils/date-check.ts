@@ -13,7 +13,7 @@ export function isSunday(date: Date) {
 export function isOverdue(d: Date | null | undefined) {
     if (!d) return false;
     const now = new Date();
-    return d.getTime() < now.getTime();
+    return d.getTime() <= now.getTime();
 }
 
 export function isCurrentDate(date: Date) {

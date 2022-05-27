@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { CalendarItemType } from "../../../../models/calendar-models/CalendarItemType";
+import React, { useState } from 'react';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
-import { Importance, Status } from "../../../../models/task-models/Status";
-import { PlannerTask } from "../../../../models/task-models/Task";
-import PlannerTaskEdit from "../../../planners/planner-crud/TaskEdit";
-import TaskDetail from "../../../tasks/task-modal/task-detail/TaskDetail";
-import AgendaItemCard from "./AgendaItemCard";
+import { Importance, Status } from '../../../../models/task-models/Status';
+import { PlannerTask } from '../../../../models/task-models/Task';
+import PlannerTaskEdit from '../../../planners/planner-crud/TaskEdit';
+import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
+import AgendaItemCard from './AgendaItemCard';
 
 interface Props {
     item: PlannerTask;
@@ -35,7 +35,6 @@ const AgendaTaskItem: React.FC<Props> = ({ item, onInvalidate }) => {
                 <TaskDetail
                     task={item}
                     onClose={showDetailCurry(false)}
-                    onEdit={onInvalidate}
                     onInvalidate={onInvalidate}
                 />
             )}

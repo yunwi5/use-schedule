@@ -15,7 +15,6 @@ import classes from './TaskDetail.module.scss';
 
 interface Props {
     onClose: () => void;
-    onEdit: () => void;
     task: AbstractTask;
     // on Invalidate tasks items. This function prop is optional.
     onInvalidate?: () => void;
@@ -31,14 +30,11 @@ async function fetchSubTasks(context: any) {
 }
 
 const TaskDetail: React.FC<Props> = (props) => {
-    const { onClose, onEdit, task, onInvalidate } = props;
+    const { onClose, task, onInvalidate } = props;
     const [showTaskDetail, setShowTaskDetail] = useState(true);
-    // const [showEditModal, setShowEditModal] = useState(false);
     const [showSubTasks, setShowSubTasks] = useState(false);
 
     const { name, plannerType } = task;
-
-    // const editEventHandler = () => {};
 
     const queryClient = useQueryClient();
     const { isLoading, error, data } = useQuery(['subTasks', task.id], fetchSubTasks);
@@ -77,7 +73,6 @@ const TaskDetail: React.FC<Props> = (props) => {
             {!showSubTasks && (
                 <TaskDetailInfo
                     onShowDetail={(show: boolean) => setShowTaskDetail(show)}
-                    onEdit={onEdit}
                     onClose={onClose}
                     task={task}
                     onInvalidate={onInvalidate}

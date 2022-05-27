@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboardCheck } from '@fortawesome/pro-duotone-svg-icons';
 
@@ -7,6 +7,7 @@ import IconEdit from '../../../ui/icons/IconEdit';
 import classes from './TaskDetail.module.scss';
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import { updateTaskProperties } from '../../../../lib/planners/tasks-api';
+import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
 
 interface Props {
     task: AbstractTask;
@@ -39,18 +40,22 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
         if (isSuccess && onInvalidate) onInvalidate();
     };
 
+    const showEditIcon = task.plannerType !== PlannerMode.TEMPLATE;
+
     return (
         <div className={classes.item}>
             <div className={`${classes.label} flex items-center`}>
                 <FontAwesomeIcon icon={faClipboardCheck} className={classes.icon} />
                 <div className={`relative flex items-center w-[60%]`}>
                     Status
-                    <IconEdit
-                        isEditing={isEditing}
-                        onEdit={() => setIsEditng(true)}
-                        onCheck={confirmHandler}
-                        className={'!text-[100%]'}
-                    />
+                    {showEditIcon && (
+                        <IconEdit
+                            isEditing={isEditing}
+                            onEdit={() => setIsEditng(true)}
+                            onCheck={confirmHandler}
+                            className={'!text-[100%]'}
+                        />
+                    )}
                 </div>
             </div>
             {!isEditing && <p className={`${classes.value}`}>{status}</p>}

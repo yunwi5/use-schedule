@@ -12,14 +12,11 @@ import {
 } from '@fortawesome/pro-duotone-svg-icons';
 
 import { IEvent } from '../../../../models/Event';
-import { Theme } from '../../../../models/design-models';
 import {
     getDurationFormat,
     getEventDateTimeFormat,
 } from '../../../../utilities/date-utils/date-format';
-import Modal from '../../../ui/modal/Modal';
 import ExitIcon from '../../../ui/icons/ExitIcon';
-import Button from '../../../ui/buttons/Button';
 import EventEdit from '../EventEdit';
 import EmailLink from '../../../ui/EmailLink';
 import EventStatus from './EventStatus';

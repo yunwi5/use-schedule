@@ -1,7 +1,8 @@
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAlarmClock, faListTree, faStarExclamation } from '@fortawesome/pro-duotone-svg-icons';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+
 import { updateTaskProperties } from '../../lib/planners/tasks-api';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import {
@@ -11,10 +12,11 @@ import {
     Status,
 } from '../../models/task-models/Status';
 import { useAppSelector } from '../../store/redux';
-import { isTaskOverdue } from '../../utilities/tasks-utils/task-util';
+import { isOverdue } from '../../utilities/date-utils/date-check';
 import TaskDetail from './task-modal/task-detail/TaskDetail';
 
 import classes from './TaskCardSmall.module.scss';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
 
 interface Props {
     task: AbstractTask;
@@ -22,10 +24,18 @@ interface Props {
     style: Object;
 }
 
-function isOverdue(dueDate: Date | null): boolean {
-    if (!dueDate) return false;
-    const now = new Date();
-    return now.getTime() >= dueDate.getTime();
+function getStyleClasses(status: string, plannerMode: PlannerMode | null) {
+    const isTemplateTask = plannerMode === PlannerMode.TEMPLATE;
+    const statusBgClass = isTemplateTask
+        ? getStatusBgClass(Status.COMPLETED)
+        : getStatusBgClass(status);
+    const hoverBgClass = isTemplateTask
+        ? getStatusHoverBgClass(Status.COMPLETED)
+        : getStatusHoverBgClass(status);
+    const borderClass = isTemplateTask
+        ? getStatusBorderClass(Status.COMPLETED)
+        : getStatusBorderClass(status);
+    return { statusBgClass, hoverBgClass, borderClass };
 }
 
 const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
@@ -34,9 +44,7 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
     const durationFormat = task.durationFormat;
-    const statusBgClass = getStatusBgClass(localStatus);
-    const hoverBgClass = getStatusHoverBgClass(localStatus);
-    const borderClass = getStatusBorderClass(localStatus);
+    const { statusBgClass, hoverBgClass, borderClass } = getStyleClasses(localStatus, plannerMode);
 
     const toggleCompletion = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -55,6 +63,18 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
         onMutate();
     };
 
+    const taskStatus = task.status;
+
+    useEffect(() => {
+        console.log('Task status changed!');
+        const timer = setTimeout(() => {
+            setLocalStatus(taskStatus);
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, [taskStatus]);
+
+    const showCheckToggler = plannerMode !== PlannerMode.TEMPLATE;
+
     return (
         <>
             <article
@@ -71,19 +91,21 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
                     />
                     {durationFormat}
                 </time>
-                <div
-                    className={`absolute z-30 top-1 right-1 w-[1.9rem] h-[1.9rem] flex-center rounded-full bg-white border-[1.3px] border-slate-300 ${classes['status-checker']}`}
-                    onClick={toggleCompletion}
-                >
-                    <FontAwesomeIcon
-                        icon={faCheck}
-                        className={`${
-                            localStatus === Status.COMPLETED
-                                ? 'text-emerald-600'
-                                : 'text-emerald-100/90'
-                        }`}
-                    />
-                </div>
+                {showCheckToggler && (
+                    <div
+                        className={`absolute z-30 top-1 right-1 w-[1.9rem] h-[1.9rem] flex-center rounded-full bg-white border-[1.3px] border-slate-300 ${classes['status-checker']}`}
+                        onClick={toggleCompletion}
+                    >
+                        <FontAwesomeIcon
+                            icon={faCheck}
+                            className={`${
+                                localStatus === Status.COMPLETED
+                                    ? 'text-emerald-600'
+                                    : 'text-emerald-100/90'
+                            }`}
+                        />
+                    </div>
+                )}
                 <h5 className={`text-lg !leading-[1.3rem]`}>{task.name}</h5>
                 <div className={`flex flex-col gap-1`}>
                     <p className={`text-[.9rem]`}>
@@ -105,7 +127,6 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
             {showDetail && (
                 <TaskDetail
                     onClose={setShowDetail.bind(null, false)}
-                    onEdit={() => {}}
                     task={task}
                     onInvalidate={onMutate}
                 />
