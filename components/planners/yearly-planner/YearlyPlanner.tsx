@@ -46,10 +46,11 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
     const yearBeginning = getCurrentYearBeginning();
     console.log(`year beginning: ${yearBeginning}`);
 
-    const { currentTimeStamp, addYears: addLocalYears } = useDateTime(
-        yearBeginning,
-        ResetPeriod.YEAR,
-    );
+    const {
+        currentTimeStamp,
+        setCurrentTimeStamp,
+        addYears: addLocalYears,
+    } = useDateTime(yearBeginning, ResetPeriod.YEAR);
 
     useEffect(() => {
         const newPlanner = populateYearlyPlanner(initialTasks, currentTimeStamp);
@@ -58,12 +59,16 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.YEARLY));
-    }, []);
+    }, [dispatch]);
 
     const yearNavigateHandler = (direction: number) => {
         if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
         // Hook call
         addLocalYears(direction);
+    };
+
+    const currentNavigateHandler = () => {
+        setCurrentTimeStamp(yearBeginning);
     };
 
     return (
@@ -82,6 +87,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
                         yearBeginning={currentTimeStamp}
                         planner={planner}
                         onChangeYear={yearNavigateHandler}
+                        onNavigateCurrentPeriod={currentNavigateHandler}
                         onMutate={onMutate}
                     />
                 )}

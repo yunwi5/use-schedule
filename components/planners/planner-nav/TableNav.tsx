@@ -7,16 +7,18 @@ import TaskStatusSummary from './TaskStatusSummary';
 import { Planner } from '../../../models/planner-models/Planner';
 import TableNavCard from '../../ui/cards/TableNavCard';
 import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
+import { Button } from '@mui/material';
 
 interface Props {
     beginningPeriod: Date;
     planner: Planner;
+    onNavigateCurrentPeriod(): void;
     onChangePeriod: (direction: number) => void;
 }
 
 // Manages week navigation & tasks status overview
 const TableNav: React.FC<Props> = (props) => {
-    const { beginningPeriod, planner, onChangePeriod } = props;
+    const { beginningPeriod, planner, onNavigateCurrentPeriod, onChangePeriod } = props;
 
     const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
     const navPeriod = getNavigationPeriod(beginningPeriod, plannerMode);
@@ -36,6 +38,14 @@ const TableNav: React.FC<Props> = (props) => {
                     onClick={onChangePeriod.bind(null, 1)}
                 />
             </div>
+            <Button
+                // variant="outlined"
+                size="large"
+                className={`!ml-3 md:!mr-auto`}
+                onClick={onNavigateCurrentPeriod}
+            >
+                <span className="text-xl capitalize">Today</span>
+            </Button>
             <TaskStatusSummary planner={planner} />
         </TableNavCard>
     );

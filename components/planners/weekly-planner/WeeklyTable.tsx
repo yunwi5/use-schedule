@@ -7,11 +7,12 @@ interface Props {
     weekBeginning: Date;
     planner: WeeklyPlanner;
     onChangeWeek: (direction: number) => void;
+    onNavigateCurrentPeriod(): void;
     onMutate: () => void;
 }
 
 const WeeklyTable: React.FC<Props> = (props) => {
-    const { weekBeginning, planner, onChangeWeek, onMutate } = props;
+    const { weekBeginning, planner, onChangeWeek, onNavigateCurrentPeriod, onMutate } = props;
 
     return (
         <div>
@@ -19,6 +20,7 @@ const WeeklyTable: React.FC<Props> = (props) => {
                 beginningPeriod={weekBeginning}
                 planner={planner}
                 onChangePeriod={onChangeWeek}
+                onNavigateCurrentPeriod={onNavigateCurrentPeriod}
             />
             {/* <WeekdayList beginningPeriod={weekBeginning} planner={planner} onMutate={onMutate} /> */}
             <WeekdayTable beginningPeriod={weekBeginning} planner={planner} onMutate={onMutate} />

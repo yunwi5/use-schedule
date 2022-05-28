@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { plannerActions } from '../../../store/redux/planner-slice';
@@ -43,10 +43,11 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 
     const weekBeginning = getCurrentWeekBeginning();
     dispatch(plannerActions.setBeginningPeriod(weekBeginning.toString()));
-    const { currentTimeStamp, addWeeks: addLocalWeeks } = useDateTime(
-        weekBeginning,
-        ResetPeriod.WEEK,
-    );
+    const {
+        currentTimeStamp,
+        addWeeks: addLocalWeeks,
+        setCurrentTimeStamp,
+    } = useDateTime(weekBeginning, ResetPeriod.WEEK);
 
     useEffect(() => {
         const newPlanner = populateWeeklyPlanner(initialTasks, currentTimeStamp);
@@ -66,6 +67,11 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
         addLocalWeeks(direction);
     };
 
+    const navigateCurrentHandler = useCallback(() => {
+        // navigate back to current period (this week)
+        setCurrentTimeStamp(weekBeginning);
+    }, [setCurrentTimeStamp, weekBeginning]);
+
     return (
         <PlannerCard>
             <IntroPanel
@@ -84,6 +90,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
                         weekBeginning={currentTimeStamp}
                         planner={planner}
                         onChangeWeek={weekNavigateHandler}
+                        onNavigateCurrentPeriod={navigateCurrentHandler}
                         onMutate={onMutate}
                     />
                 )}

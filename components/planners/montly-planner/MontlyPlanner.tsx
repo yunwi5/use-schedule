@@ -45,10 +45,11 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
     const dispatch = useDispatch();
 
     const monthBeginning = getCurrentMonthBeginning();
-    const { currentTimeStamp, addMonths: addLocalMonths } = useDateTime(
-        monthBeginning,
-        ResetPeriod.MONTH,
-    );
+    const {
+        currentTimeStamp,
+        addMonths: addLocalMonths,
+        setCurrentTimeStamp,
+    } = useDateTime(monthBeginning, ResetPeriod.MONTH);
 
     console.log(`currentTimeStamp: ${currentTimeStamp}`);
 
@@ -59,12 +60,16 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
 
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.MONTLY));
-    }, []);
+    }, [dispatch]);
 
     const monthNaviagtionHandler = (direction: number) => {
         if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
         // Hook fn call
         addLocalMonths(direction);
+    };
+
+    const currentNavigateHandler = () => {
+        setCurrentTimeStamp(monthBeginning);
     };
 
     return (
@@ -82,6 +87,7 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
                         monthBeginning={currentTimeStamp}
                         planner={planner}
                         onChangeMonth={monthNaviagtionHandler}
+                        onNavigateCurrentPeriod={currentNavigateHandler}
                         onMutate={onMutate}
                     />
                 )}

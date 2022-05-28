@@ -81,8 +81,8 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
                 key={task.id}
                 style={style}
                 onClick={() => setShowDetail(true)}
-                className={`z-20 absolute left-[50%] w-[94%] top-0 ${statusBgClass} ${hoverBgClass} ${borderClass} 
-                                    px-2 py-1 flex flex-col gap-2 text-slate-600 border-[1px] rounded-md cursor-pointer transition-all shadow-sm hover:z-30 hover:shadow-lg ${classes.card}`}
+                className={`z-10 absolute left-[50%] w-[94%] top-0 ${statusBgClass} ${hoverBgClass} ${borderClass} 
+                                    px-2 py-1 flex flex-col gap-2 text-slate-600 border-[1px] rounded-md cursor-pointer transition-all shadow-sm hover:z-20 hover:shadow-lg ${classes.card}`}
             >
                 <time className={`text-sm text-gray-500 font-semibold`}>
                     <FontAwesomeIcon
