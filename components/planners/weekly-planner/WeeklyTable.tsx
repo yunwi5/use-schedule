@@ -1,6 +1,8 @@
+import { useAppSelector } from '../../../store/redux';
+import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
+import { ItemsView } from '../../../models/ui-models';
 import TableNav from '../planner-nav/TableNav';
 import WeekdayList from './WeekdayList';
-import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import WeekdayTable from '../tables/WeekdayTable';
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 
 const WeeklyTable: React.FC<Props> = (props) => {
     const { weekBeginning, planner, onChangeWeek, onNavigateCurrentPeriod, onMutate } = props;
+    const itemsView = useAppSelector((state) => state.fold.itemsView);
 
     return (
         <div>
@@ -22,8 +25,20 @@ const WeeklyTable: React.FC<Props> = (props) => {
                 onChangePeriod={onChangeWeek}
                 onNavigateCurrentPeriod={onNavigateCurrentPeriod}
             />
-            {/* <WeekdayList beginningPeriod={weekBeginning} planner={planner} onMutate={onMutate} /> */}
-            <WeekdayTable beginningPeriod={weekBeginning} planner={planner} onMutate={onMutate} />
+            {itemsView === ItemsView.LIST && (
+                <WeekdayList
+                    beginningPeriod={weekBeginning}
+                    planner={planner}
+                    onMutate={onMutate}
+                />
+            )}
+            {itemsView === ItemsView.TABLE && (
+                <WeekdayTable
+                    beginningPeriod={weekBeginning}
+                    planner={planner}
+                    onMutate={onMutate}
+                />
+            )}
         </div>
     );
 };

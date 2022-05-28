@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
 
 interface PlannerState {
     plannerMode: PlannerMode | null;
@@ -14,15 +14,14 @@ const initialState: PlannerState = {
 // This slice should control PlannerMode, beginningPeriod
 // More states and reducers can be added.
 const plannerSlice = createSlice({
-    name: "planner",
+    name: 'planner',
     initialState,
     reducers: {
-        setPlannerMode(state, action: PayloadAction<PlannerMode | null>) {
-            const newMode = action.payload;
+        setPlannerMode(state: any, action: PayloadAction<PlannerMode | null>) {
             state.plannerMode = action.payload;
         },
         // It has bugs. Don't use it for now.
-        setBeginningPeriod(state, action: PayloadAction<string | null>) {
+        setBeginningPeriod(state: any, action: PayloadAction<string | null>) {
             const newDate = action.payload;
             state.beginningPeriod = newDate;
         },

@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolderOpen } from "@fortawesome/pro-duotone-svg-icons";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolderOpen, faList, faTablePivot } from '@fortawesome/pro-duotone-svg-icons';
 
-import { foldActions } from "../../../store/redux/fold-slice";
-import { filterActions } from "../../../store/redux/filter-slice";
-import PlannerTaskAdd from "../planner-crud/TaskAdd";
-import Searchbar from "../../ui/searchbar/Searchbar";
-import PlannerFilter from "../planner-support/PlannerFilter";
-import Button from "../../ui/buttons/Button";
-import { Theme, Size, ButtonTheme } from "../../../models/design-models";
-import classes from "./PlannerHeader.module.scss";
+import { foldActions } from '../../../store/redux/fold-slice';
+import { filterActions } from '../../../store/redux/filter-slice';
+import PlannerTaskAdd from '../planner-crud/TaskAdd';
+import Searchbar from '../../ui/searchbar/Searchbar';
+import PlannerFilter from '../planner-support/PlannerFilter';
+import Button from '../../ui/buttons/Button';
+import { Theme, Size, ButtonTheme } from '../../../models/design-models';
+import classes from './PlannerHeader.module.scss';
+import { useAppDispatch, useAppSelector } from '../../../store/redux';
+import { ItemsView } from '../../../models/ui-models';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 
 interface Props {
     beginningPeriod: Date;
@@ -22,17 +25,17 @@ interface Props {
 
 const PlannerHeader: React.FC<Props> = (props) => {
     const { beginningPeriod, onMutate, preventTaskAdd } = props;
-    const dispatch = useDispatch();
-    const isFolded = useSelector((state: RootStateOrAny) => state.fold.isFolded);
+    const dispatch = useAppDispatch();
+    const { isFolded, itemsView } = useAppSelector((state) => state.fold);
+    const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
     const [isAdding, setIsAdding] = useState(false);
 
     const foldTasksHandler = () => {
-        dispatch(foldActions.toggle());
+        dispatch(foldActions.toggleFold());
     };
 
     const searchHandler = (text: string) => {
-        console.log("search text:", text);
         dispatch(filterActions.updateSearchWord(text));
     };
 
@@ -40,6 +43,10 @@ const PlannerHeader: React.FC<Props> = (props) => {
         if (!preventTaskAdd) setIsAdding((prev) => !prev);
         else alert(preventTaskAdd.message);
     };
+
+    const showFoldToggle = itemsView === ItemsView.LIST;
+    const showItemsView =
+        plannerMode === PlannerMode.TEMPLATE || plannerMode === PlannerMode.WEEKLY;
 
     return (
         <nav className={`${classes.header} flex items-center justify-between p-4 w-full`}>
@@ -52,20 +59,55 @@ const PlannerHeader: React.FC<Props> = (props) => {
                 />
             )}
 
-            {/* <GroupSelect /> */}
             <PlannerFilter />
 
             <div className={classes.right}>
-                <Searchbar className={""} placeholder="Search Task" onSearch={searchHandler} />
-                <Button
-                    className={`flex items-center ${classes.btn} border-slate-100`}
-                    theme={isFolded ? ButtonTheme.PRIMARY : ButtonTheme.PRIMARY_EMPTY}
-                    size={Size.MEDIUM}
-                    onClick={foldTasksHandler}
-                >
-                    <FontAwesomeIcon className="mr-2 max-w-[1.3rem]" icon={faFolderOpen as any} />{" "}
-                    {isFolded ? "Expand All" : "Fold All"}
-                </Button>
+                <Searchbar
+                    className={'!max-w-[14rem]'}
+                    placeholder="Search Task"
+                    onSearch={searchHandler}
+                />
+                {showFoldToggle && (
+                    <Button
+                        className={`flex items-center ${classes.btn} border-slate-100`}
+                        theme={isFolded ? ButtonTheme.PRIMARY : ButtonTheme.PRIMARY_EMPTY}
+                        size={Size.MEDIUM}
+                        onClick={foldTasksHandler}
+                    >
+                        <FontAwesomeIcon
+                            className="mr-2 max-w-[1.3rem]"
+                            icon={faFolderOpen as any}
+                        />{' '}
+                        {isFolded ? 'Expand All' : 'Fold All'}
+                    </Button>
+                )}
+                {showItemsView && (
+                    <Button
+                        className={`flex items-center ${classes.btn} border-slate-100`}
+                        theme={ButtonTheme.PRIMARY_EMPTY}
+                        size={Size.MEDIUM}
+                        onClick={() => dispatch(foldActions.toggleView())}
+                    >
+                        {itemsView === ItemsView.TABLE && (
+                            <>
+                                <FontAwesomeIcon
+                                    icon={faList}
+                                    className="icon-medium mr-2 translate-y-[0.1rem]"
+                                />
+                                List View
+                            </>
+                        )}
+                        {itemsView === ItemsView.LIST && (
+                            <>
+                                <FontAwesomeIcon
+                                    icon={faTablePivot}
+                                    className="icon-medium mr-2 translate-y-[0.1rem]"
+                                />
+                                Table View
+                            </>
+                        )}
+                    </Button>
+                )}
                 <Button
                     className={`rounded-md ${classes.btn}`}
                     theme={Theme.PRIMARY}

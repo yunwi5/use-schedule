@@ -14,6 +14,8 @@ import PlannerHeader from '../planner-nav/PlannerHeader';
 import WeeklyTable from './WeeklyTable';
 import PlannerCard from '../../ui/cards/PlannerCard';
 import PlannerTableCard from '../../ui/cards/PlannerTableCard';
+import { foldActions } from '../../../store/redux/fold-slice';
+import { ItemsView } from '../../../models/ui-models';
 
 interface Props {
     weeklyTasks: Task[];
@@ -57,13 +59,12 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
     // Only runs on mount.
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
+        dispatch(foldActions.setView(ItemsView.TABLE));
     }, [dispatch]);
 
     // If the week beginning changes, the planner also has to change to load new tasks according to
-    // Changed week beginning.
     const weekNavigateHandler = (direction: number) => {
         if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
-        // Hook call
         addLocalWeeks(direction);
     };
 
