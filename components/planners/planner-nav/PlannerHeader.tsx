@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderOpen, faList, faTablePivot } from '@fortawesome/pro-duotone-svg-icons';
 
+import { useAppDispatch, useAppSelector } from '../../../store/redux';
 import { foldActions } from '../../../store/redux/fold-slice';
 import { filterActions } from '../../../store/redux/filter-slice';
 import PlannerTaskAdd from '../planner-crud/TaskAdd';
@@ -10,10 +10,9 @@ import Searchbar from '../../ui/searchbar/Searchbar';
 import PlannerFilter from '../planner-support/PlannerFilter';
 import Button from '../../ui/buttons/Button';
 import { Theme, Size, ButtonTheme } from '../../../models/design-models';
-import classes from './PlannerHeader.module.scss';
-import { useAppDispatch, useAppSelector } from '../../../store/redux';
 import { ItemsView } from '../../../models/ui-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
+import classes from './PlannerHeader.module.scss';
 
 interface Props {
     beginningPeriod: Date;
