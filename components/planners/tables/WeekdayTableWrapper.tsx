@@ -12,7 +12,7 @@ interface Props {
 
 const WeekTableWrapper: React.FC<Props> = (props) => {
     return (
-        <WTableContextProvider initialPlanner={props.planner}>
+        <WTableContextProvider planner={props.planner}>
             <WeekdayTable {...props} />
         </WTableContextProvider>
     );

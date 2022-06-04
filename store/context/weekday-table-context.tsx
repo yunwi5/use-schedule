@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import { WeeklyPlanner } from '../../models/planner-models/WeeklyPlanner';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { TemplatePlanner } from '../../models/template-models/TemplatePlanner';
@@ -12,7 +12,6 @@ interface IWTableContext {
     getCellHeight: (hours: number) => string;
     getTaskHeight: (task: AbstractTask) => string;
     getTotalTableHeight: () => string;
-    setPlanner: (newPlanner: WeeklyPlanner | TemplatePlanner) => void;
 }
 
 const WTableContext = createContext<IWTableContext>({
@@ -23,18 +22,15 @@ const WTableContext = createContext<IWTableContext>({
     getCellHeight: (hours: number) => '0rem',
     getTaskHeight: (task: AbstractTask) => '0rem',
     getTotalTableHeight: () => '0rem',
-    setPlanner: () => {},
 });
 
 export const useWTableContext = () => useContext(WTableContext);
 
 interface Props {
-    initialPlanner: WeeklyPlanner | TemplatePlanner;
+    planner: WeeklyPlanner | TemplatePlanner;
 }
 
-export const WTableContextProvider: React.FC<Props> = ({ children, initialPlanner }) => {
-    const [planner, setPlanner] = useState<WeeklyPlanner | TemplatePlanner | null>(initialPlanner);
-
+export const WTableContextProvider: React.FC<Props> = ({ children, planner }) => {
     const cellHeight = 10;
     const emptyCellHeight = 3.5;
 
@@ -111,15 +107,10 @@ export const WTableContextProvider: React.FC<Props> = ({ children, initialPlanne
         return height + 'rem';
     };
 
-    useEffect(() => {
-        setPlanner(initialPlanner);
-    }, [initialPlanner]);
-
     const value = {
         cellHeight,
         emptyCellHeight,
         planner,
-        setPlanner,
         getTopOffset,
         getCellHeight,
         getTaskHeight,
