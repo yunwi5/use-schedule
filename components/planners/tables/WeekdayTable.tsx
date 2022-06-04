@@ -27,7 +27,9 @@ const WeekTable: React.FC<Props> = (props) => {
             </div>
             <div className={`pl-1 relative w-full h-[85vh] overflow-y-scroll overflow-x-hidden`}>
                 <div className={`overflow-y-hidden`} style={{ minHeight: `${cellHeight * 24}rem` }}>
-                    <div className={`pl-[2.55rem] flex w-full`}>
+                    <div
+                        className={`pl-[2.55rem] absolute top-0 left-0 flex w-full overflow-hidden`}
+                    >
                         {WeekdayListMondayToSunday.map((day, idx) => {
                             const tasks = planner.getTasks(day);
                             const thisDate = addDays(beginningPeriod, idx);

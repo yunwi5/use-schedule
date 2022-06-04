@@ -22,6 +22,11 @@ a {
     box-sizing: border-box;
 }
 
+::selection {
+    background-color: $color-primary-dark-2;
+    color: $color-primary-light-1;
+}
+
 input,
 select {
     background-color: $color-grey-light-2;

@@ -5,7 +5,7 @@ import { mod } from '../../../utilities/gen-utils/calc-util';
 import { applyTaskFilter } from '../../../utilities/tasks-utils/filter-util';
 import TaskCardSmall from '../../tasks/TaskCardSmall';
 import DynamicStatusPalleteProvider from '../../ui/colors/DynamicStatusPalleteProvider';
-import WeekdayLabel from './WeekdayLabel';
+import TaskAdd from '../planner-crud/TaskAdd';
 
 interface Props {
     date: Date;
@@ -31,6 +31,12 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => 
         (state) => state.filter,
     );
     const [filteredTaskList, setFilteredTaskList] = useState<AbstractTask[]>(tasks);
+    const [isAdding, setIsAdding] = useState(false);
+
+    const taskAddHandler = () => {
+        setIsAdding(false);
+        onMutate();
+    };
 
     useEffect(() => {
         const searchedList = tasks.filter((task) =>
@@ -48,38 +54,50 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => 
     const timeLineFreqMap = getInitialTimeLineFreqMap();
 
     return (
-        <div className={`w-[calc(100%/7)]`}>
-            {/* <WeekdayLabel date={date} /> */}
-            <ul className={`relative px-1 pt-1`}>
-                {filteredTaskList.map((task, idx) => {
-                    const hours = task.dateTime.getHours();
-                    const heightOffset = timeLineFreqMap[hours] * 2 + 'rem';
+        <>
+            <div
+                className={`wd-line z-20 min-h-[240rem] w-[calc(100%/7)] cursor-pointer hover:bg-slate-200/50`}
+                onClick={() => setIsAdding(true)}
+            >
+                {/* <WeekdayLabel date={date} /> */}
+                <ul className={`relative px-1 pt-1`}>
+                    {filteredTaskList.map((task, idx) => {
+                        const hours = task.dateTime.getHours();
+                        const heightOffset = timeLineFreqMap[hours] * 2 + 'rem';
 
-                    // extra top offset for the one with top 0rem
-                    const topOffsetIndex = (mod(hours - 1, 24) || 0.05) * cellHeight;
-                    const topOffset = topOffsetIndex + 'rem';
+                        // extra top offset for the one with top 0rem
+                        const topOffsetIndex = (mod(hours - 1, 24) || 0.05) * cellHeight;
+                        const topOffset = topOffsetIndex + 'rem';
 
-                    const durationHours = task.duration / 60;
-                    const height = Math.max(durationHours, 1) * cellHeight - 0.35 + 'rem';
+                        const durationHours = task.duration / 60;
+                        const height = Math.max(durationHours, 1) * cellHeight - 0.35 + 'rem';
 
-                    timeLineFreqMap[hours] += 1;
+                        timeLineFreqMap[hours] += 1;
 
-                    return (
-                        <TaskCardSmall
-                            key={task.id}
-                            task={task}
-                            onMutate={onMutate}
-                            style={{
-                                top: topOffset,
-                                height,
-                                transform: `translate(-50%, ${heightOffset})`,
-                            }}
-                        />
-                    );
-                })}
-            </ul>
-            <DynamicStatusPalleteProvider />
-        </div>
+                        return (
+                            <TaskCardSmall
+                                key={task.id}
+                                task={task}
+                                onMutate={onMutate}
+                                style={{
+                                    top: topOffset,
+                                    height,
+                                    transform: `translate(-50%, ${heightOffset})`,
+                                }}
+                            />
+                        );
+                    })}
+                </ul>
+                <DynamicStatusPalleteProvider />
+            </div>
+            {isAdding && (
+                <TaskAdd
+                    onClose={() => setIsAdding(false)}
+                    beginningPeriod={date}
+                    onAddTask={taskAddHandler}
+                />
+            )}
+        </>
     );
 };
 
