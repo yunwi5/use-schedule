@@ -2,6 +2,7 @@ import React from 'react';
 import { WeekdayListMondayToSunday } from '../../../models/date-models/WeekDay';
 import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import { TemplatePlanner } from '../../../models/template-models/TemplatePlanner';
+import { useWTableContext } from '../../../store/context/weekday-table-context';
 import { addDays } from '../../../utilities/date-utils/date-control';
 import DayTimeLine from './DayTimeLine';
 import WeekdayLabel from './WeekdayLabel';
@@ -16,7 +17,8 @@ interface Props {
 const WeekTable: React.FC<Props> = (props) => {
     const { beginningPeriod, planner, onMutate } = props;
 
-    const cellHeight = 10; // same for all cells from 1am to 11pm
+    const { getTotalTableHeight } = useWTableContext();
+    const tableHeight: string = getTotalTableHeight();
 
     return (
         <section className={`relative mt-3 flex flex-col overflow-hidden`}>
@@ -26,7 +28,7 @@ const WeekTable: React.FC<Props> = (props) => {
                 ))}
             </div>
             <div className={`pl-1 relative w-full h-[85vh] overflow-y-scroll overflow-x-hidden`}>
-                <div className={`overflow-y-hidden`} style={{ minHeight: `${cellHeight * 24}rem` }}>
+                <div className={`overflow-y-hidden`} style={{ height: tableHeight }}>
                     <div
                         className={`pl-[2.55rem] absolute top-0 left-0 flex w-full overflow-hidden`}
                     >
@@ -36,7 +38,6 @@ const WeekTable: React.FC<Props> = (props) => {
                             return (
                                 <WeekdayLine
                                     key={idx}
-                                    cellHeight={cellHeight}
                                     date={thisDate}
                                     tasks={tasks}
                                     onMutate={onMutate}
@@ -44,7 +45,7 @@ const WeekTable: React.FC<Props> = (props) => {
                             );
                         })}
                     </div>
-                    <DayTimeLine cellHeight={cellHeight} />
+                    <DayTimeLine />
                 </div>
             </div>
         </section>

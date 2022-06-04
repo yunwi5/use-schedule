@@ -9,7 +9,7 @@ import { getMonthBeginning } from '../../../utilities/date-utils/date-get';
 import MiniNavigator from '../../ui/navigation/MiniNavigator';
 import SummaryCard from '../cards/SummaryCard';
 import SummaryHeading from '../cards/SummaryHeading';
-import { useDashboardContext } from '../dashboard-context';
+import { useDashboardContext } from '../../../store/context/dashboard-context';
 import MiniCalendarCell from './MiniCalendarCell';
 
 const info = (

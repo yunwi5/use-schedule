@@ -9,7 +9,7 @@ import {
 } from '../../../models/analyzer-models/helper-models';
 import { ProgressAnalyzer } from '../../../models/analyzer-models/ProgressAnalyzer';
 import AppSelect from '../../ui/input/AppSelect';
-import { useDashboardContext } from '../dashboard-context';
+import { useDashboardContext } from '../../../store/context/dashboard-context';
 import ProgressBar from './ProgressBar';
 
 const ProgressSummary: React.FC = () => {

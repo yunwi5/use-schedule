@@ -3,7 +3,7 @@ import { CalendarItemType } from '../../../../models/calendar-models/CalendarIte
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
 import UpcomingItemCard from '../../cards/UpcomingItemCard';
-import { useDashboardContext } from '../../dashboard-context';
+import { useDashboardContext } from '../../../../store/context/dashboard-context';
 import TaskEdit from '../../../planners/planner-crud/TaskEdit';
 
 interface Props {

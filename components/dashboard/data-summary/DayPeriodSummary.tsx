@@ -4,7 +4,7 @@ import { round } from '../../../utilities/gen-utils/calc-util';
 import SummaryCard from '../cards/SummaryCard';
 import SummaryHeading from '../cards/SummaryHeading';
 import MiniChart, { MiniChartType } from '../charts/MiniChart';
-import { useDashboardContext } from '../dashboard-context';
+import { useDashboardContext } from '../../../store/context/dashboard-context';
 
 const info = (
     <>

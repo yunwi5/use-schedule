@@ -8,7 +8,7 @@ import { convertToTasks, processTasks } from '../../utilities/tasks-utils/task-u
 import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
 import { getEventsFromPage, getTasksFromAllCollection } from '../../db/pages-util';
 import DashboardMain from '../../components/dashboard/DashboardMain';
-import { DashboardContextProvider } from '../../components/dashboard/dashboard-context';
+import { DashboardContextProvider } from '../../store/context/dashboard-context';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { processEvents } from '../../utilities/event-utils/event-util';
 

@@ -8,7 +8,7 @@ import {
 import { Pallete200, Pallete500 } from '../../../utilities/gen-utils/color-util';
 import TableCard from '../cards/TableCard';
 import MultipleTrendChart from '../charts/MultipleTrendChart';
-import { useDashboardContext } from '../dashboard-context';
+import { useDashboardContext } from '../../../store/context/dashboard-context';
 
 const TrendComparison: React.FC = () => {
     const { analyzer } = useDashboardContext();

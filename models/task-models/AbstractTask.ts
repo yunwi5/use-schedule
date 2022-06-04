@@ -1,9 +1,10 @@
-import { getEndDateTimeFormat } from "../../utilities/date-utils/date-format";
-import { getDayName } from "../../utilities/date-utils/date-get";
-import { WeekDay } from "../date-models/WeekDay";
-import { PlannerMode } from "../planner-models/PlannerMode";
-import { SubTask } from "./SubTask";
-import { Task } from "./Task";
+import { addMinutes } from '../../utilities/date-utils/date-control';
+import { getEndDateTimeFormat } from '../../utilities/date-utils/date-format';
+import { getDayName } from '../../utilities/date-utils/date-get';
+import { WeekDay } from '../date-models/WeekDay';
+import { PlannerMode } from '../planner-models/PlannerMode';
+import { SubTask } from './SubTask';
+import { Task } from './Task';
 
 export abstract class AbstractTask implements Task {
     id: string;
@@ -46,7 +47,7 @@ export abstract class AbstractTask implements Task {
     abstract get durationFormat(): string;
 
     get endTimeFormat(): string {
-        if (!this.duration) return "";
+        if (!this.duration) return '';
         return getEndDateTimeFormat(this.dateTime, this.duration);
     }
 
@@ -73,6 +74,12 @@ export abstract class AbstractTask implements Task {
 
     get minutes() {
         return new Date(this.timeString).getMinutes();
+    }
+
+    // plan dateTime + duration
+    get endTime(): Date {
+        const endTime = addMinutes(this.dateTime, this.duration);
+        return endTime;
     }
 
     // Duedate

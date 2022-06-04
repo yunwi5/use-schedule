@@ -8,7 +8,7 @@ import { Pallete200 } from '../../../utilities/gen-utils/color-util';
 import SummaryCard from '../cards/SummaryCard';
 import SummaryHeading from '../cards/SummaryHeading';
 import MiniChart, { MiniChartType } from '../charts/MiniChart';
-import { useDashboardContext } from '../dashboard-context';
+import { useDashboardContext } from '../../../store/context/dashboard-context';
 
 function generateBinaryCompletionData(statusChartArray: ChartData[]) {
     const completionChartData = statusChartArray.find(

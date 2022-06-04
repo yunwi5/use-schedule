@@ -5,6 +5,10 @@ export function addMinutes(date: Date, minutes: number) {
     return dateCopy;
 }
 
+export function addHours(date: Date, hours: number): Date {
+    return addMinutes(date, hours * 60);
+}
+
 export function addDays(date: Date, numDays: number = 1): Date {
     const dateCopy = new Date(date);
     dateCopy.setDate(dateCopy.getDate() + numDays);

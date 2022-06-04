@@ -6,7 +6,7 @@ import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import { isInstanceOfTask } from '../../../../models/task-models/Task';
 import { compareByDateTime } from '../../../../utilities/sort-utils/sort-util';
 import TableCard from '../../cards/TableCard';
-import { useDashboardContext } from '../../dashboard-context';
+import { useDashboardContext } from '../../../../store/context/dashboard-context';
 import UpcomingEventItem from './UpcomingEventItem';
 import UpcomingTaskItem from './UpcomingTaskItem';
 

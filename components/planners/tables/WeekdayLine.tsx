@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { AbstractTask } from '../../../models/task-models/AbstractTask';
+import { useWTableContext } from '../../../store/context/weekday-table-context';
 import { useAppSelector } from '../../../store/redux';
-import { mod } from '../../../utilities/gen-utils/calc-util';
+import { addHours } from '../../../utilities/date-utils/date-control';
+import { getInitialTimeLineFreqMap } from '../../../utilities/gen-utils/time-util';
 import { applyTaskFilter } from '../../../utilities/tasks-utils/filter-util';
 import TaskCardSmall from '../../tasks/TaskCardSmall';
 import DynamicStatusPalleteProvider from '../../ui/colors/DynamicStatusPalleteProvider';
@@ -10,30 +12,25 @@ import TaskAdd from '../planner-crud/TaskAdd';
 interface Props {
     date: Date;
     tasks: AbstractTask[];
-    cellHeight: number;
     onMutate: () => void;
 }
 
-interface TimeLineFreqMap {
-    [hour: number]: number;
-}
-
-function getInitialTimeLineFreqMap() {
-    const freqMap: TimeLineFreqMap = {};
-    for (let i = 0; i < 24; i++) {
-        freqMap[i] = 0;
-    }
-    return freqMap;
-}
-
-const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => {
+const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate }) => {
     const { searchWord, filterTarget, mainFilter, subFilter } = useAppSelector(
         (state) => state.filter,
     );
+    const { getTopOffset, getTaskHeight, getTotalTableHeight } = useWTableContext();
     const [filteredTaskList, setFilteredTaskList] = useState<AbstractTask[]>(tasks);
     const [isAdding, setIsAdding] = useState(false);
 
-    const taskAddHandler = () => {
+    const taskAddHandler = (e: any) => {
+        const eventId = e.target?.dataset?.id || '';
+        if (eventId === 'weekday-line') {
+            setIsAdding((ps) => !ps);
+        }
+    };
+
+    const taskMutateHandler = () => {
         setIsAdding(false);
         onMutate();
     };
@@ -56,23 +53,24 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => 
     return (
         <>
             <div
-                className={`wd-line z-20 min-h-[240rem] w-[calc(100%/7)] cursor-pointer hover:bg-slate-200/50`}
-                onClick={() => setIsAdding(true)}
+                className={`wd-line z-10 w-[calc(100%/7)] cursor-pointer hover:bg-slate-200/50`}
+                style={{ height: getTotalTableHeight() }}
+                data-id="weekday-line"
+                onClick={taskAddHandler}
             >
                 {/* <WeekdayLabel date={date} /> */}
                 <ul className={`relative px-1 pt-1`}>
                     {filteredTaskList.map((task, idx) => {
                         const hours = task.dateTime.getHours();
-                        const heightOffset = timeLineFreqMap[hours] * 2 + 'rem';
 
-                        // extra top offset for the one with top 0rem
-                        const topOffsetIndex = (mod(hours - 1, 24) || 0.05) * cellHeight;
-                        const topOffset = topOffsetIndex + 'rem';
+                        const topOffset = getTopOffset(
+                            task.dateTime.getHours(),
+                            task.dateTime.getMinutes(),
+                        );
+                        const adjustedHeight = getTaskHeight(task);
 
-                        const durationHours = task.duration / 60;
-                        const height = Math.max(durationHours, 1) * cellHeight - 0.35 + 'rem';
-
-                        timeLineFreqMap[hours] += 1;
+                        let heightOffset = timeLineFreqMap[hours] * 2 + 'rem';
+                        if (task.dateTime.getMinutes() < 30) timeLineFreqMap[hours] += 1;
 
                         return (
                             <TaskCardSmall
@@ -81,8 +79,10 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => 
                                 onMutate={onMutate}
                                 style={{
                                     top: topOffset,
-                                    height,
+                                    height: adjustedHeight,
                                     transform: `translate(-50%, ${heightOffset})`,
+                                    zIndex:
+                                        task.dateTime.getHours() + task.dateTime.getMinutes() / 10,
                                 }}
                             />
                         );
@@ -93,8 +93,8 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate, cellHeight }) => 
             {isAdding && (
                 <TaskAdd
                     onClose={() => setIsAdding(false)}
-                    beginningPeriod={date}
-                    onAddTask={taskAddHandler}
+                    beginningPeriod={addHours(date, 12)}
+                    onAddTask={taskMutateHandler}
                 />
             )}
         </>

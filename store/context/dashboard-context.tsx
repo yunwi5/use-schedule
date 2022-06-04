@@ -8,8 +8,8 @@ import { AnalysisMode } from '../../models/analyzer-models/helper-models';
 import { IEvent } from '../../models/Event';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
-import { useAppDispatch } from '../../store/redux';
-import { plannerActions } from '../../store/redux/planner-slice';
+import { useAppDispatch } from '../redux';
+import { plannerActions } from '../redux/planner-slice';
 import { populateAnalyzer } from '../../utilities/analysis-utils';
 import { getWeekBeginning } from '../../utilities/date-utils/date-get';
 

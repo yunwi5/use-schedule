@@ -3,7 +3,7 @@ import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import { ItemsView } from '../../../models/ui-models';
 import TableNav from '../planner-nav/TableNav';
 import WeekdayList from './WeekdayList';
-import WeekdayTable from '../tables/WeekdayTable';
+import WeekdayTableWrapper from '../tables/WeekdayTableWrapper';
 
 interface Props {
     weekBeginning: Date;
@@ -33,7 +33,7 @@ const WeeklyTable: React.FC<Props> = (props) => {
                 />
             )}
             {itemsView === ItemsView.TABLE && (
-                <WeekdayTable
+                <WeekdayTableWrapper
                     beginningPeriod={weekBeginning}
                     planner={planner}
                     onMutate={onMutate}
