@@ -1,16 +1,14 @@
 import { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, ChartData } from '../../../models/analyzer-models/helper-models';
-import { Theme } from '../../../models/design-models';
 import { getCategoryBorderColor } from '../../../utilities/gen-utils/color-util';
 import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
-import { ChartSectionContainer, FlexChartContainer } from '../containers';
+import { ChartSectionContainer } from '../containers';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import SubCategoryAnalysis from './SubCategoryAnalysis';
-import Button from '../../ui/buttons/Button';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
+import Button from '@mui/material/Button';
 
 const CategoryAnalysis: React.FC = () => {
     const { analyzer, timeFrame } = useAnalysisContext();
@@ -51,8 +49,7 @@ const CategoryAnalysis: React.FC = () => {
                     onShowComparison={() => setShowComparison((ps) => !ps)}
                     additionalButton={
                         <Button
-                            className={`!bg-transparent !border-blue-400 !text-blue-600`}
-                            theme={Theme.TERTIARY}
+                            className={`!py-2 !bg-blue-50/70 hover:!bg-blue-100 shadow-md hover:shadow-lg transition-all !border-blue-400`}
                             onClick={() => setShowSubCategory((ps) => !ps)}
                         >
                             {showSubCategory ? 'Hide Subcategory' : 'Show Subcategory'}

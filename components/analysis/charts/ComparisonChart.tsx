@@ -104,7 +104,7 @@ const ComparisonChart: React.FC<Props> = (props) => {
 
     return (
         <section
-            className={`w-full order-2 lg:order-1 lg:w-[49%] mt-12 lg:mt-0 pr-5 max-w-[35rem] xl:max-w-none flex flex-col gap-3`}
+            className={`w-full order-2 lg:order-1 lg:w-[49%] mt-12 lg:mt-0 pr-5 flex flex-col gap-3`}
         >
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                 <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>

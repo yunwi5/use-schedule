@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { RecentPeriod } from '../../../models/analyzer-models/helper-models';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 import TrendMessage from '../analysis-message/TrendMessage';
@@ -32,7 +31,7 @@ const TrendAnalysis: React.FC = () => {
 
     return (
         <AnalysisSectionContainer title={'Trend Data Analysis'}>
-            <div className="mb-6 flex flex-wrap gap-[6rem] items-center">
+            <div className="mb-6 flex flex-col lg:flex-row items-center lg:items-start justify-between flex-wrap gap-[2rem] lg:gap-1 w-full">
                 <TrendChart
                     chartTitle={`Total ${itemName}s`}
                     chartLabel={`${itemName}s`}
@@ -51,8 +50,8 @@ const TrendAnalysis: React.FC = () => {
                     filterStatus={hoursFilterStatus}
                     onChangeFilterStatus={setHoursFilterStatus}
                 />
+                <TrendMessage totalTasksTrend={totalTasksTrend} totalHoursTrend={totalHoursTrend} />
             </div>
-            <TrendMessage totalTasksTrend={totalTasksTrend} totalHoursTrend={totalHoursTrend} />
         </AnalysisSectionContainer>
     );
 };

@@ -35,7 +35,7 @@ const TrendMessage: React.FC<Props> = (props) => {
     }, 0);
 
     return (
-        <div className="pr-4 md:pr-6 flex flex-col gap-[0.125rem] text-lg">
+        <div className="mt-8 lg:mt-12 pr-4 md:pr-6 flex flex-col gap-[0.3rem] text-lg">
             <p>
                 <FontAwesomeIcon
                     icon={faChartLine}

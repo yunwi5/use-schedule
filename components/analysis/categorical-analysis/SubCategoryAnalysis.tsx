@@ -8,7 +8,7 @@ import AppSelect from '../../ui/input/AppSelect';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
-import { ChartSectionContainer, FlexChartContainer } from '../containers';
+import { ChartSectionContainer } from '../containers';
 
 // 'Others' category does not have any subcategories, so should not be an option.
 const SelectCategoryList = CategoryList.filter((cat) => cat !== Category.OTHERS);

@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import {
     AnalysisOption,
     ChartData,
