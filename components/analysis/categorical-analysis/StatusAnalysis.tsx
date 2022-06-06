@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import {
     AnalysisOption,
     ChartData,
@@ -11,7 +10,7 @@ import { getStatusBorderColor } from '../../../utilities/gen-utils/color-util';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
 import FlexChart from '../charts/FlexChart';
-import { ChartSectionContainer, FlexChartContainer } from '../containers';
+import { ChartSectionContainer } from '../containers';
 
 const StatusAnalysis: React.FC = () => {
     const { analyzer, timeFrame } = useAnalysisContext();
@@ -28,14 +27,12 @@ const StatusAnalysis: React.FC = () => {
 
     return (
         <ChartSectionContainer showComparison={showComparison}>
-            <FlexChartContainer>
-                <FlexChart
-                    chartTitle={'Status Distribution'}
-                    chartLabel={'Task Status'}
-                    chartDataArray={currentStatusChartData}
-                    initialChartType={FlexChartType.BAR}
-                />
-            </FlexChartContainer>
+            <FlexChart
+                chartTitle={'Status Distribution'}
+                chartLabel={'Task Status'}
+                chartDataArray={currentStatusChartData}
+                initialChartType={FlexChartType.BAR}
+            />
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'Status comparison'}

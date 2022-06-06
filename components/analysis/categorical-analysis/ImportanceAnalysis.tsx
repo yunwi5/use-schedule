@@ -10,7 +10,7 @@ import { getImportanceBorderColor } from '../../../utilities/gen-utils/color-uti
 import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
-import { FlexChartContainer, ChartSectionContainer } from '../containers';
+import { ChartSectionContainer } from '../containers';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 
 const ImportanceAnalysis: React.FC = () => {
@@ -28,14 +28,12 @@ const ImportanceAnalysis: React.FC = () => {
 
     return (
         <ChartSectionContainer showComparison={showComparison}>
-            <FlexChartContainer>
-                <FlexChart
-                    chartTitle={'importance distribution'}
-                    chartLabel="Task importance"
-                    chartDataArray={currentChartDataArray}
-                    initialChartType={FlexChartType.DOUGHNUT}
-                />
-            </FlexChartContainer>
+            <FlexChart
+                chartTitle={'importance distribution'}
+                chartLabel="Task importance"
+                chartDataArray={currentChartDataArray}
+                initialChartType={FlexChartType.DOUGHNUT}
+            />
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'Importance comparison'}

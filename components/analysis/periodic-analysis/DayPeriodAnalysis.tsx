@@ -6,7 +6,6 @@ import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ChartSectionContainer from '../containers/ChartSectionContainer';
 import { FlexChart } from '../charts';
 import ComparisonChart from '../charts/ComparisonChart';
-import FlexChartContainer from '../containers/FlexChartContainer';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 
 const DayPeriodAnalysis: React.FC = () => {
@@ -24,13 +23,11 @@ const DayPeriodAnalysis: React.FC = () => {
 
     return (
         <ChartSectionContainer showComparison={showComparison}>
-            <FlexChartContainer>
-                <FlexChart
-                    chartTitle={'AM/PM Distribution'}
-                    chartLabel="AM/PM"
-                    chartDataArray={currentChartDataArray}
-                />
-            </FlexChartContainer>
+            <FlexChart
+                chartTitle={'AM/PM Distribution'}
+                chartLabel="AM/PM"
+                chartDataArray={currentChartDataArray}
+            />
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'AM/PM comparison'}

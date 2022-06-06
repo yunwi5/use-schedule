@@ -29,28 +29,26 @@ const SubCategoryAnalysis: React.FC = () => {
 
     return (
         <ChartSectionContainer showComparison={showComparison}>
-            <FlexChartContainer>
-                <FlexChart
-                    chartTitle={
-                        <span>
-                            Subcategory <span className="sm:hidden">distribution</span>
-                        </span>
-                    }
-                    chartLabel={'Task Subcategory'}
-                    chartDataArray={currentSubCategoryArray}
-                    additionalSelect={
-                        <AppSelect
-                            label="Category"
-                            value={activeCategory}
-                            onChange={(val: string) => setActiveCategory(val as Category)}
-                            options={SelectCategoryList}
-                            id={`app-select-subcategory`}
-                            labelId={`app-select-subcategory-label`}
-                            className="ml-11"
-                        />
-                    }
-                />
-            </FlexChartContainer>
+            <FlexChart
+                chartTitle={
+                    <span>
+                        Subcategory <span className="sm:hidden">distribution</span>
+                    </span>
+                }
+                chartLabel={'Task Subcategory'}
+                chartDataArray={currentSubCategoryArray}
+                additionalSelect={
+                    <AppSelect
+                        label="Category"
+                        value={activeCategory}
+                        onChange={(val: string) => setActiveCategory(val as Category)}
+                        options={SelectCategoryList}
+                        id={`app-select-subcategory`}
+                        labelId={`app-select-subcategory-label`}
+                        className="ml-11"
+                    />
+                }
+            />
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'Subcategory comparison'}

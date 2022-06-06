@@ -30,13 +30,11 @@ const CategoryAnalysis: React.FC = () => {
     return (
         <>
             <ChartSectionContainer showComparison={showComparison}>
-                <FlexChartContainer>
-                    <FlexChart
-                        chartTitle={'category distribution'}
-                        chartLabel={'Task category'}
-                        chartDataArray={currentChartDataArray}
-                    />
-                </FlexChartContainer>
+                <FlexChart
+                    chartTitle={'category distribution'}
+                    chartLabel={'Task category'}
+                    chartDataArray={currentChartDataArray}
+                />
                 {showComparison && (
                     <ComparisonChart
                         chartTitle={'Category comparison'}

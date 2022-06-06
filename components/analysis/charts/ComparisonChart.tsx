@@ -103,7 +103,9 @@ const ComparisonChart: React.FC<Props> = (props) => {
     const chartTypeOptions = !disableRadar ? ComparisonChartTypeList : [ComparisonChartType.BAR];
 
     return (
-        <section className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3`}>
+        <section
+            className={`w-full order-2 lg:order-1 lg:w-[49%] mt-12 lg:mt-0 pr-5 max-w-[35rem] xl:max-w-none flex flex-col gap-3`}
+        >
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                 <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>
                 <AppSelect
@@ -116,15 +118,13 @@ const ComparisonChart: React.FC<Props> = (props) => {
                 />
             </div>
             <div
-                className={`container  ${
+                className={`flex-1 flex flex-col ${
                     chartType === ComparisonChartType.RADAR ? '-mt-[4.1rem] -mb-[5rem]' : ''
                 }`}
             >
-                {chartType === ComparisonChartType.BAR && (
-                    <Bar options={barOptions} data={data} height="55vh" width="80vw" />
-                )}
+                {chartType === ComparisonChartType.BAR && <Bar options={barOptions} data={data} />}
                 {chartType === ComparisonChartType.RADAR && (
-                    <Radar options={radarOptions} data={data} height="50vh" width="80vw" />
+                    <Radar options={radarOptions} data={data} width={200} height={300} />
                 )}
             </div>
         </section>

@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react';
 
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { AnalysisOption, FlexChartType } from '../../../models/analyzer-models/helper-models';
 import { getWeekDayBorderColor } from '../../../utilities/gen-utils/color-util';
 import FlexChart from '../charts/FlexChart';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import ComparisonChart from '../charts/ComparisonChart';
-import { FlexChartContainer, ChartSectionContainer } from '../containers';
+import { ChartSectionContainer } from '../containers';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 
 const WeekdayAnalysis: React.FC = () => {
@@ -21,14 +20,12 @@ const WeekdayAnalysis: React.FC = () => {
 
     return (
         <ChartSectionContainer showComparison={showComparison}>
-            <FlexChartContainer>
-                <FlexChart
-                    chartTitle={'Weekday Distribution'}
-                    chartLabel="WeekDay"
-                    chartDataArray={currentChartDataArray}
-                    initialChartType={FlexChartType.BAR}
-                />
-            </FlexChartContainer>
+            <FlexChart
+                chartTitle={'Weekday Distribution'}
+                chartLabel="WeekDay"
+                chartDataArray={currentChartDataArray}
+                initialChartType={FlexChartType.BAR}
+            />
             {showComparison && (
                 <ComparisonChart
                     chartTitle={'WeekDay comparison'}

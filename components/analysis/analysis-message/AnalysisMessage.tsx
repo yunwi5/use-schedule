@@ -34,7 +34,6 @@ const chartSimpleIcon = (
         className="max-w-[2rem] max-h-[2rem] text-xl text-slate-500/80 mt-[0.35rem]"
     />
 );
-const analysisIcons = [chartPieIcon, chartSimpleIcon];
 
 const AnalysisMessage: React.FC<Props> = (props) => {
     const {
@@ -79,29 +78,29 @@ const AnalysisMessage: React.FC<Props> = (props) => {
         </p>
     );
 
-    let paragraphs = [porportionAnalysisElement];
-    if (showComparison) paragraphs.push(comparisonAnalysisElement);
-
     return (
-        <div
-            className={`flex flex-col self-center gap-3 text-lg ${
-                showComparison ? '' : 'max-w-[40rem]'
-            }`}
-        >
-            <div className={'flex flex-col lg:flex-row gap-3'}>
-                {paragraphs.map((para, idx) => (
-                    <div
-                        key={idx}
-                        className={`pr-5 md:pr-8 lg:pr-5 transition-all lg:max-w-none ${
-                            showComparison ? 'lg:w-[49%] flex gap-3' : ''
-                        }`}
-                    >
-                        {analysisIcons[idx]}
-                        {para}
-                    </div>
-                ))}
+        <>
+            <div
+                className={`order-1 self-center mt-3 pr-5 md:pr-8 lg:pr-5 max-w-[35rem] xl:max-w-[49%] transition-all ${
+                    showComparison ? 'lg:w-[49%] flex gap-3' : ''
+                }`}
+            >
+                {chartPieIcon}
+                {porportionAnalysisElement}
             </div>
-            <div className={`w-full mt-2 flex flex-wrap flex-col sm:flex-row gap-4`}>
+            {showComparison && (
+                <div
+                    className={`order-3 self-center mt-3 pr-5 md:pr-8 lg:pr-5 max-w-[35rem] xl:max-w-[49%] transition-all ${
+                        showComparison ? 'lg:w-[49%] flex gap-3' : ''
+                    }`}
+                >
+                    {chartSimpleIcon}
+                    {comparisonAnalysisElement}
+                </div>
+            )}
+            <div
+                className={`order-3 w-[35rem] xl:max-w-none mt-5 flex flex-wrap flex-col sm:flex-row gap-4`}
+            >
                 <Button
                     className={`!bg-transparent !border-blue-400 !text-blue-600`}
                     theme={Theme.TERTIARY}
@@ -111,7 +110,7 @@ const AnalysisMessage: React.FC<Props> = (props) => {
                 </Button>
                 {additionalButton}
             </div>
-        </div>
+        </>
     );
 };
 

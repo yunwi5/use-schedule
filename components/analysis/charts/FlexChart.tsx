@@ -102,7 +102,9 @@ const FlexChart: React.FC<Props> = (props) => {
     );
 
     return (
-        <section className={`basis-1/2 mt-2 max-w-[29rem] flex flex-col gap-3`}>
+        <section
+            className={`w-full lg:w-[49%] last:g:basis-1/2 pr-5 max-w-[35rem] xl:max-w-none flex flex-col gap-3`}
+        >
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                 <h3 className="-translate-y-1 text-3xl capitalize">{chartTitle}</h3>
                 <div
@@ -116,9 +118,7 @@ const FlexChart: React.FC<Props> = (props) => {
                 </div>
             </div>
             <div
-                className={`container ${
-                    flexChartType === FlexChartType.BAR ? '' : '-mt-[3rem] -mb-[4rem]'
-                }`}
+                className={`${flexChartType === FlexChartType.BAR ? '' : '-mt-[3rem] -mb-[4rem]'}`}
             >
                 {flexChartType === FlexChartType.PIE && (
                     <Pie options={pieOptions} data={pieOrDoughnutData} />
@@ -131,7 +131,7 @@ const FlexChart: React.FC<Props> = (props) => {
                 )}
                 {flexChartType === FlexChartType.BAR && (
                     // Increase height with vh setting
-                    <Bar options={barOptions} height="55vh" width="80vw" data={barData} />
+                    <Bar options={barOptions} data={barData} />
                 )}
             </div>
         </section>
