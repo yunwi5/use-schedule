@@ -1,0 +1,10 @@
+@import '../../../../styles/abstract/variables';
+@import '../../../../styles/abstract/mixins';
+
+.row {
+    display: flex;
+    @include respond(400px) {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

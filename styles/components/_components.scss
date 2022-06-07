@@ -7,6 +7,11 @@
 
     width: 32rem;
     left: calc(50% - 16rem);
+
+    @include respond(phone) {
+        width: 92vw;
+        left: calc(50% - 46vw);
+    }
 }
 
 @mixin icon-basic {

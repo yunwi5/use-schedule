@@ -24,6 +24,8 @@ import WrapperModal from '../../../ui/modal/modal-variation/WrapperModal';
 import useEventDelete from '../../../../hooks/event-hooks/useEventDelete';
 import OperationList from '../../../ui/OperationList';
 import EventDuplicate from '../EventDuplicate';
+import useWindowInnerWidth from '../../../../hooks/useWindowInnerWidth';
+import classes from './EventDetail.module.scss';
 
 interface Props {
     onClose(): void;
@@ -33,11 +35,22 @@ interface Props {
 
 const googleMapBaseURL = 'http://maps.google.com/maps?q=';
 
+enum Layout {
+    ROW = 'row',
+    COLUMN = 'column',
+}
+
 const EventDetail: React.FC<Props> = (props) => {
     const { onClose, onInvalidate, event } = props;
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const { deleteEvent } = useEventDelete({ onClose, event, onInvalidate });
+
+    const [layout, setLayout] = useState(Layout.ROW);
+    useWindowInnerWidth({
+        breakPoint: 400,
+        belowBreakPointCallback: () => setLayout(Layout.COLUMN),
+    });
 
     const {
         name,
@@ -129,7 +142,7 @@ const EventDetail: React.FC<Props> = (props) => {
                                 </div>
                             </div>
                         )}
-                        <div className="flex justify-between">
+                        <div className={`flex justify-between ${classes.row}`}>
                             <div className="flex flex-col">
                                 <span className={`${labelClass}`}>
                                     <FontAwesomeIcon
@@ -140,7 +153,7 @@ const EventDetail: React.FC<Props> = (props) => {
                                 </span>
                                 <time>{getEventDateTimeFormat(dateTime)}</time>
                             </div>
-                            <div className="flex flex-col w-[7.8rem] mr-[4.1rem]">
+                            <div className="flex flex-col w-[7.8rem] mr-[7%] sm:mr-[4.1rem]">
                                 <span className={`${labelClass}`}>
                                     <FontAwesomeIcon
                                         icon={faHourglass}
@@ -151,9 +164,9 @@ const EventDetail: React.FC<Props> = (props) => {
                                 <time>{getDurationFormat(duration)}</time>
                             </div>
                         </div>
-                        <div className="flex justify-between">
+                        <div className={`flex justify-between ${classes.row}`}>
                             <EventStatus event={event} onEdit={onInvalidate} />
-                            <div className="flex flex-col w-[7.8rem] mr-[4.2rem]">
+                            <div className="flex flex-col w-[7.8rem] mr-[7%] sm:mr-[4.2rem]">
                                 <span className={`${labelClass}`}>
                                     <FontAwesomeIcon
                                         icon={faStarExclamation}
