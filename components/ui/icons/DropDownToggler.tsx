@@ -14,7 +14,7 @@ const DropDownToggler: React.FC<Props> = ({ onToggle, showDropDown, className })
         <FontAwesomeIcon
             icon={faAngleDown}
             onClick={onToggle}
-            className={`inline-block max-h-[1.5rem] max-w-[1.5rem] text-2xl hover:scale-125 ml-auto !text-slate-400 cursor-pointer transition-all ${
+            className={`inline-block max-h-[1.8rem] max-w-[1.8rem] text-2xl hover:scale-125 ml-auto !text-slate-500 hover:text-slate-700 cursor-pointer transition-all ${
                 showDropDown ? 'rotate-180' : ''
             } ${className || ''}`}
         />

@@ -1,7 +1,8 @@
 import { getSession } from '@auth0/nextjs-auth0';
-import { ObjectId } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { getEvents, insertEvent, insertEvents } from '../../../db/event-util';
+import { connectDatabase } from '../../../db/mongodb-util';
 import { NoIdEvent, IEvent } from '../../../models/Event';
 import { validateEvent } from '../../../schemas/validation';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
@@ -23,6 +24,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const userId = session?.user.sub;
     if (!session || !userId) {
         return res.status(404).json({ message: 'User not found' });
+    }
+
+    let client: MongoClient;
+    try {
+        client = await connectDatabase();
+    } catch (err) {
+        return res.status(500).json({ message: 'Connect to database did not work.' });
     }
 
     if (req.method === 'POST') {
@@ -57,7 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                 } = [],
                 insertedCount = 0;
             try {
-                result = await insertEvents(newEvent);
+                result = await insertEvents(client, newEvent);
                 insertedIds = result.insertedIds;
                 insertedCount = result.insertedCount;
             } catch (err) {

@@ -2,6 +2,7 @@ import { connectDatabase } from './mongodb-util';
 import { deleteItem, getItems, insertItem, insertManyItems, updateItem } from './generic';
 import { NoIdEvent } from '../models/Event';
 import { EventCollection } from './collections';
+import { MongoClient } from 'mongodb';
 
 export async function insertEvent(event: NoIdEvent) {
     const client = await connectDatabase();
@@ -10,16 +11,14 @@ export async function insertEvent(event: NoIdEvent) {
     return result;
 }
 
-export async function insertEvents(events: NoIdEvent[]) {
-    const client = await connectDatabase();
+export async function insertEvents(client: MongoClient, events: NoIdEvent[]) {
     const insertResult = await insertManyItems(client, events, EventCollection);
-    client.close();
     return insertResult;
 }
 
 export async function getEvents(userId: string) {
     const client = await connectDatabase();
-    const events = await getItems(client, {}, null, EventCollection);
+    const events = await getItems(client, { userId }, null, EventCollection);
     client.close();
     return events;
 }

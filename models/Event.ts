@@ -15,6 +15,7 @@ export interface NoIdEvent {
 
     importance: Importance;
     userId: string;
+    recurringId?: string; // only if this event item was derived from recurring event
 }
 
 export interface IEvent extends NoIdEvent {

@@ -3,6 +3,7 @@ import React from 'react';
 import IntroPanel from './info/IntroPanel';
 import PlannerCard from '../ui/cards/PlannerCard';
 import ControlNav from './control/ControlNav';
+import IntervalsList from './lists/IntervalsList';
 
 const RecurringEventsMain = () => {
     return (
@@ -22,7 +23,7 @@ const RecurringEventsMain = () => {
                 }
             />
             <ControlNav />
-            Recurring Events
+            <IntervalsList />
         </PlannerCard>
     );
 };

@@ -8,8 +8,12 @@ const RecurringSearch: React.FC = (props) => {
     };
 
     return (
-        <div className={'ml-auto'}>
-            <Searchbar placeholder={'Search for recurring event'} onSearch={searchHandler} />
+        <div className={'ml-auto mr-3'}>
+            <Searchbar
+                className={'min-h-[3rem]'}
+                placeholder={'Search for recurring event'}
+                onSearch={searchHandler}
+            />
         </div>
     );
 };

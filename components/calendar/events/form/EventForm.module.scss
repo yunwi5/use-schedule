@@ -8,47 +8,31 @@
     flex-direction: column;
     gap: 1rem;
     overflow: hidden;
+}
 
-    .heading {
-        font-size: 1.8rem;
-        text-transform: capitalize;
-        border-bottom: 1px solid $color-primary-light-4;
-    }
+.heading {
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    border-bottom: 1px solid $color-primary-light-4;
+}
 
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding-right: 3rem;
-        overflow-y: scroll;
-    }
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right: 3rem;
+    overflow-y: scroll;
+}
 
-    .section,
-    .action {
-        padding: 0 0.7rem;
-    }
+.section,
+.action {
+    padding: 0 0.7rem;
+}
 
-    .section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .invalid-section {
-        input,
-        textarea {
-            @include invalid-input;
-        }
-    }
-
-    .invalid-input {
-        @include invalid-input;
-    }
-
-    .action {
-        display: flex;
-        gap: 1.8rem;
-    }
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
     input,
     textarea,
@@ -68,15 +52,31 @@
     select {
         padding: 0.35rem 0.5rem;
     }
+}
 
-    .error {
-        color: rgb(236, 72, 153);
-        white-space: nowrap;
+.invalid-section {
+    input,
+    textarea {
+        @include invalid-input;
     }
+}
 
-    .icon {
-        max-width: 1.3rem;
-        max-height: 1.3rem;
-        cursor: pointer;
-    }
+.invalid-input {
+    @include invalid-input;
+}
+
+.action {
+    display: flex;
+    gap: 1.8rem;
+}
+
+.error {
+    color: rgb(236, 72, 153);
+    white-space: nowrap;
+}
+
+.icon {
+    max-width: 1.3rem;
+    max-height: 1.3rem;
+    cursor: pointer;
 }

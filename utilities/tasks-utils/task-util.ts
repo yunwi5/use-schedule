@@ -2,7 +2,6 @@ import { PlannerTask, Task } from '../../models/task-models/Task';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Status } from '../../models/task-models/Status';
 import { SubTask } from '../../models/task-models/SubTask';
-import { v4 as uuidv4 } from 'uuid';
 
 export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];

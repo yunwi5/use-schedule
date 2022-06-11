@@ -9,12 +9,9 @@ import {
     getTasksFromAllCollection,
     getTodosFromPage,
 } from '../../db/pages-util';
-import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Task } from '../../models/task-models/Task';
 import { Todo } from '../../models/todo-models/Todo';
 import { IEvent } from '../../models/Event';
-import { convertToTasks } from '../../utilities/tasks-utils/task-util';
-import { convertToTodos } from '../../utilities/todos-utils/todo-util';
 import { useAppDispatch } from '../../store/redux';
 import { plannerActions } from '../../store/redux/planner-slice';
 import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
@@ -100,9 +97,11 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         ]);
 
         const taskDocs = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
-        const tasks = convertToTasks(taskDocs);
-        const todos = convertToTodos(userTodoDocs);
-        const events: IEvent[] = convertToAppObjectList(eventDocs);
+        // make sure the converted objects are json-serializable
+        // meaning there should be no Date object which is not json-serializable
+        const tasks = convertToAppObjectList(taskDocs, true);
+        const todos = convertToAppObjectList(userTodoDocs, true);
+        const events: IEvent[] = convertToAppObjectList(eventDocs, true);
 
         return {
             props: {

@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faGrid2, faXmark } from "@fortawesome/pro-duotone-svg-icons";
+import { useCallback, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faGrid2, faXmark } from '@fortawesome/pro-duotone-svg-icons';
 
-import classes from "./TodoIntroPanel.module.scss";
+import classes from './TodoIntroPanel.module.scss';
 
 const TodoIntroPanel: React.FC = () => {
     const [showPanel, setShowPanel] = useState(true);
@@ -35,12 +35,6 @@ const TodoIntroPanel: React.FC = () => {
                         className={classes.exit}
                         onClick={showPanelHandler.bind(null, false)}
                     />
-                    {/* <div className={classes.actions}>
-                        <Button className={`mr-4 flex justify-center items-center ${classes.btn}`}>
-                            <FontAwesomeIcon icon={faGrid2} className={classes.icon} />
-                            Theme
-                        </Button>
-                    </div> */}
                 </div>
             )}
         </>

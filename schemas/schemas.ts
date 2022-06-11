@@ -1,12 +1,12 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 export const taskSchema: Joi.ObjectSchema<any> = Joi.object({
     name: Joi.string().required(),
     timeString: Joi.string().required(),
-    description: Joi.string().empty("").required(),
+    description: Joi.string().empty('').required(),
     duration: Joi.number().required(),
     category: Joi.string().required(),
-    subCategory: Joi.string().empty(""),
+    subCategory: Joi.string().empty(''),
     status: Joi.string().required(),
     userId: Joi.string().required(),
     importance: Joi.string().required(),
@@ -17,8 +17,9 @@ export const taskSchema: Joi.ObjectSchema<any> = Joi.object({
     dueDateString: Joi.string(),
     isAnyDateTime: Joi.boolean(),
     comment: Joi.string(),
-    templateId: Joi.string(),
     subTasks: Joi.array(),
+    templateId: Joi.string(),
+    recurringId: Joi.string(),
 });
 
 export const subTaskSchema: Joi.ObjectSchema<any> = Joi.object({
@@ -58,10 +59,10 @@ export const templatePropsSchema: Joi.ObjectSchema<any> = Joi.object({
 export const taskPropsSchema: Joi.ObjectSchema<any> = Joi.object({
     name: Joi.string(),
     timeString: Joi.string(),
-    description: Joi.string().empty(""),
+    description: Joi.string().empty(''),
     duration: Joi.number(),
     category: Joi.string(),
-    subCategory: Joi.string().empty(""),
+    subCategory: Joi.string().empty(''),
     status: Joi.string(),
     userId: Joi.string(),
     importance: Joi.string(),

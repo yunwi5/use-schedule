@@ -17,5 +17,11 @@ export const SubTodoCollection = 'sub-todos';
 // Event
 export const EventCollection = 'events';
 
+// Recurring items collection
+export enum RecurringCollection {
+    RECURRING_EVENTS = 'recurring-events',
+    RECURRING_TASKS = 'recurring-tasks',
+}
+
 // Contact section
 export const ContactCollection = 'contacts';
