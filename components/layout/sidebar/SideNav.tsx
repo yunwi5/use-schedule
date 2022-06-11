@@ -13,6 +13,7 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
         calendarLink,
         dashboardLink,
         dataAnalysisLinks,
+        recurringScheduleLinks,
         plannerLinks,
         templateLinks,
         todoLinks,
@@ -38,9 +39,10 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
             >
                 {dashboardLink.name}
             </ActiveNavLink>
+            <NavList listName="Recurring Items" items={recurringScheduleLinks} />
+            <NavList listName="Data Analysis" items={dataAnalysisLinks} />
             <NavList listName="Task Planners" items={plannerLinks} />
             <NavList listName="Time Tables" items={templateLinks} />
-            <NavList listName="Data Analysis" items={dataAnalysisLinks} />
             <NavList listName="Custom Lists" items={todoLinks} />
         </nav>
     );

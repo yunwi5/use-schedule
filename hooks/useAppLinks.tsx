@@ -19,6 +19,11 @@ const useAppLinks = () => {
 
     const dashboardLink = { name: 'Dashboard', link: '/dashboard' };
 
+    const recurringScheduleLinks = [
+        { name: 'Recurring Events', link: '/recurring/events' },
+        { name: 'Recurring Tasks', link: '/recurring/tasks' },
+    ];
+
     const plannerLinks = [
         {
             name: 'Weekly Planner',
@@ -61,6 +66,7 @@ const useAppLinks = () => {
     return {
         calendarLink,
         dashboardLink,
+        recurringScheduleLinks,
         dataAnalysisLinks,
         plannerLinks,
         templateLinks,

@@ -1,15 +1,15 @@
 export enum SortingDirection {
-    Ascending = "ASC",
-    Descending = "DESC",
+    Ascending = 'ASC',
+    Descending = 'DESC',
 }
 
 // TodoSort helper models
 export enum TodoSort {
-    DATE = "Date",
-    IMPORTANCE = "Importance",
-    COMPLETED = "Completion",
-    ORDER = "Created Order", // Sort by createdAt
-    DURATION = "Duration", // needs testing
+    DATE = 'Date',
+    IMPORTANCE = 'Importance',
+    COMPLETED = 'Completion',
+    ORDER = 'Created Order', // Sort by createdAt
+    DURATION = 'Duration', // needs testing
 }
 
 export const TodoSortList = [
@@ -20,12 +20,26 @@ export const TodoSortList = [
     TodoSort.ORDER,
 ];
 
+export enum EventSort {
+    NAME = 'Name',
+    DATETIME = 'Date & Time',
+    DURATION = 'Duration',
+    IMPORTANCE = 'Importance',
+}
+
+export const EventSortList = [
+    EventSort.NAME,
+    EventSort.DATETIME,
+    EventSort.DURATION,
+    EventSort.IMPORTANCE,
+];
+
 // TaskSort helper models
 export enum TaskSort {
-    PLAN_DATE = "Plan Date",
-    DUE_DATE = "Due Date",
-    DURATION = "Duration",
-    IMPORTANCE = "Importance",
+    PLAN_DATE = 'Plan Date',
+    DUE_DATE = 'Due Date',
+    DURATION = 'Duration',
+    IMPORTANCE = 'Importance',
 }
 
 export const TaskSortList = [
@@ -37,9 +51,9 @@ export const TaskSortList = [
 
 // More general
 export enum SubItemSort {
-    IMPORTANCE = "Importance",
-    COMPLETED = "Completed",
-    ORDER = "Added Order",
+    IMPORTANCE = 'Importance',
+    COMPLETED = 'Completed',
+    ORDER = 'Added Order',
 }
 
 export const SubItemSortList = [SubItemSort.COMPLETED, SubItemSort.IMPORTANCE, SubItemSort.ORDER];

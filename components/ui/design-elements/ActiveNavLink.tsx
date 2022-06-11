@@ -6,6 +6,7 @@ interface Props {
     href: string;
     className: string;
     activeClassName?: string;
+    onNavigate?: () => void;
 }
 
 function isActiveLink(router: NextRouter, hrefLink: string): boolean {
@@ -18,12 +19,15 @@ function isActiveLink(router: NextRouter, hrefLink: string): boolean {
 }
 
 const ActiveNavLink: React.FC<Props> = (props) => {
-    const { href, className, activeClassName, children } = props;
+    const { href, className, activeClassName, onNavigate, children } = props;
     const router = useRouter();
 
     return (
         <Link href={href}>
-            <a className={`${className} ${isActiveLink(router, href) ? activeClassName : ''}`}>
+            <a
+                onClick={onNavigate}
+                className={`${className} ${isActiveLink(router, href) ? activeClassName : ''}`}
+            >
                 {children}
             </a>
         </Link>

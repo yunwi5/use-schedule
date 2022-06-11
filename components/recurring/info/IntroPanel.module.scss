@@ -5,9 +5,13 @@
     width: 100%;
     min-height: 5rem;
 
-    background: linear-gradient(217deg, lighten($color-teal-light-2, 5%), rgba(255, 0, 0, 0) 70.71%),
-        linear-gradient(127deg, $color-primary-light-3, rgba(0, 255, 0, 0) 70.71%),
-        linear-gradient(336deg, $color-secondary-light-1, rgba(0, 0, 255, 0) 70.71%);
+    background: linear-gradient(
+            217deg,
+            lighten($color-indigo-light-3, 10%),
+            rgba(255, 0, 0, 0) 70.71%
+        ),
+        linear-gradient(127deg, $color-tertiary-light-2, rgba(0, 255, 0, 0) 70.71%),
+        linear-gradient(336deg, $color-secondary-light-3, rgba(0, 0, 255, 0.1) 70.71%);
 
     border-radius: 5px;
 
@@ -62,7 +66,7 @@
     position: absolute;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: $color-primary-dark-2;
+    color: $color-primary-dark-3;
 
     &:hover {
         color: $color-tertiary-dark-2;
@@ -84,19 +88,4 @@
     max-width: 3rem;
     max-height: 3rem;
     font-size: 2.1rem;
-}
-
-.actions {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(4, 12rem);
-    gap: 1rem;
-
-    @include respond(tab-port) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include respond(500px) {
-        grid-template-columns: repeat(1, 1fr);
-    }
 }

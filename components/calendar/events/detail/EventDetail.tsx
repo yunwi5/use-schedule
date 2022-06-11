@@ -24,7 +24,6 @@ import WrapperModal from '../../../ui/modal/modal-variation/WrapperModal';
 import useEventDelete from '../../../../hooks/event-hooks/useEventDelete';
 import OperationList from '../../../ui/OperationList';
 import EventDuplicate from '../EventDuplicate';
-import useWindowInnerWidth from '../../../../hooks/useWindowInnerWidth';
 import classes from './EventDetail.module.scss';
 
 interface Props {
@@ -45,12 +44,6 @@ const EventDetail: React.FC<Props> = (props) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const { deleteEvent } = useEventDelete({ onClose, event, onInvalidate });
-
-    const [layout, setLayout] = useState(Layout.ROW);
-    useWindowInnerWidth({
-        breakPoint: 400,
-        belowBreakPointCallback: () => setLayout(Layout.COLUMN),
-    });
 
     const {
         name,
