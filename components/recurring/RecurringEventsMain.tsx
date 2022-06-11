@@ -5,7 +5,13 @@ import PlannerCard from '../ui/cards/PlannerCard';
 import ControlNav from './control/ControlNav';
 import IntervalsList from './lists/IntervalsList';
 
-const RecurringEventsMain = () => {
+interface Props {
+    onInvalidate(): void;
+}
+
+const RecurringEventsMain: React.FC<Props> = (props) => {
+    const { onInvalidate } = props;
+
     return (
         <PlannerCard className={'flex flex-col justify-between gap-8'}>
             <IntroPanel
@@ -22,7 +28,7 @@ const RecurringEventsMain = () => {
                     </span>
                 }
             />
-            <ControlNav />
+            <ControlNav onInvalidate={onInvalidate} />
             <IntervalsList />
         </PlannerCard>
     );

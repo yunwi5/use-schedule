@@ -1,5 +1,5 @@
-import React from 'react';
-import useRecurringEventAdd from '../../../hooks/recurring-item-hooks/useRecurringEventAdd';
+import React, { useEffect } from 'react';
+import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { NoIdRecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import WrapperModal from '../../ui/modal/modal-variation/WrapperModal';
 import RecurringEventForm from './form/RecurringEventForm';
@@ -13,7 +13,9 @@ interface Props {
 const RecurringEventAdd: React.FC<Props> = (props) => {
     const beginningPeriod = props.beginningPeriod ?? new Date();
     const { onClose, onAdd } = props;
-    const { addRecEvent } = useRecurringEventAdd({ onAdd });
+    const { addRecEvent, patchRecEvent, deleteRecEvent } = useRecurringEventQuery({
+        onInvalidate: onAdd,
+    });
 
     const addHandler = async (newRecurringEvent: NoIdRecurringEvent) => {
         console.log(newRecurringEvent);

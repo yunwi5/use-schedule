@@ -11,7 +11,7 @@ const RecurringSearch: React.FC = (props) => {
         <div className={'ml-auto mr-3'}>
             <Searchbar
                 className={'min-h-[3rem]'}
-                placeholder={'Search for recurring event'}
+                placeholder={'Search for recurring events'}
                 onSearch={searchHandler}
             />
         </div>

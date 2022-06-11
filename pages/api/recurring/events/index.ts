@@ -3,8 +3,13 @@ import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { insertEvents } from '../../../../db/event-util';
 import { connectDatabase } from '../../../../db/mongodb-util';
-import { insertRecurringEvent, updateRecurringEventProps } from '../../../../db/recurring-items';
+import {
+    getRecurringEvents,
+    insertRecurringEvent,
+    updateRecurringEventProps,
+} from '../../../../db/recurring-items';
 import { RecurringEvent } from '../../../../models/recurring-models/RecurringEvent';
+import { convertToAppObjectList } from '../../../../utilities/gen-utils/object-util';
 
 type Data = { message: string } | { message: string; insertedId: string } | RecurringEvent[];
 
@@ -68,6 +73,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         }
         res.status(201).json({ message: 'Inserting recurring events successful', insertedId });
     } else if (req.method === 'GET') {
+        let result;
+        try {
+            result = await getRecurringEvents(client, userId);
+        } catch (err) {
+            const message =
+                err instanceof Error ? err.message : 'Getting recurring event did not work.';
+            client.close();
+            return res.status(500).json({ message });
+        }
+        const recEvents: RecurringEvent[] = convertToAppObjectList(result);
+        res.status(200).json(recEvents);
     } else {
         return res.status(405).json({ message: 'Method not allowed' });
     }

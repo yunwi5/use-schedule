@@ -7,7 +7,7 @@ import { TodoList } from '../models/todo-models/TodoList';
 import { convertToTodoList, convertToTodos } from '../utilities/todos-utils/todo-util';
 import { getTasks } from './tasks-util';
 import { getItems } from './generic';
-import { getTodoListAndItems } from './todos-util';
+import { getTodoListAndItems } from './todos';
 
 // Get tasks from getStaticProps or getServerSideProps
 export async function getTasksFromPage(collection: string, userId: string) {

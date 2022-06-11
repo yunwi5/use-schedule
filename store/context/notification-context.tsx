@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useCallback } from "react";
+import { createContext, useState, useEffect, useCallback } from 'react';
 
 interface NotificationData {
     title: string;
@@ -24,13 +24,11 @@ export const NotificationContextProvider: React.FC = (props) => {
     const [activeNotification, setActiveNotification] = useState<NotificationData | null>(null);
 
     useEffect(() => {
-        if (
-            activeNotification &&
-            (activeNotification.status === "success" || activeNotification.status === "error")
-        ) {
+        if (activeNotification) {
+            const timeoutDuration = activeNotification.status === 'pending' ? 10000 : 3500;
             const timer = setTimeout(() => {
                 setActiveNotification(null);
-            }, 3500);
+            }, timeoutDuration);
             return () => {
                 clearTimeout(timer);
             };
@@ -39,7 +37,6 @@ export const NotificationContextProvider: React.FC = (props) => {
 
     const showNotificationHandler = useCallback((notificationData: NotificationData) => {
         setActiveNotification(notificationData);
-        // console.log("notification data:", notificationData);
     }, []);
 
     const hideNotificationHandler = useCallback(() => {

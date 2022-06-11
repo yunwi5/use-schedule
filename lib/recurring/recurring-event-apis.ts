@@ -1,10 +1,15 @@
 import axios from 'axios';
 import {
     NoIdRecurringEvent,
+    RecurringEvent,
     RecurringEventProps,
 } from '../../models/recurring-models/RecurringEvent';
 
 const BASE_URL = '/api/recurring/events';
+
+export async function fetchRecurringEvents() {
+    return (await axios.get<RecurringEvent[]>(BASE_URL)).data;
+}
 
 export async function postRecurringEvent(event: NoIdRecurringEvent) {
     let message = '';
