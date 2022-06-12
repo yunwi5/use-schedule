@@ -10,11 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { RecurringItem } from '../../../models/recurring-models';
-import {
-    getDurationFormat,
-    getShortDurationFormat,
-    getShortEventDateTimeFormat,
-} from '../../../utilities/date-utils/date-format';
+import { getDurationFormat } from '../../../utilities/date-utils/date-format';
 
 interface Props {
     item: RecurringItem;

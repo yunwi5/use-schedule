@@ -1,5 +1,5 @@
-import { SubItemSort, SortingDirection } from "../../models/sorting-models";
-import { compareByCompletion, compareByImportance } from "./sort-util";
+import { SubItemSort, SortingDirection } from '../../models/sorting-models';
+import { compareByBooleanCompletion, compareByBooleanImportance } from './sort-util';
 
 interface Sortable {
     isImportant: boolean;
@@ -23,11 +23,11 @@ export function sortSubItems(
     switch (sortingStandard) {
         case SubItemSort.IMPORTANCE:
             return subTasks.sort((a, b) =>
-                isAsc ? compareByImportance(a, b) : compareByImportance(b, a),
+                isAsc ? compareByBooleanImportance(a, b) : compareByBooleanImportance(b, a),
             );
         case SubItemSort.COMPLETED:
             return subTasks.sort((a, b) =>
-                isAsc ? compareByCompletion(a, b) : compareByCompletion(b, a),
+                isAsc ? compareByBooleanCompletion(a, b) : compareByBooleanCompletion(b, a),
             );
         case SubItemSort.ORDER:
             return subTasks.sort((a, b) => (isAsc ? compareByOrder(a, b) : compareByOrder(b, a)));

@@ -1,3 +1,4 @@
+import { getImportanceValue, Importance } from '../../models/task-models/Status';
 import { Task } from '../../models/task-models/Task';
 
 export function sortTaskByTime(taskA: Task, taskB: Task) {
@@ -21,27 +22,50 @@ export function compareByDateTime(
 interface IDuration {
     duration?: number;
 }
-export function compareByDuration(taskA: IDuration, taskB: IDuration): number {
-    if (!taskB.duration) return -1;
-    if (!taskA.duration) return 1;
+export function compareByDuration(itemA: IDuration, itemB: IDuration): number {
+    if (itemB.duration == null) return -1;
+    if (itemA.duration == null) return 1;
 
-    return taskA.duration - taskB.duration;
+    return itemA.duration - itemB.duration;
 }
 
+interface IImportance {
+    importance: string;
+}
+export function comapreByImportance(imp1: IImportance, imp2: IImportance): number {
+    let importanceA = getImportanceValue(imp1.importance); // not found returns -1
+    importanceA = importanceA === -1 ? 1000 : importanceA;
+    let importanceB = getImportanceValue(imp2.importance);
+    importanceB = importanceB === -1 ? 1000 : importanceB;
+
+    return importanceA - importanceB;
+}
+
+export function compareByAlphabeticalOrder(word1: string, word2: string) {
+    // all lowercase letters are greater than all uppercase letters
+    // due to ASCII character encoding
+    // Hence, convert them to lowercase for more user friendly alphabetical sorting
+    return word1.trim().toLowerCase() < word2.trim().toLowerCase() ? -1 : 1;
+}
+
+// Todo & sub tasks related sorting helpers
 interface IImportanceCompletion {
     isImportant: boolean;
     isCompleted: boolean;
 }
 
-export function compareByImportance(
-    subTaskA: IImportanceCompletion,
-    subTaskB: IImportanceCompletion,
+export function compareByBooleanImportance(
+    subA: IImportanceCompletion,
+    subB: IImportanceCompletion,
 ) {
-    if (!subTaskA.isImportant && subTaskB.isImportant) return -1;
+    if (!subA.isImportant && subB.isImportant) return -1;
     return 1;
 }
 
-export function compareByCompletion(subA: IImportanceCompletion, subB: IImportanceCompletion) {
+export function compareByBooleanCompletion(
+    subA: IImportanceCompletion,
+    subB: IImportanceCompletion,
+) {
     if (!subA.isCompleted && subB.isCompleted) return -1;
     return 1;
 }

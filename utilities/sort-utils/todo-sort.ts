@@ -1,11 +1,11 @@
-import { SortingDirection, TodoSort } from "../../models/sorting-models";
-import { Todo } from "../../models/todo-models/Todo";
+import { SortingDirection, TodoSort } from '../../models/sorting-models';
+import { Todo } from '../../models/todo-models/Todo';
 import {
     compareByDuration,
-    compareByImportance,
-    compareByCompletion,
+    compareByBooleanImportance,
+    compareByBooleanCompletion,
     compareByDateTime,
-} from "./sort-util";
+} from './sort-util';
 
 function compareByCreatedOrder(
     { createdAt: createdAtA }: Todo,
@@ -25,11 +25,11 @@ export function sortTodos(
     switch (sortingStandard) {
         case TodoSort.COMPLETED:
             return todos.sort((a, b) =>
-                isAsc ? compareByCompletion(a, b) : compareByCompletion(b, a),
+                isAsc ? compareByBooleanCompletion(a, b) : compareByBooleanCompletion(b, a),
             );
         case TodoSort.IMPORTANCE:
             return todos.sort((a, b) =>
-                isAsc ? compareByImportance(a, b) : compareByImportance(b, a),
+                isAsc ? compareByBooleanImportance(a, b) : compareByBooleanImportance(b, a),
             );
         case TodoSort.DATE:
             return todos.sort((a, b) =>

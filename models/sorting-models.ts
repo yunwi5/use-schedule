@@ -21,7 +21,7 @@ export const TodoSortList = [
 ];
 
 export enum EventSort {
-    NAME = 'Name',
+    NAME = 'Name', // sorting bt name alphabetically
     DATETIME = 'Date & Time',
     DURATION = 'Duration',
     IMPORTANCE = 'Importance',
@@ -36,6 +36,7 @@ export const EventSortList = [
 
 // TaskSort helper models
 export enum TaskSort {
+    NAME = 'Name',
     PLAN_DATE = 'Plan Date',
     DUE_DATE = 'Due Date',
     DURATION = 'Duration',
@@ -43,6 +44,7 @@ export enum TaskSort {
 }
 
 export const TaskSortList = [
+    TaskSort.NAME,
     TaskSort.PLAN_DATE,
     TaskSort.DUE_DATE,
     TaskSort.DURATION,

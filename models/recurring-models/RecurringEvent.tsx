@@ -111,12 +111,12 @@ export class RecurringEvent implements IEvent, NoIdRecurringEvent {
             }
             case RecurringInterval.WEEK: {
                 const dayName = getWeekDay(this.startDate);
-                return `Every week ${dayName}, ${timeFormat}`;
+                return `Every ${dayName} ${timeFormat}`;
             }
             case RecurringInterval.MONTH: {
                 return (
                     <>
-                        Every month {dateOfMonth}, {timeFormat}
+                        Every {dateOfMonth} {timeFormat}
                     </>
                 );
             }
@@ -124,7 +124,7 @@ export class RecurringEvent implements IEvent, NoIdRecurringEvent {
                 const monthName = getMonthMember(this.startDate);
                 return (
                     <>
-                        Every year {monthName} {dateOfMonth}
+                        Every {monthName} {dateOfMonth}
                     </>
                 );
             }
