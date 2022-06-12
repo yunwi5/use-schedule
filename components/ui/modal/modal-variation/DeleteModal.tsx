@@ -1,6 +1,8 @@
-import { Theme } from '../../../../models/design-models';
-import Button from '../../buttons/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ExitIcon from '../../icons/ExitIcon';
 import Modal from '../Modal';
+import DeleteContent from './content/deleteContent';
+import DeleteHeader from './content/DeleteHeader';
 import classes from './GeneralModal.module.scss';
 
 interface ModalProps {
@@ -10,28 +12,12 @@ interface ModalProps {
 }
 
 const DeleteModal: React.FC<ModalProps> = (props) => {
-    const { targetName, onAction, onClose } = props;
+    const { onClose } = props;
 
     return (
         <Modal onClose={onClose} modalClass={`${classes.modal} ${classes['modal--delete']}`}>
-            <h2>Delete</h2>
-            <p>
-                Do you really want to delete{' '}
-                {targetName && <strong>&quot;{targetName}&quot;</strong>}
-                &nbsp;?
-            </p>
-            <div className={classes.btns}>
-                <Button theme={Theme.DANGER} onClick={onAction}>
-                    Confirm
-                </Button>
-                <Button
-                    theme={Theme.SECONDARY}
-                    onClick={onClose}
-                    className={`${classes['btn-cancel']}`}
-                >
-                    Cancel
-                </Button>
-            </div>
+            <DeleteHeader onClose={onClose} />
+            <DeleteContent {...props} />
         </Modal>
     );
 };

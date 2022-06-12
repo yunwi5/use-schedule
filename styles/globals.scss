@@ -13,18 +13,20 @@ body {
     scroll-behavior: smooth;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
 ::selection {
     background-color: $color-primary-dark-1;
     color: $color-primary-light-1;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 input,

@@ -8,22 +8,35 @@ import RecurringEventsMain from '../../components/recurring/RecurringEventsMain'
 import { AppProperty } from '../../constants/global-constants';
 import { fetchRecurringEvents } from '../../lib/recurring/recurring-event-apis';
 import { processRecurringEvents } from '../../utilities/recurring-utils';
+import { RecurringEvent } from '../../models/recurring-models/RecurringEvent';
+import { useEffect, useMemo } from 'react';
+import { useAppDispatch } from '../../store/redux';
+import { recurringActions } from '../../store/redux/recurring-slice';
+import { RecurringItemMode } from '../../models/recurring-models';
 
 interface Props {}
 
 const RecurringEvents: NextPage<Props> = (props) => {
+    const dispatch = useAppDispatch();
+
     const queryClient = useQueryClient();
     const { data, isError, error } = useQuery('recurring-events', fetchRecurringEvents);
     if (isError) {
         console.error('Event errors:', error);
     }
-    const recurringEvents = data ? processRecurringEvents(data) : [];
-    console.log('recurring events:', recurringEvents);
+    const recurringEvents: RecurringEvent[] = useMemo(
+        () => (data ? processRecurringEvents(data) : []),
+        [data],
+    );
 
     const invalidateRecEvents = () => queryClient.invalidateQueries('recurring-events');
 
     // use redux to globally share the recurring events / tasks!
     // instead of passing recurringEvents as props
+    useEffect(() => {
+        dispatch(recurringActions.setMode(RecurringItemMode.EVENT));
+        dispatch(recurringActions.setRecurringEvents(recurringEvents));
+    }, [dispatch, recurringEvents]);
 
     return (
         <div>

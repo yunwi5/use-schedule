@@ -30,9 +30,9 @@ const useEventAdd = ({ onInvalidate }: Props) => {
     const { setNotification } = useNotification();
 
     const postMutation = useMutation(
-        (recEvent: NoIdRecurringEvent) => {
+        async (recEvent: NoIdRecurringEvent) => {
             setNotification(NotifStatus.PENDING, 'Posting your recurring event...');
-            return axios.post(`${API_DOMAIN}`, recEvent);
+            return await axios.post(`${API_DOMAIN}`, recEvent);
         },
         {
             onSuccess: () => {
@@ -46,9 +46,9 @@ const useEventAdd = ({ onInvalidate }: Props) => {
     );
 
     const patchMutation = useMutation(
-        ({ recurringId, props, patchGenerated }: PatchConfig) => {
+        async ({ recurringId, props, patchGenerated }: PatchConfig) => {
             setNotification(NotifStatus.PENDING, 'Updating your recurring event...');
-            return axios.patch(
+            return await axios.patch(
                 `${API_DOMAIN}/${recurringId}?${patchGenerated && 'patchGenerated=true'}`,
                 props,
             );
@@ -67,9 +67,9 @@ const useEventAdd = ({ onInvalidate }: Props) => {
     );
 
     const deleteMutation = useMutation(
-        ({ recurringId, deleteGenerated }: DeleteConfig) => {
+        async ({ recurringId, deleteGenerated }: DeleteConfig) => {
             setNotification(NotifStatus.PENDING, 'Deleting your recurring event...');
-            return axios.delete(
+            return await axios.delete(
                 `${API_DOMAIN}/${recurringId}?${deleteGenerated && 'deleteGenerated=true'}`,
             );
         },

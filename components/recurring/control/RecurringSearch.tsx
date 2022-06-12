@@ -1,10 +1,14 @@
 import React from 'react';
+import { useAppDispatch } from '../../../store/redux';
+import { recurringActions } from '../../../store/redux/recurring-slice';
 import Searchbar from '../../ui/searchbar/Searchbar';
 
 // Search functionality needs to be implemented using redux
 const RecurringSearch: React.FC = (props) => {
+    const dispatch = useAppDispatch();
+
     const searchHandler = (word: string) => {
-        console.log('search word:', word);
+        dispatch(recurringActions.setSearchWord(word));
     };
 
     return (

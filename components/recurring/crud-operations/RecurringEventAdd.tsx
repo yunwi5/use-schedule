@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { NoIdRecurringEvent } from '../../../models/recurring-models/RecurringEvent';
-import WrapperModal from '../../ui/modal/modal-variation/WrapperModal';
+import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import RecurringEventForm from './form/RecurringEventForm';
 
 interface Props {

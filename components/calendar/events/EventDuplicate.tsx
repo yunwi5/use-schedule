@@ -1,6 +1,6 @@
 import EventForm from './form/EventForm';
 import { IEvent } from '../../../models/Event';
-import WrapperModal from '../../ui/modal/modal-variation/WrapperModal';
+import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import useEventAdd from '../../../hooks/event-hooks/useEventAdd';
 
 interface Props {

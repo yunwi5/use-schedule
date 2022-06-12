@@ -3,15 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import { RecurringInterval, RecurringIntervalList } from '../../../../../models/recurring-models';
+import { RecurringEvent } from '../../../../../models/recurring-models/RecurringEvent';
 
 import classes from '../RecurringEventForm.module.scss';
 
 interface Props {
     register: UseFormRegister<any>;
-    initialInterval?: RecurringInterval;
+    initialRecEvent?: RecurringEvent;
 }
 
-const IntervalInput: React.FC<Props> = ({ register, initialInterval }) => {
+const IntervalInput: React.FC<Props> = ({ register, initialRecEvent }) => {
     return (
         <div className={`${classes.section} w-[45%]`}>
             <label htmlFor="interval">
@@ -20,8 +21,9 @@ const IntervalInput: React.FC<Props> = ({ register, initialInterval }) => {
             </label>
             <select
                 id="interval"
-                defaultValue={initialInterval || RecurringInterval.WEEK}
+                defaultValue={initialRecEvent?.interval || RecurringInterval.WEEK}
                 {...register('interval')}
+                disabled={!!initialRecEvent}
             >
                 {RecurringIntervalList.map((interval) => (
                     <option key={interval} value={interval}>

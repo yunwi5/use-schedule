@@ -8,7 +8,7 @@ import { Theme } from '../../models/design-models';
 import ActiveButton from '../ui/buttons/ActiveButton';
 import Button from '../ui/buttons/Button';
 import ExitIcon from '../ui/icons/ExitIcon';
-import WrapperModal from '../ui/modal/modal-variation/WrapperModal';
+import WrapperModal from '../ui/modal/wrapper/WrapperModal';
 import SectionWrapper from './SectionWrapper';
 import AppFileInput from '../ui/input/AppFileInput';
 import AppSelect from '../ui/input/AppSelect';

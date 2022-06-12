@@ -14,7 +14,7 @@ const ListHeading: React.FC<Props> = (props) => {
 
     return (
         <div className="flex items-center gap-3">
-            <h3 className={'w-[7rem] flex items-center text-xl text-slate-700/90'}>
+            <h3 className={'w-[7.5rem] font-semibold flex items-center text-xl text-slate-600/80'}>
                 {headingText}
             </h3>
             {/* Horizontal line */}

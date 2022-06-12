@@ -20,7 +20,7 @@ import ExitIcon from '../../../ui/icons/ExitIcon';
 import EventEdit from '../EventEdit';
 import EmailLink from '../../../ui/EmailLink';
 import EventStatus from './EventStatus';
-import WrapperModal from '../../../ui/modal/modal-variation/WrapperModal';
+import WrapperModal from '../../../ui/modal/wrapper/WrapperModal';
 import useEventDelete from '../../../../hooks/event-hooks/useEventDelete';
 import OperationList from '../../../ui/OperationList';
 import EventDuplicate from '../EventDuplicate';
@@ -33,11 +33,6 @@ interface Props {
 }
 
 const googleMapBaseURL = 'http://maps.google.com/maps?q=';
-
-enum Layout {
-    ROW = 'row',
-    COLUMN = 'column',
-}
 
 const EventDetail: React.FC<Props> = (props) => {
     const { onClose, onInvalidate, event } = props;

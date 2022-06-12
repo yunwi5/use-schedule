@@ -3,7 +3,7 @@ import React from 'react';
 import { addMinutes } from '../../../utilities/date-utils/date-control';
 import EventForm from './form/EventForm';
 import useEventAdd from '../../../hooks/event-hooks/useEventAdd';
-import WrapperModal from '../../ui/modal/modal-variation/WrapperModal';
+import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 
 interface Props {
     onClose: () => void;

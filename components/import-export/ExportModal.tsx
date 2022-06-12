@@ -12,7 +12,7 @@ import { createIcsFile } from '../../utilities/export-utils/ics-export';
 import ActiveButton from '../ui/buttons/ActiveButton';
 import Button from '../ui/buttons/Button';
 import ExitIcon from '../ui/icons/ExitIcon';
-import WrapperModal from '../ui/modal/modal-variation/WrapperModal';
+import WrapperModal from '../ui/modal/wrapper/WrapperModal';
 import { filterItemsOnInterval } from '../../utilities/filter-utils/date-filter';
 import { WeekIntervalInput, YearIntervalInput, MonthIntervalInput } from '../ui/intervals';
 import useTaskQuery from '../../hooks/useTaskQuery';

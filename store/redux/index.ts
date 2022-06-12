@@ -1,13 +1,14 @@
 // Add all redux slices to index.ts!
-import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
+import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 
-import foldSlice from "./fold-slice";
-import filterSlice from "./filter-slice";
-import plannerSlice from "./planner-slice";
-import templateSlice from "./template-slice";
-import todoListSlice from "./todolist-slice";
-import calendarSlice from "./calendar-slice";
+import foldSlice from './fold-slice';
+import filterSlice from './filter-slice';
+import plannerSlice from './planner-slice';
+import templateSlice from './template-slice';
+import todoListSlice from './todolist-slice';
+import calendarSlice from './calendar-slice';
+import recurringSlice from './recurring-slice';
 
 const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
         template: templateSlice.reducer,
         todoList: todoListSlice.reducer,
         calendar: calendarSlice.reducer,
+        recurring: recurringSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

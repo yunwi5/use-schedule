@@ -73,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         props: {
-            initialAllTasks: convertToTasks(allTaskData),
+            initialAllTasks: convertToAppObjectList(allTaskData),
             initialEvents: convertToAppObjectList(eventsData),
             initialStartDate: startDate,
         },

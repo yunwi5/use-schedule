@@ -9,13 +9,14 @@ import classes from '../RecurringEventForm.module.scss';
 
 interface Props {
     register: UseFormRegister<any>;
+    disabled?: boolean;
     defaultDate: Date;
     label: string;
     name: string;
 }
 
 const DynamicDateInput: FC<Props> = (props) => {
-    const { register, defaultDate, label, name } = props;
+    const { register, defaultDate, label, name, disabled } = props;
 
     const initialDateInput = getISODateFormat(addDays(new Date(defaultDate), -1));
 
@@ -28,6 +29,7 @@ const DynamicDateInput: FC<Props> = (props) => {
             <input
                 id={`date-${name}`}
                 type="date"
+                disabled={disabled}
                 defaultValue={initialDateInput}
                 {...register(name)}
             />

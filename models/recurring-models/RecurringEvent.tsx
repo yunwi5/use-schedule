@@ -1,10 +1,14 @@
 import { RecurringInterval } from '.';
 import { addDays, addMonths, addWeeks, addYears } from '../../utilities/date-utils/date-control';
+import { getShortUserTimeFormat } from '../../utilities/date-utils/date-format';
 import { min } from '../../utilities/date-utils/date-math';
+import { getDaySuffixed } from '../../utilities/gen-utils/format-util';
+import { getMonthMember } from '../date-models/Month';
+import { getWeekDay } from '../date-models/WeekDay';
 import { IEvent, NoIdEvent, Participant } from '../Event';
 import { Importance, Status } from '../task-models/Status';
 
-export interface NoIdRecurringEvent {
+export interface NoIdRecurringEvent extends NoIdEvent {
     id?: string;
     name: string;
     dateTime: Date; // Date is required for the calendar to display this event
@@ -18,7 +22,7 @@ export interface NoIdRecurringEvent {
 
     userId: string;
     importance: Importance;
-    status: Status.OPEN; // Always open
+    status: Status; // Always open
 
     startDate: Date;
     endDate: Date;
@@ -56,7 +60,7 @@ const decrementRecurringDate = (date: Date, recurringInterval: RecurringInterval
     }
 };
 
-export class RecurringEvent implements IEvent {
+export class RecurringEvent implements IEvent, NoIdRecurringEvent {
     id: string;
     name: string;
     dateTime: Date; // Date is required for the calendar to display this event
@@ -86,12 +90,45 @@ export class RecurringEvent implements IEvent {
         this.duration = event.duration;
         this.importance = event.importance;
         this.userId = event.userId;
+        this.meetingLink = event.meetingLink;
+        this.location = event.location;
+        this.participants = event.participants;
 
         // Unique properties only exist in recurring items
         this.startDate = new Date(event.startDate); // can be string type accidently
         this.endDate = new Date(event.endDate);
         this.interval = event.interval;
         this.lastRecurred = event.lastRecurred ? new Date(event.lastRecurred) : undefined;
+    }
+
+    get intervalFormat() {
+        const timeFormat = getShortUserTimeFormat(this.startDate);
+        const dateOfMonth: JSX.Element = getDaySuffixed(this.startDate);
+
+        switch (this.interval) {
+            case RecurringInterval.DAY: {
+                return `Everyday at ${timeFormat}`;
+            }
+            case RecurringInterval.WEEK: {
+                const dayName = getWeekDay(this.startDate);
+                return `Every week ${dayName}, ${timeFormat}`;
+            }
+            case RecurringInterval.MONTH: {
+                return (
+                    <>
+                        Every month {dateOfMonth}, {timeFormat}
+                    </>
+                );
+            }
+            case RecurringInterval.YEAR: {
+                const monthName = getMonthMember(this.startDate);
+                return (
+                    <>
+                        Every year {monthName} {dateOfMonth}
+                    </>
+                );
+            }
+        }
     }
 
     // Need to send PATCH request after using this function to update recurring event properties
@@ -117,6 +154,9 @@ export class RecurringEvent implements IEvent {
                 description: this.description,
                 duration: this.duration,
                 importance: this.importance,
+                meetingLink: this.meetingLink,
+                location: this.location,
+                participants: this.participants,
                 userId: this.userId,
                 status: this.status,
             };
@@ -133,6 +173,7 @@ export class RecurringEvent implements IEvent {
 }
 
 // For PATCH request
+// Recurring event properties that can be edited
 export interface RecurringEventProps {
     name?: string;
     dateTime?: Date; // Date is required for the calendar to display this event

@@ -52,6 +52,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if (req.method === 'PATCH') {
         // change the properties of subsequent one-off events as well
         const updatedProps = req.body;
+        console.log('updatedProps:', updatedProps);
 
         let result;
         try {

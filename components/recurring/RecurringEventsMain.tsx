@@ -29,7 +29,7 @@ const RecurringEventsMain: React.FC<Props> = (props) => {
                 }
             />
             <ControlNav onInvalidate={onInvalidate} />
-            <IntervalsList />
+            <IntervalsList onInvalidate={onInvalidate} />
         </PlannerCard>
     );
 };

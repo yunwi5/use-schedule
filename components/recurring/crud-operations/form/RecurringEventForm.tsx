@@ -22,7 +22,10 @@ import { addYears } from '../../../../utilities/date-utils/date-control';
 import DynamicDateInput from './form-parts/DynamicDateInput';
 import IntervalInput from './form-parts/IntervalInput';
 import classes from './RecurringEventForm.module.scss';
-import { NoIdRecurringEvent } from '../../../../models/recurring-models/RecurringEvent';
+import {
+    NoIdRecurringEvent,
+    RecurringEvent,
+} from '../../../../models/recurring-models/RecurringEvent';
 import { isRecurringInterval, RecurringInterval } from '../../../../models/recurring-models';
 
 export interface RecurringEventFormValues {
@@ -48,16 +51,16 @@ interface Props {
     onSubmit(event: NoIdEvent): void;
     onClose(): void;
     onDelete?: () => void;
-    initialEvent?: IEvent;
+    initialRecEvent?: RecurringEvent;
     heading?: string;
 }
 
 const RecurringEventForm: React.FC<Props> = (props) => {
-    const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete } = props;
+    const { onSubmit, initialRecEvent, beginningPeriod, heading, onClose, onDelete } = props;
 
     const userId = useUser().user?.sub;
     const [participants, setParticipants] = useState<Participant[]>(
-        initialEvent?.participants ?? [],
+        initialRecEvent?.participants ?? [],
     );
 
     const {
@@ -96,7 +99,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
             `${endDateStr || addYears(beginningPeriod, 1).toDateString()} ${time || '23:59'}`,
         );
 
-        const validInterval = isRecurringInterval(interval)
+        const validInterval = isRecurringInterval(initialRecEvent?.interval ?? interval)
             ? (interval as RecurringInterval)
             : RecurringInterval.WEEK;
 
@@ -118,48 +121,54 @@ const RecurringEventForm: React.FC<Props> = (props) => {
         onSubmit(newEvent);
     };
 
-    const headingText = heading || (initialEvent ? 'Edit Recurring Event' : 'New Recurring Event');
+    const headingText =
+        heading || (initialRecEvent ? 'Edit Recurring Event' : 'New Recurring Event');
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
             <h2 className={classes.heading}>{headingText}</h2>
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
-                <EventNameInput register={register} initialEvent={initialEvent} errors={errors} />
+                <EventNameInput
+                    register={register}
+                    initialEvent={initialRecEvent}
+                    errors={errors}
+                />
                 <div className={'flex gap-5 lg:gap-10 justify-between'}>
                     <DynamicDateInput
                         register={register}
                         label="Start Date"
                         name="startDate"
+                        disabled={!!initialRecEvent}
                         defaultDate={beginningPeriod}
                     />
                     <EventTimeInput
                         register={register}
-                        initialEvent={initialEvent}
+                        initialEvent={initialRecEvent}
                         beginningPeriod={beginningPeriod}
                     />
                 </div>
                 <div className={'flex gap-5 lg:gap-10 justify-between'}>
+                    <IntervalInput register={register} initialRecEvent={initialRecEvent} />
                     <DynamicDateInput
                         register={register}
                         label="End Date"
                         name="endDate"
                         defaultDate={addYears(beginningPeriod, 1)}
                     />
-                    <IntervalInput register={register} />
                 </div>
                 <div className={`flex gap-5 lg:gap-10 justify-between`}>
                     <EventDurationInput
                         register={register}
-                        initialEvent={initialEvent}
+                        initialEvent={initialRecEvent}
                         errors={errors}
                     />
-                    <EventImportanceInput register={register} initialEvent={initialEvent} />
+                    <EventImportanceInput register={register} initialEvent={initialRecEvent} />
                 </div>
-                <EventLocationInput register={register} initialEvent={initialEvent} />
-                <EventMeetingLink register={register} initialEvent={initialEvent} />
-                <EventParticipants initialEvent={initialEvent} onUpdate={setParticipants} />
-                <EventDescriptionInput register={register} initialEvent={initialEvent} />
+                <EventLocationInput register={register} initialEvent={initialRecEvent} />
+                <EventMeetingLink register={register} initialEvent={initialRecEvent} />
+                <EventParticipants initialEvent={initialRecEvent} onUpdate={setParticipants} />
+                <EventDescriptionInput register={register} initialEvent={initialRecEvent} />
             </div>
             <EventButtons onDelete={onDelete} />
         </form>

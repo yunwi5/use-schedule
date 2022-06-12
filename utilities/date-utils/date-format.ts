@@ -18,7 +18,7 @@ export function getShortDurationFormat(minutes: number) {
     const hrsSection = hrs ? `${hrs} h ` : '';
     const minsSection = mins ? `${mins} m` : '';
     const durationFormat = `${daysSection} ${hrsSection} ${minsSection}`.trim();
-    return durationFormat ? durationFormat : '0 hr';
+    return durationFormat ? durationFormat : '0 h';
 }
 
 export function getDurationFormat(minutes: number) {
@@ -124,4 +124,10 @@ export function getEventDateTimeFormat(dateTime: Date) {
     return `${dateTime.toDateString().slice(3)} (${dateTime
         .toDateString()
         .slice(0, 3)}), ${getLongUserTimeFormat(dateTime)}`;
+}
+
+export function getShortEventDateTimeFormat(dateTime: Date) {
+    return `${dateTime.toDateString().slice(3)} (${dateTime
+        .toDateString()
+        .slice(0, 3)}), ${getShortUserTimeFormat(dateTime)}`;
 }

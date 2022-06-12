@@ -21,7 +21,7 @@ export function convertToAppObject<T>(obj: any, jsonSerializable?: boolean): T {
     return appObj;
 }
 
-export function convertToAppObjectList<T>(array: any[], jsonSerializable?: boolean): T[] {
+export function convertToAppObjectList<T>(array: any[], jsonSerializable: boolean = true): T[] {
     if (!array) return array;
     return array.map((item) => convertToAppObject(item, jsonSerializable));
 }
