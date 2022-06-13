@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CalendarItemType, getItemIcon } from '../../../models/calendar-models/CalendarItemType';
 import { RecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import RecurringEventEdit from '../crud-operations/RecurringEventEdit';
+import RecurringEventDetail from '../item-detail/RecurringEventDetail';
 import RecurringItemCard from './RecurringItemCard';
 
 interface Props {
@@ -27,6 +28,13 @@ const RecurringEventItem: React.FC<Props> = ({ item, onInvalidate }) => {
                     initialRecEvent={item}
                     onClose={() => setShowEdit(false)}
                     onEdit={onInvalidate}
+                />
+            )}
+            {showDetail && (
+                <RecurringEventDetail
+                    recEvent={item}
+                    onClose={() => setShowDetail(false)}
+                    onInvalidate={onInvalidate}
                 />
             )}
         </>

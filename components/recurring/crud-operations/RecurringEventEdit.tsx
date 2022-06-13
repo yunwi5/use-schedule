@@ -54,6 +54,7 @@ const RecurringEventEdit: React.FC<Props> = (props) => {
                 beginningPeriod={initialRecEvent.startDate}
                 initialRecEvent={initialRecEvent}
                 onDelete={() => setShowDeleteModal(true)}
+                isEdit={true}
             />
             {showDeleteModal && (
                 <RecurringItemDeleteModal

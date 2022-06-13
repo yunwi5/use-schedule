@@ -3,6 +3,7 @@ import { addDays, addMonths, addWeeks, addYears } from '../../utilities/date-uti
 import { getShortUserTimeFormat } from '../../utilities/date-utils/date-format';
 import { min } from '../../utilities/date-utils/date-math';
 import { getDaySuffixed } from '../../utilities/gen-utils/format-util';
+import { decrementRecurringDate, incrementRecurringDate } from '../../utilities/recurring-utils';
 import { getMonthMember } from '../date-models/Month';
 import { getWeekDay } from '../date-models/WeekDay';
 import { IEvent, NoIdEvent, Participant } from '../Event';
@@ -29,36 +30,6 @@ export interface NoIdRecurringEvent extends NoIdEvent {
     interval: RecurringInterval;
     lastRecurred?: Date;
 }
-
-const incrementRecurringDate = (date: Date, recurringInterval: RecurringInterval) => {
-    switch (recurringInterval) {
-        case RecurringInterval.DAY:
-            return addDays(date, 1);
-        case RecurringInterval.WEEK:
-            return addWeeks(date, 1);
-        case RecurringInterval.MONTH:
-            return addMonths(date, 1);
-        case RecurringInterval.YEAR:
-            return addYears(date, 1);
-        default:
-            return date;
-    }
-};
-
-const decrementRecurringDate = (date: Date, recurringInterval: RecurringInterval) => {
-    switch (recurringInterval) {
-        case RecurringInterval.DAY:
-            return addDays(date, -1);
-        case RecurringInterval.WEEK:
-            return addWeeks(date, -1);
-        case RecurringInterval.MONTH:
-            return addMonths(date, -1);
-        case RecurringInterval.YEAR:
-            return addYears(date, -1);
-        default:
-            return date;
-    }
-};
 
 export class RecurringEvent implements IEvent, NoIdRecurringEvent {
     id: string;
@@ -107,7 +78,7 @@ export class RecurringEvent implements IEvent, NoIdRecurringEvent {
 
         switch (this.interval) {
             case RecurringInterval.DAY: {
-                return `Everyday at ${timeFormat}`;
+                return `Everyday ${timeFormat}`;
             }
             case RecurringInterval.WEEK: {
                 const dayName = getWeekDay(this.startDate);

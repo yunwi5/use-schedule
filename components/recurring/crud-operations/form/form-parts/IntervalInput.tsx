@@ -9,10 +9,11 @@ import classes from '../RecurringEventForm.module.scss';
 
 interface Props {
     register: UseFormRegister<any>;
+    disabled: boolean;
     initialRecEvent?: RecurringEvent;
 }
 
-const IntervalInput: React.FC<Props> = ({ register, initialRecEvent }) => {
+const IntervalInput: React.FC<Props> = ({ register, initialRecEvent, disabled }) => {
     return (
         <div className={`${classes.section} w-[45%]`}>
             <label htmlFor="interval">
@@ -23,7 +24,7 @@ const IntervalInput: React.FC<Props> = ({ register, initialRecEvent }) => {
                 id="interval"
                 defaultValue={initialRecEvent?.interval || RecurringInterval.WEEK}
                 {...register('interval')}
-                disabled={!!initialRecEvent}
+                disabled={disabled}
             >
                 {RecurringIntervalList.map((interval) => (
                     <option key={interval} value={interval}>

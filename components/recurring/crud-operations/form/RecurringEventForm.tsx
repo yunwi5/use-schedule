@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
 
-import { NoIdEvent, IEvent, Participant } from '../../../../models/Event';
+import { NoIdEvent, Participant } from '../../../../models/Event';
 import { Importance, Status } from '../../../../models/task-models/Status';
 import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
@@ -53,10 +53,12 @@ interface Props {
     onDelete?: () => void;
     initialRecEvent?: RecurringEvent;
     heading?: string;
+    isEdit?: boolean;
 }
 
 const RecurringEventForm: React.FC<Props> = (props) => {
-    const { onSubmit, initialRecEvent, beginningPeriod, heading, onClose, onDelete } = props;
+    const { onSubmit, initialRecEvent, beginningPeriod, heading, onClose, onDelete, isEdit } =
+        props;
 
     const userId = useUser().user?.sub;
     const [participants, setParticipants] = useState<Participant[]>(
@@ -121,8 +123,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
         onSubmit(newEvent);
     };
 
-    const headingText =
-        heading || (initialRecEvent ? 'Edit Recurring Event' : 'New Recurring Event');
+    const headingText = heading || (isEdit ? 'Edit Recurring Event' : 'New Recurring Event');
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
@@ -139,7 +140,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                         register={register}
                         label="Start Date"
                         name="startDate"
-                        disabled={!!initialRecEvent}
+                        disabled={!!isEdit}
                         defaultDate={beginningPeriod}
                     />
                     <EventTimeInput
@@ -149,7 +150,11 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                     />
                 </div>
                 <div className={'flex gap-5 lg:gap-10 justify-between'}>
-                    <IntervalInput register={register} initialRecEvent={initialRecEvent} />
+                    <IntervalInput
+                        register={register}
+                        disabled={!!isEdit}
+                        initialRecEvent={initialRecEvent}
+                    />
                     <DynamicDateInput
                         register={register}
                         label="End Date"

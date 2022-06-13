@@ -42,6 +42,10 @@ const useEventAdd = ({ onInvalidate }: Props) => {
             onError: () => {
                 setNotification(NotifStatus.ERROR, 'Adding recurring event did not work');
             },
+            onSettled: () => {
+                setNotification(NotifStatus.SUCCESS, 'Adding recurring event successful');
+                console.log('POST was settled...');
+            },
         },
     );
 

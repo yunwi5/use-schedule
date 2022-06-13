@@ -42,6 +42,7 @@ export interface RecurringItem {
     userId: string;
     startDate: Date;
     endDate: Date;
+    interval: RecurringInterval;
     intervalFormat: string | JSX.Element;
     lastRecurred?: Date;
 }

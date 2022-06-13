@@ -20,7 +20,7 @@ const RecurringEventAdd: React.FC<Props> = (props) => {
     const addHandler = async (newRecurringEvent: NoIdRecurringEvent) => {
         console.log(newRecurringEvent);
         addRecEvent(newRecurringEvent);
-        setTimeout(() => {
+        let timer = setTimeout(() => {
             onClose();
         }, 1100);
     };

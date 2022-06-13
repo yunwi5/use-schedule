@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { RecurringInterval, RecurringIntervalList } from '../../../models/recurring-models';
+import { RecurringInterval } from '../../../models/recurring-models';
 import { RecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import { useAppSelector } from '../../../store/redux';
 import { sortEvents } from '../../../utilities/sort-utils/event-sort';

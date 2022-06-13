@@ -18,13 +18,14 @@ const RecurringEventsMain: React.FC<Props> = (props) => {
                 title={'Recurring Events'}
                 message={
                     <span>
-                        You can organize your repetitive events that occur in regular interval in
-                        one place. Here, you can organize recurring events in various intervals. The
-                        events will be added to your calendar & planner up to{' '}
+                        You can organize your repetitive events that occur in regular intervals in
+                        one place. The events will be duplicated and added to your calendar &
+                        planner up to{' '}
                         <strong className="text-slate-600/90 underline underline-offset-2">
                             1 YEAR FORWARD
                         </strong>
-                        .
+                        . The events will be further added when the next date of the interval is
+                        within 1 year.
                     </span>
                 }
             />

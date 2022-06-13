@@ -3,18 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck } from '@fortawesome/pro-duotone-svg-icons';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
-import { Status, StatusList } from '../../../../models/task-models/Status';
-import { patchEvent } from '../../../../lib/events/event-apis';
-import { IEvent } from '../../../../models/Event';
-import IconEdit from '../../../ui/icons/IconEdit';
+import { Status, StatusList } from '../../../../../models/task-models/Status';
+import { patchEvent } from '../../../../../lib/events/event-apis';
+import { IEvent } from '../../../../../models/Event';
+import IconEdit from '../../../../ui/icons/IconEdit';
+import { eventStyles } from './common-styles';
 
 interface Props {
     event: IEvent;
     onEdit: () => void;
 }
-
-const labelClass = 'text-sky-600/75 font-semibold';
-const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
     const [status, setStatus] = useState(event.status);
@@ -34,15 +32,13 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
         if (event.status === newStatus) return; // no change, no edit
         // send HTTP PATCH request
         const { isSuccess, message } = await patchEvent(event.id, { status: newStatus });
-        console.log('Event status patch:', isSuccess, message);
-        console.log('onEdit:', onEdit);
         if (isSuccess) onEdit();
     };
 
     return (
         <div className="flex-1 flex flex-col">
-            <span className={`${labelClass} flex items-center`}>
-                <FontAwesomeIcon icon={faCalendarCheck} className={labelIconClass} />
+            <span className={`${eventStyles.labelClass} flex items-center`}>
+                <FontAwesomeIcon icon={faCalendarCheck} className={'icon-medium mr-2'} />
                 Status
                 <div className="relative ml-auto mr-12">
                     <IconEdit
