@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { fetchAllEvents } from '../lib/events/event-apis';
+import { callRecurringItemUpdate } from '../lib/recurring';
 import { IEvent } from '../models/Event';
 import { processEvents } from '../utilities/event-utils/event-util';
 
@@ -17,6 +18,12 @@ const useEventQuery = (initialEvents?: IEvent[]) => {
     const invalidateEvents = () => queryClient.invalidateQueries('events');
 
     const processedEvents = useMemo(() => processEvents(events), [events]);
+
+    useEffect(() => {
+        callRecurringItemUpdate().then(({ isSuccess, message }) =>
+            console.log(`success: ${isSuccess}, ${message}`),
+        );
+    }, []);
 
     return {
         events: processedEvents,
