@@ -42,7 +42,7 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                 </span>
             </div>
             <div>
-                <h3 className={'text-xl'}>
+                <h3 className={'text-xl'} onClick={onShowDetail}>
                     <span className={`text-sky-600`}>{icon}</span>
                     {item.name}
                 </h3>

@@ -2,15 +2,29 @@ import React from 'react';
 import { faTimer } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { RecurringItem } from '../../../../models/recurring-models';
-import { RecurringEvent } from '../../../../models/recurring-models/RecurringEvent';
+import { RecurringInterval, RecurringItem } from '../../../../models/recurring-models';
 import { eventStyles } from '../../../calendar/events/detail/detail-parts/common-styles';
 
 interface Props {
     recEvent: RecurringItem;
 }
 
-const RecurringInterval: React.FC<Props> = ({ recEvent }) => {
+export function getIntervalLabel(interval: RecurringInterval) {
+    switch (interval) {
+        case RecurringInterval.DAY:
+            return 'daily';
+        case RecurringInterval.WEEK:
+            return 'weekly';
+        case RecurringInterval.MONTH:
+            return 'monthly';
+        case RecurringInterval.YEAR:
+            return 'yearly';
+        default:
+            return '';
+    }
+}
+
+const RecurringIntervalComp: React.FC<Props> = ({ recEvent }) => {
     recEvent.intervalFormat;
 
     return (
@@ -20,10 +34,10 @@ const RecurringInterval: React.FC<Props> = ({ recEvent }) => {
                 Recurring Interval
             </span>
             <time>
-                {recEvent.intervalFormat} ({recEvent.interval}ly)
+                {recEvent.intervalFormat} ({getIntervalLabel(recEvent.interval)})
             </time>
         </div>
     );
 };
 
-export default RecurringInterval;
+export default RecurringIntervalComp;

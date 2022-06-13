@@ -164,6 +164,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
                 <OperationList
                     onEdit={editHandler.bind(null, ModalEventType.SHOW)}
                     onDelete={deleteTask}
+                    onRecurring={() => console.log('Recur!')}
                     onDuplicate={duplicateHandler.bind(null, ModalEventType.SHOW)}
                     hoverColorClass="hover:text-blue-500/90"
                 />

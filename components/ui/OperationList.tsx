@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClone, faPenToSquare, faTrashCan } from '@fortawesome/pro-duotone-svg-icons';
+import { faClone, faPenToSquare, faRotate, faTrashCan } from '@fortawesome/pro-duotone-svg-icons';
 
 import classes from './OperationList.module.scss';
 
@@ -8,11 +8,12 @@ interface Props {
     onEdit(): void;
     onDuplicate(): void;
     onDelete(): void;
+    onRecurring?: () => void;
     hoverColorClass?: string;
 }
 
 const OperationList: React.FC<Props> = (props) => {
-    const { onEdit, onDuplicate, onDelete, hoverColorClass } = props;
+    const { onEdit, onDuplicate, onRecurring, onDelete, hoverColorClass } = props;
 
     const iconClass = `icon-large cursor-pointer text-[1.65rem] transition-all ${
         hoverColorClass || 'hover:text-sky-500/90'
@@ -28,6 +29,17 @@ const OperationList: React.FC<Props> = (props) => {
                 </span>
                 <FontAwesomeIcon icon={faPenToSquare} className={iconClass} />
             </div>
+            {/* Show recurring option only if the prop function is given */}
+            {onRecurring && (
+                <div onClick={onRecurring} className={classes.operation}>
+                    <span
+                        className={`py-1 px-2 rounded-sm text-sm font-semibold bg-slate-500/90 text-slate-50 ${classes['operation-label']}`}
+                    >
+                        Recurring
+                    </span>
+                    <FontAwesomeIcon icon={faRotate} className={iconClass} />
+                </div>
+            )}
             <div onClick={onDuplicate} className={classes.operation}>
                 <span
                     className={`py-1 px-2 rounded-sm text-sm font-semibold bg-slate-500/90 text-slate-50 ${classes['operation-label']}`}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
+import { IEvent } from '../../../models/Event';
 import {
     NoIdRecurringEvent,
     RecurringEvent,
@@ -10,7 +11,7 @@ import RecurringEventForm from './form/RecurringEventForm';
 interface Props {
     onClose: () => void;
     onDuplicate: () => void;
-    initialRecEvent: RecurringEvent;
+    initialRecEvent: IEvent;
 }
 
 const RecurringEventDuplicate: React.FC<Props> = (props) => {
@@ -37,8 +38,8 @@ const RecurringEventDuplicate: React.FC<Props> = (props) => {
             <RecurringEventForm
                 onSubmit={duplicateHandler}
                 onClose={onClose}
-                beginningPeriod={initialRecEvent.startDate}
-                initialRecEvent={initialRecEvent}
+                beginningPeriod={initialRecEvent.dateTime}
+                initialEvent={initialRecEvent}
                 heading={'Duplicate Recurring Event'}
                 isEdit={false}
             />

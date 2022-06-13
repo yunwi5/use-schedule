@@ -2,6 +2,7 @@ import { faArrowsRotate } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { UseFormRegister } from 'react-hook-form';
+import { IEvent } from '../../../../../models/Event';
 import { RecurringInterval, RecurringIntervalList } from '../../../../../models/recurring-models';
 import { RecurringEvent } from '../../../../../models/recurring-models/RecurringEvent';
 
@@ -10,10 +11,16 @@ import classes from '../RecurringEventForm.module.scss';
 interface Props {
     register: UseFormRegister<any>;
     disabled: boolean;
-    initialRecEvent?: RecurringEvent;
+    initialInterval?: RecurringInterval;
+    initialEvent?: IEvent | RecurringEvent;
 }
 
-const IntervalInput: React.FC<Props> = ({ register, initialRecEvent, disabled }) => {
+function getInitialInterval(event: IEvent | RecurringEvent | undefined) {
+    if (event == null || !event.hasOwnProperty('interval')) return RecurringInterval.WEEK;
+    return (event as RecurringEvent).interval;
+}
+
+const IntervalInput: React.FC<Props> = ({ register, initialEvent, disabled }) => {
     return (
         <div className={`${classes.section} w-[45%]`}>
             <label htmlFor="interval">
@@ -22,7 +29,7 @@ const IntervalInput: React.FC<Props> = ({ register, initialRecEvent, disabled })
             </label>
             <select
                 id="interval"
-                defaultValue={initialRecEvent?.interval || RecurringInterval.WEEK}
+                defaultValue={getInitialInterval(initialEvent)}
                 {...register('interval')}
                 disabled={disabled}
             >

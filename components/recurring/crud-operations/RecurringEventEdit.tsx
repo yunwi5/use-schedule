@@ -52,7 +52,7 @@ const RecurringEventEdit: React.FC<Props> = (props) => {
                 onSubmit={editHandler}
                 onClose={onClose}
                 beginningPeriod={initialRecEvent.startDate}
-                initialRecEvent={initialRecEvent}
+                initialEvent={initialRecEvent}
                 onDelete={() => setShowDeleteModal(true)}
                 isEdit={true}
             />

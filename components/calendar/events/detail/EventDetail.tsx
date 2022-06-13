@@ -18,6 +18,8 @@ import {
     EventHeading,
     EventParticipants,
 } from './detail-parts';
+import RecurringEventAdd from '../../../recurring/crud-operations/RecurringEventAdd';
+import RecurringEventDuplicate from '../../../recurring/crud-operations/RecurringEventDuplicate';
 
 interface Props {
     onClose(): void;
@@ -29,6 +31,7 @@ const EventDetail: React.FC<Props> = (props) => {
     const { onClose, onInvalidate, event } = props;
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+    const [showRecurringModal, setShowRecurringModal] = useState(false);
     const { deleteEvent } = useEventDelete({ onClose, event, onInvalidate });
 
     const { participants } = event;
@@ -42,6 +45,8 @@ const EventDetail: React.FC<Props> = (props) => {
         setShowDuplicateModal(false);
         onInvalidate();
     };
+
+    const recurringHandler = () => {};
 
     return (
         <>
@@ -67,6 +72,7 @@ const EventDetail: React.FC<Props> = (props) => {
                         <OperationList
                             onEdit={() => setShowEditModal(true)}
                             onDelete={deleteEvent}
+                            onRecurring={() => setShowRecurringModal(true)}
                             onDuplicate={() => setShowDuplicateModal(true)}
                         />
                     </div>
@@ -84,6 +90,13 @@ const EventDetail: React.FC<Props> = (props) => {
                     onClose={() => setShowDuplicateModal(false)}
                     event={event}
                     onDuplicate={eventDuplicateHandler}
+                />
+            )}
+            {showRecurringModal && (
+                <RecurringEventDuplicate
+                    onClose={() => setShowRecurringModal(false)}
+                    onDuplicate={onInvalidate}
+                    initialRecEvent={event}
                 />
             )}
         </>
