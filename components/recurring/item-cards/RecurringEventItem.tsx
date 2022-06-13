@@ -10,7 +10,7 @@ interface Props {
     onInvalidate(): void;
 }
 
-const RecurringEventItem: React.FC<Props> = ({ item, onInvalidate }) => {
+const RecurringEventItem = ({ item, onInvalidate }: Props) => {
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 

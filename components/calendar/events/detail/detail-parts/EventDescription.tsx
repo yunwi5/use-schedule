@@ -9,10 +9,7 @@ const EventDescription: React.FC<{ event: IEvent }> = ({ event: { description } 
     return (
         <div className="flex flex-col">
             <span className={`${eventStyles.labelClass}`}>
-                <FontAwesomeIcon
-                    icon={faMemoPad}
-                    className={`max-w-[1.3rem] max-h-[1.3rem] mr-2`}
-                />
+                <FontAwesomeIcon icon={faMemoPad} className={`icon-medium mr-2`} />
                 Description
             </span>
             <p>{description || '-'}</p>

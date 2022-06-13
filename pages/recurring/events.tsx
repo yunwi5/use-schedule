@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { useQuery, useQueryClient } from 'react-query';
-import RecurringEventsMain from '../../components/recurring/RecurringEventsMain';
+import RecurringMain from '../../components/recurring/RecurringMain';
 import { AppProperty } from '../../constants/global-constants';
 import { fetchRecurringEvents } from '../../lib/recurring/recurring-event-apis';
 import { processRecurringEvents } from '../../utilities/recurring-utils';
@@ -47,7 +47,7 @@ const RecurringEvents: NextPage<Props> = (props) => {
                     content="Weekly task planner for users to manage and allocate their tasks"
                 />
             </Head>
-            <RecurringEventsMain onInvalidate={invalidateRecEvents} />
+            <RecurringMain onInvalidate={invalidateRecEvents} />
         </div>
     );
 };

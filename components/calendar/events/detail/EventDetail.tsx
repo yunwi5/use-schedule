@@ -61,7 +61,7 @@ const EventDetail: React.FC<Props> = (props) => {
                         <div
                             className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
                         >
-                            <EventDateTime event={event} />
+                            <EventDateTime item={event} />
                             <EventDuration event={event} />
                             <EventStatus event={event} onEdit={onInvalidate} />
                             <EventImportance event={event} />

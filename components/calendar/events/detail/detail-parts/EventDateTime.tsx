@@ -7,10 +7,10 @@ import { IEvent } from '../../../../../models/Event';
 import { getEventDateTimeFormat } from '../../../../../utilities/date-utils/date-format';
 
 interface Props {
-    event: IEvent;
+    item: IEvent;
 }
 
-const EventDateTime: React.FC<Props> = ({ event: { dateTime } }) => {
+const EventDateTime: React.FC<Props> = ({ item: { dateTime } }) => {
     return (
         <div className="flex flex-col">
             <span className={`${eventStyles.labelClass}`}>

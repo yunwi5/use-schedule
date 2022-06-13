@@ -28,6 +28,7 @@ export interface NoIdTask {
     isAnyDateTime?: boolean;
     comment?: string;
     subTasks?: SubTask[];
+    recurringId?: string;
     templateId?: string;
 }
 

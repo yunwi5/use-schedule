@@ -11,7 +11,7 @@ interface Props {
     icon?: IconDefinition;
 }
 
-const EventDate: React.FC<Props> = ({ date, label, icon }) => {
+const ItemDate: React.FC<Props> = ({ date, label, icon }) => {
     return (
         <div className="flex flex-col">
             <span className={`${eventStyles.labelClass}`}>
@@ -26,4 +26,4 @@ const EventDate: React.FC<Props> = ({ date, label, icon }) => {
     );
 };
 
-export default EventDate;
+export default ItemDate;

@@ -31,7 +31,7 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
     const statusRequestHandler = async (newStatus: Status) => {
         if (event.status === newStatus) return; // no change, no edit
         // send HTTP PATCH request
-        const { isSuccess, message } = await patchEvent(event.id, { status: newStatus });
+        const { isSuccess } = await patchEvent(event.id, { status: newStatus });
         if (isSuccess) onEdit();
     };
 
