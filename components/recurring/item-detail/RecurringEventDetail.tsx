@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { faAlarmExclamation } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faAlarmClock,
+    faAlarmExclamation,
+    faHourglass,
+    faMemoPad,
+    faStarExclamation,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { RecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import {
-    EventDate,
-    EventDescription,
-    EventDuration,
     EventHeading,
-    EventImportance,
     EventLocation,
     EventParticipants,
+    EventSection,
     MeetingLink,
 } from '../../calendar/events/detail/detail-parts';
 import ExitIcon from '../../ui/icons/ExitIcon';
@@ -20,6 +23,7 @@ import OperationList from '../../ui/OperationList';
 import RecurringEventDuplicate from '../crud-operations/RecurringEventDuplicate';
 import RecurringEventEdit from '../crud-operations/RecurringEventEdit';
 import { RecurringItemInterval, RecurringDateInfo } from './item-parts';
+import { getDurationFormat, getFullDateFormat } from '../../../utilities/date-utils/date-format';
 
 interface Props {
     onClose(): void;
@@ -69,17 +73,33 @@ const EventDetail: React.FC<Props> = (props) => {
                         <div
                             className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
                         >
-                            <EventDate label={'Start Date'} date={recEvent.startDate} />
-                            <EventDate
-                                label={'End Date'}
-                                date={recEvent.endDate}
+                            <EventSection
+                                label={'start date'}
+                                value={getFullDateFormat(recEvent.startDate)}
+                                icon={faAlarmClock}
+                            />
+                            <EventSection
+                                label={'end date'}
+                                value={getFullDateFormat(recEvent.endDate)}
                                 icon={faAlarmExclamation}
                             />
-                            <EventDuration event={recEvent} />
-                            <EventImportance event={recEvent} />
+                            <EventSection
+                                label={'duration'}
+                                value={getDurationFormat(recEvent.duration)}
+                                icon={faHourglass}
+                            />
+                            <EventSection
+                                label={'importance'}
+                                value={recEvent.importance}
+                                icon={faStarExclamation}
+                            />
                         </div>
                         {!!participants?.length && <EventParticipants event={recEvent} />}
-                        <EventDescription event={recEvent} />
+                        <EventSection
+                            label={'description'}
+                            value={recEvent.description}
+                            icon={faMemoPad}
+                        />
                         <RecurringDateInfo item={recEvent} />
                     </div>
                     <div className="mt-3 lg:px-3">

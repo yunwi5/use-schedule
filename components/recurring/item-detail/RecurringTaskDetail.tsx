@@ -26,7 +26,7 @@ interface Props {
     recTask: RecurringTask;
 }
 
-const EventDetail: React.FC<Props> = (props) => {
+const RecurringTaskDetail: React.FC<Props> = (props) => {
     const { onClose, onInvalidate, recTask } = props;
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
@@ -106,6 +106,7 @@ const EventDetail: React.FC<Props> = (props) => {
                         <OperationList
                             onEdit={editModalHandler(true)}
                             onDelete={deleteModalHandler(true)}
+                            hoverColorClass={'hover:text-blue-500/90'}
                             onDuplicate={duplicateModalHandler(true)}
                         />
                     </div>
@@ -136,4 +137,4 @@ const EventDetail: React.FC<Props> = (props) => {
     );
 };
 
-export default EventDetail;
+export default RecurringTaskDetail;

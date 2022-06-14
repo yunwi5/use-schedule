@@ -10,16 +10,15 @@ import EventDuplicate from '../EventDuplicate';
 import {
     EventLocation,
     EventDateTime,
-    EventDuration,
-    EventDescription,
-    EventImportance,
     MeetingLink,
     EventStatus,
     EventHeading,
     EventParticipants,
+    EventSection,
 } from './detail-parts';
-import RecurringEventAdd from '../../../recurring/crud-operations/RecurringEventAdd';
 import RecurringEventDuplicate from '../../../recurring/crud-operations/RecurringEventDuplicate';
+import { getDurationFormat } from '../../../../utilities/date-utils/date-format';
+import { faHourglass, faMemoPad, faStarExclamation } from '@fortawesome/pro-duotone-svg-icons';
 
 interface Props {
     onClose(): void;
@@ -46,8 +45,6 @@ const EventDetail: React.FC<Props> = (props) => {
         onInvalidate();
     };
 
-    const recurringHandler = () => {};
-
     return (
         <>
             <WrapperModal onClose={onClose}>
@@ -62,11 +59,23 @@ const EventDetail: React.FC<Props> = (props) => {
                             className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
                         >
                             <EventDateTime item={event} />
-                            <EventDuration event={event} />
+                            <EventSection
+                                label={'duration'}
+                                value={getDurationFormat(event.duration)}
+                                icon={faHourglass}
+                            />
                             <EventStatus event={event} onEdit={onInvalidate} />
-                            <EventImportance event={event} />
+                            <EventSection
+                                label={'importance'}
+                                value={event.importance}
+                                icon={faStarExclamation}
+                            />
                         </div>
-                        <EventDescription event={event} />
+                        <EventSection
+                            label={'description'}
+                            value={event.description}
+                            icon={faMemoPad}
+                        />
                     </div>
                     <div className="mt-3 lg:px-3">
                         <OperationList

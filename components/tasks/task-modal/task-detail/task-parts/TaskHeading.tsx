@@ -9,7 +9,7 @@ const EventHeading: React.FC<{ task: { name: string } }> = ({ task: { name } }) 
         >
             <FontAwesomeIcon
                 icon={faBallotCheck}
-                className="inline-block max-w-[1.8rem] text-blue-600/90 max-h-[1.8rem] mr-1"
+                className="inline-block max-w-[1.8rem] text-blue-600/90 max-h-[1.8rem] mr-2"
             />
             {name}
         </h2>
