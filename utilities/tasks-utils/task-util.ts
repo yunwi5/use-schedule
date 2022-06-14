@@ -4,8 +4,8 @@ import { Status } from '../../models/task-models/Status';
 import { SubTask } from '../../models/task-models/SubTask';
 import { TaskCollection } from '../../db/collections';
 
-export function getPlannerCollection(plannerMode: PlannerMode): TaskCollection {
-    switch (plannerMode) {
+export function getTaskCollection(plannerMode: PlannerMode | string): TaskCollection {
+    switch (plannerMode?.trim()) {
         case PlannerMode.WEEKLY:
             return TaskCollection.WEEKLY_TASKS;
         case PlannerMode.MONTLY:
@@ -14,6 +14,8 @@ export function getPlannerCollection(plannerMode: PlannerMode): TaskCollection {
             return TaskCollection.YEARLY_TASKS;
         case PlannerMode.TEMPLATE:
             return TaskCollection.TEMPLATE_TASKS;
+        default:
+            return TaskCollection.WEEKLY_TASKS;
     }
 }
 

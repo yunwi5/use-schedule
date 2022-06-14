@@ -11,7 +11,7 @@ import { insertManyTasks } from '../../../../db/tasks-util';
 import { RecurringTask } from '../../../../models/recurring-models/RecurringTask';
 import { NoIdTask } from '../../../../models/task-models/Task';
 import { convertToAppObjectList } from '../../../../utilities/gen-utils/object-util';
-import { getPlannerCollection } from '../../../../utilities/tasks-utils/task-util';
+import { getTaskCollection } from '../../../../utilities/tasks-utils/task-util';
 
 type Data = { message: string } | { message: string; insertedId: string } | RecurringTask[];
 
@@ -54,7 +54,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         // add bunch of generated tasks to tasks collections
         // then update last recurred (last added) date of this recurring task object
         try {
-            const collection = getPlannerCollection(recTask.plannerType);
+            const collection = getTaskCollection(recTask.plannerType);
             const insertManyPromise = insertManyTasks(client, collection, generatedTasks);
             const propUpdatePromise = updateRecurringTaskProps(client, recTask.id, {
                 lastRecurred: recTask.lastRecurred,
@@ -65,7 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                 propUpdatePromise,
             ]);
 
-            console.log(`generated tasks insertion result: ${insertManyResult}`);
+            console.log(`generated tasks insertion result:`, insertManyResult);
             console.log(propUpdateResult);
         } catch (err) {
             const message =

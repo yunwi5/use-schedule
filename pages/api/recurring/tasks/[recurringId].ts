@@ -12,6 +12,7 @@ import {
 import { RecurringTaskProps } from '../../../../models/recurring-models/RecurringTask';
 import { TaskProperties } from '../../../../models/task-models/TaskProperties';
 import { parseBooleanQueryParam } from '../../../../utilities/gen-utils/query-util';
+import { getTaskCollection } from '../../../../utilities/tasks-utils/task-util';
 
 type Data = { message: string };
 
@@ -33,19 +34,6 @@ function getUpdatedTaskProps(recurringTaskProps: RecurringTaskProps): TaskProper
     return taskProps;
 }
 
-function getTaskCollection(collection: string | string[]): TaskCollection {
-    collection = Array.isArray(collection) ? collection.join('') : collection;
-    if (!collection) return TaskCollection.WEEKLY_TASKS;
-    switch (collection.trim()) {
-        case TaskCollection.WEEKLY_TASKS:
-        case TaskCollection.MONTLY_TASKS:
-        case TaskCollection.YEARLY_TASKS:
-            return collection.trim() as TaskCollection;
-        default:
-            return TaskCollection.WEEKLY_TASKS;
-    }
-}
-
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const session = getSession(req, res);
     const userId = session?.user.sub;
@@ -55,12 +43,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     let { recurringId, plannerMode } = req.query;
     recurringId = Array.isArray(recurringId) ? recurringId.join('') : recurringId;
+    plannerMode = Array.isArray(plannerMode) ? plannerMode.join('') : plannerMode;
 
     if (!plannerMode) {
         return res.status(404).json({ message: 'Planner mode was not found.' });
     }
 
-    const taskCollection = getTaskCollection(plannerMode);
+    console.log(`PlannerMode: ${plannerMode}`);
+    const taskCollection: TaskCollection = getTaskCollection(plannerMode);
 
     let client: MongoClient;
     try {
@@ -121,7 +111,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         // optionally delete the subsequent one-off tasks as well
         // using the query params
         let deleteGenerated: boolean = parseBooleanQueryParam(req.query.deleteGenerated);
-        console.log(`deleteGenerated: ${deleteGenerated}`);
+        console.log(`deleteGenerated: ${deleteGenerated} on ${taskCollection}`);
 
         if (deleteGenerated) {
             try {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import useRecurringTaskQuery from '../../../hooks/recurring-item-hooks/useRecurringTaskQuery';
 import {
@@ -7,6 +7,7 @@ import {
     RecurringTaskProps,
 } from '../../../models/recurring-models/RecurringTask';
 import RecurringItemDeleteModal from '../../ui/modal/modal-variation/RecurringItemDeleteModal';
+import RecurringItemEditModal from '../../ui/modal/modal-variation/RecurringItemEditModal';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import RecurringTaskForm from './form/RecurringTaskForm';
 
@@ -24,9 +25,11 @@ const RecurringTaskEdit: React.FC<Props> = (props) => {
             onClose();
         },
     });
+    const propsRef = useRef<RecurringTaskProps | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    const editHandler = async (newRecurringEvent: NoIdRecurringTask) => {
+    const submitHandler = async (newRecurringEvent: NoIdRecurringTask) => {
         console.log(newRecurringEvent);
         const newProps: RecurringTaskProps = {
             ...newRecurringEvent,
@@ -34,7 +37,18 @@ const RecurringTaskEdit: React.FC<Props> = (props) => {
             interval: initialRecTask.interval,
             lastRecurred: initialRecTask.lastRecurred,
         };
-        await patchRecTask(initialRecTask.id, newProps, true, initialRecTask.plannerType);
+        propsRef.current = newProps;
+        setShowEditModal(true);
+    };
+
+    const editHandler = async (patchGenerated: boolean) => {
+        if (propsRef.current == null) return;
+        await patchRecTask(
+            initialRecTask.id,
+            propsRef.current,
+            patchGenerated,
+            initialRecTask.plannerType,
+        );
     };
 
     const deleteHandler = async (deleteGeneratedEvents: boolean) => {
@@ -45,13 +59,20 @@ const RecurringTaskEdit: React.FC<Props> = (props) => {
     return (
         <WrapperModal onClose={onClose}>
             <RecurringTaskForm
-                onSubmit={editHandler}
+                onSubmit={submitHandler}
                 onClose={onClose}
                 beginningPeriod={initialRecTask.startDate}
                 initialTask={initialRecTask}
                 onDelete={() => setShowDeleteModal(true)}
                 isEdit={true}
             />
+            {showEditModal && (
+                <RecurringItemEditModal
+                    onClose={() => setShowEditModal(false)}
+                    targetName={initialRecTask.name}
+                    onAction={editHandler}
+                />
+            )}
             {showDeleteModal && (
                 <RecurringItemDeleteModal
                     onClose={() => setShowDeleteModal(false)}

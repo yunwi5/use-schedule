@@ -1,8 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ExitIcon from '../../icons/ExitIcon';
 import Modal from '../Modal';
-import DeleteContent from './content/deleteContent';
-import DeleteHeader from './content/DeleteHeader';
+import DeleteContent from './content/DeleteContent';
+import ModalHeader from './content/ModalHeader';
 import classes from './GeneralModal.module.scss';
 
 interface ModalProps {
@@ -16,7 +14,7 @@ const DeleteModal: React.FC<ModalProps> = (props) => {
 
     return (
         <Modal onClose={onClose} modalClass={`${classes.modal} ${classes['modal--delete']}`}>
-            <DeleteHeader onClose={onClose} />
+            <ModalHeader title="Delete" onClose={onClose} />
             <DeleteContent {...props} />
         </Modal>
     );

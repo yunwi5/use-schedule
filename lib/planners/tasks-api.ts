@@ -2,7 +2,7 @@ import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NoIdTask, Task } from '../../models/task-models/Task';
 import { TaskProperties } from '../../models/task-models/TaskProperties';
 import { TaskCollection } from '../../db/collections';
-import { getPlannerCollection } from '../../utilities/tasks-utils/task-util';
+import { getTaskCollection } from '../../utilities/tasks-utils/task-util';
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
 
@@ -17,7 +17,7 @@ export async function fetchPeriodicTasks(context: any) {
 }
 
 export async function postTask(newTask: Task, plannerMode: PlannerMode) {
-    const collection = getPlannerCollection(plannerMode);
+    const collection = getTaskCollection(plannerMode);
 
     let insertedId: null | string = null;
     let res;
@@ -45,7 +45,7 @@ export async function postTask(newTask: Task, plannerMode: PlannerMode) {
 }
 
 export async function postTasks(newTasks: NoIdTask[], plannerMode: PlannerMode) {
-    const collection = getPlannerCollection(plannerMode);
+    const collection = getTaskCollection(plannerMode);
     let res;
     try {
         // Send rquest.
@@ -69,7 +69,7 @@ export async function postTasks(newTasks: NoIdTask[], plannerMode: PlannerMode) 
 }
 
 export async function replaceTask(taskId: string, updatedTask: Task, plannerMode: PlannerMode) {
-    const collection = getPlannerCollection(plannerMode);
+    const collection = getTaskCollection(plannerMode);
 
     let res;
     try {
@@ -93,7 +93,7 @@ export async function replaceTask(taskId: string, updatedTask: Task, plannerMode
 }
 
 export async function deleteTask(taskId: string, plannerMode: PlannerMode) {
-    const collection = getPlannerCollection(plannerMode);
+    const collection = getTaskCollection(plannerMode);
 
     let res;
     try {
@@ -117,7 +117,7 @@ export async function updateTaskProperties(
     updateProps: TaskProperties,
     plannerMode: PlannerMode,
 ) {
-    const collection = getPlannerCollection(plannerMode);
+    const collection = getTaskCollection(plannerMode);
 
     let res,
         message = '';

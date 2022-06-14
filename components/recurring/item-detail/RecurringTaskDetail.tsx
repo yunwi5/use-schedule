@@ -8,7 +8,6 @@ import {
     faStarExclamation,
 } from '@fortawesome/pro-duotone-svg-icons';
 
-import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import ExitIcon from '../../ui/icons/ExitIcon';
 import RecurringItemDeleteModal from '../../ui/modal/modal-variation/RecurringItemDeleteModal';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
@@ -19,6 +18,7 @@ import { RecurringTask } from '../../../models/recurring-models/RecurringTask';
 import RecurringTaskEdit from '../crud-operations/RecurringTaskEdit';
 import RecurringTaskDuplicate from '../crud-operations/RecurringTaskDuplicate';
 import { getDurationFormat, getFullDateFormat } from '../../../utilities/date-utils/date-format';
+import useRecurringTaskQuery from '../../../hooks/recurring-item-hooks/useRecurringTaskQuery';
 
 interface Props {
     onClose(): void;
@@ -31,7 +31,12 @@ const RecurringTaskDetail: React.FC<Props> = (props) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const { deleteRecEvent: deleteRecEvent } = useRecurringEventQuery({ onInvalidate });
+    const { deleteRecTask } = useRecurringTaskQuery({
+        onInvalidate: () => {
+            onInvalidate();
+            onClose();
+        },
+    });
 
     const duplicateModalHandler = (show: boolean) => () => setShowDuplicateModal(show);
 
@@ -50,7 +55,7 @@ const RecurringTaskDetail: React.FC<Props> = (props) => {
     const deleteModalHandler = (show: boolean) => () => setShowDeleteModal(show);
 
     const deleteActionHandler = (deleteGenerated: boolean) => {
-        deleteRecEvent(recTask.id, deleteGenerated);
+        deleteRecTask(recTask.id, deleteGenerated, recTask.plannerType);
     };
 
     return (

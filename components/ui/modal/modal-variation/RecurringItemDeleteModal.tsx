@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useAppSelector } from '../../../../store/redux';
 import Modal from '../Modal';
-import DeleteContent from './content/deleteContent';
-import DeleteHeader from './content/DeleteHeader';
+import DeleteContent from './content/DeleteContent';
+import ModalHeader from './content/ModalHeader';
 import RecurringDeleteOption from './content/RecurringDeleteOption';
 import classes from './GeneralModal.module.scss';
 
@@ -22,7 +21,7 @@ const RecurringModalDeleteModal: React.FC<ModalProps> = (props) => {
 
     return (
         <Modal onClose={onClose} modalClass={`${classes.modal} ${classes['modal--delete']}`}>
-            <DeleteHeader onClose={onClose} />
+            <ModalHeader title={'Delete'} onClose={onClose} />
             {!showDeleteOption && (
                 <DeleteContent
                     targetName={targetName}

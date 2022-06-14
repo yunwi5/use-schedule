@@ -18,20 +18,20 @@ const ControlNav: React.FC<Props> = ({ onInvalidate }) => {
     const isEvent = itemMode === RecurringItemMode.EVENT;
 
     // Trigger event add when this icon is clicked by the user.
-    const toggleAdd = () => setShowItemAdd((ps) => !ps);
+    const addModalHandler = (show: boolean) => () => setShowItemAdd(show);
 
     return (
         <nav className={'flex items-center gap-3 xl:mr-10'}>
             <RecurringEventSorter />
             <RecurringSearch />
             <div>
-                <AddItemIcon text={`Add ${itemMode}`} onClick={toggleAdd} />
+                <AddItemIcon text={`Add ${itemMode}`} onClick={addModalHandler(true)} />
             </div>
             {showItemAdd && isEvent && (
-                <RecurringEventAdd onClose={toggleAdd} onAdd={onInvalidate} />
+                <RecurringEventAdd onClose={addModalHandler(false)} onAdd={onInvalidate} />
             )}
             {showItemAdd && !isEvent && (
-                <RecurringTaskAdd onClose={toggleAdd} onAdd={onInvalidate} />
+                <RecurringTaskAdd onClose={addModalHandler(false)} onAdd={onInvalidate} />
             )}
         </nav>
     );

@@ -108,8 +108,8 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
         async (
             recurringId: string,
             props: RecurringTaskProps,
-            patchGenerated: boolean = true,
-            plannerMode: PlannerMode = PlannerMode.WEEKLY,
+            patchGenerated,
+            plannerMode: PlannerMode,
         ) => {
             console.log('Patch');
             patchMutation.mutate({ recurringId, props, patchGenerated, plannerMode });
@@ -118,11 +118,7 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
     );
 
     const deleteHandler = useCallback(
-        async (
-            recurringId: string,
-            deleteGenerated?: boolean,
-            plannerMode: PlannerMode = PlannerMode.WEEKLY,
-        ) => {
+        async (recurringId: string, deleteGenerated: boolean, plannerMode: PlannerMode) => {
             console.log('Delete');
             deleteMutation.mutate({ recurringId, deleteGenerated, plannerMode });
         },
