@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { faAlarmExclamation } from '@fortawesome/pro-duotone-svg-icons';
 
-import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringItemQuery';
+import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { RecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import {
     EventDate,
@@ -32,7 +32,7 @@ const EventDetail: React.FC<Props> = (props) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const { deleteRecItem: deleteRecEvent } = useRecurringEventQuery({ onInvalidate });
+    const { deleteRecEvent: deleteRecEvent } = useRecurringEventQuery({ onInvalidate });
 
     const { participants } = recEvent;
 

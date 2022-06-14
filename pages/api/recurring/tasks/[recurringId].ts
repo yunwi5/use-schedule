@@ -11,7 +11,7 @@ import {
 } from '../../../../db/recurring-items';
 import { RecurringTaskProps } from '../../../../models/recurring-models/RecurringTask';
 import { TaskProperties } from '../../../../models/task-models/TaskProperties';
-import { getBooleanQueryParam } from '../../../../utilities/gen-utils/query-util';
+import { parseBooleanQueryParam } from '../../../../utilities/gen-utils/query-util';
 
 type Data = { message: string };
 
@@ -87,7 +87,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         // Now, the update is successful. Hence, update all subsequent one-off tasks
         // that were previously generated from this recurring task
-        let patchGenerated: boolean = getBooleanQueryParam(req.query.patchGenerated);
+        let patchGenerated: boolean = parseBooleanQueryParam(req.query.patchGenerated);
         console.log(`patchGenerated: ${patchGenerated}`);
 
         if (patchGenerated) {
@@ -120,7 +120,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         // optionally delete the subsequent one-off tasks as well
         // using the query params
-        let deleteGenerated: boolean = getBooleanQueryParam(req.query.deleteGenerated);
+        let deleteGenerated: boolean = parseBooleanQueryParam(req.query.deleteGenerated);
         console.log(`deleteGenerated: ${deleteGenerated}`);
 
         if (deleteGenerated) {

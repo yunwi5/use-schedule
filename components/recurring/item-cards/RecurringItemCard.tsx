@@ -1,6 +1,8 @@
 import React from 'react';
 import {
+    faCircle,
     faHourglass,
+    faListTree,
     faLocationDot,
     faMagnifyingGlass,
     faPenToSquare,
@@ -9,10 +11,10 @@ import {
 } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { RecurringItem } from '../../../models/recurring-models';
+import { RecurringItem, RecurringItemMode } from '../../../models/recurring-models';
 import { getDurationFormat } from '../../../utilities/date-utils/date-format';
 import { useAppSelector } from '../../../store/redux';
-import { EventSort } from '../../../models/sorting-models';
+import { EventSort, TaskSort } from '../../../models/sorting-models';
 
 interface Props {
     item: RecurringItem;
@@ -20,18 +22,25 @@ interface Props {
     onShowEdit(): void;
     icon: JSX.Element;
     location?: string;
+    category?: string;
 }
 
 const RecurringItemCard: React.FC<Props> = (props) => {
-    const { item, icon, location, onShowDetail, onShowEdit } = props;
+    const { item, icon, location, onShowDetail, onShowEdit, category } = props;
 
-    const { eventSortingStandard } = useAppSelector((state) => state.recurring);
+    const { eventSortingStandard, taskSortingStandard, mode } = useAppSelector(
+        (state) => state.recurring,
+    );
     // show extra detail for some sorting conditions
-    const showBottomDetail = eventSortingStandard === EventSort.IMPORTANCE;
+    const showBottomDetail =
+        eventSortingStandard === EventSort.IMPORTANCE ||
+        taskSortingStandard === TaskSort.IMPORTANCE;
 
     return (
         <li
-            className={`relative flex flex-col text-slate-700 gap-3 px-2 lg:px-3 lg:pl-5 py-2 bg-sky-50 rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
+            className={`relative flex flex-col text-slate-700 gap-3 px-2 lg:px-3 lg:pl-5 py-2 ${
+                mode === RecurringItemMode.EVENT ? 'bg-sky-50' : 'bg-blue-50'
+            }  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
         >
             <div className={`text-slate-500 font-bold`}>
                 <FontAwesomeIcon icon={faTimer} className={`text-slate-900 icon-medium mr-2`} />
@@ -60,6 +69,15 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                                 className={'icon-medium mr-2 text-sky-600/90'}
                             />
                             {location}
+                        </span>
+                    )}
+                    {category && (
+                        <span className={'inline-block pl-5 border-l-[3px] border-l-slate-400'}>
+                            <FontAwesomeIcon
+                                icon={faListTree}
+                                className={'icon-medium mr-2 text-blue-600/90'}
+                            />
+                            {category}
                         </span>
                     )}
                 </div>

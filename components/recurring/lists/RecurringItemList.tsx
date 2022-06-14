@@ -5,11 +5,13 @@ import {
     RecurringItemMode,
 } from '../../../models/recurring-models';
 import { RecurringEvent } from '../../../models/recurring-models/RecurringEvent';
+import { RecurringTask } from '../../../models/recurring-models/RecurringTask';
 import { Task } from '../../../models/task-models/Task';
 import { useAppSelector } from '../../../store/redux';
 import { sortEvents } from '../../../utilities/sort-utils/event-sort';
 import { sortTasks } from '../../../utilities/sort-utils/task-sort-util';
 import { RecurringEventItem } from '../item-cards';
+import RecurringTaskItem from '../item-cards/RecurringTaskItem';
 import ListHeading from './ListHeading';
 
 interface Props {
@@ -46,17 +48,29 @@ const RecurringItemList: React.FC<Props> = (props) => {
                 isShrinked={isShrinked}
                 onToggleShrink={() => setIsShrinked((ps) => !ps)}
             />
-            {!isShrinked && mode === RecurringItemMode.EVENT && (
-                <ul className={`md:pl-[8rem] md:pr-[2rem] flex flex-col gap-4`}>
-                    {sortedItems.map((item) => (
-                        <RecurringEventItem
-                            key={item.id}
-                            item={item as RecurringEvent}
-                            onInvalidate={onInvalidate}
-                        />
-                    ))}
-                </ul>
-            )}
+            <ul className={`md:pl-[8rem] md:pr-[2rem] flex flex-col gap-4`}>
+                {!isShrinked && mode && (
+                    <>
+                        {sortedItems.map((item) => {
+                            if (mode === RecurringItemMode.TASK)
+                                return (
+                                    <RecurringTaskItem
+                                        key={item.id}
+                                        item={item as RecurringTask}
+                                        onInvalidate={onInvalidate}
+                                    />
+                                );
+                            return (
+                                <RecurringEventItem
+                                    key={item.id}
+                                    item={item as RecurringEvent}
+                                    onInvalidate={onInvalidate}
+                                />
+                            );
+                        })}
+                    </>
+                )}
+            </ul>
         </section>
     );
 };

@@ -10,7 +10,7 @@ import {
 } from '../../../../db/recurring-items';
 import { EventProps } from '../../../../models/Event';
 import { RecurringEventProps } from '../../../../models/recurring-models/RecurringEvent';
-import { getBooleanQueryParam } from '../../../../utilities/gen-utils/query-util';
+import { parseBooleanQueryParam } from '../../../../utilities/gen-utils/query-util';
 
 type Data = { message: string };
 
@@ -67,7 +67,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         // Now, the update is successful. Hence, update all subsequent one-off events
         // that were previously generated from this recurring event
-        let patchGenerated: boolean = getBooleanQueryParam(req.query.patchGenerated);
+        let patchGenerated: boolean = parseBooleanQueryParam(req.query.patchGenerated);
         console.log(`patchGenerated: ${patchGenerated}`);
 
         if (patchGenerated) {
@@ -95,7 +95,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         // optionally delete the subsequent one-off events as well
         // using the query params
-        let deleteGenerated: boolean = getBooleanQueryParam(req.query.deleteGenerated);
+        let deleteGenerated: boolean = parseBooleanQueryParam(req.query.deleteGenerated);
         console.log(`deleteGenerated: ${deleteGenerated}`);
 
         if (deleteGenerated) {

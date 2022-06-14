@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringItemQuery';
+
+import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import {
     NoIdRecurringEvent,
     RecurringEvent,
     RecurringEventProps,
 } from '../../../models/recurring-models/RecurringEvent';
-import DeleteModal from '../../ui/modal/modal-variation/DeleteModal';
 import RecurringItemDeleteModal from '../../ui/modal/modal-variation/RecurringItemDeleteModal';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import RecurringEventForm from './form/RecurringEventForm';
@@ -18,8 +18,11 @@ interface Props {
 
 const RecurringEventEdit: React.FC<Props> = (props) => {
     const { onClose, onEdit, initialRecEvent } = props;
-    const { patchRecItem: patchRecEvent, deleteRecItem: deleteRecEvent } = useRecurringEventQuery({
-        onInvalidate: onEdit,
+    const { patchRecEvent, deleteRecEvent } = useRecurringEventQuery({
+        onInvalidate: () => {
+            onEdit();
+            onClose();
+        },
     });
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -35,16 +38,10 @@ const RecurringEventEdit: React.FC<Props> = (props) => {
         // delete newRecurringEventProps.status;
         // need to show modal to confirm whether user wants to fix existing generated events as well.
         await patchRecEvent(initialRecEvent.id, newRecurringEventProps);
-
-        // close after 1s
-        setTimeout(() => {
-            onClose();
-        }, 1100);
     };
 
     const deleteHandler = async (deleteGeneratedEvents: boolean) => {
         setShowDeleteModal(false);
-        console.log('Delete all generated:', deleteGeneratedEvents);
         deleteRecEvent(initialRecEvent.id, deleteGeneratedEvents);
     };
 

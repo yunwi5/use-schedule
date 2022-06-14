@@ -22,6 +22,17 @@ import DescriptionInput from '../../../ui/input/form-inputs-sections/Description
 import ActionButtons from '../../../ui/input/form-inputs-sections/ActionButtons';
 import NameInput from '../../../ui/input/form-inputs-sections/NameInput';
 import DynamicDateInput from '../../../ui/input/form-inputs-sections/DynamicDateInput';
+import { faBallotCheck } from '@fortawesome/pro-duotone-svg-icons';
+import CategoryInput from '../../../ui/input/form-inputs-sections/CategoryInput';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import {
+    NoIdRecurringTask,
+    RecurringTask,
+} from '../../../../models/recurring-models/RecurringTask';
+import SubCategoryInput from '../../../ui/input/form-inputs-sections/SubCategoryInput';
+import { Category, getSubCategory, SubCategory } from '../../../../models/task-models/Category';
+import { getPlannerType } from '../../../../utilities/recurring-utils';
+import { NoIdTask } from '../../../../models/task-models/Task';
 
 export interface RecurringEventFormValues {
     name: string;
@@ -30,9 +41,9 @@ export interface RecurringEventFormValues {
     durationMinutes: number;
 
     importance: string;
-    location: string;
-    meetingLink: string;
     description: string;
+    category: string;
+    subCategory: string;
 
     // Extension properties for recurring items
     startDate: string;
@@ -43,25 +54,23 @@ export interface RecurringEventFormValues {
 
 interface Props {
     beginningPeriod: Date;
-    onSubmit(event: NoIdEvent): void;
+    onSubmit(event: NoIdRecurringTask): void;
     onClose(): void;
     onDelete?: () => void;
-    initialEvent?: IEvent | RecurringEvent;
+    initialTask?: AbstractTask | RecurringTask;
     heading?: string;
     isEdit?: boolean;
 }
 
 const RecurringTaskForm: React.FC<Props> = (props) => {
-    const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete, isEdit } = props;
+    const { onSubmit, initialTask, beginningPeriod, heading, onClose, onDelete, isEdit } = props;
 
     const userId = useUser().user?.sub;
-    const [participants, setParticipants] = useState<Participant[]>(
-        initialEvent?.participants ?? [],
-    );
 
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<RecurringEventFormValues>();
 
@@ -75,9 +84,9 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
             durationHours,
             durationMinutes,
             importance,
-            location,
-            meetingLink,
             description,
+            category,
+            subCategory,
             time,
             startDate: startDateStr,
             endDate: endDateStr,
@@ -99,23 +108,25 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
             ? (interval as RecurringInterval)
             : RecurringInterval.WEEK;
 
-        const newEvent: NoIdRecurringEvent = {
+        const newRecTask: NoIdRecurringTask = {
             name,
             startDate,
             interval: validInterval,
             endDate,
             duration,
             importance: importance as Importance,
-            location,
-            meetingLink,
+            category: category as Category,
+            subCategory: subCategory as SubCategory,
             description: description || '',
-            participants,
-            userId,
+            plannerType: getPlannerType(validInterval),
             status: Status.OPEN,
-            dateTime: startDate,
+            timeString: startDate.toString(),
+            userId,
         };
-        onSubmit(newEvent);
+        onSubmit(newRecTask);
     };
+
+    const subCategoryList: SubCategory[] = getSubCategory(watch().category as Category);
 
     const headingText = heading || (isEdit ? 'Edit Recurring Task' : 'New Recurring Task');
 
@@ -129,8 +140,9 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
             <div className={classes.content}>
                 <NameInput
                     register={register}
-                    initialItem={initialEvent}
+                    initialItem={initialTask}
                     errors={errors}
+                    icon={faBallotCheck}
                     className={'task'}
                 />
                 <div className={'flex gap-5 lg:gap-10 justify-between'}>
@@ -144,7 +156,7 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
                     />
                     <TimeInput
                         register={register}
-                        initialItem={initialEvent}
+                        initialItem={initialTask}
                         className="task"
                         beginningPeriod={beginningPeriod}
                     />
@@ -153,7 +165,7 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
                     <IntervalInput
                         register={register}
                         disabled={!!isEdit}
-                        initialEvent={initialEvent}
+                        initialItem={initialTask}
                         className="task"
                     />
                     <DynamicDateInput
@@ -167,19 +179,32 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
                 <div className={`flex gap-5 lg:gap-10 justify-between`}>
                     <DurationInput
                         register={register}
-                        initialItem={initialEvent}
+                        initialItem={initialTask}
                         className="task"
                         errors={errors}
                     />
                     <ImportanceInput
                         register={register}
-                        initialItem={initialEvent}
+                        initialItem={initialTask}
+                        className="task"
+                    />
+                </div>
+                <div className={'flex gap-5 lg:gap-10 justify-between'}>
+                    <CategoryInput
+                        register={register}
+                        initialItem={initialTask}
+                        className={'task'}
+                    />
+                    <SubCategoryInput
+                        register={register}
+                        initialItem={initialTask}
+                        subCategoryList={subCategoryList}
                         className="task"
                     />
                 </div>
                 <DescriptionInput
                     register={register}
-                    initialItem={initialEvent}
+                    initialItem={initialTask}
                     className={'task'}
                 />
             </div>

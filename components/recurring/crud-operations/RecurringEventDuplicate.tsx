@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringItemQuery';
+import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { IEvent } from '../../../models/Event';
 import {
     NoIdRecurringEvent,
@@ -16,8 +16,11 @@ interface Props {
 
 const RecurringEventDuplicate: React.FC<Props> = (props) => {
     const { onClose, onDuplicate, initialRecEvent } = props;
-    const { addRecItem: addRecEvent } = useRecurringEventQuery({
-        onInvalidate: onDuplicate,
+    const { addRecEvent: addRecEvent } = useRecurringEventQuery({
+        onInvalidate: () => {
+            onDuplicate();
+            onClose();
+        },
     });
 
     const duplicateHandler = async (newRecurringEvent: NoIdRecurringEvent) => {

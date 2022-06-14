@@ -16,8 +16,9 @@
         border-bottom-left-radius: inherit;
 
         &:focus {
+            background-color: #f7f7f7;
             outline: none;
-            border: 1.5px solid $color-primary;
+            border: 1.5px solid $color-tertiary;
         }
     }
 

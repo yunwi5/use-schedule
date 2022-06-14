@@ -152,7 +152,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                     <IntervalInput
                         register={register}
                         disabled={!!isEdit}
-                        initialEvent={initialEvent}
+                        initialItem={initialEvent}
                     />
                     <DynamicDateInput
                         register={register}

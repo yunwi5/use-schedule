@@ -32,9 +32,8 @@ export enum RecurringItemMode {
     TASK = 'Task',
 }
 
-// interface for both RecurringEvent and RecurringTask
-export interface RecurringItem {
-    id: string;
+export interface NoIdRecurringItem {
+    id?: string;
     name: string;
     dateTime: Date;
     description: string;
@@ -44,6 +43,11 @@ export interface RecurringItem {
     startDate: Date;
     endDate: Date;
     interval: RecurringInterval;
-    intervalFormat: string | JSX.Element;
     lastRecurred?: Date;
+}
+
+// interface for both RecurringEvent and RecurringTask
+export interface RecurringItem extends NoIdRecurringItem {
+    id: string;
+    intervalFormat: string | JSX.Element;
 }

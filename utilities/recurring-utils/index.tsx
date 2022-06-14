@@ -3,6 +3,7 @@ import { getWeekDay } from '../../models/date-models/WeekDay';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { RecurringInterval, RecurringItem } from '../../models/recurring-models';
 import { RecurringEvent } from '../../models/recurring-models/RecurringEvent';
+import { RecurringTask } from '../../models/recurring-models/RecurringTask';
 import { addDays, addMonths, addWeeks, addYears } from '../date-utils/date-control';
 import { getShortUserTimeFormat } from '../date-utils/date-format';
 import { getDaySuffixed } from '../gen-utils/format-util';
@@ -13,6 +14,14 @@ export function processRecurringEvents(recEvents: RecurringEvent[]) {
         return recEv;
     });
     return eventsList;
+}
+
+export function processRecurringTasks(items: RecurringTask[]) {
+    const recTasks: RecurringTask[] = items.map((task) => {
+        const recTask = new RecurringTask(task, task.id);
+        return recTask;
+    });
+    return recTasks;
 }
 
 export function getIntervalFormat(item: RecurringItem): string | JSX.Element {

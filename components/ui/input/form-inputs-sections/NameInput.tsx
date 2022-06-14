@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarWeek } from '@fortawesome/pro-duotone-svg-icons';
+import { faCalendarWeek, IconDefinition } from '@fortawesome/pro-duotone-svg-icons';
 import { FieldError, UseFormRegister } from 'react-hook-form';
 
 import classes from './FormInput.module.scss';
@@ -9,12 +9,14 @@ const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 interface Props {
     register: UseFormRegister<any>;
-    initialItem?: { name: string };
     errors: { [key: string]: FieldError | undefined };
+    initialItem?: { name: string };
+    icon?: IconDefinition;
     className?: string;
 }
 
-const EventNameInput: React.FC<Props> = ({ register, initialItem, errors, className }) => {
+const EventNameInput: React.FC<Props> = (props) => {
+    const { register, initialItem, errors, className, icon } = props;
     return (
         <div
             className={`${classes.section} ${
@@ -22,7 +24,7 @@ const EventNameInput: React.FC<Props> = ({ register, initialItem, errors, classN
             } ${className}`}
         >
             <label htmlFor="name">
-                <FontAwesomeIcon icon={faCalendarWeek} className={labelIconClass} /> Title
+                <FontAwesomeIcon icon={icon ?? faCalendarWeek} className={labelIconClass} /> Title
             </label>
             <input
                 type="text"

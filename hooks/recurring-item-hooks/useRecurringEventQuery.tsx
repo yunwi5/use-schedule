@@ -10,6 +10,10 @@ import {
 } from '../../models/recurring-models/RecurringEvent';
 import { useAppSelector } from '../../store/redux';
 import { RecurringItemMode } from '../../models/recurring-models';
+import {
+    getRecurringDeleteQueryParam,
+    getRecurringPatchQueryParam,
+} from '../../utilities/gen-utils/query-util';
 
 interface Props {
     onInvalidate(): void;
@@ -38,23 +42,22 @@ const useApiDomain = () => {
 
 const useRecurringItemQuery = ({ onInvalidate }: Props) => {
     const { setNotification } = useNotification();
-    const { domain, itemType } = useApiDomain();
 
     const postMutation = useMutation(
         async (recEvent: NoIdRecurringEvent) => {
-            setNotification(NotifStatus.PENDING, `Posting your recurring ${itemType}...`);
-            return await axios.post(`${domain}`, recEvent);
+            setNotification(NotifStatus.PENDING, `Posting your recurring event...`);
+            return await axios.post(`${EVENT_API_DOMAIN}`, recEvent);
         },
         {
             onSuccess: () => {
-                setNotification(NotifStatus.SUCCESS, `Adding recurring ${itemType} successful`);
+                setNotification(NotifStatus.SUCCESS, `Adding recurring event successful`);
                 onInvalidate();
             },
             onError: () => {
-                setNotification(NotifStatus.ERROR, `Adding recurring ${itemType} did not work`);
+                setNotification(NotifStatus.ERROR, `Adding recurring event did not work`);
             },
             onSettled: () => {
-                setNotification(NotifStatus.SUCCESS, `Adding recurring ${itemType} successful`);
+                setNotification(NotifStatus.SUCCESS, `Adding recurring event successful`);
                 console.log('POST was settled...');
                 onInvalidate();
             },
@@ -63,47 +66,41 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
 
     const patchMutation = useMutation(
         async ({ recurringId, props, patchGenerated }: PatchConfig) => {
-            setNotification(NotifStatus.PENDING, `Updating your recurring ${itemType}...`);
-            return await axios.patch(
-                `${domain}/${recurringId}?${patchGenerated && 'patchGenerated=true'}`,
-                props,
-            );
+            setNotification(NotifStatus.PENDING, `Updating your recurring event...`);
+            const queryParams = getRecurringPatchQueryParam(patchGenerated);
+            return await axios.patch(`${EVENT_API_DOMAIN}/${recurringId}?${queryParams}`, props);
         },
         {
             onSuccess: () => {
-                setNotification(NotifStatus.SUCCESS, `Updating recurring ${itemType} successful`);
-                // console.log('result:', result);
+                setNotification(NotifStatus.SUCCESS, `Updating recurring event successful`);
                 console.log('call onInvalidate');
                 onInvalidate();
             },
             onSettled: () => {
-                setNotification(NotifStatus.SUCCESS, `Updating recurring ${itemType} successful`);
-                // console.log('result:', result);
+                setNotification(NotifStatus.SUCCESS, `Updating recurring event successful`);
                 console.log('call onInvalidate');
                 onInvalidate();
             },
             onError: () => {
-                setNotification(NotifStatus.ERROR, `Updating recurring ${itemType} did not work`);
-                // console.log(result || 'Patching recurring events did not work.');
+                setNotification(NotifStatus.ERROR, `Updating recurring event did not work`);
             },
         },
     );
 
     const deleteMutation = useMutation(
         async ({ recurringId, deleteGenerated }: DeleteConfig) => {
-            setNotification(NotifStatus.PENDING, `Deleting your recurring ${itemType}...`);
-            return await axios.delete(
-                `${domain}/${recurringId}?${deleteGenerated && 'deleteGenerated=true'}`,
-            );
+            setNotification(NotifStatus.PENDING, `Deleting your recurring event...`);
+            const queryParams = getRecurringDeleteQueryParam(deleteGenerated);
+            return await axios.delete(`${EVENT_API_DOMAIN}/${recurringId}?${queryParams}`);
         },
         {
             onSuccess: (result: any) => {
-                setNotification(NotifStatus.SUCCESS, `Deleting recurring ${itemType} successful`);
+                setNotification(NotifStatus.SUCCESS, `Deleting recurring event successful`);
                 console.log('result:', result);
                 onInvalidate();
             },
             onError: (result: any) => {
-                setNotification(NotifStatus.ERROR, `Deleting recurring ${itemType} did not work`);
+                setNotification(NotifStatus.ERROR, `Deleting recurring event did not work`);
                 console.log(result);
             },
         },
@@ -132,7 +129,7 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
         [deleteMutation],
     );
 
-    return { addRecItem: addHandler, patchRecItem: patchHandler, deleteRecItem: deleteHandler };
+    return { addRecEvent: addHandler, patchRecEvent: patchHandler, deleteRecEvent: deleteHandler };
 };
 
 export default useRecurringItemQuery;

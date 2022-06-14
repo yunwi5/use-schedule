@@ -1,5 +1,5 @@
 import React from 'react';
-import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringItemQuery';
+import useRecurringTaskQuery from '../../../hooks/recurring-item-hooks/useRecurringTaskQuery';
 import { NoIdRecurringTask } from '../../../models/recurring-models/RecurringTask';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import RecurringTaskForm from './form/RecurringTaskForm';
@@ -13,17 +13,16 @@ interface Props {
 const RecurringEventAdd: React.FC<Props> = (props) => {
     const beginningPeriod = props.beginningPeriod ?? new Date();
     const { onClose, onAdd } = props;
-    const { addRecItem } = useRecurringEventQuery({
-        onInvalidate: onAdd,
+    const { addRecTask } = useRecurringTaskQuery({
+        onInvalidate: () => {
+            onAdd();
+            onClose();
+        },
     });
 
-    const addHandler = async (newRecurringTask: any) => {
+    const addHandler = async (newRecurringTask: NoIdRecurringTask) => {
         console.log(newRecurringTask);
-        // addRecEvent(newRecurringTask);
-        let timer = setTimeout(() => {
-            onClose();
-            clearTimeout(timer);
-        }, 1100);
+        addRecTask(newRecurringTask);
     };
 
     return (

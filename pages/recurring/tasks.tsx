@@ -5,18 +5,32 @@ import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { useQuery, useQueryClient } from 'react-query';
 import RecurringMain from '../../components/recurring/RecurringMain';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { recurringActions } from '../../store/redux/recurring-slice';
 import { RecurringItemMode } from '../../models/recurring-models';
 import { useAppDispatch } from '../../store/redux';
 import { AppProperty } from '../../constants/global-constants';
+import { fetchRecurringTasks } from '../../lib/recurring/recurring-task-apis';
+import { processRecurringTasks } from '../../utilities/recurring-utils';
+import { RecurringTask } from '../../models/recurring-models/RecurringTask';
 
 interface Props {}
 
 const RecurringTasks: NextPage<Props> = (props) => {
     const dispatch = useAppDispatch();
 
-    const invalidateRecTasks = () => {};
+    const queryClient = useQueryClient();
+
+    const { data, error } = useQuery('recurring-tasks', fetchRecurringTasks);
+    if (error) {
+        console.warn(error);
+    }
+    const recurringTasks: RecurringTask[] = useMemo(
+        () => (data ? processRecurringTasks(data) : []),
+        [data],
+    );
+
+    const invalidateRecTasks = () => queryClient.invalidateQueries('recurring-tasks');
 
     // use redux to globally share the recurring events / tasks!
     // instead of passing recurringEvents as props
@@ -33,7 +47,7 @@ const RecurringTasks: NextPage<Props> = (props) => {
                     content="Weekly task planner for users to manage and allocate their tasks"
                 />
             </Head>
-            <RecurringMain onInvalidate={invalidateRecTasks} items={[]} />
+            <RecurringMain onInvalidate={invalidateRecTasks} items={recurringTasks} />
         </div>
     );
 };
