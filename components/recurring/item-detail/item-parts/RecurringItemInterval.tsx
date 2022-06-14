@@ -3,10 +3,10 @@ import { faTimer } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { RecurringInterval, RecurringItem } from '../../../../models/recurring-models';
-import { eventStyles } from '../../../calendar/events/detail/detail-parts/common-styles';
+import { useRecurringStyles } from './common-styles';
 
 interface Props {
-    recEvent: RecurringItem;
+    recItem: RecurringItem;
 }
 
 export function getIntervalLabel(interval: RecurringInterval) {
@@ -24,20 +24,20 @@ export function getIntervalLabel(interval: RecurringInterval) {
     }
 }
 
-const RecurringIntervalComp: React.FC<Props> = ({ recEvent }) => {
-    recEvent.intervalFormat;
+const RecurringItemInterval: React.FC<Props> = ({ recItem }) => {
+    const styles = useRecurringStyles();
 
     return (
         <div className="flex flex-col">
-            <span className={`${eventStyles.labelClass}`}>
-                <FontAwesomeIcon icon={faTimer} className={eventStyles.labelIconClass} />
+            <span className={`${styles.labelClass}`}>
+                <FontAwesomeIcon icon={faTimer} className={styles.labelIconClass} />
                 Recurring Interval
             </span>
             <time>
-                {recEvent.intervalFormat} ({getIntervalLabel(recEvent.interval)})
+                {recItem.intervalFormat} ({getIntervalLabel(recItem.interval)})
             </time>
         </div>
     );
 };
 
-export default RecurringIntervalComp;
+export default RecurringItemInterval;

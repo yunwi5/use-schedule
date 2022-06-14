@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { IEvent } from '../../../models/Event';
-import {
-    NoIdRecurringEvent,
-    RecurringEvent,
-} from '../../../models/recurring-models/RecurringEvent';
+import { NoIdRecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import RecurringEventForm from './form/RecurringEventForm';
 
@@ -28,12 +25,6 @@ const RecurringEventDuplicate: React.FC<Props> = (props) => {
         // delete newRecurringEventProps.status;
         // need to show modal to confirm whether user wants to fix existing generated events as well.
         addRecEvent(newRecurringEvent);
-
-        // close after 1.1s
-        let timer = setTimeout(() => {
-            onClose();
-            clearTimeout(timer);
-        }, 1100);
     };
 
     return (

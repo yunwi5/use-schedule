@@ -1,40 +1,37 @@
 import React, { useState } from 'react';
-import { faAlarmExclamation } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faAlarmClock,
+    faAlarmExclamation,
+    faHourglass,
+    faListTree,
+    faMemoPad,
+    faStarExclamation,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
-import { RecurringEvent } from '../../../models/recurring-models/RecurringEvent';
-import {
-    EventDate,
-    EventDescription,
-    EventDuration,
-    EventHeading,
-    EventImportance,
-    EventLocation,
-    EventParticipants,
-    MeetingLink,
-} from '../../calendar/events/detail/detail-parts';
 import ExitIcon from '../../ui/icons/ExitIcon';
 import RecurringItemDeleteModal from '../../ui/modal/modal-variation/RecurringItemDeleteModal';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import OperationList from '../../ui/OperationList';
-import RecurringEventDuplicate from '../crud-operations/RecurringEventDuplicate';
-import RecurringEventEdit from '../crud-operations/RecurringEventEdit';
 import { RecurringItemInterval, RecurringDateInfo } from './item-parts';
+import { TaskHeading, TaskSection } from '../../tasks/task-modal/task-detail/task-parts';
+import { RecurringTask } from '../../../models/recurring-models/RecurringTask';
+import RecurringTaskEdit from '../crud-operations/RecurringTaskEdit';
+import RecurringTaskDuplicate from '../crud-operations/RecurringTaskDuplicate';
+import { getDurationFormat, getFullDateFormat } from '../../../utilities/date-utils/date-format';
 
 interface Props {
     onClose(): void;
     onInvalidate(): void;
-    recEvent: RecurringEvent;
+    recTask: RecurringTask;
 }
 
 const EventDetail: React.FC<Props> = (props) => {
-    const { onClose, onInvalidate, recEvent } = props;
+    const { onClose, onInvalidate, recTask } = props;
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { deleteRecEvent: deleteRecEvent } = useRecurringEventQuery({ onInvalidate });
-
-    const { participants } = recEvent;
 
     const duplicateModalHandler = (show: boolean) => () => setShowDuplicateModal(show);
 
@@ -53,34 +50,57 @@ const EventDetail: React.FC<Props> = (props) => {
     const deleteModalHandler = (show: boolean) => () => setShowDeleteModal(show);
 
     const deleteActionHandler = (deleteGenerated: boolean) => {
-        deleteRecEvent(recEvent.id, deleteGenerated);
+        deleteRecEvent(recTask.id, deleteGenerated);
     };
 
     return (
         <>
             <WrapperModal onClose={onClose}>
                 <article className="min-h-[27rem] relative flex flex-col gap-3 justify-between text-slate-600">
-                    <EventHeading event={recEvent} />
+                    <TaskHeading task={recTask} />
                     <ExitIcon onClose={onClose} className={'!-translate-y-[2px]'} />
                     <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 lg:px-3 text-lg">
-                        <RecurringItemInterval recItem={recEvent} />
-                        <EventLocation event={recEvent} />
-                        <MeetingLink event={recEvent} />
+                        <RecurringItemInterval recItem={recTask} />
                         <div
-                            className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
+                            className={`grid grid-cols-2 grid-rows-3 justify-between gap-4 gap-x-2 sm:gap-x-4`}
                         >
-                            <EventDate label={'Start Date'} date={recEvent.startDate} />
-                            <EventDate
-                                label={'End Date'}
-                                date={recEvent.endDate}
+                            <TaskSection
+                                label={'Start Date'}
+                                value={getFullDateFormat(recTask.startDate)}
+                                icon={faAlarmClock}
+                            />
+                            <TaskSection
+                                label={' End Date'}
+                                value={getFullDateFormat(recTask.endDate)}
                                 icon={faAlarmExclamation}
                             />
-                            <EventDuration event={recEvent} />
-                            <EventImportance event={recEvent} />
+                            <TaskSection
+                                label="Duration"
+                                value={getDurationFormat(recTask.duration)}
+                                icon={faHourglass}
+                            />
+                            <TaskSection
+                                label="Importance"
+                                value={recTask.importance}
+                                icon={faStarExclamation}
+                            />
+                            <TaskSection
+                                label={'Category'}
+                                value={recTask.category}
+                                icon={faListTree}
+                            />
+                            <TaskSection
+                                label={'Sub Category'}
+                                value={recTask.subCategory}
+                                icon={faListTree}
+                            />
                         </div>
-                        {!!participants?.length && <EventParticipants event={recEvent} />}
-                        <EventDescription event={recEvent} />
-                        <RecurringDateInfo item={recEvent} />
+                        <TaskSection
+                            label={'Description'}
+                            value={recTask.description}
+                            icon={faMemoPad}
+                        />
+                        <RecurringDateInfo item={recTask} />
                     </div>
                     <div className="mt-3 lg:px-3">
                         <OperationList
@@ -92,22 +112,22 @@ const EventDetail: React.FC<Props> = (props) => {
                 </article>
             </WrapperModal>
             {showEditModal && (
-                <RecurringEventEdit
+                <RecurringTaskEdit
                     onClose={editModalHandler(false)}
                     onEdit={editActionHandler}
-                    initialRecEvent={recEvent}
+                    initialRecTask={recTask}
                 />
             )}
             {showDuplicateModal && (
-                <RecurringEventDuplicate
+                <RecurringTaskDuplicate
                     onClose={duplicateModalHandler(false)}
-                    initialRecEvent={recEvent}
+                    initialTask={recTask}
                     onDuplicate={duplicateActionHandler}
                 />
             )}
             {showDeleteModal && (
                 <RecurringItemDeleteModal
-                    targetName={recEvent.name}
+                    targetName={recTask.name}
                     onAction={deleteActionHandler}
                     onClose={deleteModalHandler(false)}
                 />

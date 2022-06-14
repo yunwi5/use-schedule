@@ -1,7 +1,7 @@
 import { faInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { RecurringItem } from '../../../../models/recurring-models';
+import { RecurringItem, RecurringItemMode } from '../../../../models/recurring-models';
 import { useAppSelector } from '../../../../store/redux';
 import { getFullDateFormat } from '../../../../utilities/date-utils/date-format';
 import { incrementRecurringDate } from '../../../../utilities/recurring-utils';
@@ -15,17 +15,30 @@ const RecurringDateInfo: React.FC<Props> = ({ item }) => {
 
     if (!item.lastRecurred) return <div />;
 
+    const nextInterval = incrementRecurringDate(item.lastRecurred, item.interval);
+    const showNextAddDate = nextInterval.getTime() <= item.endDate.getTime();
+
     return (
         <p>
-            <FontAwesomeIcon icon={faInfo} className={'icon-medium mr-2 text-sky-600/75'} />
+            <FontAwesomeIcon
+                icon={faInfo}
+                className={`icon-medium mr-2 ${
+                    itemType === RecurringItemMode.EVENT ? 'text-sky-600/75' : 'text-blue-600/75'
+                }`}
+            />
             This {itemType.toLowerCase()} was last added to the calendar on &nbsp;
             <time className={'text-slate-600 font-semibold'}>
                 {getFullDateFormat(item.lastRecurred)}
             </time>
-            . Next one will be added on &nbsp;
-            <time className={'text-slate-600 font-semibold'}>
-                {getFullDateFormat(incrementRecurringDate(item.lastRecurred, item.interval))}.
-            </time>
+            .
+            {showNextAddDate && (
+                <>
+                    &nbsp;Next one will be added on &nbsp;
+                    <time className={'text-slate-600 font-semibold'}>
+                        {getFullDateFormat(nextInterval)}.
+                    </time>
+                </>
+            )}
         </p>
     );
 };

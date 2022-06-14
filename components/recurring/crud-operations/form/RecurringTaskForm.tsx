@@ -86,7 +86,7 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
             importance,
             description,
             category,
-            subCategory,
+            subCategory = 'Others',
             time,
             startDate: startDateStr,
             endDate: endDateStr,

@@ -111,14 +111,15 @@ export const SchoolCategoryList = [
     SchoolCategory.OTHERS,
 ];
 
-export const OthersCategory = [];
+export const OthersCategory: SubCategory[] = ['Others'];
 
 export type SubCategory =
     | HomeCategory
     | LeisureCategory
     | WorkCategory
     | SchoolCategory
-    | PersonalCategory;
+    | PersonalCategory
+    | 'Others';
 
 export function getSubCategory(category: Category): SubCategory[] {
     switch (category) {
@@ -133,6 +134,6 @@ export function getSubCategory(category: Category): SubCategory[] {
         case Category.PERSONAL:
             return PersonalCategoryList;
         default:
-            return [];
+            return OthersCategory;
     }
 }

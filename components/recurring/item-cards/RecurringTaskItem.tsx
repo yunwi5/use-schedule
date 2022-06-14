@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CalendarItemType, getItemIcon } from '../../../models/calendar-models/CalendarItemType';
 import { RecurringTask } from '../../../models/recurring-models/RecurringTask';
 import RecurringTaskEdit from '../crud-operations/RecurringTaskEdit';
+import RecurringTaskDetail from '../item-detail/RecurringTaskDetail';
 import RecurringItemCard from './RecurringItemCard';
 
 interface Props {
@@ -29,13 +30,13 @@ const RecurringTaskItem = ({ item, onInvalidate }: Props) => {
                     onEdit={onInvalidate}
                 />
             )}
-            {/* {showDetail && (
-                <RecurringEventDetail
-                    recEvent={item}
+            {showDetail && (
+                <RecurringTaskDetail
+                    recTask={item}
                     onClose={() => setShowDetail(false)}
                     onInvalidate={onInvalidate}
                 />
-            )} */}
+            )}
         </>
     );
 };

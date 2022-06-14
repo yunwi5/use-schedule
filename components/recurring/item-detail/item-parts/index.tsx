@@ -1,2 +1,2 @@
 export { default as RecurringDateInfo } from './RecurringDateInfo';
-export { default as RecurringEventInterval } from './RecurringEventInterval';
+export { default as RecurringItemInterval } from './RecurringItemInterval';
