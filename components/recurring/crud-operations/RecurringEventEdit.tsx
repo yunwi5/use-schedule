@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
+import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringItemQuery';
 import {
     NoIdRecurringEvent,
     RecurringEvent,
@@ -18,7 +18,7 @@ interface Props {
 
 const RecurringEventEdit: React.FC<Props> = (props) => {
     const { onClose, onEdit, initialRecEvent } = props;
-    const { patchRecEvent, deleteRecEvent } = useRecurringEventQuery({
+    const { patchRecItem: patchRecEvent, deleteRecItem: deleteRecEvent } = useRecurringEventQuery({
         onInvalidate: onEdit,
     });
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,6 +27,8 @@ const RecurringEventEdit: React.FC<Props> = (props) => {
         console.log(newRecurringEvent);
         const newRecurringEventProps: RecurringEventProps = {
             ...newRecurringEvent,
+            startDate: initialRecEvent.startDate, // should be editted properties
+            interval: initialRecEvent.interval,
             lastRecurred: initialRecEvent.lastRecurred,
         };
         // status should not be overriden
@@ -37,7 +39,7 @@ const RecurringEventEdit: React.FC<Props> = (props) => {
         // close after 1s
         setTimeout(() => {
             onClose();
-        }, 1000);
+        }, 1100);
     };
 
     const deleteHandler = async (deleteGeneratedEvents: boolean) => {

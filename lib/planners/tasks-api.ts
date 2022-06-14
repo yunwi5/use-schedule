@@ -2,6 +2,7 @@ import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NoIdTask, Task } from '../../models/task-models/Task';
 import { TaskProperties } from '../../models/task-models/TaskProperties';
 import { TaskCollection } from '../../db/collections';
+import { getPlannerCollection } from '../../utilities/tasks-utils/task-util';
 
 const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
 
@@ -13,19 +14,6 @@ export async function fetchAllTasks() {
 export async function fetchPeriodicTasks(context: any) {
     const [name, collection] = context.queryKey;
     return fetch(`${API_DOMAIN}?collection=${collection}`).then((res) => res.json());
-}
-
-function getPlannerCollection(plannerMode: PlannerMode): TaskCollection {
-    switch (plannerMode) {
-        case PlannerMode.WEEKLY:
-            return TaskCollection.WEEKLY_TASKS;
-        case PlannerMode.MONTLY:
-            return TaskCollection.MONTLY_TASKS;
-        case PlannerMode.YEARLY:
-            return TaskCollection.YEARLY_TASKS;
-        case PlannerMode.TEMPLATE:
-            return TaskCollection.TEMPLATE_TASKS;
-    }
 }
 
 export async function postTask(newTask: Task, plannerMode: PlannerMode) {

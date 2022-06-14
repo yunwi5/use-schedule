@@ -29,11 +29,9 @@ export async function insertTask(collection: string, task: Task | NoIdTask) {
     return res;
 }
 
-export async function insertManyTasks(collection: string, tasks: Task[]) {
-    const client = await connectDatabase();
+export async function insertManyTasks(client: MongoClient, collection: string, tasks: NoIdTask[]) {
     const db = client.db();
     const res = await db.collection(collection).insertMany(tasks);
-    client.close();
     return res;
 }
 

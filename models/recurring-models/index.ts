@@ -15,6 +15,7 @@ export const RecurringIntervalList = Object.freeze([
 ]);
 
 export function isRecurringInterval(interval: string) {
+    if (!interval) return false;
     switch (interval.trim()) {
         case RecurringInterval.DAY:
         case RecurringInterval.WEEK:

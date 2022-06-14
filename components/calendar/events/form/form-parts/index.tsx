@@ -5,6 +5,6 @@ export { default as EventDurationInput } from './EventDurationInput';
 export { default as EventImportanceInput } from './EventImportanceInput';
 export { default as EventLocationInput } from './EventLocationInput';
 export { default as EventMeetingLink } from './EventMeetingLink';
-export { default as EventNameInput } from './EventNameInput';
+export { default as EventNameInput } from '../../../../ui/input/form-inputs-sections/NameInput';
 export { default as EventParticipants } from './EventParticipants';
 export { default as EventTimeInput } from './EventTimeInput';

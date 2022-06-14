@@ -3,27 +3,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarWeek } from '@fortawesome/pro-duotone-svg-icons';
 import { FieldError, UseFormRegister } from 'react-hook-form';
 
-import { IEvent } from '../../../../../models/Event';
-import classes from '../EventForm.module.scss';
+import classes from './FormInput.module.scss';
 
 const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 interface Props {
     register: UseFormRegister<any>;
-    initialEvent?: IEvent;
+    initialItem?: { name: string };
     errors: { [key: string]: FieldError | undefined };
+    className?: string;
 }
 
-const EventNameInput: React.FC<Props> = ({ register, initialEvent, errors }) => {
+const EventNameInput: React.FC<Props> = ({ register, initialItem, errors, className }) => {
     return (
-        <div className={`${classes.section} ${errors.name ? classes['invalid-section'] : ''}`}>
+        <div
+            className={`${classes.section} ${
+                errors.name ? classes['invalid-section'] : ''
+            } ${className}`}
+        >
             <label htmlFor="name">
                 <FontAwesomeIcon icon={faCalendarWeek} className={labelIconClass} /> Title
             </label>
             <input
                 type="text"
                 id="name"
-                defaultValue={initialEvent?.name || ''}
+                defaultValue={initialItem?.name || ''}
                 {...register('name', {
                     required: 'Title is required',
                     minLength: { value: 3, message: 'Minimum 3 characters' },

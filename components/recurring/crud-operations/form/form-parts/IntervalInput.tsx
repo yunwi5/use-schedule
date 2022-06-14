@@ -6,13 +6,14 @@ import { IEvent } from '../../../../../models/Event';
 import { RecurringInterval, RecurringIntervalList } from '../../../../../models/recurring-models';
 import { RecurringEvent } from '../../../../../models/recurring-models/RecurringEvent';
 
-import classes from '../RecurringEventForm.module.scss';
+import classes from '../RecurringForm.module.scss';
 
 interface Props {
     register: UseFormRegister<any>;
     disabled: boolean;
     initialInterval?: RecurringInterval;
     initialEvent?: IEvent | RecurringEvent;
+    className?: string;
 }
 
 function getInitialInterval(event: IEvent | RecurringEvent | undefined) {
@@ -20,9 +21,9 @@ function getInitialInterval(event: IEvent | RecurringEvent | undefined) {
     return (event as RecurringEvent).interval;
 }
 
-const IntervalInput: React.FC<Props> = ({ register, initialEvent, disabled }) => {
+const IntervalInput: React.FC<Props> = ({ register, initialEvent, disabled, className }) => {
     return (
-        <div className={`${classes.section} w-[45%]`}>
+        <div className={`${classes.section} ${className} w-[45%]`}>
             <label htmlFor="interval">
                 <FontAwesomeIcon icon={faArrowsRotate} className={'icon-medium mr-2'} />
                 Interval

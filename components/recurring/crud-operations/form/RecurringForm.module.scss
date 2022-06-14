@@ -61,11 +61,6 @@
         background-color: $color-tertiary-light-1;
         border: 1.5px solid transparent;
         border-radius: 3.5px;
-
-        &:focus {
-            outline: none;
-            border: 1.5px solid $color-secondary-dark-1;
-        }
     }
 
     select {
@@ -88,5 +83,27 @@
         max-width: 1.3rem;
         max-height: 1.3rem;
         cursor: pointer;
+    }
+}
+
+.event-form {
+    input,
+    textarea,
+    select {
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-secondary-dark-1;
+        }
+    }
+}
+
+.task-form {
+    input,
+    textarea,
+    select {
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-tertiary-dark-1;
+        }
     }
 }

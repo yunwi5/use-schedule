@@ -4,20 +4,36 @@ import Head from 'next/head';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { useQuery, useQueryClient } from 'react-query';
+import RecurringMain from '../../components/recurring/RecurringMain';
+import { useEffect } from 'react';
+import { recurringActions } from '../../store/redux/recurring-slice';
+import { RecurringItemMode } from '../../models/recurring-models';
+import { useAppDispatch } from '../../store/redux';
+import { AppProperty } from '../../constants/global-constants';
 
 interface Props {}
 
 const RecurringTasks: NextPage<Props> = (props) => {
+    const dispatch = useAppDispatch();
+
+    const invalidateRecTasks = () => {};
+
+    // use redux to globally share the recurring events / tasks!
+    // instead of passing recurringEvents as props
+    useEffect(() => {
+        dispatch(recurringActions.setMode(RecurringItemMode.TASK));
+    }, [dispatch]);
+
     return (
         <div>
             <Head>
-                <title>Weekly Task Planner</title>
+                <title>Recurring Tasks | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Weekly task planner for users to manage and allocate their tasks"
                 />
             </Head>
-            <div>Recurring tasks</div>
+            <RecurringMain onInvalidate={invalidateRecTasks} items={[]} />
         </div>
     );
 };

@@ -1,15 +1,15 @@
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { useEffect, useMemo } from 'react';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
-
 import { useQuery, useQueryClient } from 'react-query';
+
 import RecurringMain from '../../components/recurring/RecurringMain';
 import { AppProperty } from '../../constants/global-constants';
 import { fetchRecurringEvents } from '../../lib/recurring/recurring-event-apis';
 import { processRecurringEvents } from '../../utilities/recurring-utils';
 import { RecurringEvent } from '../../models/recurring-models/RecurringEvent';
-import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from '../../store/redux';
 import { recurringActions } from '../../store/redux/recurring-slice';
 import { RecurringItemMode } from '../../models/recurring-models';
@@ -35,8 +35,7 @@ const RecurringEvents: NextPage<Props> = (props) => {
     // instead of passing recurringEvents as props
     useEffect(() => {
         dispatch(recurringActions.setMode(RecurringItemMode.EVENT));
-        dispatch(recurringActions.setRecurringEvents(recurringEvents));
-    }, [dispatch, recurringEvents]);
+    }, [dispatch]);
 
     return (
         <div>
@@ -47,7 +46,7 @@ const RecurringEvents: NextPage<Props> = (props) => {
                     content="Weekly task planner for users to manage and allocate their tasks"
                 />
             </Head>
-            <RecurringMain onInvalidate={invalidateRecEvents} />
+            <RecurringMain onInvalidate={invalidateRecEvents} items={recurringEvents} />
         </div>
     );
 };

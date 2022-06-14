@@ -7,11 +7,6 @@ import { Importance, Status } from '../../../../models/task-models/Status';
 import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
 import ExitIcon from '../../../ui/icons/ExitIcon';
-import {
-    EventParticipants,
-    EventMeetingLink,
-    EventLocationInput,
-} from '../../../calendar/events/form/form-parts';
 import { addYears } from '../../../../utilities/date-utils/date-control';
 import IntervalInput from './form-parts/IntervalInput';
 import {
@@ -20,13 +15,13 @@ import {
 } from '../../../../models/recurring-models/RecurringEvent';
 import { isRecurringInterval, RecurringInterval } from '../../../../models/recurring-models';
 import classes from './RecurringForm.module.scss';
-import DynamicDateInput from '../../../ui/input/form-inputs-sections/DynamicDateInput';
 import TimeInput from '../../../ui/input/form-inputs-sections/TimeInput';
 import DurationInput from '../../../ui/input/form-inputs-sections/DurationInput';
 import ImportanceInput from '../../../ui/input/form-inputs-sections/ImportanceInput';
 import DescriptionInput from '../../../ui/input/form-inputs-sections/DescriptionInput';
 import ActionButtons from '../../../ui/input/form-inputs-sections/ActionButtons';
 import NameInput from '../../../ui/input/form-inputs-sections/NameInput';
+import DynamicDateInput from '../../../ui/input/form-inputs-sections/DynamicDateInput';
 
 export interface RecurringEventFormValues {
     name: string;
@@ -56,7 +51,7 @@ interface Props {
     isEdit?: boolean;
 }
 
-const RecurringEventForm: React.FC<Props> = (props) => {
+const RecurringTaskForm: React.FC<Props> = (props) => {
     const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete, isEdit } = props;
 
     const userId = useUser().user?.sub;
@@ -122,7 +117,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
         onSubmit(newEvent);
     };
 
-    const headingText = heading || (isEdit ? 'Edit Recurring Event' : 'New Recurring Event');
+    const headingText = heading || (isEdit ? 'Edit Recurring Task' : 'New Recurring Task');
 
     return (
         <form
@@ -132,20 +127,26 @@ const RecurringEventForm: React.FC<Props> = (props) => {
             <h2 className={classes.heading}>{headingText}</h2>
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
-                <NameInput register={register} initialItem={initialEvent} errors={errors} />
+                <NameInput
+                    register={register}
+                    initialItem={initialEvent}
+                    errors={errors}
+                    className={'task'}
+                />
                 <div className={'flex gap-5 lg:gap-10 justify-between'}>
                     <DynamicDateInput
                         register={register}
                         label="Start Date"
                         name="startDate"
+                        className={'task'}
                         disabled={!!isEdit}
                         defaultDate={beginningPeriod}
                     />
                     <TimeInput
                         register={register}
                         initialItem={initialEvent}
+                        className="task"
                         beginningPeriod={beginningPeriod}
-                        className="event"
                     />
                 </div>
                 <div className={'flex gap-5 lg:gap-10 justify-between'}>
@@ -153,11 +154,13 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                         register={register}
                         disabled={!!isEdit}
                         initialEvent={initialEvent}
+                        className="task"
                     />
                     <DynamicDateInput
                         register={register}
                         label="End Date"
                         name="endDate"
+                        className="task"
                         defaultDate={addYears(beginningPeriod, 1)}
                     />
                 </div>
@@ -165,22 +168,19 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                     <DurationInput
                         register={register}
                         initialItem={initialEvent}
+                        className="task"
                         errors={errors}
-                        className="event"
                     />
                     <ImportanceInput
                         register={register}
                         initialItem={initialEvent}
-                        className="event"
+                        className="task"
                     />
                 </div>
-                <EventLocationInput register={register} initialEvent={initialEvent} />
-                <EventMeetingLink register={register} initialEvent={initialEvent} />
-                <EventParticipants initialEvent={initialEvent} onUpdate={setParticipants} />
                 <DescriptionInput
                     register={register}
                     initialItem={initialEvent}
-                    className="event"
+                    className={'task'}
                 />
             </div>
             <ActionButtons onDelete={onDelete} />
@@ -188,4 +188,4 @@ const RecurringEventForm: React.FC<Props> = (props) => {
     );
 };
 
-export default RecurringEventForm;
+export default RecurringTaskForm;

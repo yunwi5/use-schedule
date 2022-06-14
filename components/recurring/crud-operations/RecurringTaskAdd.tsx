@@ -1,8 +1,8 @@
 import React from 'react';
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringItemQuery';
-import { NoIdRecurringEvent } from '../../../models/recurring-models/RecurringEvent';
+import { NoIdRecurringTask } from '../../../models/recurring-models/RecurringTask';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
-import RecurringEventForm from './form/RecurringEventForm';
+import RecurringTaskForm from './form/RecurringTaskForm';
 
 interface Props {
     onClose: () => void;
@@ -13,13 +13,13 @@ interface Props {
 const RecurringEventAdd: React.FC<Props> = (props) => {
     const beginningPeriod = props.beginningPeriod ?? new Date();
     const { onClose, onAdd } = props;
-    const { addRecItem: addRecEvent } = useRecurringEventQuery({
+    const { addRecItem } = useRecurringEventQuery({
         onInvalidate: onAdd,
     });
 
-    const addHandler = async (newRecurringEvent: NoIdRecurringEvent) => {
-        console.log(newRecurringEvent);
-        addRecEvent(newRecurringEvent);
+    const addHandler = async (newRecurringTask: any) => {
+        console.log(newRecurringTask);
+        // addRecEvent(newRecurringTask);
         let timer = setTimeout(() => {
             onClose();
             clearTimeout(timer);
@@ -28,7 +28,7 @@ const RecurringEventAdd: React.FC<Props> = (props) => {
 
     return (
         <WrapperModal onClose={onClose}>
-            <RecurringEventForm
+            <RecurringTaskForm
                 onSubmit={addHandler}
                 onClose={onClose}
                 beginningPeriod={beginningPeriod}

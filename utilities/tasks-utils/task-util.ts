@@ -2,6 +2,20 @@ import { PlannerTask, Task } from '../../models/task-models/Task';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Status } from '../../models/task-models/Status';
 import { SubTask } from '../../models/task-models/SubTask';
+import { TaskCollection } from '../../db/collections';
+
+export function getPlannerCollection(plannerMode: PlannerMode): TaskCollection {
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+            return TaskCollection.WEEKLY_TASKS;
+        case PlannerMode.MONTLY:
+            return TaskCollection.MONTLY_TASKS;
+        case PlannerMode.YEARLY:
+            return TaskCollection.YEARLY_TASKS;
+        case PlannerMode.TEMPLATE:
+            return TaskCollection.TEMPLATE_TASKS;
+    }
+}
 
 export function convertToTasks(data: any[], plannerMode?: PlannerMode): Task[] {
     const tasks: Task[] = [];

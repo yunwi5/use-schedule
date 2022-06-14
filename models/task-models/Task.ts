@@ -10,6 +10,8 @@ import {
 } from '../../utilities/date-utils/date-format';
 import { addMinutes } from '../../utilities/date-utils/date-control';
 import { validateTask } from '../../schemas/validation';
+import { Category, SubCategory } from './Category';
+import { Importance } from './Status';
 
 export interface NoIdTask {
     id?: string;
@@ -17,19 +19,19 @@ export interface NoIdTask {
     timeString: string;
     description: string;
     duration: number;
-    category: string;
-    subCategory: string;
+    category: Category;
+    subCategory: SubCategory;
     status: string;
     userId: string;
-    importance: string;
+    importance: Importance;
     plannerType: PlannerMode;
 
     dueDateString?: string;
     isAnyDateTime?: boolean;
     comment?: string;
     subTasks?: SubTask[];
-    recurringId?: string;
     templateId?: string;
+    recurringId?: string;
 }
 
 export interface Task extends NoIdTask {
@@ -42,20 +44,17 @@ export class PlannerTask extends AbstractTask {
     }
 
     get durationFormat(): string {
-        if (this.plannerType === PlannerMode.WEEKLY) {
-            if (!this.duration) return getShortUserTimeFormat(this.dateTime);
+        if (this.duration == null) return getShortUserTimeFormat(this.dateTime);
 
-            let endTime: null | Date = null;
-            if (this.duration) endTime = addMinutes(this.dateTime, this.duration);
+        let endTime: null | Date = null;
+        if (this.duration) endTime = addMinutes(this.dateTime, this.duration);
 
-            const startTimeFormat = getShortUserTimeFormat(this.dateTime);
-            const endTimeFormat = endTime && getShortUserTimeFormat(endTime);
-            const planDateFormat = endTimeFormat
-                ? `${startTimeFormat} ~ ${endTimeFormat}`
-                : startTimeFormat;
-            return planDateFormat;
-        }
-        return 'Not yet implemented';
+        const startTimeFormat = getShortUserTimeFormat(this.dateTime);
+        const endTimeFormat = endTime && getShortUserTimeFormat(endTime);
+        const planDateFormat = endTimeFormat
+            ? `${startTimeFormat} ~ ${endTimeFormat}`
+            : startTimeFormat;
+        return planDateFormat;
     }
 
     get planDateFormat(): string {

@@ -86,7 +86,7 @@ export default withApiAuthRequired(async function handler(
         } else {
             let result;
             try {
-                result = await insertManyTasks(collection, newTask);
+                result = await insertManyTasks(client, collection, newTask);
             } catch (err) {
                 console.error(err);
                 client.close();

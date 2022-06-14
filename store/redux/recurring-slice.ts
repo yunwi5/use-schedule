@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RecurringItemMode } from '../../models/recurring-models';
+import { RecurringItem, RecurringItemMode } from '../../models/recurring-models';
 import { RecurringEvent } from '../../models/recurring-models/RecurringEvent';
 import { EventSort, SortingDirection, TaskSort } from '../../models/sorting-models';
 
@@ -10,9 +10,9 @@ export interface RecurringState {
     eventSortingStandard: EventSort | null;
     sortingDirection: SortingDirection | null;
 
+    recurringTasks: RecurringItem[];
+    taskSortingStandard: TaskSort | null;
     // not yet implemented
-    // recurringTasks: any[];
-    // taskSortingStandard: TaskSort | null;
 }
 
 const initialState: RecurringState = {
@@ -21,6 +21,9 @@ const initialState: RecurringState = {
     searchWord: '',
     eventSortingStandard: null,
     sortingDirection: null,
+
+    recurringTasks: [],
+    taskSortingStandard: null,
 };
 
 const recurringSlice = createSlice({
@@ -36,8 +39,12 @@ const recurringSlice = createSlice({
         setMode(state: RecurringState, action: PayloadAction<RecurringItemMode>) {
             state.mode = action.payload;
         },
-        setEventSortingStandard(state: RecurringState, action: PayloadAction<EventSort>) {
-            state.eventSortingStandard = action.payload;
+        setSortingStandard(state: RecurringState, action: PayloadAction<string>) {
+            if (state.mode === RecurringItemMode.EVENT) {
+                state.eventSortingStandard = action.payload as EventSort;
+            } else {
+                state.taskSortingStandard = action.payload as TaskSort;
+            }
         },
         setSortingDirection(state: RecurringState, action: PayloadAction<SortingDirection>) {
             state.sortingDirection = action.payload;

@@ -1,11 +1,11 @@
 import { RecurringInterval } from '.';
 import { addDays, addMonths, addWeeks, addYears } from '../../utilities/date-utils/date-control';
-import { getShortUserTimeFormat } from '../../utilities/date-utils/date-format';
 import { min } from '../../utilities/date-utils/date-math';
-import { getDaySuffixed } from '../../utilities/gen-utils/format-util';
-import { decrementRecurringDate, incrementRecurringDate } from '../../utilities/recurring-utils';
-import { getMonthMember } from '../date-models/Month';
-import { getWeekDay } from '../date-models/WeekDay';
+import {
+    decrementRecurringDate,
+    getIntervalFormat,
+    incrementRecurringDate,
+} from '../../utilities/recurring-utils';
 import { IEvent, NoIdEvent, Participant } from '../Event';
 import { Importance, Status } from '../task-models/Status';
 
@@ -72,34 +72,8 @@ export class RecurringEvent implements IEvent, NoIdRecurringEvent {
         this.lastRecurred = event.lastRecurred ? new Date(event.lastRecurred) : undefined;
     }
 
-    get intervalFormat() {
-        const timeFormat = getShortUserTimeFormat(this.startDate);
-        const dateOfMonth: JSX.Element = getDaySuffixed(this.startDate);
-
-        switch (this.interval) {
-            case RecurringInterval.DAY: {
-                return `Everyday ${timeFormat}`;
-            }
-            case RecurringInterval.WEEK: {
-                const dayName = getWeekDay(this.startDate);
-                return `Every ${dayName} ${timeFormat}`;
-            }
-            case RecurringInterval.MONTH: {
-                return (
-                    <>
-                        Every {dateOfMonth} {timeFormat}
-                    </>
-                );
-            }
-            case RecurringInterval.YEAR: {
-                const monthName = getMonthMember(this.startDate);
-                return (
-                    <>
-                        Every {monthName} {dateOfMonth}
-                    </>
-                );
-            }
-        }
+    get intervalFormat(): string | JSX.Element {
+        return getIntervalFormat(this);
     }
 
     // Need to send PATCH request after using this function to update recurring event properties

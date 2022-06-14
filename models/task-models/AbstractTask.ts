@@ -1,8 +1,10 @@
 import { addMinutes } from '../../utilities/date-utils/date-control';
-import { getEndDateTimeFormat } from '../../utilities/date-utils/date-format';
+import { getDateTimeFormat, getEndDateTimeFormat } from '../../utilities/date-utils/date-format';
 import { getDayName } from '../../utilities/date-utils/date-get';
 import { WeekDay } from '../date-models/WeekDay';
 import { PlannerMode } from '../planner-models/PlannerMode';
+import { Category, SubCategory } from './Category';
+import { Importance } from './Status';
 import { SubTask } from './SubTask';
 import { Task } from './Task';
 
@@ -12,11 +14,11 @@ export abstract class AbstractTask implements Task {
     timeString: string;
     description: string;
     duration: number;
-    category: string;
-    subCategory: string;
+    category: Category;
+    subCategory: SubCategory;
     status: string;
     userId: string;
-    importance: string;
+    importance: Importance;
     plannerType: PlannerMode;
 
     dueDateString?: string;
@@ -42,9 +44,14 @@ export abstract class AbstractTask implements Task {
         this.plannerType = taskObj.plannerType;
     }
 
-    abstract get planDateFormat(): string;
-    abstract get dueDateFormat(): string;
     abstract get durationFormat(): string;
+
+    get planDateFormat(): string {
+        return getDateTimeFormat(this.dateTime);
+    }
+    get dueDateFormat(): string {
+        return this.dueDate ? getDateTimeFormat(this.dueDate) : '';
+    }
 
     get endTimeFormat(): string {
         if (!this.duration) return '';

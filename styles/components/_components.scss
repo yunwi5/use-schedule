@@ -14,6 +14,28 @@
     }
 }
 
+.event {
+    input,
+    textarea,
+    select {
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-secondary-dark-1 !important;
+        }
+    }
+}
+
+.task {
+    input,
+    textarea,
+    select {
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-tertiary-dark-1 !important;
+        }
+    }
+}
+
 @mixin icon-basic {
     max-width: 2.1rem;
     cursor: pointer;

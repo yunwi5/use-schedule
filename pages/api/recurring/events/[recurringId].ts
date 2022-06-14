@@ -39,8 +39,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         return res.status(404).json({ message: 'User not found' });
     }
 
-    const { eventId } = req.query;
-    const recurringId = Array.isArray(eventId) ? eventId.join('') : eventId;
+    let { recurringId } = req.query;
+    recurringId = Array.isArray(recurringId) ? recurringId.join('') : recurringId;
 
     let client: MongoClient;
     try {
@@ -57,6 +57,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         let result;
         try {
             result = await updateRecurringEventProps(client, recurringId, updatedProps);
+            console.log(result);
         } catch (err) {
             const message =
                 err instanceof Error ? err.message : 'Patching recurring events did not work.';

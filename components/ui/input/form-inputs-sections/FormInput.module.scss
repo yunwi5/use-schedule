@@ -1,0 +1,60 @@
+@import '../../../../styles/abstract/variables';
+@import '../../../../styles/abstract/mixins';
+
+.section {
+    padding: 0 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    input,
+    textarea,
+    select {
+        padding: 0.2rem 0.5rem;
+        box-shadow: $shadow-light;
+        background-color: $color-tertiary-light-1;
+        border: 1.5px solid transparent;
+        border-radius: 3.5px;
+
+        &:focus {
+            outline: none;
+            border: 1.5px solid $color-secondary-dark-1;
+        }
+    }
+
+    select {
+        padding: 0.35rem 0.5rem;
+    }
+}
+
+.invalid-section {
+    input,
+    textarea {
+        @include invalid-input;
+    }
+}
+
+.invalid-input {
+    @include invalid-input;
+}
+
+.error {
+    color: rgb(236, 72, 153);
+    white-space: nowrap;
+}
+
+.icon {
+    max-width: 1.3rem;
+    max-height: 1.3rem;
+    cursor: pointer;
+}
+
+.section,
+.action {
+    padding: 0 0.7rem;
+}
+
+.action {
+    display: flex;
+    gap: 1.8rem;
+}
