@@ -14,7 +14,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RecurringItem, RecurringItemMode } from '../../../models/recurring-models';
 import { getDurationFormat } from '../../../utilities/date-utils/date-format';
 import { useAppSelector } from '../../../store/redux';
-import { EventSort, TaskSort } from '../../../models/sorting-models';
 
 interface Props {
     item: RecurringItem;
@@ -36,7 +35,7 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                 mode === RecurringItemMode.EVENT ? 'bg-sky-50' : 'bg-blue-50'
             }  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
         >
-            <div className={`text-slate-500 font-bold`}>
+            <div className={`text-slate-500 font-bold text-base`}>
                 <FontAwesomeIcon icon={faTimer} className={`text-slate-900 icon-medium mr-2`} />
                 <time>{item.intervalFormat}</time>
                 <span className={`inline-block ml-4 text-slate-500/90`}>
@@ -45,19 +44,25 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                 </span>
             </div>
             <div>
-                <h3 className={'text-xl'} onClick={onShowDetail}>
+                <h3 className={'text-lg sm:text-xl'} onClick={onShowDetail}>
                     <span className={`text-sky-600`}>{icon}</span>
                     {item.name}
                 </h3>
             </div>
             {showDetail && (
-                <div className={`flex items-center gap-5 text-lg overflow-hidden`}>
+                <div
+                    className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-5 text-base sm:text-lg overflow-hidden`}
+                >
                     <span className={'inline-block'}>
                         <FontAwesomeIcon icon={faStar} className={'icon-medium text-amber-500'} />{' '}
                         {item.importance}
                     </span>
                     {location && (
-                        <span className={'inline-block pl-5 border-l-[3px] border-l-slate-400'}>
+                        <span
+                            className={
+                                'inline-block sm:pl-5 sm:border-l-[3px] sm:border-l-slate-400'
+                            }
+                        >
                             <FontAwesomeIcon
                                 icon={faLocationDot}
                                 className={'icon-medium mr-2 text-sky-600/90'}
@@ -66,7 +71,11 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                         </span>
                     )}
                     {category && (
-                        <span className={'inline-block pl-5 border-l-[3px] border-l-slate-400'}>
+                        <span
+                            className={
+                                'inline-block sm:pl-5 sm:border-l-[3px] sm:border-l-slate-400'
+                            }
+                        >
                             <FontAwesomeIcon
                                 icon={faListTree}
                                 className={'icon-medium mr-2 text-blue-600/90'}

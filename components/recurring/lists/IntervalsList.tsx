@@ -16,7 +16,7 @@ const IntervalsList: React.FC<Props> = ({ onInvalidate, items }) => {
     }, [items, searchWord]);
 
     return (
-        <section className={'lg:mt-3 flex flex-col gap-5 lg:gap-10 xl:pr-6'}>
+        <section className={'lg:mt-3 flex flex-col gap-10 xl:pr-6'}>
             {RecurringIntervalList.map((interval) => {
                 const intervalEvents = filteredItems.filter((ev) => ev.interval === interval);
                 return (

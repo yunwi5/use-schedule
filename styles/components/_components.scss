@@ -83,11 +83,6 @@
     }
 }
 
-.work {
-    font-size: 5rem;
-    background-color: blue;
-}
-
 .show-on-hover-parent {
     transition: all 0.5s ease-out;
     font-size: 3rem !important;
@@ -103,5 +98,10 @@
     }
 }
 
-.show-on-hover-child {
+// Media query related components
+.nav-list {
+    display: flex;
+    @include respond(400px) {
+        flex-direction: column;
+    }
 }

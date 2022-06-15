@@ -1,6 +1,15 @@
 @import '../../../styles/abstract/variables';
 @import '../../../styles/abstract/mixins';
 
+@mixin show-detail {
+    p {
+        padding-top: 1rem;
+        visibility: visible;
+        opacity: 1;
+        height: 14rem;
+    }
+}
+
 .panel {
     width: 100%;
     min-height: 5rem;
@@ -22,10 +31,16 @@
     grid-row-gap: 2rem;
     align-items: center;
     position: relative;
+    overflow-y: hidden;
+    cursor: pointer;
 
     @include respond(tab-port) {
         grid-template-columns: 1fr;
-        grid-row-gap: 1.3rem;
+        grid-row-gap: 0.5rem;
+    }
+
+    @include respond(phone) {
+        grid-row-gap: 0;
     }
 
     h2 {
@@ -40,6 +55,7 @@
         padding-left: 9rem;
         text-align: left;
         justify-self: center;
+        transition: all 0.5s ease-out;
 
         @include respond(tab-land) {
             padding-left: 4.5rem;
@@ -50,9 +66,22 @@
         }
 
         @include respond(phone) {
-            display: none;
+            padding: 0;
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
         }
     }
+
+    &:hover {
+        @include respond(phone) {
+            @include show-detail;
+        }
+    }
+}
+
+.panel.detail {
+    @include show-detail;
 }
 
 .emptyContainer {

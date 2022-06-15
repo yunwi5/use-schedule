@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faPenToSquare } from "@fortawesome/pro-duotone-svg-icons";
+import { useCallback, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faPenToSquare } from '@fortawesome/pro-duotone-svg-icons';
 
-import { SubTask } from "../../../models/task-models/SubTask";
-import { deleteSubTask, patchSubTaskProps, postSubtask } from "../../../lib/planners/subtasks-api";
-import { SubTaskSort as SortingStandard, SortingDirection } from "../../../models/sorting-models";
-import { sortSubItems } from "../../../utilities/sort-utils/sub-item-sort";
-import { SubItemForm, SubItemCard, SubItemSorter } from "../../sub-items";
-import LoadingSpinner from "../../ui/design-elements/LoadingSpinner";
-import { SubTaskProperties } from "../../../models/task-models/TaskProperties";
+import { SubTask } from '../../../models/task-models/SubTask';
+import { deleteSubTask, patchSubTaskProps, postSubtask } from '../../../lib/planners/subtasks-api';
+import { SubItemSort as SortingStandard, SortingDirection } from '../../../models/sorting-models';
+import { sortSubItems } from '../../../utilities/sort-utils/sub-item-sort';
+import { SubItemForm, SubItemCard, SubItemSorter } from '../../sub-items';
+import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
+import { SubTaskProperties } from '../../../models/task-models/TaskProperties';
 
 interface Props {
     subTasks: SubTask[];
@@ -42,7 +42,7 @@ const SubTaskList: React.FC<Props> = (props) => {
 
     const deleteSubTaskHandler = async (id: string) => {
         if (!id) {
-            console.log("SubTask Id is not set. Therefore, cannot delete!");
+            console.log('SubTask Id is not set. Therefore, cannot delete!');
             return;
         }
         setCurrentSubTasks(currentSubTasks.filter((sub) => sub.id !== id));
@@ -74,19 +74,19 @@ const SubTaskList: React.FC<Props> = (props) => {
     }, [subTasks]);
 
     return (
-        <div className='mb-3'>
-            <div className='mb-2 w-[100%] flex items-center justify-between'>
-                <div className='text-left cursor-pointer text-slate-600 hover:text-blue-600'>
+        <div className="mb-3">
+            <div className="mb-2 w-[100%] flex items-center justify-between">
+                <div className="text-left cursor-pointer text-slate-600 hover:text-blue-600">
                     {isEditMode ? (
                         <FontAwesomeIcon
                             icon={faCircleCheck}
                             onClick={() => setIsEditMode(false)}
-                            className='max-w-[2.5rem] text-3xl text-green-400 hover:text-green-500'
+                            className="max-w-[2.5rem] text-3xl text-green-400 hover:text-green-500"
                         />
                     ) : (
                         <FontAwesomeIcon
                             icon={faPenToSquare}
-                            className='max-w-[2.5rem] text-3xl'
+                            className="max-w-[2.5rem] text-3xl"
                             onClick={() => setIsEditMode(true)}
                         />
                     )}
@@ -96,7 +96,7 @@ const SubTaskList: React.FC<Props> = (props) => {
             </div>
             {isLoading && <LoadingSpinner />}
             {!isLoading && (
-                <ul className='mb-9 max-h-[25rem] overflow-y-scroll'>
+                <ul className="mb-9 max-h-[25rem] overflow-y-scroll">
                     {currentSubTasks.map((subTask) => (
                         <SubItemCard
                             key={subTask.id}

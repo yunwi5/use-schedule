@@ -46,7 +46,7 @@ const RecurringEventSorter: React.FC = () => {
     };
 
     return (
-        <div className="flex gap-3 items-center">
+        <div className={`flex gap-3 items-center`}>
             <SortingStandardSelect
                 sortList={sortingList}
                 sortTarget={sortingStandard} // static at the moment

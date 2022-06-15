@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import classes from './IntroPanel.module.scss';
 import { useAppSelector } from '../../../store/redux';
+import classes from './IntroPanel.module.scss';
 
 interface Props {
     title?: string;
@@ -13,6 +13,9 @@ interface Props {
 
 const IntroPanel: React.FC<Props> = () => {
     const [showPanel, setShowPanel] = useState(true);
+    // detail is always shown on tablet, laptop screen
+    // detail can be shown optionally on the mobile by clicking on the panel.
+    const [showDetail, setShowDetail] = useState(false);
     const itemType = useAppSelector((state) => state.recurring.mode.toLowerCase());
 
     const showPanelHandler = (show: boolean) => () => setShowPanel(show); // currying fn
@@ -29,7 +32,10 @@ const IntroPanel: React.FC<Props> = () => {
                 </div>
             )}
             {showPanel && (
-                <div className={classes.panel}>
+                <div
+                    className={`${classes.panel} ${showDetail ? classes.detail : ''}`}
+                    onClick={() => setShowDetail((ps) => !ps)}
+                >
                     <h2 className={'capitalize'}>Recurring {itemType}s</h2>
                     <p>
                         <span>

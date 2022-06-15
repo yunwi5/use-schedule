@@ -15,18 +15,22 @@
 
     &:hover {
         gap: 0.5rem;
-        min-width: 9rem;
         font-size: 1.5rem !important;
         border-radius: 12px;
         padding: 0.25rem 0.5rem;
 
-        @include respond(phone) {
-            min-width: 0;
+        @media only screen and (min-width: 700px) {
+            min-width: 9rem;
+        }
+
+        @include respond(tab-port) {
             font-size: inherit;
         }
     }
 
     &:hover .add-icon-text {
-        display: inline;
+        @media only screen and (min-width: 700px) {
+            display: inline;
+        }
     }
 }

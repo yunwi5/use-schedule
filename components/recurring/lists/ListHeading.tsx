@@ -13,12 +13,16 @@ const ListHeading: React.FC<Props> = (props) => {
     const { headingText, isShrinked, onToggleShrink } = props;
 
     return (
-        <div className="flex items-center gap-3">
-            <h3 className={'w-[7.5rem] font-semibold flex items-center text-xl text-slate-600/80'}>
+        <div className="flex items-center md:gap-1 lg:gap-3">
+            <h3
+                className={
+                    'md:w-[7.5rem] font-semibold flex items-center text-lg md:text-xl text-slate-600/80'
+                }
+            >
                 {headingText}
             </h3>
             {/* Horizontal line */}
-            <div className="flex-1 h-1 bg-slate-300" />
+            <div className="flex-1 h-1 bg-slate-300 ml-2 md:ml-0 mr-2" />
             <DropDownToggler
                 showDropDown={!isShrinked}
                 className={'!ml-0 text-slate-600'}
