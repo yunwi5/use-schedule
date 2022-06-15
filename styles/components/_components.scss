@@ -23,6 +23,9 @@
             border: 1.5px solid $color-secondary-dark-1 !important;
         }
     }
+    .icon {
+        color: $color-secondary-dark-1;
+    }
 }
 
 .task {
@@ -33,6 +36,9 @@
             outline: none;
             border: 1.5px solid $color-tertiary-dark-1 !important;
         }
+    }
+    .icon {
+        color: $color-tertiary-dark-1;
     }
 }
 

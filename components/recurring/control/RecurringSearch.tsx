@@ -10,7 +10,7 @@ const RecurringSearch: React.FC = () => {
     const searchHandler = (word: string) => dispatch(recurringActions.setSearchWord(word));
 
     return (
-        <div className={'ml-auto mr-3'}>
+        <div className={'ml-auto lg:mr-3'}>
             <Searchbar
                 className={'min-h-[3rem]'}
                 placeholder={`Search for recurring ${itemType}s`}

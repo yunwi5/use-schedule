@@ -27,6 +27,7 @@ import ImportanceInput from '../../../ui/input/form-inputs-sections/ImportanceIn
 import DescriptionInput from '../../../ui/input/form-inputs-sections/DescriptionInput';
 import ActionButtons from '../../../ui/input/form-inputs-sections/ActionButtons';
 import NameInput from '../../../ui/input/form-inputs-sections/NameInput';
+import IntervalPreDisplay from './form-parts/IntervalPreDisplay';
 
 export interface RecurringEventFormValues {
     name: string;
@@ -67,6 +68,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<RecurringEventFormValues>();
 
@@ -122,6 +124,9 @@ const RecurringEventForm: React.FC<Props> = (props) => {
         onSubmit(newEvent);
     };
 
+    watch().startDate;
+    watch().interval;
+
     const headingText = heading || (isEdit ? 'Edit Recurring Event' : 'New Recurring Event');
 
     return (
@@ -133,7 +138,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
                 <NameInput register={register} initialItem={initialEvent} errors={errors} />
-                <div className={'flex gap-5 lg:gap-10 justify-between'}>
+                <div className={'flex flex-wrap gap-5 lg:gap-10 justify-between'}>
                     <DynamicDateInput
                         register={register}
                         label="Start Date"
@@ -161,6 +166,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                         defaultDate={addYears(beginningPeriod, 1)}
                     />
                 </div>
+
                 <div className={`flex gap-5 lg:gap-10 justify-between`}>
                     <DurationInput
                         register={register}
@@ -182,6 +188,9 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                     initialItem={initialEvent}
                     className="event"
                 />
+            </div>
+            <div className={'flex -mt-[0.7rem]'}>
+                <IntervalPreDisplay watch={watch} />
             </div>
             <ActionButtons onDelete={onDelete} />
         </form>

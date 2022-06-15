@@ -21,6 +21,7 @@ const EventMeetingLink: React.FC<Props> = ({ register, initialEvent }) => {
                 Meeting Link
             </label>
             <input
+                placeholder="Enter the meeting link i.e. https://www.zoom.us"
                 type="text"
                 id="meeting-link"
                 defaultValue={initialEvent?.meetingLink}

@@ -48,7 +48,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                 <a className="ml-auto" href={`#${new Date().toDateString()}`}>
                     <Button
                         onClick={onNavigateCurrentMonth}
-                        className={`max-h-[2.5rem] !py-1 flex justify-center items-center`}
+                        className={`max-h-[2.5rem] !min-w-[6.1rem] !py-1 flex justify-center items-center`}
                     >
                         Today
                     </Button>
@@ -60,7 +60,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                 />
             </div>
             {showDropDown && (
-                <div className="pl-2 sm:pl-0 pr-7 sm:pr-0 py-3 sm:py-0 text-lg flex justify-between sm:justify-start bg-slate-100 sm:bg-transparent border-t-2 border-slate-300 sm:border-t-0">
+                <div className="pl-2 sm:pl-0 pr-9 sm:pr-0 py-3 sm:py-0 text-lg flex justify-between sm:justify-start bg-slate-100 sm:bg-transparent border-t-2 border-slate-300 sm:border-t-0">
                     {/* Not implemented yet */}
                     <button
                         className={`py-1 px-3 min-w-[5.55rem] border-2 border-slate-500 rounded-sm hover:bg-slate-500 hover:text-slate-50 ${

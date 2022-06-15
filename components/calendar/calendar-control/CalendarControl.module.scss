@@ -12,14 +12,14 @@ $filter-break-point: 1250px;
 
 .modal {
     position: absolute;
-    top: 8.8rem;
+    top: 4.5rem;
     right: 0;
-    padding: 0.9rem 0;
+    padding: 4rem 0;
     border-radius: 3px;
     filter: brightness(95%);
     background-color: $color-primary-light-1;
     animation: none;
-    z-index: 50;
+    z-index: 150;
     @include narrow-screen-dipslay;
 
     .calendar-control {

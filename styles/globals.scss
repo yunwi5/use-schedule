@@ -11,6 +11,16 @@ body {
         Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     /* Smooth scrolling when clicking <a> tag with #link */
     scroll-behavior: smooth;
+    min-height: 100vh;
+
+    @include respond(tab-land) {
+        // width < 1200
+        font-size: 95%;
+    }
+    @include respond(tab-port) {
+        // width < 900
+        font-size: 90%;
+    }
 }
 
 *,

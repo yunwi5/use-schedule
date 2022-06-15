@@ -29,6 +29,7 @@ const EventNameInput: React.FC<Props> = (props) => {
             <input
                 type="text"
                 id="name"
+                placeholder={'Enter the title of this schedule'}
                 defaultValue={initialItem?.name || ''}
                 {...register('name', {
                     required: 'Title is required',

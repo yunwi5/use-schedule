@@ -21,6 +21,7 @@ const EventLocationInput: React.FC<Props> = ({ register, initialEvent }) => {
                 Location
             </label>
             <input
+                placeholder="Enter the location i.e. Melbourne, Australia"
                 type="text"
                 id="location"
                 defaultValue={initialEvent?.location || ''}

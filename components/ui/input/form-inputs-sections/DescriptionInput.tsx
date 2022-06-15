@@ -22,6 +22,7 @@ const EventDescriptionInput: React.FC<Props> = ({ initialItem, register, classNa
             </label>
             <textarea
                 id="description"
+                placeholder={`Enter your description of this schedule (optional)`}
                 cols={30}
                 rows={3}
                 defaultValue={initialItem?.description || ''}

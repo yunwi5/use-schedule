@@ -33,6 +33,7 @@ import SubCategoryInput from '../../../ui/input/form-inputs-sections/SubCategory
 import { Category, getSubCategory, SubCategory } from '../../../../models/task-models/Category';
 import { getPlannerType } from '../../../../utilities/recurring-utils';
 import { NoIdTask } from '../../../../models/task-models/Task';
+import IntervalPreDisplay from './form-parts/IntervalPreDisplay';
 
 export interface RecurringEventFormValues {
     name: string;
@@ -207,6 +208,9 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
                     initialItem={initialTask}
                     className={'task'}
                 />
+            </div>
+            <div className={'flex -mt-[0.7rem]'}>
+                <IntervalPreDisplay watch={watch} />
             </div>
             <ActionButtons onDelete={onDelete} />
         </form>
