@@ -9,6 +9,7 @@ import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import SubCategoryAnalysis from './SubCategoryAnalysis';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 import Button from '@mui/material/Button';
+import CustomMUIButton from '../../ui/buttons/CustomMUIButton';
 
 const CategoryAnalysis: React.FC = () => {
     const { analyzer, timeFrame } = useAnalysisContext();
@@ -48,12 +49,9 @@ const CategoryAnalysis: React.FC = () => {
                     showComparison={showComparison}
                     onShowComparison={() => setShowComparison((ps) => !ps)}
                     additionalButton={
-                        <Button
-                            className={`!py-2 !bg-blue-50/70 hover:!bg-blue-100 shadow-md hover:shadow-lg transition-all !border-blue-400`}
-                            onClick={() => setShowSubCategory((ps) => !ps)}
-                        >
+                        <CustomMUIButton onClick={() => setShowSubCategory((ps) => !ps)}>
                             {showSubCategory ? 'Hide Subcategory' : 'Show Subcategory'}
-                        </Button>
+                        </CustomMUIButton>
                     }
                 />
             </ChartSectionContainer>

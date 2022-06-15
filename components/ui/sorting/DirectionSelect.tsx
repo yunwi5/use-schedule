@@ -16,7 +16,7 @@ const DirectionSelect: React.FC<Props> = ({ direction, onChange, light }) => {
         <FormControl
             sx={{ minWidth: 120 }}
             size="small"
-            className={light ? 'mui-light-select' : ''}
+            className={`${light ? 'mui-light-select' : ''} shadow-md`}
         >
             <InputLabel id="sort-direction-label">Direction</InputLabel>
             <Select

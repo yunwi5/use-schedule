@@ -1,7 +1,7 @@
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface Props {
     sortList: string[];
@@ -17,13 +17,13 @@ const SortingStandardSelect: React.FC<Props> = (props) => {
         <FormControl
             sx={{ minWidth: 120 }}
             size="small"
-            className={light ? "mui-light-select" : ""}
+            className={`${light ? 'mui-light-select' : ''} shadow-md`}
         >
             <InputLabel id="sort-target-label">Sort By</InputLabel>
             <Select
                 labelId="sort-target-label"
                 id="sort-target"
-                value={sortTarget || ""}
+                value={sortTarget || ''}
                 onChange={onChange}
                 label="Sort By"
             >

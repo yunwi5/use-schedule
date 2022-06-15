@@ -12,6 +12,7 @@ export interface RecurringState {
 
     recurringTasks: RecurringItem[];
     taskSortingStandard: TaskSort | null;
+    showDetail: boolean;
     // not yet implemented
 }
 
@@ -24,6 +25,7 @@ const initialState: RecurringState = {
 
     recurringTasks: [],
     taskSortingStandard: null,
+    showDetail: false, // whether showing item detail by extending the item card
 };
 
 const recurringSlice = createSlice({
@@ -48,6 +50,9 @@ const recurringSlice = createSlice({
         },
         setSortingDirection(state: RecurringState, action: PayloadAction<SortingDirection>) {
             state.sortingDirection = action.payload;
+        },
+        toggleShowDetail(state: RecurringState) {
+            state.showDetail = !state.showDetail;
         },
     },
 });

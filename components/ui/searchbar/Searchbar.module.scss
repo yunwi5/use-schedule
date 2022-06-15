@@ -1,27 +1,27 @@
-@import "../../../styles/abstract/variables";
+@import '../../../styles/abstract/variables';
 
 .search {
-	display: flex;
-	align-items: center;
-	color: $color-primary-dark-4;
-	padding: .5rem .8rem;
-	border-radius: 25px;
-	border: 1px solid $color-primary-light-4;
+    display: flex;
+    align-items: center;
+    color: $color-primary-dark-4;
+    padding: 0.5rem 0.8rem;
+    border-radius: 25px;
+    border: 1px solid $color-primary-light-4;
 
-	&:focus-within {
-		border: 2px solid $color-primary;
-	}
+    &:focus-within {
+        border: 2px solid $color-primary;
+    }
 
-	.icon {
-		font-size: 1.3rem;
-		margin-right: 1rem;
-		max-width: 1.4rem;
-	}
+    .icon {
+        font-size: 1.3rem;
+        margin-right: 1rem;
+        max-width: 1.4rem;
+    }
 
-	input {
-		background-color: inherit;
-		&:focus {
-			outline: none;
-		}
-	}
+    input {
+        background-color: inherit;
+        &:focus {
+            outline: none;
+        }
+    }
 }

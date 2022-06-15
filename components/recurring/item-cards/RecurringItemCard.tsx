@@ -28,13 +28,7 @@ interface Props {
 const RecurringItemCard: React.FC<Props> = (props) => {
     const { item, icon, location, onShowDetail, onShowEdit, category } = props;
 
-    const { eventSortingStandard, taskSortingStandard, mode } = useAppSelector(
-        (state) => state.recurring,
-    );
-    // show extra detail for some sorting conditions
-    const showBottomDetail =
-        eventSortingStandard === EventSort.IMPORTANCE ||
-        taskSortingStandard === TaskSort.IMPORTANCE;
+    const { mode, showDetail } = useAppSelector((state) => state.recurring);
 
     return (
         <li
@@ -56,7 +50,7 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                     {item.name}
                 </h3>
             </div>
-            {showBottomDetail && (
+            {showDetail && (
                 <div className={`flex items-center gap-5 text-lg overflow-hidden`}>
                     <span className={'inline-block'}>
                         <FontAwesomeIcon icon={faStar} className={'icon-medium text-amber-500'} />{' '}

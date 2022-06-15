@@ -63,12 +63,10 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
         {
             onSuccess: () => {
                 setNotification(NotifStatus.SUCCESS, `Updating recurring task successful`);
-                console.log('call onInvalidate');
                 onInvalidate();
             },
             onSettled: () => {
                 setNotification(NotifStatus.SUCCESS, `Updating recurring task successful`);
-                console.log('call onInvalidate');
                 onInvalidate();
             },
             onError: () => {
@@ -85,13 +83,12 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
         },
         {
             onSuccess: (result: any) => {
-                setNotification(NotifStatus.SUCCESS, `Deleting recurring task successful`);
                 console.log('result:', result);
+                setNotification(NotifStatus.SUCCESS, `Deleting recurring task successful`);
                 onInvalidate();
             },
-            onError: (result: any) => {
+            onError: () => {
                 setNotification(NotifStatus.ERROR, `Deleting recurring task did not work`);
-                console.log(result);
             },
         },
     );
@@ -111,7 +108,6 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
             patchGenerated,
             plannerMode: PlannerMode,
         ) => {
-            console.log('Patch');
             patchMutation.mutate({ recurringId, props, patchGenerated, plannerMode });
         },
         [patchMutation],
@@ -119,7 +115,6 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
 
     const deleteHandler = useCallback(
         async (recurringId: string, deleteGenerated: boolean, plannerMode: PlannerMode) => {
-            console.log('Delete');
             deleteMutation.mutate({ recurringId, deleteGenerated, plannerMode });
         },
         [deleteMutation],
