@@ -28,7 +28,7 @@ const ControlNav: React.FC<Props> = ({ onInvalidate }) => {
     // Show dropdown menu items only when showDropdown is true.
     // When the layout goes to laptop screen, setShowDropdown has to go back to true so that they are always
     // shown in the laptop/desktop screen.
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(true);
 
     useWindowInnerWidth({ breakPoint: 768, aboveBreakPointCallback: () => setShowDropdown(true) });
 

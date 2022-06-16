@@ -41,10 +41,7 @@ const SubTaskList: React.FC<Props> = (props) => {
     };
 
     const deleteSubTaskHandler = async (id: string) => {
-        if (!id) {
-            console.log('SubTask Id is not set. Therefore, cannot delete!');
-            return;
-        }
+        if (!id) return console.log('SubTask Id is not set. Therefore, cannot delete!');
         setCurrentSubTasks(currentSubTasks.filter((sub) => sub.id !== id));
 
         // Send http delete request.

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
 
@@ -28,6 +28,8 @@ import DescriptionInput from '../../../ui/input/form-inputs-sections/Description
 import ActionButtons from '../../../ui/input/form-inputs-sections/ActionButtons';
 import NameInput from '../../../ui/input/form-inputs-sections/NameInput';
 import IntervalPreDisplay from './form-parts/IntervalPreDisplay';
+import { ParticipantsRef } from '../../../calendar/events/form/form-parts/EventParticipants';
+import { adjustParticipantsInput } from '../../../../utilities/event-utils/event-util';
 
 export interface RecurringEventFormValues {
     name: string;
@@ -61,9 +63,8 @@ const RecurringEventForm: React.FC<Props> = (props) => {
     const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete, isEdit } = props;
 
     const userId = useUser().user?.sub;
-    const [participants, setParticipants] = useState<Participant[]>(
-        initialEvent?.participants ?? [],
-    );
+
+    const participantsRef = useRef<ParticipantsRef>(null);
 
     const {
         register,
@@ -105,6 +106,8 @@ const RecurringEventForm: React.FC<Props> = (props) => {
         const validInterval = isRecurringInterval(interval)
             ? (interval as RecurringInterval)
             : RecurringInterval.WEEK;
+
+        const participants = adjustParticipantsInput(participantsRef.current?.getParticipants());
 
         const newEvent: NoIdRecurringEvent = {
             name,
@@ -182,7 +185,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                 </div>
                 <EventLocationInput register={register} initialEvent={initialEvent} />
                 <EventMeetingLink register={register} initialEvent={initialEvent} />
-                <EventParticipants initialEvent={initialEvent} onUpdate={setParticipants} />
+                <EventParticipants initialEvent={initialEvent} ref={participantsRef} />
                 <DescriptionInput
                     register={register}
                     initialItem={initialEvent}

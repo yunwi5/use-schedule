@@ -1,5 +1,12 @@
-import { IEvent } from '../../models/Event';
+import { IEvent, Participant } from '../../models/Event';
 import { Status } from '../../models/task-models/Status';
+import { validateEmail } from '../gen-utils/string-util';
+
+export function adjustParticipantsInput(participants: Participant[] | undefined) {
+    if (participants == null) return;
+    const filtered = participants.filter((p) => p.name.trim() && validateEmail(p.email.trim()));
+    return filtered;
+}
 
 export function isOverdue(event: IEvent): boolean {
     if (event.status === Status.OPEN || event.status === Status.OVERDUE) {

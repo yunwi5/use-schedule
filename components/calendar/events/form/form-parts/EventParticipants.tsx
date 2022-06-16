@@ -1,19 +1,20 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useImperativeHandle, useReducer, forwardRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from '@fortawesome/pro-duotone-svg-icons';
 import { faPlus, faXmark } from '@fortawesome/pro-regular-svg-icons';
-import { UseFormRegister } from 'react-hook-form';
 
-import { EventFormValues } from '../../../../recurring/crud-operations/form/RecurringEventForm';
 import { IEvent, Participant } from '../../../../../models/Event';
 import classes from '../EventForm.module.scss';
 
 const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 interface Props {
-    onUpdate: React.Dispatch<React.SetStateAction<Participant[]>>;
     initialEvent?: IEvent;
 }
+
+export type ParticipantsRef = {
+    getParticipants: () => Participant[];
+};
 
 interface State {
     participants: Participant[];
@@ -58,11 +59,20 @@ function getInitialParticipantState(initialEvent?: IEvent): State {
         : initialState;
 }
 
-const EventParticipants: React.FC<Props> = ({ initialEvent, onUpdate }) => {
+const EventParticipants: React.ForwardRefRenderFunction<ParticipantsRef, Props> = (
+    { initialEvent },
+    ref,
+) => {
     const [participantState, dispatchParticipant] = useReducer(
         participantReducer,
         getInitialParticipantState(initialEvent),
     );
+
+    useImperativeHandle(ref, () => {
+        return {
+            getParticipants: () => participantState.participants,
+        };
+    });
 
     const addParticipantHandler = () => {
         dispatchParticipant({ action: ActionType.ADD });
@@ -71,13 +81,12 @@ const EventParticipants: React.FC<Props> = ({ initialEvent, onUpdate }) => {
         dispatchParticipant({ action: ActionType.DELETE, index });
     };
     const editParticipantHandler = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-        dispatchParticipant({ action: ActionType.EDIT, index, [e.target.name]: e.target.value });
+        dispatchParticipant({
+            action: ActionType.EDIT,
+            index,
+            [e.target.name]: e.target.value,
+        });
     };
-
-    useEffect(() => {
-        const participants = participantState.participants.filter((p) => p.name && p.email);
-        onUpdate(participants);
-    }, [participantState.participants, onUpdate]);
 
     return (
         <div className={`${classes.section}`}>
@@ -123,4 +132,4 @@ const EventParticipants: React.FC<Props> = ({ initialEvent, onUpdate }) => {
     );
 };
 
-export default EventParticipants;
+export default React.forwardRef(EventParticipants);

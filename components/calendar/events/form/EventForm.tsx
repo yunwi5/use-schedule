@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
 
@@ -17,8 +17,9 @@ import {
     EventMeetingLink,
     EventNameInput,
 } from './form-parts';
-
+import { ParticipantsRef } from './form-parts/EventParticipants';
 import classes from './EventForm.module.scss';
+import { adjustParticipantsInput } from '../../../../utilities/event-utils/event-util';
 
 export interface EventFormValues {
     name: string;
@@ -46,9 +47,8 @@ const EventForm: React.FC<Props> = (props) => {
     const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete } = props;
 
     const userId = useUser().user?.sub;
-    const [participants, setParticipants] = useState<Participant[]>(
-        initialEvent?.participants ?? [],
-    );
+
+    const participantsRef = useRef<ParticipantsRef>(null);
 
     const {
         register,
@@ -80,6 +80,8 @@ const EventForm: React.FC<Props> = (props) => {
             }`,
         );
 
+        const participants = adjustParticipantsInput(participantsRef.current?.getParticipants());
+
         const newEvent: NoIdEvent = {
             name,
             duration,
@@ -102,10 +104,10 @@ const EventForm: React.FC<Props> = (props) => {
             <h2 className={classes.heading}>{headingText}</h2>
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
-                <EventNameInput register={register} initialEvent={initialEvent} errors={errors} />
+                <EventNameInput register={register} initialItem={initialEvent} errors={errors} />
                 <EventLocationInput register={register} initialEvent={initialEvent} />
                 <EventMeetingLink register={register} initialEvent={initialEvent} />
-                <EventParticipants initialEvent={initialEvent} onUpdate={setParticipants} />
+                <EventParticipants initialEvent={initialEvent} ref={participantsRef} />
                 <EventDateTimeInput
                     register={register}
                     initialEvent={initialEvent}
