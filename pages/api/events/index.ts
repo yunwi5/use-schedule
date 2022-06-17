@@ -53,6 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             } catch (err) {
                 const message =
                     err instanceof Error ? err.message : 'Inserting event(s) did not work.';
+                client.close();
                 return res.status(500).json({ message });
             }
             return res.status(201).json({
@@ -71,6 +72,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             } catch (err) {
                 const message =
                     err instanceof Error ? err.message : 'Inserting events did not work.';
+                client.close();
                 return res.status(500).json({ message });
             }
             return res
@@ -84,12 +86,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             events = convertToAppObjectList(result);
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Getting event did not work.';
+            client.close();
             return res.status(500).json({ message });
         }
-        return res.status(200).json({ message: 'Getting events worked', events });
+        res.status(200).json({ message: 'Getting events worked', events });
     } else {
-        return res.status(405).json({ message: 'Method not allowed' });
+        res.status(405).json({ message: 'Method not allowed' });
     }
+
+    client.close();
 }
 
 export default handler;

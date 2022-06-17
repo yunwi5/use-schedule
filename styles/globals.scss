@@ -44,6 +44,11 @@ select {
     background-color: #f4f2f2;
 }
 
+select,
+option {
+    cursor: pointer;
+}
+
 @layer components {
     .dynamic-btn {
     }

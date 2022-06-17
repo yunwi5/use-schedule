@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faAlarmClock,
     faCircleExclamationCheck,
     faHourglass,
     faLocationDot,
     faStar,
-    faTimer,
 } from '@fortawesome/pro-duotone-svg-icons';
 
 import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
@@ -37,13 +37,16 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate }) => {
     return (
         <>
             <article
-                className={`relative flex flex-col text-slate-700 gap-3 px-2 lg:px-4 pl-3 lg:pl-7 py-2 overflow-hidden bg-sky-50  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
+                className={`relative flex flex-col text-slate-700 gap-4 px-2 lg:px-4 pl-3 lg:pl-7 py-2 overflow-hidden bg-sky-50  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
             >
                 <div
                     className={`absolute top-0 left-0 w-[1.05%] h-full z-0 ${statusClass}-bg`}
                 ></div>
                 <div className={`text-slate-500 font-bold text-base`}>
-                    <FontAwesomeIcon icon={faTimer} className={`text-slate-900 icon-medium mr-2`} />
+                    <FontAwesomeIcon
+                        icon={faAlarmClock}
+                        className={`text-slate-900 icon-medium mr-2`}
+                    />
                     <time>{getEventDateTimeFormat(dateTime)}</time>
                     <span className={`inline-block ml-4 text-slate-500/90`}>
                         <FontAwesomeIcon icon={faHourglass} className="icon-medium mr-2" />

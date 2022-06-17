@@ -49,7 +49,7 @@ const EventSearchList: React.FC<Props> = (props) => {
     const { events, sortingStandard, onInvalidate } = props;
 
     return (
-        <ul className={classes['search-list']}>
+        <ul className={`${classes['search-list']} gap-3`}>
             {!events.length && (
                 <h1 className="huge-heading">
                     <FontAwesomeIcon icon={faTriangleExclamation} className={classes.icon} />

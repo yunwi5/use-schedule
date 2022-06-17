@@ -1,3 +1,5 @@
+import { SearchTarget } from '../../components/ui/searchbar/MainSearch';
+
 // Manages all the links to other routes of the app in one place
 export function getAboutLink() {
     return `/about`;
@@ -14,4 +16,9 @@ export function getTemplateTableLink(templateId: string) {
 
 export function getTodoListLink(todoListId: string) {
     return `/todos/${todoListId}`;
+}
+
+export function getSearchLink(target: SearchTarget, searchWord: string) {
+    if (target === 'Event') return `/search/events?q=${searchWord}`;
+    return `/search/tasks?q=${searchWord}`;
 }

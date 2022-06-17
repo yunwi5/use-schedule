@@ -4,8 +4,9 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/pro-duotone-svg-icons';
 
-import MainSearch from '../../ui/searchbar/MainSearch';
+import MainSearch, { SearchTarget } from '../../ui/searchbar/MainSearch';
 import styles from './Header.module.scss';
+import { getSearchLink } from '../../../utilities/link-utils';
 
 interface Props {
     onShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,8 +16,9 @@ interface Props {
 const HeaderSearch: React.FC<Props> = ({ onShowSearch, showSearch }) => {
     const router = useRouter();
 
-    const searchHandler = (word: string) => {
-        router.push(`/search/events?q=${word}`);
+    const searchHandler = (target: SearchTarget, word: string) => {
+        const searchLink = getSearchLink(target, word);
+        router.push(searchLink);
     };
 
     return (
