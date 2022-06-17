@@ -1,12 +1,10 @@
-import React, { useEffect, useImperativeHandle, useReducer, forwardRef } from 'react';
+import React, { useImperativeHandle, useReducer } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from '@fortawesome/pro-duotone-svg-icons';
 import { faPlus, faXmark } from '@fortawesome/pro-regular-svg-icons';
 
 import { IEvent, Participant } from '../../../../../models/Event';
 import classes from '../EventForm.module.scss';
-
-const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
 
 interface Props {
     initialEvent?: IEvent;
@@ -68,11 +66,9 @@ const EventParticipants: React.ForwardRefRenderFunction<ParticipantsRef, Props> 
         getInitialParticipantState(initialEvent),
     );
 
-    useImperativeHandle(ref, () => {
-        return {
-            getParticipants: () => participantState.participants,
-        };
-    });
+    useImperativeHandle(ref, () => ({
+        getParticipants: () => participantState.participants,
+    }));
 
     const addParticipantHandler = () => {
         dispatchParticipant({ action: ActionType.ADD });
@@ -92,11 +88,11 @@ const EventParticipants: React.ForwardRefRenderFunction<ParticipantsRef, Props> 
         <div className={`${classes.section}`}>
             <label className="flex">
                 <span className="mr-auto">
-                    <FontAwesomeIcon icon={faUsers} className={labelIconClass} />
+                    <FontAwesomeIcon icon={faUsers} className={'icon-medium mr-2'} />
                     Participants
                 </span>
                 <button className="" type="button" onClick={addParticipantHandler}>
-                    <FontAwesomeIcon icon={faPlus} className={`${labelIconClass} !mr-0`} /> New
+                    <FontAwesomeIcon icon={faPlus} className={`icon-medium`} /> New
                 </button>
             </label>
             {participantState.participants.map((p, idx) => (

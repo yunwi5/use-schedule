@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAlarmClock, faListTree, faStarExclamation } from '@fortawesome/pro-duotone-svg-icons';
-import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import { updateTaskProperties } from '../../lib/planners/tasks-api';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
@@ -17,6 +16,7 @@ import TaskDetail from './task-modal/task-detail/TaskDetail';
 
 import classes from './TaskCardSmall.module.scss';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import StatusTogglerButton from '../ui/buttons/StatusTogglerButton';
 
 interface Props {
     task: AbstractTask;
@@ -91,19 +91,11 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
                     {durationFormat}
                 </time>
                 {showCheckToggler && (
-                    <div
-                        className={`absolute z-30 top-1 right-1 w-[1.9rem] h-[1.9rem] flex-center rounded-full bg-white border-[1.3px] border-slate-300 ${classes['status-checker']}`}
-                        onClick={toggleCompletion}
-                    >
-                        <FontAwesomeIcon
-                            icon={faCheck}
-                            className={`${
-                                localStatus === Status.COMPLETED
-                                    ? 'text-emerald-600'
-                                    : 'text-emerald-100/90'
-                            }`}
-                        />
-                    </div>
+                    <StatusTogglerButton
+                        status={localStatus as Status}
+                        onToggle={toggleCompletion}
+                        className={classes['status-checker']}
+                    />
                 )}
                 <h5 className={`text-lg !leading-[1.3rem]`}>{task.name}</h5>
                 <div className={`flex flex-col gap-1`}>

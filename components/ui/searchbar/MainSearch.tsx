@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faCoffee } from "@fortawesome/pro-duotone-svg-icons";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/pro-duotone-svg-icons';
 
-import classes from "./MainSearch.module.scss";
+import classes from './MainSearch.module.scss';
 
 interface Props {
     onSearch: (word: string) => void;
@@ -11,7 +11,7 @@ interface Props {
 
 const MainSearch: React.FC<Props> = (props) => {
     const { onSearch, className } = props;
-    const [text, setText] = useState("");
+    const [text, setText] = useState('');
 
     const searchHandler = (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,7 +23,7 @@ const MainSearch: React.FC<Props> = (props) => {
             <input
                 className={classes.input}
                 type="search"
-                placeholder="Search your task"
+                placeholder="Search your event"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
             />
             <button className={classes.button}>

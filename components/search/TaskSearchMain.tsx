@@ -1,22 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { PlannerTask } from "../../models/task-models/Task";
-import { SortingDirection, TaskSort as SortingStandard } from "../../models/sorting-models";
-import { sortTasks } from "../../utilities/sort-utils/task-sort-util";
-import { shuffleList } from "../../utilities/gen-utils/list-util";
-import { adjustOverdueTasks } from "../../utilities/tasks-utils/task-util";
-import SearchTaskList from "./SearchTaskList";
-import TaskSort from "./TaskSorter";
-import PageNav from "../ui/navigation/PageNav";
-import classes from "./TaskSearch.module.scss";
+import { PlannerTask } from '../../models/task-models/Task';
+import {
+    SortingDirection,
+    TaskSort as SortingStandard,
+    TaskSortList,
+} from '../../models/sorting-models';
+import { sortTasks } from '../../utilities/sort-utils/task-sort-util';
+import { shuffleList } from '../../utilities/gen-utils/list-util';
+import { adjustOverdueTasks } from '../../utilities/tasks-utils/task-util';
+import SearchTaskList from './list/TaskSearchList';
+import TaskSort from './ItemSorter';
+import PageNav from '../ui/navigation/PageNav';
+import classes from './SearchMain.module.scss';
 
 interface Props {
     searchWord: string;
     searchedTasks: PlannerTask[];
+    onInvalidate(): void;
 }
 
 const TaskSearch: React.FC<Props> = (props) => {
-    const { searchWord, searchedTasks } = props;
+    const { searchWord, searchedTasks, onInvalidate } = props;
     const [currentTasks, setCurrentTasks] = useState(searchedTasks);
 
     const [page, setPage] = useState(1);
@@ -35,11 +40,12 @@ const TaskSearch: React.FC<Props> = (props) => {
     }, []);
 
     const sortingHandler = useCallback(
-        (standard: SortingStandard, direction: SortingDirection) => {
-            setSortingStandard(standard);
+        (standard: string, direction: SortingDirection) => {
+            const validStandard = standard as SortingStandard;
+            setSortingStandard(validStandard);
             if (!standard || !direction) return;
 
-            const newSortedTasks = sortTasks([...searchedTasks], standard, direction);
+            const newSortedTasks = sortTasks([...searchedTasks], validStandard, direction);
             setCurrentTasks(newSortedTasks as PlannerTask[]);
         },
         [searchedTasks],
@@ -65,17 +71,24 @@ const TaskSearch: React.FC<Props> = (props) => {
     return (
         <main className={`mx-auto py-[50px] ${classes.search}`}>
             <h2 className="text-4xl text-slate-600 mb-5">
-                Tasks that match your search{" "}
+                Tasks that match your search{' '}
                 <span className="text-slate-400">&quot;{searchWord}&quot;</span>
             </h2>
             <div className="flex justify-between mt-9">
-                <TaskSort onSort={sortingHandler} onRandomize={randomizeHandler} />
-                {/* self-end h-[0px] max-w-xl text-right text-xl font-semibold text-slate-500 translate-y-[1.5rem] pr-2 */}
+                <TaskSort
+                    onSort={sortingHandler}
+                    sortList={TaskSortList}
+                    onRandomize={randomizeHandler}
+                />
                 <h5 className="self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
                     {taskLength} Tasks Found
                 </h5>
             </div>
-            <SearchTaskList tasks={pageTasks} sortingStandard={sortingStandard} />
+            <SearchTaskList
+                tasks={pageTasks}
+                sortingStandard={sortingStandard}
+                onInvalidate={onInvalidate}
+            />
             <PageNav
                 onChangePage={pageNavHandler}
                 itemsPerPage={itemsPerPage}

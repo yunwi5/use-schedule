@@ -3,7 +3,7 @@ import { MongoClient, ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { getEvents, insertEvent, insertEvents } from '../../../db/event-util';
 import { connectDatabase } from '../../../db/mongodb-util';
-import { NoIdEvent, IEvent } from '../../../models/Event';
+import { IEvent } from '../../../models/Event';
 import { validateEvent } from '../../../schemas/validation';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 
@@ -48,7 +48,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         if (!Array.isArray(newEvent)) {
             let insertedId = '';
             try {
-                result = await insertEvent(newEvent);
+                result = await insertEvent(client, newEvent);
                 insertedId = result.insertedId.toString();
             } catch (err) {
                 const message =
@@ -80,7 +80,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     } else if (req.method === 'GET') {
         let events: IEvent[] = [];
         try {
-            const result = await getEvents(userId);
+            const result = await getEvents(client, userId);
             events = convertToAppObjectList(result);
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Getting event did not work.';

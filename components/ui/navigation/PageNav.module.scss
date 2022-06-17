@@ -1,43 +1,44 @@
-@import "../../../styles/main";
+@import '../../../styles/main';
 
 .container {
-	margin-top: 2rem;
-	display: flex;
-	justify-content: center;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 .pagenav {
-	display: flex;
-	align-items: center;
-	font-size: 1.15rem;
-	color: $color-primary-dark-3;
+    display: flex;
+    align-items: center;
+    font-size: 1.15rem;
+    color: $color-primary-dark-3;
 
-	.text {
-		margin: 0 .9rem;
-	}
+    .text {
+        margin: 0 0.9rem;
+    }
 
-	.icon {
-		@include icon-basic;
-		@include flex-center;
+    .icon {
+        @include icon-basic;
+        @include flex-center;
 
-		width: 25px;
-		height: 25px;
-		padding: 10px;
-		border-radius: 100px;
-		font-size: 10px;
+        width: 25px;
+        height: 25px;
+        padding: 10px;
+        border-radius: 100px;
+        font-size: 10px;
 
-		&:hover {
-			background-color: $color-primary-dark-3;
-			color: $color-primary-light-1;
-		}
-	}
+        &:hover {
+            background-color: $color-primary-dark-3;
+            color: $color-primary-light-1;
+        }
+    }
 
-	.disabled {
-		&:hover {
-			background-color: transparent;
-			color: inherit;
-			opacity: .6;
-			cursor: not-allowed;
-		}
-	}
+    .disabled {
+        opacity: 0.5;
+        &:hover {
+            background-color: transparent;
+            color: inherit;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
 }

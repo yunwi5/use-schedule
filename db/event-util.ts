@@ -4,10 +4,8 @@ import { NoIdEvent } from '../models/Event';
 import { EventCollection } from './collections';
 import { MongoClient } from 'mongodb';
 
-export async function insertEvent(event: NoIdEvent) {
-    const client = await connectDatabase();
+export async function insertEvent(client: MongoClient, event: NoIdEvent) {
     const result = await insertItem(client, event, EventCollection);
-    client.close();
     return result;
 }
 
@@ -16,10 +14,11 @@ export async function insertEvents(client: MongoClient, events: NoIdEvent[]) {
     return insertResult;
 }
 
-export async function getEvents(userId: string) {
-    const client = await connectDatabase();
-    const events = await getItems(client, { userId }, null, EventCollection);
-    client.close();
+export async function getEvents(client: MongoClient, userId: string, search: string = '') {
+    const searchQuery = '.*' + search + '.*';
+    const searchRegex = new RegExp(searchQuery, 'i');
+
+    const events = await getItems(client, { userId, name: searchRegex }, null, EventCollection);
     return events;
 }
 

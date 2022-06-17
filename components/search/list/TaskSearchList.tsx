@@ -1,30 +1,31 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/pro-light-svg-icons";
-import { faCircleInfo } from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTriangleExclamation } from '@fortawesome/pro-light-svg-icons';
+import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
 
-import PlannerTaskCard from "../tasks/TaskCard";
-import { PlannerTask } from "../../models/task-models/Task";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
+import PlannerTaskCard from '../../tasks/TaskCard';
+import { PlannerTask } from '../../../models/task-models/Task';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import {
     getCurrentMonthBeginning,
     getCurrentWeekBeginning,
     getCurrentYearBeginning,
-} from "../../utilities/date-utils/date-get";
-import { TaskSort as SortingStandard } from "../../models/sorting-models";
-import { getTaskType } from "../../utilities/tasks-utils/task-label";
-import { getDateTimeFormat, getDurationFormat } from "../../utilities/date-utils/date-format";
+} from '../../../utilities/date-utils/date-get';
+import { TaskSort as SortingStandard } from '../../../models/sorting-models';
+import { getTaskType } from '../../../utilities/tasks-utils/task-label';
+import { getDateTimeFormat, getDurationFormat } from '../../../utilities/date-utils/date-format';
 
-import classes from "./SearchTaskList.module.scss";
+import classes from './SearchList.module.scss';
 
 interface Props {
     tasks: PlannerTask[];
     sortingStandard: SortingStandard | null;
+    onInvalidate(): void;
 }
 
 function getTaskSortingInfo(task: PlannerTask, sortingStandard: SortingStandard | null) {
-    const defaultValue = "Not Set";
+    const defaultValue = 'Not Set';
     let showInfo = true;
-    let labelFormat: string | JSX.Element = "";
+    let labelFormat: string | JSX.Element = '';
 
     switch (sortingStandard) {
         case SortingStandard.PLAN_DATE:
@@ -44,7 +45,7 @@ function getTaskSortingInfo(task: PlannerTask, sortingStandard: SortingStandard 
             );
             break;
         case SortingStandard.DURATION:
-            const durationFormat = getDurationFormat(task.duration).trim() || "No Duration";
+            const durationFormat = getDurationFormat(task.duration).trim() || 'No Duration';
             labelFormat = (
                 <>
                     <strong>Task Duration</strong> {durationFormat}
@@ -62,14 +63,14 @@ function getTaskSortingInfo(task: PlannerTask, sortingStandard: SortingStandard 
 }
 
 const SearchTaskList: React.FC<Props> = (props) => {
-    const { tasks, sortingStandard } = props;
+    const { tasks, sortingStandard, onInvalidate } = props;
 
     const weekBeginning = getCurrentWeekBeginning();
     const monthBeginning = getCurrentMonthBeginning();
     const yearBeginning = getCurrentYearBeginning();
 
     return (
-        <ul className={classes["search-list"]}>
+        <ul className={classes['search-list']}>
             {!tasks.length && (
                 <h1 className="huge-heading">
                     <FontAwesomeIcon icon={faTriangleExclamation} className={classes.icon} />
@@ -80,12 +81,12 @@ const SearchTaskList: React.FC<Props> = (props) => {
                 const { showInfo, labelFormat } = getTaskSortingInfo(task, sortingStandard);
                 return (
                     <div key={task.id}>
-                        <div className={`${classes.label} ${classes["label-" + task.plannerType]}`}>
-                            <span>{getTaskType(task.plannerType) || "? Task"}</span>
+                        <div className={`${classes.label} ${classes['label-' + task.plannerType]}`}>
+                            <span>{getTaskType(task.plannerType) || '? Task'}</span>
                             {showInfo && (
                                 <span className="ml-4">
                                     <FontAwesomeIcon icon={faCircleInfo} className={classes.icon} />
-                                    <span className={classes["sorting-label"]}>{labelFormat}</span>
+                                    <span className={classes['sorting-label']}>{labelFormat}</span>
                                 </span>
                             )}
                         </div>
@@ -97,7 +98,7 @@ const SearchTaskList: React.FC<Props> = (props) => {
                                     ? monthBeginning
                                     : yearBeginning
                             }
-                            onMutate={() => {}}
+                            onMutate={onInvalidate}
                             task={task}
                         />
                     </div>

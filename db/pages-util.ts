@@ -1,13 +1,14 @@
 import { ObjectId } from 'mongodb';
 
 import { connectDatabase } from './mongodb-util';
-import { EventCollection, TaskCollection, TemplateCollection, TodoCollection } from './collections';
+import { TaskCollection, TemplateCollection, TodoCollection } from './collections';
 import { Todo } from '../models/todo-models/Todo';
 import { TodoList } from '../models/todo-models/TodoList';
 import { convertToTodoList, convertToTodos } from '../utilities/todos-utils/todo-util';
 import { getTasks } from './tasks-util';
 import { getItems } from './generic';
 import { getTodoListAndItems } from './todos';
+import { getEvents } from './event-util';
 
 // Get tasks from getStaticProps or getServerSideProps
 export async function getTasksFromPage(collection: string, userId: string) {
@@ -35,9 +36,9 @@ export async function getTodosFromPage(userId: string) {
     return items;
 }
 
-export async function getEventsFromPage(userId: string) {
+export async function getEventsFromPage(userId: string, search: string = '') {
     const client = await connectDatabase();
-    const items = await getItems(client, { userId }, null, EventCollection);
+    const items = await getEvents(client, userId, search);
     client.close();
     return items;
 }

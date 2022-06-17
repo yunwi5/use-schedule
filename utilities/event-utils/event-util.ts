@@ -24,10 +24,14 @@ export function adjustIfOverdueEvent(event: IEvent): void {
     if (isOverdue(event)) event.status = Status.OVERDUE;
 }
 
+export function adjustOverdueevents(events: IEvent[]): void {
+    events.forEach((event) => adjustIfOverdueEvent(event));
+}
+
 export function processEvents(events: IEvent[]) {
     const eventsList: IEvent[] = events.map((ev) => {
         ev.dateTime = new Date(ev.dateTime);
-        // adjustIfOverdueEvent(ev);    // may not be a good user experience
+        // adjustIfOverdueEvent(ev);    // may not be a good
         return ev;
     });
     return eventsList;

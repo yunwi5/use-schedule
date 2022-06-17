@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { getSession } from '@auth0/nextjs-auth0';
 
-import TaskSearch from '../../components/task-search/TaskSearch';
-import { PlannerTask, Task } from '../../models/task-models/Task';
-import { getTasksFromAllCollection } from '../../db/pages-util';
-import { convertToTasks } from '../../utilities/tasks-utils/task-util';
+import { getEventsFromPage } from '../../db/pages-util';
+import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
+import { nameFilterCallback } from '../../utilities/filter-utils/string-filter';
+import { IEvent } from '../../models/Event';
+import useEventQuery from '../../hooks/useEventQuery';
+import EventSearchMain from '../../components/search/EventSearchMain';
+import { useCallback } from 'react';
 
 interface Props {
-    searchedTasks: Task[];
+    searchedEvents: IEvent[];
     searchWord: string;
 }
 
 const SearchPage: NextPage<Props> = (props) => {
-    const { searchedTasks, searchWord } = props;
-    const [plannerTasks, setPlannerTasks] = useState<PlannerTask[]>([]);
+    const { searchedEvents, searchWord } = props;
 
-    useEffect(() => {
-        const newPlannerTasks = searchedTasks.map((task) => new PlannerTask(task));
-        setPlannerTasks(newPlannerTasks);
-    }, [searchedTasks]);
-
-    console.log(searchedTasks);
+    const filterCallback = useCallback(
+        (event: { name: string }) => nameFilterCallback(event, searchWord),
+        [searchWord],
+    );
+    const { events, invalidateEvents } = useEventQuery(searchedEvents, filterCallback);
 
     return (
         <>
@@ -31,7 +31,11 @@ const SearchPage: NextPage<Props> = (props) => {
                 <title>Searched Planner Tasks for {searchWord}</title>
                 <meta name="description" content="User's search result for planner tasks" />
             </Head>
-            <TaskSearch searchedTasks={plannerTasks} searchWord={searchWord} />
+            <EventSearchMain
+                searchedEvents={events}
+                searchWord={searchWord}
+                onInvalidate={invalidateEvents}
+            />
         </>
     );
 };
@@ -54,15 +58,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { q = '' } = query;
     let searchWord = Array.isArray(q) ? q.join('') : q;
 
-    const searchedTaskDocuments = (await getTasksFromAllCollection(userId, searchWord)).reduce(
-        (accList, curr) => accList.concat(curr),
-        [],
-    );
-    const searchedTasks = convertToTasks(searchedTaskDocuments);
+    const searchedEventsDocs = await getEventsFromPage(userId, searchWord);
+    const searchedEvents: IEvent[] = convertToAppObjectList(searchedEventsDocs);
 
     return {
         props: {
-            searchedTasks,
+            searchedEvents,
             searchWord,
         },
     };

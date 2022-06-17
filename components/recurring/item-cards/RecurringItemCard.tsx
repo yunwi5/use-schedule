@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RecurringItem, RecurringItemMode } from '../../../models/recurring-models';
 import { getDurationFormat } from '../../../utilities/date-utils/date-format';
 import { useAppSelector } from '../../../store/redux';
+import ItemCardButtons from '../../ui/buttons/ItemCardButtons';
 
 interface Props {
     item: RecurringItem;
@@ -85,32 +86,7 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                     )}
                 </div>
             )}
-            <div className={'absolute flex gap-1 bottom-2 right-2 bg-inherit z-10 text-2xl'}>
-                <div
-                    className={
-                        'show-on-hover-parent flex items-center gap-2 px-2 py-1 hover:border-2 border-blue-400 rounded-sm hover:bg-blue-100/80'
-                    }
-                    onClick={onShowDetail}
-                >
-                    <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        className={`icon-medium text-blue-500 transition-all hover:scale-110`}
-                    />
-                    <span className={'show-on-hover-child text-lg text-blue-800'}>Detail</span>
-                </div>
-                <div
-                    className={
-                        'show-on-hover-parent flex items-center gap-2 px-2 py-1 hover:border-2 border-pink-400 rounded-sm hover:bg-pink-100/80'
-                    }
-                    onClick={onShowEdit}
-                >
-                    <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className={`icon-medium text-pink-500 transition-all hover:scale-110`}
-                    />
-                    <span className={'show-on-hover-child text-lg text-pink-800'}>Edit</span>
-                </div>
-            </div>
+            <ItemCardButtons onShowDetail={onShowDetail} onShowEdit={onShowEdit} />
         </li>
     );
 };
