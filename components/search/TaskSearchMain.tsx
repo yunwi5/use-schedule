@@ -74,13 +74,13 @@ const TaskSearch: React.FC<Props> = (props) => {
                 Tasks that match your search{' '}
                 <span className="text-slate-400">&quot;{searchWord}&quot;</span>
             </h2>
-            <div className="flex justify-between mt-9">
+            <div className="flex flex-col sm:flex-row justify-between gap-5 mt-9">
                 <TaskSort
                     onSort={sortingHandler}
                     sortList={TaskSortList}
                     onRandomize={randomizeHandler}
                 />
-                <h5 className="self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
+                <h5 className="self-start sm:self-center max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
                     {taskLength} Tasks Found
                 </h5>
             </div>

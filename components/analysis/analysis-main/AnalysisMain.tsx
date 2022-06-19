@@ -69,7 +69,7 @@ const AnalysisMain: React.FC<Props> = (props) => {
                 </div>
             )}
             {analyzer && (
-                <div className="pl-6 flex flex-col gap-20">
+                <div className="pl-3 sm:pl-6 flex flex-col gap-20">
                     <TrendAnalysis />
                     <PeriodicAnalysis />
                     <CategoricalDataAnalysis />

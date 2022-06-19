@@ -96,9 +96,9 @@ const LinearChart: React.FC<Props> = (props) => {
     const filterStatusList = ['All', ...StatusList];
 
     return (
-        <div className="mt-2 w-full lg:w-[49%] pr-5 flex flex-col gap-3">
+        <div className="mt-2 w-full lg:w-[49%] pr-3 sm:pr-5 flex flex-col gap-3">
             <div className="flex justify-between items-center">
-                <h3 className="text-[1.65rem] capitalize">{chartTitle}</h3>
+                <h3 className="text-2xl sm:text-3xl capitalize">{chartTitle}</h3>
                 <div className="ml-auto flex gap-2">
                     <AppSelect
                         label="Status"
@@ -120,7 +120,7 @@ const LinearChart: React.FC<Props> = (props) => {
                     />
                 </div>
             </div>
-            <div className="container">
+            <div className="">
                 <Line options={options} data={data} />
             </div>
         </div>

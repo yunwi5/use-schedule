@@ -62,19 +62,19 @@ const EventSearchMain: React.FC<Props> = (props) => {
     }, [searchedEvents]);
 
     return (
-        <main className={`mx-auto py-[50px] ${classes.search}`}>
+        <main className={`mx-auto ${classes.search}`}>
             <h2 className="text-4xl text-slate-600 mb-5">
                 Events that match your search{' '}
                 <span className="text-slate-400">&quot;{searchWord}&quot;</span>
             </h2>
-            <div className="flex justify-between mt-9">
+            <div className="flex flex-col sm:flex-row justify-between gap-5 mt-9">
                 <ItemSorter
                     onSort={sortingHandler}
                     sortList={EventSortList}
                     onRandomize={randomizeHandler}
                 />
                 {/* self-end h-[0px] max-w-xl text-right text-xl font-semibold text-slate-500 translate-y-[1.5rem] pr-2 */}
-                <h5 className="self-end max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
+                <h5 className="self-start sm:self-center max-w-xl sm:text-right text-xl font-semibold text-slate-500 pr-2">
                     {eventLength} Events Found
                 </h5>
             </div>

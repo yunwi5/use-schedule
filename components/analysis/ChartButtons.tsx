@@ -9,7 +9,7 @@ interface Props {
 
 const ChartButtons: React.FC<Props> = ({ onShowComparison, showComparison, additionalButton }) => (
     <div
-        className={`order-3 w-[35rem] xl:max-w-none mt-5 flex flex-wrap flex-col sm:flex-row gap-4`}
+        className={`order-3 max-w-[35rem] xl:max-w-none mt-5 flex flex-wrap flex-col sm:flex-row gap-4`}
     >
         <CustomMUIButton variant="text" onClick={onShowComparison}>
             {showComparison ? 'Hide Comparison' : 'Show Comparison'}

@@ -31,7 +31,7 @@ const TrendAnalysis: React.FC = () => {
 
     return (
         <AnalysisSectionContainer title={'Trend Data Analysis'}>
-            <div className="mb-6 flex flex-col lg:flex-row items-center lg:items-start justify-between flex-wrap gap-[2rem] lg:gap-1 w-full">
+            <div className="max-w-[98vw] sm:mb-6 flex flex-col lg:flex-row items-center lg:items-start justify-between flex-wrap gap-[2rem] lg:gap-1 w-full">
                 <TrendChart
                     chartTitle={`Total ${itemName}s`}
                     chartLabel={`${itemName}s`}

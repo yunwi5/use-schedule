@@ -6,6 +6,7 @@
     justify-content: space-between;
     gap: 1rem;
     z-index: 10;
+    width: 100vw;
 
     padding: 0.75rem 1rem;
 
@@ -20,7 +21,6 @@
     .heading {
         display: flex;
         align-items: center;
-        // justify-content: space-between;
         margin-right: auto;
     }
 

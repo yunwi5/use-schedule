@@ -11,6 +11,9 @@
         flex: 1;
         border-radius: 3px;
         border: 1.7px solid transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        background-color: #f4f2f2;
 
         &:focus-within {
             background-color: #f7f7f7;
@@ -32,9 +35,13 @@
 
     .input {
         flex: 1;
-        min-width: 20rem;
         padding: 0.45rem 0.8rem;
         border: 1px solid transparent;
+
+        @include respond(420px) {
+            max-width: 11rem;
+            min-width: 1rem;
+        }
 
         &:focus-within {
             outline: none;
