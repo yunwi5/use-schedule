@@ -50,13 +50,14 @@ option {
 }
 
 @layer components {
-    .dynamic-btn {
+    .icon-small {
+        @apply max-w-[1rem] max-h-[1rem] inline-block mr-1;
     }
     .icon-medium {
         @apply max-w-[1.35rem] max-h-[1.35rem] inline-block;
     }
     .icon-large {
-        @apply max-w-[2.2rem] max-h-[2.2rem] inline-block;
+        @apply max-w-[2.2rem] max-h-[2.2rem] inline-block mr-1;
     }
     .thinner-btn {
         @apply max-h-[2.7rem] flex justify-center items-center;
@@ -66,6 +67,10 @@ option {
     }
     .flex-center {
         @apply flex justify-center items-center;
+    }
+    // This assumes the parent element has a position property like relative or fixed
+    .pos-center {
+        @apply absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%];
     }
     .full-w-h {
         @apply w-full h-full;
