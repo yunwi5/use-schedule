@@ -17,9 +17,9 @@ body {
         // width < 1200
         font-size: 95%;
     }
-    @include respond(tab-port) {
-        // width < 900
-        font-size: 90%;
+    @include respond(phone) {
+        // width < 600
+        font-size: 89%;
     }
 }
 
