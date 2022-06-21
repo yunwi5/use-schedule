@@ -26,6 +26,7 @@ import OperationList from '../../../ui/OperationList';
 import useTaskDelete from '../../../../hooks/task-hooks/useTaskDelete';
 import TaskDuplicate from '../../../planners/planner-crud/TaskDuplicate';
 import TaskEdit from '../../../planners/planner-crud/TaskEdit';
+import RecurringTaskDuplicate from '../../../recurring/crud-operations/RecurringTaskDuplicate';
 
 interface Props {
     onClose: () => void;
@@ -44,6 +45,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
     const { onClose, task, onInvalidate, onShowDetail } = props;
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showRecurringModal, setShowRecurringModal] = useState(false);
 
     const editHandler = (eventType: ModalEventType) => {
         if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
@@ -52,6 +54,17 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
             if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
         } else {
             setShowEditModal(true);
+            onShowDetail(false);
+        }
+    };
+
+    const recurringHandler = (eventType: ModalEventType) => {
+        if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
+            setShowRecurringModal(false);
+            onShowDetail(true);
+            if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
+        } else {
+            setShowRecurringModal(true);
             onShowDetail(false);
         }
     };
@@ -164,7 +177,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
                 <OperationList
                     onEdit={editHandler.bind(null, ModalEventType.SHOW)}
                     onDelete={deleteTask}
-                    onRecurring={() => console.log('Recur!')}
+                    onRecurring={recurringHandler.bind(null, ModalEventType.SHOW)}
                     onDuplicate={duplicateHandler.bind(null, ModalEventType.SHOW)}
                     hoverColorClass="hover:text-blue-500/90"
                 />
@@ -184,6 +197,13 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
                     onDuplicate={duplicateHandler.bind(null, ModalEventType.UPDATE)}
                 />
             )}
+            {showRecurringModal && (
+                <RecurringTaskDuplicate
+                    onClose={recurringHandler.bind(null, ModalEventType.CLOSE)}
+                    onDuplicate={recurringHandler.bind(null, ModalEventType.UPDATE)}
+                    initialTask={task}
+                />
+            )}
         </>
     );
 };
@@ -191,7 +211,6 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 function hasSetTime(date: Date) {
     const is12am = date.getHours() === 0 && date.getMinutes() === 0;
     const isEndOfDay = date.getHours() === 23 && date.getMinutes() === 59;
-    // console.log(date.getHours(), date.getMinutes());
     return !(is12am || isEndOfDay);
 }
 

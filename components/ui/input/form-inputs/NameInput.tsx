@@ -5,8 +5,6 @@ import { FieldError, UseFormRegister } from 'react-hook-form';
 
 import classes from './FormInput.module.scss';
 
-const labelIconClass = `inline-block max-w-[1.3rem] max-h-[1.3rem] mr-2`;
-
 interface Props {
     register: UseFormRegister<any>;
     errors: { [key: string]: FieldError | undefined };
@@ -24,7 +22,8 @@ const EventNameInput: React.FC<Props> = (props) => {
             } ${className}`}
         >
             <label htmlFor="name">
-                <FontAwesomeIcon icon={icon ?? faCalendarWeek} className={labelIconClass} /> Title
+                <FontAwesomeIcon icon={icon ?? faCalendarWeek} className={'icon-medium mr-2'} />{' '}
+                Title
             </label>
             <input
                 type="text"

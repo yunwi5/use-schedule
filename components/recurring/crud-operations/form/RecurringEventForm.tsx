@@ -20,13 +20,13 @@ import {
 } from '../../../../models/recurring-models/RecurringEvent';
 import { isRecurringInterval, RecurringInterval } from '../../../../models/recurring-models';
 import classes from './RecurringForm.module.scss';
-import DynamicDateInput from '../../../ui/input/form-inputs-sections/DynamicDateInput';
-import TimeInput from '../../../ui/input/form-inputs-sections/TimeInput';
-import DurationInput from '../../../ui/input/form-inputs-sections/DurationInput';
-import ImportanceInput from '../../../ui/input/form-inputs-sections/ImportanceInput';
-import DescriptionInput from '../../../ui/input/form-inputs-sections/DescriptionInput';
-import ActionButtons from '../../../ui/input/form-inputs-sections/ActionButtons';
-import NameInput from '../../../ui/input/form-inputs-sections/NameInput';
+import DynamicDateInput from '../../../ui/input/form-inputs/DynamicDateInput';
+import TimeInput from '../../../ui/input/form-inputs/TimeInput';
+import DurationInput from '../../../ui/input/form-inputs/DurationInput';
+import ImportanceInput from '../../../ui/input/form-inputs/ImportanceInput';
+import DescriptionInput from '../../../ui/input/form-inputs/DescriptionInput';
+import ActionButtons from '../../../ui/input/form-inputs/ActionButtons';
+import NameInput from '../../../ui/input/form-inputs/NameInput';
 import IntervalPreDisplay from './form-parts/IntervalPreDisplay';
 import { ParticipantsRef } from '../../../calendar/events/form/form-parts/EventParticipants';
 import { adjustParticipantsInput } from '../../../../utilities/event-utils/event-util';
@@ -193,7 +193,7 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                 />
             </div>
             <div className={'flex -mt-[0.7rem]'}>
-                <IntervalPreDisplay watch={watch} />
+                <IntervalPreDisplay watch={watch} itemName="event" />
             </div>
             <ActionButtons onDelete={onDelete} />
         </form>

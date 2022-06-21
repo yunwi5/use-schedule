@@ -1,39 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
-
-import { IEvent, NoIdEvent, Participant } from '../../../../models/Event';
-import { Importance, Status } from '../../../../models/task-models/Status';
-import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
-
-import ExitIcon from '../../../ui/icons/ExitIcon';
-import { addYears } from '../../../../utilities/date-utils/date-control';
-import IntervalInput from './form-parts/IntervalInput';
-import {
-    NoIdRecurringEvent,
-    RecurringEvent,
-} from '../../../../models/recurring-models/RecurringEvent';
-import { isRecurringInterval, RecurringInterval } from '../../../../models/recurring-models';
-import classes from './RecurringForm.module.scss';
-import TimeInput from '../../../ui/input/form-inputs-sections/TimeInput';
-import DurationInput from '../../../ui/input/form-inputs-sections/DurationInput';
-import ImportanceInput from '../../../ui/input/form-inputs-sections/ImportanceInput';
-import DescriptionInput from '../../../ui/input/form-inputs-sections/DescriptionInput';
-import ActionButtons from '../../../ui/input/form-inputs-sections/ActionButtons';
-import NameInput from '../../../ui/input/form-inputs-sections/NameInput';
-import DynamicDateInput from '../../../ui/input/form-inputs-sections/DynamicDateInput';
 import { faBallotCheck } from '@fortawesome/pro-duotone-svg-icons';
-import CategoryInput from '../../../ui/input/form-inputs-sections/CategoryInput';
+
+import { Importance, Status } from '../../../../models/task-models/Status';
+import { isRecurringInterval, RecurringInterval } from '../../../../models/recurring-models';
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import { Category, getSubCategory, SubCategory } from '../../../../models/task-models/Category';
 import {
     NoIdRecurringTask,
     RecurringTask,
 } from '../../../../models/recurring-models/RecurringTask';
-import SubCategoryInput from '../../../ui/input/form-inputs-sections/SubCategoryInput';
-import { Category, getSubCategory, SubCategory } from '../../../../models/task-models/Category';
+import { addYears } from '../../../../utilities/date-utils/date-control';
+import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 import { getPlannerType } from '../../../../utilities/recurring-utils';
-import { NoIdTask } from '../../../../models/task-models/Task';
+import ExitIcon from '../../../ui/icons/ExitIcon';
 import IntervalPreDisplay from './form-parts/IntervalPreDisplay';
+import IntervalInput from './form-parts/IntervalInput';
+import {
+    DescriptionInput,
+    TimeInput,
+    DurationInput,
+    ImportanceInput,
+    NameInput,
+    ActionButtons,
+    DynamicDateInput,
+    CategoryInput,
+    SubCategoryInput,
+} from '../../../ui/input/form-inputs';
+import classes from './RecurringForm.module.scss';
 
 export interface RecurringEventFormValues {
     name: string;
@@ -210,7 +205,7 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
                 />
             </div>
             <div className={'flex -mt-[0.7rem]'}>
-                <IntervalPreDisplay watch={watch} />
+                <IntervalPreDisplay watch={watch} itemName="task" />
             </div>
             <ActionButtons onDelete={onDelete} />
         </form>

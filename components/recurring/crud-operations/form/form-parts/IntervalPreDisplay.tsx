@@ -12,9 +12,8 @@ import {
 import { getDaySuffixed } from '../../../../../utilities/gen-utils/format-util';
 
 interface Props {
-    // interval: string;
-    // startDate: string;
     watch: () => { startDate: string; interval: string; time: string };
+    itemName?: string;
 }
 
 export function getIntervalUserMessage(
@@ -79,21 +78,19 @@ export function getIntervalUserMessage(
     }
 }
 
-const IntervalPreDisplay: React.FC<Props> = ({ watch }) => {
+const IntervalPreDisplay: React.FC<Props> = ({ watch, itemName }) => {
     const { interval, startDate, time } = watch();
-    const itemMode: string = useAppSelector((state) => state.recurring.mode).toLowerCase();
-
     if (!interval || !startDate || !time) return <div />;
 
     const userMessage = getIntervalUserMessage(
         interval as RecurringInterval,
         startDate,
         time,
-        itemMode,
+        itemName || 'schedule',
     );
 
     return (
-        <p className={`${itemMode} px-[0.7rem]`}>
+        <p className={`${itemName} px-[0.7rem]`}>
             <FontAwesomeIcon icon={faInfo} className="icon icon-medium mr-2" />
             {userMessage}.
         </p>

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useEffect, useMemo } from 'react';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { /*getSession*/ withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useQuery, useQueryClient } from 'react-query';
 
 import RecurringMain from '../../components/recurring/RecurringMain';
@@ -55,15 +55,16 @@ export default RecurringEvents;
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     async getServerSideProps(context) {
-        const { req, res } = context;
-        const session = getSession(req, res);
-        if (!session)
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            };
+        // const { req, res } = context;
+        // const session = getSession(req, res);
+        // const userId: string = session?.user.sub;
+        // if (!session)
+        //     return {
+        //         redirect: {
+        //             destination: '/login',
+        //             permanent: false,
+        //         },
+        //     };
 
         return {
             props: {},
