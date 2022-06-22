@@ -30,7 +30,11 @@ export async function insertItem(client: MongoClient, newItem: object, collectio
     return res;
 }
 
-export async function insertManyItems(client: MongoClient, newItems: object[], collection: string) {
+export async function insertManyItems(
+    client: MongoClient,
+    newItems: object[],
+    collection: string,
+) {
     const db = client.db();
     const res = await db.collection(collection).insertMany(newItems);
     return res;
@@ -39,6 +43,16 @@ export async function insertManyItems(client: MongoClient, newItems: object[], c
 export async function deleteItem(client: MongoClient, id: string, collection: string) {
     const db = client.db();
     const res = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
+    return res;
+}
+
+export async function deleteManyItems(
+    client: MongoClient,
+    condition: object,
+    collection: string,
+) {
+    const db = client.db();
+    const res = await db.collection(collection).deleteMany(condition);
     return res;
 }
 

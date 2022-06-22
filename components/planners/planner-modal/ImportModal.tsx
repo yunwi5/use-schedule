@@ -14,6 +14,9 @@ import { Theme } from '../../../models/design-models';
 import Button from '../../ui/buttons/Button';
 import Modal from '../../ui/modal/Modal';
 import classes from './ImportModal.module.scss';
+import CustomMUIButton from '../../ui/buttons/CustomMUIButton';
+import { getNewTemplateLink } from '../../../utilities/link-utils';
+import Link from 'next/link';
 
 interface Props {
     onClose(): void;
@@ -21,13 +24,22 @@ interface Props {
     onMutate: () => void;
 }
 
-const override = css`
-    display: block;
-    margin: 0 auto;
-    width: 120px;
-    height: 120px;
-    border-color: red;
-`;
+const UserMessageNoTemplate = () => {
+    const newTemplateLink = getNewTemplateLink();
+
+    return (
+        <div className="mt-3 flex flex-col gap-4">
+            <h2 className="text-center text-2xl text-blue-600/80 font-semibold">
+                You have no time tables yet!
+            </h2>
+            <CustomMUIButton className="!mx-auto max-w-[22rem]">
+                <Link href={newTemplateLink}>
+                    <a>Make new time table!</a>
+                </Link>
+            </CustomMUIButton>
+        </div>
+    );
+};
 
 const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) => {
     const [selectedTemps, setSelectedTemps] = useState<Template[]>([]);
@@ -48,7 +60,10 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
             0,
         );
         if (successCounts > 0) {
-            setNotification(NotifStatus.SUCCESS, `Importing ${successCounts} tables successful!`);
+            setNotification(
+                NotifStatus.SUCCESS,
+                `Importing ${successCounts} tables successful!`,
+            );
             onMutate();
             onClose();
         } else {
@@ -71,6 +86,8 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
 
     const checkIfSelected = (template: Template) => selectedTemps.includes(template);
 
+    const userHasTemplates = templates.length > 0;
+
     return (
         <Modal onClose={onClose} modalClass={`${classes.modal}`}>
             <FontAwesomeIcon
@@ -79,8 +96,8 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
                 onClick={onClose}
             />
             <h2 className={classes.heading}>Select table(s) to import</h2>
+            {!userHasTemplates && <UserMessageNoTemplate />}
             <div className={classes.container}>
-                {templates.length === 0 && <h2>You have no time tables yet!</h2>}
                 {templates.map((temp) => (
                     <div
                         key={temp.id}
@@ -99,7 +116,8 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
             {selectedTemps.length > 0 && (
                 <p className={classes.message}>
                     <FontAwesomeIcon icon={faCircleExclamation} className={classes.info} />
-                    All tasks & sub tasks of your template{selectedTemps.length > 1 ? 's ' : ' '}
+                    All tasks & sub tasks of your template
+                    {selectedTemps.length > 1 ? 's ' : ' '}
                     {selectedTemps.map((temp, idx) => (
                         <span key={temp.id}>
                             <span className={'!font-medium'}>
@@ -113,15 +131,24 @@ const ImportModal: React.FC<Props> = ({ onClose, beginningPeriod, onMutate }) =>
                     <time>{getFullDateFormat(beginningPeriod)}</time>.
                 </p>
             )}
-            {/* <ClipLoader color="#000000" loading={true} css={override} size={150} /> */}
-            <div className={classes.control}>
-                <Button theme={Theme.WARNING} className={classes.btn} onClick={clearHandler}>
-                    Clear
-                </Button>
-                <Button theme={Theme.TERTIARY} className={classes.btn} onClick={importHandler}>
-                    Import
-                </Button>
-            </div>
+            {userHasTemplates && (
+                <div className={classes.control}>
+                    <Button
+                        theme={Theme.WARNING}
+                        className={classes.btn}
+                        onClick={clearHandler}
+                    >
+                        Clear
+                    </Button>
+                    <Button
+                        theme={Theme.TERTIARY}
+                        className={classes.btn}
+                        onClick={importHandler}
+                    >
+                        Import
+                    </Button>
+                </div>
+            )}
         </Modal>
     );
 };

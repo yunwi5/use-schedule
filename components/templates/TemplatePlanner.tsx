@@ -22,7 +22,11 @@ function getTemplateWeekBeginning() {
     return date;
 }
 
-function populateTemplatePlanner(tasks: Task[], templateWeekBeginning: Date, template: Template) {
+function populateTemplatePlanner(
+    tasks: Task[],
+    templateWeekBeginning: Date,
+    template: Template,
+) {
     const planner = new Planner(templateWeekBeginning, template);
     for (const task of tasks) {
         if (task.templateId !== template.id) {
@@ -43,7 +47,12 @@ interface Props {
 }
 
 const TemplatePlanner: React.FC<Props> = (props) => {
-    const { onInvalidateTasks, onMutateTemplate, templateTasks: initialTasks, template } = props;
+    const {
+        onInvalidateTasks,
+        onMutateTemplate,
+        templateTasks: initialTasks,
+        template,
+    } = props;
     const [planner, setPlanner] = useState<Planner | null>(null);
 
     const dispatch = useDispatch();
@@ -54,7 +63,11 @@ const TemplatePlanner: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (!template) return;
-        const newPlanner = populateTemplatePlanner(initialTasks, templateWeekBeginning, template);
+        const newPlanner = populateTemplatePlanner(
+            initialTasks,
+            templateWeekBeginning,
+            template,
+        );
         setPlanner(newPlanner);
     }, [templateWeekBeginning, initialTasks, template]);
 
@@ -78,16 +91,18 @@ const TemplatePlanner: React.FC<Props> = (props) => {
                     preventTaskAdd={
                         !template
                             ? {
-                                  message: 'Please complete your template form first!',
+                                  message: 'Please fill up your template information first!',
                               }
                             : undefined
                     }
                 />
-                <TemplateTable
-                    weekBeginning={templateWeekBeginning}
-                    planner={planner}
-                    onMutate={onInvalidateTasks}
-                />
+                {template && (
+                    <TemplateTable
+                        weekBeginning={templateWeekBeginning}
+                        planner={planner}
+                        onMutate={onInvalidateTasks}
+                    />
+                )}
             </PlannerTableCard>
         </PlannerCard>
     );

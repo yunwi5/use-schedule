@@ -22,9 +22,7 @@ const RecurringTasks: NextPage<Props> = (props) => {
     const queryClient = useQueryClient();
 
     const { data, error } = useQuery('recurring-tasks', fetchRecurringTasks);
-    if (error) {
-        console.warn(error);
-    }
+    if (error) console.warn(error);
     const recurringTasks: RecurringTask[] = useMemo(
         () => (data ? processRecurringTasks(data) : []),
         [data],
@@ -56,15 +54,15 @@ export default RecurringTasks;
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     async getServerSideProps(context) {
-        const { req, res } = context;
-        const session = getSession(req, res);
-        if (!session)
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            };
+        // const { req, res } = context;
+        // const session = getSession(req, res);
+        // if (!session)
+        //     return {
+        //         redirect: {
+        //             destination: '/login',
+        //             permanent: false,
+        //         },
+        //     };
 
         return {
             props: {},

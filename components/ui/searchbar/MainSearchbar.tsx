@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/pro-duotone-svg-icons';
 
-import classes from './MainSearch.module.scss';
+import classes from './MainSearchbar.module.scss';
 
 export type SearchTarget = 'Event' | 'Task';
 
@@ -40,7 +40,9 @@ const MainSearch: React.FC<Props> = (props) => {
                     placeholder={
                         searchTarget === 'Event' ? 'Search your events' : 'Search your tasks'
                     }
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setText(e.target.value)
+                    }
                 />
             </div>
             <button className={classes.button} type="submit">

@@ -1,3 +1,4 @@
+import { Template } from '../../models/template-models/Template';
 import { TemplatePlanner } from '../../models/template-models/TemplatePlanner';
 import { ItemsView } from '../../models/ui-models';
 import { useAppSelector } from '../../store/redux';
@@ -15,7 +16,13 @@ interface Props {
 const TemplateTable: React.FC<Props> = (props) => {
     const { weekBeginning, planner, onMutate } = props;
     const itemsView = useAppSelector((state) => state.fold.itemsView);
-    if (!planner) return <LoadingSpinner />;
+    if (!planner) {
+        return (
+            <div className="w-full flex-center">
+                <LoadingSpinner />
+            </div>
+        );
+    }
 
     const isTableView = itemsView === ItemsView.TABLE;
 

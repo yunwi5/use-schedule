@@ -31,13 +31,6 @@ export const subTaskSchema: Joi.ObjectSchema<any> = Joi.object({
     isTemplated: Joi.boolean(), // optional attribute to indicate if the subtask is a child of template task.
 });
 
-export const templateSchema: Joi.ObjectSchema<any> = Joi.object({
-    name: Joi.string().required(),
-    description: Joi.string().required(),
-    importance: Joi.number().required(),
-    userId: Joi.string().required(),
-});
-
 // Validate subTasks properties object. This is not an entire SubTask object, so there is no required().
 // It contain all subTasks props that can be updated.
 export const subTaskPropsSchema: Joi.ObjectSchema<any> = Joi.object({
@@ -47,13 +40,6 @@ export const subTaskPropsSchema: Joi.ObjectSchema<any> = Joi.object({
     order: Joi.number(),
     parentTaskId: Joi.string(),
     isTemplated: Joi.boolean(), // optional attribute to indicate if the subtask is a child of template task.
-});
-
-export const templatePropsSchema: Joi.ObjectSchema<any> = Joi.object({
-    name: Joi.string(),
-    description: Joi.string(),
-    importance: Joi.number(),
-    userId: Joi.string(),
 });
 
 export const taskPropsSchema: Joi.ObjectSchema<any> = Joi.object({

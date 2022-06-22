@@ -4,7 +4,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/pro-duotone-svg-icons';
 
-import MainSearch, { SearchTarget } from '../../ui/searchbar/MainSearch';
+import MainSearchbar, { SearchTarget } from '../../ui/searchbar/MainSearchbar';
 import styles from './Header.module.scss';
 import { getSearchLink } from '../../../utilities/link-utils';
 
@@ -33,7 +33,7 @@ const HeaderSearch: React.FC<Props> = ({ onShowSearch, showSearch }) => {
                         onClick={() => onShowSearch((prev) => !prev)}
                     />
                 )}
-                <MainSearch
+                <MainSearchbar
                     onSearch={searchHandler}
                     className={`${!showSearch ? styles.hide : ''}`}
                 />

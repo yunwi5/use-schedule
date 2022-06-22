@@ -1,13 +1,14 @@
-import type { GetStaticProps, NextPage } from "next";
-import Head from "next/head";
-import HomeMain from "../components/home-parts/HomeMain";
+import type { GetStaticProps, NextPage } from 'next';
+import Head from 'next/head';
+import HomeMain from '../components/home/HomeMain';
+import { AppProperty } from '../constants/global-constants';
 
 const Home: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Task Manager Home Page</title>
-                <meta name="description" content="Home page of Task Manager app" />
+                <title>Home | {AppProperty.APP_NAME}</title>
+                <meta name="description" content={`Home page of ${AppProperty.APP_NAME}`} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <HomeMain />
@@ -17,9 +18,7 @@ const Home: NextPage = () => {
 
 export const getStaticProps: GetStaticProps = (context) => {
     return {
-        props: {
-            message: "Hello World",
-        },
+        props: {},
     };
 };
 

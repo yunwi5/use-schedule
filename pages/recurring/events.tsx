@@ -21,9 +21,8 @@ const RecurringEvents: NextPage<Props> = (props) => {
 
     const queryClient = useQueryClient();
     const { data, isError, error } = useQuery('recurring-events', fetchRecurringEvents);
-    if (isError) {
-        console.error('Event errors:', error);
-    }
+    if (isError) console.error('Event errors:', error);
+
     const recurringEvents: RecurringEvent[] = useMemo(
         () => (data ? processRecurringEvents(data) : []),
         [data],

@@ -10,6 +10,7 @@ import { NotificationContextProvider } from '../store/context/notification-conte
 import store from '../store/redux/index';
 import TemplatesProvider from '../components/templates/templates-provider/TemplatesProvider';
 import TodoListProvider from '../components/todos/todo-provider/TodoListProvider';
+import { AppProperty } from '../constants/global-constants';
 import '../styles/globals.scss';
 
 // React query client initialization, so that its child components can use ReactQuery
@@ -24,10 +25,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                         <TodoListProvider>
                             <NotificationContextProvider>
                                 <Head>
-                                    <title>Task Manager Application</title>
+                                    <title>{AppProperty.APP_NAME}</title>
                                     <meta
                                         name="description"
-                                        content="Task Manager App for users to make and allocate personal or business tasks"
+                                        content={`${AppProperty.APP_NAME} application for users to allocate and manage personal or business schedules`}
                                     />
                                 </Head>
                                 <Layout>

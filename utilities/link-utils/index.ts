@@ -1,4 +1,4 @@
-import { SearchTarget } from '../../components/ui/searchbar/MainSearch';
+import { SearchTarget } from '../../components/ui/searchbar/MainSearchbar';
 
 // Manages all the links to other routes of the app in one place
 export function getAboutLink() {
@@ -10,6 +10,10 @@ export function getContactLink() {
 }
 
 // Manages links to template tables.
+export function getNewTemplateLink() {
+    return '/templates/new';
+}
+
 export function getTemplateTableLink(templateId: string) {
     return `/templates/${templateId}`;
 }
