@@ -18,7 +18,7 @@ const NavList: React.FC<Props> = (props) => {
                 <DropDownToggler
                     onToggle={() => setShowDropDown((ps) => !ps)}
                     showDropDown={showDropDown}
-                    className={`mr-1 scale-80`}
+                    className={`scale-75`}
                 />
             </h3>
             {showDropDown && (

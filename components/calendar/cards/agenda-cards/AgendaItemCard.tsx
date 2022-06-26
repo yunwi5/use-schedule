@@ -13,7 +13,10 @@ import {
 } from '@fortawesome/pro-duotone-svg-icons';
 
 import { CalendarItem } from '../../../../models/calendar-models/CalendarItem';
-import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
+import {
+    CalendarItemType,
+    getItemIcon,
+} from '../../../../models/calendar-models/CalendarItemType';
 import { Importance, Status } from '../../../../models/task-models/Status';
 import {
     getDurationFormat,
@@ -88,7 +91,7 @@ const AgendaItemCard: React.FC<Props> = (props) => {
                 <DropDownToggler
                     onToggle={toggleDropdown}
                     showDropDown={showDropdownDetail}
-                    className={iconClass}
+                    className={`${iconColor}`}
                 />
             </div>
             {showDropdownDetail && (
@@ -97,11 +100,17 @@ const AgendaItemCard: React.FC<Props> = (props) => {
                 >
                     <div className="flex gap-3 md:gap-6 flex-wrap mr-4 lg:flex-nowrap">
                         <div>
-                            <FontAwesomeIcon icon={faCalendarCheck} className={`${iconClass}`} />
+                            <FontAwesomeIcon
+                                icon={faCalendarCheck}
+                                className={`${iconClass}`}
+                            />
                             {status}
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faStarExclamation} className={`${iconClass}`} />
+                            <FontAwesomeIcon
+                                icon={faStarExclamation}
+                                className={`${iconClass}`}
+                            />
                             {importance}
                         </div>
                         <div>
@@ -110,13 +119,19 @@ const AgendaItemCard: React.FC<Props> = (props) => {
                         </div>
                         {location && (
                             <div>
-                                <FontAwesomeIcon icon={faLocationDot} className={`${iconClass}`} />
+                                <FontAwesomeIcon
+                                    icon={faLocationDot}
+                                    className={`${iconClass}`}
+                                />
                                 <span>{location}</span>
                             </div>
                         )}
                         {category && (
                             <div>
-                                <FontAwesomeIcon icon={faListTree} className={`${iconClass}`} />
+                                <FontAwesomeIcon
+                                    icon={faListTree}
+                                    className={`${iconClass}`}
+                                />
                                 <span>{category}</span>
                             </div>
                         )}

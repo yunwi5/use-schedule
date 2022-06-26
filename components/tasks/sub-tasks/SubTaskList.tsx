@@ -4,8 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faPenToSquare } from '@fortawesome/pro-duotone-svg-icons';
 
 import { SubTask } from '../../../models/task-models/SubTask';
-import { deleteSubTask, patchSubTaskProps, postSubtask } from '../../../lib/planners/subtasks-api';
-import { SubItemSort as SortingStandard, SortingDirection } from '../../../models/sorting-models';
+import {
+    deleteSubTask,
+    patchSubTaskProps,
+    postSubtask,
+} from '../../../lib/planners/subtasks-api';
+import {
+    SubItemSort as SortingStandard,
+    SortingDirection,
+} from '../../../models/sorting-models';
 import { sortSubItems } from '../../../utilities/sort-utils/sub-item-sort';
 import { SubItemForm, SubItemCard, SubItemSorter } from '../../sub-items';
 import LoadingSpinner from '../../ui/design-elements/LoadingSpinner';
@@ -71,7 +78,7 @@ const SubTaskList: React.FC<Props> = (props) => {
     }, [subTasks]);
 
     return (
-        <div className="mb-3">
+        <div className="mb-3 flex-1 flex flex-col">
             <div className="mb-2 w-[100%] flex items-center justify-between">
                 <div className="text-left cursor-pointer text-slate-600 hover:text-blue-600">
                     {isEditMode ? (

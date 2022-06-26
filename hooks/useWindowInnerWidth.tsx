@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 
 interface Props {
     breakPoint: number;
@@ -12,7 +12,8 @@ const useWindowInnerWidth = ({
     aboveBreakPointCallback,
     belowBreakPointCallback,
 }: Props) => {
-    useLayoutEffect(() => {
+    // useEffect instead of useLayoutEffect due to ssr
+    useEffect(() => {
         const updateDropDownVisibility = () => {
             const newWindowWidth = window.innerWidth;
             if (newWindowWidth >= breakPoint) {

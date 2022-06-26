@@ -42,8 +42,8 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
             <NavList listName="Recurring Items" items={recurringScheduleLinks} />
             <NavList listName="Data Analysis" items={dataAnalysisLinks} />
             <NavList listName="Task Planners" items={plannerLinks} />
-            <NavList listName="Time Tables" items={templateLinks} />
-            <NavList listName="Custom Lists" items={todoLinks} />
+            <NavList listName="Template Tables" items={templateLinks} />
+            <NavList listName="Lists" items={todoLinks} />
         </nav>
     );
 };

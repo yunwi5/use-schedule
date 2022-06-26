@@ -81,7 +81,9 @@
 }
 
 .panel.detail {
-    @include show-detail;
+    @include respond(phone) {
+        @include show-detail;
+    }
 }
 
 .emptyContainer {

@@ -25,7 +25,7 @@ const ListHeading: React.FC<Props> = (props) => {
             <div className="flex-1 h-1 bg-slate-300 ml-2 md:ml-0 mr-2" />
             <DropDownToggler
                 showDropDown={!isShrinked}
-                className={'!ml-0 text-slate-600'}
+                className={'!ml-0 !text-slate-800'}
                 onToggle={onToggleShrink}
             />
         </div>

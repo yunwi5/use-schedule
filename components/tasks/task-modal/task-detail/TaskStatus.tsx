@@ -41,11 +41,12 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
     };
 
     const showEditIcon = task.plannerType !== PlannerMode.TEMPLATE;
+    const statusClass = 'status-' + status.toLowerCase().replace(' ', '');
 
     return (
-        <div className={classes.item}>
-            <div className={`${classes.label} flex items-center`}>
-                <FontAwesomeIcon icon={faClipboardCheck} className={classes.icon} />
+        <div className={'flex flex-col'}>
+            <div className={`text-blue-600/75 font-semibold capitalize flex items-center`}>
+                <FontAwesomeIcon icon={faClipboardCheck} className={`icon-medium mr-2`} />
                 <div className={`relative flex items-center w-[60%]`}>
                     Status
                     {showEditIcon && (
@@ -54,11 +55,12 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
                             onEdit={() => setIsEditng(true)}
                             onCheck={confirmHandler}
                             className={'!text-[100%]'}
+                            pencialClass={'!text-blue-500'}
                         />
                     )}
                 </div>
             </div>
-            {!isEditing && <p className={`${classes.value}`}>{status}</p>}
+            {!isEditing && <p className={`${classes.value} ${statusClass}`}>{status}</p>}
             {isEditing && (
                 <select
                     className={'mt-2 p-1 cursor-pointer max-w-[10.5rem]'}

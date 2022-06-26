@@ -75,6 +75,46 @@
     }
 }
 
+@mixin underline-from-start {
+    position: relative;
+    margin-bottom: 3px;
+    overflow: visible;
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 102%;
+        width: 100%;
+        height: 1.7px !important;
+        background-color: currentColor;
+        opacity: 0;
+    }
+
+    &:hover::after {
+        opacity: 1;
+        animation: LeftRightDrawing 0.3s ease-in-out;
+    }
+}
+
+@mixin underline-from-middle {
+    position: relative;
+
+    &::after {
+        content: '';
+        height: 2.1px;
+        width: 0;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.35s ease-out;
+    }
+
+    &:hover::after {
+        width: 100%;
+    }
+}
+
 /* 
 0 - 600px: Phone
 600 - 900px: Tablet Portrait

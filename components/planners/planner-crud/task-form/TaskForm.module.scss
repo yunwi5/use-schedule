@@ -27,11 +27,18 @@
         select {
             background-color: $color-tertiary-light-1;
             border-radius: 3px;
-            border: 1.2px solid rgba($color-tertiary-light-4, 0.7);
+            border: 1.2px solid rgba($color-tertiary-light-3, 0.7);
             padding: 4px 8px;
             &:focus {
                 border: 1.5px solid transparent;
             }
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border: 1.5px solid $color-tertiary-dark-1;
         }
     }
 
@@ -94,7 +101,7 @@
         label {
             display: flex;
             align-items: center;
-            margin-bottom: -3.5px;
+            margin-bottom: -10px;
         }
 
         .select {

@@ -52,7 +52,10 @@ const EventSearchMain: React.FC<Props> = (props) => {
     useEffect(() => {
         const pageIndex = page - 1;
         const startingIndex = pageIndex * ITEMS_PER_PAGE;
-        const newPageEvents = currentEvents.slice(startingIndex, startingIndex + ITEMS_PER_PAGE);
+        const newPageEvents = currentEvents.slice(
+            startingIndex,
+            startingIndex + ITEMS_PER_PAGE,
+        );
         setPageEvents(newPageEvents);
     }, [page, currentEvents]);
 

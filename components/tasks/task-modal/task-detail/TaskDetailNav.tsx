@@ -24,7 +24,7 @@ const TaskDetailNav: React.FC<Props> = (props) => {
 					onClick={onShowSubTasks.bind(null, false)}
 					className={`${classes.navbtn} ${!showSubTasks ? classes["navbtn-active"] : ""}`}
 				>
-					Info
+					Information
 				</button>
 				<button
 					onClick={onShowSubTasks.bind(null, true)}

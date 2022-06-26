@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/pro-duotone-svg-icons";
-import { faCheck, faXmark } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/pro-duotone-svg-icons';
+import { faCheck, faXmark } from '@fortawesome/pro-solid-svg-icons';
 
-import classes from "./IconEdit.module.scss";
-import { Size } from "../../../models/design-models";
+import { Size } from '../../../models/design-models';
+import classes from './IconEdit.module.scss';
 
 interface Props {
     isEditing: boolean;
@@ -12,10 +12,19 @@ interface Props {
     onCancel?: () => void;
     size?: Size;
     className?: string;
+    pencialClass?: string;
 }
 
 const IconEdit: React.FC<Props> = (props) => {
-    const { isEditing, onEdit, onCheck, onCancel, size = Size.MEDIUM, className = "" } = props;
+    const {
+        isEditing,
+        onEdit,
+        onCheck,
+        onCancel,
+        size = Size.MEDIUM,
+        className = '',
+        pencialClass,
+    } = props;
 
     return (
         <>
@@ -25,8 +34,8 @@ const IconEdit: React.FC<Props> = (props) => {
                         icon={faPencilAlt}
                         onClick={onEdit}
                         className={`${classes.icon} ${
-                            classes["icon-" + size]
-                        } text-sky-600/75 ${className}`}
+                            classes['icon-' + size]
+                        } text-sky-600/75 ${className} ${pencialClass}`}
                     />
                 </div>
             )}
@@ -36,14 +45,14 @@ const IconEdit: React.FC<Props> = (props) => {
                         icon={faCheck}
                         onClick={onCheck}
                         className={`${classes.icon} ${
-                            classes["icon-" + size]
+                            classes['icon-' + size]
                         } text-teal-600 ${className}`}
                     />
                     {onCancel && (
                         <FontAwesomeIcon
                             icon={faXmark}
                             className={`${classes.icon} ${
-                                classes["icon-" + size]
+                                classes['icon-' + size]
                             } text-rose-600 ${className}`}
                             onClick={onCancel}
                         />

@@ -27,7 +27,9 @@ const WeekTable: React.FC<Props> = (props) => {
                     <WeekdayLabel key={idx} date={addDays(beginningPeriod, idx)} />
                 ))}
             </div>
-            <div className={`pl-1 relative w-full h-[85vh] overflow-y-scroll overflow-x-hidden`}>
+            <div
+                className={`pl-1 relative w-full h-[90vh] overflow-y-scroll overflow-x-hidden`}
+            >
                 <div className={`overflow-y-hidden`} style={{ height: tableHeight }}>
                     <div
                         className={`pl-[2.55rem] absolute top-0 left-0 flex w-full overflow-hidden`}

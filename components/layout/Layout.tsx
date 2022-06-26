@@ -21,12 +21,12 @@ const Layout: React.FC = (props) => {
             <Header onToggleSidebar={toggleSidebarHandler} />
             <SideNav onToggleSidebar={toggleSidebarHandler} showSidebar={showSidebar} />
             <div className={`${classes.content}`}>{props.children}</div>
-            {activeNotification && <Notification {...activeNotification} />}
             <Footer className={classes.footer} />
             <FullScreenNavigation
                 onToggleSidebar={toggleSidebarHandler}
                 showSidebar={showSidebar}
             />
+            {activeNotification && <Notification {...activeNotification} />}
         </div>
     );
 };

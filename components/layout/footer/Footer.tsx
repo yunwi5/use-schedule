@@ -1,20 +1,19 @@
-import React, { memo } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-
-import { GITHUB_LINK, FACEBOOK_LINK, LINKEDIN_LINK } from "../constants";
-import classes from "./Footer.module.scss";
+import React, { memo } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { AppProperty } from '../../../constants/global-constants';
+import classes from './Footer.module.scss';
 
 const Footer: React.FC<{ className: string }> = ({ className }) => {
     const iconClass =
-        "transition-all cursor-pointer hover:text-blue-700 hover:scale-110 max-w-[2.2rem]";
+        'transition-all cursor-pointer hover:text-blue-700 hover:scale-110 max-w-[2.2rem]';
     const iconLabelClass =
-        "px-[6px] py-[2px] text-base bg-blue-100 hover:bg-blue-200 hover:text-blue-700 hover:underline hover:cursor-pointer hover:underline-offset-2 shadow-md rounded-xl text-slate-500";
+        'px-[6px] py-[2px] text-base bg-blue-100 hover:bg-blue-200 hover:text-blue-700 hover:underline hover:cursor-pointer hover:underline-offset-2 shadow-md rounded-xl text-slate-500';
 
     const brandLinks = [
-        { label: "Github!", link: GITHUB_LINK, icon: faGithub },
-        { label: "Facebook!", link: FACEBOOK_LINK, icon: faFacebook },
-        { label: "LinkedIn!", link: LINKEDIN_LINK, icon: faLinkedin },
+        { label: 'Github!', link: AppProperty.GITHUB_LINK, icon: faGithub },
+        { label: 'Facebook!', link: AppProperty.FACEBOOK_LINK, icon: faFacebook },
+        { label: 'LinkedIn!', link: AppProperty.LINKEDIN_LINK, icon: faLinkedin },
     ];
 
     return (
@@ -26,12 +25,15 @@ const Footer: React.FC<{ className: string }> = ({ className }) => {
                 {brandLinks.map((brand) => (
                     <div
                         key={brand.label}
-                        className={`flex-col gap-1 flex justify-center ${classes["icon-wrapper"]}`}
+                        className={`flex-col gap-1 flex justify-center ${classes['icon-wrapper']}`}
                     >
                         <a href={brand.link} className="flex justify-center items-center">
                             <FontAwesomeIcon icon={brand.icon as any} className={iconClass} />
                         </a>
-                        <a href={brand.link} className={`${iconLabelClass} block ${classes.label}`}>
+                        <a
+                            href={brand.link}
+                            className={`${iconLabelClass} block ${classes.label}`}
+                        >
                             {brand.label}
                         </a>
                     </div>

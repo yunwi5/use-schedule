@@ -1,5 +1,8 @@
 import { addMinutes } from '../../utilities/date-utils/date-control';
-import { getDateTimeFormat, getEndDateTimeFormat } from '../../utilities/date-utils/date-format';
+import {
+    getDateTimeFormat,
+    getEndDateTimeFormat,
+} from '../../utilities/date-utils/date-format';
 import { getDayName } from '../../utilities/date-utils/date-get';
 import { WeekDay } from '../date-models/WeekDay';
 import { PlannerMode } from '../planner-models/PlannerMode';
@@ -54,7 +57,6 @@ export abstract class AbstractTask implements Task {
     }
 
     get endTimeFormat(): string {
-        if (!this.duration) return '';
         return getEndDateTimeFormat(this.dateTime, this.duration);
     }
 

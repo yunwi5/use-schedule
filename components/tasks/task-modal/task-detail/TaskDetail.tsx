@@ -1,17 +1,20 @@
 import { useCallback, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/pro-duotone-svg-icons';
 
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
 import { SubTask } from '../../../../models/task-models/SubTask';
 import { getTaskType } from '../../../../utilities/tasks-utils/task-label';
-import Modal from '../../../ui/modal/Modal';
 import SubTaskList from '../../sub-tasks/SubTaskList';
 import TaskDetailInfo from './TaskDetailInfo';
 import TaskDetailNav from './TaskDetailNav';
 import classes from './TaskDetail.module.scss';
+import {
+    CalendarItemType,
+    getItemIcon,
+} from '../../../../models/calendar-models/CalendarItemType';
+import ExitIcon from '../../../ui/icons/ExitIcon';
+import WrapperModal from '../../../ui/modal/wrapper/WrapperModal';
 
 interface Props {
     onClose: () => void;
@@ -31,7 +34,6 @@ async function fetchSubTasks(context: any) {
 
 const TaskDetail: React.FC<Props> = (props) => {
     const { onClose, task, onInvalidate } = props;
-    const [showTaskDetail, setShowTaskDetail] = useState(true);
     const [showSubTasks, setShowSubTasks] = useState(false);
 
     const { name, plannerType } = task;
@@ -51,34 +53,34 @@ const TaskDetail: React.FC<Props> = (props) => {
     let subTasks: SubTask[] = !error && data ? data.subTasks : [];
 
     return (
-        <Modal
-            onClose={onClose}
-            modalClass={`z-30 text-semibold ${classes.modal} ${!showTaskDetail ? 'invisible' : ''}`}
-        >
-            <h2>{name}</h2>
-            <FontAwesomeIcon icon={faXmark} className={classes.exit} onClick={onClose} />
-            <TaskDetailNav
-                taskType={getTaskType(plannerType || PlannerMode.WEEKLY)}
-                onShowSubTasks={(showSub) => setShowSubTasks(showSub)}
-                showSubTasks={showSubTasks}
-            />
-            {showSubTasks && (
-                <SubTaskList
-                    onInvalidate={invalidateSubTasks}
-                    subTasks={subTasks}
-                    isLoading={isLoading}
-                    parentTaskId={task.id}
+        <WrapperModal onClose={onClose} className={`z-30 ${classes.modal}`}>
+            <h2>
+                {getItemIcon(CalendarItemType.TASK, '!mr-1 text-blue-500')} {name}
+            </h2>
+            <ExitIcon onClose={onClose} className={'!right-5'} />
+            <div className={'flex-1 flex flex-col gap-3 px-2 lg:px-3'}>
+                <TaskDetailNav
+                    taskType={getTaskType(plannerType || PlannerMode.WEEKLY)}
+                    onShowSubTasks={(showSub) => setShowSubTasks(showSub)}
+                    showSubTasks={showSubTasks}
                 />
-            )}
-            {!showSubTasks && (
-                <TaskDetailInfo
-                    onShowDetail={(show: boolean) => setShowTaskDetail(show)}
-                    onClose={onClose}
-                    task={task}
-                    onInvalidate={onInvalidate}
-                />
-            )}
-        </Modal>
+                {showSubTasks && (
+                    <SubTaskList
+                        onInvalidate={invalidateSubTasks}
+                        subTasks={subTasks}
+                        isLoading={isLoading}
+                        parentTaskId={task.id}
+                    />
+                )}
+                {!showSubTasks && (
+                    <TaskDetailInfo
+                        onClose={onClose}
+                        task={task}
+                        onInvalidate={onInvalidate}
+                    />
+                )}
+            </div>
+        </WrapperModal>
     );
 };
 

@@ -39,6 +39,7 @@
 		"react-hook-form": "^7.27.0",
 		"react-query": "^3.34.16",
 		"react-redux": "^7.2.6",
+		"sass": "^1.53.0",
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {

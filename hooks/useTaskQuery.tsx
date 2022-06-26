@@ -1,12 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { fetchAllTasks } from '../lib/planners/tasks-api';
+import { callRecurringItemUpdate } from '../lib/recurring';
 import { PlannerTask, Task } from '../models/task-models/Task';
 import { processTasks } from '../utilities/tasks-utils/task-util';
 
-type FilterCallback = (event: { name: string }) => boolean;
-
-const useTaskQuery = (initialAllTasks?: Task[], filterCallback?: FilterCallback) => {
+const useTaskQuery = (initialAllTasks?: Task[]) => {
     const queryClient = useQueryClient();
 
     const { data: allTasksData, error: allTasksError } = useQuery('all-tasks', fetchAllTasks, {
@@ -14,15 +13,22 @@ const useTaskQuery = (initialAllTasks?: Task[], filterCallback?: FilterCallback)
     });
 
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);
-    let allTasks: Task[] = useMemo(() => (allTasksData ? allTasksData.tasks : []), [allTasksData]);
+    let allTasks: Task[] = useMemo(
+        () => (allTasksData ? allTasksData.tasks : []),
+        [allTasksData],
+    );
 
     const invalidateAllTasks = () => queryClient.invalidateQueries('all-tasks');
 
     const processedTasks: PlannerTask[] = useMemo(() => {
-        const processed = processTasks(allTasks);
-        const filtered = filterCallback ? processed.filter(filterCallback) : processed;
-        return filtered;
-    }, [allTasks, filterCallback]);
+        return processTasks(allTasks);
+    }, [allTasks]);
+
+    useEffect(() => {
+        callRecurringItemUpdate().then(({ isSuccess, message }) =>
+            console.log(`success: ${isSuccess}, ${message}`),
+        );
+    }, []);
 
     return {
         allTasks: processedTasks,

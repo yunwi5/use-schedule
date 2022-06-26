@@ -11,13 +11,19 @@ interface Props {
 const DropDownToggler: React.FC<Props> = ({ onToggle, showDropDown, className }) => {
     // Icon color is fixed to slate by default.
     return (
-        <FontAwesomeIcon
-            icon={faAngleDown}
-            onClick={onToggle}
-            className={`inline-block max-h-[1.8rem] max-w-[1.8rem] text-2xl hover:scale-125 ml-auto !text-slate-500 hover:text-slate-700 cursor-pointer transition-all ${
-                showDropDown ? 'rotate-180' : ''
-            } ${className || ''}`}
-        />
+        <div
+            className={`ml-auto flex-center w-[1.7rem] h-[1.7rem] rounded-full hover:bg-slate-700/80 transition-all hover:scale-125 text-slate-500 hover:!text-slate-50 ${
+                className || ''
+            }`}
+        >
+            <FontAwesomeIcon
+                icon={faAngleDown}
+                onClick={onToggle}
+                className={`inline-block max-h-[1.8rem] max-w-[1.8rem] text-2xl cursor-pointer transition-all ${
+                    showDropDown ? 'rotate-180' : ''
+                }`}
+            />
+        </div>
     );
 };
 

@@ -70,7 +70,8 @@ export function getISODateFormat(date: Date): string {
     dateCpy.setDate(dateCpy.getDate() + 1);
     return dateCpy.toISOString().split('T')[0];
 }
-// Used in TaskForm.ts
+
+// Used for form inputs (not user friendly)
 export function getISOTimeFormat(date: Date): string {
     if (!date) return '';
     let hours = '' + date.getHours();

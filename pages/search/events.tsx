@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -9,7 +10,7 @@ import { nameFilterCallback } from '../../utilities/filter-utils/string-filter';
 import { IEvent } from '../../models/Event';
 import useEventQuery from '../../hooks/useEventQuery';
 import EventSearchMain from '../../components/search/EventSearchMain';
-import { useCallback } from 'react';
+import { AppProperty } from '../../constants/global-constants';
 
 interface Props {
     searchedEvents: IEvent[];
@@ -19,20 +20,20 @@ interface Props {
 const SearchPage: NextPage<Props> = (props) => {
     const { searchedEvents, searchWord } = props;
 
-    const filterCallback = useCallback(
-        (event: { name: string }) => nameFilterCallback(event, searchWord),
-        [searchWord],
+    const { events, invalidateEvents } = useEventQuery(searchedEvents);
+    const searchFiltered = useMemo(
+        () => events.filter((event) => nameFilterCallback(event, searchWord)),
+        [searchWord, events],
     );
-    const { events, invalidateEvents } = useEventQuery(searchedEvents, filterCallback);
 
     return (
         <>
             <Head>
-                <title>Searched Planner Tasks for {searchWord}</title>
+                <title>Event Search | {AppProperty.APP_NAME}</title>
                 <meta name="description" content="User's search result for planner tasks" />
             </Head>
             <EventSearchMain
-                searchedEvents={events}
+                searchedEvents={searchFiltered}
                 searchWord={searchWord}
                 onInvalidate={invalidateEvents}
             />

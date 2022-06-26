@@ -1,7 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComputerMouse, faEnvelopes, faMessageQuote } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faComputerMouse,
+    faEnvelopes,
+    faMessageQuote,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 import { getAboutLink, getContactLink } from '../../../utilities/link-utils';
 import TableCard from '../cards/TableCard';
@@ -37,7 +41,7 @@ const NavigationGuide: React.FC = () => {
                         </p>
                         <Link href={guide.link}>
                             <a
-                                className={`ml-6 w-fit inline-block text-sky-600/90 hover:text-blue-700 drawing-underline`}
+                                className={`ml-6 w-fit inline-block text-sky-600/90 hover:text-blue-700 underline-from-start`}
                             >
                                 <FontAwesomeIcon icon={guide.icon} className={`icon-medium`} />{' '}
                                 {guide.linkText}
@@ -51,8 +55,8 @@ const NavigationGuide: React.FC = () => {
                         className={`icon-medium mr-1 translate-y-1 text-xl`}
                     />{' '}
                     <span>
-                        Our goal is to provide the best user experience for you so that you find
-                        this app useful!
+                        Our goal is to provide the best user experience for you so that you
+                        find this app useful!
                     </span>
                 </p>
             </div>
