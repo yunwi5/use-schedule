@@ -1,38 +1,38 @@
-@import "../../../styles/abstract/variables";
+@import '../../../styles/abstract/variables';
 
 .header {
-	position: relative;
-	&::after {
-		content: "";
-		position: absolute;
-		left: 50%;
-		bottom: 0;
-		width: 97.5%;
-		height: 2px;
-		transform: translate(-50%, 1px);
-		background-color: rgba($color-primary-light-2, .7);
-	}
+    position: relative;
+    &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 97.5%;
+        height: 1.9px;
+        transform: translate(-50%, 1px);
+        background-color: rgba($color-primary, 0.6);
+    }
 
-	.right {
-		display: flex;
+    .right {
+        display: flex;
 
-		& > *:not(:last-child) {
-			position: relative;
-			margin-right: 40px;
+        & > *:not(:last-child) {
+            position: relative;
+            margin-right: 40px;
 
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				right: -22px;
-				height: 100%;
-				width: 2px;
-				background-color: $color-primary-light-2;
-			}
-		}
-	}
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: -22px;
+                height: 100%;
+                width: 2.2px;
+                background-color: rgba($color-primary, 0.6);
+            }
+        }
+    }
 
-	.btn {
-		border-radius: 23px;
-	}
+    .btn {
+        border-radius: 23px;
+    }
 }

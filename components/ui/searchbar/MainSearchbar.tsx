@@ -37,9 +37,9 @@ const MainSearch: React.FC<Props> = (props) => {
                 <input
                     className={classes.input}
                     type="search"
-                    placeholder={
-                        searchTarget === 'Event' ? 'Search your events' : 'Search your tasks'
-                    }
+                    placeholder={`Search your ${
+                        searchTarget === 'Event' ? 'events' : 'tasks'
+                    }`}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setText(e.target.value)
                     }

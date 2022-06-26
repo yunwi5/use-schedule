@@ -7,6 +7,7 @@ import { getShortWeekDayList } from '../../../../utilities/date-utils/weekday-ut
 import useWindowInnerWidth from '../../../../hooks/useWindowInnerWidth';
 import DayCell from './DayCell';
 import classes from './CalendarTable.module.scss';
+import { ClickAwayListener } from '@mui/material';
 
 interface Props {
     calendar: Calendar;
@@ -46,44 +47,46 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const showRightScrollNav = leftPos !== maxScrollPos;
 
     return (
-        <section className={`${classes.grid}`} ref={gridRef}>
-            {weekDayList.map((day) => (
-                <div key={day} className={`${classes.cell} ${classes['day-label']}`}>
-                    {day}
-                </div>
-            ))}
-            {showLeftScrollNav && (
-                <FontAwesomeIcon
-                    icon={faAngleLeft}
-                    onClick={leftPosHandler.bind(null, -1)}
-                    className={`z-30 !absolute top-[50%] left-1 -translate-y-[50%] opacity-70 hover:opacity-100 w-[3rem] h-[3rem] inline-block rounded-full text-2xl border-2 border-slate-500 bg-slate-500 text-slate-50 cursor-pointer ${classes.navigator}`}
-                />
-            )}
-            {showRightScrollNav && (
-                <FontAwesomeIcon
-                    icon={faAngleRight}
-                    onClick={leftPosHandler.bind(null, 1)}
-                    className={`z-30 !absolute top-[50%] right-1 -translate-y-[50%] opacity-70 hover:opacity-100 w-[3rem] h-[3rem] inline-block rounded-full text-2xl border-2 border-slate-500 bg-slate-500 text-slate-50 cursor-pointer ${classes.navigator}`}
-                />
-            )}
-            {calendarDates.map((date, idx) => (
-                <DayCell
-                    key={idx}
-                    layoutId={date.toISOString()}
-                    position={{
-                        x: idx % 7,
-                        y: Math.floor(idx / 7),
-                        maxY: Math.floor((calendarDates.length - 1) / 7),
-                    }}
-                    selectedId={selectedId}
-                    onSelect={setSelectedId}
-                    date={date}
-                    items={calendar.getItems(date)}
-                    onInvalidateItems={onInvalidateItems}
-                    beginningPeriod={calendar.beginningPeriod}
-                />
-            ))}
-        </section>
+        <ClickAwayListener onClickAway={() => setSelectedId(null)}>
+            <section className={`${classes.grid}`} ref={gridRef}>
+                {weekDayList.map((day) => (
+                    <div key={day} className={`${classes.cell} ${classes['day-label']}`}>
+                        {day}
+                    </div>
+                ))}
+                {showLeftScrollNav && (
+                    <FontAwesomeIcon
+                        icon={faAngleLeft}
+                        onClick={leftPosHandler.bind(null, -1)}
+                        className={`z-30 !absolute top-[50%] left-1 -translate-y-[50%] opacity-70 hover:opacity-100 w-[3rem] h-[3rem] inline-block rounded-full text-2xl border-2 border-slate-500 bg-slate-500 text-slate-50 cursor-pointer ${classes.navigator}`}
+                    />
+                )}
+                {showRightScrollNav && (
+                    <FontAwesomeIcon
+                        icon={faAngleRight}
+                        onClick={leftPosHandler.bind(null, 1)}
+                        className={`z-30 !absolute top-[50%] right-1 -translate-y-[50%] opacity-70 hover:opacity-100 w-[3rem] h-[3rem] inline-block rounded-full text-2xl border-2 border-slate-500 bg-slate-500 text-slate-50 cursor-pointer ${classes.navigator}`}
+                    />
+                )}
+                {calendarDates.map((date, idx) => (
+                    <DayCell
+                        key={idx}
+                        layoutId={date.toISOString()}
+                        position={{
+                            x: idx % 7,
+                            y: Math.floor(idx / 7),
+                            maxY: Math.floor((calendarDates.length - 1) / 7),
+                        }}
+                        selectedId={selectedId}
+                        onSelect={setSelectedId}
+                        date={date}
+                        items={calendar.getItems(date)}
+                        onInvalidateItems={onInvalidateItems}
+                        beginningPeriod={calendar.beginningPeriod}
+                    />
+                ))}
+            </section>
+        </ClickAwayListener>
     );
 };
 

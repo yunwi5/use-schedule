@@ -1,4 +1,4 @@
-@import "../../../styles/main";
+@import '../../../styles/main';
 
 .form {
     flex-grow: 1;
@@ -39,7 +39,7 @@
             box-shadow: $shadow-light;
         }
 
-        [aria-invalid="true"] {
+        [aria-invalid='true'] {
             border: 1.5px solid $color-rose-dark-1;
             background-color: lighten($color-rose-light-1, 8%);
             &:focus {
@@ -52,10 +52,8 @@
         margin-top: 0.6rem;
     }
 
-    .name {
-        input {
-            font-size: 1.4rem;
-        }
+    input:disabled {
+        background-color: $color-grey-light-2;
     }
 
     h3.text {
@@ -110,17 +108,17 @@
 }
 
 .btn {
-	min-width: 20%;
-	width: clamp(10rem, 20%, 100%);
+    min-width: 20%;
+    width: clamp(10rem, 20%, 100%);
 }
 
 .btn-light {
-	border-color: #fff;
-	color: #fff;
-	background-color: transparent;
+    border-color: #fff;
+    color: #fff;
+    background-color: transparent;
 
-	&:hover {
-		background-color: transparent;
-		border-color: currentColor;
-	}
+    &:hover {
+        background-color: transparent;
+        border-color: currentColor;
+    }
 }

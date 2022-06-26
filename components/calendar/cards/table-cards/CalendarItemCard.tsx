@@ -50,7 +50,7 @@ const CalendarItemCard: React.FC<Props> = (props) => {
                 '' || ''
             } ${isCompleted ? 'line-through opacity-80' : ''} ${
                 overdue
-                    ? 'bg-rose-50 opacity-80 hover:opacity-100 hover:bg-rose-50 text-rose-500'
+                    ? 'bg-rose-50 opacity-80 text-rose-500 hover:opacity-100 hover:bg-rose-500/80 hover:text-rose-50'
                     : `${bgClass} ${textClass} ${hoverBgClass} ${hoverTextClass}`
             } text-md`}
         >

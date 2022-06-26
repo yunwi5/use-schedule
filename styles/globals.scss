@@ -44,6 +44,13 @@ select {
     background-color: #f4f2f2;
 }
 
+input:disabled,
+select:disabled {
+    opacity: 0.75;
+    background-color: $color-grey-light-2;
+    cursor: not-allowed;
+}
+
 select,
 option {
     cursor: pointer;
@@ -54,7 +61,7 @@ option {
         @apply max-w-[1rem] max-h-[1rem] inline-block mr-1;
     }
     .icon-medium {
-        @apply max-w-[1.35rem] max-h-[1.35rem] inline-block;
+        @apply max-w-[1.25rem] max-h-[1.25rem] inline-block;
     }
     .icon-large {
         @apply max-w-[2.2rem] max-h-[2.2rem] inline-block mr-1;

@@ -1,16 +1,18 @@
 import { MongoClient, ObjectId } from 'mongodb';
 
 import { TodoListCollection, TodoCollection, SubTodoCollection } from './collections';
-import { TodoList, TodoListProperties } from '../models/todo-models/TodoList';
+import { NoIdTodoList, TodoList, TodoListProperties } from '../models/todo-models/TodoList';
 import { NoIdTodo, TodoProps } from '../models/todo-models/Todo';
 import { NoIdSubTodo } from '../models/todo-models/SubTodo';
 import { SubItemProps } from '../models/utility-models';
-import { deleteItem, getItems, insertItem, updateItem } from './generic';
+import { deleteItem, getItems, insertItem, insertManyItems, updateItem } from './generic';
 
 // Todo list and its items
 export async function getTodoListAndItems(client: MongoClient, listId: string) {
     const db = client.db();
-    const listPromise = db.collection(TodoListCollection).findOne({ _id: new ObjectId(listId) });
+    const listPromise = db
+        .collection(TodoListCollection)
+        .findOne({ _id: new ObjectId(listId) });
     const todosPromise = db.collection(TodoCollection).find({ listId }).toArray();
 
     return await Promise.all([listPromise, todosPromise]);
@@ -34,6 +36,10 @@ export async function insertTodoList(client: MongoClient, list: TodoList) {
     const db = client.db();
     const res = await db.collection(TodoListCollection).insertOne(listNoId);
     return res;
+}
+
+export async function insertManyTodoLists(client: MongoClient, lists: NoIdTodoList[]) {
+    return await insertManyItems(client, lists, TodoListCollection);
 }
 
 export async function updateTodoListProps(
@@ -70,7 +76,11 @@ export async function insertTodo(client: MongoClient, newTodo: NoIdTodo) {
     return await insertItem(client, newTodo, TodoCollection);
 }
 
-export async function updateTodo(client: MongoClient, todoId: string, updatedProps: TodoProps) {
+export async function updateTodo(
+    client: MongoClient,
+    todoId: string,
+    updatedProps: TodoProps,
+) {
     const db = client.db();
     const res = await db
         .collection(TodoCollection)

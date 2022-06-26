@@ -8,6 +8,9 @@ module.exports = (phase) => {
         const databaseName = 'task-manager';
 
         return {
+            images: {
+                domains: ['images.unsplash.com', 'lh3.googleusercontent.com'],
+            },
             reactStrictMode: true,
             env: {
                 APP_NAME: 'UseSchedule',
@@ -24,6 +27,9 @@ module.exports = (phase) => {
 
     // For Production Server Configuration
     return {
+        images: {
+            domains: ['images.unsplash.com', 'lh3.googleusercontent.com'],
+        },
         reactStrictMode: true,
         env: {
             API_DOMAIN_FULL: '',

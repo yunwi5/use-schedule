@@ -91,6 +91,7 @@ $min-cell-width: 8rem;
         z-index: 500;
         padding-top: 5px;
         height: 10rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 
         & * {
             transform: scale(0.9);

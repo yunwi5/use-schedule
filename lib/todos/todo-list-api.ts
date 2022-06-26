@@ -31,7 +31,10 @@ export async function postTodoList(list: NoIdTodoList) {
 export async function patchTodoList(listId: string, listProps: TodoListProperties) {
     let message = '';
     try {
-        const { status, data } = await axios.patch(`${TODO_API_DOMAIN}/list/${listId}`, listProps);
+        const { status, data } = await axios.patch(
+            `${TODO_API_DOMAIN}/list/${listId}`,
+            listProps,
+        );
         if (status >= 200 && status < 300)
             return { isSuccess: true, message: 'Patching todo list successful!' };
     } catch (err) {
@@ -65,6 +68,20 @@ export async function getTodoListItems(listId: string) {
         message = err instanceof Error ? err.message : 'Getting todo items did not work.';
     }
     return { isSuccess: false, message, todos: [] as Todo[] };
+}
+
+// Default user todo lists that are inserted at the very beginning of their use.
+export async function createDefaultTodoLists() {
+    let message = '';
+    try {
+        const { status, data } = await axios.post<{ message: string }>(
+            `${TODO_API_DOMAIN}/create-defaults`,
+        );
+        if (status >= 200 && status < 300) return { isSuccess: true, ...data };
+    } catch (err) {
+        message = err instanceof Error ? err.message : 'Getting todo items did not work.';
+    }
+    return { isSuccess: false, message };
 }
 
 // Todo Item APIS
