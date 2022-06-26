@@ -5,6 +5,8 @@ import PlannerCard from '../ui/cards/PlannerCard';
 import ControlNav from './control/ControlNav';
 import IntervalsList from './lists/IntervalsList';
 import { RecurringItem } from '../../models/recurring-models';
+import Image from 'next/image';
+import BackgroundImage from '../ui/design-elements/BackgroundImage';
 
 interface Props {
     onInvalidate(): void;
@@ -16,11 +18,14 @@ const RecurringMain: React.FC<Props> = (props) => {
     const { onInvalidate, items } = props;
 
     return (
-        <PlannerCard className={'flex flex-col justify-between gap-8'}>
-            <IntroPanel />
-            <ControlNav onInvalidate={onInvalidate} />
-            <IntervalsList onInvalidate={onInvalidate} items={items} />
-        </PlannerCard>
+        <div>
+            <BackgroundImage src="/bg-images/bg-note.jpg" />
+            <PlannerCard className={'z-10 flex flex-col justify-between gap-8'}>
+                <IntroPanel />
+                <ControlNav onInvalidate={onInvalidate} />
+                <IntervalsList onInvalidate={onInvalidate} items={items} />
+            </PlannerCard>
+        </div>
     );
 };
 

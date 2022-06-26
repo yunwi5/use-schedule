@@ -5,7 +5,7 @@ import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 
 import TaskAdd from '../../../planners/planner-crud/TaskAdd';
 import EventAdd from '../../events/EventAdd';
-import classes from './ItemCreate.module.scss';
+import classes from './ItemCreateButton.module.scss';
 
 interface Props {
     onInvalidate: () => void;

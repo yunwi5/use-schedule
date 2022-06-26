@@ -1,4 +1,4 @@
-@import "../../../../styles/abstract/variables";
+@import '../../../../styles/abstract/variables';
 
 // Custom button style
 .create-button {
@@ -25,7 +25,11 @@
     }
 
     &:hover {
-        background-image: linear-gradient(to right, $color-secondary-light-1, $color-tertiary-light-1);
+        background-image: linear-gradient(
+            to right,
+            $color-secondary-light-1,
+            $color-tertiary-light-1
+        );
 
         .icon {
             // color: $color-secondary-light-2;

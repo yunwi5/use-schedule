@@ -1,6 +1,6 @@
 import React from 'react';
 import { CalendarFilter, FilterStorage } from './calendar-filter';
-import ItemCreate from './item-create/ItemCreate';
+import ItemCreate from './item-create/ItemCreateButton';
 
 import { useAppDispatch } from '../../../store/redux';
 import { calendarActions } from '../../../store/redux/calendar-slice';

@@ -1,4 +1,4 @@
-import { RecurringCollection } from './../db/collections';
+import { RecurringCollection } from './collections';
 import { MongoClient } from 'mongodb';
 import {
     EventCollection,
@@ -8,9 +8,9 @@ import {
     TemplateCollection,
     TodoCollection,
     TodoListCollection,
-} from '../db/collections';
-import { deleteManyItems } from '../db/generic';
-import { connectDatabase } from '../db/mongodb-util';
+} from './collections';
+import { deleteManyItems } from './generic';
+import { connectDatabase } from './mongodb-util';
 
 // This script will delete 1) tasks 2) sub-tasks 3) events
 // 4) templates 5) todo-lists 6) todos 7) recurring events/tasks

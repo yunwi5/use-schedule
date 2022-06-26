@@ -13,6 +13,7 @@ import { getCurrentYearBeginning } from '../../../utilities/date-utils/date-get'
 import { isSameYear } from '../../../utilities/date-utils/date-check';
 import { adjustOverdueTask } from '../../../utilities/tasks-utils/task-util';
 import PlannerCard from '../../ui/cards/PlannerCard';
+import BackgroundImage from '../../ui/design-elements/BackgroundImage';
 
 interface Props {
     yearlyTasks: Task[];
@@ -62,7 +63,8 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
     }, [dispatch]);
 
     const yearNavigateHandler = (direction: number) => {
-        if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
+        if (direction !== 1 && direction !== -1)
+            throw new Error('Direction parameter is wrong!');
         // Hook call
         addLocalYears(direction);
     };
@@ -72,27 +74,32 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
     };
 
     return (
-        <PlannerCard>
-            <IntroPanel
-                title="Yearly Planner"
-                message="Make your year strong and compact with timeply planned yearly goals added on your scheduler. Feel free to see the analytics of your week done by our statistical analysis."
-                beginningPeriod={currentTimeStamp}
-                onMutate={onMutate}
-            />
-            <div className="rounded-md border-2 border-slate-200 bg-white mt-8">
-                <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-                {!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
-                {planner && (
-                    <YearlyTable
-                        yearBeginning={currentTimeStamp}
-                        planner={planner}
-                        onChangeYear={yearNavigateHandler}
-                        onNavigateCurrentPeriod={currentNavigateHandler}
-                        onMutate={onMutate}
-                    />
-                )}
-            </div>
-        </PlannerCard>
+        <div>
+            <BackgroundImage src="/bg-images/bg-posit.jpg" />
+            <PlannerCard>
+                <IntroPanel
+                    title="Yearly Planner"
+                    message="Make your year strong and compact with timeply planned yearly goals added on your scheduler. Feel free to see the analytics of your week done by our statistical analysis."
+                    beginningPeriod={currentTimeStamp}
+                    onMutate={onMutate}
+                />
+                <div className="rounded-md border-2 border-slate-200 bg-white mt-8">
+                    <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
+                    {!planner && (
+                        <p className="text-center text-3xl text-slate-800">Loading...</p>
+                    )}
+                    {planner && (
+                        <YearlyTable
+                            yearBeginning={currentTimeStamp}
+                            planner={planner}
+                            onChangeYear={yearNavigateHandler}
+                            onNavigateCurrentPeriod={currentNavigateHandler}
+                            onMutate={onMutate}
+                        />
+                    )}
+                </div>
+            </PlannerCard>
+        </div>
     );
 };
 

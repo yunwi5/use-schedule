@@ -56,7 +56,10 @@ const ItemCreatePrompt: React.FC<Props> = ({
                 >
                     <h2 className="text-2xl text-blue-500/75 brightness-95">
                         New Item
-                        <ExitIcon onClose={onClose} className="text-pink-500 !text-[1.35rem]" />
+                        <ExitIcon
+                            onClose={onClose}
+                            className="text-pink-500 !text-[1.35rem]"
+                        />
                     </h2>
                     <ul>
                         <li

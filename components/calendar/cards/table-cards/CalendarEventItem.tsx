@@ -18,7 +18,7 @@ const CalendarEventItem: React.FC<Props> = (props) => {
     return (
         <>
             <CalendarItemCard
-                bgClass={`bg-white`}
+                bgClass={`bg-sky-50`}
                 textClass={`text-sky-600/70`}
                 hoverBgClass={`hover:bg-sky-500/60`}
                 hoverTextClass={`hover:text-sky-50`}

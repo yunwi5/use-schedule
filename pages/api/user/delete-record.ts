@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { deleteUserRecord } from '../../../scripts/delete_user_record';
+import { deleteUserRecord } from '../../../db/delete_user_record';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     let { userId } = req.query;

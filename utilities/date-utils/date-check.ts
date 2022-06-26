@@ -70,6 +70,10 @@ export function isSameYear(yearBeginning: Date, date: Date): boolean {
     return yearBeginning.getFullYear() === date.getFullYear();
 }
 
+export function isCurrentMonth(beginningPeriod: Date, date: Date) {
+    return beginningPeriod.getMonth() === date.getMonth();
+}
+
 export function compareDates(date1: Date, date2: Date): boolean {
     return date1.getTime() < date2.getTime();
 }

@@ -62,7 +62,9 @@ const ExportModal: React.FC<Props> = ({ onClose, beginningPeriod }) => {
     const { events } = useEventQuery();
     const { user } = useUser();
     const [exportFileType, setExportFileType] = useState<ExportFileType>(ExportFileType.ICS);
-    const [exportItems, setExportItems] = useState<CalendarItemType[]>([CalendarItemType.EVENT]);
+    const [exportItems, setExportItems] = useState<CalendarItemType[]>([
+        CalendarItemType.EVENT,
+    ]);
     const [exportItemError, setExportItemError] = useState<string | null>(null);
     const [exportPeriod, setExportPeriod] = useState<ExportPeriod>(ExportPeriod.ALL);
     const [error, setError] = useState<string | null>(null);
@@ -162,7 +164,9 @@ const ExportModal: React.FC<Props> = ({ onClose, beginningPeriod }) => {
                             </ActiveButton>
                         ))}
                     </div>
-                    {exportItemError && <p className="-mt-1 error-message">{exportItemError}</p>}
+                    {exportItemError && (
+                        <p className="-mt-1 error-message">{exportItemError}</p>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-3 text-xl">

@@ -33,12 +33,6 @@
         grid-column: 1 / -1;
     }
 
-    .sidenav {
-        // & > * {
-        // min-width: max-content;
-        // }
-    }
-
     .content {
         transition: all $delay ease-in-out;
     }

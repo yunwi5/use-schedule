@@ -1,5 +1,8 @@
 import React from 'react';
-import { CalendarItemType, getItemIcon } from '../../../../models/calendar-models/CalendarItemType';
+import {
+    CalendarItemType,
+    getItemIcon,
+} from '../../../../models/calendar-models/CalendarItemType';
 import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
 interface Props {
@@ -44,10 +47,10 @@ const CalendarItemCard: React.FC<Props> = (props) => {
         <div
             onClick={clickHandler}
             className={`flex items-center gap-1 max-w-[20rem] h-[33px] px-1 py-1 rounded-md cursor-pointer border-[.9px] ${
-                borderClass || ''
+                '' || ''
             } ${isCompleted ? 'line-through opacity-80' : ''} ${
                 overdue
-                    ? '!border-rose-300 bg-white opacity-80 hover:opacity-100 hover:bg-rose-50 text-rose-500'
+                    ? 'bg-rose-50 opacity-80 hover:opacity-100 hover:bg-rose-50 text-rose-500'
                     : `${bgClass} ${textClass} ${hoverBgClass} ${hoverTextClass}`
             } text-md`}
         >

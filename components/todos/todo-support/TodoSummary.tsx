@@ -21,11 +21,13 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
 
     const totalTodos = useMemo(() => todos.length, [todos]);
     const completedTodosCount = useMemo(
-        () => todos.reduce((accCount, todo) => (todo.isCompleted ? accCount + 1 : accCount), 0),
+        () =>
+            todos.reduce((accCount, todo) => (todo.isCompleted ? accCount + 1 : accCount), 0),
         [todos],
     );
     const importantTodosCount = useMemo(
-        () => todos.reduce((accCount, todo) => (todo.isImportant ? accCount + 1 : accCount), 0),
+        () =>
+            todos.reduce((accCount, todo) => (todo.isImportant ? accCount + 1 : accCount), 0),
         [todos],
     );
 
@@ -77,8 +79,8 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
             {showSummary && (
                 <div
                     className={`max-h-none sm:max-h-[11rem] transition-all !duration-150 relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
-                        theme ? 'border-slate-50' : 'border-sky-300'
-                    } ${theme ? 'bg-sky-50/25' : ''}`}
+                        theme ? 'bg-gray-700/25 border-slate-50' : 'border-sky-300'
+                    }`}
                 >
                     <h3 className={`text-xl ${theme ? 'text-cyan-50' : 'text-blue-500'}`}>
                         Summary
@@ -97,10 +99,12 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
                             important
                         </li>
                         <li>
-                            <span className={countClass}>{todayTodosCount}</span> todos due today
+                            <span className={countClass}>{todayTodosCount}</span> todos due
+                            today
                         </li>
                         <li>
-                            <span className={countClass}>{weekTodosCount}</span> todos due this week
+                            <span className={countClass}>{weekTodosCount}</span> todos due this
+                            week
                         </li>
                         <li>
                             <span className={overdueClass}>{overdueCount} </span>

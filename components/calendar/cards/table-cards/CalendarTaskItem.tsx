@@ -17,7 +17,7 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
     return (
         <>
             <CalendarItemCard
-                bgClass={'bg-white'}
+                bgClass={'bg-blue-50'}
                 textClass={'text-blue-500/80'}
                 hoverBgClass={'hover:bg-blue-500/70'}
                 hoverTextClass={'hover:text-blue-50'}

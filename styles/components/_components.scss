@@ -57,6 +57,15 @@
         // border: 1px solid white;
         color: white;
         z-index: 2;
+        background-color: rgba(70, 70, 70, 0.35);
+    }
+
+    .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+        border: 1px solid white;
+    }
+
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border: 2px solid $color-tertiary;
     }
 
     // label
@@ -67,7 +76,7 @@
 
     // select down-side icon
     .MuiSvgIcon-root {
-        color: white;
+        color: $color-grey-dark-1;
     }
 
     // input
@@ -104,4 +113,24 @@
     @include respond(400px) {
         flex-direction: column;
     }
+}
+
+// bg image container
+.bg-background {
+    width: 100%;
+    height: 100vh;
+    position: sticky;
+    top: 0rem;
+    left: 0;
+    background-color: rgba($color-primary-light-1, 0.8);
+    z-index: -10;
+    opacity: 0.7;
+
+    img {
+        opacity: 0.9;
+    }
+}
+
+.bg-background ~ main {
+    transform: translateY(-100vh);
 }

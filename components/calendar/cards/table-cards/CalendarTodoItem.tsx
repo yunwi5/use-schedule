@@ -34,7 +34,7 @@ const CalendarTodoItem: React.FC<Props> = ({ todo, onInvalidate }) => {
                 />
             )}
             <CalendarItemCard
-                bgClass={'bg-white'}
+                bgClass={'bg-indigo-50'}
                 textClass={'text-indigo-500/80'}
                 hoverBgClass={'hover:bg-indigo-400'}
                 hoverTextClass={'hover:text-indigo-50'}

@@ -14,6 +14,7 @@ import PlannerTableCard from '../ui/cards/PlannerTableCard';
 import PlannerHeader from '../planners/planner-nav/PlannerHeader';
 import TemplateTable from './TemplateTable';
 import TemplateControl from './crud-operations/TemplateControl';
+import BackgroundImage from '../ui/design-elements/BackgroundImage';
 
 function getTemplateWeekBeginning() {
     // Template beginning time
@@ -79,32 +80,36 @@ const TemplatePlanner: React.FC<Props> = (props) => {
     }, [dispatch]);
 
     return (
-        <PlannerCard>
-            <TemplateControl
-                onAddOrEdit={onMutateTemplate}
-                initialTemplate={template || undefined}
-            />
-            <PlannerTableCard>
-                <PlannerHeader
-                    beginningPeriod={templateWeekBeginning}
-                    onMutate={onInvalidateTasks}
-                    preventTaskAdd={
-                        !template
-                            ? {
-                                  message: 'Please fill up your template information first!',
-                              }
-                            : undefined
-                    }
+        <div>
+            <BackgroundImage src="/bg-images/bg-time.jpg" alt={'Time table image'} />
+            <PlannerCard>
+                <TemplateControl
+                    onAddOrEdit={onMutateTemplate}
+                    initialTemplate={template || undefined}
                 />
-                {template && (
-                    <TemplateTable
-                        weekBeginning={templateWeekBeginning}
-                        planner={planner}
+                <PlannerTableCard>
+                    <PlannerHeader
+                        beginningPeriod={templateWeekBeginning}
                         onMutate={onInvalidateTasks}
+                        preventTaskAdd={
+                            !template
+                                ? {
+                                      message:
+                                          'Please fill up your template information first!',
+                                  }
+                                : undefined
+                        }
                     />
-                )}
-            </PlannerTableCard>
-        </PlannerCard>
+                    {template && (
+                        <TemplateTable
+                            weekBeginning={templateWeekBeginning}
+                            planner={planner}
+                            onMutate={onInvalidateTasks}
+                        />
+                    )}
+                </PlannerTableCard>
+            </PlannerCard>
+        </div>
     );
 };
 

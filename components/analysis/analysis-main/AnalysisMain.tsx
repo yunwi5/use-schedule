@@ -12,6 +12,7 @@ import { IEvent } from '../../../models/Event';
 import { processEvents } from '../../../utilities/event-utils/event-util';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
 import { populateAnalyzer } from '../../../utilities/analysis-utils';
+import BackgroundImage from '../../ui/design-elements/BackgroundImage';
 
 interface Props {
     tasks: Task[];
@@ -39,7 +40,14 @@ const AnalysisMain: React.FC<Props> = (props) => {
             processedEvents,
         );
         updateAnalyzer(newAnalyzer);
-    }, [plannerMode, analysisMode, currentPeriod, processedTasks, processedEvents, updateAnalyzer]);
+    }, [
+        plannerMode,
+        analysisMode,
+        currentPeriod,
+        processedTasks,
+        processedEvents,
+        updateAnalyzer,
+    ]);
 
     const analysisModeHandler = (targetMode: AnalysisMode) => {
         // should be either tasks, events or all (should not be neither).
@@ -48,34 +56,42 @@ const AnalysisMain: React.FC<Props> = (props) => {
             else if (analysisMode === AnalysisMode.ALL) updateAnalysisMode(AnalysisMode.TASKS);
         } else if (targetMode === AnalysisMode.TASKS) {
             if (analysisMode === AnalysisMode.EVENTS) updateAnalysisMode(AnalysisMode.ALL);
-            else if (analysisMode === AnalysisMode.ALL) updateAnalysisMode(AnalysisMode.EVENTS);
+            else if (analysisMode === AnalysisMode.ALL)
+                updateAnalysisMode(AnalysisMode.EVENTS);
         }
     };
 
     return (
-        <main className="py-6 md:pl-4 text-slate-600">
-            <div className="mt-3 mb-10 flex pl-3 flex-col gap-4">
-                <AnalysisHeader
-                    currentPeriod={currentPeriod}
-                    onNavigate={onNavigate}
-                    currentMode={analysisMode}
-                    onChangeMode={analysisModeHandler}
-                    onNavigateCurrent={onNavigate}
-                />
-            </div>
-            {!analyzer && (
-                <div className="flex justify-center items-center">
-                    <LoadingSpinner />
+        <div>
+            <BackgroundImage
+                src="/bg-images/bg-analysis2.jpg"
+                alt="Analysis background"
+                opacity={0.2}
+            />
+            <main className="py-6 md:pl-4 text-slate-600">
+                <div className="mt-3 mb-10 flex pl-3 flex-col gap-4">
+                    <AnalysisHeader
+                        currentPeriod={currentPeriod}
+                        onNavigate={onNavigate}
+                        currentMode={analysisMode}
+                        onChangeMode={analysisModeHandler}
+                        onNavigateCurrent={onNavigate}
+                    />
                 </div>
-            )}
-            {analyzer && (
-                <div className="pl-3 sm:pl-6 flex flex-col gap-20">
-                    <TrendAnalysis />
-                    <PeriodicAnalysis />
-                    <CategoricalDataAnalysis />
-                </div>
-            )}
-        </main>
+                {!analyzer && (
+                    <div className="flex justify-center items-center">
+                        <LoadingSpinner />
+                    </div>
+                )}
+                {analyzer && (
+                    <div className="pl-3 sm:pl-6 flex flex-col gap-20">
+                        <TrendAnalysis />
+                        <PeriodicAnalysis />
+                        <CategoricalDataAnalysis />
+                    </div>
+                )}
+            </main>
+        </div>
     );
 };
 

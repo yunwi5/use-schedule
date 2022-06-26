@@ -14,6 +14,7 @@ interface Props {
 }
 
 const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
+    const [selectedId, setSelectedId] = useState<string | null>(null);
     const [leftPos, setLeftPos] = useState(0);
     const gridRef = useRef<HTMLSelectElement>(null);
     // Max scroll position is different for different screen sizes
@@ -45,7 +46,7 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const showRightScrollNav = leftPos !== maxScrollPos;
 
     return (
-        <section className={classes.grid} ref={gridRef}>
+        <section className={`${classes.grid}`} ref={gridRef}>
             {weekDayList.map((day) => (
                 <div key={day} className={`${classes.cell} ${classes['day-label']}`}>
                     {day}
@@ -68,6 +69,14 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
             {calendarDates.map((date, idx) => (
                 <DayCell
                     key={idx}
+                    layoutId={date.toISOString()}
+                    position={{
+                        x: idx % 7,
+                        y: Math.floor(idx / 7),
+                        maxY: Math.floor((calendarDates.length - 1) / 7),
+                    }}
+                    selectedId={selectedId}
+                    onSelect={setSelectedId}
                     date={date}
                     items={calendar.getItems(date)}
                     onInvalidateItems={onInvalidateItems}

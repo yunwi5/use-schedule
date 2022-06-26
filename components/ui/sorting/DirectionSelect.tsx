@@ -16,7 +16,7 @@ const DirectionSelect: React.FC<Props> = ({ direction, onChange, light }) => {
         <FormControl
             sx={{ minWidth: 120 }}
             size="small"
-            className={`${light ? 'mui-light-select' : ''} shadow-md`}
+            className={`${light ? 'mui-light-select' : 'bg-white'} shadow-md`}
         >
             <InputLabel id="sort-direction-label">Direction</InputLabel>
             <Select
@@ -29,7 +29,9 @@ const DirectionSelect: React.FC<Props> = ({ direction, onChange, light }) => {
                 <MenuItem disabled selected value="">
                     select
                 </MenuItem>
-                <MenuItem value={SortingDirection.Ascending}>{SortingDirection.Ascending}</MenuItem>
+                <MenuItem value={SortingDirection.Ascending}>
+                    {SortingDirection.Ascending}
+                </MenuItem>
                 <MenuItem value={SortingDirection.Descending}>
                     {SortingDirection.Descending}
                 </MenuItem>

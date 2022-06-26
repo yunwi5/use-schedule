@@ -7,6 +7,7 @@ interface Props {
     disabled?: boolean;
     variant?: 'text' | 'outlined' | 'contained';
     style?: object;
+    size?: string;
     className?: string;
 }
 

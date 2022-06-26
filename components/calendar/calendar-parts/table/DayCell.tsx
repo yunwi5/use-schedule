@@ -8,13 +8,21 @@ import { useAppSelector } from '../../../../store/redux';
 import { filterCalendarItems } from '../../../../utilities/filter-utils/calendar-item-filter';
 import { isInstanceOfEvent, IEvent } from '../../../../models/Event';
 
-import { CalendarTaskItem, CalendarTodoItem, CalendarEventItem } from '../../cards/table-cards/';
-import ItemCreatePrompt from '../../calendar-control/item-create/ItemCreatePrompt';
+import {
+    CalendarTaskItem,
+    CalendarTodoItem,
+    CalendarEventItem,
+} from '../../cards/table-cards/';
 import classes from './CalendarTable.module.scss';
-import { isCurrentDate } from '../../../../utilities/date-utils/date-check';
+import { isCurrentDate, isCurrentMonth } from '../../../../utilities/date-utils/date-check';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/pro-regular-svg-icons';
+import ItemCreateBar from '../../calendar-control/item-create/ItemCreateBar';
 
-function isNonCurrentMonth(beginningPeriod: Date, date: Date) {
-    return beginningPeriod.getMonth() !== date.getMonth();
+interface Position {
+    x: number;
+    y: number;
+    maxY: number;
 }
 
 interface Props {
@@ -22,56 +30,65 @@ interface Props {
     items: CalendarItem[];
     onInvalidateItems(): void;
     beginningPeriod: Date;
+    layoutId: string;
+    selectedId: string | null;
+    position: Position;
+    onSelect: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const DayCell: React.FC<Props> = (props) => {
-    const { date, items, beginningPeriod, onInvalidateItems } = props;
-    const [showItemCreatePrompt, setShowItemCreatePrompt] = useState(false);
-
+    const {
+        date,
+        items,
+        position,
+        beginningPeriod,
+        onInvalidateItems,
+        layoutId,
+        onSelect,
+        selectedId,
+    } = props;
     const { statusFilter, importanceFilter, itemTypeFilter } = useAppSelector(
         (state) => state.calendar,
     );
 
-    // For each cell, calendar items should be sorted by time in ascending order for user display.
-    const sortedItems: CalendarItem[] = useMemo(
-        () => items.sort((itemA, itemB) => compareByDateTime(itemA, itemB)),
-        [items],
-    );
-
-    const filteredItems = useMemo(() => {
-        return filterCalendarItems(sortedItems, statusFilter, importanceFilter, itemTypeFilter);
-    }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
-
-    const showItemPromptHandler = (e: React.MouseEvent) => {
-        // e.stopPropagation();
-        if (
-            !e.target ||
-            !(e.target as any).className ||
-            typeof (e.target as any).className !== 'string'
-        )
-            return;
-        if (
-            !(e.target as any).className.includes('day-cell') &&
-            !(e.target as any).className.includes('day-number')
-        )
-            return;
-        // Prevent propagation
-        setShowItemCreatePrompt((prev) => !prev);
+    const selectHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isSelected) return;
+        if ((e.target as any).dataset.name === 'select') onSelect(layoutId);
     };
 
-    const nonCurrentMonth = isNonCurrentMonth(beginningPeriod, date);
+    const filteredItems = useMemo(() => {
+        const sortedItems = items.sort((itemA, itemB) => compareByDateTime(itemA, itemB));
+        return filterCalendarItems(
+            sortedItems,
+            statusFilter,
+            importanceFilter,
+            itemTypeFilter,
+        );
+    }, [items, statusFilter, importanceFilter, itemTypeFilter]);
 
-    const showPromptOnLeft = date.getDay() >= 5 || date.getDay() === 0;
+    const nonCurrentMonth = !isCurrentMonth(beginningPeriod, date);
+
+    const isSelected = selectedId === layoutId;
+    if (isSelected) console.log('Cell Selected');
+
+    const positionClass = getPositionClass(position);
 
     return (
-        <div className={`${classes['day-item-wrapper']} ${classes.cell}`}>
+        <div
+            className={`${classes['day-item-wrapper']} ${classes.cell} ${
+                isSelected && `${classes['selected-cell']} ${positionClass}`
+            }`}
+            onClick={selectHandler}
+        >
             <div
-                className={`day-cell ${classes['day-item']} ${
+                data-name="select"
+                className={`${classes['day-item']} ${
                     isCurrentDate(date) ? classes['current-day-item'] : ''
                 } ${nonCurrentMonth ? classes['non-current-month-item'] : ''}`}
-                onClick={showItemPromptHandler}
             >
-                <span className={`day-number ${classes['day-number']}`}>{date.getDate()}</span>
+                <span data-name="select" className={`${classes['day-number']}`}>
+                    {date.getDate()}
+                </span>
 
                 {filteredItems.map((item) => {
                     if (isInstanceOfTodo(item)) {
@@ -101,16 +118,39 @@ const DayCell: React.FC<Props> = (props) => {
                     }
                 })}
             </div>
-            {showItemCreatePrompt && (
-                <ItemCreatePrompt
-                    onClose={setShowItemCreatePrompt.bind(null, false)}
-                    beginningPeriod={date}
-                    showLeft={showPromptOnLeft}
-                    onAdd={onInvalidateItems}
-                />
+            {isSelected && (
+                <>
+                    <div
+                        onClick={onSelect.bind(null, null)}
+                        className="absolute top-1 right-1 flex-center w-6 h-6 rounded-full z-100 transition-all bg-blue-200/80 text-blue-700 hover:bg-blue-600/90 hover:text-blue-50"
+                    >
+                        <FontAwesomeIcon icon={faXmark} className="icon-medium " />
+                    </div>
+                    <ItemCreateBar onAdd={onInvalidateItems} beginningPeriod={date} />
+                </>
             )}
         </div>
     );
 };
+
+function getPositionClass(position: Position) {
+    const leftEnd = position.x === 0;
+    const rightEnd = position.x === 6;
+    const topEnd = position.y === 0;
+    const bottomEnd = position.y === position.maxY;
+    if (bottomEnd) console.log('bottomEnd');
+
+    if (leftEnd && topEnd) return classes['selected-cell-top-leftend'];
+    if (rightEnd && topEnd) return classes['selected-cell-top-rightend'];
+    if (leftEnd && bottomEnd) return classes['selected-cell-bottom-leftend'];
+    if (rightEnd && bottomEnd) return classes['selected-cell-bottom-rightend'];
+
+    if (topEnd) return classes['selected-cell-topend'];
+    if (bottomEnd) return classes['selected-cell-bottomend'];
+
+    if (rightEnd) return classes['selected-cell-rightend'];
+    if (leftEnd) return classes['selected-cell-leftend'];
+    return '';
+}
 
 export default DayCell;

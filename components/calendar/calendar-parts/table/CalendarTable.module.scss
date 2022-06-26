@@ -13,6 +13,7 @@ $min-cell-width: 8rem;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+    background-color: rgba(253, 253, 253, 0.85);
 
     // Sass for loop to apply media query
     // overflow-x does not apply when max-width: 100%; is set.
@@ -25,11 +26,12 @@ $min-cell-width: 8rem;
     }
 
     .cell {
+        position: relative;
         min-width: $min-cell-width;
         display: flex;
         flex-direction: column;
         cursor: pointer;
-        transition: all 0.5s ease-in-out;
+        transition: all 0.25s ease-in-out;
     }
 
     .day-label {
@@ -50,7 +52,9 @@ $min-cell-width: 8rem;
         height: 100%;
         overflow-y: scroll;
         padding: 0 1px;
-        @include hide-scrollbar;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
     }
 
     // highlight the cell that it is today
@@ -59,7 +63,7 @@ $min-cell-width: 8rem;
     }
 
     .non-current-month-item {
-        background-color: $color-grey-light-1;
+        background-color: rgba($color-grey-light-2, 0.6);
         opacity: 0.85;
     }
 
@@ -76,6 +80,63 @@ $min-cell-width: 8rem;
         display: none;
         @include respond(900px) {
             display: block;
+        }
+    }
+
+    .selected-cell {
+        transform: scale(1.6);
+        background-color: $color-primary-light-1;
+        border-radius: 10px;
+        border: 1.5px solid $color-primary-light-3 !important;
+        z-index: 500;
+        padding-top: 5px;
+        height: 10rem;
+
+        & * {
+            transform: scale(0.9);
+        }
+
+        .day-item {
+            background-color: inherit;
+            @include show-scrollbar;
+        }
+    }
+
+    .selected-cell-top-leftend {
+        transform: scale(1.6) translateX(50%) translateY(20%);
+    }
+
+    .selected-cell-top-rightend {
+        transform: scale(1.6) translateX(-50%) translateY(20%);
+    }
+
+    .selected-cell-bottom-leftend {
+        transform: scale(1.6) translateX(50%) translateY(-40%);
+    }
+
+    .selected-cell-bottom-rightend {
+        transform: scale(1.6) translateX(-50%) translateY(-40%);
+    }
+
+    .selected-cell-topend {
+        transform: scale(1.6) translateY(20%);
+    }
+
+    .selected-cell-bottomend {
+        transform: scale(1.6) translateY(-40%);
+    }
+
+    .selected-cell-leftend {
+        transform: scale(1.6) translate(50%);
+    }
+
+    .selected-cell-rightend {
+        transform: scale(1.6) translate(-50%);
+    }
+
+    .cell:not(.selected-cell) {
+        .day-item {
+            @include hide-scrollbar;
         }
     }
 }

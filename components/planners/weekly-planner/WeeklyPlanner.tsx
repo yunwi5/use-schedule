@@ -16,6 +16,7 @@ import PlannerCard from '../../ui/cards/PlannerCard';
 import PlannerTableCard from '../../ui/cards/PlannerTableCard';
 import { foldActions } from '../../../store/redux/fold-slice';
 import { ItemsView } from '../../../models/ui-models';
+import BackgroundImage from '../../ui/design-elements/BackgroundImage';
 
 interface Props {
     weeklyTasks: Task[];
@@ -64,7 +65,8 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
 
     // If the week beginning changes, the planner also has to change to load new tasks according to
     const weekNavigateHandler = (direction: number) => {
-        if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
+        if (direction !== 1 && direction !== -1)
+            throw new Error('Direction parameter is wrong!');
         addLocalWeeks(direction);
     };
 
@@ -74,29 +76,37 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
     }, [setCurrentTimeStamp, weekBeginning]);
 
     return (
-        <PlannerCard>
-            <IntroPanel
-                title={'Weekly Planner'}
-                message={
-                    'Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis.'
-                }
-                beginningPeriod={currentTimeStamp}
-                onMutate={onMutate}
+        <div>
+            <BackgroundImage
+                src="/bg-images/bg-weekly-planner.jpg"
+                alt="weekly planner background image"
             />
-            <PlannerTableCard>
-                <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-                {!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
-                {planner && (
-                    <WeeklyTable
-                        weekBeginning={currentTimeStamp}
-                        planner={planner}
-                        onChangeWeek={weekNavigateHandler}
-                        onNavigateCurrentPeriod={navigateCurrentHandler}
-                        onMutate={onMutate}
-                    />
-                )}
-            </PlannerTableCard>
-        </PlannerCard>
+            <PlannerCard>
+                <IntroPanel
+                    title={'Weekly Planner'}
+                    message={
+                        'Make your week compact with timeply planned weekly tasks added on your scheduler. Feel free to use templates to add repetitive tasks to each week, and see the analytics of your week done by our statistical analysis.'
+                    }
+                    beginningPeriod={currentTimeStamp}
+                    onMutate={onMutate}
+                />
+                <PlannerTableCard>
+                    <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
+                    {!planner && (
+                        <p className="text-center text-3xl text-slate-800">Loading...</p>
+                    )}
+                    {planner && (
+                        <WeeklyTable
+                            weekBeginning={currentTimeStamp}
+                            planner={planner}
+                            onChangeWeek={weekNavigateHandler}
+                            onNavigateCurrentPeriod={navigateCurrentHandler}
+                            onMutate={onMutate}
+                        />
+                    )}
+                </PlannerTableCard>
+            </PlannerCard>
+        </div>
     );
 };
 

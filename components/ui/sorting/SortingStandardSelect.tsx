@@ -17,7 +17,7 @@ const SortingStandardSelect: React.FC<Props> = (props) => {
         <FormControl
             sx={{ minWidth: 120 }}
             size="small"
-            className={`${light ? 'mui-light-select' : ''} shadow-md`}
+            className={`${light ? 'mui-light-select' : 'bg-white'} shadow-md`}
         >
             <InputLabel id="sort-target-label">Sort By</InputLabel>
             <Select

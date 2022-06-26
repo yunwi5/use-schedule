@@ -7,6 +7,8 @@
     padding: 0.5rem 0.8rem;
     border-radius: 25px;
     border: 1px solid $color-primary-light-4;
+    background-color: $color-grey-light-1;
+    // overflow-x: hidden;
 
     &:focus-within {
         border: 2px solid $color-primary;
@@ -21,6 +23,8 @@
     input {
         background-color: inherit;
         flex: 1;
+        max-width: 75%;
+
         &:focus {
             outline: none;
         }

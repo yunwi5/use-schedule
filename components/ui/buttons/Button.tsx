@@ -1,6 +1,6 @@
-import React from "react";
-import { Theme, ButtonTheme, Size } from "../../../models/design-models";
-import classes from "./Button.module.scss";
+import React from 'react';
+import { Theme, ButtonTheme, Size } from '../../../models/design-models';
+import classes from './Button.module.scss';
 
 interface Props {
     size?: Size;
@@ -22,10 +22,10 @@ const Button: React.FC<Props> = (props) => {
 
     return (
         <button
-            className={`${classes.btn} ${classes["btn-" + themeClass]} ${
-                classes["btn-" + sizeClass]
+            className={`${classes.btn} ${classes['btn-' + themeClass]} ${
+                classes['btn-' + sizeClass]
             } ${className}`}
-            type={type ? type : ("button" as any)}
+            type={type ? type : ('button' as any)}
             onClick={onClick}
             disabled={disabled}
             style={style || {}}

@@ -1,10 +1,11 @@
+import React from 'react';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+
 import useAppLinks from '../../../hooks/useAppLinks';
 import ActiveNavLink from '../../ui/design-elements/ActiveNavLink';
-import layoutClasses from '../Layout.module.scss';
 import FullNavList from './FullNavList';
+import layoutClasses from '../Layout.module.scss';
 import classes from './FullScreenNavigation.module.scss';
 
 interface Props {

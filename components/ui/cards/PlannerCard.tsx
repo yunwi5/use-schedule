@@ -1,8 +1,15 @@
 import React from 'react';
 
-const PlannerCard: React.FC<{ className?: string }> = ({ className, children }) => {
+const PlannerCard: React.FC<{ className?: string; style?: object }> = ({
+    className,
+    children,
+    style,
+}) => {
     return (
-        <main className={`px-3 pt-5 pb-10 flex flex-col transition-all ${className || ''}`}>
+        <main
+            className={`px-3 pt-5 pb-10 flex flex-col transition-all ${className || ''}`}
+            style={style}
+        >
             {children}
         </main>
     );

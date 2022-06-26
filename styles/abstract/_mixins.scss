@@ -39,6 +39,16 @@
     }
 }
 
+@mixin show-scrollbar {
+    -ms-overflow-style: visible; /* IE and Edge */
+    scrollbar-width: 3px; /* Firefox */
+
+    // Chrome and Safari
+    &::-webkit-scrollbar {
+        display: block;
+    }
+}
+
 @mixin hide-scrollbar() {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
