@@ -3,7 +3,7 @@ import Joi from 'joi';
 export const taskSchema: Joi.ObjectSchema<any> = Joi.object({
     name: Joi.string().required(),
     timeString: Joi.string().required(),
-    description: Joi.string().empty('').required(),
+    description: Joi.string().empty(''),
     duration: Joi.number().required(),
     category: Joi.string().required(),
     subCategory: Joi.string().empty(''),

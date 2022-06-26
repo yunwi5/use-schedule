@@ -33,8 +33,6 @@ const TaskEdit: React.FC<Props> = (props) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showDiscardModal, setShowDiscardModal] = useState(false);
 
-    // For popup model for cancel event.
-    const [userHasEdit, setUserHasEdit] = useState(false);
     const { currentTemplate } = useTemplate();
 
     const taskEditHandler = async (newFormTask: FormTaskObject) => {
@@ -73,20 +71,8 @@ const TaskEdit: React.FC<Props> = (props) => {
         onClose();
     };
 
-    const closeHandler = useCallback(() => {
-        if (userHasEdit) setShowDiscardModal(true);
-        else onClose();
-    }, [userHasEdit, onClose]);
-
-    const userHasEditHandler = useCallback(
-        (hasEdit: boolean) => {
-            setUserHasEdit(hasEdit);
-        },
-        [setUserHasEdit],
-    );
-
     return (
-        <PlannerModal onClose={closeHandler} title={'Edit Task'}>
+        <PlannerModal onClose={onClose} title={'Edit Task'}>
             {showDeleteModal && (
                 <DeleteModal
                     targetName={initialTask.name}
@@ -95,7 +81,10 @@ const TaskEdit: React.FC<Props> = (props) => {
                 />
             )}
             {showDiscardModal && (
-                <DiscardModal onAction={onClose} onClose={setShowDiscardModal.bind(null, false)} />
+                <DiscardModal
+                    onAction={onClose}
+                    onClose={setShowDiscardModal.bind(null, false)}
+                />
             )}
             <TaskForm
                 onSubmit={taskEditHandler}
@@ -103,8 +92,6 @@ const TaskEdit: React.FC<Props> = (props) => {
                 isEdit={true}
                 initialTask={initialTask}
                 onDelete={setShowDeleteModal.bind(null, true)}
-                onHasEdit={userHasEditHandler}
-                userHasEdit={userHasEdit}
             />
         </PlannerModal>
     );

@@ -51,7 +51,9 @@ const MontlyPlanner: NextPage<Props> = ({ initialTasks }) => {
                     <LoadingSpinner />
                 </div>
             )}
-            {data && tasks && <MontlyPlannerMain montlyTasks={tasks} onMutate={invalidateData} />}
+            {data && tasks && (
+                <MontlyPlannerMain montlyTasks={tasks} onMutate={invalidateData} />
+            )}
         </div>
     );
 };

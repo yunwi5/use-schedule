@@ -14,6 +14,9 @@ import { isSameYear } from '../../../utilities/date-utils/date-check';
 import { adjustOverdueTask } from '../../../utilities/tasks-utils/task-util';
 import PlannerCard from '../../ui/cards/PlannerCard';
 import BackgroundImage from '../../ui/design-elements/BackgroundImage';
+import PlannerTableCard from '../../ui/cards/PlannerTableCard';
+import { foldActions } from '../../../store/redux/fold-slice';
+import { ItemsView } from '../../../models/ui-models';
 
 interface Props {
     yearlyTasks: Task[];
@@ -60,6 +63,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
 
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.YEARLY));
+        dispatch(foldActions.setView(ItemsView.LIST));
     }, [dispatch]);
 
     const yearNavigateHandler = (direction: number) => {
@@ -83,7 +87,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
                     beginningPeriod={currentTimeStamp}
                     onMutate={onMutate}
                 />
-                <div className="rounded-md border-2 border-slate-200 bg-white mt-8">
+                <PlannerTableCard>
                     <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
                     {!planner && (
                         <p className="text-center text-3xl text-slate-800">Loading...</p>
@@ -97,7 +101,7 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
                             onMutate={onMutate}
                         />
                     )}
-                </div>
+                </PlannerTableCard>
             </PlannerCard>
         </div>
     );

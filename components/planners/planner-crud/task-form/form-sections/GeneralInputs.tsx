@@ -6,9 +6,23 @@ import { ImportanceList } from '../../../../../models/task-models/Status';
 import { CategoryList, SubCategory } from '../../../../../models/task-models/Category';
 import classes from '../TaskForm.module.scss';
 import { useAppSelector } from '../../../../../store/redux';
-import { PlannerMode, PlannerModeList } from '../../../../../models/planner-models/PlannerMode';
+import {
+    PlannerMode,
+    PlannerModeList,
+} from '../../../../../models/planner-models/PlannerMode';
 import { FormValues } from '../../../../../utilities/form-utils/task-form-util';
 import { getTaskType } from '../../../../../utilities/tasks-utils/task-label';
+import {
+    CalendarItemType,
+    getItemIcon,
+} from '../../../../../models/calendar-models/CalendarItemType';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faDiagramNested,
+    faListCheck,
+    faListTree,
+    faStarExclamation,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 interface Props {
     initialTask?: Task;
@@ -30,7 +44,10 @@ const GeneralInputs: React.FC<Props> = (props) => {
     return (
         <Fragment>
             <div className={`${classes.name} ${classes.section}`}>
-                <label htmlFor="name">Title</label>
+                <label htmlFor="name">
+                    {getItemIcon(CalendarItemType.TASK)}
+                    Title
+                </label>
                 <input
                     type="text"
                     {...register('name', {
@@ -46,30 +63,12 @@ const GeneralInputs: React.FC<Props> = (props) => {
                 {errors.name && <p className={classes.error}>{errors.name.message}</p>}
             </div>
 
-            {/* Description */}
-            <div className={`${classes.description} ${classes.section}`}>
-                <label htmlFor="description">Description</label>
-                <textarea
-                    {...register('description', {
-                        required: 'Description is required',
-                        minLength: { value: 3, message: 'Minimum 3 characters!' },
-                        maxLength: { value: 300, message: 'Maximum 300 character!' },
-                    })}
-                    id="description"
-                    placeholder="Enter your task description (3~300 characters)"
-                    cols={30}
-                    rows={4}
-                    aria-invalid={errors.description ? true : false}
-                    defaultValue={initialTask ? initialTask.description : ''}
-                />
-                {errors.description && (
-                    <p className={classes.error}>{errors.description.message}</p>
-                )}
-            </div>
-
             {/* Importance */}
             <div className={`${classes.importance} ${classes.section}`}>
-                <label htmlFor="importance">Importance</label>
+                <label htmlFor="importance">
+                    <FontAwesomeIcon icon={faStarExclamation} className={'icon-medium mr-2'} />
+                    Importance
+                </label>
                 <select
                     {...register('importance')}
                     id="importance"
@@ -82,7 +81,13 @@ const GeneralInputs: React.FC<Props> = (props) => {
                 </select>
                 {plannerIsNull && (
                     <>
-                        <label htmlFor="importance">Task Type</label>
+                        <label htmlFor="importance">
+                            <FontAwesomeIcon
+                                icon={faListCheck}
+                                className={'icon-medium mr-2'}
+                            />
+                            Task Type
+                        </label>
                         <select
                             {...register('plannerType')}
                             id="task-type"
@@ -103,7 +108,10 @@ const GeneralInputs: React.FC<Props> = (props) => {
 
             {/* Category */}
             <div className={`${classes.category} ${classes.section}`}>
-                <label htmlFor="category">Category</label>
+                <label htmlFor="category">
+                    <FontAwesomeIcon icon={faListTree} className={'icon-medium mr-2'} />
+                    Category
+                </label>
                 <select
                     // onChange={categoryChangeHandler}
                     {...register('category')}
@@ -115,7 +123,10 @@ const GeneralInputs: React.FC<Props> = (props) => {
                         <option key={category}>{category}</option>
                     ))}
                 </select>
-                <label htmlFor="subCategory">SubCategory</label>
+                <label htmlFor="subCategory">
+                    <FontAwesomeIcon icon={faDiagramNested} className={'icon-medium mr-2'} />
+                    SubCategory
+                </label>
                 <select
                     className={classes.select}
                     {...register('subCategory')}

@@ -78,10 +78,10 @@ export type FormTaskObject = {
     name: string;
     timeString: string;
     description: string;
-    category: string;
-    subCategory: string;
+    category: Category;
+    subCategory: SubCategory;
     status: string;
-    importance: string;
+    importance: Importance;
     duration: number;
     plannerType?: PlannerMode;
 

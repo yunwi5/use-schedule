@@ -4,6 +4,8 @@ import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 
 import Modal from '../../ui/modal/Modal';
 import classes from './PlannerModal.module.scss';
+import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
+import ExitIcon from '../../ui/icons/ExitIcon';
 
 interface Props {
     onClose: () => void;
@@ -12,19 +14,15 @@ interface Props {
 
 const PlannerModal: React.FC<Props> = ({ onClose, title, children }) => {
     return (
-        <Modal onClose={onClose} modalClass="fixed right-[0px] h-[100vh] w-[40vw] min-w-[645px]">
+        <WrapperModal onClose={onClose} className={'!px-1 !py-1'}>
             <div className={classes.modal}>
                 <div className={classes.heading}>
-                    <FontAwesomeIcon
-                        onClick={onClose}
-                        icon={faArrowRight}
-                        className={`${classes.icon}`}
-                    />
                     <h3>{title}</h3>
+                    <ExitIcon onClose={onClose} className={'!top-4 !right-4'} />
                 </div>
                 {children}
             </div>
-        </Modal>
+        </WrapperModal>
     );
 };
 

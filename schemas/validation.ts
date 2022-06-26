@@ -1,6 +1,11 @@
 import Joi from 'joi';
 
-import { taskSchema, subTaskSchema, taskPropsSchema, subTaskPropsSchema } from './schemas';
+import {
+    taskSchema,
+    subTaskSchema,
+    taskPropsSchema,
+    subTaskPropsSchema,
+} from './task-schemas';
 import {
     todoListSchema,
     todoSchema,

@@ -52,7 +52,9 @@ const YearlyPlanner: NextPage<Props> = (props) => {
                         <LoadingSpinner />
                     </div>
                 ))}
-            {data && tasks && <YearlyPlannerMain yearlyTasks={tasks} onMutate={invalidateData} />}
+            {data && tasks && (
+                <YearlyPlannerMain yearlyTasks={tasks} onMutate={invalidateData} />
+            )}
         </div>
     );
 };

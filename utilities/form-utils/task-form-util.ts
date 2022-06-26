@@ -1,10 +1,15 @@
 import { FormTaskObject, Task } from '../../models/task-models/Task';
-import { Status } from '../../models/task-models/Status';
+import { Importance, Status } from '../../models/task-models/Status';
 import { addDays, addMinutes } from '../date-utils/date-control';
 import { getDayOffset, getWeekEnding } from '../date-utils/date-get';
-import { getDateTimeFormat, getISODateFormat, getISOTimeFormat } from '../date-utils/date-format';
+import {
+    getDateTimeFormat,
+    getISODateFormat,
+    getISOTimeFormat,
+} from '../date-utils/date-format';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { WeekDay } from '../../models/date-models/WeekDay';
+import { Category, SubCategory } from '../../models/task-models/Category';
 
 export interface FormValues {
     name: string;
@@ -14,8 +19,6 @@ export interface FormValues {
     subCategory: string;
     date: string;
     time: string;
-    dueDate: string;
-    dueTime: string;
 
     durationDays: number;
     durationHours: number;
@@ -27,7 +30,6 @@ export interface FormValues {
 
     // Template planner weekday inputs
     day: string;
-    dueDay: string;
 
     // Calendar planner mode choice
     plannerType: string;
@@ -116,20 +118,17 @@ export function getFormTaskObject(
         subCategory,
         date,
         time,
-        dueDate,
-        dueTime,
         durationDays = 0,
         durationHours = 0,
         durationMinutes = 0,
         month, // optional (yearly task)
         monthDay, // optional (yearly task)
         day,
-        dueDay,
         plannerType: formPlannerType,
     } = data;
 
     const duration = durationDays * (24 * 60) + durationHours * 60 + durationMinutes;
-    let timeString, dueDateString;
+    let timeString;
 
     if (!isTemplateTask) {
         // Not template task obj
@@ -145,22 +144,16 @@ export function getFormTaskObject(
                 `${beginningPeriod.getFullYear()} ${month} ${monthDay}`,
             ).toString();
         }
-
-        dueDateString =
-            dueDate && dueTime ? new Date(`${dueDate} ${dueTime}`).toString() : undefined;
     } else {
         // Is template task obj
         const planDayOffset = day ? getDayOffset(day as WeekDay) : undefined;
-        const planDateString: string = addDays(beginningPeriod, planDayOffset || 0).toDateString();
+        const planDateString: string = addDays(
+            beginningPeriod,
+            planDayOffset || 0,
+        ).toDateString();
         timeString = new Date(
             `${planDateString} ${time || getISOTimeFormat(beginningPeriod)}`,
         ).toString();
-
-        const dueDayOffset = dueDay ? getDayOffset(dueDay as WeekDay) : undefined;
-        const dueDateStr: string = addDays(beginningPeriod, dueDayOffset).toDateString();
-        dueDateString = dueDayOffset
-            ? new Date(`${dueDateStr} ${dueTime || getISOTimeFormat(beginningPeriod)}`).toString()
-            : undefined;
     }
 
     // If the user specified planner type for this task (optional select)
@@ -169,11 +162,10 @@ export function getFormTaskObject(
     const newTask: FormTaskObject = {
         name,
         description,
-        importance,
-        category,
-        subCategory,
+        importance: importance as Importance,
+        category: category as Category,
+        subCategory: subCategory as SubCategory,
         timeString,
-        dueDateString,
         duration,
         status: Status.OPEN,
         plannerType: initialPlannerType,

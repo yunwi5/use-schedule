@@ -14,6 +14,8 @@ import TimeInput from './TimeInput';
 import DateInput from './DateInput';
 import classes from '../../TaskForm.module.scss';
 import WeekdayInput from './WeekdayInput';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDay } from '@fortawesome/pro-duotone-svg-icons';
 
 interface Props {
     initialTask?: Task;
@@ -87,19 +89,27 @@ const PlanDateTimeInput: React.FC<Props> = (props) => {
                             onChange={() => onMonthDateOnly((prev) => !prev)}
                             checked={monthDateOnly}
                         />
-                        <label htmlFor="only-month-and-date">Only Month & Date</label>
+                        <label htmlFor="only-month-and-date">
+                            <FontAwesomeIcon
+                                icon={faCalendarDay}
+                                className={'icon-medium mr-2'}
+                            />
+                            Only Month & Date
+                        </label>
                     </div>
                 )}
 
-                <div className={classes.checkbox}>
-                    <input
-                        type="checkbox"
-                        id="no-datetime"
-                        onChange={anyTimeHandler}
-                        checked={isAnyTime}
-                    />
-                    <label htmlFor="no-datetime">Any time this {plannerLabel}</label>
-                </div>
+                {plannerMode && (
+                    <div className={classes.checkbox}>
+                        <input
+                            type="checkbox"
+                            id="no-datetime"
+                            onChange={anyTimeHandler}
+                            checked={isAnyTime}
+                        />
+                        <label htmlFor="no-datetime">Any time this {plannerLabel}</label>
+                    </div>
+                )}
             </div>
         </div>
     );

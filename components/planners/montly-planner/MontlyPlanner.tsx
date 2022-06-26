@@ -13,6 +13,10 @@ import { isSameMonth, isSameYear } from '../../../utilities/date-utils/date-chec
 import useDateTime, { ResetPeriod } from '../../../hooks/useDateTime';
 import { adjustOverdueTask } from '../../../utilities/tasks-utils/task-util';
 import PlannerCard from '../../ui/cards/PlannerCard';
+import BackgroundImage from '../../ui/design-elements/BackgroundImage';
+import PlannerTableCard from '../../ui/cards/PlannerTableCard';
+import { ItemsView } from '../../../models/ui-models';
+import { foldActions } from '../../../store/redux/fold-slice';
 
 interface Props {
     // Not constructed as planner tasks yet.
@@ -60,10 +64,12 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
 
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.MONTLY));
+        dispatch(foldActions.setView(ItemsView.LIST));
     }, [dispatch]);
 
     const monthNaviagtionHandler = (direction: number) => {
-        if (direction !== 1 && direction !== -1) throw new Error('Direction parameter is wrong!');
+        if (direction !== 1 && direction !== -1)
+            throw new Error('Direction parameter is wrong!');
         // Hook fn call
         addLocalMonths(direction);
     };
@@ -73,26 +79,31 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
     };
 
     return (
-        <PlannerCard>
-            <IntroPanel
-                title="Montly Planner"
-                message="Make your month strong and facinating with regularly planned montly goals and schedules. Feel free to see the analytics of your week done by our statistical analysis."
-                beginningPeriod={currentTimeStamp}
-            />
-            <div className="rounded-md border-2 border-slate-200 bg-white mt-8">
-                <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
-                {!planner && <p className="text-center text-3xl text-slate-800">Loading...</p>}
-                {planner && (
-                    <MontlyTable
-                        monthBeginning={currentTimeStamp}
-                        planner={planner}
-                        onChangeMonth={monthNaviagtionHandler}
-                        onNavigateCurrentPeriod={currentNavigateHandler}
-                        onMutate={onMutate}
-                    />
-                )}
-            </div>
-        </PlannerCard>
+        <div>
+            <BackgroundImage src="/bg-images/bg-task.jpg" alt="Montly planner" />
+            <PlannerCard>
+                <IntroPanel
+                    title="Montly Planner"
+                    message="Make your month strong and facinating with regularly planned montly goals and schedules. Feel free to see the analytics of your week done by our statistical analysis."
+                    beginningPeriod={currentTimeStamp}
+                />
+                <PlannerTableCard>
+                    <PlannerHeader beginningPeriod={currentTimeStamp} onMutate={onMutate} />
+                    {!planner && (
+                        <p className="text-center text-3xl text-slate-800">Loading...</p>
+                    )}
+                    {planner && (
+                        <MontlyTable
+                            monthBeginning={currentTimeStamp}
+                            planner={planner}
+                            onChangeMonth={monthNaviagtionHandler}
+                            onNavigateCurrentPeriod={currentNavigateHandler}
+                            onMutate={onMutate}
+                        />
+                    )}
+                </PlannerTableCard>
+            </PlannerCard>
+        </div>
     );
 };
 

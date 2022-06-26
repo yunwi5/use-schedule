@@ -69,8 +69,6 @@ const DayCell: React.FC<Props> = (props) => {
     const nonCurrentMonth = !isCurrentMonth(beginningPeriod, date);
 
     const isSelected = selectedId === layoutId;
-    if (isSelected) console.log('Cell Selected');
-
     const positionClass = getPositionClass(position);
 
     return (
@@ -138,7 +136,6 @@ function getPositionClass(position: Position) {
     const rightEnd = position.x === 6;
     const topEnd = position.y === 0;
     const bottomEnd = position.y === position.maxY;
-    if (bottomEnd) console.log('bottomEnd');
 
     if (leftEnd && topEnd) return classes['selected-cell-top-leftend'];
     if (rightEnd && topEnd) return classes['selected-cell-top-rightend'];
