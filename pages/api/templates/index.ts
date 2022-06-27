@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "@auth0/nextjs-auth0";
-import { MongoClient, ObjectId } from "mongodb";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from '@auth0/nextjs-auth0';
+import { MongoClient, ObjectId } from 'mongodb';
 
-import { connectDatabase } from "../../../db/mongodb-util";
-import { getAllTemplates, insertTemplate } from "../../../db/template-util";
-import { Template } from "../../../models/template-models/Template";
-import { convertToTemplateArray } from "../../../utilities/template-utils/template-util";
-import { validateTemplate } from "../../../schemas/validation";
+import { connectDatabase } from '../../../db/mongodb-config';
+import { getAllTemplates, insertTemplate } from '../../../db/template-util';
+import { Template } from '../../../models/template-models/Template';
+import { convertToTemplateArray } from '../../../utilities/template-utils/template-util';
+import { validateTemplate } from '../../../schemas/validation';
 
 type Data = {
     message: string;
@@ -16,7 +16,7 @@ type Data = {
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const session = getSession(req, res);
     if (!session) {
-        return res.status(401).json({ message: "User needs to login first to proceed." });
+        return res.status(401).json({ message: 'User needs to login first to proceed.' });
     }
     const userId = session.user.sub;
 
@@ -25,10 +25,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         client = await connectDatabase();
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "Connect to database did not work." });
+        return res.status(500).json({ message: 'Connect to database did not work.' });
     }
 
-    if (req.method === "GET") {
+    if (req.method === 'GET') {
         // Get all templates of the user.
         let result: any[],
             templates: Template[] = [],
@@ -38,16 +38,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             templates = convertToTemplateArray(result);
         } catch (err) {
             message =
-                err instanceof Error ? err.message : "GET all templates of user did not work.";
+                err instanceof Error ? err.message : 'GET all templates of user did not work.';
             console.log(`Error: ${message}`);
             client.close();
             return res.status(500).json({ message });
         }
 
-        res.status(200).json({ message: "GET all templates successful!", templates });
-    } else if (req.method === "POST") {
+        res.status(200).json({ message: 'GET all templates successful!', templates });
+    } else if (req.method === 'POST') {
         const template = req.body;
-        console.log("new template:", template);
+        console.log('new template:', template);
         template.userId = userId;
 
         const { isValid, message } = validateTemplate(template);
@@ -63,14 +63,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         } catch (err) {
             console.error(err);
             client.close();
-            return res.status(500).json({ message: "inserting new template did not work." });
+            return res.status(500).json({ message: 'inserting new template did not work.' });
         }
         res.status(201).json({
-            message: "Inserting new template successful!",
+            message: 'Inserting new template successful!',
             insertedId: result.insertedId,
         });
     } else {
-        return res.status(405).json({ message: "Method is not allowed." });
+        return res.status(405).json({ message: 'Method is not allowed.' });
     }
 
     client.close();

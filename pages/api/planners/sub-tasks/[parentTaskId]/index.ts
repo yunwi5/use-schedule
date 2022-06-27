@@ -3,7 +3,7 @@ import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { MongoClient } from 'mongodb';
 
 import { SubTask } from '../../../../../models/task-models/SubTask';
-import { connectDatabase } from '../../../../../db/mongodb-util';
+import { connectDatabase } from '../../../../../db/mongodb-config';
 import { getSubTasks, insertSubTask } from '../../../../../db/subtask-util';
 import { SubTaskCollection } from '../../../../../db/collections';
 import { covertToSubTasks } from '../../../../../utilities/tasks-utils/task-util';

@@ -16,7 +16,7 @@ export const DashboardSection = {
 
 export const RecurringSection = { name: 'Recurring Schedules', link: '#recurring-schedules' };
 
-export const PlannerSection = { name: 'Template tables', link: '#template-tables' };
+export const PlannerSection = { name: 'Task Planners', link: '#template-tables' };
 
 export const TemplateSection = { name: 'Template tables', link: '#template-tables' };
 

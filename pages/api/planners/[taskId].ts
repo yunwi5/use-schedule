@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { MongoClient } from 'mongodb';
 
-import { connectDatabase } from '../../../db/mongodb-util';
+import { connectDatabase } from '../../../db/mongodb-config';
 import { deleteTask, replaceTask } from '../../../db/tasks-util';
 import { validateTask } from '../../../schemas/validation';
 
@@ -18,7 +18,9 @@ export default withApiAuthRequired(async function handler(
     if (Array.isArray(collection)) collection = collection.join('');
 
     if (!taskId || !collection) {
-        return res.status(404).json({ message: 'Task id or collection name cannot be found.' });
+        return res
+            .status(404)
+            .json({ message: 'Task id or collection name cannot be found.' });
     }
 
     let client: MongoClient;

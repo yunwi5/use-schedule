@@ -1,7 +1,8 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectDatabase } from '../../../../db/mongodb-util';
+
+import { connectDatabase } from '../../../../db/mongodb-config';
 import { insertSubTodo, updateSubTodo } from '../../../../db/todos';
 import { validateSubTodo } from '../../../../schemas/validation';
 
@@ -17,7 +18,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     try {
         client = await connectDatabase();
     } catch (err) {
-        const message = err instanceof Error ? err.message : 'Connect to database did not work.';
+        const message =
+            err instanceof Error ? err.message : 'Connect to database did not work.';
         return res.status(500).json({ message });
     }
 
@@ -34,7 +36,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         try {
             result = await insertSubTodo(client, newSubTodo);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Inserting sub todo did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Inserting sub todo did not work.';
             client.close();
             return res.status(500).json({ message });
         }

@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { connectDatabase } from '../../../../db/mongodb-util';
+import { connectDatabase } from '../../../../db/mongodb-config';
 import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
 import { NoIdSubTask } from '../../../../models/task-models/SubTask';
 import { NoIdTask } from '../../../../models/task-models/Task';

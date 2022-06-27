@@ -1,7 +1,8 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { connectDatabase } from '../../../../db/mongodb-util';
+
+import { connectDatabase } from '../../../../db/mongodb-config';
 import {
     deleteGeneratedEvents,
     deleteRecurringEvent,
@@ -77,7 +78,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                 console.log(result);
             } catch (err) {
                 const message =
-                    err instanceof Error ? err.message : 'Patching suqsequent events did not work.';
+                    err instanceof Error
+                        ? err.message
+                        : 'Patching suqsequent events did not work.';
                 console.error(message);
             }
         }
@@ -104,7 +107,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                 console.log(result);
             } catch (err) {
                 const message =
-                    err instanceof Error ? err.message : 'Deleting subsequent events did not work.';
+                    err instanceof Error
+                        ? err.message
+                        : 'Deleting subsequent events did not work.';
                 // The DELETE request itself did not fail (but subsequent request did)
                 console.error(message);
             }

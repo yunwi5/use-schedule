@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@auth0/nextjs-auth0';
 
-import { connectDatabase } from '../../../../db/mongodb-util';
+import { connectDatabase } from '../../../../db/mongodb-config';
 import { deleteTodo, getSubTodos, updateTodo } from '../../../../db/todos';
 import { TodoProps } from '../../../../models/todo-models/Todo';
 import { SubTodo } from '../../../../models/todo-models/SubTodo';
@@ -34,7 +34,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             const result = await getSubTodos(client, todoId);
             subTodos = convertToAppObjectList(result);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Getting sub todos did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Getting sub todos did not work.';
             client.close();
             return res.status(500).json({ message });
         }
@@ -55,7 +56,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             let result = await updateTodo(client, todoId, updatedTodoProps);
             // console.log(result);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Patching todo item did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Patching todo item did not work.';
             client.close();
             return res.status(500).json({ message });
         }
@@ -65,7 +67,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             let result = await deleteTodo(client, todoId);
             console.log('Delete result:', result);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Deleting todo item did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Deleting todo item did not work.';
             client.close();
             return res.status(500).json({ message });
         }

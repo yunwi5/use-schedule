@@ -2,6 +2,8 @@ import { addMinutes } from '../../utilities/date-utils/date-control';
 import {
     getDateTimeFormat,
     getEndDateTimeFormat,
+    getFullDateFormat,
+    getLongUserTimeFormat,
 } from '../../utilities/date-utils/date-format';
 import { getDayName } from '../../utilities/date-utils/date-get';
 import { WeekDay } from '../date-models/WeekDay';
@@ -49,9 +51,25 @@ export abstract class AbstractTask implements Task {
 
     abstract get durationFormat(): string;
 
-    get planDateFormat(): string {
+    // both date & time
+    // format: time + ' ' + date
+    // ex) 13:30 13 Jun, 2022
+    get planDateTimeFormat(): string {
         return getDateTimeFormat(this.dateTime);
     }
+
+    // only date
+    // ex 13 Jun, 2022
+    get planDateFormat(): string {
+        return getFullDateFormat(this.dateTime);
+    }
+
+    // only time
+    // ex) 13:30
+    get planTimeFormat(): string {
+        return getLongUserTimeFormat(this.dateTime);
+    }
+
     get dueDateFormat(): string {
         return this.dueDate ? getDateTimeFormat(this.dueDate) : '';
     }

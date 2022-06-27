@@ -21,7 +21,6 @@ const RecurringEventAdd: React.FC<Props> = (props) => {
     });
 
     const addHandler = async (newRecurringEvent: NoIdRecurringEvent) => {
-        console.log(newRecurringEvent);
         addRecEvent(newRecurringEvent);
     };
 

@@ -8,6 +8,8 @@ import HeaderSearch from './HeaderSearch';
 import UserPicCircle from '../../ui/design-elements/UserPicCircle';
 import headerClasses from './Header.module.scss';
 import layoutClasses from '../Layout.module.scss';
+import Image from 'next/image';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     onToggleSidebar: () => void;
@@ -33,8 +35,13 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                     onClick={onToggleSidebar}
                 />
                 <Link href="/">
-                    <a className={`text-2xl ml-4 ${showSearch ? headerClasses.hide : ''}`}>
-                        UseSchedule
+                    <a
+                        className={`text-[1.45rem] uppercase ml-6 flex items-center gap-2 ${
+                            showSearch ? headerClasses.hide : ''
+                        }`}
+                    >
+                        <Image src="/logos/logo.png" alt="Logo" width="40" height="40" />
+                        {AppProperty.APP_NAME}
                     </a>
                 </Link>
                 <HeaderSearch onShowSearch={setShowSearch} showSearch={showSearch} />

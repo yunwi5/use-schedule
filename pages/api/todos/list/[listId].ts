@@ -2,10 +2,17 @@ import { TodoList } from './../../../../models/todo-models/TodoList';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@auth0/nextjs-auth0';
 
-import { connectDatabase } from '../../../../db/mongodb-util';
-import { deleteTodoList, getTodoListAndItems, updateTodoListProps } from '../../../../db/todos';
+import { connectDatabase } from '../../../../db/mongodb-config';
+import {
+    deleteTodoList,
+    getTodoListAndItems,
+    updateTodoListProps,
+} from '../../../../db/todos';
 import { Todo } from '../../../../models/todo-models/Todo';
-import { convertToTodoList, convertToTodos } from '../../../../utilities/todos-utils/todo-util';
+import {
+    convertToTodoList,
+    convertToTodos,
+} from '../../../../utilities/todos-utils/todo-util';
 import { validateTodoListProps } from '../../../../schemas/validation';
 
 type Data = { message: string } | { list: TodoList | null; todos: Todo[] };
@@ -35,7 +42,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             list = convertToTodoList(listRes);
             todos = convertToTodos(todosRes);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Getting todo list did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Getting todo list did not work.';
             client.close();
             return res.status(500).json({ message });
         }
@@ -54,7 +62,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         try {
             result = await updateTodoListProps(client, listId, updatedListProps);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Patching todo list did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Patching todo list did not work.';
             client.close();
             return res.status(500).json({ message });
         }
@@ -64,7 +73,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         try {
             result = await deleteTodoList(client, listId);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Deleting todo list did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Deleting todo list did not work.';
             client.close();
             return res.status(500).json({ message });
         }

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { AppProperty } from '../../../constants/global-constants';
 import classes from './Footer.module.scss';
+import Image from 'next/image';
 
 const Footer: React.FC<{ className: string }> = ({ className }) => {
     const iconClass =
@@ -18,9 +19,17 @@ const Footer: React.FC<{ className: string }> = ({ className }) => {
 
     return (
         <footer
-            className={`w-full flex-col gap-3 md:flex-row flex justify-between items-center md:items-start md:px-4 lg:px-8 pt-4 border-t-2 border-slate-300 ${className}`}
+            className={`w-full py-3 pb-6 flex-col gap-3 md:flex-row flex justify-between items-center md:px-4 lg:px-8 pt-4 border-t-2 border-slate-300 ${className}`}
         >
-            <p>&copy; 2022 JYK Inc. All rights reserved.</p>
+            <div>
+                <div className="flex justify-center md:justify-start items-end gap-3">
+                    <Image src="/logos/logo.png" alt="logo" height="37" width="37" />
+                    <h5 className="text-2xl uppercase text-slate-600">
+                        {AppProperty.APP_NAME}
+                    </h5>
+                </div>
+                <p className="mt-2">Copyright &copy; 2022 JYK Inc. All rights reserved.</p>
+            </div>
             <div className="flex text-[2.6rem] text-slate-700">
                 {brandLinks.map((brand) => (
                     <div

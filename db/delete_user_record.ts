@@ -10,7 +10,7 @@ import {
     TodoListCollection,
 } from './collections';
 import { deleteManyItems } from './generic';
-import { connectDatabase } from './mongodb-util';
+import { connectDatabase } from './mongodb-config';
 
 // This script will delete 1) tasks 2) sub-tasks 3) events
 // 4) templates 5) todo-lists 6) todos 7) recurring events/tasks

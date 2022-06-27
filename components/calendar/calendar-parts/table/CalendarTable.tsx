@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useLayoutEffect, useRef } from 'react';
+import React, { useMemo, useState, useLayoutEffect, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/pro-regular-svg-icons';
 
@@ -38,7 +38,7 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     };
 
     // DOM manipulation, so useLayoutEffect instead of useEffect
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (gridRef.current === null) return;
         gridRef.current.className = `${classes.grid} ${classes[`grid-${leftPos}`]}`;
     }, [leftPos]);

@@ -8,12 +8,13 @@ import RecurringEventForm from './form/RecurringEventForm';
 interface Props {
     onClose: () => void;
     onDuplicate: () => void;
-    initialRecEvent: IEvent;
+    initialEvent: IEvent;
+    formTitle?: string;
 }
 
 const RecurringEventDuplicate: React.FC<Props> = (props) => {
-    const { onClose, onDuplicate, initialRecEvent } = props;
-    const { addRecEvent: addRecEvent } = useRecurringEventQuery({
+    const { onClose, onDuplicate, initialEvent, formTitle } = props;
+    const { addRecEvent } = useRecurringEventQuery({
         onInvalidate: () => {
             onDuplicate();
             onClose();
@@ -32,9 +33,9 @@ const RecurringEventDuplicate: React.FC<Props> = (props) => {
             <RecurringEventForm
                 onSubmit={duplicateHandler}
                 onClose={onClose}
-                beginningPeriod={initialRecEvent.dateTime}
-                initialEvent={initialRecEvent}
-                heading={'Duplicate Recurring Event'}
+                beginningPeriod={initialEvent.dateTime}
+                initialEvent={initialEvent}
+                heading={formTitle || 'Duplicate Recurring Event'}
                 isEdit={false}
             />
         </WrapperModal>

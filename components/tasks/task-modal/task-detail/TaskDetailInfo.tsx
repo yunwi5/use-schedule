@@ -88,17 +88,9 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 
                 <TaskSection label={'Sub Category'} value={subCategory} icon={faListTree} />
 
-                <TaskSection
-                    label={'Planned Date'}
-                    value={getFullDateFormat(task.dateTime)}
-                    icon={faAlarmClock}
-                />
+                <TaskSection label={'Date'} value={task.planDateFormat} icon={faAlarmClock} />
 
-                <TaskSection
-                    label={'Time'}
-                    value={getShortUserTimeFormat(task.dateTime)}
-                    icon={faAlarmClock}
-                />
+                <TaskSection label={'Time'} value={task.planTimeFormat} icon={faAlarmClock} />
 
                 {/* Need formatted duration in hrs & mins */}
                 <TaskSection
@@ -145,6 +137,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
                     onClose={recurringHandler.bind(null, ModalEventType.CLOSE)}
                     onDuplicate={recurringHandler.bind(null, ModalEventType.UPDATE)}
                     initialTask={task}
+                    formTitle="Add Recurring Task"
                 />
             )}
         </>

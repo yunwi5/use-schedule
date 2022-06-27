@@ -105,7 +105,8 @@ const EventDetail: React.FC<Props> = (props) => {
                 <RecurringEventDuplicate
                     onClose={() => setShowRecurringModal(false)}
                     onDuplicate={onInvalidate}
-                    initialRecEvent={event}
+                    initialEvent={event}
+                    formTitle="Add Recurring Event"
                 />
             )}
         </>

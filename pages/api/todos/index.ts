@@ -2,7 +2,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import { Todo } from '../../../models/todo-models/Todo';
-import { connectDatabase } from '../../../db/mongodb-util';
+import { connectDatabase } from '../../../db/mongodb-config';
 import { getTodoItemsByUser } from '../../../db/todos';
 import { convertToTodos } from '../../../utilities/todos-utils/todo-util';
 
@@ -24,7 +24,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             let result = await getTodoItemsByUser(client, userId);
             todos = convertToTodos(result);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Gettng all todos did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Gettng all todos did not work.';
             client.close();
             return res.status(500).json({ message });
         }

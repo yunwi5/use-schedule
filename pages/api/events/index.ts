@@ -2,7 +2,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 import { MongoClient, ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { getEvents, insertEvent, insertEvents } from '../../../db/event-util';
-import { connectDatabase } from '../../../db/mongodb-util';
+import { connectDatabase } from '../../../db/mongodb-config';
 import { IEvent } from '../../../models/Event';
 import { validateEvent } from '../../../schemas/validation';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';

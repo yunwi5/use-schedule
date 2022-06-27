@@ -7,7 +7,7 @@ const About: NextPage = () => {
     return (
         <>
             <Head>
-                <title>About | {AppProperty.APP_NAME}</title>
+                <title>About Services | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content={`About documentation of ${AppProperty.APP_NAME} that documents various details of the functionalities of the app such as Planner, Templates, Custom List, Searching, Calendar, Data Analysis and Dashboard.`}

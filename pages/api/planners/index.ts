@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
-import { connectDatabase } from '../../../db/mongodb-util';
+import { connectDatabase } from '../../../db/mongodb-config';
 import { getTasks, insertManyTasks, insertTask } from '../../../db/tasks-util';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { validateTask } from '../../../schemas/validation';
@@ -45,7 +45,10 @@ export default withApiAuthRequired(async function handler(
             let result;
             if (!collection || collection === 'any' || collection === 'all') {
                 // Get task from all collections which are weekly, montly and yearly
-                const [wTaskDoc, mTaskDoc, yTaskDoc] = await getTasksFromAllCollection(userId, q);
+                const [wTaskDoc, mTaskDoc, yTaskDoc] = await getTasksFromAllCollection(
+                    userId,
+                    q,
+                );
                 result = [...wTaskDoc, ...mTaskDoc, ...yTaskDoc];
             } else {
                 result = await getTasks(client, collection, userId, q);

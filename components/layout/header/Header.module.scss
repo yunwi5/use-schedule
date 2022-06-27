@@ -7,7 +7,7 @@
     gap: 1rem;
     z-index: 10;
 
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
 
     @include respond(tab-port) {
         flex-direction: column;
@@ -45,6 +45,6 @@
 
 .hide {
     @include respond(phone) {
-        display: none;
+        display: none !important;
     }
 }

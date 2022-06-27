@@ -1,4 +1,4 @@
-import { connectDatabase } from './mongodb-util';
+import { connectDatabase } from './mongodb-config';
 import { deleteItem, getItems, insertItem, insertManyItems, updateItem } from './generic';
 import { NoIdEvent } from '../models/Event';
 import { EventCollection } from './collections';
@@ -18,7 +18,12 @@ export async function getEvents(client: MongoClient, userId: string, search: str
     const searchQuery = '.*' + search + '.*';
     const searchRegex = new RegExp(searchQuery, 'i');
 
-    const events = await getItems(client, { userId, name: searchRegex }, null, EventCollection);
+    const events = await getItems(
+        client,
+        { userId, name: searchRegex },
+        null,
+        EventCollection,
+    );
     return events;
 }
 

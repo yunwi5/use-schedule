@@ -2,7 +2,6 @@ import { AbstractTask } from '../task-models/AbstractTask';
 import { Task } from '../task-models/Task';
 import { PlannerMode } from '../planner-models/PlannerMode';
 import {
-    getEndDateTimeFormat,
     getISOTimeFormat,
     getLongUserTimeFormat,
 } from '../../utilities/date-utils/date-format';
@@ -33,9 +32,18 @@ export class TemplateTask extends AbstractTask {
         return durationFormat;
     }
 
-    get planDateFormat(): string {
+    // Overriding date & time formatting for template task (not one-off task)
+    get planDateTimeFormat(): string {
         if (this.isAnyDateTime) return 'Any Time';
-        return `${this.weekDay} ${getLongUserTimeFormat(this.dateTime)}`;
+        return `${this.planDateFormat} ${this.planTimeFormat}`;
+    }
+
+    get planDateFormat(): string {
+        return this.weekDay;
+    }
+
+    get planTimeFormat(): string {
+        return getLongUserTimeFormat(this.dateTime);
     }
 
     get dueDateFormat(): string {

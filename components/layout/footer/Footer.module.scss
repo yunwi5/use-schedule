@@ -1,18 +1,26 @@
 .icon-wrapper {
-	padding-bottom: -5px;
-	&:not(:last-child) {
-		margin-right: -6px;
-	}
-	.label {
-		display: block;
-		visibility: hidden;
-		opacity: 0;
-		transform: translateY(-2rem);
-		transition: .3s all ease-in-out;
-	}
-	&:hover .label {
-		visibility: visible;
-		opacity: 1;
-		transform: translateY(0);
-	}
+    padding-bottom: -5px;
+    &:not(:last-child) {
+        margin-right: 1.5rem;
+    }
+
+    position: relative;
+
+    .label {
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.3s all ease-in-out;
+
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    &:hover .label {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%) translateY(2.5rem);
+        // transform: translateY(0);
+    }
 }

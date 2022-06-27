@@ -2,7 +2,7 @@ import { TodoList } from './../../../../models/todo-models/TodoList';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@auth0/nextjs-auth0';
 
-import { connectDatabase } from '../../../../db/mongodb-util';
+import { connectDatabase } from '../../../../db/mongodb-config';
 import { getAllTodoLists, insertTodoList } from '../../../../db/todos';
 import { convertToTodoListArray } from '../../../../utilities/todos-utils/todo-util';
 import { validateTodoList } from '../../../../schemas/validation';
@@ -40,7 +40,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             client.close();
             return res.status(500).json({ message });
         }
-        res.status(200).json({ lists: todoListArray, message: 'Getting todo lists successful!' });
+        res.status(200).json({
+            lists: todoListArray,
+            message: 'Getting todo lists successful!',
+        });
     } else if (req.method === 'POST') {
         const newTodoList: TodoList = req.body;
 

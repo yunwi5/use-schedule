@@ -57,7 +57,7 @@ export class PlannerTask extends AbstractTask {
         return planDateFormat;
     }
 
-    get planDateFormat(): string {
+    get planDateTimeFormat(): string {
         if (this.isAnyDateTime) return 'Any Time';
         else if (this.plannerType === PlannerMode.WEEKLY) {
             return getDateTimeFormat(this.dateTime);

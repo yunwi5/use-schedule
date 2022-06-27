@@ -23,7 +23,10 @@ import OperationList from '../../ui/OperationList';
 import RecurringEventDuplicate from '../crud-operations/RecurringEventDuplicate';
 import RecurringEventEdit from '../crud-operations/RecurringEventEdit';
 import { RecurringItemInterval, RecurringDateInfo } from './item-parts';
-import { getDurationFormat, getFullDateFormat } from '../../../utilities/date-utils/date-format';
+import {
+    getDurationFormat,
+    getFullDateFormat,
+} from '../../../utilities/date-utils/date-format';
 
 interface Props {
     onClose(): void;
@@ -121,7 +124,7 @@ const EventDetail: React.FC<Props> = (props) => {
             {showDuplicateModal && (
                 <RecurringEventDuplicate
                     onClose={duplicateModalHandler(false)}
-                    initialRecEvent={recEvent}
+                    initialEvent={recEvent}
                     onDuplicate={duplicateActionHandler}
                 />
             )}

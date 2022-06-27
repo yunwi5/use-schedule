@@ -35,9 +35,9 @@ const SubTaskForm: React.FC<Props> = ({ onAdd }) => {
     return (
         <form onSubmit={submitHandler} className={`mt-auto`}>
             <div
-                className={`p-2 md:max-w-[99%] lg:max-w-[95%] flex items-center border-2 border-slate-300 rounded-md shadow-xl ${
+                className={`p-2 md:max-w-[99%] lg:max-w-[95%] flex items-center bg-slate-50 border-2 border-slate-300 rounded-md shadow-md ${
                     error.hasError ? 'border-rose-300' : ''
-                }`}
+                } focus-within:border-[3pxx] focus-within:border-blue-500 focus-within:shadow-lg focus-within:bg-white`}
             >
                 <button
                     type="submit"

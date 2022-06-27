@@ -1,7 +1,8 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectDatabase } from '../../../../db/mongodb-util';
+
+import { connectDatabase } from '../../../../db/mongodb-config';
 import {
     getRecurringTasks,
     insertRecurringTask,

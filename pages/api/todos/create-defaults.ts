@@ -1,7 +1,8 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { connectDatabase } from '../../../db/mongodb-util';
+
+import { connectDatabase } from '../../../db/mongodb-config';
 import { getAllTodoLists, insertManyTodoLists } from '../../../db/todos';
 import { InitialDefaultTodoLists, NoIdTodoList } from '../../../models/todo-models/TodoList';
 import { hasDefaultTodoLists } from '../../../utilities/todos-utils/default-todo-list';

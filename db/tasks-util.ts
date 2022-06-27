@@ -4,7 +4,7 @@ import { SubTaskCollection } from './collections';
 import { NoIdTask, Task } from '../models/task-models/Task';
 import { TaskProperties } from '../models/task-models/TaskProperties';
 import { deleteAllSubTasksOfParent } from './subtask-util';
-import { connectDatabase } from './mongodb-util';
+import { connectDatabase } from './mongodb-config';
 
 export async function getTasks(
     client: MongoClient,
@@ -29,7 +29,11 @@ export async function insertTask(collection: string, task: Task | NoIdTask) {
     return res;
 }
 
-export async function insertManyTasks(client: MongoClient, collection: string, tasks: NoIdTask[]) {
+export async function insertManyTasks(
+    client: MongoClient,
+    collection: string,
+    tasks: NoIdTask[],
+) {
     const db = client.db();
     const res = await db.collection(collection).insertMany(tasks);
     return res;

@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import { connectDatabase } from './mongodb-util';
+import { connectDatabase } from './mongodb-config';
 import { TaskCollection, TemplateCollection, TodoCollection } from './collections';
 import { Todo } from '../models/todo-models/Todo';
 import { TodoList } from '../models/todo-models/TodoList';
@@ -46,7 +46,10 @@ export async function getEventsFromPage(userId: string, search: string = '') {
 export async function getTemplateTasksFromPage(templateId: string) {
     const client = await connectDatabase();
     const db = client.db();
-    const data = await db.collection(TaskCollection.TEMPLATE_TASKS).find({ templateId }).toArray();
+    const data = await db
+        .collection(TaskCollection.TEMPLATE_TASKS)
+        .find({ templateId })
+        .toArray();
     client.close();
     return data;
 }
@@ -54,7 +57,9 @@ export async function getTemplateTasksFromPage(templateId: string) {
 export async function getTemplateFromPage(templateId: string) {
     const client = await connectDatabase();
     const db = client.db();
-    const data = await db.collection(TemplateCollection).findOne({ _id: new ObjectId(templateId) });
+    const data = await db
+        .collection(TemplateCollection)
+        .findOne({ _id: new ObjectId(templateId) });
     client.close();
     return data;
 }

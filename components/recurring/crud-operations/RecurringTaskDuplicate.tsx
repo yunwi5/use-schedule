@@ -10,10 +10,16 @@ interface Props {
     onClose: () => void;
     onDuplicate: () => void;
     initialTask: AbstractTask;
+    formTitle?: string;
 }
 
 const RecurringTaskDuplicate: React.FC<Props> = (props) => {
-    const { onClose, onDuplicate, initialTask } = props;
+    const {
+        onClose,
+        onDuplicate,
+        initialTask,
+        formTitle = 'Duplicate Recurring Task',
+    } = props;
     const { addRecTask } = useRecurringTaskQuery({
         onInvalidate: () => {
             onDuplicate();
@@ -32,7 +38,7 @@ const RecurringTaskDuplicate: React.FC<Props> = (props) => {
                 onClose={onClose}
                 beginningPeriod={initialTask.dateTime}
                 initialTask={initialTask}
-                heading={'Duplicate Recurring Task'}
+                heading={formTitle}
                 isEdit={false}
             />
         </WrapperModal>

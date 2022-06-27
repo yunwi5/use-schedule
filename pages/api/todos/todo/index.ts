@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@auth0/nextjs-auth0';
 
-import { connectDatabase } from '../../../../db/mongodb-util';
+import { connectDatabase } from '../../../../db/mongodb-config';
 import { insertTodo } from '../../../../db/todos';
 import { validateTodo } from '../../../../schemas/validation';
 
@@ -40,7 +40,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         try {
             result = await insertTodo(client, newTodo);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Inserting new todo did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Inserting new todo did not work.';
             client.close();
             return res.status(500).json({ message });
         }
