@@ -36,11 +36,13 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                 />
                 <Link href="/">
                     <a
-                        className={`text-[1.45rem] uppercase ml-6 flex items-center gap-2 ${
+                        className={`text-[1.45rem] ml-6 flex items-center gap-2 ${
                             showSearch ? headerClasses.hide : ''
                         }`}
                     >
-                        <Image src="/logos/logo.png" alt="Logo" width="40" height="40" />
+                        <div className={'-translate-y-[2px]'}>
+                            <Image src="/logos/logo.png" alt="Logo" width="42" height="42" />
+                        </div>
                         {AppProperty.APP_NAME}
                     </a>
                 </Link>
