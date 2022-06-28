@@ -57,12 +57,14 @@ interface Props {
 }
 
 const FlexChart: React.FC<Props> = (props) => {
-    const { chartTitle, chartLabel, chartDataArray, initialChartType, additionalSelect } = props;
+    const { chartTitle, chartLabel, chartDataArray, initialChartType, additionalSelect } =
+        props;
     const [flexChartType, setFlexChartType] = useState<FlexChartType>(
         initialChartType || FlexChartType.PIE,
     ); // Pie chart by default
 
-    const { labels, data, backgroundColor, borderColor } = generateChartDataset(chartDataArray);
+    const { labels, data, backgroundColor, borderColor } =
+        generateChartDataset(chartDataArray);
 
     const pieOrDoughnutData = {
         labels,
@@ -103,13 +105,11 @@ const FlexChart: React.FC<Props> = (props) => {
 
     return (
         <section className={`w-full lg:w-[49%] pr-5 flex flex-col gap-3`}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
-                <h3 className="-translate-y-1 text-2xl md:text-3xl capitalize">{chartTitle}</h3>
-                <div
-                    className={`flex gap-2 ${
-                        additionalSelect ? 'md:translate-x-[4rem] xl:translate-x-[5.5rem]' : ''
-                    }`}
-                >
+            <div className={'flex flex-col sm:flex-row gap-4 justify-between items-start'}>
+                <h3 className="-translate-y-1 text-2xl md:text-3xl capitalize">
+                    {chartTitle}
+                </h3>
+                <div className={`flex gap-2`}>
                     {/* additionalSelect is undefind most of the cases, so it would not display in that case. */}
                     {additionalSelect}
                     {chartTypeSelect}
@@ -117,7 +117,9 @@ const FlexChart: React.FC<Props> = (props) => {
             </div>
             <div
                 className={`${
-                    flexChartType === FlexChartType.BAR ? '' : '-mt-[3rem] -mb-[2rem] xs:-mb-[3rem]'
+                    flexChartType === FlexChartType.BAR
+                        ? ''
+                        : '-mt-[3rem] -mb-[2rem] xs:-mb-[3rem]'
                 }`}
             >
                 {flexChartType === FlexChartType.PIE && (

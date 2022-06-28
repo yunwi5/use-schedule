@@ -13,7 +13,7 @@ interface Props {
 const FeaturesGrid: React.FC<Props> = ({ features }) => {
     return (
         <div
-            className={'mt-5 xl:px-20 grid justify-items-center grid-cols-2 gap-x-2 gap-y-10'}
+            className={`mt-5 xl:px-20 grid justify-items-center grid-cols-2 gap-x-2 gap-y-10 ${classes['features-grid']}`}
         >
             <h5 className={`col-span-2 text-lg text-center font-semibold ${classes.sub}`}>
                 Interesting parts to note
@@ -27,7 +27,7 @@ const FeaturesGrid: React.FC<Props> = ({ features }) => {
                         {feature.heading}
                     </h3>
                     <Image
-                        alt={`${feature.heading} image`}
+                        alt={`About image`}
                         src={feature.image.src}
                         width={feature.image.width ?? '100%'}
                         height={feature.image.height ?? 50}

@@ -17,11 +17,27 @@ export const DashboardSection = {
     imagePath: '/about/dashboard',
 };
 
+export const DataAnalysisSection = {
+    name: 'Data Analysis',
+    id: 'data-analysis',
+    link: '#data-analysis',
+    videoSrc: '/videos/data-analysis.mp4',
+    imagePath: '/about/analysis',
+};
+
+export const TodoListSection = {
+    name: 'Lists',
+    id: 'todo-lists',
+    link: '#todo-lists',
+    videoSrc: '/videos/todo-list.mp4',
+    imagePath: '/about/todo',
+};
+
 export const RecurringSection = {
     name: 'Recurring Schedules',
     id: 'recurring-schedules',
     link: '#recurring-schedules',
-    videoSrc: '/videos/recurring-events-ex.mp4',
+    videoSrc: '/videos/recurring-events.mp4',
     imagePath: '/about/recurring',
 };
 
@@ -30,10 +46,6 @@ export const AboutStartSection = { name: 'About', id: 'about-start', link: '#abo
 export const PlannerSection = { name: 'Task Planners', link: '#template-tables' };
 
 export const TemplateSection = { name: 'Template tables', link: '#template-tables' };
-
-export const DataAnalysisSection = { name: 'Data Analysis', link: '#data-analysis' };
-
-export const TodoListSection = { name: 'Lists', link: '#todo-lists' };
 
 export const ImportExportSection = {
     name: 'Import & Export Schedules',

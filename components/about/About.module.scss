@@ -1,12 +1,24 @@
 @import '../../styles/abstract/variables';
 
 .main {
+    .feature .heading svg {
+        font-size: 125%;
+    }
+
     .heading {
         text-transform: capitalize;
     }
 
     .sub {
         font-family: Trispace;
+    }
+
+    button {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+        &:hover {
+            box-shadow: 0 5px 13.5px rgba(0, 0, 0, 0.35);
+        }
     }
 }
 
@@ -36,13 +48,6 @@
 }
 
 .section-sky {
-    a {
-        color: $color-secondary-dark-1;
-    }
-
-    .video-intro {
-    }
-
     .heading {
         color: $color-secondary-dark-2;
 
@@ -56,6 +61,13 @@
         background-color: inherit;
     }
 
+    .video-intro,
+    .features-grid {
+        a {
+            color: $color-secondary-dark-1;
+        }
+    }
+
     .feature {
         border: 2px solid rgba($color-secondary, 0.3);
 
@@ -66,19 +78,6 @@
 }
 
 .section-blue {
-    a {
-        color: $color-tertiary-dark-1;
-
-        &:hover {
-            text-decoration: underline;
-            text-decoration-color: $color-tertiary-dark-1;
-            text-underline-offset: 3px;
-        }
-    }
-
-    .video-intro {
-    }
-
     .heading {
         color: $color-tertiary-dark-2;
 
@@ -92,11 +91,60 @@
         background-color: inherit;
     }
 
+    .video-intro,
+    .features-grid {
+        a {
+            color: $color-tertiary-dark-1;
+
+            &:hover {
+                text-decoration: underline;
+                text-decoration-color: $color-tertiary-dark-1;
+                text-underline-offset: 3px;
+            }
+        }
+    }
+
     .feature {
         border: 2px solid rgba($color-tertiary, 0.3);
 
         .icon {
             color: $color-tertiary;
+        }
+    }
+}
+
+.section-indigo {
+    .heading {
+        color: $color-indigo-dark-2;
+
+        svg {
+            color: $color-indigo;
+        }
+    }
+
+    mark {
+        color: $color-indigo-dark-1;
+        background-color: inherit;
+    }
+
+    .video-intro,
+    .features-grid {
+        a {
+            color: $color-indigo-dark-1;
+
+            &:hover {
+                text-decoration: underline;
+                text-decoration-color: $color-indigo-dark-1;
+                text-underline-offset: 3px;
+            }
+        }
+    }
+
+    .feature {
+        border: 2px solid rgba($color-indigo, 0.3);
+
+        .icon {
+            color: $color-indigo;
         }
     }
 }

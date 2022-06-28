@@ -65,6 +65,18 @@ export const sydneyTheme: CustomTheme = {
     textColor: '#fff',
 };
 
+export const londonTheme: CustomTheme = {
+    name: 'London',
+    img: 'london.jpg',
+    textColor: '#fff',
+};
+
+export const berlinTheme: CustomTheme = {
+    name: 'Berlin',
+    img: 'berlin.jpg',
+    textColor: '#fff',
+};
+
 export const oceanCleanTheme: CustomTheme = {
     name: 'Clean Ocean',
     img: 'ocean-clean.jpg',
@@ -96,9 +108,11 @@ export const ThemesList: CustomTheme[] = [
     beachSunsetTheme,
     cityBridgeTheme,
     eiffelTowerTheme,
-    // sydneyTheme,
+    sydneyTheme,
+    londonTheme,
     oceanCleanTheme,
     philadelphiaCityHallTheme,
+    berlinTheme,
     metropolitanSkylineTheme,
 ];
 

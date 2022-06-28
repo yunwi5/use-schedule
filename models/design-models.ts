@@ -33,6 +33,7 @@ export enum AboutTheme {
     SKY = 'sky',
     BLUE = 'blue',
     PINK = 'pink',
+    INDIGO = 'indigo',
 }
 
 export enum Size {

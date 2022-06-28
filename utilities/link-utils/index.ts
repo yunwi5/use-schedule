@@ -9,6 +9,26 @@ export function getContactLink() {
     return `/contact`;
 }
 
+export function getDashboardLink() {
+    return `/dashboard`;
+}
+
+export function getRecurringEventLink() {
+    return `/recurring/events`;
+}
+
+export function getWeeklyAnalysisLink() {
+    return `/task-planner/weekly-planner/analysis`;
+}
+
+export function getMonthlyyAnalysisLink() {
+    return `/task-planner/monthly-planner/analysis`;
+}
+
+export function getYearlyAnalysisLink() {
+    return `/task-planner/yearly-planner/analysis`;
+}
+
 // Manages links to template tables.
 export function getNewTemplateLink() {
     return '/templates/new';
@@ -16,6 +36,10 @@ export function getNewTemplateLink() {
 
 export function getTemplateTableLink(templateId: string) {
     return `/templates/${templateId}`;
+}
+
+export function getNewTodoListLink() {
+    return `/todos/new`;
 }
 
 export function getTodoListLink(todoListId: string) {
