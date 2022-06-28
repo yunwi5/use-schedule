@@ -5,6 +5,11 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
+// Fontawesome config to prevent initially huge icons on the page
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
+
 import Layout from '../components/layout/Layout';
 import { NotificationContextProvider } from '../store/context/notification-context';
 import store from '../store/redux/index';
@@ -39,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     </TemplatesProvider>
                 </UserProvider>
             </Provider>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
     );
 }

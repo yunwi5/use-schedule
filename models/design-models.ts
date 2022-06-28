@@ -28,6 +28,13 @@ export enum ModalTheme {
     SUCCESS = 'success',
 }
 
+// themes used in about page
+export enum AboutTheme {
+    SKY = 'sky',
+    BLUE = 'blue',
+    PINK = 'pink',
+}
+
 export enum Size {
     XSMALL = 'xsmall',
     SMALL = 'small',

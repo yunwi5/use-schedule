@@ -11,10 +11,21 @@ export const CalendarSection = {
 
 export const DashboardSection = {
     name: 'Dashboard',
+    id: 'dashboard',
     link: '#dashboard',
+    videoSrc: '/videos/dashboard.mp4',
+    imagePath: '/about/dashboard',
 };
 
-export const RecurringSection = { name: 'Recurring Schedules', link: '#recurring-schedules' };
+export const RecurringSection = {
+    name: 'Recurring Schedules',
+    id: 'recurring-schedules',
+    link: '#recurring-schedules',
+    videoSrc: '/videos/recurring-events-ex.mp4',
+    imagePath: '/about/recurring',
+};
+
+export const AboutStartSection = { name: 'About', id: 'about-start', link: '#about-start' };
 
 export const PlannerSection = { name: 'Task Planners', link: '#template-tables' };
 

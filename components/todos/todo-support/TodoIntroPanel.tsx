@@ -24,10 +24,10 @@ const TodoIntroPanel: React.FC = () => {
             )}
             {showPanel && (
                 <div className={classes.panel}>
-                    <h2>Your custom Todo List</h2>
+                    <h2>Your Custom Todo List</h2>
                     <p>
-                        Make your own list and todos, then complete them one by one. You can also
-                        specify due date which will be shown on the calendar.
+                        Make your own list and todos, then complete them one by one. You can
+                        also specify due date which will be shown on the calendar.
                     </p>
 
                     <FontAwesomeIcon

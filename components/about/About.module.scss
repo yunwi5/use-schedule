@@ -1,2 +1,102 @@
+@import '../../styles/abstract/variables';
+
 .main {
+    .heading {
+        text-transform: capitalize;
+    }
+
+    .sub {
+        font-family: Trispace;
+    }
+}
+
+.section-pink {
+    .video-intro {
+        .icon {
+            color: #d946ef !important;
+        }
+    }
+
+    .heading {
+        color: $color-pink-dark-3;
+    }
+
+    mark {
+        color: $color-pink-dark-1;
+        background-color: inherit;
+    }
+
+    .feature {
+        border: 2px solid rgba($color-pink, 0.3);
+
+        .icon {
+            color: $color-pink;
+        }
+    }
+}
+
+.section-sky {
+    a {
+        color: $color-secondary-dark-1;
+    }
+
+    .video-intro {
+    }
+
+    .heading {
+        color: $color-secondary-dark-2;
+
+        svg {
+            color: $color-secondary;
+        }
+    }
+
+    mark {
+        color: $color-secondary-dark-1;
+        background-color: inherit;
+    }
+
+    .feature {
+        border: 2px solid rgba($color-secondary, 0.3);
+
+        .icon {
+            color: $color-secondary;
+        }
+    }
+}
+
+.section-blue {
+    a {
+        color: $color-tertiary-dark-1;
+
+        &:hover {
+            text-decoration: underline;
+            text-decoration-color: $color-tertiary-dark-1;
+            text-underline-offset: 3px;
+        }
+    }
+
+    .video-intro {
+    }
+
+    .heading {
+        color: $color-tertiary-dark-2;
+
+        svg {
+            color: $color-tertiary;
+        }
+    }
+
+    mark {
+        color: $color-tertiary-dark-1;
+        background-color: inherit;
+    }
+
+    .feature {
+        border: 2px solid rgba($color-tertiary, 0.3);
+
+        .icon {
+            color: $color-tertiary;
+        }
+    }
 }

@@ -87,27 +87,28 @@ const TemplatePlanner: React.FC<Props> = (props) => {
                     onAddOrEdit={onMutateTemplate}
                     initialTemplate={template || undefined}
                 />
-                <PlannerTableCard>
-                    <PlannerHeader
-                        beginningPeriod={templateWeekBeginning}
-                        onMutate={onInvalidateTasks}
-                        preventTaskAdd={
-                            !template
-                                ? {
-                                      message:
-                                          'Please fill up your template information first!',
-                                  }
-                                : undefined
-                        }
-                    />
-                    {template && (
+                {template && (
+                    <PlannerTableCard>
+                        <PlannerHeader
+                            beginningPeriod={templateWeekBeginning}
+                            onMutate={onInvalidateTasks}
+                            preventTaskAdd={
+                                !template
+                                    ? {
+                                          message:
+                                              'Please fill up your template information first!',
+                                      }
+                                    : undefined
+                            }
+                        />
+
                         <TemplateTable
                             weekBeginning={templateWeekBeginning}
                             planner={planner}
                             onMutate={onInvalidateTasks}
                         />
-                    )}
-                </PlannerTableCard>
+                    </PlannerTableCard>
+                )}
             </PlannerCard>
         </div>
     );

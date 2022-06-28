@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { getNameInitial } from '../../../utilities/gen-utils/string-util';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/pro-duotone-svg-icons';
 
 interface Props {
     pictureLink: string | null | undefined;
@@ -15,7 +16,6 @@ function isProfilePicture(picLink: string | null | undefined) {
 
 const UserPicCircle: React.FC<Props> = ({ pictureLink, userName }) => {
     const pictureDisplayable = isProfilePicture(pictureLink);
-    const userInitial = getNameInitial(userName);
 
     return (
         <div
@@ -27,7 +27,11 @@ const UserPicCircle: React.FC<Props> = ({ pictureLink, userName }) => {
                 // Got error with next/image (external link not allowed)
                 <Image src={pictureLink} alt="" width="100%" height="100%" objectFit="cover" />
             )}
-            {!pictureDisplayable && <div className="tracking-wider">{userInitial}</div>}
+            {!pictureDisplayable && (
+                <div className="tracking-wider">
+                    <FontAwesomeIcon icon={faUser} />
+                </div>
+            )}
         </div>
     );
 };
