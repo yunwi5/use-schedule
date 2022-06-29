@@ -2,7 +2,7 @@ import { faCircleInfo } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { ChartData } from '../../../models/analyzer-models/helper-models';
-import { Status, StatusList } from '../../../models/task-models/Status';
+import { Status } from '../../../models/task-models/Status';
 import { round } from '../../../utilities/gen-utils/calc-util';
 import { Pallete200 } from '../../../utilities/gen-utils/color-util';
 import SummaryCard from '../cards/SummaryCard';
@@ -39,8 +39,8 @@ function generateBinaryCompletionData(statusChartArray: ChartData[]) {
 
 const infoText = (
     <>
-        <span className={`font-semibold text-lg`}>Completion summary</span> shows the proportions of
-        events/tasks you have done for the currently selected week.
+        <span className={`font-semibold text-lg`}>Completion summary</span> shows the
+        proportions of events/tasks you have done for the currently selected week.
     </>
 );
 
@@ -52,8 +52,10 @@ const CompletionSummary: React.FC = () => {
     const { completionChartData, nonCompletionChartData } =
         generateBinaryCompletionData(statusChartArray);
 
+    // should prevent zero division bug
     const completedProportion = round(
-        (completionChartData.value / (completionChartData.value + nonCompletionChartData.value)) *
+        (completionChartData.value /
+            (completionChartData.value + nonCompletionChartData.value || 1)) *
             100,
         1,
     );

@@ -36,7 +36,7 @@ const VideoIntroduction: React.FC<Props> = (props) => {
                 >
                     <FontAwesomeIcon
                         icon={faArrowUp}
-                        className={`cursor-pointer text-xl lg:text-3xl transition-all hover:scale-y-125`}
+                        className={`cursor-pointer text-2xl lg:text-3xl transition-all hover:scale-y-125`}
                     />
                 </a>
             </h2>

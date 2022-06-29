@@ -8,8 +8,8 @@ import { useDashboardContext } from '../../../store/context/dashboard-context';
 
 const info = (
     <>
-        <span className={`font-semibold text-lg`}>AM/PM Summary</span> <br /> shows the distribution
-        of events/tasks between AM and PM for a selected week.
+        <span className={`font-semibold text-lg`}>AM/PM Summary</span> <br /> shows the
+        distribution of events/tasks between AM and PM for a selected week.
     </>
 );
 
@@ -19,7 +19,9 @@ const DayPeriodSummary = () => {
 
     const chartDataArray: ChartData[] = analyzer.generateDayPeriodData();
 
-    const totalCount = chartDataArray.reduce((accValue, curr) => accValue + curr.value, 0);
+    // should prevent zero division bug
+    const totalCount =
+        chartDataArray.reduce((accValue, curr) => accValue + curr.value, 0) || 1;
 
     return (
         <SummaryCard>
@@ -28,15 +30,12 @@ const DayPeriodSummary = () => {
                 <div className="py-3 pl-1">
                     {chartDataArray.map((data) => (
                         <div key={data.label} className="flex items-center gap-1">
-                            {/* <div
-                                className={`w-4 h-2`}
-                                style={{ backgroundColor: `#${data.backgroundColor}` }}
-                            /> */}
                             <span className="scale-110 text-slate-500 font-semibold">
                                 {round((data.value / totalCount) * 100, 1)}%
                             </span>
                             {'  '}
-                            on <span style={{ color: `#${data.borderColor}` }}>{data.label}</span>
+                            on{' '}
+                            <span style={{ color: `#${data.borderColor}` }}>{data.label}</span>
                         </div>
                     ))}
                 </div>

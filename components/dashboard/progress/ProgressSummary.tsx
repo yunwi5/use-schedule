@@ -15,7 +15,7 @@ import ProgressBar from './ProgressBar';
 const ProgressSummary: React.FC = () => {
     // currentPeriod is not necessarily week, month or year beginning (need to adjust it)
     const { events, tasks, currentPeriod } = useDashboardContext();
-    const [progressMode, setProgressMode] = useState<ProgressMode>(ProgressMode.WEEK); // week by default
+    const [progressMode, setProgressMode] = useState<ProgressMode>(ProgressMode.YEAR); // year by default
     const [analysisMode, setAnalysisMode] = useState(AnalysisMode.ALL);
     const [progressAnalyzer, setProgressAnalyzer] = useState<ProgressAnalyzer | null>(null);
 
