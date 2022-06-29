@@ -1,11 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import React from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-import { Size, Theme } from "../../models/design-models";
-import Button from "../ui/buttons/Button";
-import { getHomeImagePath } from "./helper";
-import classes from "./Home.module.scss";
+import { Size, Theme } from '../../models/design-models';
+import Button from '../ui/buttons/Button';
+import { getHomeImagePath } from './helper';
+import classes from './Home.module.scss';
+import { getCalendarLink } from '../../utilities/link-utils';
 
 const HomeIntro: React.FC = () => {
     const router = useRouter();
@@ -23,14 +24,14 @@ const HomeIntro: React.FC = () => {
                 width="100"
                 height="100"
                 quality={100}
-                className={classes["background"]}
+                className={classes['background']}
             />
             <img
                 src="/home-images/blue-table.jpg"
                 alt="Home background"
                 width="100"
                 height="100"
-                className={classes["background"]}
+                className={classes['background']}
             />
             <div className={`z-2 flex flex-col gap-9 px-5 ${classes.content}`}>
                 <h1
@@ -42,15 +43,17 @@ const HomeIntro: React.FC = () => {
                     <span>
                         The only applicaiton you need to organize your daily life in the most
                         efficient and organized way.
-                    </span>{" "}
+                    </span>{' '}
                     <span className={`block mt-3 md:inline`}>
                         We have various functionalities including templates, calendar, and data
                         analysis that can boost your life.
                     </span>
                 </p>
-                <div className={`mt-4 flex-col sm:flex-row flex gap-5 items-center justify-center`}>
+                <div
+                    className={`mt-4 flex-col sm:flex-row flex gap-5 items-center justify-center`}
+                >
                     <Button
-                        onClick={() => router.push("/about")}
+                        onClick={() => router.push('/about')}
                         theme={Theme.SECONDARY}
                         size={Size.MEDIUM_LARGE}
                         className={`!rounded-full w-[12rem] hover:shadow-md hover:shadow-yellow-100`}
@@ -58,7 +61,7 @@ const HomeIntro: React.FC = () => {
                         About Services
                     </Button>
                     <Button
-                        onClick={() => router.push("/templates/new")}
+                        onClick={() => router.push(getCalendarLink())}
                         theme={Theme.TERTIARY}
                         size={Size.MEDIUM_LARGE}
                         className={`!rounded-full w-[12rem] hover:shadow-md hover:shadow-yellow-100`}
