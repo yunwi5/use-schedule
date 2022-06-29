@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { deleteUserRecord } from '../../../db/delete_user_record';
 
+// In the production, this route should require authorization (withAPIAuthRequired).
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     let { userId } = req.query;
     userId = Array.isArray(userId) ? userId.join('') : userId;

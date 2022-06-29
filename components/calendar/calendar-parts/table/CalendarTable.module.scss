@@ -2,12 +2,12 @@
 @import '../../../../styles/abstract/mixins';
 @import '../../../../styles/abstract/functions';
 
-$min-cell-width: 8rem;
+$min-cell-width: 8.9rem;
 
 .grid {
     display: grid;
     // each cell width should always be equal.
-    grid-template-columns: repeat(7, minmax(8rem, calc(100% / 7)));
+    grid-template-columns: repeat(7, minmax($min-cell-width, calc(100% / 7)));
     grid-template-rows: 2.5rem;
     grid-auto-rows: 7rem;
     border-radius: 5px;

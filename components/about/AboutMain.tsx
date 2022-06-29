@@ -1,4 +1,3 @@
-import React from 'react';
 import { AboutStartSection } from '../../constants/about-sections';
 import { AppProperty } from '../../constants/global-constants';
 import AboutNavigation from './nav/AboutNavigation';
@@ -10,6 +9,7 @@ import TemplateTableDoc from './sections/TemplateTableDoc';
 import classes from './About.module.scss';
 import CalendarDoc from './sections/CalendarDoc';
 import PlannerDoc from './sections/PlannerDoc';
+import ImportExportDoc from './sections/ImportExportDoc';
 
 const AboutMain = () => {
     return (
@@ -24,9 +24,6 @@ const AboutMain = () => {
                             <span className={'text-sky-600'}>{AppProperty.APP_NAME}</span>{' '}
                             Services
                         </h1>
-                        {/* <h3 className={'text-xl'}>
-                            Organized documentation for all features & functionalities
-                        </h3> */}
                     </div>
                     <AboutNavigation />
                 </section>
@@ -38,6 +35,7 @@ const AboutMain = () => {
                 <TemplateTableDoc />
                 <TodoListDoc />
                 <DataAnalysisDoc />
+                <ImportExportDoc />
             </main>
         </div>
     );

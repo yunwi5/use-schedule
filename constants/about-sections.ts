@@ -66,7 +66,7 @@ export const ImportExportSection = {
     name: 'Import & Export',
     id: 'import-export',
     link: '#import-export',
-    videoSrc: '/videos/import-export',
+    videoSrc: '/videos/ical-import.mp4',
     imagePath: '/about-images/import-export',
 };
 

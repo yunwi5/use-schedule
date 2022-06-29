@@ -7,7 +7,6 @@ import { TodoListSection } from '../../../constants/about-sections';
 import { AboutTheme } from '../../../models/design-models';
 import { FeatureBox } from '../../../models/ui-models';
 import { getNewTodoListLink } from '../../../utilities/link-utils';
-import Button from '../../ui/buttons/Button';
 import SectionCard from '../cards/SectionCard';
 import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
 import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';

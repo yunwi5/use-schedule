@@ -30,6 +30,11 @@ interface Props {
     defaultItemType?: CalendarItemType;
 }
 
+interface InputFile {
+    name: string;
+    eventJSONArray: EventJSON[];
+}
+
 const ImportItemTypeList = [CalendarItemType.EVENT, CalendarItemType.TASK];
 
 const ImportModal: React.FC<Props> = (props) => {
@@ -37,11 +42,13 @@ const ImportModal: React.FC<Props> = (props) => {
     const userId = useUser().user?.sub;
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
+    const [inputFile, setInputFile] = useState<InputFile>();
     const [importItemType, setImportItemType] = useState<CalendarItemType>(
         defaultItemType || CalendarItemType.EVENT,
     );
+    // additional select option if the user chooses TASK as their import item type
     const [importItemCategory, setImportItemCategory] = useState<Category>(Category.OTHERS);
-    const [eventJSONArray, setEventJSONArray] = useState<EventJSON[]>([]);
+    // Notification to user Pending, Success or Error
     const { setNotification } = useNotification();
 
     const fileInputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,31 +61,34 @@ const ImportModal: React.FC<Props> = (props) => {
         const { error, events } = parseIcal(text);
         if (error) {
             console.error('Error occured while parsign ical!');
-            console.log(error);
+            console.error(error);
             return;
         }
-        setEventJSONArray(events);
+        setInputFile({ name: file.name, eventJSONArray: events });
     };
 
     const itemTypeHandler = (itemType: CalendarItemType) => () => setImportItemType(itemType);
 
     const uploadHandler = async () => {
-        if (!userId) {
-            console.log('UserId was nout found.');
+        if (!userId || !inputFile) {
+            console.log('User or input file not found.');
             return;
         }
         let isSuccess,
             message = '';
         setNotification(NotifStatus.PENDING);
         if (importItemType === CalendarItemType.EVENT) {
-            let importedEvents = convertEventJSONArraytoAppEventArray(eventJSONArray, userId);
+            let importedEvents = convertEventJSONArraytoAppEventArray(
+                inputFile.eventJSONArray,
+                userId,
+            );
             console.log(`${importedEvents.length} events produced.`);
             const { isSuccess: s, message: m } = await postEvents(importedEvents);
             isSuccess = s;
             message = m;
         } else if (importItemType === CalendarItemType.TASK) {
             let importedTasks = convertEventJSONArraytoAppTaskArray(
-                eventJSONArray,
+                inputFile.eventJSONArray,
                 userId,
                 importItemCategory,
             );
@@ -108,12 +118,21 @@ const ImportModal: React.FC<Props> = (props) => {
                     Import calendar items
                 </h2>
                 <SectionWrapper>
-                    <h3>Attach your file (Ical or Csv)</h3>
-                    <div className="flex flex-col gap-3">
-                        <AppFileInput onChange={fileInputHandler} />
-                        <p className="text-base">
-                            We receive ICalendar (.ics) file or csv file (MS Outlook format) as an
-                            external file to transfer tasks or events from other applications.
+                    <h3>Attach your ICalendar file (.ical or .ics extensions)</h3>
+                    <div className="flex flex-col gap-3 text-base">
+                        <AppFileInput
+                            onChange={fileInputHandler}
+                            className={'!min-w-[15rem]'}
+                        />
+                        {inputFile && (
+                            <p>
+                                Received{' '}
+                                <strong className={'text-slate-600'}>{inputFile.name}</strong>
+                            </p>
+                        )}
+                        <p>
+                            We receive ICalendar files as external files to transfer tasks or
+                            events from other applications such as Google Calendar.
                         </p>
                     </div>
                 </SectionWrapper>
@@ -142,7 +161,9 @@ const ImportModal: React.FC<Props> = (props) => {
                                 value={importItemCategory}
                                 className="flex-1 !max-w-[14.8rem] shadow-md"
                                 options={CategoryList}
-                                onChange={(val: string) => setImportItemCategory(val as Category)}
+                                onChange={(val: string) =>
+                                    setImportItemCategory(val as Category)
+                                }
                                 id={'category-select'}
                                 labelId={'category-select-label'}
                             />
