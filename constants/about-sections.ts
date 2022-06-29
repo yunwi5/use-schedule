@@ -43,6 +43,14 @@ export const TemplateSection = {
     imagePath: '/about-images/template',
 };
 
+export const PlannerSection = {
+    name: 'Task Planners',
+    id: 'template-tables',
+    link: '#template-tables',
+    videoSrc: '/videos/planner.mp4',
+    imagePath: '/about-images/planner',
+};
+
 export const RecurringSection = {
     name: 'Recurring Schedules',
     id: 'recurring-schedules',
@@ -50,8 +58,6 @@ export const RecurringSection = {
     videoSrc: '/videos/recurring-events.mp4',
     imagePath: '/about-images/recurring',
 };
-
-export const PlannerSection = { name: 'Task Planners', link: '#template-tables' };
 
 export const ImportExportSection = {
     name: 'Import & Export Schedules',

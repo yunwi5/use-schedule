@@ -25,12 +25,31 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <QueryClientProvider client={queryClient}>
             <Provider store={store}>
+                {/* Auth0 user provider */}
                 <UserProvider>
                     <TemplatesProvider>
                         <TodoListProvider>
                             <NotificationContextProvider>
                                 <Head>
                                     <title>{AppProperty.APP_NAME}</title>
+                                    {/* Favicon links */}
+                                    <link
+                                        rel="apple-touch-icon"
+                                        sizes="180x180"
+                                        href="/logos/logo.png"
+                                    />
+                                    <link
+                                        rel="icon"
+                                        type="image/png"
+                                        sizes="32x32"
+                                        href="/logos/logo.png"
+                                    />
+                                    <link
+                                        rel="icon"
+                                        type="image/png"
+                                        sizes="16x16"
+                                        href="/logos/logo.png"
+                                    />
                                     <meta
                                         name="description"
                                         content={`${AppProperty.APP_NAME} application for users to allocate and manage personal or business schedules`}

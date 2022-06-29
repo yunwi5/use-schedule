@@ -18,6 +18,7 @@ import { convertToAppObjectList } from '../../utilities/gen-utils/object-util';
 import useEventQuery from '../../hooks/useEventQuery';
 import useTaskQuery from '../../hooks/useTaskQuery';
 import useTodoQuery from '../../hooks/useTodoQuery';
+import { AppProperty } from '../../constants/global-constants';
 
 interface Props {
     tasks: Task[];
@@ -29,7 +30,8 @@ const Calendar: NextPage<Props> = (props) => {
     const { tasks: initialTasks, todos: initialTodos, events: initialEvents } = props;
 
     const { events, invalidateEvents } = useEventQuery(initialEvents);
-    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery(initialTasks);
+    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } =
+        useTaskQuery(initialTasks);
     const { todos, invalidateTodos } = useTodoQuery(null, null, initialTodos);
 
     const invalidateAll = () => {
@@ -47,7 +49,7 @@ const Calendar: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Calendar | UseSchedule</title>
+                <title>Calendar | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Calendar page for summarizing all user specific tasks and todos for a month"
@@ -90,11 +92,9 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         const tasksPromise = getTasksFromAllCollection(userId);
         const eventsPromise = getEventsFromPage(userId);
 
-        const [userTodoDocs, [wTaskDocs, mTaskDocs, yTaskDocs], eventDocs] = await Promise.all([
-            todosPromise,
-            tasksPromise,
-            eventsPromise,
-        ]);
+        const [userTodoDocs, [wTaskDocs, mTaskDocs, yTaskDocs], eventDocs] = await Promise.all(
+            [todosPromise, tasksPromise, eventsPromise],
+        );
 
         const taskDocs = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
         // make sure the converted objects are json-serializable

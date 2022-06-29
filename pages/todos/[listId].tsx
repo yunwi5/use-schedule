@@ -1,16 +1,17 @@
-import React from "react";
-import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
-import { useQuery, useQueryClient } from "react-query";
-import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import React from 'react';
+import type { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
+import { useQuery, useQueryClient } from 'react-query';
+import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-import TodoListContainer from "../../components/todos/TodoListContainer";
-import { TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
-import { Todo } from "../../models/todo-models/Todo";
-import { patchTodoList } from "../../lib/todos/todo-list-api";
-import { getTodoListAndItemsFromPage } from "../../db/pages-util";
+import TodoListContainer from '../../components/todos/TodoListContainer';
+import { TodoList, TodoListProperties } from '../../models/todo-models/TodoList';
+import { Todo } from '../../models/todo-models/Todo';
+import { patchTodoList } from '../../lib/todos/todo-list-api';
+import { getTodoListAndItemsFromPage } from '../../db/pages-util';
+import { AppProperty } from '../../constants/global-constants';
 
-const API_TODO_DOMAIN = "/api/todos";
+const API_TODO_DOMAIN = '/api/todos';
 
 function getTodoList(context: any) {
     const [name, listId] = context.queryKey;
@@ -30,7 +31,7 @@ const NewTodoPage: NextPage<Props> = (props) => {
     const listId = initialList.id;
 
     const queryClient = useQueryClient();
-    const { data: listData, error: listError } = useQuery(["todo-list", listId], getTodoList, {
+    const { data: listData, error: listError } = useQuery(['todo-list', listId], getTodoList, {
         initialData: { list: initialList, todos: initialTodos },
     });
 
@@ -38,7 +39,7 @@ const NewTodoPage: NextPage<Props> = (props) => {
     const todos: Todo[] = listData ? listData.todos : [];
 
     if (listError) {
-        console.error("TodoList query has errors!");
+        console.error('TodoList query has errors!');
         console.log(listError);
     }
 
@@ -52,18 +53,20 @@ const NewTodoPage: NextPage<Props> = (props) => {
             // Send PUT request and then invalidate query
             const { isSuccess, message } = await patchTodoList(listId, todoListObj);
             // console.log("Patch result:", message);
-            queryClient.invalidateQueries("todo-list");
+            queryClient.invalidateQueries('todo-list');
             if (!isSuccess) return false;
         }
         return true;
     };
 
-    const invalidateTodoList = () => queryClient.invalidateQueries("todo-list");
+    const invalidateTodoList = () => queryClient.invalidateQueries('todo-list');
 
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: '100%' }}>
             <Head>
-                <title>{initialList.name}</title>
+                <title>
+                    {initialList.name} | {AppProperty.APP_NAME}
+                </title>
                 <meta
                     name="description"
                     content="User defind todo list with custom items and theme for better customization"
@@ -87,23 +90,23 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         if (!session) {
             return {
                 redirect: {
-                    destination: "/login",
+                    destination: '/login',
                     permanent: false,
                 },
             };
         }
         const userId = session.user.sub;
         const { listId: initialId } = query;
-        const listId = Array.isArray(initialId) ? initialId.join("") : initialId;
+        const listId = Array.isArray(initialId) ? initialId.join('') : initialId;
 
         if (!listId) {
-            return { notFound: true, message: "List id is required." };
+            return { notFound: true, message: 'List id is required.' };
         }
 
         const [todoList, todos] = await getTodoListAndItemsFromPage(listId);
 
         if (!todoList) {
-            return { notFound: true, message: "Your list is not found." };
+            return { notFound: true, message: 'Your list is not found.' };
         }
         return {
             props: {

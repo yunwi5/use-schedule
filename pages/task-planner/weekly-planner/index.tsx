@@ -10,6 +10,7 @@ import WeeklyPlannerMain from '../../../components/planners/weekly-planner/Weekl
 import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { useQuery, useQueryClient } from 'react-query';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     initialTasks: Task[];
@@ -41,7 +42,7 @@ const WeeklyPlanner: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Weekly Task Planner</title>
+                <title>Weekly Task Planner | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Weekly task planner for users to manage and allocate their tasks"
@@ -52,7 +53,9 @@ const WeeklyPlanner: NextPage<Props> = (props) => {
                     <LoadingSpinner />
                 </div>
             )}
-            {data && tasks && <WeeklyPlannerMain weeklyTasks={tasks} onMutate={invalidateData} />}
+            {data && tasks && (
+                <WeeklyPlannerMain weeklyTasks={tasks} onMutate={invalidateData} />
+            )}
         </div>
     );
 };

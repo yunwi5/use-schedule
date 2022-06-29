@@ -10,6 +10,7 @@ import { Task } from '../../../models/task-models/Task';
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinner';
 import MontlyPlannerMain from '../../../components/planners/montly-planner/MontlyPlanner';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     initialTasks: Task[];
@@ -40,7 +41,7 @@ const MontlyPlanner: NextPage<Props> = ({ initialTasks }) => {
     return (
         <div>
             <Head>
-                <title>Montly Task Planner</title>
+                <title>Montly Task Planner | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Montly task planner for users to manage and allocate their tasks"

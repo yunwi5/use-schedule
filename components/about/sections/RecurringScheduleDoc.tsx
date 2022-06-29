@@ -14,7 +14,7 @@ import VideoIntroduction from '../partials/video-introduction/VideoIntroduction'
 
 const RecurringSchedule: React.FC = () => {
     return (
-        <SectionCard theme={AboutTheme.SKY}>
+        <SectionCard theme={AboutTheme.INDIGO}>
             <VideoIntroduction
                 title={RecurringSection.name}
                 id={RecurringSection.id}
@@ -23,7 +23,11 @@ const RecurringSchedule: React.FC = () => {
                 videoSrc={RecurringSection.videoSrc}
             />
             <FeaturesGrid features={features} />
-            <Button theme={Theme.SECONDARY} className={'self-center !px-8 !rounded-full'}>
+            <Button
+                className={
+                    '!bg-indigo-500 hover:!bg-indigo-700 !border-indigo-500 self-center !px-8 !rounded-full'
+                }
+            >
                 <Link href={getRecurringEventLink()}>Try This Out!</Link>
             </Button>
         </SectionCard>

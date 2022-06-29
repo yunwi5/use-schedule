@@ -9,6 +9,7 @@ import LoadingSpinner from '../../../components/ui/design-elements/LoadingSpinne
 import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { useQuery, useQueryClient } from 'react-query';
 import YearlyPlannerMain from '../../../components/planners/yearly-planner/YearlyPlanner';
+import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
     initialTasks: Task[];
@@ -40,7 +41,7 @@ const YearlyPlanner: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Yearly Task Planner</title>
+                <title>Yearly Task Planner | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="Yearly task planner for users to manage and allocate their tasks"

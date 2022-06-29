@@ -1,19 +1,24 @@
-import { useCallback, useEffect } from "react";
-import { NextPage } from "next";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { useQuery, useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
+import { useCallback, useEffect } from 'react';
+import { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useQuery, useQueryClient } from 'react-query';
+import { useDispatch } from 'react-redux';
 
-import { TemplateFormObj, Template } from "../../models/template-models/Template";
-import TemplatePlanner from "../../components/templates/TemplatePlanner";
-import { Task } from "../../models/task-models/Task";
-import { getTemplate, getTemplateTasks, patchTemplate } from "../../lib/templates/templates-api";
-import { templateActions } from "../../store/redux/template-slice";
-import { getTemplateFromPage, getTemplateTasksFromPage } from "../../db/pages-util";
-import { convertToTemplate } from "../../utilities/template-utils/template-util";
-import { convertToTasks } from "../../utilities/tasks-utils/task-util";
+import { TemplateFormObj, Template } from '../../models/template-models/Template';
+import TemplatePlanner from '../../components/templates/TemplatePlanner';
+import { Task } from '../../models/task-models/Task';
+import {
+    getTemplate,
+    getTemplateTasks,
+    patchTemplate,
+} from '../../lib/templates/templates-api';
+import { templateActions } from '../../store/redux/template-slice';
+import { getTemplateFromPage, getTemplateTasksFromPage } from '../../db/pages-util';
+import { convertToTemplate } from '../../utilities/template-utils/template-util';
+import { convertToTasks } from '../../utilities/tasks-utils/task-util';
+import { AppProperty } from '../../constants/global-constants';
 
 interface Props {
     template: null | Template;
@@ -29,7 +34,7 @@ const TemplatePage: NextPage<Props> = (props) => {
 
     const queryClient = useQueryClient();
     const { data: templateData, error: templateError } = useQuery(
-        ["template", templateId],
+        ['template', templateId],
         getTemplate,
         {
             enabled: !!templateId,
@@ -38,7 +43,7 @@ const TemplatePage: NextPage<Props> = (props) => {
     );
     const template: Template | null = templateData ? templateData.template : null;
     if (templateError) {
-        console.error("Template query has errors!");
+        console.error('Template query has errors!');
         console.log(templateError);
     }
 
@@ -47,13 +52,13 @@ const TemplatePage: NextPage<Props> = (props) => {
         isLoading: isTasksLoading,
         error: tasksError,
     } = useQuery(
-        ["templateTasks", templateId],
+        ['templateTasks', templateId],
         getTemplateTasks,
         { enabled: !!templateId, initialData: { tasks: initialTasks } }, // false for now, since the API is not implemented yet.
     );
     const templateTasks: Task[] = taskData ? taskData.tasks : null;
     if (tasksError) {
-        console.error("TemplateTasks query has errors!");
+        console.error('TemplateTasks query has errors!');
         console.log(tasksError);
     }
 
@@ -64,7 +69,7 @@ const TemplatePage: NextPage<Props> = (props) => {
             // Send PUT Request
             // Invalidate query then.
             const { isSuccess } = await patchTemplate(templateId, tempObj);
-            queryClient.invalidateQueries("template");
+            queryClient.invalidateQueries('template');
             if (!isSuccess) {
                 return false;
             }
@@ -75,7 +80,7 @@ const TemplatePage: NextPage<Props> = (props) => {
     );
 
     const invalidateTemplateTasks = useCallback(() => {
-        queryClient.invalidateQueries("templateTasks");
+        queryClient.invalidateQueries('templateTasks');
     }, [queryClient]);
 
     useEffect(() => {
@@ -87,10 +92,12 @@ const TemplatePage: NextPage<Props> = (props) => {
     return (
         <div>
             <Head>
-                <title>Template {template ? template.name : "Unknown"}</title>
+                <title>
+                    Template {template ? template.name : 'Unknown'} | {AppProperty.APP_NAME}
+                </title>
                 <meta
-                    name='description'
-                    content='New custom template to add users&#39; repetitive tasks in one place.'
+                    name="description"
+                    content="New custom template to add users&#39; repetitive tasks in one place."
                 />
             </Head>
             <TemplatePlanner
@@ -112,25 +119,28 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         if (!session || !session.user) {
             return {
                 redirect: {
-                    destination: "/login",
+                    destination: '/login',
                     permanent: false,
                 },
             };
         }
         const { templateId: initialId } = query;
-        const templateId = Array.isArray(initialId) ? initialId.join("") : initialId;
+        const templateId = Array.isArray(initialId) ? initialId.join('') : initialId;
         // Find template based on the userId
         if (!templateId) {
             return {
                 notFound: true,
-                redirect: { destination: "/" },
+                redirect: { destination: '/' },
             };
         }
 
         const templateP = getTemplateFromPage(templateId);
         const templateTasksP = getTemplateTasksFromPage(templateId);
 
-        const [templateData, templateTasksData] = await Promise.all([templateP, templateTasksP]);
+        const [templateData, templateTasksData] = await Promise.all([
+            templateP,
+            templateTasksP,
+        ]);
         const template = convertToTemplate(templateData);
         const templateTasks = templateTasksData ? convertToTasks(templateTasksData) : [];
 

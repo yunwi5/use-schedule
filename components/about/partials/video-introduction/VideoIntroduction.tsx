@@ -1,7 +1,8 @@
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/pro-light-svg-icons';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+
 import { AboutStartSection } from '../../../../constants/about-sections';
 import { Theme } from '../../../../models/design-models';
 import classes from '../../About.module.scss';
@@ -25,7 +26,7 @@ const VideoIntroduction: React.FC<Props> = (props) => {
         >
             <h2
                 className={
-                    'justify-self-stretch relative uppercase col-span-2 text-3xl text-center'
+                    'justify-self-stretch relative uppercase col-span-2 text-xl sm:text-2xl md:text-3xl text-center'
                 }
             >
                 {title}
@@ -39,9 +40,7 @@ const VideoIntroduction: React.FC<Props> = (props) => {
                     />
                 </a>
             </h2>
-            <div
-                className={`col-span-2 lg:col-span-1 min-h-[20rem] ${classes['video-container']}`}
-            >
+            <div className={`col-span-2 lg:col-span-1 ${classes['video-container']}`}>
                 <video
                     src={videoSrc}
                     className={'rounded-sm shadow-lg'}

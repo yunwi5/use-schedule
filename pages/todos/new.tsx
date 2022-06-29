@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
+import React, { useState } from 'react';
+import type { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
 
-import TodoListContainer from "../../components/todos/TodoListContainer";
-import { useQuery, useQueryClient } from "react-query";
-import { NoIdTodoList, TodoList, TodoListProperties } from "../../models/todo-models/TodoList";
-import { Todo } from "../../models/todo-models/Todo";
-import { Claims, getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { patchTodoList, postTodoList } from "../../lib/todos/todo-list-api";
+import TodoListContainer from '../../components/todos/TodoListContainer';
+import { useQuery, useQueryClient } from 'react-query';
+import { NoIdTodoList, TodoList, TodoListProperties } from '../../models/todo-models/TodoList';
+import { Todo } from '../../models/todo-models/Todo';
+import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { patchTodoList, postTodoList } from '../../lib/todos/todo-list-api';
+import { AppProperty } from '../../constants/global-constants';
 
-const API_TODO_DOMAIN = "/api/todos";
+const API_TODO_DOMAIN = '/api/todos';
 
 function getTodoList(context: any) {
     const [name, listId] = context.queryKey;
@@ -23,21 +24,24 @@ interface Props {
 
 // This is the page for "new" todo list, so no fetching from the server.
 const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
-    const [listId, setListId] = useState<string>("");
+    const [listId, setListId] = useState<string>('');
 
     const queryClient = useQueryClient();
     const {
         data: listData,
         isLoading: isListLoading,
         error: listError,
-    } = useQuery(["todo-list", listId], getTodoList, { enabled: !!listId, refetchInterval: 10000 });
+    } = useQuery(['todo-list', listId], getTodoList, {
+        enabled: !!listId,
+        refetchInterval: 10000,
+    });
 
-    console.log("todolist data:", listData);
+    console.log('todolist data:', listData);
     const todoList: TodoList | null = listData ? listData.list : null;
     const todos: Todo[] = listData ? listData.todos : [];
 
     if (listError) {
-        console.error("TodoList query has errors!");
+        console.error('TodoList query has errors!');
         console.log(listError);
     }
 
@@ -49,15 +53,15 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
             const newList: NoIdTodoList = {
                 ...todoListObj,
                 userId,
-                name: todoListObj.name || "",
-                description: todoListObj.description || "",
+                name: todoListObj.name || '',
+                description: todoListObj.description || '',
             };
             // Send POST Request
             if (!newList.name) {
-                alert("User list name is empty!");
+                alert('User list name is empty!');
                 return false;
             }
-            console.log("new list:", newList);
+            console.log('new list:', newList);
             const { isSuccess, message, insertedId } = await postTodoList(newList);
             if (isSuccess && insertedId) {
                 setListId(insertedId);
@@ -67,21 +71,21 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
             // Send PUT Request
             // Invalidate query then.
             const { isSuccess, message } = await patchTodoList(listId, todoListObj);
-            console.log("Patch result:", message);
-            queryClient.invalidateQueries("todo-list");
+            console.log('Patch result:', message);
+            queryClient.invalidateQueries('todo-list');
             if (!isSuccess) return false;
         }
         return true;
     };
 
     const invalidateTodoList = () => {
-        queryClient.invalidateQueries("todo-list");
+        queryClient.invalidateQueries('todo-list');
     };
 
     return (
         <>
             <Head>
-                <title>New Custom List</title>
+                <title>New List | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
                     content="New user specific custom todo list with all the items related."
@@ -105,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
         if (!session) {
             return {
                 redirect: {
-                    destination: "/login",
+                    destination: '/login',
                     permanent: false,
                 },
             };
