@@ -21,9 +21,13 @@ const VideoIntroduction: React.FC<Props> = (props) => {
     return (
         <div
             id={id}
-            className={`px-8 grid grid-cols-2 gap-y-8 gap-x-8 ${classes['video-intro']}`}
+            className={`px-4 lg:px-8 xl:px-14 grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-8 justify-center ${classes['video-intro']}`}
         >
-            <h2 className={'relative uppercase col-span-2 text-3xl text-center'}>
+            <h2
+                className={
+                    'justify-self-stretch relative uppercase col-span-2 text-3xl text-center'
+                }
+            >
                 {title}
                 <a
                     href={AboutStartSection.link}
@@ -35,19 +39,23 @@ const VideoIntroduction: React.FC<Props> = (props) => {
                     />
                 </a>
             </h2>
-            <video
-                src={videoSrc}
-                className={'rounded-sm shadow-lg'}
-                controls
-                autoPlay
-                muted
-                loop
+            <div
+                className={`col-span-2 lg:col-span-1 min-h-[20rem] ${classes['video-container']}`}
             >
-                <source src={videoSrc}></source>
-            </video>
-            <div className={'flex flex-col gap-5'}>
+                <video
+                    src={videoSrc}
+                    className={'rounded-sm shadow-lg'}
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                >
+                    <source src={videoSrc}></source>
+                </video>
+            </div>
+            <div className={`flex flex-col gap-5 ${classes['video-explanation']}`}>
                 <h3 className={`text-2xl ${classes.heading}`}>{heading}</h3>
-                <ul className={'flex flex-col gap-3 text-lg'}>
+                <ul className={'flex flex-col gap-3 xl:text-lg'}>
                     {checkList.map((check, idx) => (
                         <li key={idx}>
                             <FontAwesomeIcon

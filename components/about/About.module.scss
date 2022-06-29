@@ -1,8 +1,31 @@
 @import '../../styles/abstract/variables';
+@import '../../styles/abstract/mixins';
 
 .main {
+    // grid layout
+    .video-intro {
+        @include respond(1024px) {
+            justify-items: center;
+            .video-container {
+                max-width: 38rem;
+            }
+            .video-explanation {
+                max-width: 36rem;
+            }
+        }
+    }
+
     .feature .heading svg {
         font-size: 125%;
+    }
+
+    .features-grid {
+        @include respond(1024px) {
+            .feature {
+                grid-column: span 2;
+                max-width: 30rem;
+            }
+        }
     }
 
     .heading {
@@ -10,7 +33,8 @@
     }
 
     .sub {
-        font-family: Trispace;
+        font-family: 'Roboto Slab', sans-serif;
+        font-weight: 600;
     }
 
     button {

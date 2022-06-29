@@ -60,7 +60,7 @@ const WeeklyPlanner: React.FC<Props> = ({ weeklyTasks: initialTasks, onMutate })
     // Only runs on mount.
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.WEEKLY));
-        dispatch(foldActions.setView(ItemsView.TABLE));
+        // dispatch(foldActions.setView(ItemsView.TABLE));
     }, [dispatch]);
 
     // If the week beginning changes, the planner also has to change to load new tasks according to

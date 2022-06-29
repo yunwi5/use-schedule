@@ -74,7 +74,9 @@ const IntroPanel: React.FC<Props> = (props) => {
                                 <Button
                                     theme={Theme.SECONDARY}
                                     size={Size.MEDIUM}
-                                    className={'w-full !max-w-none flex items-center px-[0.7rem]'}
+                                    className={
+                                        'w-full !max-w-none flex items-center px-[0.7rem]'
+                                    }
                                 >
                                     <FontAwesomeIcon
                                         className="mr-2 max-w-[1.3rem]"
@@ -94,21 +96,27 @@ const IntroPanel: React.FC<Props> = (props) => {
                                     className="mr-2 max-w-[1.3rem]"
                                     icon={faCalendarCircleExclamation}
                                 />
-                                Time Tables
+                                Template Tables
                             </Button>
                         )}
                         <Button
                             className={`mr-4 !max-w-none flex items-center px-[0.7rem] !bg-transparent !text-sky-600/80 !border-sky-600/80 hover:!bg-sky-500 hover:!text-sky-50`}
                             onClick={importModalHandler(true)}
                         >
-                            <FontAwesomeIcon icon={faFileImport} className="icon-medium mr-2" />{' '}
+                            <FontAwesomeIcon
+                                icon={faFileImport}
+                                className="icon-medium mr-2"
+                            />{' '}
                             Import
                         </Button>
                         <Button
                             className={`mr-4 flex items-center px-[0.7rem] !max-w-none !bg-transparent !text-blue-600/80 !border-blue-600/80 hover:!bg-blue-500 hover:!text-blue-50`}
                             onClick={exportModalHandler(true)}
                         >
-                            <FontAwesomeIcon icon={faFileExport} className="icon-medium mr-2" />{' '}
+                            <FontAwesomeIcon
+                                icon={faFileExport}
+                                className="icon-medium mr-2"
+                            />{' '}
                             Export
                         </Button>
                     </div>

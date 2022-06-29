@@ -3,6 +3,8 @@ interface AboutSection {
     link: string;
 }
 
+export const AboutStartSection = { name: 'About', id: 'about-start', link: '#about-start' };
+
 // Total 8 sections to instroduce
 export const CalendarSection = {
     name: 'Calendar',
@@ -14,7 +16,7 @@ export const DashboardSection = {
     id: 'dashboard',
     link: '#dashboard',
     videoSrc: '/videos/dashboard.mp4',
-    imagePath: '/about/dashboard',
+    imagePath: '/about-images/dashboard',
 };
 
 export const DataAnalysisSection = {
@@ -22,7 +24,7 @@ export const DataAnalysisSection = {
     id: 'data-analysis',
     link: '#data-analysis',
     videoSrc: '/videos/data-analysis.mp4',
-    imagePath: '/about/analysis',
+    imagePath: '/about-images/analysis',
 };
 
 export const TodoListSection = {
@@ -30,7 +32,15 @@ export const TodoListSection = {
     id: 'todo-lists',
     link: '#todo-lists',
     videoSrc: '/videos/todo-list.mp4',
-    imagePath: '/about/todo',
+    imagePath: '/about-images/todo',
+};
+
+export const TemplateSection = {
+    name: 'Template tables',
+    id: 'template-tables',
+    link: '#template-tables',
+    videoSrc: '/videos/template-table.mp4',
+    imagePath: '/about-images/template',
 };
 
 export const RecurringSection = {
@@ -38,14 +48,10 @@ export const RecurringSection = {
     id: 'recurring-schedules',
     link: '#recurring-schedules',
     videoSrc: '/videos/recurring-events.mp4',
-    imagePath: '/about/recurring',
+    imagePath: '/about-images/recurring',
 };
 
-export const AboutStartSection = { name: 'About', id: 'about-start', link: '#about-start' };
-
 export const PlannerSection = { name: 'Task Planners', link: '#template-tables' };
-
-export const TemplateSection = { name: 'Template tables', link: '#template-tables' };
 
 export const ImportExportSection = {
     name: 'Import & Export Schedules',

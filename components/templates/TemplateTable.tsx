@@ -1,4 +1,3 @@
-import { Template } from '../../models/template-models/Template';
 import { TemplatePlanner } from '../../models/template-models/TemplatePlanner';
 import { ItemsView } from '../../models/ui-models';
 import { useAppSelector } from '../../store/redux';

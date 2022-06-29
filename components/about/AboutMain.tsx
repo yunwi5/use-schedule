@@ -2,11 +2,12 @@ import React from 'react';
 import { AboutStartSection } from '../../constants/about-sections';
 import { AppProperty } from '../../constants/global-constants';
 import AboutNavigation from './nav/AboutNavigation';
-import RecurringSchedule from './sections/RecurringSchedule';
+import RecurringScheduleDoc from './sections/RecurringScheduleDoc';
+import DashboardDoc from './sections/DashboardDoc';
+import TodoListDoc from './sections/TodoListDoc';
+import DataAnalysisDoc from './sections/DataAnalysisDoc';
+import TemplateTableDoc from './sections/TemplateTableDoc';
 import classes from './About.module.scss';
-import Dashboard from './sections/Dashboard';
-import TodoList from './sections/TodoList';
-import DataAnalysis from './sections/DataAnalysis';
 
 const AboutMain = () => {
     return (
@@ -25,10 +26,11 @@ const AboutMain = () => {
                 </div>
                 <AboutNavigation />
                 <div className="mt-[10rem]"></div>
-                <Dashboard />
-                <RecurringSchedule />
-                <TodoList />
-                <DataAnalysis />
+                <DashboardDoc />
+                <RecurringScheduleDoc />
+                <TemplateTableDoc />
+                <TodoListDoc />
+                <DataAnalysisDoc />
             </main>
         </div>
     );

@@ -5,7 +5,11 @@
     width: 100%;
     min-height: 5rem;
 
-    background: linear-gradient(217deg, lighten($color-teal-light-2, 5%), rgba(255, 0, 0, 0) 70.71%),
+    background: linear-gradient(
+            217deg,
+            lighten($color-teal-light-2, 5%),
+            rgba(255, 0, 0, 0) 70.71%
+        ),
         linear-gradient(127deg, $color-primary-light-3, rgba(0, 255, 0, 0) 70.71%),
         linear-gradient(336deg, $color-secondary-light-1, rgba(0, 0, 255, 0) 70.71%);
 
@@ -89,10 +93,10 @@
 .actions {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(4, 12rem);
+    grid-template-columns: repeat(auto-fit, 14rem);
     gap: 1rem;
 
-    @include respond(tab-port) {
+    @include respond(1000px) {
         grid-template-columns: repeat(2, 1fr);
     }
 

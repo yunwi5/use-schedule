@@ -76,7 +76,7 @@ const TemplatePlanner: React.FC<Props> = (props) => {
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(PlannerMode.TEMPLATE));
         // Table view as initial view
-        dispatch(foldActions.setView(ItemsView.TABLE));
+        // dispatch(foldActions.setView(ItemsView.TABLE));
     }, [dispatch]);
 
     return (
