@@ -8,7 +8,10 @@ export const AboutStartSection = { name: 'About', id: 'about-start', link: '#abo
 // Total 8 sections to instroduce
 export const CalendarSection = {
     name: 'Calendar',
+    id: 'calendar',
     link: '#calendar',
+    videoSrc: '/videos/calendar.mp4',
+    imagePath: '/about-images/calendar',
 };
 
 export const DashboardSection = {
@@ -45,8 +48,8 @@ export const TemplateSection = {
 
 export const PlannerSection = {
     name: 'Task Planners',
-    id: 'template-tables',
-    link: '#template-tables',
+    id: 'planner',
+    link: '#planner',
     videoSrc: '/videos/planner.mp4',
     imagePath: '/about-images/planner',
 };
@@ -60,8 +63,11 @@ export const RecurringSection = {
 };
 
 export const ImportExportSection = {
-    name: 'Import & Export Schedules',
+    name: 'Import & Export',
+    id: 'import-export',
     link: '#import-export',
+    videoSrc: '/videos/import-export',
+    imagePath: '/about-images/import-export',
 };
 
 export const AboutSectionList: AboutSection[] = [
@@ -70,7 +76,7 @@ export const AboutSectionList: AboutSection[] = [
     RecurringSection,
     PlannerSection,
     TemplateSection,
-    DataAnalysisSection,
     TodoListSection,
+    DataAnalysisSection,
     ImportExportSection,
 ];

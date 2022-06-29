@@ -11,11 +11,11 @@ import {
 import { DataAnalysisSection } from '../../../constants/about-sections';
 import { AboutTheme, Theme } from '../../../models/design-models';
 import { FeatureBox } from '../../../models/ui-models';
-import { getWeeklyAnalysisLink } from '../../../utilities/link-utils';
-import Button from '../../ui/buttons/Button';
+import { getAnalysisLink } from '../../../utilities/link-utils';
 import SectionCard from '../cards/SectionCard';
 import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
 import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import SectionButton from '../partials/SectionButton';
 
 const DataAnalysis: React.FC = () => {
     return (
@@ -28,9 +28,9 @@ const DataAnalysis: React.FC = () => {
                 videoSrc={DataAnalysisSection.videoSrc}
             />
             <FeaturesGrid features={features} />
-            <Button theme={Theme.SECONDARY} className={'self-center  !px-8 !rounded-full'}>
-                <Link href={getWeeklyAnalysisLink()}>Try This Out!</Link>
-            </Button>
+            <SectionButton>
+                <Link href={getAnalysisLink()}>Try This Out!</Link>
+            </SectionButton>
         </SectionCard>
     );
 };

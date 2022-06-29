@@ -10,6 +10,7 @@ import Button from '../../ui/buttons/Button';
 import SectionCard from '../cards/SectionCard';
 import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
 import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import SectionButton from '../partials/SectionButton';
 
 const TemplateTableDoc: React.FC = () => {
     return (
@@ -22,9 +23,9 @@ const TemplateTableDoc: React.FC = () => {
                 videoSrc={TemplateSection.videoSrc}
             />
             <FeaturesGrid features={features} />
-            <Button theme={Theme.TERTIARY} className={'self-center !px-8 !rounded-full'}>
+            <SectionButton>
                 <Link href={getNewTemplateLink()}>Try This Out!</Link>
-            </Button>
+            </SectionButton>
         </SectionCard>
     );
 };
@@ -74,8 +75,9 @@ const features: FeatureBox[] = [
         image: { src: `${TemplateSection.imagePath}/template-import.jpg` },
         paragraphs: [
             <>
-                You can find a &quot;Template Tables&quot; button in the weekly planner which
-                pops up a modal that let you select the time table you want to import
+                You can find a <mark>&quot;Template Tables&quot; button</mark> in the weekly
+                planner which pops up a modal that let you select the time table you want to
+                import
             </>,
             <>
                 Select <mark>multiple time tables</mark> you need for your selected week, then

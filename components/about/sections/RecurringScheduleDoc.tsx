@@ -11,6 +11,7 @@ import Button from '../../ui/buttons/Button';
 import SectionCard from '../cards/SectionCard';
 import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
 import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import SectionButton from '../partials/SectionButton';
 
 const RecurringSchedule: React.FC = () => {
     return (
@@ -23,13 +24,9 @@ const RecurringSchedule: React.FC = () => {
                 videoSrc={RecurringSection.videoSrc}
             />
             <FeaturesGrid features={features} />
-            <Button
-                className={
-                    '!bg-indigo-500 hover:!bg-indigo-700 !border-indigo-500 self-center !px-8 !rounded-full'
-                }
-            >
+            <SectionButton>
                 <Link href={getRecurringEventLink()}>Try This Out!</Link>
-            </Button>
+            </SectionButton>
         </SectionCard>
     );
 };

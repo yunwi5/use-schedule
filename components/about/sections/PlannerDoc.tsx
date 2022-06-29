@@ -1,19 +1,24 @@
 import Link from 'next/link';
-import { faCloudArrowDown, faTableList } from '@fortawesome/pro-duotone-svg-icons';
+import { faFunction, faListTree } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { PlannerSection } from '../../../constants/about-sections';
-import { AboutTheme, Theme } from '../../../models/design-models';
+import {
+    ImportExportSection,
+    PlannerSection,
+    TemplateSection,
+} from '../../../constants/about-sections';
+import { AboutTheme } from '../../../models/design-models';
 import { FeatureBox } from '../../../models/ui-models';
-import { getNewTemplateLink } from '../../../utilities/link-utils';
-import Button from '../../ui/buttons/Button';
+import { getAnalysisLink, getPlannerLink } from '../../../utilities/link-utils';
 import SectionCard from '../cards/SectionCard';
 import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
 import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import SectionButton from '../partials/SectionButton';
+import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 
 const PlannerDoc: React.FC = () => {
     return (
-        <SectionCard theme={AboutTheme.BLUE}>
+        <SectionCard theme={AboutTheme.SKY}>
             <VideoIntroduction
                 title={PlannerSection.name}
                 id={PlannerSection.id}
@@ -22,24 +27,26 @@ const PlannerDoc: React.FC = () => {
                 videoSrc={PlannerSection.videoSrc}
             />
             <FeaturesGrid features={features} />
-            <Button theme={Theme.TERTIARY} className={'self-center !px-8 !rounded-full'}>
-                <Link href={getNewTemplateLink()}>Try This Out!</Link>
-            </Button>
+            <SectionButton>
+                <Link href={getPlannerLink(PlannerMode.WEEKLY)}>Try This Out!</Link>
+            </SectionButton>
         </SectionCard>
     );
 };
 
 const checkList = [
     <>
-        Three versions of planners including weekly planner, monthly planner and yearly planner
-        specific to your personal scheduling and goal settings.
+        Three versions of planners including <mark>weekly planner</mark>,{' '}
+        <mark>monthly planner</mark> and <mark>yearly planner</mark> specific to your{' '}
+        <mark>personal scheduling</mark> and <mark>goal settings</mark>.
     </>,
     <>
-        Weekly planner supporting both list view and time table view to suit your preference!{' '}
+        Weekly planner supporting both <mark>list view</mark> and <mark>time table</mark> view
+        to suit your preference!
     </>,
     <>
-        Monthly planner and yearly planner are specifically designed to let you set your
-        monthly or yearly goals.
+        Monthly planner and yearly planner are specifically designed to let you set your{' '}
+        <mark>monthly</mark> and <mark>yearly goals</mark>.
     </>,
 ];
 
@@ -47,38 +54,43 @@ const features: FeatureBox[] = [
     {
         heading: (
             <>
-                <FontAwesomeIcon icon={faTableList} className={'mr-2'} /> Real time table
-                looking template
+                <FontAwesomeIcon icon={faFunction} className={'mr-2'} /> Various utility
+                functionalities
             </>
         ),
-        image: { src: `${PlannerSection.imagePath}/template-table.jpg` },
+        image: { src: `${PlannerSection.imagePath}/planner-util.jpg`, height: 40 },
         paragraphs: [
             <>
-                Template table supports both <mark>time table view</mark> and{' '}
-                <mark>list view</mark> to fit your visual preference!
+                Provide bunch of utilities including filtering, searching, folding, as well as
+                changing the layout between list view and table view (for weekly planner).
             </>,
             <>
-                Especially, time table view <mark>visualizes your weekly schedules</mark> like
-                a school/university time table!
+                On top of that, you can also see the{' '}
+                <Link href={getAnalysisLink(PlannerMode.WEEKLY)}>analytics</Link>,{' '}
+                <a href={TemplateSection.link}>import template tables</a>, as well as{' '}
+                <a href={ImportExportSection.link}>import tasks from and export tasks</a> to
+                external apps!
             </>,
         ],
     },
     {
         heading: (
             <>
-                <FontAwesomeIcon icon={faCloudArrowDown} className={'mr-2'} /> Import multiple
-                tables at once!
+                <FontAwesomeIcon icon={faListTree} className={'mr-2'} /> Task details &
+                subtasks extension
             </>
         ),
-        image: { src: `${PlannerSection.imagePath}/template-import.jpg` },
+        image: { src: `${PlannerSection.imagePath}/task-modal.jpg` },
         paragraphs: [
             <>
-                You can find a &quot;Template Tables&quot; button in the weekly planner which
-                pops up a modal that let you select the time table you want to import
+                Make your task very much <mark>in detail</mark> by adding various properties!
+                But you don&quot;t need to be stressed as <mark>the only property</mark> you
+                need to add each time is <mark>title</mark>!
             </>,
             <>
-                Select <mark>multiple time tables</mark> you need for your selected week, then
-                all tasks in those tables will be <mark>automatically imported</mark>!
+                Each task can optionally have a <mark>list of subtasks</mark> which breaks down
+                the <mark>progress of your task</mark> in <mark>smaller details</mark>. If your
+                task is large, subtasks can help you!
             </>,
         ],
     },

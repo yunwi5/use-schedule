@@ -36,7 +36,7 @@ const VideoIntroduction: React.FC<Props> = (props) => {
                 >
                     <FontAwesomeIcon
                         icon={faArrowUp}
-                        className={`cursor-pointer text-3xl transition-all hover:scale-y-125`}
+                        className={`cursor-pointer text-xl lg:text-3xl transition-all hover:scale-y-125`}
                     />
                 </a>
             </h2>
@@ -53,7 +53,9 @@ const VideoIntroduction: React.FC<Props> = (props) => {
                 </video>
             </div>
             <div className={`flex flex-col gap-5 ${classes['video-explanation']}`}>
-                <h3 className={`text-2xl ${classes.heading}`}>{heading}</h3>
+                <h3 className={`text-lg md:text-xl lg:text-2xl ${classes.heading}`}>
+                    {heading}
+                </h3>
                 <ul className={'flex flex-col gap-3 xl:text-lg'}>
                     {checkList.map((check, idx) => (
                         <li key={idx}>

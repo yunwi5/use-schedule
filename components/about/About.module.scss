@@ -37,36 +37,16 @@
         font-weight: 600;
     }
 
-    button {
+    .button {
+        font-size: 1.2rem;
+        background-color: $color-primary-dark-1;
+        transition: all 0.35s ease-in-out;
+        color: #f7f7f7;
+        padding: 0.8rem 0;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 
         &:hover {
             box-shadow: 0 5px 13.5px rgba(0, 0, 0, 0.35);
-        }
-    }
-}
-
-.section-pink {
-    .video-intro {
-        .icon {
-            color: #d946ef !important;
-        }
-    }
-
-    .heading {
-        color: $color-pink-dark-3;
-    }
-
-    mark {
-        color: $color-pink-dark-1;
-        background-color: inherit;
-    }
-
-    .feature {
-        border: 2px solid rgba($color-pink, 0.3);
-
-        .icon {
-            color: $color-pink;
         }
     }
 }
@@ -89,6 +69,12 @@
     .features-grid {
         a {
             color: $color-secondary-dark-1;
+
+            &:hover {
+                text-decoration: underline;
+                text-decoration-color: $color-secondary-dark-1;
+                text-underline-offset: 3px;
+            }
         }
     }
 
@@ -97,6 +83,16 @@
 
         .icon {
             color: $color-secondary;
+        }
+    }
+
+    .button {
+        background-color: $color-secondary-dark-1;
+        color: $color-secondary-light-1;
+
+        &:hover {
+            background-color: $color-secondary-dark-2;
+            color: #fff;
         }
     }
 }
@@ -135,6 +131,16 @@
             color: $color-tertiary;
         }
     }
+
+    .button {
+        background-color: $color-tertiary-dark-1;
+        color: $color-tertiary-light-1;
+
+        &:hover {
+            background-color: $color-tertiary-dark-2;
+            color: #fff;
+        }
+    }
 }
 
 .section-indigo {
@@ -169,6 +175,16 @@
 
         .icon {
             color: $color-indigo;
+        }
+    }
+
+    .button {
+        background-color: $color-indigo-dark-1;
+        color: $color-indigo-light-1;
+
+        &:hover {
+            background-color: $color-indigo-dark-2;
+            color: #fff;
         }
     }
 }

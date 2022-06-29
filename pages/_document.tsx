@@ -4,9 +4,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html lang="en">
-                <Head>
-                    <link rel="icon" href="/logos/logo.png" type="image/png" />
-                </Head>
+                <Head></Head>
                 <body>
                     <div id="modal" />
                     <Main />

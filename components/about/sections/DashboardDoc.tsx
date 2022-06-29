@@ -16,6 +16,7 @@ import Button from '../../ui/buttons/Button';
 import SectionCard from '../cards/SectionCard';
 import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
 import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import SectionButton from '../partials/SectionButton';
 
 const Dashboard: React.FC = () => {
     return (
@@ -28,9 +29,9 @@ const Dashboard: React.FC = () => {
                 videoSrc={DashboardSection.videoSrc}
             />
             <FeaturesGrid features={features} />
-            <Button theme={Theme.TERTIARY} className={'self-center  !px-8 !rounded-full'}>
+            <SectionButton>
                 <Link href={getDashboardLink()}>Try This Out!</Link>
-            </Button>
+            </SectionButton>
         </SectionCard>
     );
 };
