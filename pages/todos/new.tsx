@@ -27,11 +27,7 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
     const [listId, setListId] = useState<string>('');
 
     const queryClient = useQueryClient();
-    const {
-        data: listData,
-        isLoading: isListLoading,
-        error: listError,
-    } = useQuery(['todo-list', listId], getTodoList, {
+    const { data: listData, error: listError } = useQuery(['todo-list', listId], getTodoList, {
         enabled: !!listId,
         refetchInterval: 10000,
     });

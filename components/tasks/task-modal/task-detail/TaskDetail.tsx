@@ -23,7 +23,7 @@ interface Props {
     onInvalidate?: () => void;
 }
 
-const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners/sub-tasks`;
+const API_DOMAIN = `/api/planners/sub-tasks`;
 
 async function fetchSubTasks(context: any) {
     const [name, parentTaskId] = context.queryKey;

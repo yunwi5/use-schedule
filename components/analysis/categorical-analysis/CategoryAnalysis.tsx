@@ -8,7 +8,6 @@ import { ChartSectionContainer } from '../containers';
 import AnalysisMessage from '../analysis-message/AnalysisMessage';
 import SubCategoryAnalysis from './SubCategoryAnalysis';
 import { useAnalysisContext } from '../../../store/context/analysis-context';
-import Button from '@mui/material/Button';
 import CustomMUIButton from '../../ui/buttons/CustomMUIButton';
 
 const CategoryAnalysis: React.FC = () => {
@@ -37,8 +36,14 @@ const CategoryAnalysis: React.FC = () => {
                 {showComparison && (
                     <ComparisonChart
                         chartTitle={'Category comparison'}
-                        firstDataSet={{ label: `Last ${timeFrame}`, data: previousChartDataArray }}
-                        secondDataSet={{ label: `This ${timeFrame}`, data: currentChartDataArray }}
+                        firstDataSet={{
+                            label: `Last ${timeFrame}`,
+                            data: previousChartDataArray,
+                        }}
+                        secondDataSet={{
+                            label: `This ${timeFrame}`,
+                            data: currentChartDataArray,
+                        }}
                     />
                 )}
                 <AnalysisMessage

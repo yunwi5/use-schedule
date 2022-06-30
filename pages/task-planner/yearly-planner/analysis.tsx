@@ -5,9 +5,11 @@ import { getSession } from '@auth0/nextjs-auth0';
 
 import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
-import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
-import { getCurrentYearBeginning, getYearBeginning } from '../../../utilities/date-utils/date-get';
+import {
+    getCurrentYearBeginning,
+    getYearBeginning,
+} from '../../../utilities/date-utils/date-get';
 import { IEvent } from '../../../models/Event';
 import YearlyAnalysis from '../../../components/analysis/analysis-main/YearlyAnalysis';
 import useEventQuery from '../../../hooks/useEventQuery';

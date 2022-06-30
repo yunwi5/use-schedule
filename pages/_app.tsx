@@ -22,6 +22,8 @@ import '../styles/globals.scss';
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+    console.log('ENV APP_NAME', process.env.APP_NAME);
+
     return (
         <QueryClientProvider client={queryClient}>
             <Provider store={store}>
@@ -33,23 +35,23 @@ function MyApp({ Component, pageProps }: AppProps) {
                                 <Head>
                                     <title>{AppProperty.APP_NAME}</title>
                                     {/* Favicon links */}
-                                    <link
-                                        rel="apple-touch-icon"
-                                        sizes="180x180"
-                                        href="/logos/logo.png"
-                                    />
+                                    {/* Firefox favicon */}
                                     <link
                                         rel="icon"
                                         type="image/png"
                                         sizes="32x32"
                                         href="/logos/logo.png"
                                     />
+                                    {/* Chrome and Edge favicon */}
+                                    <link rel="shortcut icon" href="/favicon.ico" />
+
+                                    {/* PWA links */}
+                                    <link rel="manifest" href="/manifest.json"></link>
                                     <link
-                                        rel="icon"
-                                        type="image/png"
-                                        sizes="16x16"
-                                        href="/logos/logo.png"
-                                    />
+                                        rel="apple-touch-icon"
+                                        href="/icons/apple-touch-icon.png"
+                                    ></link>
+                                    <meta name="theme-color" content="#64748B" />
                                     <meta
                                         name="description"
                                         content={`${AppProperty.APP_NAME} application for users to allocate and manage personal or business schedules`}
@@ -63,7 +65,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     </TemplatesProvider>
                 </UserProvider>
             </Provider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );
 }

@@ -7,7 +7,7 @@ import TaskStatusSummary from './TaskStatusSummary';
 import { Planner } from '../../../models/planner-models/Planner';
 import TableNavCard from '../../ui/cards/TableNavCard';
 import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 interface Props {
     beginningPeriod: Date;

@@ -1,6 +1,7 @@
 import { DefaultTodoList, TodoList } from '../../models/todo-models/TodoList';
 
 export const hasDefaultTodoLists = (userTodoLists: TodoList[]) => {
+    if (!userTodoLists?.length) return true;
     const hasDefault = userTodoLists.some((list) =>
         Object.values(DefaultTodoList).includes(list.name as any),
     );

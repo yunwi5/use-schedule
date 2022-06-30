@@ -2,9 +2,7 @@ import axios from 'axios';
 import { Todo } from '../../models/todo-models/Todo';
 import { NoIdTodoList, TodoList, TodoListProperties } from '../../models/todo-models/TodoList';
 
-const TODO_API_DOMAIN = process.env.API_DOMIN_RELATIVE
-    ? `${process.env.API_DOMIN_RELATIVE}/todos`
-    : 'api/todos';
+const TODO_API_DOMAIN = '/api/todos';
 
 // Error handling is done by react-query, so it would not be needed inside the function
 export function fetchAllTodos() {

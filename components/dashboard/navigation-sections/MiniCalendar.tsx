@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 import { Calendar } from '../../../models/calendar-models/Calendar';
 import { getMonthMember } from '../../../models/date-models/Month';
@@ -60,10 +60,15 @@ const MiniCalendar: React.FC = () => {
                 </Button>
             </SummaryHeading>
             <div
-                className={`pt-2 grid grid-cols-7 ${numRows >= 6 ? 'text-[0.9rem]' : 'text-base'}`}
+                className={`pt-2 grid grid-cols-7 ${
+                    numRows >= 6 ? 'text-[0.9rem]' : 'text-base'
+                }`}
             >
                 {weekdayLabels.map((weekday) => (
-                    <div key={weekday} className={`py-1 md:py-0 flex-center px-1 bg-slate-200`}>
+                    <div
+                        key={weekday}
+                        className={`py-1 md:py-0 flex-center px-1 bg-slate-200`}
+                    >
                         {weekday}
                     </div>
                 ))}

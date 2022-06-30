@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ClickAwayListener } from '@mui/material';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 

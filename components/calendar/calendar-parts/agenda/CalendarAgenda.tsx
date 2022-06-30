@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/pro-regular-svg-icons';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 import { Calendar } from '../../../../models/calendar-models/Calendar';
 import { useAppDispatch, useAppSelector } from '../../../../store/redux';

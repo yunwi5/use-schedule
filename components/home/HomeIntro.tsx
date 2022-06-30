@@ -4,33 +4,24 @@ import { useRouter } from 'next/router';
 
 import { Size, Theme } from '../../models/design-models';
 import Button from '../ui/buttons/Button';
-import { getHomeImagePath } from './helper';
-import classes from './Home.module.scss';
 import { getCalendarLink } from '../../utilities/link-utils';
+import { AppProperty } from '../../constants/global-constants';
+import classes from './Home.module.scss';
 
 const HomeIntro: React.FC = () => {
     const router = useRouter();
-
-    const appName = process.env.APP_NAME;
+    const appName = AppProperty.APP_NAME;
     return (
         <section
             className={`h-full min-h-[90wh] w-[100%] bg-slate-500 flex items-center justify-center ${classes.intro}`}
         >
-            {/* Next Image is not loading. Why is it happening? */}
             <Image
                 src="/home-images/blue-table.jpg"
-                alt=""
+                alt="Home background"
                 layout="responsive"
                 width="100"
                 height="100"
                 quality={100}
-                className={classes['background']}
-            />
-            <img
-                src="/home-images/blue-table.jpg"
-                alt="Home background"
-                width="100"
-                height="100"
                 className={classes['background']}
             />
             <div className={`z-2 flex flex-col gap-9 px-5 ${classes.content}`}>

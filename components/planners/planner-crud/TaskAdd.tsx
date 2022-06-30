@@ -19,7 +19,9 @@ const getDefaultBeginning = (beginningPeriod: Date) => {
 
 const TaskAdd: React.FC<Props> = (props) => {
     const { onClose, onAddTask, beginningPeriod } = props;
-    const { addTask } = useTaskAdd({ onAdd: onAddTask });
+    const { addTask } = useTaskAdd({
+        onAdd: onAddTask,
+    });
 
     const [showDiscardModal, setShowDiscardModal] = useState(false);
 

@@ -7,7 +7,7 @@ import { getShortWeekDayList } from '../../../../utilities/date-utils/weekday-ut
 import useWindowInnerWidth from '../../../../hooks/useWindowInnerWidth';
 import DayCell from './DayCell';
 import classes from './CalendarTable.module.scss';
-import { ClickAwayListener } from '@mui/material';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 interface Props {
     calendar: Calendar;

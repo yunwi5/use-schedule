@@ -5,8 +5,10 @@ import { getSession } from '@auth0/nextjs-auth0';
 
 import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
-import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
-import { getCurrentWeekBeginning, getWeekBeginning } from '../../../utilities/date-utils/date-get';
+import {
+    getCurrentWeekBeginning,
+    getWeekBeginning,
+} from '../../../utilities/date-utils/date-get';
 import WeeklyAnalysis from '../../../components/analysis/analysis-main/WeeklyAnalysis';
 import { IEvent } from '../../../models/Event';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck } from '@fortawesome/pro-duotone-svg-icons';
-import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 import { Status, StatusList } from '../../../../../models/task-models/Status';
 import { patchEvent } from '../../../../../lib/events/event-apis';
@@ -54,7 +57,9 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
                     <Select
                         id="status-select"
                         value={status}
-                        onChange={(e: SelectChangeEvent) => changeHandler(e.target.value as Status)}
+                        onChange={(e: SelectChangeEvent) =>
+                            changeHandler(e.target.value as Status)
+                        }
                     >
                         {StatusList.map((s) => (
                             <MenuItem key={s} value={s}>

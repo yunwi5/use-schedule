@@ -3,9 +3,7 @@ import { Task } from '../../models/task-models/Task';
 import { TemplateFormObj, TemplateProperties } from '../../models/template-models/Template';
 import { TaskCollection } from '../../db/collections';
 
-const API_TEMPLATE_DOMAIN = process.env.API_DOMIN_RELATIVE
-    ? `${process.env.API_DOMIN_RELATIVE}/templates`
-    : 'api/templates';
+const API_TEMPLATE_DOMAIN = '/api/templates';
 
 const collection = TaskCollection.TEMPLATE_TASKS;
 
@@ -17,7 +15,9 @@ export async function getTemplate(context: any) {
 // Should be used after template APIs are resolved.
 export async function getTemplateTasks(context: any) {
     const [name, templateId] = context.queryKey;
-    return fetch(`${API_TEMPLATE_DOMAIN}/${collection}/${templateId}`).then((res) => res.json());
+    return fetch(`${API_TEMPLATE_DOMAIN}/${collection}/${templateId}`).then((res) =>
+        res.json(),
+    );
 }
 
 // By id
@@ -109,7 +109,8 @@ export async function transferTemplateToWeekly(templateId: string, weekBeginning
             return { isSuccess: true, data };
         }
     } catch (err) {
-        message = err instanceof Error ? err.message : 'transferring template tasks did not work.';
+        message =
+            err instanceof Error ? err.message : 'transferring template tasks did not work.';
         console.log(message);
     }
     return { isSuccess: false, data: message };

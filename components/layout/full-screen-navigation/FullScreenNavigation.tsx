@@ -1,6 +1,5 @@
-import React from 'react';
-import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
 import useAppLinks from '../../../hooks/useAppLinks';
 import ActiveNavLink from '../../ui/design-elements/ActiveNavLink';
@@ -61,6 +60,11 @@ const FullScreenNavigation: React.FC<Props> = ({ onToggleSidebar, showSidebar })
                     />
                     <FullNavList
                         onNavigate={onToggleSidebar}
+                        listName={'Data Analysis'}
+                        items={dataAnalysisLinks}
+                    />
+                    <FullNavList
+                        onNavigate={onToggleSidebar}
                         listName={'Task Planners'}
                         items={plannerLinks}
                     />
@@ -74,11 +78,7 @@ const FullScreenNavigation: React.FC<Props> = ({ onToggleSidebar, showSidebar })
                         listName={'Template Tables'}
                         items={templateLinks}
                     />
-                    <FullNavList
-                        onNavigate={onToggleSidebar}
-                        listName={'Data Analysis'}
-                        items={dataAnalysisLinks}
-                    />
+
                     <FullNavList
                         onNavigate={onToggleSidebar}
                         listName={'Todo Lists'}

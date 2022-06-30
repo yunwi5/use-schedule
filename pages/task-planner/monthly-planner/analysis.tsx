@@ -5,7 +5,6 @@ import { getSession } from '@auth0/nextjs-auth0';
 
 import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
-import { convertToTasks } from '../../../utilities/tasks-utils/task-util';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 import {
     getCurrentMonthBeginning,

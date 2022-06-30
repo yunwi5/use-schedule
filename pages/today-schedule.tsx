@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
@@ -6,7 +7,6 @@ import useEventQuery from '../hooks/useEventQuery';
 import useTaskQuery from '../hooks/useTaskQuery';
 import useTodoQuery from '../hooks/useTodoQuery';
 import { AppProperty } from '../constants/global-constants';
-import { useMemo } from 'react';
 import { CalendarItem } from '../models/calendar-models/CalendarItem';
 import { isCurrentDate } from '../utilities/date-utils/date-check';
 import TodaySchedule from '../components/today-schedule/TodaySchedule';

@@ -1,15 +1,15 @@
-import { SubTask } from "../../models/task-models/SubTask";
-import { SubTaskProperties } from "../../models/task-models/TaskProperties";
+import { SubTask } from '../../models/task-models/SubTask';
+import { SubTaskProperties } from '../../models/task-models/TaskProperties';
 
-const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners/sub-tasks`;
+const API_DOMAIN = `/api/planners/sub-tasks`;
 
-const UPDATE_AND_DELETE = "update-and-delete";
+const UPDATE_AND_DELETE = 'update-and-delete';
 
 // Replaced by useQuery hook from ReactQuery
 export async function getSubTasks(parentTaskId: string) {
     let res;
     let data: SubTask[] = [];
-    let message: string = "";
+    let message: string = '';
     try {
         res = await fetch(`${API_DOMAIN}/${parentTaskId}`);
 
@@ -19,7 +19,7 @@ export async function getSubTasks(parentTaskId: string) {
         message = m;
     } catch (err) {
         console.error(err);
-        message = err instanceof Error ? err.message : "Get SubTask Api went wrong.";
+        message = err instanceof Error ? err.message : 'Get SubTask Api went wrong.';
     }
 
     if (!res || !res.ok) {
@@ -33,20 +33,20 @@ export async function postSubtask(newSubTask: SubTask, parentTaskId: string) {
     let res, message;
     try {
         res = await fetch(`${API_DOMAIN}/${parentTaskId}`, {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(newSubTask),
         });
 
         const data = await res.json();
         insertedId = data && data.insertedId ? data.insertedId.toString() : null;
-        console.log("post data:", data);
+        console.log('post data:', data);
         message = `Post SubTask successful with insertedId ${insertedId}`;
     } catch (err) {
         console.error(err);
-        message = err instanceof Error ? err.message : "Post SubTask Api went wrong.";
+        message = err instanceof Error ? err.message : 'Post SubTask Api went wrong.';
     }
 
     if (!res || !res.ok) {
@@ -59,17 +59,17 @@ export async function patchSubTaskProps(subTaskId: string, updatedProps: SubTask
     let res, message;
     let data;
     try {
-        if (!subTaskId) throw new Error("SubTaskId should not be empty!");
+        if (!subTaskId) throw new Error('SubTaskId should not be empty!');
         res = await fetch(`${API_DOMAIN}/${UPDATE_AND_DELETE}/${subTaskId}`, {
-            method: "PATCH",
+            method: 'PATCH',
             body: JSON.stringify(updatedProps),
         });
         data = await res.json();
-        console.log("Patch subTask data:", data);
-        message = "SubTask Patch successful!";
+        console.log('Patch subTask data:', data);
+        message = 'SubTask Patch successful!';
     } catch (err) {
         console.error(err);
-        message = err instanceof Error ? err.message : "Patch SubTask Properties went wrong.";
+        message = err instanceof Error ? err.message : 'Patch SubTask Properties went wrong.';
     }
 
     if (!res || !res.ok) {
@@ -83,15 +83,15 @@ export async function deleteSubTask(subTaskId: string) {
     let message;
     try {
         res = await fetch(`${API_DOMAIN}/${UPDATE_AND_DELETE}/${subTaskId}`, {
-            method: "DELETE",
+            method: 'DELETE',
         });
 
         const data = await res.json();
-        console.log("delete data:", data);
-        message = "Deleting SubTask successful!";
+        console.log('delete data:', data);
+        message = 'Deleting SubTask successful!';
     } catch (err) {
         console.error(err);
-        message = err instanceof Error ? err.message : "Deleting SubTask went wrong!";
+        message = err instanceof Error ? err.message : 'Deleting SubTask went wrong!';
     }
 
     if (!res || !res.ok) {

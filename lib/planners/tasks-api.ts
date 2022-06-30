@@ -1,10 +1,9 @@
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NoIdTask, Task } from '../../models/task-models/Task';
 import { TaskProperties } from '../../models/task-models/TaskProperties';
-import { TaskCollection } from '../../db/collections';
 import { getTaskCollection } from '../../utilities/tasks-utils/task-util';
 
-const API_DOMAIN = `${process.env.API_DOMIN_RELATIVE}/planners`;
+const API_DOMAIN = `/api/planners`;
 
 // Error handling is done by react-query, so it would not be needed inside the function
 export async function fetchAllTasks() {
@@ -68,7 +67,11 @@ export async function postTasks(newTasks: NoIdTask[], plannerMode: PlannerMode) 
     }
 }
 
-export async function replaceTask(taskId: string, updatedTask: Task, plannerMode: PlannerMode) {
+export async function replaceTask(
+    taskId: string,
+    updatedTask: Task,
+    plannerMode: PlannerMode,
+) {
     const collection = getTaskCollection(plannerMode);
 
     let res;

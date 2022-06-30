@@ -1,15 +1,9 @@
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect } from 'react';
 import HomeMain from '../components/home/HomeMain';
 import { AppProperty } from '../constants/global-constants';
 
 const Home: NextPage = () => {
-    const testDocument = () => {
-        const elem = document.getElementById('test-doc');
-        console.log(elem);
-    };
-
     return (
         <>
             <Head>

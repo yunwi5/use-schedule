@@ -34,7 +34,6 @@ const UpcomingTaskItem: React.FC<Props> = ({ task }) => {
                 <TaskDetail
                     task={task}
                     onClose={setShowDetail.bind(null, false)}
-                    onEdit={editHandler}
                     onInvalidate={onInvalidate}
                 />
             )}

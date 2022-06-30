@@ -25,7 +25,7 @@ const UserPicCircle: React.FC<Props> = ({ pictureLink, name }) => {
 
     // username can be the same as email if the user used local authentication
     // in that case, do not display the email.
-    const displayName = name && !name?.includes('@');
+    const displayName = name && !isValidEmail(name);
 
     return (
         <ClickAwayListener onClickAway={() => setShowDropDown(false)}>

@@ -8,7 +8,7 @@ interface Props {
     onAction: (deleteGenerated: boolean) => void;
 }
 
-const deleteContent: React.FC<Props> = (props) => {
+const RecurringDeleteOption: React.FC<Props> = (props) => {
     const { targetName, onAction } = props;
     const itemType = useAppSelector((state) => state.recurring.mode).toLowerCase();
 
@@ -35,4 +35,4 @@ const deleteContent: React.FC<Props> = (props) => {
     );
 };
 
-export default deleteContent;
+export default RecurringDeleteOption;

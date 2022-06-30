@@ -53,7 +53,10 @@ const PlannerHeader: React.FC<Props> = (props) => {
             {isAdding && (
                 <PlannerTaskAdd
                     onClose={() => setIsAdding(false)}
-                    onAddTask={() => onMutate()}
+                    onAddTask={() => {
+                        onMutate();
+                        setIsAdding(false);
+                    }}
                     beginningPeriod={beginningPeriod}
                 />
             )}

@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './EmailLink.module.scss';
 
 interface Props {
