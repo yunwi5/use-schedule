@@ -10,9 +10,10 @@ import classes from './ItemCreateButton.module.scss';
 interface Props {
     onInvalidate: () => void;
     beginningPeriod: Date;
+    className?: string;
 }
 
-const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
+const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod, className }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showTaskAdd, setShowTaskAdd] = useState(false);
     const [shwoEventAdd, setShowEventAdd] = useState(false);
@@ -28,7 +29,7 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
     }, [onInvalidate]);
 
     return (
-        <div className="mx-auto max-w-[7rem] relative text-lg">
+        <div className={`mx-auto max-w-[7rem] relative text-lg ${className || ''}`}>
             <button
                 onClick={() => setShowDropdown((prev) => !prev)}
                 className={`${classes['create-button']}`}
@@ -44,13 +45,13 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod }) => {
                     <div className="w-[100%] absolute z-10 top-[105%] flex flex-col">
                         <button
                             onClick={() => setShowEventAdd(true)}
-                            className="py-2 px-4 rounded-sm bg-slate-50 text-slate-500 hover:bg-sky-200 hover:text-sky-700 border-x-2 border-t-2 border-slate-300"
+                            className="py-2 px-4 rounded-sm bg-slate-50 text-slate-500 transition-all hover:bg-gray-700 hover:text-sky-50 hover:brightness-110 border-x-2 border-t-2 border-slate-300"
                         >
                             Event
                         </button>
                         <button
                             onClick={() => setShowTaskAdd(true)}
-                            className="py-2 px-4 rounded-sm bg-slate-50 text-slate-500 hover:bg-blue-200 hover:text-blue-700 border-x-2 border-y-2 border-slate-300"
+                            className="py-2 px-4 rounded-sm bg-slate-50 text-slate-500 transition-all hover:bg-gray-700 hover:text-blue-50 hover:brightness-110 border-x-2 border-y-2 border-slate-300"
                         >
                             Task
                         </button>

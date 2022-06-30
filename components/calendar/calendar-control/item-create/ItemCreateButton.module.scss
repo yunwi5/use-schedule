@@ -9,8 +9,8 @@
     border-radius: 100px;
     border: 1.75px solid $color-primary;
 
-    -webkit-transition: all 2.5s ease-in-out;
-    transition: all 2.5s ease-in-out;
+    -webkit-transition: all 0.35s ease-in-out;
+    transition: all 0.35s ease-in-out;
 
     & > * {
         cursor: inherit;
@@ -24,19 +24,23 @@
         color: $color-tertiary-dark-1;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
         background-image: linear-gradient(
             to right,
-            $color-secondary-light-1,
-            $color-tertiary-light-1
+            $color-primary-dark-3,
+            $color-primary-dark-2
         );
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
 
         .icon {
-            // color: $color-secondary-light-2;
+            color: $color-secondary;
+            filter: brightness(115%);
         }
 
         .text {
-            // color: $color-tertiary-light-2;
+            color: $color-tertiary;
+            filter: brightness(115%);
         }
     }
 }

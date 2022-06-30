@@ -7,7 +7,6 @@ import { Calendar } from '../../models/calendar-models/Calendar';
 import { CalendarItem } from '../../models/calendar-models/CalendarItem';
 import { getCurrentMonthBeginning } from '../../utilities/date-utils/date-get';
 import { processTodos } from '../../utilities/todos-utils/todo-util';
-import { useAppSelector } from '../../store/redux';
 import { processTasks } from '../../utilities/tasks-utils/task-util';
 import { IEvent } from '../../models/Event';
 import { processEvents } from '../../utilities/event-utils/event-util';
@@ -46,8 +45,6 @@ const CalendarMain: React.FC<Props> = (props) => {
     const todos = useMemo(() => processTodos(unprocessedTodos), [unprocessedTodos]);
     const events = useMemo(() => processEvents(unprocessedEvents), [unprocessedEvents]);
     const plannerTasks = useMemo(() => processTasks(tasks), [tasks]);
-
-    const { showSidebar } = useAppSelector((state) => state.calendar);
 
     const {
         currentTimeStamp: beginningPeriod,
@@ -90,12 +87,10 @@ const CalendarMain: React.FC<Props> = (props) => {
                         onNavigateCurrentMonth={navigateCurrentMonthHandler}
                         onInvalidateItems={onInvalidateAll}
                     />
-                    {showSidebar && (
-                        <CalendarControl
-                            onInvalidate={onInvalidateAll}
-                            beginningPeriod={beginningPeriod}
-                        />
-                    )}
+                    <CalendarControl
+                        onInvalidate={onInvalidateAll}
+                        beginningPeriod={beginningPeriod}
+                    />
                 </div>
             </main>
         </div>

@@ -1,13 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CalendarItemType } from "../../models/calendar-models/CalendarItemType";
-import { CalendarMode } from "../../models/calendar-models/CalendarMode";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CalendarItemType } from '../../models/calendar-models/CalendarItemType';
+import { CalendarMode } from '../../models/calendar-models/CalendarMode';
 import {
     CalendarFilter,
     ImportanceFilter,
     ItemTypeFilter,
     StatusFilter,
-} from "../../models/filter-models";
-import { Importance, ImportanceList, Status, StatusList } from "../../models/task-models/Status";
+} from '../../models/filter-models';
+import {
+    Importance,
+    ImportanceList,
+    Status,
+    StatusList,
+} from '../../models/task-models/Status';
 
 const defaultStatusFilter: any = {};
 StatusList.forEach((st) => {
@@ -50,37 +55,41 @@ const initialState: CalendarState = {
 };
 
 const calendarSlice = createSlice({
-    name: "calendar",
+    name: 'calendar',
     initialState,
     reducers: {
-        setCalendarMode(state, action: PayloadAction<CalendarMode>) {
+        setCalendarMode(state: CalendarState, action: PayloadAction<CalendarMode>) {
             state.calendarMode = action.payload;
         },
-        toggleSidebar(state) {
+        toggleSidebar(state: CalendarState) {
             state.showSidebar = !state.showSidebar;
         },
-        toggleAgendaCollapsed(state) {
+        setShowSidebar(state: CalendarState, action: PayloadAction<boolean>) {
+            state.showSidebar = action.payload;
+        },
+        toggleAgendaCollapsed(state: CalendarState) {
             state.showAgendaDropdown = !state.showAgendaDropdown;
         },
-        toggleStatus(state, action: PayloadAction<Status>) {
+        toggleStatus(state: CalendarState, action: PayloadAction<Status>) {
             const targetStatus = action.payload;
             state.statusFilter[targetStatus] = !state.statusFilter[targetStatus];
         },
-        toggleImportance(state, action: PayloadAction<Importance>) {
+        toggleImportance(state: CalendarState, action: PayloadAction<Importance>) {
             const targetImportance = action.payload;
-            state.importanceFilter[targetImportance] = !state.importanceFilter[targetImportance];
+            state.importanceFilter[targetImportance] =
+                !state.importanceFilter[targetImportance];
         },
-        toggleItemType(state, action: PayloadAction<CalendarItemType>) {
+        toggleItemType(state: CalendarState, action: PayloadAction<CalendarItemType>) {
             const targetItemType = action.payload;
             state.itemTypeFilter[targetItemType] = !state.itemTypeFilter[targetItemType];
         },
-        setCalendarFilter(state, action: PayloadAction<CalendarFilter>) {
+        setCalendarFilter(state: CalendarState, action: PayloadAction<CalendarFilter>) {
             const { statusFilter, importanceFilter, itemTypeFilter } = action.payload;
             state.statusFilter = statusFilter;
             state.importanceFilter = importanceFilter;
             state.itemTypeFilter = itemTypeFilter;
         },
-        resetFilters(state) {
+        resetFilters(state: CalendarState) {
             state.statusFilter = defaultStatusFilter;
             state.importanceFilter = defaultImportanceFilter;
             state.itemTypeFilter = defaultItemTypeFilter;

@@ -23,7 +23,10 @@ const CalendarNavigation: React.FC<Props> = (props) => {
 
     // Show dropdown navigation for mobile screen (< 640px)
     const [showDropDown, setShowDropDown] = useState(true);
-    useWindowInnerWidth({ breakPoint: 640, aboveBreakPointCallback: () => setShowDropDown(true) });
+    useWindowInnerWidth({
+        breakPoint: 640,
+        aboveBreakPointCallback: () => setShowDropDown(true),
+    });
 
     const { calendarMode } = useAppSelector((state) => state.calendar);
     const isTableMode = calendarMode === CalendarMode.TABLE;
@@ -79,7 +82,7 @@ const CalendarNavigation: React.FC<Props> = (props) => {
                         Agenda
                     </button>
                     <Button
-                        className={`ml-3 max-h-[2.5rem] flex justify-center items-center !text-md !sm:text-lg !min-w-[.8rem] !bg-blue-400`}
+                        className={`ml-3 mr-1 sm:mr-0 max-h-[2.5rem] flex justify-center items-center !text-md !sm:text-lg !min-w-[.8rem] !bg-blue-400`}
                         theme={Theme.TERTIARY}
                         size={Size.SMALL}
                         onClick={actionHandler}

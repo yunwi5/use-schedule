@@ -2,7 +2,7 @@
 @import '../../../../styles/abstract/mixins';
 @import '../../../../styles/abstract/functions';
 
-$min-cell-width: 8.9rem;
+$min-cell-width: 128px;
 
 .grid {
     display: grid;
@@ -144,7 +144,6 @@ $min-cell-width: 8.9rem;
 
 @for $i from 0 through 4 {
     .grid-#{$i} {
-        // background-color: violet;
         // For mobile screen, scroll pos can be max 2.
         & .cell {
             position: relative;

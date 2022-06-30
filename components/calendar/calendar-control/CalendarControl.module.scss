@@ -10,23 +10,44 @@ $filter-break-point: 1250px;
     }
 }
 
+@keyframes RightIn {
+    0% {
+        transform: translateX(110%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 .modal {
-    position: absolute;
-    top: 4.5rem;
+    position: fixed;
+    top: 0;
     right: 0;
-    padding: 4rem 0;
+    padding: 1.3rem 0;
     border-radius: 3px;
+    height: 100vh;
     filter: brightness(95%);
-    background-color: $color-primary-light-1;
-    animation: none;
-    z-index: 150;
+    background-color: lighten($color-primary-light-1, 10%);
+    z-index: 50;
     @include narrow-screen-dipslay;
+    animation: RightIn 0.35s ease-out;
 
     .calendar-control {
         margin-top: 0;
         padding: 0 0.5rem;
-        min-width: 10rem;
-        min-height: 53.5rem;
+        min-width: 13rem;
+
+        @include respond(500px) {
+            min-width: 12rem;
+        }
+    }
+
+    .item-create {
+        @include respond($filter-break-point) {
+            max-width: 100%;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
     }
 }
 
@@ -41,7 +62,6 @@ $filter-break-point: 1250px;
     @include respond($filter-break-point) {
         display: none;
     }
-
     .calendar-control {
         margin-top: -0.47rem;
     }
