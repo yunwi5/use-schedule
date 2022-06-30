@@ -8,7 +8,11 @@ import { processTasks } from '../utilities/tasks-utils/task-util';
 const useTaskQuery = (initialAllTasks?: Task[]) => {
     const queryClient = useQueryClient();
 
-    const { data: allTasksData, error: allTasksError } = useQuery('all-tasks', fetchAllTasks, {
+    const {
+        data: allTasksData,
+        error: allTasksError,
+        isLoading,
+    } = useQuery('all-tasks', fetchAllTasks, {
         initialData: initialAllTasks ? { tasks: initialAllTasks } : undefined,
     });
 
@@ -33,6 +37,7 @@ const useTaskQuery = (initialAllTasks?: Task[]) => {
     return {
         allTasks: processedTasks,
         invalidateAllTasks,
+        isLoading,
     };
 };
 

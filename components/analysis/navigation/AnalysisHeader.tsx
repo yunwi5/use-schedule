@@ -1,5 +1,3 @@
-import { faInfoCircle } from '@fortawesome/pro-duotone-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
 import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
@@ -12,7 +10,9 @@ import ActiveButton from '../../ui/buttons/ActiveButton';
 import Button from '../../ui/buttons/Button';
 import DropDownToggler from '../../ui/icons/DropDownToggler';
 import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
-import AboutAnalysis from './AboutAnalysisLink';
+import { DataAnalysisSection } from '../../../constants/about-sections';
+import { getAboutLink } from '../../../utilities/link-utils';
+import InfoLink from '../../ui/links/InfoLink';
 
 interface Props {
     currentPeriod: Date;
@@ -107,7 +107,7 @@ const AnalysisHeader: React.FC<Props> = (props) => {
                     >
                         Tasks
                     </ActiveButton>
-                    <AboutAnalysis />
+                    <InfoLink href={getAboutLink(DataAnalysisSection.link)} />
                 </div>
             )}
         </nav>

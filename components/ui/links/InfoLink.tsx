@@ -1,14 +1,21 @@
+import Link from 'next/link';
 import { faInfoCircle } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
-import { DataAnalysisSection } from '../../../constants/about-sections';
-import { getAboutLink } from '../../../utilities/link-utils';
-import classes from './AboutAnalysisLink.module.scss';
+import classes from './InfoLink.module.scss';
 
-const AboutAnalysis = () => {
+interface Props {
+    href: string;
+    className?: string;
+}
+
+const AboutAnalysis: React.FC<Props> = ({ href, className }) => {
     return (
-        <Link href={getAboutLink(DataAnalysisSection.link)}>
-            <a className={`ml-1 lg:ml-3 cursor-pointer ${classes.container}`}>
+        <Link href={href}>
+            <a
+                className={`ml-1 lg:ml-3 cursor-pointer ${classes.container} ${
+                    className || ''
+                }`}
+            >
                 <FontAwesomeIcon
                     icon={faInfoCircle}
                     className="max-w-[2rem] max-h-[2rem] text-3xl text-sky-600/80 shadow-sm cursor-pointer transition-all hover:scale-125 hover:text-blue-500"
@@ -16,7 +23,7 @@ const AboutAnalysis = () => {
                 <p
                     className={`text-base px-2 py-2 rounded-sm bg-gray-500 text-gray-50 hover:bg-gray-700 shadow-md ${classes.text}`}
                 >
-                    See More
+                    Learn More
                 </p>
             </a>
         </Link>

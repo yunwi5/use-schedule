@@ -1,26 +1,35 @@
 import axios from 'axios';
+import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { deleteTodo, fetchAllTodos } from '../lib/todos/todo-list-api';
 import { NoIdTodo, Todo, TodoProps } from '../models/todo-models/Todo';
 import { TodoList } from '../models/todo-models/TodoList';
+import { processTodos } from '../utilities/todos-utils/todo-util';
 
 const API_DOMAIN = '/api/todos/todo';
 
 const useTodoQuery = (
-    onInvalidate: (() => void) | null | undefined,
-    todoList: TodoList | null | undefined,
+    onInvalidate?: (() => void) | null | undefined,
+    todoList?: TodoList | null | undefined,
     initialTodos?: Todo[],
 ) => {
     const queryClient = useQueryClient();
 
-    const { data: todoData, isError: isTodoError } = useQuery('todos', fetchAllTodos, {
+    const {
+        data: todoData,
+        isError: isTodoError,
+        isLoading,
+    } = useQuery('todos', fetchAllTodos, {
         initialData: initialTodos ? { todos: initialTodos } : [],
     });
     if (isTodoError) {
         console.log('Todo error');
     }
-    const todos: Todo[] = todoData ? todoData.todos : initialTodos;
+    const processedTodos = useMemo(() => {
+        const todos: Todo[] = todoData ? todoData.todos : initialTodos;
+        return processTodos(todos);
+    }, [todoData, initialTodos]);
 
     const invalidateTodos = () => queryClient.invalidateQueries('todos');
 
@@ -79,8 +88,9 @@ const useTodoQuery = (
         postTodo: todoAddHandler,
         patchTodo: todoPatchHandler,
         deleteTodo: todoDeleteHandler,
-        todos,
         invalidateTodos,
+        todos: processedTodos,
+        isLoading,
     };
 };
 

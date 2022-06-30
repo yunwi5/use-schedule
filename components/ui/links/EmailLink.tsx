@@ -1,6 +1,5 @@
-import React from "react";
-
-import classes from "./EmailLink.module.scss";
+import React from 'react';
+import classes from './EmailLink.module.scss';
 
 interface Props {
     userName: string;
@@ -12,9 +11,9 @@ interface Props {
 
 const EmailLink: React.FC<Props> = (props) => {
     const { userName, email, subject, body, putComma } = props;
-    const emailLink = `mailto:${email}?subject=${subject || ""}&body=${`${body || ""}`}`;
+    const emailLink = `mailto:${email}?subject=${subject || ''}&body=${`${body || ''}`}`;
 
-    const linkHoverClass = "hover:underline-offset-2 hover:underline";
+    const linkHoverClass = 'hover:underline-offset-2 hover:underline';
 
     return (
         <span className={classes.email}>

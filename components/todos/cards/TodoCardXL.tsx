@@ -4,44 +4,68 @@ import {
     faAlarmClock,
     faCircleExclamationCheck,
     faHourglass,
-    faLocationDot,
+    faListCheck,
     faStar,
 } from '@fortawesome/pro-duotone-svg-icons';
-
-import {
-    CalendarItemType,
-    getItemIcon,
-} from '../../../../models/calendar-models/CalendarItemType';
-import { IEvent } from '../../../../models/Event';
+import { DateTodo } from '../../../models/todo-models/Todo';
+import { getTodoImportance, getTodoStatus } from '../../../utilities/todos-utils/todo-util';
 import {
     getDurationFormat,
     getEventDateTimeFormat,
-} from '../../../../utilities/date-utils/date-format';
-import ItemCardButtons from '../../../ui/buttons/ItemCardButtons';
-import EventDetail from '../detail/EventDetail';
-import EventEdit from '../EventEdit';
-import EventStatusToggler from './EventStatusToggler';
+} from '../../../utilities/date-utils/date-format';
+import {
+    CalendarItemType,
+    getItemIcon,
+} from '../../../models/calendar-models/CalendarItemType';
+import ItemCardButtons from '../../ui/buttons/ItemCardButtons';
+import TodoDetail from '../todo-detail/TodoDetail';
+import { useAppSelector } from '../../../store/redux';
+import useTodoQuery from '../../../hooks/useTodoQuery';
+import StatusTogglerButton from '../../ui/buttons/StatusTogglerButton';
 
 interface Props {
-    event: IEvent;
+    todo: DateTodo;
     onInvalidate: () => void;
     expand?: boolean;
 }
 
 const leftBorderClass = 'sm:pl-5 sm:border-l-[3px] sm:border-l-slate-400';
 
-const EventCard: React.FC<Props> = ({ event, onInvalidate, expand = true }) => {
+// New version of todo card that is responsive
+// Used in TodaySchedule section to match the styles with Event and Task card.
+const TodoCardXL: React.FC<Props> = ({ todo, onInvalidate, expand = true }) => {
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
-    const { dateTime, name, importance, location, status, duration } = event;
+    const lists = useAppSelector((state) => state.todoList.lists);
+    const parentList = lists.find((list) => list.id === todo.listId);
+    const { patchTodo, deleteTodo } = useTodoQuery(onInvalidate, parentList);
 
+    const { name, duration } = todo;
+    const status = getTodoStatus(todo);
     const statusClass = 'status-' + status.toLowerCase().replace(' ', '');
+
+    const importance = getTodoImportance(todo);
+
+    const completionHandler = () => {
+        patchTodo(todo.id, { isCompleted: !todo.isCompleted });
+    };
+
+    const todoDetailProps = {
+        todo,
+        listName: parentList ? parentList.name : '',
+        onClose: () => {
+            setShowDetail(false);
+            setShowEdit(false);
+        },
+        onMutateTodo: patchTodo,
+        onDeleteTodo: deleteTodo,
+    };
 
     return (
         <>
             <article
-                className={`relative flex flex-col text-slate-700 gap-1 sm:gap-4 px-2 lg:px-4 pl-3 lg:pl-7 py-2 overflow-hidden bg-sky-50  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
+                className={`relative flex flex-col text-slate-700 gap-1 sm:gap-4 px-2 lg:px-4 pl-3 lg:pl-7 py-2 overflow-hidden bg-slate-50  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
             >
                 <div
                     className={`absolute top-0 left-0 w-[1.05%] h-full z-0 ${statusClass}-bg`}
@@ -51,17 +75,17 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand = true }) => {
                         icon={faAlarmClock}
                         className={`text-slate-900 icon-medium mr-2`}
                     />
-                    <time>{getEventDateTimeFormat(dateTime)}</time>
+                    {todo.dateTime && <time>{getEventDateTimeFormat(todo.dateTime)}</time>}
                     <span className={`inline-block ml-4 text-slate-500/90`}>
                         <FontAwesomeIcon icon={faHourglass} className="icon-medium mr-2" />
-                        {getDurationFormat(duration)}
+                        {getDurationFormat(duration || 0)}
                     </span>
-                    <EventStatusToggler event={event} onInvalidate={onInvalidate} />
+                    <StatusTogglerButton status={status} onToggle={completionHandler} />
                 </div>
                 <div>
                     <h3 className={'text-lg sm:text-xl'} onClick={() => setShowDetail(true)}>
-                        <span className={`text-sky-600`}>
-                            {getItemIcon(CalendarItemType.EVENT)}
+                        <span className={`text-indigo-600`}>
+                            {getItemIcon(CalendarItemType.TODO)}
                         </span>
                         {name}
                     </h3>
@@ -84,19 +108,19 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand = true }) => {
                             />{' '}
                             {status}
                         </span>
-                        {location && (
+                        {
                             <span
                                 className={
                                     'inline-block sm:pl-5 sm:border-l-[3px] sm:border-l-slate-400'
                                 }
                             >
                                 <FontAwesomeIcon
-                                    icon={faLocationDot}
-                                    className={'icon-medium mr-2 text-sky-600/90'}
+                                    icon={faListCheck}
+                                    className={'icon-medium mr-2 text-indigo-600/90'}
                                 />
-                                {location}
+                                {parentList?.name}
                             </span>
-                        )}
+                        }
                     </div>
                 )}
                 <ItemCardButtons
@@ -104,22 +128,10 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand = true }) => {
                     onShowEdit={() => setShowEdit(true)}
                 />
             </article>
-            {showDetail && (
-                <EventDetail
-                    event={event}
-                    onClose={() => setShowDetail(false)}
-                    onInvalidate={onInvalidate}
-                />
-            )}
-            {showEdit && (
-                <EventEdit
-                    event={event}
-                    onClose={() => setShowEdit(false)}
-                    onEditEvent={onInvalidate}
-                />
-            )}
+            {showDetail && <TodoDetail {...todoDetailProps} />}
+            {showEdit && <TodoDetail {...todoDetailProps} initialEditing={true} />}
         </>
     );
 };
 
-export default EventCard;
+export default TodoCardXL;

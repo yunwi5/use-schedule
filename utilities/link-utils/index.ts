@@ -55,3 +55,15 @@ export function getSearchLink(target: SearchTarget, searchWord: string) {
     if (target === 'Event') return `/search/events?q=${searchWord}`;
     return `/search/tasks?q=${searchWord}`;
 }
+
+export function getTodayScheduleLink() {
+    return `/today-schedule`;
+}
+
+export function getLoginLink() {
+    return `/api/auth/login`;
+}
+
+export function getLogoutLink() {
+    return `/api/auth/logout`;
+}

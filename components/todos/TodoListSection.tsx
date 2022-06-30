@@ -5,7 +5,7 @@ import { Todo } from '../../models/todo-models/Todo';
 import { TodoList } from '../../models/todo-models/TodoList';
 import { SortingDirection, TodoSort } from '../../models/sorting-models';
 import { sortTodos } from '../../utilities/sort-utils/todo-sort';
-import TodoCard from './TodoCard';
+import TodoCard from './cards/TodoCard';
 import TodoForm from './forms/TodoForm';
 import TodoSorter from './todo-support/TodoSorter';
 import { useAppSelector } from '../../store/redux';

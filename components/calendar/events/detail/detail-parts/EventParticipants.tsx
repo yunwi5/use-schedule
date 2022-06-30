@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from '@fortawesome/pro-duotone-svg-icons';
 
-import EmailLink from '../../../../ui/EmailLink';
+import EmailLink from '../../../../ui/links/EmailLink';
 import { IEvent } from '../../../../../models/Event';
 import { eventStyles } from './common-styles';
 

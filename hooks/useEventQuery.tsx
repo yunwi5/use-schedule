@@ -6,7 +6,11 @@ import { processEvents } from '../utilities/event-utils/event-util';
 
 const useEventQuery = (initialEvents?: IEvent[]) => {
     const queryClient = useQueryClient();
-    const { data: eventData, isError: isEventError } = useQuery('events', fetchAllEvents, {
+    const {
+        data: eventData,
+        isError: isEventError,
+        isLoading,
+    } = useQuery('events', fetchAllEvents, {
         initialData: initialEvents ? { events: initialEvents } : undefined,
     });
     if (isEventError) {
@@ -23,6 +27,7 @@ const useEventQuery = (initialEvents?: IEvent[]) => {
     return {
         events: processedEvents,
         invalidateEvents,
+        isLoading,
     };
 };
 

@@ -12,9 +12,13 @@ import {
 } from '../../../utilities/date-utils/date-get';
 import { TaskSort as SortingStandard } from '../../../models/sorting-models';
 import { getTaskType } from '../../../utilities/tasks-utils/task-label';
-import { getDateTimeFormat, getDurationFormat } from '../../../utilities/date-utils/date-format';
+import {
+    getDateTimeFormat,
+    getDurationFormat,
+} from '../../../utilities/date-utils/date-format';
 
 import classes from './SearchList.module.scss';
+import TaskCardNew from '../../tasks/TaskCardNew';
 
 interface Props {
     tasks: PlannerTask[];
@@ -37,7 +41,9 @@ function getTaskSortingInfo(task: PlannerTask, sortingStandard: SortingStandard 
             );
             break;
         case SortingStandard.DUE_DATE:
-            const dueDateFormat = task.dueDate ? getDateTimeFormat(task.dueDate) : defaultValue;
+            const dueDateFormat = task.dueDate
+                ? getDateTimeFormat(task.dueDate)
+                : defaultValue;
             labelFormat = (
                 <>
                     <strong>Task Due</strong> {dueDateFormat}
@@ -81,26 +87,25 @@ const SearchTaskList: React.FC<Props> = (props) => {
                 const { showInfo, labelFormat } = getTaskSortingInfo(task, sortingStandard);
                 return (
                     <div key={task.id}>
-                        <div className={`${classes.label} ${classes['label-' + task.plannerType]}`}>
+                        <div
+                            className={`${classes.label} ${
+                                classes['label-' + task.plannerType]
+                            }`}
+                        >
                             <span>{getTaskType(task.plannerType) || '? Task'}</span>
                             {showInfo && (
                                 <span className="ml-4">
-                                    <FontAwesomeIcon icon={faCircleInfo} className={classes.icon} />
-                                    <span className={classes['sorting-label']}>{labelFormat}</span>
+                                    <FontAwesomeIcon
+                                        icon={faCircleInfo}
+                                        className={classes.icon}
+                                    />
+                                    <span className={classes['sorting-label']}>
+                                        {labelFormat}
+                                    </span>
                                 </span>
                             )}
                         </div>
-                        <PlannerTaskCard
-                            beginningPeriod={
-                                task.plannerType === PlannerMode.WEEKLY
-                                    ? weekBeginning
-                                    : task.plannerType === PlannerMode.MONTLY
-                                    ? monthBeginning
-                                    : yearBeginning
-                            }
-                            onMutate={onInvalidate}
-                            task={task}
-                        />
+                        <TaskCardNew task={task} onInvalidate={onInvalidate} />
                     </div>
                 );
             })}

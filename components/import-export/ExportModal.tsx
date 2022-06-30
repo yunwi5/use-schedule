@@ -17,15 +17,19 @@ import { filterItemsOnInterval } from '../../utilities/filter-utils/date-filter'
 import { WeekIntervalInput, YearIntervalInput, MonthIntervalInput } from '../ui/intervals';
 import useTaskQuery from '../../hooks/useTaskQuery';
 import useEventQuery from '../../hooks/useEventQuery';
+import InfoLink from '../ui/links/InfoLink';
+import { getAboutLink } from '../../utilities/link-utils';
+import { ImportExportSection } from '../../constants/about-sections';
 
 enum ExportFileType {
     ICS = 'Ics',
     CSV = 'Csv',
 }
-const ExportFileTypeList = [ExportFileType.ICS, ExportFileType.CSV];
+// ONLY ICS file at the moment
+const ExportFileTypeList = [ExportFileType.ICS];
 const exportFileTypeIcons = [
     <FontAwesomeIcon key={2} icon={faCalendarArrowDown} className="icon-medium mr-2" />,
-    <FontAwesomeIcon key={1} icon={faFileCsv} className="icon-medium mr-2" />,
+    // <FontAwesomeIcon key={1} icon={faFileCsv} className="icon-medium mr-2" />,
 ];
 
 enum ExportPeriod {
@@ -133,8 +137,15 @@ const ExportModal: React.FC<Props> = ({ onClose, beginningPeriod }) => {
                 <h2 className="capitalize text-2xl pb-2 border-b-2 border-slate-200">
                     Export calendar items
                 </h2>
-                <div className="flex flex-col gap-3 text-xl">
-                    <h3>Choose the export file type</h3>
+                <div className="relative flex flex-col gap-3 text-xl">
+                    <InfoLink
+                        href={getAboutLink(ImportExportSection.link)}
+                        className={`!absolute top-2 right-3`}
+                    />
+                    <h3>
+                        File Type ICalendar{' '}
+                        <span className={'text-base text-slate-500'}>(.ical or .ics)</span>
+                    </h3>
                     <div className="flex gap-3">
                         {ExportFileTypeList.map((fileType, idx) => (
                             <ActiveButton

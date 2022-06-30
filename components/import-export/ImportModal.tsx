@@ -23,6 +23,10 @@ import { postTasks } from '../../lib/planners/tasks-api';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NotifStatus } from '../ui/Notification';
 import { parseIcal } from '../../utilities/import-utils/ical-parse';
+import InfoLink from '../ui/links/InfoLink';
+import { getAboutLink } from '../../utilities/link-utils';
+import { ImportExportSection } from '../../constants/about-sections';
+import LearnMoreLink from '../ui/typography/LearnMoreLink';
 
 interface Props {
     onClose(): void;
@@ -114,11 +118,14 @@ const ImportModal: React.FC<Props> = (props) => {
         <WrapperModal onClose={onClose} className="flex flex-col min-h-[29.1rem]">
             <div className="relative p-1 flex-1 flex flex-col gap-5 text-slate-600">
                 <ExitIcon onClose={onClose} className="text-slate-400 hover:text-slate-600" />
-                <h2 className="capitalize text-2xl pb-2 border-b-2 border-slate-200">
+                <h2 className="flex items-center capitalize text-2xl pb-2 border-b-2 border-slate-200">
                     Import calendar items
                 </h2>
                 <SectionWrapper>
-                    <h3>Attach your ICalendar file (.ical or .ics extensions)</h3>
+                    <h3>
+                        Attach your ICalendar file{' '}
+                        <span className={'text-base text-slate-500'}>(.ical or .ics)</span>
+                    </h3>
                     <div className="flex flex-col gap-3 text-base">
                         <AppFileInput
                             onChange={fileInputHandler}
@@ -134,6 +141,11 @@ const ImportModal: React.FC<Props> = (props) => {
                             We receive ICalendar files as external files to transfer tasks or
                             events from other applications such as Google Calendar.
                         </p>
+                        <div className={'-mt-1'}>
+                            <LearnMoreLink href={getAboutLink(ImportExportSection.link)}>
+                                Learn More
+                            </LearnMoreLink>
+                        </div>
                     </div>
                 </SectionWrapper>
                 <SectionWrapper>

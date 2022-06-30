@@ -32,7 +32,9 @@ const TodoListContainer: React.FC<Props> = (props) => {
     const { onMutateList, todoList, todos, onInvalidate } = props;
     const isNew = !todoList;
     const [editingList, setEditingList] = useState(isNew);
-    const initialTheme = todoList ? ThemesList.find((th) => th.name === todoList.themeId) : null;
+    const initialTheme = todoList
+        ? ThemesList.find((th) => th.name === todoList.themeId)
+        : null;
     const [theme, setTheme] = useState<CustomTheme | null>(initialTheme || null);
 
     const processedTodos = processTodos(todos);
@@ -46,7 +48,9 @@ const TodoListContainer: React.FC<Props> = (props) => {
         onMutateList({ themeId: themeToPatch && themeToPatch.name }, false);
     };
 
-    const themeStyle = theme ? { backgroundColor: theme.background, color: theme.textColor } : {};
+    const themeStyle = theme
+        ? { backgroundColor: theme.background, color: theme.textColor }
+        : {};
 
     useEffect(() => {
         const th = todoList ? ThemesList.find((th) => th.name === todoList.themeId) : null;

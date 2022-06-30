@@ -1,4 +1,4 @@
-import { Status } from '../../models/task-models/Status';
+import { Importance, Status } from '../../models/task-models/Status';
 import { Todo } from '../../models/todo-models/Todo';
 import { TodoList } from '../../models/todo-models/TodoList';
 import { isOverdue } from '../date-utils/date-check';
@@ -47,4 +47,9 @@ export function isTodoOverdue(todo: Todo): boolean {
 export function getTodoStatus(todo: Todo): Status {
     if (isTodoOverdue(todo)) return Status.OVERDUE;
     return todo.isCompleted ? Status.COMPLETED : Status.OPEN;
+}
+
+export function getTodoImportance(todo: Todo): Importance {
+    if (todo.isImportant) return Importance.IMPORTANT;
+    return Importance.EXTRA;
 }

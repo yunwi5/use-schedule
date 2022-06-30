@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as faStarSolid } from "@fortawesome/pro-solid-svg-icons";
-import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
-import { faCalendarCheck, faHourglass } from "@fortawesome/pro-duotone-svg-icons";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
+import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
+import { faCalendarCheck, faHourglass } from '@fortawesome/pro-duotone-svg-icons';
 
-import { Todo, TodoProps } from "../../models/todo-models/Todo";
-import { isOverdue } from "../../utilities/date-utils/date-check";
-import { getDurationFormat, getFullDateFormat } from "../../utilities/date-utils/date-format";
-import CheckToggler from "../ui/icons/CheckToggler";
-import TodoDetail from "./todo-detail/TodoDetail";
-import { useAppSelector } from "../../store/redux";
+import { Todo, TodoProps } from '../../../models/todo-models/Todo';
+import { isOverdue } from '../../../utilities/date-utils/date-check';
+import {
+    getDurationFormat,
+    getFullDateFormat,
+} from '../../../utilities/date-utils/date-format';
+import CheckToggler from '../../ui/icons/CheckToggler';
+import TodoDetail from '../todo-detail/TodoDetail';
+import { useAppSelector } from '../../../store/redux';
 
 interface Props {
     todo: Todo;
@@ -64,7 +67,7 @@ const TodoCard: React.FC<Props> = (props) => {
             )}
             <article
                 className={`px-3 py-2 min-h-[71.2px] bg-white text-slate-700 flex justify-between items-center text-lg transition-all rounded-sm border-2 border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50 hover:-translate-y-2 ${
-                    theme ? "opacity-75 hover:opacity-100" : ""
+                    theme ? 'opacity-75 hover:opacity-100' : ''
                 }`}
             >
                 <CheckToggler onToggle={handleCompleted} isCompleted={isCompleted} />
@@ -72,11 +75,15 @@ const TodoCard: React.FC<Props> = (props) => {
                     onClick={() => setShowDetail(true)}
                     className={`ml-5 md:ml-8 flex-1 flex flex-col justify-center gap-1 cursor-pointer `}
                 >
-                    <h3 className={`${isCompleted ? "line-through opacity-70" : ""}`}>
+                    <h3 className={`${isCompleted ? 'line-through opacity-70' : ''}`}>
                         {todo.name}
                     </h3>
                     {showBottomInfo && (
-                        <p className={`flex gap-3 text-sm ${todoOverdue ? "text-rose-400" : ""}`}>
+                        <p
+                            className={`flex gap-3 text-sm ${
+                                todoOverdue ? 'text-rose-400' : ''
+                            }`}
+                        >
                             {todo.dateTime && (
                                 <span>
                                     <FontAwesomeIcon

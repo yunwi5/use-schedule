@@ -9,7 +9,7 @@
 
     padding: 0.5rem 1rem;
 
-    @include respond(tab-port) {
+    @include respond(950px) {
         flex-direction: column;
         & > * {
             width: 100%;
@@ -36,15 +36,21 @@
         .search-icon {
             display: none;
             margin-left: auto;
-            @include respond(phone) {
+            @include respond(950px) {
                 display: inline-block;
             }
         }
     }
 }
 
-.hide {
-    @include respond(phone) {
+.app-name.hide {
+    @include respond(600px) {
+        display: none !important;
+    }
+}
+
+.search.hide {
+    @include respond(950px) {
         display: none !important;
     }
 }

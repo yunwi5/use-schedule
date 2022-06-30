@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/pro-duotone-svg-icons';
 import { faCheck, faXmark } from '@fortawesome/pro-regular-svg-icons';
-import { css } from '@emotion/react';
 
 import useNotification from '../../../hooks/useNotification';
 import { NotifStatus } from '../../ui/Notification';
@@ -13,10 +13,9 @@ import { transferTemplateToWeekly } from '../../../lib/templates/templates-api';
 import { Theme } from '../../../models/design-models';
 import Button from '../../ui/buttons/Button';
 import Modal from '../../ui/modal/Modal';
-import classes from './ImportModal.module.scss';
 import CustomMUIButton from '../../ui/buttons/CustomMUIButton';
 import { getNewTemplateLink } from '../../../utilities/link-utils';
-import Link from 'next/link';
+import classes from './ImportModal.module.scss';
 
 interface Props {
     onClose(): void;

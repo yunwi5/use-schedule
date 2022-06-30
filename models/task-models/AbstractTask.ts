@@ -9,7 +9,7 @@ import { getDayName } from '../../utilities/date-utils/date-get';
 import { WeekDay } from '../date-models/WeekDay';
 import { PlannerMode } from '../planner-models/PlannerMode';
 import { Category, SubCategory } from './Category';
-import { Importance } from './Status';
+import { Importance, Status } from './Status';
 import { SubTask } from './SubTask';
 import { Task } from './Task';
 
@@ -21,7 +21,7 @@ export abstract class AbstractTask implements Task {
     duration: number;
     category: Category;
     subCategory: SubCategory;
-    status: string;
+    status: Status;
     userId: string;
     importance: Importance;
     plannerType: PlannerMode;
@@ -39,7 +39,7 @@ export abstract class AbstractTask implements Task {
         this.duration = taskObj.duration;
         this.category = taskObj.category;
         this.subCategory = taskObj.subCategory;
-        this.status = taskObj.status;
+        this.status = taskObj.status as Status;
         this.userId = taskObj.userId;
         this.importance = taskObj.importance;
         this.dueDateString = taskObj.dueDateString;

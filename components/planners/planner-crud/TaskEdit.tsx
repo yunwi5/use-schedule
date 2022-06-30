@@ -18,8 +18,8 @@ import useTaskDelete from '../../../hooks/task-hooks/useTaskDelete';
 interface Props {
     onClose: () => void;
     onUpdate: (updateTask?: PlannerTask) => void;
-    beginningPeriod: Date;
-    initialTask: Task;
+    beginningPeriod?: Date;
+    initialTask: AbstractTask;
 }
 
 const TaskEdit: React.FC<Props> = (props) => {
@@ -88,7 +88,7 @@ const TaskEdit: React.FC<Props> = (props) => {
             )}
             <TaskForm
                 onSubmit={taskEditHandler}
-                beginningPeriod={beginningPeriod}
+                beginningPeriod={beginningPeriod ?? initialTask.dateTime}
                 isEdit={true}
                 initialTask={initialTask}
                 onDelete={setShowDeleteModal.bind(null, true)}

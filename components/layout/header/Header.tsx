@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/pro-duotone-svg-icons';
 
 import HeaderSearch from './HeaderSearch';
-import UserPicCircle from '../../ui/design-elements/UserPicCircle';
+import UserPicCircle from '../../ui/user/UserProfileCircle';
 import headerClasses from './Header.module.scss';
 import layoutClasses from '../Layout.module.scss';
 import Image from 'next/image';
@@ -38,7 +38,7 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                     <a
                         className={`text-xl font-semibold ml-6 flex items-center gap-2 ${
                             showSearch ? headerClasses.hide : ''
-                        }`}
+                        } ${headerClasses['app-name']}`}
                     >
                         <div className={'-translate-y-[2px]'}>
                             <Image src="/logos/logo.png" alt="Logo" width="37" height="37" />
@@ -71,14 +71,9 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                     </Link>
                 )}
                 {isLoggedIn && (
-                    <>
-                        <Link href="/api/auth/logout">
-                            <a className={linkClass}>Logout</a>
-                        </Link>
-                        <div className="flex-1 pr-0 sm:pr-1 ml-auto flex justify-end">
-                            <UserPicCircle pictureLink={user.picture} userName={user.name} />
-                        </div>
-                    </>
+                    <div className="flex-1 pr-0 sm:pr-1 ml-auto flex justify-end">
+                        <UserPicCircle pictureLink={user.picture} />
+                    </div>
                 )}
             </div>
         </header>

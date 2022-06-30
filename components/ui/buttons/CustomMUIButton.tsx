@@ -7,12 +7,12 @@ interface Props {
     disabled?: boolean;
     variant?: 'text' | 'outlined' | 'contained';
     style?: object;
-    size?: string;
+    size?: 'small' | 'medium' | 'large';
     className?: string;
 }
 
 const CustomMUIButton: React.FC<Props> = (props) => {
-    const { onClick, type, disabled, variant, style, className } = props;
+    const { onClick, type, disabled, variant, style, className, size = 'medium' } = props;
 
     return (
         <Button
@@ -23,6 +23,7 @@ const CustomMUIButton: React.FC<Props> = (props) => {
             disabled={disabled}
             variant={variant}
             style={style}
+            size={size}
             onClick={onClick}
         >
             {props.children}
