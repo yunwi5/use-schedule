@@ -20,7 +20,7 @@ interface Props {
 // Displaying user message to the user who has no schedules "today"
 // Display button link that navigates to calendar page to encourage them to create some items
 const UserMessageNoSchedule = () => (
-    <div className={'flex flex-col items-center gap-4'}>
+    <div className={'mt-[10rem] flex flex-col items-center gap-4'}>
         <h2 className={'text-3xl'}>You have no schedules today...</h2>
         <CustomMUIButton size={'large'}>
             <Link href={getCalendarLink()}>

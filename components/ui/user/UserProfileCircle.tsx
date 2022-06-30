@@ -6,9 +6,11 @@ import { faUser } from '@fortawesome/pro-duotone-svg-icons';
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons';
 
 import UserDropDown from './UserDropdown';
+import { isValidEmail } from '../../../utilities/form-utils/validation-util';
 
 interface Props {
     pictureLink: string | null | undefined;
+    name: string | null | undefined;
 }
 
 function isProfilePicture(picLink: string | null | undefined) {
@@ -17,14 +19,20 @@ function isProfilePicture(picLink: string | null | undefined) {
     return true;
 }
 
-const UserPicCircle: React.FC<Props> = ({ pictureLink }) => {
+const UserPicCircle: React.FC<Props> = ({ pictureLink, name }) => {
     const [showDropDown, setShowDropDown] = useState(false);
     const pictureDisplayable = isProfilePicture(pictureLink);
+
+    // username can be the same as email if the user used local authentication
+    // in that case, do not display the email.
+    const displayName = name && !name?.includes('@');
 
     return (
         <ClickAwayListener onClickAway={() => setShowDropDown(false)}>
             <div
-                className={'relative cursor-pointer flex gap-2 items-center'}
+                className={
+                    'relative cursor-pointer flex gap-2 items-center py-[.25rem] px-3 rounded-sm hover:bg-gray-300'
+                }
                 onClick={() => setShowDropDown((ps) => !ps)}
             >
                 <div
@@ -48,6 +56,7 @@ const UserPicCircle: React.FC<Props> = ({ pictureLink }) => {
                         </div>
                     )}
                 </div>
+                {displayName && <p className="text-base text-gray-700">{name}</p>}
                 <FontAwesomeIcon icon={faCaretDown} className={''} />
                 {showDropDown && <UserDropDown />}
             </div>

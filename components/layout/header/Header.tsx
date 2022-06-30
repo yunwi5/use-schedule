@@ -72,7 +72,7 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
                 )}
                 {isLoggedIn && (
                     <div className="flex-1 pr-0 sm:pr-1 ml-auto flex justify-end">
-                        <UserPicCircle pictureLink={user.picture} />
+                        <UserPicCircle pictureLink={user.picture} name={user.name} />
                     </div>
                 )}
             </div>

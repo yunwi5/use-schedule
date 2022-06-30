@@ -20,3 +20,11 @@ export function validateName(name: string, validateEmpty: boolean = true): Error
         message: null,
     };
 }
+
+export function isValidEmail(emailAdress: string): boolean {
+    return !!emailAdress
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        );
+}

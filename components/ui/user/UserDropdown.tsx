@@ -9,8 +9,9 @@ import { getLogoutLink, getTodayScheduleLink } from '../../../utilities/link-uti
 
 const UserDropDown: React.FC = () => {
     return (
-        <div className={'absolute top-[120%] !-right-3 shadow-md hover:shadow-lg'}>
+        <div className={'absolute top-[120%] !right-0 shadow-md hover:shadow-lg'}>
             <List
+                className="rounded-sm"
                 sx={{
                     width: '100%',
                     minWidth: 190,

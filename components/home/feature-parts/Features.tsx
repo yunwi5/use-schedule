@@ -35,7 +35,7 @@ const Features: React.FC = () => {
 
 const plannerFeature = {
     name: 'planner',
-    mainImg: getAppImagePath('planner2-ex.jpg'),
+    mainImg: getAppImagePath('planner-ex.jpg'),
     headingLabel: 'Periodic planners',
     heading: 'Complete schedular that makes your life compact',
     paragraphs: [

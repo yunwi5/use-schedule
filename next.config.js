@@ -9,7 +9,13 @@ module.exports = (phase) => {
 
         return {
             images: {
-                domains: ['images.unsplash.com', 'lh3.googleusercontent.com'],
+                domains: [
+                    'images.unsplash.com',
+                    // google profile image domain
+                    'lh3.googleusercontent.com',
+                    // facebook profile image domain
+                    'platform-lookaside.fbsbx.com',
+                ],
             },
             reactStrictMode: true,
             env: {
