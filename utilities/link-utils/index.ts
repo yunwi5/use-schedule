@@ -2,8 +2,12 @@ import { SearchTarget } from '../../components/ui/searchbar/MainSearchbar';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 
 // Manages all the links to other routes of the app in one place
-export function getAboutLink() {
-    return `/about`;
+export function getAboutLink(localSection?: string) {
+    if (localSection == null) return `/about`;
+    const link = localSection.trim().startsWith('#')
+        ? localSection.trim()
+        : `#${localSection.trim()}`;
+    return `/about/${link}`;
 }
 
 export function getContactLink() {

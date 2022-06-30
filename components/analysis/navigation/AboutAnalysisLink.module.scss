@@ -1,0 +1,23 @@
+.container {
+    position: relative;
+    .text {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease-out;
+    }
+
+    &:hover .text {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(2.5rem);
+    }
+}
+
+.text {
+    min-width: 5rem !important;
+    width: max-content;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}

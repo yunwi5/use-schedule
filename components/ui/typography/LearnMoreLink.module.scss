@@ -1,0 +1,12 @@
+@import "../../../styles/abstract/variables";
+
+.link {
+    align-self: flex-start;
+    &:hover {
+        color: $color-tertiary-dark-1;
+    }
+
+    &::after {
+        background-color: $color-tertiary;
+    }
+}

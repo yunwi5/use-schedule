@@ -28,6 +28,29 @@
         grid-row-gap: 1.3rem;
     }
 
+    .heading-container {
+        display: flex;
+        flex-direction: column;
+
+        @media only screen and (max-width: 900px) and (min-width: 500px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 4rem;
+
+            .link {
+                margin-top: 15px;
+            }
+        }
+    }
+
+    .link {
+        margin-top: 0.25rem;
+        @include respond(600px) {
+            font-size: 1.2rem;
+        }
+    }
+
     h2 {
         font-size: 2.1rem;
         color: $color-grey-dark-4;
@@ -35,7 +58,7 @@
     }
 
     p {
-        font-size: 1.2rem;
+        font-size: 1.05rem;
         padding: 0.5rem 3rem;
         padding-left: 9rem;
         text-align: left;

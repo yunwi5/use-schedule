@@ -12,6 +12,7 @@ import ActiveButton from '../../ui/buttons/ActiveButton';
 import Button from '../../ui/buttons/Button';
 import DropDownToggler from '../../ui/icons/DropDownToggler';
 import PeriodNavigator from '../../ui/navigation/PeriodNavigator';
+import AboutAnalysis from './AboutAnalysisLink';
 
 interface Props {
     currentPeriod: Date;
@@ -42,7 +43,9 @@ function getNavigationPeriodFormat(currentPeriod: Date, plannerMode: PlannerMode
             return (
                 <>
                     {navPeriod}
-                    <span className="hidden ml-3 lg:inline">({endingPeriod.getFullYear()})</span>
+                    <span className="hidden ml-3 lg:inline">
+                        ({endingPeriod.getFullYear()})
+                    </span>
                 </>
             );
         case PlannerMode.MONTLY:
@@ -57,7 +60,10 @@ const AnalysisHeader: React.FC<Props> = (props) => {
     const { currentPeriod, onNavigate, currentMode, onChangeMode } = props;
     // Show dropdown navigation for mobile screen (< 768px)
     const [showDropDown, setShowDropDown] = useState(true);
-    useWindowInnerWidth({ breakPoint: 768, aboveBreakPointCallback: () => setShowDropDown(true) });
+    useWindowInnerWidth({
+        breakPoint: 768,
+        aboveBreakPointCallback: () => setShowDropDown(true),
+    });
 
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
     // For writing label to indicate to the user.
@@ -84,7 +90,8 @@ const AnalysisHeader: React.FC<Props> = (props) => {
                     <ActiveButton
                         className="!min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
                         isActive={
-                            currentMode === AnalysisMode.EVENTS || currentMode === AnalysisMode.ALL
+                            currentMode === AnalysisMode.EVENTS ||
+                            currentMode === AnalysisMode.ALL
                         }
                         onClick={onChangeMode.bind(null, AnalysisMode.EVENTS)}
                     >
@@ -93,16 +100,14 @@ const AnalysisHeader: React.FC<Props> = (props) => {
                     <ActiveButton
                         className="mr-auto !min-w-[8.9rem] max-h-[2.7rem] !py-2 flex justify-center items-center"
                         isActive={
-                            currentMode === AnalysisMode.TASKS || currentMode === AnalysisMode.ALL
+                            currentMode === AnalysisMode.TASKS ||
+                            currentMode === AnalysisMode.ALL
                         }
                         onClick={onChangeMode.bind(null, AnalysisMode.TASKS)}
                     >
                         Tasks
                     </ActiveButton>
-                    <FontAwesomeIcon
-                        icon={faInfoCircle}
-                        className="ml-1 lg:ml-3 max-w-[2rem] max-h-[2rem] text-3xl text-sky-600/80 shadow-sm cursor-pointer transition-all hover:scale-125 hover:text-blue-500"
-                    />
+                    <AboutAnalysis />
                 </div>
             )}
         </nav>

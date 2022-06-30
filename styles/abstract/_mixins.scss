@@ -96,6 +96,8 @@
     }
 }
 
+// Need to set background color of ::after pseudo element
+// to make this effect happen
 @mixin underline-from-middle {
     position: relative;
 

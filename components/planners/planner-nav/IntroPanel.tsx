@@ -20,6 +20,9 @@ import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import ImportModal from '../../import-export/ImportModal';
 import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
 import ExportModal from '../../import-export/ExportModal';
+import LearnMoreLink from '../../ui/typography/LearnMoreLink';
+import { getAboutLink } from '../../../utilities/link-utils';
+import { PlannerSection } from '../../../constants/about-sections';
 
 interface Props {
     title: string;
@@ -60,8 +63,16 @@ const IntroPanel: React.FC<Props> = (props) => {
             )}
             {showPanel && (
                 <div className={classes.panel}>
-                    <h2>{title}</h2>
-                    <p>{message}</p>
+                    <div className={classes['heading-container']}>
+                        <h2>{title}</h2>
+                        <LearnMoreLink
+                            className={`${classes.link}`}
+                            href={getAboutLink(PlannerSection.link)}
+                        >
+                            See More
+                        </LearnMoreLink>
+                    </div>
+                    <p className={''}>{message}</p>
                     <FontAwesomeIcon
                         icon={faXmark}
                         className={classes.exit}
