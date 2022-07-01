@@ -1,4 +1,8 @@
 @import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+
+$layout-bp: 1180px;
+$dropdown-bp: 675px;
 
 .header {
     position: relative;
@@ -13,22 +17,88 @@
         background-color: rgba($color-primary, 0.6);
     }
 
+    @include respond($layout-bp) {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+        position: relative;
+        .add-btn {
+            display: none;
+        }
+
+        @include respond($layout-bp) {
+            padding-right: 2rem;
+            .add-btn {
+                display: flex;
+            }
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+    }
+
     .right {
         display: flex;
 
-        & > *:not(:last-child) {
+        & > *:not(:first-child) {
             position: relative;
-            margin-right: 40px;
+            margin-left: 40px;
 
             &::after {
                 content: '';
                 position: absolute;
                 top: 0;
-                right: -22px;
+                left: -22px;
                 height: 100%;
                 width: 2.2px;
                 background-color: rgba($color-primary, 0.6);
             }
+        }
+
+        @include respond($layout-bp) {
+            padding: 0.5rem 0.5rem;
+            background-color: $color-primary-light-2;
+
+            .add-btn {
+                display: none;
+            }
+        }
+
+        @include respond($dropdown-bp) {
+            flex-direction: column;
+            gap: 0.75rem;
+
+            & > * {
+                flex: 1;
+            }
+
+            & > *:not(:first-child) {
+                margin-left: 0;
+                &::after {
+                    display: none;
+                }
+                max-width: none !important;
+            }
+        }
+    }
+
+    .right.hide {
+        @include respond($layout-bp) {
+            display: none;
+        }
+    }
+
+    .search {
+        max-width: 14rem;
+        min-height: 3.2rem !important;
+
+        @include respond($layout-bp) {
+            max-width: 100%;
+            flex: 1;
         }
     }
 

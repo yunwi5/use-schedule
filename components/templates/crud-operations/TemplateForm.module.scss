@@ -1,105 +1,121 @@
-@import "../../../styles/main";
+@import '../../../styles/main';
+
+$layout-bp: 780px;
 
 .form {
-	flex: 3;
-	min-width: 760px;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-column-gap: 1rem;
-	grid-row-gap: 2.2rem;
-	justify-content: end;
-	box-shadow: 0 0 6rem rgba(0, 0, 0, .10);
-	position: relative;
+    flex: 3;
+    min-width: 760px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 1rem;
+    grid-row-gap: 2.2rem;
+    justify-content: end;
+    box-shadow: 0 0 6rem rgba(0, 0, 0, 0.1);
+    position: relative;
 
-	padding: 1rem;
-	// padding-left: 2.5rem;
-	font-size: 1.2rem;
-	border-radius: 5px;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
 
-	background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
-		linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
-		linear-gradient(336deg, #fff, rgba(255, 255, 255, .6) 70.71%);
+    background: linear-gradient(217deg, $color-tertiary-light-2, rgba(255, 0, 0, 0) 70.71%),
+        linear-gradient(127deg, $color-secondary-light-2, rgba(0, 255, 0, 0) 70.71%),
+        linear-gradient(336deg, #fff, rgba(255, 255, 255, 0.6) 70.71%);
 
-	.control {
-		display: flex;
-		flex-direction: column;
-		gap: .6rem;
-		input,
-		textarea {
-			border: 1px solid transparent;
-			color: $color-primary-dark-2;
-			border-radius: 3px;
-			background-color: #fff;
-			width: clamp(15rem, 70%, 100%);
-			padding: .2rem .5rem;
-			box-shadow: $shadow-light;
-		}
+    @include respond($layout-bp) {
+        min-width: 90vw;
+    }
 
-		[aria-invalid = true] {
-			border: 1.5px solid $color-rose-dark-1;
-			background-color: lighten($color-rose-light-1, 8%);
-			&:focus {
-				outline: none;
-			}
-		}
-	}
+    // change to col layout
+    @include respond(500px) {
+        grid-template-columns: 1fr;
+        grid-row-gap: 1.25rem;
+    }
 
-	.control, .action {
-		padding: 0 .6rem;
-	}
+    .control {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        input,
+        textarea {
+            border: 1px solid transparent;
+            color: $color-primary-dark-2;
+            border-radius: 3px;
+            background-color: #fff;
+            width: clamp(15rem, 70%, 100%);
+            padding: 0.2rem 0.5rem;
+            box-shadow: $shadow-light;
+        }
 
-	.desc {
-		grid-column: 1 / -1;
-	}
+        [aria-invalid='true'] {
+            border: 1.5px solid $color-rose-dark-1;
+            background-color: lighten($color-rose-light-1, 8%);
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 
-	.name {
-		input {
-			font-size: 1.4rem;
-		}
-	}
+    .control,
+    .action {
+        padding: 0 0.6rem;
+    }
 
-	.text {
-		color: $color-primary-dark-2;
-		font-weight: 600;
-	}
+    .desc {
+        grid-column: 1 / -1;
+    }
 
-	h3.text {
-		font-size: 125%;
-	}
+    .name {
+        input {
+            font-size: 1.4rem;
+        }
+    }
 
-	p.text {
-		min-height: 3.5rem;
-	}
+    .text {
+        color: $color-primary-dark-2;
+        font-weight: 600;
+    }
 
-	.error {
-		color: $color-rose-dark-1;
-	}
+    h3.text {
+        font-size: 125%;
 
-	.icon {
-		max-width: 2.1rem;
-		margin-right: .6rem;
-		color: $color-primary-dark-2;
-	}
+        @include respond(phone) {
+            font-size: 105%;
+        }
+    }
 
-	.btn {
-		min-width: 20%;
-		width: clamp(10rem, 20%, 100%);
-	}
+    p.text {
+        min-height: 3.5rem;
+    }
+
+    .error {
+        color: $color-rose-dark-1;
+    }
+
+    .icon {
+        max-width: 2.1rem;
+        margin-right: 0.6rem;
+        color: $color-primary-dark-2;
+    }
+
+    .btn {
+        min-width: 20%;
+        width: clamp(10rem, 20%, 100%);
+    }
 }
 
 .form-edit {
-	.text {
-		display: none;
-	}
+    .text {
+        display: none;
+    }
 }
 
 .form-read-only {
-	input,
-	textarea {
-		display: none;
-	}
+    input,
+    textarea {
+        display: none;
+    }
 
-	.action {
-		display: none;
-	}
+    .action {
+        display: none;
+    }
 }

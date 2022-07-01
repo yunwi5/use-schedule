@@ -1,0 +1,7 @@
+@import '../../../styles/abstract/mixins';
+
+.container {
+    @include respond(900px) {
+        // justify-content: center;
+    }
+}

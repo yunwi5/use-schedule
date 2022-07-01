@@ -31,7 +31,6 @@ const TemplateForm: React.FC<Props> = ({ onSubmit, initialTemplate, onDelete }) 
 
     const {
         register,
-        watch,
         handleSubmit,
         control,
         formState: { errors },
@@ -101,6 +100,7 @@ const TemplateForm: React.FC<Props> = ({ onSubmit, initialTemplate, onDelete }) 
                     render={({ field: { onChange, value } }) => (
                         <Rating
                             size="large"
+                            className={classes.rating}
                             precision={0.5}
                             onChange={(event, newValue) => onChange(newValue || 0)}
                             value={+value}

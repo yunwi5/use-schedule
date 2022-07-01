@@ -2,7 +2,7 @@
 
 .card {
     flex: 1;
-    min-width: 15rem;
+    min-width: 270px;
     max-height: 18rem;
     display: grid;
     grid-template-columns: min-content 1fr;
@@ -10,13 +10,17 @@
     justify-content: center;
     justify-items: center;
     align-items: center;
+    row-gap: 0.75rem;
 
     padding: 0.5rem 0.8rem;
-    padding-top: 0;
 
     position: relative;
     border-radius: 5px;
     box-shadow: $shadow-light;
+
+    @include respond(1070px) {
+        padding-left: 1rem;
+    }
 
     h3 {
         font-size: 1.35rem;
@@ -25,6 +29,7 @@
         margin-left: 1rem;
     }
     .paras {
+        justify-self: start;
         font-size: 1.1rem;
         grid-column: 1 / -1;
         max-width: 100%;

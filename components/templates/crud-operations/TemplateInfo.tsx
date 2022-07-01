@@ -1,12 +1,11 @@
 import React, { useState, Fragment, useEffect, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faMagnifyingGlass } from '@fortawesome/pro-duotone-svg-icons';
+import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { faXmark } from '@fortawesome/pro-solid-svg-icons';
 
 import classes from './TemplateInfo.module.scss';
 import { Template } from '../../../models/template-models/Template';
 import { faQuoteLeft } from '@fortawesome/pro-duotone-svg-icons';
-import Link from 'next/link';
 import { getAboutLink } from '../../../utilities/link-utils';
 import { TemplateSection } from '../../../constants/about-sections';
 import LearnMoreLink from '../../ui/typography/LearnMoreLink';

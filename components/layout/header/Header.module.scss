@@ -37,6 +37,7 @@
         .search-icon {
             display: none;
             margin-left: auto;
+            margin-right: 0.75rem;
             @include respond(950px) {
                 display: inline-block;
             }

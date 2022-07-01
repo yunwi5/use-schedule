@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBarsFilter } from "@fortawesome/pro-solid-svg-icons";
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBarsFilter } from '@fortawesome/pro-solid-svg-icons';
 
-import { filterActions } from "../../../store/redux/filter-slice";
-import { ImportanceList, StatusList } from "../../../models/task-models/Status";
-import { Category, CategoryList, getSubCategory } from "../../../models/task-models/Category";
-import { Filter } from "../../../utilities/tasks-utils/filter-util";
+import { filterActions } from '../../../store/redux/filter-slice';
+import { ImportanceList, StatusList } from '../../../models/task-models/Status';
+import { Category, CategoryList, getSubCategory } from '../../../models/task-models/Category';
+import { Filter } from '../../../utilities/tasks-utils/filter-util';
 
 function getFilterList(filter: Filter) {
     switch (filter) {
@@ -82,7 +82,7 @@ const PlannerFilter: React.FC = () => {
 
     useEffect(() => {
         if (
-            filterTarget === "Category" &&
+            filterTarget === 'Category' &&
             mainFilter &&
             CategoryList.includes(mainFilter as Category)
         ) {
@@ -93,12 +93,12 @@ const PlannerFilter: React.FC = () => {
     }, [mainFilter, filterTarget, dispatch]);
 
     const showMainFilter = isFiltering && filterTarget && mainFilterList;
-    const showSubFilter = isFiltering && filterTarget === "Category" && subFilterList;
+    const showSubFilter = isFiltering && filterTarget === 'Category' && subFilterList;
 
     return (
         <div className="flex items-center mr-auto ml-2 space-x-4">
             <div className="flex items-center">
-                Filter
+                <span className={'hidden xl:inline'}>Filter</span>
                 <button
                     onClick={showFilterHandler}
                     className="flex justify-center items-center bg-slate-500 hover:bg-slate-500 text-white ml-2  w-11 h-11 rounded-full"
@@ -113,7 +113,7 @@ const PlannerFilter: React.FC = () => {
                         <Select
                             labelId="filter-target-label"
                             id="filter-target"
-                            value={filterTarget || ""}
+                            value={filterTarget || ''}
                             onChange={filterTargetHandler}
                             label="Filter By"
                         >
@@ -136,7 +136,7 @@ const PlannerFilter: React.FC = () => {
                             labelId="main-filter-label"
                             id="main-filter"
                             onChange={mainFilterHandler}
-                            value={mainFilter || ""}
+                            value={mainFilter || ''}
                             label="Main Filter"
                         >
                             <MenuItem selected disabled value="">
@@ -158,7 +158,7 @@ const PlannerFilter: React.FC = () => {
                         <Select
                             labelId="sub-filter-label"
                             id="sub-filter"
-                            value={subFilter || ""}
+                            value={subFilter || ''}
                             onChange={subFilterHandler}
                             label="Sub Filter"
                         >

@@ -19,7 +19,8 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate }) => {
     const { searchWord, filterTarget, mainFilter, subFilter } = useAppSelector(
         (state) => state.filter,
     );
-    const { getTopOffset, getTaskHeight, getTotalTableHeight } = useWTableContext();
+    const { getTopOffset, getTaskHeight, getTotalTableHeight, minCellWidth } =
+        useWTableContext();
     const [filteredTaskList, setFilteredTaskList] = useState<AbstractTask[]>(tasks);
     const [isAdding, setIsAdding] = useState(false);
 
@@ -53,7 +54,7 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate }) => {
     return (
         <>
             <div
-                className={`wd-line z-10 w-[calc(100%/7)] cursor-pointer hover:bg-slate-200/50`}
+                className={`wd-line ${`min-w-[${minCellWidth}rem]`} lg:w-[calc(100%/7)] z-10 cursor-pointer hover:bg-slate-200/50`}
                 style={{ height: getTotalTableHeight() }}
                 data-id="weekday-line"
                 onClick={taskAddHandler}
@@ -82,7 +83,8 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate }) => {
                                     height: adjustedHeight,
                                     transform: `translate(-50%, ${heightOffset})`,
                                     zIndex:
-                                        task.dateTime.getHours() + task.dateTime.getMinutes() / 10,
+                                        task.dateTime.getHours() +
+                                        task.dateTime.getMinutes() / 10,
                                 }}
                             />
                         );

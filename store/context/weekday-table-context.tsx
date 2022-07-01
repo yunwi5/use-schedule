@@ -2,10 +2,14 @@ import { createContext, useContext, useMemo } from 'react';
 import { WeeklyPlanner } from '../../models/planner-models/WeeklyPlanner';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { TemplatePlanner } from '../../models/template-models/TemplatePlanner';
-import { getInitialTimeLineFreqMap, TimeLineFreqMap } from '../../utilities/gen-utils/time-util';
+import {
+    getInitialTimeLineFreqMap,
+    TimeLineFreqMap,
+} from '../../utilities/gen-utils/time-util';
 
 interface IWTableContext {
     cellHeight: number; // unit should be rem
+    minCellWidth: number;
     emptyCellHeight: number;
     planner: WeeklyPlanner | TemplatePlanner | null;
     getTopOffset: (hours: number, minutes?: number) => string;
@@ -16,6 +20,7 @@ interface IWTableContext {
 
 const WTableContext = createContext<IWTableContext>({
     cellHeight: 10,
+    minCellWidth: 8.375,
     emptyCellHeight: 2.5,
     planner: null,
     getTopOffset: () => '0rem',
@@ -31,7 +36,9 @@ interface Props {
 }
 
 export const WTableContextProvider: React.FC<Props> = ({ children, planner }) => {
+    // units in rem
     const cellHeight = 10;
+    const minCellWidth = 8.375;
     const emptyCellHeight = 3.5;
 
     // populate time lines
@@ -110,6 +117,7 @@ export const WTableContextProvider: React.FC<Props> = ({ children, planner }) =>
     const value = {
         cellHeight,
         emptyCellHeight,
+        minCellWidth,
         planner,
         getTopOffset,
         getCellHeight,

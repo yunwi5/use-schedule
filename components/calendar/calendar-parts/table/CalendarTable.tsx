@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useLayoutEffect, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/pro-regular-svg-icons';
 

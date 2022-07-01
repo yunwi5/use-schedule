@@ -65,12 +65,6 @@ const IntroPanel: React.FC<Props> = (props) => {
                 <div className={classes.panel}>
                     <div className={classes['heading-container']}>
                         <h2>{title}</h2>
-                        <LearnMoreLink
-                            className={`${classes.link}`}
-                            href={getAboutLink(PlannerSection.link)}
-                        >
-                            See More
-                        </LearnMoreLink>
                     </div>
                     <p className={''}>{message}</p>
                     <FontAwesomeIcon

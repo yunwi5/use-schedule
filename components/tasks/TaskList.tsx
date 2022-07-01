@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 
-import PlannerTaskCard from './TaskCard';
 import { PlannerTask, Task } from '../../models/task-models/Task';
 import { applyTaskFilter } from '../../utilities/tasks-utils/filter-util';
 import { useAppSelector } from '../../store/redux';
+import TaskCardNew from './TaskCardNew';
 
 interface Props {
     beginningPeriod: Date;
@@ -36,13 +36,13 @@ const TaskList: React.FC<Props> = (props) => {
     }, [onShrink, isFolded]);
 
     return (
-        <ul className="flex flex-col items-center gap-4 pl-10">
+        <ul className="flex flex-col gap-4 lg:pl-[5rem] xl:pl-[8rem] pr-2 lg:pr-6">
             {filteredTaskList.map((task) => (
-                <PlannerTaskCard
+                <TaskCardNew
                     key={task.id}
                     task={task as PlannerTask}
-                    beginningPeriod={beginningPeriod}
-                    onMutate={onMutate}
+                    onInvalidate={onMutate}
+                    className={'!bg-slate-50'}
                 />
             ))}
         </ul>

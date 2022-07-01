@@ -23,12 +23,13 @@ interface Props {
     task: AbstractTask;
     onInvalidate: () => void;
     expand?: boolean;
+    className?: string;
 }
 
 const leftBorderClass = 'sm:pl-5 sm:border-l-[3px] sm:border-l-slate-400';
 
 // New version of task card that is responsive
-const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand = true }) => {
+const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand = true, className = '' }) => {
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
@@ -39,7 +40,7 @@ const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand = true }) => {
     return (
         <>
             <article
-                className={`relative flex flex-col text-slate-700 gap-1 sm:gap-4 px-2 lg:px-4 pl-3 lg:pl-7 py-2 overflow-hidden bg-slate-50  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
+                className={`relative flex flex-col text-slate-700 gap-1 sm:gap-4 px-2 lg:px-4 pl-3 lg:pl-7 py-2 overflow-hidden bg-blue-50  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer ${className}`}
             >
                 <div
                     className={`absolute top-0 left-0 w-[1.05%] h-full z-0 ${statusClass}-bg`}

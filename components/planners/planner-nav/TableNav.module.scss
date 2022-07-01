@@ -1,0 +1,27 @@
+@import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+
+.container {
+    @include respond(1450px) {
+        flex-direction: column;
+        gap: 0.25rem;
+        align-items: stretch;
+        margin-bottom: 0.9rem;
+
+        & > *:nth-child(2) {
+            background-color: $color-primary-light-2;
+            align-self: stretch;
+            padding: 0.4rem 0.3rem;
+            border-radius: 5px;
+        }
+    }
+
+    .navigation {
+        @include respond(900px) {
+        }
+    }
+
+    .hide {
+        display: none;
+    }
+}

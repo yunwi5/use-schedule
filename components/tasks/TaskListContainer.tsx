@@ -6,7 +6,6 @@ import ListHeading from './task-support/ListHeading';
 import { WeekDay, getWeekDayFromIndex } from '../../models/date-models/WeekDay';
 import { Month, getMonthFromIndex } from '../../models/date-models/Month';
 import { WeekNumber, getWeekFromIndex } from '../../models/date-models/WeekNumber';
-import { Planner } from '../../models/planner-models/Planner';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { addDays } from '../../utilities/date-utils/date-control';
 import { getMonthName, getWeekInterval } from '../../utilities/date-utils/month-util';
@@ -110,7 +109,7 @@ const TaskListContainer: React.FC<Props> = (props) => {
     );
 
     return (
-        <div className="ml-4 my-4">
+        <div className="mt-8 lg:mt-4 first:mt-0 my-4 px-3 pr-3 lg:pr-10">
             <ListHeading
                 labelMain={labelMain}
                 labelSub={labelSub}

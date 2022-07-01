@@ -1,6 +1,7 @@
 {
-    "name" : "next-pwa",
-    "short_name" : "next-pwa",
+    "name" : "UseSchedule",
+    "short_name" : "UseSchedule",
+    "description": "Personal schedular app",
     "display" : "standalone",
     "orientation": "portrait",
     "theme_color" : "#64748B",

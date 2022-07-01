@@ -13,6 +13,7 @@ import { Theme, Size, ButtonTheme } from '../../../models/design-models';
 import { ItemsView } from '../../../models/ui-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import classes from './PlannerHeader.module.scss';
+import DropDownToggler from '../../ui/icons/DropDownToggler';
 
 interface Props {
     beginningPeriod: Date;
@@ -29,6 +30,8 @@ const PlannerHeader: React.FC<Props> = (props) => {
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
     const [isAdding, setIsAdding] = useState(false);
+    // UI state (layout control for tablet & mobile screens)
+    const [showDropDown, setShowDropDown] = useState(true);
 
     const foldTasksHandler = () => {
         dispatch(foldActions.toggleFold());
@@ -47,6 +50,17 @@ const PlannerHeader: React.FC<Props> = (props) => {
     const showItemsView =
         plannerMode === PlannerMode.TEMPLATE || plannerMode === PlannerMode.WEEKLY;
 
+    const AddButton = (
+        <Button
+            className={`rounded-md ${classes.btn} ${classes['add-btn']}`}
+            theme={Theme.PRIMARY}
+            size={Size.MEDIUM}
+            onClick={taskAddOpener}
+        >
+            + Add Task
+        </Button>
+    );
+
     return (
         <nav className={`${classes.header} flex items-center justify-between p-4 w-full`}>
             {/* Task Add Modal */}
@@ -60,12 +74,19 @@ const PlannerHeader: React.FC<Props> = (props) => {
                     beginningPeriod={beginningPeriod}
                 />
             )}
+            <div className={classes.left}>
+                <PlannerFilter />
+                {AddButton}
+                <DropDownToggler
+                    className={`!absolute top-[8px] right-0`}
+                    showDropDown={showDropDown}
+                    onToggle={() => setShowDropDown((ps) => !ps)}
+                />
+            </div>
 
-            <PlannerFilter />
-
-            <div className={classes.right}>
+            <div className={`${classes.right} ${!showDropDown && classes.hide}`}>
                 <Searchbar
-                    className={'!max-w-[14rem]'}
+                    className={`${classes.search}`}
                     placeholder="Search Task"
                     onSearch={searchHandler}
                 />
@@ -110,14 +131,7 @@ const PlannerHeader: React.FC<Props> = (props) => {
                         )}
                     </Button>
                 )}
-                <Button
-                    className={`rounded-md ${classes.btn}`}
-                    theme={Theme.PRIMARY}
-                    size={Size.MEDIUM}
-                    onClick={taskAddOpener}
-                >
-                    + Add Task
-                </Button>
+                {AddButton}
             </div>
         </nav>
     );
