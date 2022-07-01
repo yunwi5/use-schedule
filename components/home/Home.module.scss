@@ -1,4 +1,4 @@
-@import "../../styles/main";
+@import '../../styles/main';
 
 .heading {
     font-size: 2.8rem;
@@ -46,7 +46,7 @@
 .intro {
     position: relative;
     overflow-y: hidden;
-    height: clamp(500px, 91vh, 1200px);
+    height: clamp(500px, 94vh, 1200px);
 
     & > span {
         @include img-background;

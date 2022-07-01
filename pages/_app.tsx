@@ -34,6 +34,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                             <NotificationContextProvider>
                                 <Head>
                                     <title>{AppProperty.APP_NAME}</title>
+                                    <meta
+                                        name="apple-mobile-web-app-title"
+                                        content={AppProperty.APP_NAME}
+                                    />
                                     {/* Favicon links */}
                                     {/* Firefox favicon */}
                                     <link
@@ -43,15 +47,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                                         href="/logos/logo.png"
                                     />
                                     {/* Chrome and Edge favicon */}
-                                    <link rel="shortcut icon" href="/favicon.ico" />
-
-                                    {/* PWA links */}
-                                    <link rel="manifest" href="/manifest.json"></link>
-                                    <link
-                                        rel="apple-touch-icon"
-                                        href="/icons/apple-touch-icon.png"
-                                    ></link>
-                                    <meta name="theme-color" content="#64748B" />
                                     <meta
                                         name="description"
                                         content={`${AppProperty.APP_NAME} application for users to allocate and manage personal or business schedules`}

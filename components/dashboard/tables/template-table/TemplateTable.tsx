@@ -89,8 +89,6 @@ const TemplateTable = () => {
     // user has no template tables so display suggestion to make one
     const userHasNone = !isLoading && templateInfoArray.length === 0;
 
-    console.log('userHasNone:', userHasNone);
-
     return (
         <TableCard className={`xl:w-[70%] min-h-[10rem] overflow-hidden !border-0`}>
             <table className={`w-full h-full flex flex-col`}>

@@ -1,5 +1,7 @@
 {
 	"name": "use-schedule",
+	"version": "1.0.0",
+  	"main": "index.tsx",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -27,7 +29,7 @@
 		"joi": "^17.6.0",
 		"mongodb": "^4.3.1",
 		"next": "^12.0.9",
-		"next-pwa": "^5.5.4",
+		"next-pwa": "latest",
 		"node-sass": "^6.0.1",
 		"react": "17.0.2",
 		"react-chartjs-2": "^4.1.0",
