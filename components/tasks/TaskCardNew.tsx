@@ -45,7 +45,7 @@ const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand = true, classNam
                 <div
                     className={`absolute top-0 left-0 w-[1.05%] h-full z-0 ${statusClass}-bg`}
                 ></div>
-                <div className={`text-slate-500 font-bold text-base`}>
+                <div className={`pr-[2.5rem] text-slate-500 font-bold text-base`}>
                     <FontAwesomeIcon
                         icon={faAlarmClock}
                         className={`text-slate-900 icon-medium mr-2`}
