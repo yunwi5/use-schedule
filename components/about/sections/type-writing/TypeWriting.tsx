@@ -79,7 +79,7 @@ const TypeWriting: React.FC = () => {
         <section
             id={TypeWriterSection.id}
             className={
-                'min-w-[50vh] max-w-[38rem] lg:max-w-none lg:self-stretch px-4 xl:px-10 py-5 flex flex-col gap-6 bg-slate-50 border-2 border-slate-300 shadow-md rounded-md'
+                'min-w-[90vw] sm:min-w-[70vh] max-w-[90vw] xs:max-w-[min(38rem,90vw)] lg:max-w-none lg:self-stretch px-4 xl:px-10 py-5 flex flex-col gap-6 bg-slate-50 border-2 border-slate-300 shadow-md rounded-md'
             }
         >
             <h2 className={'text-3xl'}>Ask Us!</h2>

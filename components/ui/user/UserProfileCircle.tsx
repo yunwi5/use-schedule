@@ -31,7 +31,7 @@ const UserPicCircle: React.FC<Props> = ({ pictureLink, name }) => {
         <ClickAwayListener onClickAway={() => setShowDropDown(false)}>
             <div
                 className={
-                    'relative cursor-pointer flex gap-2 items-center py-[.25rem] px-3 rounded-sm hover:bg-gray-300'
+                    'relative cursor-pointer flex gap-1 items-center py-[.25rem] px-3 rounded-sm hover:bg-gray-300'
                 }
                 onClick={() => setShowDropDown((ps) => !ps)}
             >
@@ -56,7 +56,11 @@ const UserPicCircle: React.FC<Props> = ({ pictureLink, name }) => {
                         </div>
                     )}
                 </div>
-                {displayName && <p className="text-base text-gray-700">{name}</p>}
+                {displayName && (
+                    <p className="w-max text-base text-gray-700 whitespace-nowrap px-1">
+                        {name}
+                    </p>
+                )}
                 <FontAwesomeIcon icon={faCaretDown} className={''} />
                 {showDropDown && <UserDropDown />}
             </div>

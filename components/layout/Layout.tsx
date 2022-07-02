@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import SideNav from './sidebar/SideNav';
 import Header from './header/Header';
@@ -14,8 +14,8 @@ import useWindowInnerWidth from '../../hooks/useWindowInnerWidth';
 const NAV_BREAK_POINT = 1250;
 
 const Layout: React.FC = (props) => {
-    const [showSidebar, setShowSidebar] = useState(false);
     const activeNotification = useContext(NotificationContext).notification;
+    const [showSidebar, setShowSidebar] = useState(false);
 
     useWindowInnerWidth({
         breakPoint: NAV_BREAK_POINT,
@@ -23,9 +23,12 @@ const Layout: React.FC = (props) => {
         aboveBreakPointCallback: () => setShowSidebar(true),
     });
 
-    const toggleSidebarHandler = () => {
-        setShowSidebar((prev) => !prev);
-    };
+    const toggleSidebarHandler = () => setShowSidebar((prev) => !prev);
+
+    // show sidebar by default if the sceen size is desktop
+    useEffect(() => {
+        if (window.innerWidth > NAV_BREAK_POINT) setShowSidebar(true);
+    }, []);
 
     return (
         <div className={`${classes.app} ${!showSidebar ? classes['hide-side'] : ''}`}>

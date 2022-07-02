@@ -23,7 +23,10 @@ const UserDropDown: React.FC = () => {
                     <Link href={getTodayScheduleLink()}>
                         <a className={'flex items-center'}>
                             <FontAwesomeIcon icon={faHouseDay} className={'mr-1'} />
-                            <ListItemText primary="Today Schedules" />
+                            <ListItemText
+                                className={'!w-max !whitespace-nowrap'}
+                                primary="Today Schedules"
+                            />
                         </a>
                     </Link>
                 </ListItem>
@@ -32,7 +35,10 @@ const UserDropDown: React.FC = () => {
                     <Link href={getLogoutLink()}>
                         <a className="flex items-center">
                             <FontAwesomeIcon icon={faRightFromBracket} className={'mr-2'} />
-                            <ListItemText primary="Logout" />
+                            <ListItemText
+                                className={'!w-max !whitespace-nowrap'}
+                                primary="Logout"
+                            />
                         </a>
                     </Link>
                 </ListItem>

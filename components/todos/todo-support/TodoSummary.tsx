@@ -67,7 +67,7 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
         <>
             {!showSummary && (
                 <div
-                    className={`absolute -top-[2.8rem] -right-[1.1rem] md:right-0 md:top-2 md:translate-x-[3.5rem] z-5`}
+                    className={`!h-max absolute -top-[2.8rem] -right-[1.1rem] md:right-0 md:top-2 md:translate-x-[3.5rem] z-5`}
                 >
                     <FontAwesomeIcon
                         icon={faCircleInfo}
@@ -78,7 +78,7 @@ const TodoSummary: React.FC<Props> = ({ todos }) => {
             )}
             {showSummary && (
                 <div
-                    className={`max-h-none sm:max-h-[11rem] transition-all !duration-150 relative xl:max-h-fit xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
+                    className={`max-h-none xl:max-h-fit transition-all !duration-150 relative xl:absolute xl:translate-x-[110%] xl:right-0 px-3 py-3 flex flex-col justify-center gap-2 rounded-md bg-sky-50 border-2 ${
                         theme ? 'bg-gray-700/25 border-slate-50' : 'border-sky-300'
                     }`}
                 >

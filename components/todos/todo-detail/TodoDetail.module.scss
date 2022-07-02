@@ -1,4 +1,4 @@
-@import "../../../styles/main";
+@import '../../../styles/main';
 
 .modal {
     gap: 1.2rem;
@@ -9,7 +9,19 @@
     .heading {
         @include heading-underline($color-primary-dark-1, $color-grey-light-1);
         line-height: 102%;
-        padding-bottom: .35rem;
+        padding-bottom: 0.35rem;
+
+        @include respond(tab-port) {
+            font-size: 1.75rem;
+        }
+
+        @include respond(phone) {
+            font-size: 1.5rem;
+        }
+
+        @include respond(430px) {
+            font-size: 1.4rem;
+        }
     }
 
     .heading-input {
@@ -66,7 +78,8 @@
         gap: 0.3rem;
     }
 
-    .completion, .duration {
+    .completion,
+    .duration {
         margin-left: 1.8rem;
     }
 

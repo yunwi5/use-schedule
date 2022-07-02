@@ -10,11 +10,11 @@
 
     @include respond(phone) {
         width: 100vw;
-        top: 0 !important;
+        // top: 0 !important;
         left: 0 !important;
         height: 100vh;
-        border-radius: 0;
-        animation: UpDownLarge 300ms ease-in-out forwards !important;
+        border-radius: 0 !important;
+        // animation: UpDownLarge 300ms ease-in-out forwards !important;
     }
 }
 

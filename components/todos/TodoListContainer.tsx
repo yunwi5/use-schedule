@@ -78,11 +78,7 @@ const TodoListContainer: React.FC<Props> = (props) => {
             )}
             <div className="py-12 translate-x-1 xl:translate-x-[-4%] px-6 md:px-[4rem] lg:px-[12rem] xl:px-[14rem]">
                 {!isNew && <TodoThemeSelect onSelect={themeSelectHandler} />}
-                <div
-                    className={`relative flex gap-3 flex-wrap xl:flex-nowrap ${
-                        !editingList ? 'flex-col' : ''
-                    }`}
-                >
+                <div className={`relative flex gap-3 flex-col lg:flex-row`}>
                     {isNew && <TodoIntroPanel />}
                     <TodoListForm
                         initialList={todoList}

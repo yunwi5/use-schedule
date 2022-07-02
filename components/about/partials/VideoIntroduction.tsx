@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/pro-light-svg-icons';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons';
@@ -6,6 +6,7 @@ import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 import { AboutStartSection } from '../../../constants/about-sections';
 import { Theme } from '../../../models/design-models';
 import classes from '../About.module.scss';
+import { checkIsMobile } from '../../../utilities/device-util';
 
 interface Props {
     title: string | JSX.Element;
@@ -18,6 +19,13 @@ interface Props {
 
 const VideoIntroduction: React.FC<Props> = (props) => {
     const { title, heading, id, checkList, videoSrc } = props;
+    const [isAutoplay, setIsAutoplay] = useState(false);
+
+    // if it is mobile screen size, do not auto play
+    useEffect(() => {
+        const autoplay = !checkIsMobile();
+        setIsAutoplay(autoplay);
+    }, []);
 
     return (
         <div
@@ -45,7 +53,7 @@ const VideoIntroduction: React.FC<Props> = (props) => {
                     src={videoSrc}
                     className={'rounded-sm shadow-lg'}
                     controls
-                    autoPlay
+                    autoPlay={isAutoplay}
                     muted
                     loop
                 >

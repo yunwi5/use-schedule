@@ -51,7 +51,7 @@ const EventDetail: React.FC<Props> = (props) => {
                 <article className="min-h-[27rem] relative flex flex-col gap-3 justify-between text-slate-600">
                     <EventHeading event={event} />
                     <ExitIcon onClose={onClose} className={'!-translate-y-[2px]'} />
-                    <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 lg:px-3 text-lg">
+                    <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 lg:px-3 text-[1.1rem] md:text-lg">
                         <EventLocation event={event} />
                         <MeetingLink event={event} />
                         {!!participants?.length && <EventParticipants event={event} />}

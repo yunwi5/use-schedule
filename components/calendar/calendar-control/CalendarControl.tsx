@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import classes from './CalendarControl.module.scss';
 import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
+import { useEffect } from 'react';
+import { checkIsMobile } from '../../../utilities/device-util';
 
 interface Props {
     onInvalidate: () => void;
@@ -37,6 +39,11 @@ const CalendarControl: React.FC<Props> = (props) => {
         aboveBreakPointCallback: () => dispatch(calendarActions.setShowSidebar(true)),
         belowBreakPointCallback: () => dispatch(calendarActions.setShowSidebar(false)),
     });
+
+    useEffect(() => {
+        const showSidebar = window.innerWidth > 1250;
+        dispatch(calendarActions.setShowSidebar(showSidebar));
+    }, [dispatch]);
 
     const content = (
         <>

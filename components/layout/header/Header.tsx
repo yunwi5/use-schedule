@@ -31,7 +31,7 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
             <div className={`${headerClasses.heading}`}>
                 <FontAwesomeIcon
                     icon={faBars}
-                    className="min-w-[1.4rem] max-w-[1.5rem] text-2xl cursor-pointer"
+                    className="min-w-[1.4rem] max-w-[1.5rem] text-2xl cursor-pointer transition-all hover:scale-110 hover:text-blue-600"
                     onClick={onToggleSidebar}
                 />
                 <Link href="/">

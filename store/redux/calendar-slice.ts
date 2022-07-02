@@ -47,7 +47,8 @@ interface CalendarState {
 
 const initialState: CalendarState = {
     calendarMode: CalendarMode.TABLE,
-    showSidebar: true,
+    // initially false due to mobile screen. Check if it is desktop and if it is desktop change showSidebar to true by default.
+    showSidebar: false,
     showAgendaDropdown: false,
     statusFilter: defaultStatusFilter,
     importanceFilter: defaultImportanceFilter,

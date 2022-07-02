@@ -1,13 +1,13 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as faStarLight } from "@fortawesome/pro-light-svg-icons";
-import { faCheck, faStar as faStarSolid } from "@fortawesome/pro-solid-svg-icons";
-import { faXmark } from "@fortawesome/pro-regular-svg-icons";
+import React, { Fragment, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
+import { faCheck, faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
+import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 
-import { RootStateOrAny, useSelector } from "react-redux";
-import { PlannerMode } from "../../models/planner-models/PlannerMode";
-import { SubItem, SubItemProps } from "../../models/utility-models";
-import classes from "./SubItemCard.module.scss";
+import { RootStateOrAny, useSelector } from 'react-redux';
+import { PlannerMode } from '../../models/planner-models/PlannerMode';
+import { SubItem, SubItemProps } from '../../models/utility-models';
+import classes from './SubItemCard.module.scss';
 
 interface Props {
     subItem: SubItem;
@@ -49,19 +49,6 @@ const SubTaskCard: React.FC<Props> = (props) => {
         onPatchNewProps(subItem.id, { isCompleted: newIsCompleted });
     };
 
-    // Update text only when the edit mode turns from true to false.
-    // useEffect(() => {
-    //     if (isEditMode) return;
-    //     // If the text does not change, do not send any request.
-    //     if (subItem.name.trim() === currentText.trim()) return;
-
-    //     const updateName = async () => {
-    //         // Send PATCH Request on the parent list component
-    //         await onPatchNewProps(subItem.id, { name: currentText });
-    //     };
-    //     updateName();
-    // }, [isEditMode, subItem, currentText, onPatchNewProps]);
-
     useEffect(() => {
         // If the text does not change, do not send any request.
         if (subItem.name.trim() === currentText.trim()) return;
@@ -80,20 +67,23 @@ const SubTaskCard: React.FC<Props> = (props) => {
     }, [subItem]);
 
     return (
-        <div className='md:max-w-[99%] lg:max-w-[95%] mt-2 p-2 flex items-center justify-between shadow-md hover:shadow-xl hover:-translate-y-[2px] transition-all text-slate-600 border-slate-200 border-2 rounded-md'>
+        <div className="md:max-w-[99%] lg:max-w-[95%] mt-2 p-2 flex items-center justify-between shadow-md hover:shadow-xl hover:-translate-y-[2px] transition-all text-slate-600 border-slate-200 border-2 rounded-md">
             <div
-                className={`md:w-6 md:h-6 lg:w-7 lg:min-w-7 lg:h-7 lg:min-w-7 flex items-center justify-center rounded-full border-2 ${
-                    isCompleted ? "border-green-300" : "border-slate-300"
+                className={`w-7 h-7 lg:w-8 lg:h-8 flex items-center justify-center rounded-full border-2 ${
+                    isCompleted ? 'border-green-300' : 'border-slate-300'
                 } cursor-pointer`}
                 onClick={toggleIsCompleted}
             >
                 {!disableComplete && isCompleted && (
-                    <FontAwesomeIcon icon={faCheck} className={`text-green-500 ${classes.icon}`} />
+                    <FontAwesomeIcon
+                        icon={faCheck}
+                        className={`text-green-500 ${classes.icon}`}
+                    />
                 )}
                 {disableComplete && (
                     <FontAwesomeIcon
                         icon={faCheck}
-                        className={`text-green-100 max-w-[2.1rem] cursor-not-allowed text-xl`}
+                        className={`text-green-100 cursor-not-allowed text-xl`}
                     />
                 )}
             </div>
@@ -101,7 +91,7 @@ const SubTaskCard: React.FC<Props> = (props) => {
                 <Fragment>
                     <p
                         className={`mr-auto ml-4 max-w-[85%] ${
-                            isCompleted ? "line-through text-slate-400" : ""
+                            isCompleted ? 'line-through text-slate-400' : ''
                         }`}
                     >
                         {currentText}
@@ -124,12 +114,12 @@ const SubTaskCard: React.FC<Props> = (props) => {
             {isEditMode && (
                 <Fragment>
                     <input
-                        type='text'
+                        type="text"
                         onChange={textChangeHandler}
                         value={currentText}
-                        id='subtask-name'
+                        id="subtask-name"
                         maxLength={60}
-                        className='lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none'
+                        className="lg:w-[85%] max-w-[85%] bg-transparent mr-auto ml-4 focus:outline-none"
                     />
                     <FontAwesomeIcon
                         onClick={onDelete.bind(null, subItem.id)}
