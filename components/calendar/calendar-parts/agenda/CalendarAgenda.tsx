@@ -24,7 +24,7 @@ const CalendarAgenda: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const toggleCollapsed = () => dispatch(calendarActions.toggleAgendaCollapsed());
 
     return (
-        <section className="flex flex-col gap-5 bg-slate-50/70 border-t-2 border-slate-300 pt-3 pb-6 md:px-3 text-lg">
+        <section className="flex flex-col gap-5 bg-slate-50/70 border-t-2 border-slate-300 pt-3 pb-6 px-2 xs:px-3 md:px-5 text-lg">
             <div className="flex justify-between -mb-3">
                 <AgendaItemsLabel />
                 <Button onClick={toggleCollapsed}>

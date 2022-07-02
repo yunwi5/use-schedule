@@ -1,0 +1,8 @@
+@import '../../../styles/abstract/mixins';
+
+.navigator {
+    display: none;
+    @include respond(935px) {
+        display: block;
+    }
+}

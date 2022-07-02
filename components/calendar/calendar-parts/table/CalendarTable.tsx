@@ -38,7 +38,6 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
         setLeftPos((prev) => Math.min(prev + dir, maxScrollPos));
     };
 
-    // DOM manipulation, so useLayoutEffect instead of useEffect
     useEffect(() => {
         if (gridRef.current === null) return;
         gridRef.current.className = `${classes.grid} ${classes[`grid-${leftPos}`]}`;

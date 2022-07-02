@@ -9,7 +9,7 @@ import TableNavCard from '../../ui/cards/TableNavCard';
 import { getNavigationPeriod } from '../../../utilities/gen-utils/format-util';
 import Button from '@mui/material/Button';
 import classes from './TableNav.module.scss';
-import DropDownToggler from '../../ui/icons/DropDownToggler';
+import CircleDropDownToggler from '../../ui/icons/CircleDropdownToggler';
 
 interface Props {
     beginningPeriod: Date;
@@ -49,8 +49,8 @@ const TableNav: React.FC<Props> = (props) => {
                 >
                     <span className="text-xl capitalize">Today</span>
                 </Button>
-                <DropDownToggler
-                    className={`ml-auto !mr-[.3rem]`}
+                <CircleDropDownToggler
+                    className={`ml-auto !mr-[.2rem] ${classes.toggler}`}
                     showDropDown={showSummaryPanel}
                     onToggle={() => setShowSummaryPanel((ps) => !ps)}
                 />

@@ -1,8 +1,14 @@
 @import '../../../styles/abstract/variables';
 @import '../../../styles/abstract/mixins';
 
+$layout-bp: 1450px;
+
 .container {
-    @include respond(1450px) {
+    .toggler {
+        display: none;
+    }
+
+    @include respond($layout-bp) {
         flex-direction: column;
         gap: 0.25rem;
         align-items: stretch;
@@ -14,14 +20,18 @@
             padding: 0.4rem 0.3rem;
             border-radius: 5px;
         }
+
+        .toggler {
+            display: flex;
+        }
+
+        .hide {
+            display: none;
+        }
     }
 
     .navigation {
         @include respond(900px) {
         }
-    }
-
-    .hide {
-        display: none;
     }
 }

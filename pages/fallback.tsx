@@ -9,9 +9,7 @@ import OfflineFallback from '../components/OfflineFallback';
 const Fallback: NextPage = () => {
     const router = useRouter();
 
-    const reloadPage = () => {
-        router.push('/');
-    };
+    const reloadPage = () => router.reload();
 
     return (
         <div className={'h-full'}>

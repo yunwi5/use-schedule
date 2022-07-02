@@ -23,6 +23,7 @@ const MainSearch: React.FC<Props> = (props) => {
 
     const searchHandler = (e: React.FormEvent) => {
         e.preventDefault();
+        if (text.trim() === '') return;
         console.log('Search:', searchTarget, text);
         onSearch(searchTarget, text);
     };

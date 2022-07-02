@@ -13,7 +13,7 @@ import { Theme, Size, ButtonTheme } from '../../../models/design-models';
 import { ItemsView } from '../../../models/ui-models';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import classes from './PlannerHeader.module.scss';
-import DropDownToggler from '../../ui/icons/DropDownToggler';
+import CircleDropDownToggler from '../../ui/icons/CircleDropdownToggler';
 
 interface Props {
     beginningPeriod: Date;
@@ -77,8 +77,8 @@ const PlannerHeader: React.FC<Props> = (props) => {
             <div className={classes.left}>
                 <PlannerFilter />
                 {AddButton}
-                <DropDownToggler
-                    className={`!absolute top-[8px] right-0`}
+                <CircleDropDownToggler
+                    className={`!absolute top-[8px] right-0 ${classes.toggler}`}
                     showDropDown={showDropDown}
                     onToggle={() => setShowDropDown((ps) => !ps)}
                 />

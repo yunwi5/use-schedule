@@ -32,7 +32,7 @@ $dropdown-bp: 675px;
         }
 
         @include respond($layout-bp) {
-            padding-right: 2rem;
+            padding-right: 2.5rem;
             .add-btn {
                 display: flex;
             }
@@ -83,6 +83,13 @@ $dropdown-bp: 675px;
                 }
                 max-width: none !important;
             }
+        }
+    }
+
+    .toggler {
+        display: none;
+        @include respond($layout-bp) {
+            display: flex;
         }
     }
 
