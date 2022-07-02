@@ -8,8 +8,10 @@ const Home: NextPage = () => {
         <>
             <Head>
                 <title>Home | {AppProperty.APP_NAME}</title>
-                <meta name="description" content={`Home page of ${AppProperty.APP_NAME}`} />
-                <link rel="icon" href="/favicon.ico" />
+                <meta
+                    name="description"
+                    content={`${AppProperty.APP_NAME} application to manage personal or business schedules. Use dashboard and data analysis to examine your schedule patterns. Use recurring schedules and template tables to minimize repetitive work.`}
+                />
             </Head>
             <HomeMain />
             <div id="test-doc"></div>

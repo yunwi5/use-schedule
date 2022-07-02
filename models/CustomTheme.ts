@@ -3,9 +3,6 @@ export interface CustomTheme {
     img?: string;
     background?: string;
     textColor?: string;
-    borderColor?: string;
-    figureBackground?: string; // Background of figure elements like box and panel
-    buttonBackground?: string;
 }
 
 // Example

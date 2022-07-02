@@ -18,6 +18,7 @@ const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [leftPos, setLeftPos] = useState(0);
     const gridRef = useRef<HTMLSelectElement>(null);
+
     // Max scroll position is different for different screen sizes
     // Mobile screen max scroll position = 2, tablet screen max scroll position = 1
     const [maxScrollPos, setMaxScrollPos] = useState(2);

@@ -1,6 +1,9 @@
 interface AboutSection {
     name: string;
+    id: string;
     link: string;
+    videoSrc: string; // path to video mp4 file
+    imagePath: string; // path to directory as each section has more than 1 images
 }
 
 export const AboutStartSection = { name: 'About', id: 'about-start', link: '#about-start' };

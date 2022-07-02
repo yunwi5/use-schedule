@@ -1,19 +1,19 @@
-import React, { useCallback, useState } from "react";
-import Image from "next/image";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGrid2 } from "@fortawesome/pro-duotone-svg-icons";
-import { faXmark, faCheck } from "@fortawesome/pro-solid-svg-icons";
+import React, { useCallback, useState } from 'react';
+import Image from 'next/image';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGrid2 } from '@fortawesome/pro-duotone-svg-icons';
+import { faXmark, faCheck } from '@fortawesome/pro-solid-svg-icons';
 
 import {
     CustomTheme,
     getStaticThemeImagePath,
     skyCloudTheme,
     ThemesList,
-} from "../../../models/CustomTheme";
-import { useAppSelector } from "../../../store/redux";
-import Button from "../../ui/buttons/Button";
-import classes from "./TodoThemeSelect.module.scss";
+} from '../../../models/CustomTheme';
+import { useAppSelector } from '../../../store/redux';
+import Button from '../../ui/buttons/Button';
+import classes from './TodoThemeSelect.module.scss';
 
 interface Props {
     onSelect(theme: CustomTheme): void;
@@ -39,7 +39,7 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                 <Button
                     onClick={() => setIsSelecting((prevState) => !prevState)}
                     className={`mr-1 flex justify-center items-center ${classes.btn} ${
-                        currentTheme ? classes["btn-light"] : ""
+                        currentTheme ? classes['btn-light'] : ''
                     }`}
                 >
                     <FontAwesomeIcon icon={faGrid2} className={classes.icon} />
@@ -60,8 +60,8 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                 <li
                                     className={`${classes.item} ${
                                         currentTheme && currentTheme.name === theme.name
-                                            ? classes["active-item"]
-                                            : ""
+                                            ? classes['active-item']
+                                            : ''
                                     }`}
                                     key={theme.name}
                                     onClick={themeSelectHandler.bind(null, theme)}
@@ -75,7 +75,7 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                     {!theme.img && (
                                         <div
                                             className={classes.background}
-                                            style={{ backgroundColor: theme.background || "" }}
+                                            style={{ backgroundColor: theme.background || '' }}
                                         ></div>
                                     )}
                                     {theme.img && (
@@ -83,10 +83,13 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                                             src={getStaticThemeImagePath(theme)}
                                             alt={theme.name}
                                             layout="responsive"
+                                            quality="3" // low quality img as this is just small select option
                                             width="100"
                                             height="100"
                                             placeholder="blur"
-                                            blurDataURL={getStaticThemeImagePath(skyCloudTheme)}
+                                            blurDataURL={getStaticThemeImagePath(
+                                                skyCloudTheme,
+                                            )}
                                         />
                                     )}
                                 </li>

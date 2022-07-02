@@ -94,7 +94,7 @@ $dropdown-bp: 675px;
 
     .search {
         max-width: 14rem;
-        min-height: 3.2rem !important;
+        min-height: 3rem !important;
 
         @include respond($layout-bp) {
             max-width: 100%;
