@@ -43,12 +43,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             return res.status(500).json({ message });
         }
         const insertedId: string = result.insertedId.toString();
-        console.log(`recEvent insertedId: ${insertedId}`);
 
         const recEvent = new RecurringEvent(newRecEvent, insertedId);
         const generatedEvents = recEvent.produceOneOffEvents();
-
-        console.log(`Generated events: ${generatedEvents.length}`);
 
         // add bunch of generated events to events collections
         // then update last recurred (last added) date of this recurring event object
@@ -62,9 +59,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                 eventsInsertionPromise,
                 propUpdatePromise,
             ]);
-
-            console.log(`generated events insertion result: ${eventsInsertionResult}`);
-            console.log(propUpdateResult);
         } catch (err) {
             const message =
                 err instanceof Error

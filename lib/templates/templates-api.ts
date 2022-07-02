@@ -41,7 +41,6 @@ export async function postTemplate(newTemplate: TemplateFormObj) {
             body: JSON.stringify(newTemplate),
         });
         data = await res.json();
-        // console.log("Template POST data:", data);
         message = data.message;
         insertedId = data.insertedId.toString();
     } catch (err) {
@@ -69,7 +68,6 @@ export async function patchTemplate(templateId: string, templateProps: TemplateP
             body: JSON.stringify(templateProps),
         });
         data = await res.json();
-        // console.log("Template PATCH data:", data);
         message = data.message;
     } catch (err) {
         message = err instanceof Error ? err.message : 'Inserting new template did not work.';
@@ -88,7 +86,6 @@ export async function deleteTemplate(templateId: string) {
     let message;
     try {
         const { data } = await axios.delete(`${API_TEMPLATE_DOMAIN}/${templateId}`);
-        console.log('dalete data:', data);
     } catch (err) {
         message = err instanceof Error ? err.message : 'Delete template api did not work.';
         return { isSuccess: false, message };
@@ -111,7 +108,6 @@ export async function transferTemplateToWeekly(templateId: string, weekBeginning
     } catch (err) {
         message =
             err instanceof Error ? err.message : 'transferring template tasks did not work.';
-        console.log(message);
     }
     return { isSuccess: false, data: message };
 }

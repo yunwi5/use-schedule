@@ -2,7 +2,6 @@ import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { Task } from '../../models/task-models/Task';
 import { TaskCollection } from '../../db/collections';
 
-// const API_DOMAIN = `${process.env.API_DOMAIN_FULL}/planners`;
 const API_DOMAIN = `/api/planners`;
 
 export async function getTasksFromCollection(

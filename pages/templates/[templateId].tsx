@@ -43,7 +43,6 @@ const TemplatePage: NextPage<Props> = (props) => {
     );
     const template: Template | null = templateData ? templateData.template : null;
     if (templateError) {
-        console.error('Template query has errors!');
         console.log(templateError);
     }
 
@@ -58,7 +57,6 @@ const TemplatePage: NextPage<Props> = (props) => {
     );
     const templateTasks: Task[] = taskData ? taskData.tasks : null;
     if (tasksError) {
-        console.error('TemplateTasks query has errors!');
         console.log(tasksError);
     }
 

@@ -32,7 +32,6 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
         refetchInterval: 10000,
     });
 
-    console.log('todolist data:', listData);
     const todoList: TodoList | null = listData ? listData.list : null;
     const todos: Todo[] = listData ? listData.todos : [];
 
@@ -57,8 +56,7 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
                 alert('User list name is empty!');
                 return false;
             }
-            console.log('new list:', newList);
-            const { isSuccess, message, insertedId } = await postTodoList(newList);
+            const { isSuccess, insertedId } = await postTodoList(newList);
             if (isSuccess && insertedId) {
                 setListId(insertedId);
             } else return false;
@@ -66,8 +64,7 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
             if (!listId) return false;
             // Send PUT Request
             // Invalidate query then.
-            const { isSuccess, message } = await patchTodoList(listId, todoListObj);
-            console.log('Patch result:', message);
+            const { isSuccess } = await patchTodoList(listId, todoListObj);
             queryClient.invalidateQueries('todo-list');
             if (!isSuccess) return false;
         }

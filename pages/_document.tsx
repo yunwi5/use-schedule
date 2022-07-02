@@ -20,7 +20,12 @@ class MyDocument extends Document {
                     <link rel="manifest" href="/manifest.json"></link>
                     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"></link>
                     {/* FIREFOX FAVICON */}
-                    <link rel="icon" type="image/png" sizes="32x32" href="/logos/logo.png" />
+                    <link
+                        rel="icon"
+                        type="image/png"
+                        sizes="32x32"
+                        href="/icons/icon-192x192.png"
+                    />
                 </Head>
                 <body>
                     <div id="modal" />

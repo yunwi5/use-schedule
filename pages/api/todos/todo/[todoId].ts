@@ -45,16 +45,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         const updatedTodoProps: TodoProps = req.body;
 
         const { isValid, message } = validateTodoProps(updatedTodoProps);
-        console.log(updatedTodoProps);
-        console.log(`PATCH Todo validation: ${isValid}, message: ${message}`);
         if (!isValid) {
             client.close();
             return res.status(400).json({ message });
         }
 
         try {
-            let result = await updateTodo(client, todoId, updatedTodoProps);
-            // console.log(result);
+            await updateTodo(client, todoId, updatedTodoProps);
         } catch (err) {
             const message =
                 err instanceof Error ? err.message : 'Patching todo item did not work.';
@@ -65,7 +62,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     } else if (req.method === 'DELETE') {
         try {
             let result = await deleteTodo(client, todoId);
-            console.log('Delete result:', result);
         } catch (err) {
             const message =
                 err instanceof Error ? err.message : 'Deleting todo item did not work.';

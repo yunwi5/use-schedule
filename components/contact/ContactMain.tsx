@@ -1,5 +1,4 @@
 import { useUser } from '@auth0/nextjs-auth0';
-import React from 'react';
 import ContactForm from './ContactForm';
 
 const ContactMain: React.FC = () => {

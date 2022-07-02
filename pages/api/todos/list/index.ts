@@ -53,7 +53,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             return res.status(400).json({ message });
         }
 
-        console.log('newTodoList:', newTodoList);
         let result;
         try {
             result = await insertTodoList(client, newTodoList);

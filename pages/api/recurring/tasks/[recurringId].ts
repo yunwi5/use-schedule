@@ -50,7 +50,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         return res.status(404).json({ message: 'Planner mode was not found.' });
     }
 
-    console.log(`PlannerMode: ${plannerMode}`);
     const taskCollection: TaskCollection = getTaskCollection(plannerMode);
 
     let client: MongoClient;
@@ -63,12 +62,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if (req.method === 'PATCH') {
         // change the properties of subsequent one-off tasks as well
         const updatedProps = req.body;
-        console.log('updatedProps:', updatedProps);
 
         let result;
         try {
             result = await updateRecurringTaskProps(client, recurringId, updatedProps);
-            console.log(result);
         } catch (err) {
             const message =
                 err instanceof Error ? err.message : 'Patching recurring tasks did not work.';
@@ -79,7 +76,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         // Now, the update is successful. Hence, update all subsequent one-off tasks
         // that were previously generated from this recurring task
         let patchGenerated: boolean = parseBooleanQueryParam(req.query.patchGenerated);
-        console.log(`patchGenerated: ${patchGenerated}`);
 
         if (patchGenerated) {
             try {
@@ -90,7 +86,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                     taskProps,
                     taskCollection,
                 );
-                console.log(result);
             } catch (err) {
                 const message =
                     err instanceof Error
@@ -114,12 +109,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         // optionally delete the subsequent one-off tasks as well
         // using the query params
         let deleteGenerated: boolean = parseBooleanQueryParam(req.query.deleteGenerated);
-        console.log(`deleteGenerated: ${deleteGenerated} on ${taskCollection}`);
 
         if (deleteGenerated) {
             try {
                 let result = await deleteGeneratedTasks(client, recurringId, taskCollection);
-                console.log(result);
             } catch (err) {
                 const message =
                     err instanceof Error

@@ -61,7 +61,6 @@ const TaskForm: React.FC<Props> = (props) => {
         } else {
             newTask.isAnyDateTime = false;
         }
-        console.log('newTask:', newTask);
         onSubmit(newTask);
     };
 

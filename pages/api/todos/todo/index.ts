@@ -45,7 +45,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             client.close();
             return res.status(500).json({ message });
         }
-        console.log(result);
         res.status(201).json({
             message: 'Inserting new todo successful',
             insertedId: result.insertedId.toString(),

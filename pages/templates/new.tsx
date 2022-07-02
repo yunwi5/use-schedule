@@ -68,7 +68,6 @@ const New: React.FC<Props> = ({ userId, user }) => {
             // Send POST Request
             // Unique Id will be retried as a reponse from the server.
             const { isSuccess, message, insertedId } = await postTemplate(newTemplate);
-            console.log(message);
             if (isSuccess && insertedId) {
                 setTemplateId(insertedId);
             } else return false;
@@ -80,7 +79,6 @@ const New: React.FC<Props> = ({ userId, user }) => {
             queryClient.invalidateQueries('template');
             if (!isSuccess) return false;
         }
-        console.log('Call invalidation of templates through redux.');
         dispatch(templateActions.callUpdate());
 
         return true;

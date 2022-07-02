@@ -42,7 +42,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
         try {
             const result = await insertManyTodoLists(client, userDefaultTodoLists);
-            console.log(result);
         } catch (err) {
             const message =
                 err instanceof Error

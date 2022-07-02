@@ -53,12 +53,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if (req.method === 'PATCH') {
         // change the properties of subsequent one-off events as well
         const updatedProps = req.body;
-        console.log('updatedProps:', updatedProps);
 
         let result;
         try {
             result = await updateRecurringEventProps(client, recurringId, updatedProps);
-            console.log(result);
         } catch (err) {
             const message =
                 err instanceof Error ? err.message : 'Patching recurring events did not work.';
@@ -69,13 +67,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         // Now, the update is successful. Hence, update all subsequent one-off events
         // that were previously generated from this recurring event
         let patchGenerated: boolean = parseBooleanQueryParam(req.query.patchGenerated);
-        console.log(`patchGenerated: ${patchGenerated}`);
 
         if (patchGenerated) {
             try {
                 const eventProps = getUpdatedEventProps(updatedProps);
                 let result = await updateGeneratedEvents(client, recurringId, eventProps);
-                console.log(result);
             } catch (err) {
                 const message =
                     err instanceof Error
@@ -99,12 +95,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         // optionally delete the subsequent one-off events as well
         // using the query params
         let deleteGenerated: boolean = parseBooleanQueryParam(req.query.deleteGenerated);
-        console.log(`deleteGenerated: ${deleteGenerated}`);
 
         if (deleteGenerated) {
             try {
                 let result = await deleteGeneratedEvents(client, recurringId);
-                console.log(result);
             } catch (err) {
                 const message =
                     err instanceof Error

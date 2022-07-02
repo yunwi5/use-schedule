@@ -45,12 +45,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
             return res.status(500).json({ message });
         }
         const insertedId: string = result.insertedId.toString();
-        console.log(`recTask insertedId: ${insertedId}`);
 
         const recTask = new RecurringTask(newRecTask, insertedId);
         const generatedTasks: NoIdTask[] = recTask.produceOneOffTasks();
-
-        console.log(`Generated tasks: ${generatedTasks.length}`);
 
         // add bunch of generated tasks to tasks collections
         // then update last recurred (last added) date of this recurring task object
@@ -61,13 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
                 lastRecurred: recTask.lastRecurred,
             });
 
-            const [insertManyResult, propUpdateResult] = await Promise.all([
-                insertManyPromise,
-                propUpdatePromise,
-            ]);
-
-            console.log(`generated tasks insertion result:`, insertManyResult);
-            console.log(propUpdateResult);
+            await Promise.all([insertManyPromise, propUpdatePromise]);
         } catch (err) {
             const message =
                 err instanceof Error

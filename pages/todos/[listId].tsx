@@ -52,7 +52,6 @@ const NewTodoPage: NextPage<Props> = (props) => {
         } else {
             // Send PUT request and then invalidate query
             const { isSuccess, message } = await patchTodoList(listId, todoListObj);
-            // console.log("Patch result:", message);
             queryClient.invalidateQueries('todo-list');
             if (!isSuccess) return false;
         }

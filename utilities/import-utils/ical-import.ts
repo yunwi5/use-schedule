@@ -43,11 +43,9 @@ export function convertToAppEvents(eventJSON: EventJSON, userId: string): NoIdEv
     // Handle reccurring event
     const rrule = parseRRule(eventJSON);
     if (rrule) {
-        // console.log(rrule);
         const { freq, untilDate: ud, count } = rrule;
         let untilDate: Date = ud ? ud : generateDatesFromInterval(startDate, count || 1);
 
-        // console.log('freq:', freq);
         const recurringEvents = getRRuleRecurringEvents({
             freq,
             startDate,
@@ -90,7 +88,6 @@ export function convertToAppTasks(
     const rrule = parseRRule(eventJSON);
     //Handle reccurring task
     if (rrule) {
-        // console.log(rrule);
         const { freq, untilDate: ud, count } = rrule;
         let untilDate: Date = ud ? ud : generateDatesFromInterval(startDate, count || 1);
         const recurringTasks = getRRuleRecurringTasks({
@@ -110,8 +107,6 @@ export function convertEventJSONArraytoAppEventArray(
     userId: string,
 ): NoIdEvent[] {
     const resultArr: NoIdEvent[] = [];
-    // const rruleCount = eventJSONArr.reduce((acc, curr) => (curr.rrule ? acc + 1 : acc), 0);
-    // console.log('rrule count:', rruleCount);
     eventJSONArr.forEach((eventJSON) => {
         try {
             const appEvents = convertToAppEvents(eventJSON, userId);

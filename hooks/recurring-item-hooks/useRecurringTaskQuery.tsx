@@ -4,7 +4,10 @@ import { useMutation } from 'react-query';
 
 import useNotification from '../useNotification';
 import { NotifStatus } from '../../components/ui/Notification';
-import { NoIdRecurringTask, RecurringTaskProps } from '../../models/recurring-models/RecurringTask';
+import {
+    NoIdRecurringTask,
+    RecurringTaskProps,
+} from '../../models/recurring-models/RecurringTask';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import {
     getRecurringDeleteQueryParam,
@@ -48,7 +51,6 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
             },
             onSettled: () => {
                 setNotification(NotifStatus.SUCCESS, `Adding recurring task successful`);
-                console.log('POST was settled...');
                 onInvalidate();
             },
         },
@@ -83,7 +85,6 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
         },
         {
             onSuccess: (result: any) => {
-                console.log('result:', result);
                 setNotification(NotifStatus.SUCCESS, `Deleting recurring task successful`);
                 onInvalidate();
             },
@@ -120,7 +121,11 @@ const useRecurringTaskQuery = ({ onInvalidate }: Props) => {
         [deleteMutation],
     );
 
-    return { addRecTask: addHandler, patchRecTask: patchHandler, deleteRecTask: deleteHandler };
+    return {
+        addRecTask: addHandler,
+        patchRecTask: patchHandler,
+        deleteRecTask: deleteHandler,
+    };
 };
 
 export default useRecurringTaskQuery;

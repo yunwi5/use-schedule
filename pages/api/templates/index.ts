@@ -39,7 +39,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         } catch (err) {
             message =
                 err instanceof Error ? err.message : 'GET all templates of user did not work.';
-            console.log(`Error: ${message}`);
             client.close();
             return res.status(500).json({ message });
         }
@@ -47,11 +46,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         res.status(200).json({ message: 'GET all templates successful!', templates });
     } else if (req.method === 'POST') {
         const template = req.body;
-        console.log('new template:', template);
         template.userId = userId;
 
         const { isValid, message } = validateTemplate(template);
-        console.log(`isValid: ${isValid}, ${message}`);
         if (!isValid) {
             client.close();
             return res.status(415).json({ message });

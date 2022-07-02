@@ -10,9 +10,8 @@ const About: NextPage = () => {
                 <title>About Services | {AppProperty.APP_NAME}</title>
                 <meta
                     name="description"
-                    content={`About documentation of ${AppProperty.APP_NAME} that documents various details of the functionalities of the app such as Planner, Templates, Custom List, Searching, Calendar, Data Analysis and Dashboard.`}
+                    content={`Documentation of ${AppProperty.APP_NAME} services that that provide various planning functionalities of the app such as Planner, Templates, Custom List, Searching, Calendar, Data Analysis and Dashboard.`}
                 />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <AboutMain />
         </>

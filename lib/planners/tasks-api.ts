@@ -31,7 +31,6 @@ export async function postTask(newTask: Task, plannerMode: PlannerMode) {
         });
 
         const data = await res.json();
-        console.log('post data:', data);
         insertedId = data.insertedId.toString();
     } catch (err) {
         console.error(err);
@@ -84,7 +83,6 @@ export async function replaceTask(
             },
         });
         const data = await res.json();
-        console.log('Put request response:', data);
     } catch (err) {
         console.error(err);
     }
@@ -103,8 +101,6 @@ export async function deleteTask(taskId: string, plannerMode: PlannerMode) {
         res = await fetch(`${API_DOMAIN}/${taskId}?collection=${collection}`, {
             method: 'DELETE',
         });
-        const data = await res.json();
-        console.log('Delete data:', data);
     } catch (err) {
         console.error(err);
     }

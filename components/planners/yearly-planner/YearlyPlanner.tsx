@@ -48,7 +48,6 @@ const YearlyPlanner: FC<Props> = ({ yearlyTasks: initialTasks, onMutate }) => {
     const dispatch = useDispatch();
 
     const yearBeginning = getCurrentYearBeginning();
-    console.log(`year beginning: ${yearBeginning}`);
 
     const {
         currentTimeStamp,

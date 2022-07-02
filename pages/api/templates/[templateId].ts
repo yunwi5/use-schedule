@@ -51,7 +51,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         delete newTemplateProps['id'];
 
         const { isValid, message } = validateTemplateProps(newTemplateProps);
-        console.log(`isValid: ${isValid}, ${message}`);
         if (!isValid) {
             client.close();
             return res.status(415).json({ message });

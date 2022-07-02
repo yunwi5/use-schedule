@@ -26,7 +26,6 @@ export default withApiAuthRequired(async function handler(
     if (req.method === 'PATCH') {
         // Client needs to send collection name and new status!
         const { updateProps, collection } = req.body;
-        console.log(`new updateProps:`, updateProps);
 
         const { isValid, message } = validateTaskProps(updateProps);
         if (!isValid) {

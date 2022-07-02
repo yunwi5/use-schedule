@@ -14,7 +14,6 @@ const Home: NextPage = () => {
                 />
             </Head>
             <HomeMain />
-            <div id="test-doc"></div>
         </>
     );
 };

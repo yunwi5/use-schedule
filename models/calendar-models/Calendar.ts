@@ -18,17 +18,17 @@ export class Calendar {
         this.calendarStart = calendarStart;
 
         const monthEnd = getMonthEnding(beginningPeriod);
-        // console.log("month ending:", monthEnd);
 
         const calendarEnd = getWeekEnding(monthEnd);
-        // console.log("calendar end:", calendarEnd);
         this.calendarEnd = calendarEnd;
     }
 
     addItem(item: CalendarItem): void {
         item.dateTime;
-        if (item.dateTime && dateIsBetween(item.dateTime, this.calendarStart, this.calendarEnd)) {
-            // console.log("name:", item.name, "Pass range test. DateTime:", item.dateTime);
+        if (
+            item.dateTime &&
+            dateIsBetween(item.dateTime, this.calendarStart, this.calendarEnd)
+        ) {
             this.items.push(item);
         }
     }

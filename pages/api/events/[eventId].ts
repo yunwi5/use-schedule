@@ -27,9 +27,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         let result;
         try {
             result = await updateEvent(eventId, eventProps);
-            console.log('evnt update result:', result);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Updating event did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Updating event did not work.';
             return res.status(500).json({ message });
         }
         return res.status(200).json({ message: 'Updating event successful' });
@@ -38,7 +38,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         try {
             result = await deleteEvent(eventId);
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Deleting event did not work.';
+            const message =
+                err instanceof Error ? err.message : 'Deleting event did not work.';
             return res.status(500).json({ message });
         }
         return res.status(200).json({ message: 'Deleting event successful' });

@@ -15,10 +15,6 @@ import { connectDatabase } from './mongodb-config';
 // This script will delete 1) tasks 2) sub-tasks 3) events
 // 4) templates 5) todo-lists 6) todos 7) recurring events/tasks
 export async function deleteUserRecord(userId: string) {
-    const mongoUrl = process.env.MONGODB_URL;
-    console.log('userId:', userId);
-    console.log('mongoUrl:', mongoUrl);
-
     const client: MongoClient = await connectDatabase();
 
     const tasksPromise = deleteAllUserTasks(client, userId);
@@ -38,8 +34,6 @@ export async function deleteUserRecord(userId: string) {
         recEventPromise,
         recTaskPromise,
     ]);
-    console.log(result);
-
     client.close();
 }
 

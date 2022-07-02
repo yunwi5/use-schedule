@@ -120,9 +120,6 @@ export function isInstanceOfTask(item: object): boolean {
     const { isValid, message } = validateTask(item);
     const isValid0 = isInstanceOfTaskV0(item);
 
-    // if (isValid === isValid0) {
-    //     console.log("Task validation Same!");
-    // }
     if (isValid !== isValid0) {
         console.log(message);
     }

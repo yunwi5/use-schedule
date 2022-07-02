@@ -66,7 +66,6 @@ export default withApiAuthRequired(async function handler(
         if (!Array.isArray(newTask)) {
             delete newTask['id'];
             const { isValid, message } = validateTask(newTask);
-            // console.log(`isValid: ${isValid}, ${message}`);
             if (!isValid) {
                 client.close();
                 return res.status(415).json({ message });

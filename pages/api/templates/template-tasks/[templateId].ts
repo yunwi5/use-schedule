@@ -17,7 +17,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         client = await connectDatabase();
     } catch (err) {
         let message = err instanceof Error ? err.message : 'Connect to database did not work.';
-        console.log(message);
         return res.status(500).json({ message });
     }
 

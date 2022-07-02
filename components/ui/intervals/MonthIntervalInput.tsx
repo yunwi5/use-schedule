@@ -36,7 +36,6 @@ const MonthIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval
     const [endYear, setEndYear] = useState(beginningPeriod.getFullYear());
 
     const monthChangeHandler = (newMonth: string) => {
-        console.log('changed to:', newMonth);
         setStartMonth(newMonth as Month);
     };
 

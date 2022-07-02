@@ -21,14 +21,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const { weekBeginning: weekString } = req.body;
     const weekBeginning = new Date(weekString);
 
-    console.log('Import endpoint reached!', weekBeginning);
-
     let client: MongoClient;
     try {
         client = await connectDatabase();
     } catch (err) {
         let message = err instanceof Error ? err.message : 'Connect to database did not work.';
-        console.log(message);
         return res.status(500).json({ message });
     }
 
@@ -40,7 +37,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         } catch (err) {
             let message =
                 err instanceof Error ? err.message : 'Getting templateTasks did not work.';
-            console.log(message);
             client.close();
             return res.status(500).json({ message });
         }
@@ -98,7 +94,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         } catch (err) {
             let message =
                 err instanceof Error ? err.message : 'Inserting many subTasks did not work.';
-            console.log(message);
             client.close();
         }
 

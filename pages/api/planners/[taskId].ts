@@ -35,7 +35,6 @@ export default withApiAuthRequired(async function handler(
         const taskObj = req.body;
 
         const { isValid, message } = validateTask(taskObj);
-        console.log(`isValid: ${isValid}, ${message}`);
         if (!isValid) {
             client.close();
             return res.status(415).json({ message });

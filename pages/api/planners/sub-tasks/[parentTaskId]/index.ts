@@ -60,7 +60,6 @@ export default withApiAuthRequired(async function handler(
         subTask.parentTaskId = parentTaskId; // Double check
 
         const { isValid, message } = validateSubTask(subTask);
-        // console.log(`isValid: ${isValid}, message: ${message}`);
         if (!isValid) {
             client.close();
             return res.status(400).json({ message });

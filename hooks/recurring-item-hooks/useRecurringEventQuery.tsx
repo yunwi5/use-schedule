@@ -58,7 +58,6 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
             },
             onSettled: () => {
                 setNotification(NotifStatus.SUCCESS, `Adding recurring event successful`);
-                console.log('POST was settled...');
                 onInvalidate();
             },
         },
@@ -68,17 +67,18 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
         async ({ recurringId, props, patchGenerated }: PatchConfig) => {
             setNotification(NotifStatus.PENDING, `Updating your recurring event...`);
             const queryParams = getRecurringPatchQueryParam(patchGenerated);
-            return await axios.patch(`${EVENT_API_DOMAIN}/${recurringId}?${queryParams}`, props);
+            return await axios.patch(
+                `${EVENT_API_DOMAIN}/${recurringId}?${queryParams}`,
+                props,
+            );
         },
         {
             onSuccess: () => {
                 setNotification(NotifStatus.SUCCESS, `Updating recurring event successful`);
-                console.log('call onInvalidate');
                 onInvalidate();
             },
             onSettled: () => {
                 setNotification(NotifStatus.SUCCESS, `Updating recurring event successful`);
-                console.log('call onInvalidate');
                 onInvalidate();
             },
             onError: () => {
@@ -96,12 +96,10 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
         {
             onSuccess: (result: any) => {
                 setNotification(NotifStatus.SUCCESS, `Deleting recurring event successful`);
-                console.log('result:', result);
                 onInvalidate();
             },
             onError: (result: any) => {
                 setNotification(NotifStatus.ERROR, `Deleting recurring event did not work`);
-                console.log(result);
             },
         },
     );
@@ -114,8 +112,11 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
     );
 
     const patchHandler = useCallback(
-        async (recurringId: string, props: RecurringEventProps, patchGenerated: boolean = true) => {
-            console.log('Patch');
+        async (
+            recurringId: string,
+            props: RecurringEventProps,
+            patchGenerated: boolean = true,
+        ) => {
             patchMutation.mutate({ recurringId, props, patchGenerated });
         },
         [patchMutation],
@@ -123,13 +124,16 @@ const useRecurringItemQuery = ({ onInvalidate }: Props) => {
 
     const deleteHandler = useCallback(
         async (recurringId: string, deleteGenerated?: boolean) => {
-            console.log('Delete');
             deleteMutation.mutate({ recurringId, deleteGenerated });
         },
         [deleteMutation],
     );
 
-    return { addRecEvent: addHandler, patchRecEvent: patchHandler, deleteRecEvent: deleteHandler };
+    return {
+        addRecEvent: addHandler,
+        patchRecEvent: patchHandler,
+        deleteRecEvent: deleteHandler,
+    };
 };
 
 export default useRecurringItemQuery;

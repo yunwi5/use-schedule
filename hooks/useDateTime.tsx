@@ -56,7 +56,6 @@ const useDateTime = (initialPeriod?: Date, resetPeriod?: ResetPeriod) => {
 
     useEffect(() => {
         const storedDate = localStorage.getItem('dateTime');
-        // console.log("storedDate:", storedDate);
         if (initialPeriod) return; // if default period is given, no action to change it brutally.
         if (storedDate) {
             const current = new Date(storedDate);

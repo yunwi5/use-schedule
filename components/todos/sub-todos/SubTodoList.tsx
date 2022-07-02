@@ -63,13 +63,11 @@ const SubTodoList: React.FC<Props> = (props) => {
     );
 
     const deleteSubTodoHandler = (id: string) => {
-        console.log('Delete todo');
         deleteMutation.mutate(id);
     };
 
     const patchSubTodoHandler = useCallback(
         async (subTodoId: string, subTodoProps: SubItemProps) => {
-            console.log('patch: ', subTodoProps);
             patchMutation.mutate({ subTodoId, subTodoProps });
         },
         [patchMutation],
@@ -83,7 +81,6 @@ const SubTodoList: React.FC<Props> = (props) => {
             isCompleted: false,
             parentId: todoId,
         };
-        console.log('new todo:', newTodo);
         postMutation.mutate(newTodo);
     };
 

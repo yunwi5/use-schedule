@@ -61,7 +61,6 @@ export async function updateTaskProperties(
     const res = await db
         .collection(collection)
         .updateOne({ _id: new ObjectId(taskId) }, { $set: { ...updateProps } });
-    // console.log('Update properties result:', res);
     return res;
 }
 

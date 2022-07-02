@@ -55,8 +55,6 @@ const MontlyPlanner: FC<Props> = ({ montlyTasks: initialTasks, onMutate }) => {
         setCurrentTimeStamp,
     } = useDateTime(monthBeginning, ResetPeriod.MONTH);
 
-    console.log(`currentTimeStamp: ${currentTimeStamp}`);
-
     useEffect(() => {
         const newPlanner = populateMontlyPlanner(initialTasks, currentTimeStamp);
         setPlanner(newPlanner);

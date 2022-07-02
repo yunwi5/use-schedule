@@ -49,7 +49,6 @@ export default withApiAuthRequired(async function handler(
 
         try {
             result = await updateSubTaskProps(client, collection, subTaskId, updateProps);
-            // console.log("Patch subTask result:", result);
         } catch (err) {
             message = err instanceof Error ? err.message : 'Patching subTask did not work.';
             return res.status(500).json({ message });
@@ -60,7 +59,6 @@ export default withApiAuthRequired(async function handler(
         let result;
         try {
             result = await deleteSubTask(client, collection, subTaskId);
-            // console.log("Delete result:", result);
         } catch (err) {
             console.error(err);
             return res.status(500).json({ message: 'Deleting subTask did not work.' });

@@ -42,7 +42,6 @@ const WeekIntervalInput: React.FC<Props> = ({ beginningPeriod, onChangeInterval,
         setStartDay(parseInt(newYear));
     };
     const monthChangeHandler = (newMonth: string) => {
-        console.log('changed to:', newMonth);
         setStartMonth(newMonth as Month);
     };
 

@@ -15,7 +15,6 @@ export async function getSubTasks(parentTaskId: string) {
 
         const { message: m, subTasks } = await res.json();
         data = subTasks;
-        // console.log("Get (sub-tasks) data:", data);
         message = m;
     } catch (err) {
         console.error(err);
@@ -42,7 +41,6 @@ export async function postSubtask(newSubTask: SubTask, parentTaskId: string) {
 
         const data = await res.json();
         insertedId = data && data.insertedId ? data.insertedId.toString() : null;
-        console.log('post data:', data);
         message = `Post SubTask successful with insertedId ${insertedId}`;
     } catch (err) {
         console.error(err);
@@ -65,7 +63,6 @@ export async function patchSubTaskProps(subTaskId: string, updatedProps: SubTask
             body: JSON.stringify(updatedProps),
         });
         data = await res.json();
-        console.log('Patch subTask data:', data);
         message = 'SubTask Patch successful!';
     } catch (err) {
         console.error(err);
@@ -87,7 +84,6 @@ export async function deleteSubTask(subTaskId: string) {
         });
 
         const data = await res.json();
-        console.log('delete data:', data);
         message = 'Deleting SubTask successful!';
     } catch (err) {
         console.error(err);
