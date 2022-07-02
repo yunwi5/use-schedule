@@ -1,7 +1,7 @@
 {
 	"name": "use-schedule",
 	"version": "1.0.0",
-  	"main": "index.tsx",
+	"main": "index.tsx",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -37,7 +37,6 @@
 		"react-hook-form": "^7.27.0",
 		"react-query": "^3.34.16",
 		"react-redux": "^7.2.6",
-		"sass": "^1.53.0",
 		"sharp": "^0.30.7",
 		"uuid": "^8.3.2"
 	},

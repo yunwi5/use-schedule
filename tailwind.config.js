@@ -6,7 +6,6 @@ module.exports = {
         screens: {
             xs: '400px',
             ...defaultTheme.screens,
-            '2xl': '1400px',
         },
         extend: {
             controlIcon: {},

@@ -57,6 +57,11 @@ option {
     cursor: pointer;
 }
 
+option {
+    padding: 0.5rem 0.75rem;
+    border-radius: 2px;
+}
+
 @layer components {
     .icon-small {
         @apply max-w-[1rem] max-h-[1rem] inline-block mr-1;

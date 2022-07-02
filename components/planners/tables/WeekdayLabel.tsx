@@ -7,7 +7,8 @@ const WeekdayLabel: React.FC<{ date: Date }> = ({ date }) => {
 
     return (
         <div
-            className={`${`min-w-[${minCellWidth}rem]`} flex-1 h-[5rem] py-1 flex flex-col justify-center items-center`}
+            style={{ minWidth: `${minCellWidth}rem` }}
+            className={`flex-1 h-[5rem] py-1 flex flex-col justify-center items-center`}
         >
             <h3 className={`capitalize text-3xl font-normal text-slate-500/90`}>
                 {dayMember}

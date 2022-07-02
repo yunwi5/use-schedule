@@ -80,7 +80,11 @@ const TaskCard: React.FC<Props> = (props) => {
 
     const updateStatusHandler = async (newStatus: Status) => {
         // API call
-        await updateTaskProperties(task.id, { status: newStatus }, task.plannerType || plannerMode);
+        await updateTaskProperties(
+            task.id,
+            { status: newStatus },
+            task.plannerType || plannerMode,
+        );
         onMutate();
     };
 
@@ -180,7 +184,10 @@ const TaskCard: React.FC<Props> = (props) => {
                     {category}
                     {subCategory && (
                         <Fragment>
-                            <FontAwesomeIcon icon={faCircle} className={classes.task__icon_small} />
+                            <FontAwesomeIcon
+                                icon={faCircle}
+                                className={classes.task__icon_small}
+                            />
                             {subCategory}
                         </Fragment>
                     )}
@@ -199,7 +206,10 @@ const TaskCard: React.FC<Props> = (props) => {
                     </p>
                 )}
                 <div className={`${classes.task__btns}`}>
-                    <button className={classes.task__detail} onClick={() => setShowDetail(true)}>
+                    <button
+                        className={classes.task__detail}
+                        onClick={() => setShowDetail(true)}
+                    >
                         <FontAwesomeIcon
                             icon={faMagnifyingGlassPlus}
                             className={`${classes.icon}`}
