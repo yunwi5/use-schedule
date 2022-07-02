@@ -1,4 +1,3 @@
-import React from 'react';
 import { ITodoListInfo } from '../../../../models/todo-models/TodoListInfo';
 import { round } from '../../../../utilities/gen-utils/calc-util';
 
@@ -13,7 +12,10 @@ function getCompletedPercentage(completedCount: number, totalCount: number) {
 }
 
 const TodoListRow: React.FC<Props> = ({ todoList, onNavigate }) => {
-    const completedPercentage = getCompletedPercentage(todoList.completedCount, todoList.todoCount);
+    const completedPercentage = getCompletedPercentage(
+        todoList.completedCount,
+        todoList.todoCount,
+    );
     const allCompleted = completedPercentage === 100;
     return (
         <tr
@@ -33,7 +35,9 @@ const TodoListRow: React.FC<Props> = ({ todoList, onNavigate }) => {
                 <span className={`font-semibold text-slate-600/90`}>{todoList.todoCount}</span>
             </td>
             <td className={`basis-3/12 flex-center`}>
-                <span className={`font-semibold text-slate-600/90`}>{todoList.completedCount}</span>
+                <span className={`font-semibold text-slate-600/90`}>
+                    {todoList.completedCount}
+                </span>
                 &nbsp;(
                 {completedPercentage}%)
             </td>

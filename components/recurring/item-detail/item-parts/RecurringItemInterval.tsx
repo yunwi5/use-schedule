@@ -1,4 +1,3 @@
-import React from 'react';
 import { faTimer } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

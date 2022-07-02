@@ -1,7 +1,9 @@
-import React from "react";
-import { addDays } from "../../../utilities/date-utils/date-control";
-import { getFullDateFormat, getISODateFormat } from "../../../utilities/date-utils/date-format";
-import classes from "./TodoDetail.module.scss";
+import { addDays } from '../../../utilities/date-utils/date-control';
+import {
+    getFullDateFormat,
+    getISODateFormat,
+} from '../../../utilities/date-utils/date-format';
+import classes from './TodoDetail.module.scss';
 
 interface Props {
     isEditing: boolean;
@@ -16,7 +18,7 @@ const TodoDateTime: React.FC<Props> = (props) => {
         onChange(e.target.value);
     };
 
-    const defaultValue = "";
+    const defaultValue = '';
     return (
         <div className={`${classes.section} ${classes.dateTime}`}>
             <label htmlFor="todo-date">Due Date</label>
@@ -29,7 +31,7 @@ const TodoDateTime: React.FC<Props> = (props) => {
                 <input
                     type="date"
                     id="todo-date"
-                    value={dateTime ? getISODateFormat(addDays(dateTime, -1)) : ""}
+                    value={dateTime ? getISODateFormat(addDays(dateTime, -1)) : ''}
                     onChange={dateHandler}
                 />
             )}

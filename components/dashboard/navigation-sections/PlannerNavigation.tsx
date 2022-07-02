@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 import useAppLinks from '../../../hooks/useAppLinks';
 import TableCard from '../cards/TableCard';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Planner } from '../../../models/planner-models/Planner';
 import { getTaskStatusCount } from '../../../utilities/tasks-utils/task-status-util';
 import classes from './TaskStatusSummary.module.scss';

@@ -3,7 +3,7 @@ import useNotification from '../../../hooks/useNotification';
 import Modal from '../../ui/modal/Modal';
 import { IEvent, EventProps } from '../../../models/Event';
 import EventForm from './form/EventForm';
-import { deleteEvent, patchEvent } from '../../../lib/events/event-apis';
+import { patchEvent } from '../../../lib/events/event-apis';
 import { NotifStatus } from '../../ui/Notification';
 import DeleteModal from '../../ui/modal/modal-variation/DeleteModal';
 import useEventDelete from '../../../hooks/event-hooks/useEventDelete';

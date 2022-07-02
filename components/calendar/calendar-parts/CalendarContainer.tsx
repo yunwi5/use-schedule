@@ -1,4 +1,3 @@
-import React from 'react';
 import { Calendar } from '../../../models/calendar-models/Calendar';
 import { CalendarMode } from '../../../models/calendar-models/CalendarMode';
 import { useAppSelector } from '../../../store/redux';

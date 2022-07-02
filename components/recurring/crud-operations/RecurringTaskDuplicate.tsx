@@ -1,5 +1,3 @@
-import React from 'react';
-
 import useRecurringTaskQuery from '../../../hooks/recurring-item-hooks/useRecurringTaskQuery';
 import { NoIdRecurringTask } from '../../../models/recurring-models/RecurringTask';
 import { AbstractTask } from '../../../models/task-models/AbstractTask';

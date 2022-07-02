@@ -1,6 +1,3 @@
-import { faCircleInfo } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { Status } from '../../../models/task-models/Status';
 import { round } from '../../../utilities/gen-utils/calc-util';

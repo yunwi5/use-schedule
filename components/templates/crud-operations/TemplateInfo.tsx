@@ -8,7 +8,7 @@ import { Template } from '../../../models/template-models/Template';
 import { faQuoteLeft } from '@fortawesome/pro-duotone-svg-icons';
 import { getAboutLink } from '../../../utilities/link-utils';
 import { TemplateSection } from '../../../constants/about-sections';
-import LearnMoreLink from '../../ui/typography/LearnMoreLink';
+import LearnMoreLink from '../../ui/links/LearnMoreLink';
 
 interface Props {
     template: Template | undefined;

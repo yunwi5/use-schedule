@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faGrid2, faXmark } from '@fortawesome/pro-duotone-svg-icons';
+import { faCircleInfo, faXmark } from '@fortawesome/pro-duotone-svg-icons';
 
 import classes from './TodoIntroPanel.module.scss';
 

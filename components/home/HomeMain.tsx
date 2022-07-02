@@ -1,4 +1,3 @@
-import React from 'react';
 import Features from './feature-parts/Features';
 import HomeFeedback from './HomeFeedback';
 import HomeIntro from './HomeIntro';

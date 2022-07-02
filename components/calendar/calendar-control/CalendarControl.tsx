@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { CalendarFilter, FilterStorage } from './calendar-filter';
 import ItemCreate from './item-create/ItemCreateButton';
 

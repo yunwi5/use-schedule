@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ChartData } from '../../../models/analyzer-models/helper-models';
 import { round } from '../../../utilities/gen-utils/calc-util';
 import classes from './ProgressBar.module.scss';

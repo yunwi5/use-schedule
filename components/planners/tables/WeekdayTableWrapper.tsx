@@ -1,4 +1,3 @@
-import React from 'react';
 import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import { TemplatePlanner } from '../../../models/template-models/TemplatePlanner';
 import { WTableContextProvider } from '../../../store/context/weekday-table-context';

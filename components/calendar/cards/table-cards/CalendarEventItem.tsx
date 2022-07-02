@@ -3,7 +3,6 @@ import { CalendarItemType } from '../../../../models/calendar-models/CalendarIte
 import { IEvent } from '../../../../models/Event';
 import { Status } from '../../../../models/task-models/Status';
 import EventDetail from '../../events/detail/EventDetail';
-import EventEdit from '../../events/EventEdit';
 import CalendarItemCard from './CalendarItemCard';
 
 interface Props {

@@ -11,8 +11,8 @@ import { AboutTheme } from '../../../models/design-models';
 import { FeatureBox } from '../../../models/ui-models';
 import { getAnalysisLink, getPlannerLink } from '../../../utilities/link-utils';
 import SectionCard from '../cards/SectionCard';
-import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
-import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import FeaturesGrid from '../partials/FeaturesGrid';
+import VideoIntroduction from '../partials/VideoIntroduction';
 import SectionButton from '../partials/SectionButton';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 

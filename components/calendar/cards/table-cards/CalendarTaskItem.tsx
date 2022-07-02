@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
 import { Status } from '../../../../models/task-models/Status';

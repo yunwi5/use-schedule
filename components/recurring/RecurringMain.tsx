@@ -1,11 +1,8 @@
-import React from 'react';
-
 import IntroPanel from './info/IntroPanel';
 import PlannerCard from '../ui/cards/PlannerCard';
 import ControlNav from './control/ControlNav';
 import IntervalsList from './lists/IntervalsList';
 import { RecurringItem } from '../../models/recurring-models';
-import Image from 'next/image';
 import BackgroundImage from '../ui/design-elements/BackgroundImage';
 
 interface Props {

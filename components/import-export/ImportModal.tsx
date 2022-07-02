@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import useNotification from '../../hooks/useNotification';
@@ -23,10 +23,9 @@ import { postTasks } from '../../lib/planners/tasks-api';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NotifStatus } from '../ui/Notification';
 import { parseIcal } from '../../utilities/import-utils/ical-parse';
-import InfoLink from '../ui/links/InfoLink';
 import { getAboutLink } from '../../utilities/link-utils';
 import { ImportExportSection } from '../../constants/about-sections';
-import LearnMoreLink from '../ui/typography/LearnMoreLink';
+import LearnMoreLink from '../ui/links/LearnMoreLink';
 
 interface Props {
     onClose(): void;
@@ -86,7 +85,7 @@ const ImportModal: React.FC<Props> = (props) => {
                 inputFile.eventJSONArray,
                 userId,
             );
-            console.log(`${importedEvents.length} events produced.`);
+
             const { isSuccess: s, message: m } = await postEvents(importedEvents);
             isSuccess = s;
             message = m;
@@ -96,7 +95,6 @@ const ImportModal: React.FC<Props> = (props) => {
                 userId,
                 importItemCategory,
             );
-            console.log(`${importedTasks.length} tasks produced.`);
             const { isSuccess: s, message: m } = await postTasks(
                 importedTasks,
                 plannerMode || PlannerMode.WEEKLY,

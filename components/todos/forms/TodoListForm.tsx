@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useNotification from '../../../hooks/useNotification';
 import { deleteTodoList } from '../../../lib/todos/todo-list-api';
-import { CustomTheme } from '../../../models/CustomTheme';
 import { Size } from '../../../models/design-models';
 
 import { TodoList, TodoListProperties } from '../../../models/todo-models/TodoList';

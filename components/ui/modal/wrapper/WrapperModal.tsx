@@ -1,4 +1,3 @@
-import React from 'react';
 import Modal from '../Modal';
 
 const WrapperModal: React.FC<{ onClose: () => void; className?: string }> = ({

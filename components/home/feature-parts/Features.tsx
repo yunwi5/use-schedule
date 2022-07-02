@@ -1,14 +1,12 @@
-import React from 'react';
-
 import { getAppImagePath } from '../helper';
 import Feature from './Feature';
-import classes from '../Home.module.scss';
 import {
     getAnalysisLink,
     getCalendarLink,
     getDashboardLink,
     getRecurringEventLink,
 } from '../../../utilities/link-utils';
+import classes from '../Home.module.scss';
 
 const Features: React.FC = () => {
     const featuresList = [

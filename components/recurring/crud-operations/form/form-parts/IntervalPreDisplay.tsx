@@ -1,10 +1,8 @@
-import { faInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { faInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { getMonthMember } from '../../../../../models/date-models/Month';
 import { getWeekDay } from '../../../../../models/date-models/WeekDay';
-import { RecurringInterval, RecurringItemMode } from '../../../../../models/recurring-models';
-import { useAppSelector } from '../../../../../store/redux';
+import { RecurringInterval } from '../../../../../models/recurring-models';
 import {
     getFullDateFormat,
     getShortUserTimeFormat,

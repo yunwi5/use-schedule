@@ -1,5 +1,3 @@
-import React from 'react';
-
 import SummaryCard from '../cards/SummaryCard';
 import SummaryHeading from '../cards/SummaryHeading';
 import MiniChart, { MiniChartType } from '../charts/MiniChart';

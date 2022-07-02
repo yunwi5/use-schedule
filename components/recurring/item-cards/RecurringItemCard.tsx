@@ -1,15 +1,11 @@
-import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faCircle,
     faHourglass,
     faListTree,
     faLocationDot,
-    faMagnifyingGlass,
-    faPenToSquare,
     faStar,
     faTimer,
 } from '@fortawesome/pro-duotone-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { RecurringItem, RecurringItemMode } from '../../../models/recurring-models';
 import { getDurationFormat } from '../../../utilities/date-utils/date-format';
@@ -37,7 +33,10 @@ const RecurringItemCard: React.FC<Props> = (props) => {
             }  rounded-sm shadow-md transition-all hover:shadow-lg hover:-translate-y-1 cursor-pointer`}
         >
             <div className={`text-slate-500 font-bold text-base`}>
-                <FontAwesomeIcon icon={faTimer} className={`text-slate-900 icon-medium mr-2`} />
+                <FontAwesomeIcon
+                    icon={faTimer}
+                    className={`text-slate-900 icon-medium mr-2`}
+                />
                 <time>{item.intervalFormat}</time>
                 <span className={`inline-block ml-4 text-slate-500/90`}>
                     <FontAwesomeIcon icon={faHourglass} className="icon-medium mr-2" />
@@ -55,7 +54,10 @@ const RecurringItemCard: React.FC<Props> = (props) => {
                     className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-5 text-base sm:text-lg overflow-hidden`}
                 >
                     <span className={'inline-block'}>
-                        <FontAwesomeIcon icon={faStar} className={'icon-medium text-amber-500'} />{' '}
+                        <FontAwesomeIcon
+                            icon={faStar}
+                            className={'icon-medium text-amber-500'}
+                        />{' '}
                         {item.importance}
                     </span>
                     {location && (

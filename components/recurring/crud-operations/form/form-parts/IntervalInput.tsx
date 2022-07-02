@@ -1,6 +1,5 @@
-import { faArrowsRotate } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { faArrowsRotate } from '@fortawesome/pro-duotone-svg-icons';
 import { UseFormRegister } from 'react-hook-form';
 import { IEvent } from '../../../../../models/Event';
 import {

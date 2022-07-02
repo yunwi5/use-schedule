@@ -1,6 +1,5 @@
-import { faCheck } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { faCheck } from '@fortawesome/pro-duotone-svg-icons';
 import { Status } from '../../../models/task-models/Status';
 
 interface Props {

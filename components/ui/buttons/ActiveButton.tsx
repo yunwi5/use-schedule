@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Button from './Button';
 import { Theme, ButtonTheme, Size } from '../../../models/design-models';
 

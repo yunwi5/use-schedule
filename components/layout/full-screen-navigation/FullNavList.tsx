@@ -1,4 +1,3 @@
-import React from 'react';
 import ActiveNavLink from '../../ui/design-elements/ActiveNavLink';
 import classes from './FullScreenNavigation.module.scss';
 

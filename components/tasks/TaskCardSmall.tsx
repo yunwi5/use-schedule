@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAlarmClock, faListTree, faStarExclamation } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faAlarmClock,
+    faListTree,
+    faStarExclamation,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 import { updateTaskProperties } from '../../lib/planners/tasks-api';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
@@ -13,10 +17,9 @@ import {
 import { useAppSelector } from '../../store/redux';
 import { isOverdue } from '../../utilities/date-utils/date-check';
 import TaskDetail from './task-modal/task-detail/TaskDetail';
-
-import classes from './TaskCardSmall.module.scss';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import StatusTogglerButton from '../ui/buttons/StatusTogglerButton';
+import classes from './TaskCardSmall.module.scss';
 
 interface Props {
     task: AbstractTask;
@@ -44,7 +47,10 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
     const durationFormat = task.durationFormat;
-    const { statusBgClass, hoverBgClass, borderClass } = getStyleClasses(localStatus, plannerMode);
+    const { statusBgClass, hoverBgClass, borderClass } = getStyleClasses(
+        localStatus,
+        plannerMode,
+    );
 
     const toggleCompletion = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -59,7 +65,11 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
     };
 
     const updateStatusHandler = async (newStatus: Status) => {
-        await updateTaskProperties(task.id, { status: newStatus }, task.plannerType || plannerMode);
+        await updateTaskProperties(
+            task.id,
+            { status: newStatus },
+            task.plannerType || plannerMode,
+        );
         onMutate();
     };
 

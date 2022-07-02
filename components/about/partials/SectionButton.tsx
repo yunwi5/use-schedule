@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from '../About.module.scss';
 
 // Button locally used only for about section

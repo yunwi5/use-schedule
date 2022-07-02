@@ -1,4 +1,3 @@
-import React from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
 import { faBallotCheck } from '@fortawesome/pro-duotone-svg-icons';
@@ -6,7 +5,11 @@ import { faBallotCheck } from '@fortawesome/pro-duotone-svg-icons';
 import { Importance, Status } from '../../../../models/task-models/Status';
 import { isRecurringInterval, RecurringInterval } from '../../../../models/recurring-models';
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
-import { Category, getSubCategory, SubCategory } from '../../../../models/task-models/Category';
+import {
+    Category,
+    getSubCategory,
+    SubCategory,
+} from '../../../../models/task-models/Category';
 import {
     NoIdRecurringTask,
     RecurringTask,
@@ -59,7 +62,8 @@ interface Props {
 }
 
 const RecurringTaskForm: React.FC<Props> = (props) => {
-    const { onSubmit, initialTask, beginningPeriod, heading, onClose, onDelete, isEdit } = props;
+    const { onSubmit, initialTask, beginningPeriod, heading, onClose, onDelete, isEdit } =
+        props;
 
     const userId = useUser().user?.sub;
 

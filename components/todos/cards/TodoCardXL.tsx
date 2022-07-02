@@ -7,6 +7,7 @@ import {
     faListCheck,
     faStar,
 } from '@fortawesome/pro-duotone-svg-icons';
+
 import { DateTodo } from '../../../models/todo-models/Todo';
 import { getTodoImportance, getTodoStatus } from '../../../utilities/todos-utils/todo-util';
 import {

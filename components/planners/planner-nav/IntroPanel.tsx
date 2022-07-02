@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCalendarCircleExclamation,
@@ -13,16 +14,12 @@ import { useAppSelector } from '../../../store/redux';
 import { Size, Theme } from '../../../models/design-models';
 import TemplateImportModal from '../planner-modal/ImportModal';
 import Button from '../../ui/buttons/Button';
-import Link from 'next/link';
 import { getDataAnalysisLink } from '../../../utilities/analysis-utils';
-import classes from './IntroPanel.module.scss';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import ImportModal from '../../import-export/ImportModal';
 import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
 import ExportModal from '../../import-export/ExportModal';
-import LearnMoreLink from '../../ui/typography/LearnMoreLink';
-import { getAboutLink } from '../../../utilities/link-utils';
-import { PlannerSection } from '../../../constants/about-sections';
+import classes from './IntroPanel.module.scss';
 
 interface Props {
     title: string;

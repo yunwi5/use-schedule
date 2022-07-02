@@ -1,4 +1,3 @@
-import React from 'react';
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { NoIdRecurringEvent } from '../../../models/recurring-models/RecurringEvent';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';

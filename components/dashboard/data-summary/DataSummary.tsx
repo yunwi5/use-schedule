@@ -1,4 +1,3 @@
-import React from 'react';
 import MiniCalendar from '../navigation-sections/MiniCalendar';
 import CompletionSummary from './CompletionSummary';
 import DayPeriodSummary from './DayPeriodSummary';

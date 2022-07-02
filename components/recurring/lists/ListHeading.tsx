@@ -1,6 +1,3 @@
-import { faAngleDown } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import DropDownToggler from '../../ui/icons/DropDownToggler';
 
 interface Props {

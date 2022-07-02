@@ -9,13 +9,12 @@ import {
 } from '@fortawesome/pro-duotone-svg-icons';
 
 import { DashboardSection } from '../../../constants/about-sections';
-import { AboutTheme, Theme } from '../../../models/design-models';
+import { AboutTheme } from '../../../models/design-models';
 import { FeatureBox } from '../../../models/ui-models';
 import { getDashboardLink, getNewTemplateLink } from '../../../utilities/link-utils';
-import Button from '../../ui/buttons/Button';
 import SectionCard from '../cards/SectionCard';
-import FeaturesGrid from '../partials/features-grid/FeaturesGrid';
-import VideoIntroduction from '../partials/video-introduction/VideoIntroduction';
+import FeaturesGrid from '../partials/FeaturesGrid';
+import VideoIntroduction from '../partials/VideoIntroduction';
 import SectionButton from '../partials/SectionButton';
 
 const Dashboard: React.FC = () => {

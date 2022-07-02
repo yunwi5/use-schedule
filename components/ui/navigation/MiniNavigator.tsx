@@ -1,6 +1,5 @@
-import React from 'react';
-import { faCaretLeft, faCaretRight } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCaretRight } from '@fortawesome/pro-duotone-svg-icons';
 
 interface Props {
     onNavigate(dir: number): void;

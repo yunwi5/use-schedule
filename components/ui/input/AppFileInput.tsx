@@ -1,6 +1,5 @@
 import { faUpFromLine } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 
 import classes from './AppFileInput.module.scss';
 

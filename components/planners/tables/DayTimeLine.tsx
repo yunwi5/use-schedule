@@ -1,4 +1,3 @@
-import React from 'react';
 import { useWTableContext } from '../../../store/context/weekday-table-context';
 import { generateDayTimeLine } from '../../../utilities/date-utils/timeline-util';
 

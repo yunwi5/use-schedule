@@ -1,4 +1,3 @@
-import React from 'react';
 import { Theme } from '../../../../models/design-models';
 import Button from '../../buttons/Button';
 

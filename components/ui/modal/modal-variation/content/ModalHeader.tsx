@@ -1,4 +1,3 @@
-import React from 'react';
 import ExitIcon from '../../../icons/ExitIcon';
 
 const ModalHeader: React.FC<{ onClose(): void; title: string }> = ({ title, onClose }) => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import useRecurringEventQuery from '../../../hooks/recurring-item-hooks/useRecurringEventQuery';
 import { IEvent } from '../../../models/Event';
 import { NoIdRecurringEvent } from '../../../models/recurring-models/RecurringEvent';

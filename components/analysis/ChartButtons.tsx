@@ -1,4 +1,3 @@
-import React from 'react';
 import CustomMUIButton from '../ui/buttons/CustomMUIButton';
 
 interface Props {
@@ -7,7 +6,11 @@ interface Props {
     additionalButton?: JSX.Element;
 }
 
-const ChartButtons: React.FC<Props> = ({ onShowComparison, showComparison, additionalButton }) => (
+const ChartButtons: React.FC<Props> = ({
+    onShowComparison,
+    showComparison,
+    additionalButton,
+}) => (
     <div
         className={`order-3 max-w-[35rem] xl:max-w-none mt-5 flex flex-wrap flex-col sm:flex-row gap-4`}
     >

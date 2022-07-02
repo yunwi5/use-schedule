@@ -1,4 +1,3 @@
-import React from 'react';
 import { isSameDate, isSameWeek } from '../../../utilities/date-utils/date-check';
 
 interface Props {
@@ -16,7 +15,9 @@ const MiniCalendarCell: React.FC<Props> = ({ cellDate, currentPeriod, onChangeDa
             onClick={() => onChangeDate(cellDate)}
         >
             {isSameDate(currentPeriod, cellDate) ? (
-                <span className={`flex-center w-6 h-6 rounded-full bg-blue-600/90 text-blue-50`}>
+                <span
+                    className={`flex-center w-6 h-6 rounded-full bg-blue-600/90 text-blue-50`}
+                >
                     {cellDate.getDate()}
                 </span>
             ) : (

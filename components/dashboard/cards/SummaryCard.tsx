@@ -1,5 +1,3 @@
-import React from 'react';
-
 const SummaryCard: React.FC<{ className?: string }> = ({ children, className }) => {
     return (
         <article

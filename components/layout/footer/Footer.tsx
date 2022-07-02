@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
 import { AppProperty } from '../../../constants/global-constants';
 import classes from './Footer.module.scss';
-import Image from 'next/image';
 
 const Footer: React.FC<{ className: string }> = ({ className }) => {
     const iconClass =

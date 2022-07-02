@@ -1,4 +1,3 @@
-import React from 'react';
 import { ITemplateInfo } from '../../../../models/template-models/TemplateInfo';
 import { getShortDurationFormat } from '../../../../utilities/date-utils/date-format';
 

@@ -5,7 +5,7 @@ import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
 
 import { useAppSelector } from '../../../store/redux';
 import { getAboutLink } from '../../../utilities/link-utils';
-import LearnMoreLink from '../../ui/typography/LearnMoreLink';
+import LearnMoreLink from '../../ui/links/LearnMoreLink';
 import { RecurringSection } from '../../../constants/about-sections';
 import classes from './IntroPanel.module.scss';
 

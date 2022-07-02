@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { addMinutes } from '../../../utilities/date-utils/date-control';
 import EventForm from './form/EventForm';
 import useEventAdd from '../../../hooks/event-hooks/useEventAdd';
@@ -17,7 +15,11 @@ const EventAdd: React.FC<Props> = ({ onClose, onAdd, beginningPeriod: initialPer
 
     return (
         <WrapperModal onClose={onClose}>
-            <EventForm onSubmit={addEvent} onClose={onClose} beginningPeriod={beginningPeriod} />
+            <EventForm
+                onSubmit={addEvent}
+                onClose={onClose}
+                beginningPeriod={beginningPeriod}
+            />
         </WrapperModal>
     );
 };

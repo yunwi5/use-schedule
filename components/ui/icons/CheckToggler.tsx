@@ -1,6 +1,5 @@
-import { faCheck } from "@fortawesome/pro-duotone-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { faCheck } from '@fortawesome/pro-duotone-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
     onToggle: () => void;
@@ -9,13 +8,13 @@ interface Props {
 }
 
 const CheckToggler: React.FC<Props> = ({ onToggle, isCompleted, className }) => {
-    const flexCenter = "flex items-center justify-center";
+    const flexCenter = 'flex items-center justify-center';
 
     return (
         <div
             onClick={onToggle}
             className={`${flexCenter} w-8 h-8 rounded-full border-2 border-green-200 cursor-pointer ${
-                className ?? ""
+                className ?? ''
             }`}
         >
             {isCompleted && (

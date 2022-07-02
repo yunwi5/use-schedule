@@ -1,4 +1,3 @@
-import { AbstractAnalyzer } from '../../../models/analyzer-models/AbstractAnalyzer';
 import { YearlyAnalyzer } from '../../../models/analyzer-models/YearlyAnalyzer';
 import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import { useAnalysisContext } from '../../../store/context/analysis-context';

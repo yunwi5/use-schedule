@@ -1,6 +1,5 @@
-import { faInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { faInfo } from '@fortawesome/pro-duotone-svg-icons';
 import { RecurringItem, RecurringItemMode } from '../../../../models/recurring-models';
 import { useAppSelector } from '../../../../store/redux';
 import { getFullDateFormat } from '../../../../utilities/date-utils/date-format';
@@ -23,7 +22,9 @@ const RecurringDateInfo: React.FC<Props> = ({ item }) => {
             <FontAwesomeIcon
                 icon={faInfo}
                 className={`icon-medium mr-2 ${
-                    itemType === RecurringItemMode.EVENT ? 'text-sky-600/75' : 'text-blue-600/75'
+                    itemType === RecurringItemMode.EVENT
+                        ? 'text-sky-600/75'
+                        : 'text-blue-600/75'
                 }`}
             />
             This {itemType.toLowerCase()} was last added to the calendar on &nbsp;

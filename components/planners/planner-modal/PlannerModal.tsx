@@ -1,11 +1,6 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
-
-import Modal from '../../ui/modal/Modal';
-import classes from './PlannerModal.module.scss';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';
 import ExitIcon from '../../ui/icons/ExitIcon';
+import classes from './PlannerModal.module.scss';
 
 interface Props {
     onClose: () => void;

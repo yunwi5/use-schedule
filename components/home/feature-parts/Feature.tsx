@@ -1,9 +1,9 @@
-import { faBinoculars } from '@fortawesome/pro-duotone-svg-icons';
-import { faAngleRight } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBinoculars } from '@fortawesome/pro-duotone-svg-icons';
+import { faAngleRight } from '@fortawesome/pro-regular-svg-icons';
+
 import { Size, Theme } from '../../../models/design-models';
 import Button from '../../ui/buttons/Button';
 import classes from '../Home.module.scss';

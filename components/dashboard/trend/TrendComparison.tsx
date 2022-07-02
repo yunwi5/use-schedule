@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
     AnalysisMode,
     ChartData,
@@ -27,8 +27,11 @@ const TrendComparison: React.FC = () => {
 
     const eventTrendData = useMemo(
         () =>
-            analyzer?.generateRecentPeriodCountData(numPeriods, undefined, AnalysisMode.EVENTS) ||
-            [],
+            analyzer?.generateRecentPeriodCountData(
+                numPeriods,
+                undefined,
+                AnalysisMode.EVENTS,
+            ) || [],
         [numPeriods, analyzer],
     );
     const eventItemDataset: TrendDataSet = {
@@ -40,8 +43,11 @@ const TrendComparison: React.FC = () => {
 
     const taskTrendData = useMemo(
         () =>
-            analyzer?.generateRecentPeriodCountData(numPeriods, undefined, AnalysisMode.TASKS) ||
-            [],
+            analyzer?.generateRecentPeriodCountData(
+                numPeriods,
+                undefined,
+                AnalysisMode.TASKS,
+            ) || [],
         [numPeriods, analyzer],
     );
     const taskItemDataset: TrendDataSet = {

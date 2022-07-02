@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Props {
     className?: string;
 }
@@ -7,7 +5,9 @@ interface Props {
 const TableCard: React.FC<Props> = ({ className, children }) => {
     return (
         <section
-            className={`w-full shadow-md rounded-md border-2 border-slate-200 ${className || ''}`}
+            className={`w-full shadow-md rounded-md border-2 border-slate-200 ${
+                className || ''
+            }`}
         >
             {children}
         </section>

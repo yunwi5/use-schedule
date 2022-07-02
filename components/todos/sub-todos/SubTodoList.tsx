@@ -1,19 +1,19 @@
-import axios from "axios";
-import React, { useCallback, useState } from "react";
-import { useQueryClient, useQuery, useMutation } from "react-query";
-import { SortingDirection, SubItemSort } from "../../../models/sorting-models";
-import { NoIdSubTodo, SubTodo } from "../../../models/todo-models/SubTodo";
-import { SubItemProps } from "../../../models/utility-models";
-import { sortSubItems } from "../../../utilities/sort-utils/sub-item-sort";
-import { SubItemCard, SubItemForm, SubItemSorter } from "../../sub-items";
+import React, { useCallback, useState } from 'react';
+import axios from 'axios';
+import { useQueryClient, useQuery, useMutation } from 'react-query';
+import { SortingDirection, SubItemSort } from '../../../models/sorting-models';
+import { NoIdSubTodo, SubTodo } from '../../../models/todo-models/SubTodo';
+import { SubItemProps } from '../../../models/utility-models';
+import { sortSubItems } from '../../../utilities/sort-utils/sub-item-sort';
+import { SubItemCard, SubItemForm, SubItemSorter } from '../../sub-items';
 
 interface Props {
     todoId: string;
     isEditing: boolean;
 }
 
-const API_TODO_DOMAIN = "/api/todos/todo";
-const API_SUBTODO_DOMAIN = "/api/todos/sub-todo";
+const API_TODO_DOMAIN = '/api/todos/todo';
+const API_SUBTODO_DOMAIN = '/api/todos/sub-todo';
 
 async function fetchSubTodos(context: any) {
     const [name, todoId] = context.queryKey;
@@ -24,14 +24,14 @@ const SubTodoList: React.FC<Props> = (props) => {
     const { isEditing, todoId } = props;
 
     const queryClient = useQueryClient();
-    const { data, isLoading, isError } = useQuery(["sub-todos", todoId], fetchSubTodos, {
+    const { data, isLoading, isError } = useQuery(['sub-todos', todoId], fetchSubTodos, {
         enabled: !!todoId,
     });
     const subTodos: SubTodo[] = data ? data.subTodos : [];
     const [sortedSubTodos, setSortedSubTodos] = useState(subTodos);
 
     const invalidateSubTodos = useCallback(
-        () => queryClient.invalidateQueries("sub-todos"),
+        () => queryClient.invalidateQueries('sub-todos'),
         [queryClient],
     );
 
@@ -63,13 +63,13 @@ const SubTodoList: React.FC<Props> = (props) => {
     );
 
     const deleteSubTodoHandler = (id: string) => {
-        console.log("Delete todo");
+        console.log('Delete todo');
         deleteMutation.mutate(id);
     };
 
     const patchSubTodoHandler = useCallback(
         async (subTodoId: string, subTodoProps: SubItemProps) => {
-            console.log("patch: ", subTodoProps);
+            console.log('patch: ', subTodoProps);
             patchMutation.mutate({ subTodoId, subTodoProps });
         },
         [patchMutation],
@@ -83,7 +83,7 @@ const SubTodoList: React.FC<Props> = (props) => {
             isCompleted: false,
             parentId: todoId,
         };
-        console.log("new todo:", newTodo);
+        console.log('new todo:', newTodo);
         postMutation.mutate(newTodo);
     };
 
@@ -93,13 +93,13 @@ const SubTodoList: React.FC<Props> = (props) => {
     };
 
     return (
-        <section className='pl-[1rem] flex flex-col gap-2'>
-            <div className='flex justify-between items-center lg:max-w-[95%]'>
-                <h3 className='text-slate-600 font-semibold text-xl'>Steps</h3>
+        <section className="pl-[1rem] flex flex-col gap-2">
+            <div className="flex justify-between items-center lg:max-w-[95%]">
+                <h3 className="text-slate-600 font-semibold text-xl">Steps</h3>
                 <SubItemSorter onSort={sortingHandler} />
             </div>
             {subTodos.length > 0 && (
-                <div className='flex flex-col gap-[2px] mb-3'>
+                <div className="flex flex-col gap-[2px] mb-3">
                     {subTodos.map((subTodo) => (
                         <SubItemCard
                             key={subTodo.id}

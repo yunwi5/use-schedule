@@ -1,4 +1,3 @@
-import React from 'react';
 import { IEvent } from '../../models/Event';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import DataSummary from './data-summary/DataSummary';

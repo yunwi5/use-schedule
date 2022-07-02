@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/pro-light-svg-icons';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 
-import { AboutStartSection } from '../../../../constants/about-sections';
-import { Theme } from '../../../../models/design-models';
-import classes from '../../About.module.scss';
+import { AboutStartSection } from '../../../constants/about-sections';
+import { Theme } from '../../../models/design-models';
+import classes from '../About.module.scss';
 
 interface Props {
     title: string | JSX.Element;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PlannerCard: React.FC<{ className?: string; style?: object }> = ({
     className,
     children,

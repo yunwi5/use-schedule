@@ -1,10 +1,9 @@
 import { faInfo } from '@fortawesome/pro-regular-svg-icons';
-import { faAngleRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React from 'react';
-import { FeatureBox } from '../../../../models/ui-models';
-import classes from '../../About.module.scss';
+import { FeatureBox } from '../../../models/ui-models';
+import classes from '../About.module.scss';
 
 interface Props {
     features: FeatureBox[];

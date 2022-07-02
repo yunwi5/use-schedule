@@ -2,9 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/pro-light-svg-icons';
 import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
 
-import PlannerTaskCard from '../../tasks/TaskCard';
 import { PlannerTask } from '../../../models/task-models/Task';
-import { PlannerMode } from '../../../models/planner-models/PlannerMode';
 import {
     getCurrentMonthBeginning,
     getCurrentWeekBeginning,
@@ -16,9 +14,8 @@ import {
     getDateTimeFormat,
     getDurationFormat,
 } from '../../../utilities/date-utils/date-format';
-
-import classes from './SearchList.module.scss';
 import TaskCardNew from '../../tasks/TaskCardNew';
+import classes from './SearchList.module.scss';
 
 interface Props {
     tasks: PlannerTask[];

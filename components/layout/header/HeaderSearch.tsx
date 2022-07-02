@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouter } from 'next/router';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

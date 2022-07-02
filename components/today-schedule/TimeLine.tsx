@@ -1,4 +1,3 @@
-import React from 'react';
 import { CalendarItem } from '../../models/calendar-models/CalendarItem';
 import { IEvent, isInstanceOfEvent } from '../../models/Event';
 import { AbstractTask } from '../../models/task-models/AbstractTask';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/redux';
 import { recurringActions } from '../../../store/redux/recurring-slice';
 import Searchbar from '../../ui/searchbar/Searchbar';

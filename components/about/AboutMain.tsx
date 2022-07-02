@@ -1,13 +1,15 @@
 import { AboutStartSection } from '../../constants/about-sections';
 import AboutNavigation from './nav/AboutNavigation';
-import RecurringScheduleDoc from './documents/RecurringScheduleDoc';
-import DashboardDoc from './documents/DashboardDoc';
-import TodoListDoc from './documents/TodoListDoc';
-import DataAnalysisDoc from './documents/DataAnalysisDoc';
-import TemplateTableDoc from './documents/TemplateTableDoc';
-import CalendarDoc from './documents/CalendarDoc';
-import PlannerDoc from './documents/PlannerDoc';
-import ImportExportDoc from './documents/ImportExportDoc';
+import {
+    RecurringScheduleDoc,
+    DataAnalysisDoc,
+    TodoListDoc,
+    DashboardDoc,
+    TemplateTableDoc,
+    CalendarDoc,
+    PlannerDoc,
+    ImportExportDoc,
+} from './documents';
 import { AboutFooter, AboutHeading, AboutIntroduction, TypeWriting } from './sections';
 import classes from './About.module.scss';
 

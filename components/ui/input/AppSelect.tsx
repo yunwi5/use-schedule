@@ -16,10 +16,16 @@ interface Props {
 }
 
 const AppSelect: React.FC<Props> = (props) => {
-    const { id, labelId, className, onChange, options, optionLabels, label, value, error } = props;
+    const { id, labelId, className, onChange, options, optionLabels, label, value, error } =
+        props;
 
     return (
-        <FormControl sx={{ minWidth: 95 }} size="small" className={className || ''} error={error}>
+        <FormControl
+            sx={{ minWidth: 95 }}
+            size="small"
+            className={className || ''}
+            error={error}
+        >
             <InputLabel id={labelId || 'app-select-label'}>{label}</InputLabel>
             <Select
                 labelId={labelId || 'app-select-label'}

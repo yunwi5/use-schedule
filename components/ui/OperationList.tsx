@@ -1,6 +1,10 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClone, faPenToSquare, faRotate, faTrashCan } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faClone,
+    faPenToSquare,
+    faRotate,
+    faTrashCan,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 import classes from './OperationList.module.scss';
 

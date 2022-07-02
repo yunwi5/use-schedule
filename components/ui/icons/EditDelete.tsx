@@ -1,4 +1,3 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser, faPencilAlt } from '@fortawesome/pro-duotone-svg-icons';
 import { faXmark } from '@fortawesome/pro-solid-svg-icons';

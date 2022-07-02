@@ -1,10 +1,9 @@
-import { faQuoteLeft } from "@fortawesome/pro-duotone-svg-icons";
-import { faCircle } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import { faQuoteLeft } from '@fortawesome/pro-duotone-svg-icons';
+import { faCircle } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CalendarFooter: React.FC = () => {
-    const colorIndicator = "ml-1 inline-block w-[9px] h-[9px] -translate-y-[2px]";
+    const colorIndicator = 'ml-1 inline-block w-[9px] h-[9px] -translate-y-[2px]';
 
     return (
         <div className="mt-4">
@@ -14,18 +13,21 @@ const CalendarFooter: React.FC = () => {
                     className="inline-block max-w-[1.2rem] max-h-[1.2rem] icon mt-1"
                 />
                 <p className="">
-                    Calendar item colors are based on item type. Event item is colored with{" "}
-                    <FontAwesomeIcon icon={faCircle} className={`${colorIndicator} text-sky-500`} />{" "}
-                    sky blue, task item is colored with{" "}
+                    Calendar item colors are based on item type. Event item is colored with{' '}
+                    <FontAwesomeIcon
+                        icon={faCircle}
+                        className={`${colorIndicator} text-sky-500`}
+                    />{' '}
+                    sky blue, task item is colored with{' '}
                     <FontAwesomeIcon
                         icon={faCircle}
                         className={`${colorIndicator} text-blue-500`}
-                    />{" "}
-                    blue, and custom todo item is colored with{" "}
+                    />{' '}
+                    blue, and custom todo item is colored with{' '}
                     <FontAwesomeIcon
                         icon={faCircle}
                         className={`${colorIndicator} text-indigo-500`}
-                    />{" "}
+                    />{' '}
                     indigo by default.
                 </p>
             </div>
@@ -35,11 +37,11 @@ const CalendarFooter: React.FC = () => {
                     className="max-w-[1.2rem] max-h-[1.2rem] icon mt-1"
                 />
                 <p>
-                    Overdue items are colored with{" "}
+                    Overdue items are colored with{' '}
                     <FontAwesomeIcon
                         icon={faCircle}
                         className={`${colorIndicator} text-rose-500`}
-                    />{" "}
+                    />{' '}
                     rose (red) regardless of the item type. You need to mark it as completed in
                     order to remove it.
                 </p>

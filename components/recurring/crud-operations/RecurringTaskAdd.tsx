@@ -1,4 +1,3 @@
-import React from 'react';
 import useRecurringTaskQuery from '../../../hooks/recurring-item-hooks/useRecurringTaskQuery';
 import { NoIdRecurringTask } from '../../../models/recurring-models/RecurringTask';
 import WrapperModal from '../../ui/modal/wrapper/WrapperModal';

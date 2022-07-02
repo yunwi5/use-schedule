@@ -18,7 +18,6 @@ import {
 } from '../../models/CustomTheme';
 import TodoSummary from './todo-support/TodoSummary';
 import TodoThemeSelect from './todo-support/TodoThemeSelect';
-
 import classes from './TodoListContainer.module.scss';
 
 interface Props {
