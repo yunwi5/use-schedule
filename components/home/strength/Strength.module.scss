@@ -1,0 +1,51 @@
+@import '../../../styles/abstract/variables';
+@import '../../../styles/abstract/mixins';
+
+.grid {
+    margin: 3.5rem auto;
+    margin-bottom: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    row-gap: 4rem;
+    column-gap: 3.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 2px solid $color-grey-dark-2;
+    justify-items: center;
+
+    @include respond(1100px) {
+        row-gap: 2.5rem;
+    }
+
+    // overall heading - Why UseSchedule
+    .heading {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+
+    // individual section heading (6 sections)
+    .section-heading {
+        font-family: Helvetica, sans-serif !important;
+    }
+
+    .strength {
+        transition: all 0.35s ease-in-out;
+
+        &:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+            .icon {
+                // font-size: 4.5rem;
+                transform: scale(120%);
+            }
+        }
+
+        @include respond(800px) {
+            max-width: 25rem;
+        }
+    }
+
+    .icon {
+        transition: all 0.35s ease-in-out;
+        font-size: 3.5rem;
+    }
+}

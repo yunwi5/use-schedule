@@ -1,5 +1,19 @@
 @import '../../styles/main';
 
+$layout-bp: 1100px;
+
+@mixin section-layout {
+    margin: 0 auto;
+
+    @include respond($layout-bp) {
+        max-width: 40rem;
+    }
+
+    @include respond(tab-port) {
+        max-width: 38rem;
+    }
+}
+
 .heading {
     font-size: 2.8rem;
     line-height: 3rem;
@@ -78,6 +92,14 @@
     flex-direction: column;
     gap: 2rem;
 
+    .feature {
+        @include section-layout;
+
+        @include respond($layout-bp) {
+            flex-direction: column;
+        }
+    }
+
     .img-container {
         display: grid;
         grid-template-columns: repeat(8, 5rem);
@@ -124,11 +146,13 @@
     }
 
     .feature-reverse {
-        .content {
-            order: 2;
-        }
-        .img-container-horizontal {
-            order: 3;
+        @media only screen and (min-width: $layout-bp) {
+            .content {
+                order: 2;
+            }
+            .img-container-horizontal {
+                order: 3;
+            }
         }
     }
 
@@ -152,6 +176,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 2.5fr;
+
+    @include section-layout;
 
     .content {
         grid-row: 2 / span 1;

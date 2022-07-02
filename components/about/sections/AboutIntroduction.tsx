@@ -17,7 +17,7 @@ const AboutIntroduction = () => {
     return (
         <section
             className={
-                '2xl:px-8 max-w-[35rem] lg:max-w-none flex flex-col lg:flex-row gap-0 lg:gap-8 items-start lg:items-center'
+                'max-w-[35rem] lg:max-w-none flex flex-col lg:flex-row gap-0 lg:gap-8 items-start lg:items-center'
             }
         >
             <div className="min-w-[100%] xs:min-w-[80%] lg:min-w-[40%] self-center block flex-1">

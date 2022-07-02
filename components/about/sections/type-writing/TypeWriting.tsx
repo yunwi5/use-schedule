@@ -96,9 +96,7 @@ const TypeWriting: React.FC = () => {
                     </span>
                 </div>
             </div>
-            <div
-                className={'grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-3 lg:w-max-content'}
-            >
+            <div className={'grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-3 w-max'}>
                 {activeQuote.options.map((option) => (
                     <button
                         key={option}

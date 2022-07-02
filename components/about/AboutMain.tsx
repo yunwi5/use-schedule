@@ -24,7 +24,7 @@ const AboutMain = () => {
                 {/* Introduction & Typewriter animation */}
                 <div
                     className={
-                        '-mt-[1rem] flex flex-col gap-8 items-center px-3 sm:px-5 lg:px-12 xl:px-8'
+                        '-mt-[1rem] flex flex-col gap-8 items-center px-3 sm:px-5 lg:px-12 xl:px-8 2xl:px-16'
                     }
                 >
                     <AboutIntroduction />
