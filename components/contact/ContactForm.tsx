@@ -1,15 +1,16 @@
-import { faEnvelope, faEnvelopeOpenText, faUser } from "@fortawesome/pro-duotone-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { faEnvelope, faEnvelopeOpenText, faUser } from '@fortawesome/pro-duotone-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import useNotification from "../../hooks/useNotification";
-import { NotifStatus } from "../ui/Notification";
-import { postContact } from "../../lib/contacts/contact";
-import { Size } from "../../models/design-models";
-import Button from "../ui/buttons/Button";
-import LoadingSpinner from "../ui/design-elements/LoadingSpinner";
-import classes from "./ContactForm.module.scss";
+import useNotification from '../../hooks/useNotification';
+import { NotifStatus } from '../ui/Notification';
+import { postContact } from '../../lib/contacts/contact';
+import { Size } from '../../models/design-models';
+import Button from '../ui/buttons/Button';
+import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
+import classes from './ContactForm.module.scss';
+import { EMAIL_REGEX } from '../../utilities/form-utils/validation-util';
 
 interface ContactFormValues {
     firstName: string;
@@ -20,11 +21,13 @@ interface ContactFormValues {
 
 interface Props {
     email: string;
+    firstName: string | undefined;
+    lastName: string | undefined;
 }
 
-const labelClass = "text-xl text-slate-500 font-semibold";
+const labelClass = 'text-xl text-slate-500 font-semibold';
 
-const ContactForm: React.FC<Props> = ({ email }) => {
+const ContactForm: React.FC<Props> = ({ email, firstName, lastName }) => {
     const [isLoading, setIsLoading] = useState(false);
     const { setNotification } = useNotification();
 
@@ -33,7 +36,7 @@ const ContactForm: React.FC<Props> = ({ email }) => {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<ContactFormValues>({ defaultValues: { email } });
+    } = useForm<ContactFormValues>({ defaultValues: { email, firstName, lastName } });
 
     const submitHandler = useCallback(
         async (data: ContactFormValues) => {
@@ -50,9 +53,6 @@ const ContactForm: React.FC<Props> = ({ email }) => {
         },
         [setNotification, reset],
     );
-
-    const emailRegex =
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     return (
         <form
@@ -75,15 +75,15 @@ const ContactForm: React.FC<Props> = ({ email }) => {
                             id="first-name"
                             aria-invalid={!!errors.firstName}
                             placeholder="First name"
-                            {...register("firstName", {
-                                required: "Your first name is required",
+                            {...register('firstName', {
+                                required: 'Your first name is required',
                                 minLength: {
                                     value: 2,
-                                    message: "Your first name should be at least 2 characters",
+                                    message: 'Your first name should be at least 2 characters',
                                 },
                                 maxLength: {
                                     value: 30,
-                                    message: "Your first name should not exceed 30 characters",
+                                    message: 'Your first name should not exceed 30 characters',
                                 },
                             })}
                         />
@@ -98,15 +98,15 @@ const ContactForm: React.FC<Props> = ({ email }) => {
                             id="last-name"
                             aria-invalid={!!errors.lastName}
                             placeholder="Last name"
-                            {...register("lastName", {
-                                required: "Your last name is required",
+                            {...register('lastName', {
+                                required: 'Your last name is required',
                                 minLength: {
                                     value: 2,
-                                    message: "Your last name should be at least 2 characters",
+                                    message: 'Your last name should be at least 2 characters',
                                 },
                                 maxLength: {
                                     value: 30,
-                                    message: "Your last name should not exceed 30 characters",
+                                    message: 'Your last name should not exceed 30 characters',
                                 },
                             })}
                         />
@@ -130,17 +130,17 @@ const ContactForm: React.FC<Props> = ({ email }) => {
                     id="email"
                     aria-invalid={!!errors.email}
                     placeholder="Your email address"
-                    {...register("email", {
-                        required: "Your email is required",
+                    {...register('email', {
+                        required: 'Your email is required',
                         minLength: {
                             value: 5,
-                            message: "Your email should be at least 5 characters",
+                            message: 'Your email should be at least 5 characters',
                         },
                         maxLength: {
                             value: 50,
-                            message: "Your email should not exceed 50 characters",
+                            message: 'Your email should not exceed 50 characters',
                         },
-                        pattern: { value: emailRegex, message: "Email is invalid" },
+                        pattern: { value: EMAIL_REGEX, message: 'Email is invalid' },
                     })}
                 />
                 {errors.email && <p className="text-pink-500">{errors.email.message}</p>}
@@ -160,15 +160,15 @@ const ContactForm: React.FC<Props> = ({ email }) => {
                     id="message"
                     cols={30}
                     rows={3}
-                    {...register("message", {
-                        required: "Your message is required",
+                    {...register('message', {
+                        required: 'Your message is required',
                         minLength: {
                             value: 5,
-                            message: "Your message should be at least 5 characters",
+                            message: 'Your message should be at least 5 characters',
                         },
                         maxLength: {
                             value: 1000,
-                            message: "Your email should not exceed 1000 characters",
+                            message: 'Your email should not exceed 1000 characters',
                         },
                     })}
                 />

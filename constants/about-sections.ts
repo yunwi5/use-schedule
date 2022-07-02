@@ -8,6 +8,12 @@ interface AboutSection {
 
 export const AboutStartSection = { name: 'About', id: 'about-start', link: '#about-start' };
 
+export const TypeWriterSection = {
+    name: 'TypeWriter',
+    id: 'type-writer',
+    link: '#type-writer',
+};
+
 // Total 8 sections to instroduce
 export const CalendarSection = {
     name: 'Calendar',

@@ -6,6 +6,7 @@ import {
     DataAnalysisSection,
     RecurringSection,
     TemplateSection,
+    TypeWriterSection,
 } from '../../../constants/about-sections';
 import { AboutTheme } from '../../../models/design-models';
 import classes from '../About.module.scss';
@@ -16,10 +17,10 @@ const AboutIntroduction = () => {
     return (
         <section
             className={
-                'max-w-[35rem] lg:max-w-none flex flex-col lg:flex-row gap-0 lg:gap-8 items-start lg:items-center'
+                '2xl:px-8 max-w-[35rem] lg:max-w-none flex flex-col lg:flex-row gap-0 lg:gap-8 items-start lg:items-center'
             }
         >
-            <div className="min-w-[100%] xs:min-w-[80%] lg:min-w-[40%] block flex-1">
+            <div className="min-w-[100%] xs:min-w-[80%] lg:min-w-[40%] self-center block flex-1">
                 <Image
                     src={IMAGE_LINK}
                     alt={'Daily Scheduling'}
@@ -42,13 +43,14 @@ const AboutIntroduction = () => {
                         </li>
                     ))}
                 </ul>
-                <button
+                <a
+                    href={TypeWriterSection.link}
                     className={
-                        'inline-block xl:mt-3 px-5 py-3 rounded-sm bg-white text-blue-700 hover:bg-blue-600 hover:text-blue-50 shadow-lg hover:shadow-2xl'
+                        'inline-block text-center xl:mt-3 px-5 py-3 rounded-sm bg-white text-blue-700 hover:bg-blue-600 hover:text-blue-50 shadow-lg hover:shadow-2xl'
                     }
                 >
                     Find Out More
-                </button>
+                </a>
             </div>
         </section>
     );

@@ -23,7 +23,7 @@ const Features: React.FC = () => {
 
     return (
         <section className={`mt-6 p-6 text-slate-600 ${classes.features}`}>
-            <h1 className={classes.heading}>Features We Have</h1>
+            <h1 className={`text-center ${classes.heading}`}>Features We Have</h1>
             <div className="flex flex-col gap-16">
                 {featuresList.map((feature, idx) => {
                     return <Feature key={idx} {...feature} isEven={idx % 2 == 0} />;

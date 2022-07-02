@@ -6,7 +6,7 @@ import styles from './AboutNavigation.module.scss';
 
 const AboutNavigation: React.FC = () => {
     return (
-        <nav className={`text-xl ${styles.nav}`}>
+        <nav className={`text-lg md:text-xl ${styles.nav}`}>
             {AboutSectionList.map((section) => (
                 <div key={section.name} className={styles.item}>
                     <FontAwesomeIcon

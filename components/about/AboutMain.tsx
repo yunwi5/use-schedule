@@ -15,7 +15,7 @@ const AboutMain = () => {
     return (
         <div className={'min-h-[100%]'}>
             <main
-                className={`px-3 sm:px-4 lg:px-6 xl:px-8 pt-8 pb-14 text-slate-700 ${classes.main}`}
+                className={`px-3 sm:px-4 lg:px-6 xl:px-8 pt-12 pb-14 text-slate-700 ${classes.main}`}
             >
                 <section id={AboutStartSection.id} className={'px-4 lg:px-8 xl:px-14'}>
                     <AboutHeading />

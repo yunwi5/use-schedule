@@ -14,7 +14,7 @@ import useWindowInnerWidth from '../../hooks/useWindowInnerWidth';
 const NAV_BREAK_POINT = 1250;
 
 const Layout: React.FC = (props) => {
-    const [showSidebar, setShowSidebar] = useState(true);
+    const [showSidebar, setShowSidebar] = useState(false);
     const activeNotification = useContext(NotificationContext).notification;
 
     useWindowInnerWidth({
