@@ -54,8 +54,8 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate }) => {
     return (
         <>
             <div
-                className={`wd-line ${`min-w-[${minCellWidth}rem]`} lg:w-[calc(100%/7)] z-10 cursor-pointer hover:bg-slate-200/50`}
-                style={{ height: getTotalTableHeight() }}
+                className={`wd-line lg:w-[calc(100%/7)] z-10 cursor-pointer hover:bg-slate-200/50`}
+                style={{ height: getTotalTableHeight(), minWidth: `${minCellWidth}rem` }}
                 data-id="weekday-line"
                 onClick={taskAddHandler}
             >

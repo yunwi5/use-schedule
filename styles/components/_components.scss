@@ -9,8 +9,12 @@
     left: calc(50% - 16rem);
 
     @include respond(phone) {
-        width: 92vw;
-        left: calc(50% - 46vw);
+        width: 100vw;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100vh;
+        border-radius: 0;
+        animation: UpDownLarge 300ms ease-in-out forwards !important;
     }
 }
 

@@ -9,11 +9,7 @@ import {
 } from '@fortawesome/pro-duotone-svg-icons';
 
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
-import {
-    getDurationFormat,
-    getFullDateFormat,
-    getShortUserTimeFormat,
-} from '../../../../utilities/date-utils/date-format';
+import { getDurationFormat } from '../../../../utilities/date-utils/date-format';
 import classes from './TaskDetail.module.scss';
 import TaskStatus from './TaskStatus';
 import OperationList from '../../../ui/OperationList';
@@ -80,7 +76,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
 
     return (
         <>
-            <div className={`${classes.grid} -mb-3`}>
+            <div className={`${classes.grid} mb-1`}>
                 <TaskStatus task={task} onInvalidate={onInvalidate} />
                 <TaskSection label="Importance" value={importance} icon={faStarExclamation} />
 
