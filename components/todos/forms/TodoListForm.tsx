@@ -40,9 +40,13 @@ const TodoForm: React.FC<Props> = (props) => {
     const {
         register,
         handleSubmit,
-        control,
         formState: { errors },
-    } = useForm<TodoListData>();
+    } = useForm<TodoListData>({
+        defaultValues: {
+            name: initialList?.name || '',
+            description: initialList?.description,
+        },
+    });
 
     const submitHandler = async (data: TodoListData) => {
         setIsLoading(true);

@@ -50,7 +50,7 @@
         border: 1px solid transparent;
 
         @include respond(420px) {
-            max-width: 11rem;
+            max-width: 12.5rem;
             min-width: 1rem;
         }
 

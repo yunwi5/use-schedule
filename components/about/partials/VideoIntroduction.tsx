@@ -21,7 +21,8 @@ const VideoIntroduction: React.FC<Props> = (props) => {
     const { title, heading, id, checkList, videoSrc } = props;
     const [isAutoplay, setIsAutoplay] = useState(false);
 
-    // if it is mobile screen size, do not auto play
+    // if it is mobile screen, do not auto play
+    // if it is desktop screen, display video by default
     useEffect(() => {
         const autoplay = !checkIsMobile();
         setIsAutoplay(autoplay);
