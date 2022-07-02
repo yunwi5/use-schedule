@@ -1,5 +1,3 @@
-import { IEvent } from '../../models/Event';
-import { AbstractTask } from '../../models/task-models/AbstractTask';
 import DataSummary from './data-summary/DataSummary';
 import ProgressSummary from './progress/ProgressSummary';
 import TrendComparison from './trend/TrendComparison';
@@ -9,10 +7,7 @@ import PlannerNavigation from './navigation-sections/PlannerNavigation';
 import TodoListTable from './tables/todolist-table/TodoListTable';
 import NavigationGuide from './navigation-sections/NavigationGuide';
 
-interface Props {
-    tasks: AbstractTask[];
-    events: IEvent[];
-}
+interface Props {}
 
 const DashboardMain: React.FC<Props> = () => {
     return (

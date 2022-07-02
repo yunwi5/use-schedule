@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import useDateTime, { ResetPeriod } from '../../hooks/useDateTime';
-import { Task } from '../../models/task-models/Task';
+import { PlannerTask } from '../../models/task-models/Task';
 import { Todo } from '../../models/todo-models/Todo';
 import { Calendar } from '../../models/calendar-models/Calendar';
 import { CalendarItem } from '../../models/calendar-models/CalendarItem';
 import { getCurrentMonthBeginning } from '../../utilities/date-utils/date-get';
-import { processTodos } from '../../utilities/todos-utils/todo-util';
-import { processTasks } from '../../utilities/tasks-utils/task-util';
 import { IEvent } from '../../models/Event';
-import { processEvents } from '../../utilities/event-utils/event-util';
 import CalendarContainer from './calendar-parts/CalendarContainer';
 import CalendarControl from './calendar-control/CalendarControl';
 import PageHeading from '../ui/typography/PageHeading';
@@ -26,25 +23,16 @@ function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]):
 
 interface Props {
     todos: Todo[];
-    tasks: Task[];
+    tasks: PlannerTask[];
     events: IEvent[];
     onInvalidateAll(): void;
 }
 
 const CalendarMain: React.FC<Props> = (props) => {
-    const {
-        todos: unprocessedTodos,
-        tasks,
-        events: unprocessedEvents,
-        onInvalidateAll,
-    } = props;
+    const { todos, tasks, events, onInvalidateAll } = props;
 
     const currentMonthBeginning = getCurrentMonthBeginning();
     const [calendar, setCalendar] = useState<Calendar>(new Calendar(currentMonthBeginning));
-
-    const todos = useMemo(() => processTodos(unprocessedTodos), [unprocessedTodos]);
-    const events = useMemo(() => processEvents(unprocessedEvents), [unprocessedEvents]);
-    const plannerTasks = useMemo(() => processTasks(tasks), [tasks]);
 
     const {
         currentTimeStamp: beginningPeriod,
@@ -65,10 +53,10 @@ const CalendarMain: React.FC<Props> = (props) => {
     const navigateCurrentMonthHandler = () => setCurrentTimeStamp(currentMonthBeginning);
 
     useEffect(() => {
-        const calendarItems: CalendarItem[] = [...plannerTasks, ...todos, ...events];
+        const calendarItems: CalendarItem[] = [...tasks, ...todos, ...events];
         const newCalendar: Calendar = populateCalendar(beginningPeriod, calendarItems);
         setCalendar(newCalendar);
-    }, [beginningPeriod, todos, plannerTasks, events]);
+    }, [beginningPeriod, todos, tasks, events]);
 
     return (
         <div>

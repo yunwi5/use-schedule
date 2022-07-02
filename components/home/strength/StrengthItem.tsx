@@ -20,7 +20,7 @@ const StrengthItem: React.FC<Strength> = (props) => {
                 icon={icon || faCode}
                 className={`mb-1 text-blue-500 ${classes.icon}`}
             />
-            <h3 className={`text-2xl ${classes['section-heading']}`}>{heading}</h3>
+            <h3 className={`text-2xl capitalize ${classes['section-heading']}`}>{heading}</h3>
             <p className={'text-center'}>{text}</p>
         </article>
     );

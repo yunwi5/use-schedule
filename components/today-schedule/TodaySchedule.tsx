@@ -76,7 +76,7 @@ const TodaySchedule: React.FC<Props> = (props) => {
                 {timeLines.map((time, idx) => {
                     const hour = idx + 1;
                     const currentHourItems = items.filter(
-                        (item) => item.dateTime?.getHours() === hour,
+                        (item) => item.dateTime?.getHours() === hour % 24,
                     );
                     if (currentHourItems.length === 0) return;
                     return (

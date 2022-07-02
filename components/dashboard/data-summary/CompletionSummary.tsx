@@ -62,7 +62,7 @@ const CompletionSummary: React.FC = () => {
     return (
         <SummaryCard>
             <SummaryHeading info={infoText}>Weekly Completion&nbsp;</SummaryHeading>
-            <div className="flex gap-3 items-center justify-around">
+            <div className="flex gap-3 items-center justify-around overflow-hidden">
                 <div className="py-1 pl-3">
                     <h2 className="text-4xl text-slate-500 font-semibold">
                         {completedProportion}&nbsp;%

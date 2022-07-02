@@ -29,8 +29,18 @@
     .select {
         padding-left: 10px;
         font-size: 0.9em;
+        border-radius: 2px !important;
+        border: 0px;
+        outline: none;
+
         @include respond(600px) {
             padding-left: 4px;
+        }
+
+        option {
+            // background-color: blue;
+            border-radius: 2px !important;
+            padding: 1rem 2rem;
         }
     }
 

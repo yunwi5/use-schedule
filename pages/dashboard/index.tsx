@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import { getSession } from '@auth0/nextjs-auth0';
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { IEvent } from '../../models/Event';
 import { Task } from '../../models/task-models/Task';
@@ -33,41 +33,35 @@ const DashboardPage: NextPage<Props> = (props) => {
                 />
             </Head>
             <DashboardContextProvider events={events} tasks={tasks}>
-                <DashboardMain tasks={tasks} events={events} />
+                <DashboardMain />
             </DashboardContextProvider>
         </div>
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { req, res, query } = context;
-    const session = getSession(req, res);
-    if (!session) {
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+    async getServerSideProps(context) {
+        const { req, res } = context;
+        const session = getSession(req, res);
+        const userId = session?.user.sub;
+
+        const allTasksPromise = getTasksFromAllCollection(userId);
+        const eventsPromise = getEventsFromPage(userId);
+
+        // Need to convert to App style object (i.e. id instead of _id)
+        const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
+            allTasksPromise,
+            eventsPromise,
+        ]);
+        const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
+
         return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
+            props: {
+                initialAllTasks: convertToTasks(allTasks),
+                initialEvents: convertToAppObjectList(eventsData),
             },
         };
-    }
-    const userId = session.user.sub;
-
-    const allTasksPromise = getTasksFromAllCollection(userId);
-    const eventsPromise = getEventsFromPage(userId);
-
-    // Need to convert to App style object (i.e. id instead of _id)
-    const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
-        allTasksPromise,
-        eventsPromise,
-    ]);
-    const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
-
-    return {
-        props: {
-            initialAllTasks: convertToTasks(allTasks),
-            initialEvents: convertToAppObjectList(eventsData),
-        },
-    };
-};
+    },
+});
 
 export default DashboardPage;

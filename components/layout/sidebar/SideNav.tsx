@@ -28,14 +28,14 @@ const SideNav: React.FC<Props> = ({ showSidebar }) => {
             <ActiveNavLink
                 href={calendarLink.link}
                 className={`text-xl text-slate-700/90 hover:text-sky-500 border-l-[2.7px] border-transparent`}
-                activeClassName="pl-2 font-bold brightness-105 border-l-[2.7px] text-blue-300 !border-sky-300 border-blue-300"
+                activeClassName="pl-2 font-bold brightness-105 border-l-[2.7px] !text-blue-500 !border-blue-400"
             >
                 {calendarLink.name}
             </ActiveNavLink>
             <ActiveNavLink
                 href={dashboardLink.link}
                 className={`text-xl text-slate-700/90 hover:text-sky-600 border-l-[2.7px] border-transparent`}
-                activeClassName="pl-2 font-bold brightness-105 border-l-[2.7px] text-blue-300 !border-sky-300 border-blue-300"
+                activeClassName="pl-2 font-bold brightness-105 border-l-[2.7px] !text-blue-500 !border-blue-400"
             >
                 {dashboardLink.name}
             </ActiveNavLink>

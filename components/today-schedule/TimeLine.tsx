@@ -16,6 +16,7 @@ interface Props {
 
 const TimeLine: React.FC<Props> = (props) => {
     const { timeLabel, items, onInvalidate, expandItems } = props;
+
     return (
         <li className={'flex flex-col md:flex-row gap-3'}>
             <time

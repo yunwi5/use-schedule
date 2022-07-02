@@ -35,15 +35,16 @@ const DashboardContext = React.createContext<IDashboardContext>({
 export const useDashboardContext = () => useContext(DashboardContext);
 
 interface Props {
-    events: IEvent[];
-    tasks: AbstractTask[];
+    events?: IEvent[];
+    tasks?: AbstractTask[];
 }
 export const DashboardContextProvider: React.FC<Props> = (props) => {
     const { events: initialEvents, tasks: initialTasks, children } = props;
     const [analyzer, setAnalyzer] = useState<AbstractAnalyzer | null>(null);
 
     const dispatch = useAppDispatch();
-    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery(initialTasks);
+    const { allTasks: tasks, invalidateAllTasks: invalidateTasks } =
+        useTaskQuery(initialTasks);
     const { events, invalidateEvents } = useEventQuery(initialEvents);
 
     const invalidateAll = () => {
@@ -88,5 +89,7 @@ export const DashboardContextProvider: React.FC<Props> = (props) => {
         onChangeDate: dateHandler,
     };
 
-    return <DashboardContext.Provider value={contextValue}>{children}</DashboardContext.Provider>;
+    return (
+        <DashboardContext.Provider value={contextValue}>{children}</DashboardContext.Provider>
+    );
 };

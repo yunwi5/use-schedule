@@ -29,7 +29,6 @@ export enum MiniChartType {
 }
 
 const options = {
-    responsive: true,
     maintainAspectRatio: true,
     plugins: {
         // Removing legend
@@ -69,7 +68,7 @@ const options = {
 };
 
 const barOptions = {
-    responsive: true,
+    // responsive: true,
     // maintainAspectRatio: true,
     plugins: {
         // Removing legend
@@ -146,8 +145,8 @@ const MiniChart: React.FC<Props> = ({ dataset, chartType }) => {
     };
 
     const pieAndDoughnutConfig = {
-        width: 150,
-        height: 200,
+        width: '150px',
+        height: '200px',
         options,
         data: pieOrDoughnutData,
     };

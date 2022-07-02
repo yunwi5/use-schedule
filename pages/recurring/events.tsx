@@ -54,17 +54,6 @@ export default RecurringEvents;
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     async getServerSideProps(context) {
-        // const { req, res } = context;
-        // const session = getSession(req, res);
-        // const userId: string = session?.user.sub;
-        // if (!session)
-        //     return {
-        //         redirect: {
-        //             destination: '/login',
-        //             permanent: false,
-        //         },
-        //     };
-
         return {
             props: {},
         };

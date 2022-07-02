@@ -28,7 +28,7 @@ const NavList: React.FC<Props> = (props) => {
                             <ActiveNavLink
                                 href={item.link}
                                 className={`pb-[3px] pl-2 border-l-[2.5px] border-transparent`}
-                                activeClassName="font-bold brightness-105 text-blue-300 !border-blue-300"
+                                activeClassName="font-bold brightness-105 text-blue-500 !border-blue-400"
                             >
                                 {item.name}
                             </ActiveNavLink>

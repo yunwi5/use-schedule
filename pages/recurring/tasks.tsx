@@ -54,16 +54,6 @@ export default RecurringTasks;
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     async getServerSideProps(context) {
-        // const { req, res } = context;
-        // const session = getSession(req, res);
-        // if (!session)
-        //     return {
-        //         redirect: {
-        //             destination: '/login',
-        //             permanent: false,
-        //         },
-        //     };
-
         return {
             props: {},
         };
