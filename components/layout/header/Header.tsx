@@ -51,7 +51,7 @@ const Header: React.FC<Props> = ({ onToggleSidebar }) => {
 
             {/* Right side */}
             <div
-                className={`space-x-5 text-lg font-semibold text-slate-500 flex items-center`}
+                className={`space-x-5 text-lg font-semibold text-slate-700/90 flex items-center`}
             >
                 <Link href="/about">
                     <a className={linkClass}>About</a>

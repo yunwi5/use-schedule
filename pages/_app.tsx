@@ -36,9 +36,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                             {/* Noficiaion context provider so that child components can use notification for success, pending, and error from the server. */}
                             <NotificationContextProvider>
                                 <Head>
-                                    {/* TITLE */}
+                                    {/* DEFAULT TITLE */}
                                     <title>{AppProperty.APP_NAME}</title>
-                                    {/* DESCRIPTION */}
+                                    {/* DEFAULT DESCRIPTION */}
                                     <meta
                                         name="description"
                                         content={`${AppProperty.APP_NAME} application to manage personal or business schedules. Use dashboard and data analysis to examine your schedule patterns. Use recurring schedules and template tables to minimize repetitive work.`}
