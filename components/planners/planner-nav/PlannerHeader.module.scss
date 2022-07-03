@@ -110,6 +110,7 @@ $dropdown-bp: 675px;
     }
 
     .btn {
+        white-space: nowrap !important;
         border-radius: 23px;
     }
 }
