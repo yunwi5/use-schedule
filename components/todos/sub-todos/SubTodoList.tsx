@@ -1,11 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import { useQueryClient, useQuery, useMutation } from 'react-query';
+
 import { SortingDirection, SubItemSort } from '../../../models/sorting-models';
 import { NoIdSubTodo, SubTodo } from '../../../models/todo-models/SubTodo';
-import { SubItemProps } from '../../../models/utility-models';
+import { SubItem, SubItemProps } from '../../../models/utility-models';
 import { sortSubItems } from '../../../utilities/sort-utils/sub-item-sort';
 import { SubItemCard, SubItemForm, SubItemSorter } from '../../sub-items';
+import useArray from '../../../hooks/useArray';
 
 interface Props {
     todoId: string;
@@ -24,11 +27,26 @@ const SubTodoList: React.FC<Props> = (props) => {
     const { isEditing, todoId } = props;
 
     const queryClient = useQueryClient();
-    const { data, isLoading, isError } = useQuery(['sub-todos', todoId], fetchSubTodos, {
+    const { data } = useQuery(['sub-todos', todoId], fetchSubTodos, {
         enabled: !!todoId,
     });
-    const subTodos: SubTodo[] = data ? data.subTodos : [];
-    const [sortedSubTodos, setSortedSubTodos] = useState(subTodos);
+
+    const subTodos: SubTodo[] = useMemo(() => (data ? data.subTodos : []), [data]);
+
+    // For better performance. Update sub todo list before hitting the backend.
+    // User sees immediate update.
+    const {
+        array: localSubTodos,
+        setArray: setLocalSubTodos,
+        addItem,
+        editItem,
+        deleteItem,
+    } = useArray(subTodos);
+
+    const [sortingStandard, setSortingStandard] = useState<SubItemSort | null>(null);
+    const [sortingDirection, setSortingDirection] = useState<SortingDirection | undefined>(
+        undefined,
+    );
 
     const invalidateSubTodos = useCallback(
         () => queryClient.invalidateQueries('sub-todos'),
@@ -62,19 +80,26 @@ const SubTodoList: React.FC<Props> = (props) => {
         },
     );
 
-    const deleteSubTodoHandler = (id: string) => {
-        deleteMutation.mutate(id);
-    };
+    const deleteSubTodoHandler = useCallback(
+        (id: string) => {
+            deleteMutation.mutate(id);
+            deleteItem(id);
+        },
+        [deleteMutation, deleteItem],
+    );
 
     const patchSubTodoHandler = useCallback(
         async (subTodoId: string, subTodoProps: SubItemProps) => {
             patchMutation.mutate({ subTodoId, subTodoProps });
+            // local state update
+            editItem(subTodoId, subTodoProps);
         },
-        [patchMutation],
+        [patchMutation, editItem],
     );
 
     const addSubTodoHandler = (text: string) => {
-        const newTodo: NoIdSubTodo = {
+        const newTodo: SubTodo = {
+            id: uuidv4(),
             name: text,
             order: subTodos.length + 1,
             isImportant: false,
@@ -82,12 +107,26 @@ const SubTodoList: React.FC<Props> = (props) => {
             parentId: todoId,
         };
         postMutation.mutate(newTodo);
+        addItem(newTodo);
     };
 
     const sortingHandler = (standard: SubItemSort, direction?: SortingDirection) => {
-        const [...sortedList] = sortSubItems(subTodos, standard, direction);
-        setSortedSubTodos(sortedList as SubTodo[]);
+        setSortingStandard(standard);
+        setSortingDirection(direction ?? SortingDirection.Descending);
     };
+
+    const sortedSubTodos = useMemo(() => {
+        if (!sortingStandard) return localSubTodos;
+        return sortSubItems(
+            [...localSubTodos],
+            sortingStandard,
+            sortingDirection,
+        ) as SubItem[];
+    }, [localSubTodos, sortingStandard, sortingDirection]);
+
+    useEffect(() => {
+        setLocalSubTodos(subTodos);
+    }, [subTodos, setLocalSubTodos]);
 
     return (
         <section className="pl-[1rem] flex flex-col gap-2">
@@ -95,9 +134,9 @@ const SubTodoList: React.FC<Props> = (props) => {
                 <h3 className="text-slate-600 font-semibold text-xl">Steps</h3>
                 <SubItemSorter onSort={sortingHandler} />
             </div>
-            {subTodos.length > 0 && (
+            {sortedSubTodos.length > 0 && (
                 <div className="flex flex-col gap-[2px] mb-3">
-                    {subTodos.map((subTodo) => (
+                    {sortedSubTodos.map((subTodo) => (
                         <SubItemCard
                             key={subTodo.id}
                             subItem={subTodo}

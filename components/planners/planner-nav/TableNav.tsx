@@ -35,7 +35,7 @@ const TableNav: React.FC<Props> = (props) => {
                         icon={faCaretLeft}
                         onClick={onChangePeriod.bind(null, -1)}
                     />
-                    <p>{navPeriod}</p>
+                    <p className={'!whitespace-nowrap'}>{navPeriod}</p>
                     <FontAwesomeIcon
                         className="text-4xl cursor-pointer max-w-[1.2rem]"
                         icon={faCaretRight}

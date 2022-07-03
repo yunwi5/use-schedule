@@ -12,6 +12,10 @@ import useNotification from '../../../hooks/useNotification';
 import { NotifStatus } from '../../ui/Notification';
 import { getFullDateFormat } from '../../../utilities/date-utils/date-format';
 import classes from './TodoDetail.module.scss';
+import {
+    CalendarItemType,
+    getItemIcon,
+} from '../../../models/calendar-models/CalendarItemType';
 
 interface Props {
     todo: Todo;
@@ -55,7 +59,8 @@ const TodoDetail: React.FC<Props> = (props) => {
 
     return (
         <Modal onClose={onClose} modalClass={`modal ${classes.modal}`}>
-            <h2 className={classes.heading}>
+            <h2 className={`flex items-center ${classes.heading}`}>
+                {getItemIcon(CalendarItemType.TODO, 'text-indigo-600/90')}
                 {!isEditing && <p className={classes.value}>{name}</p>}
                 {isEditing && (
                     <input
@@ -80,7 +85,11 @@ const TodoDetail: React.FC<Props> = (props) => {
                         onDelete={() => setShowDeleteModal(true)}
                     />
                 </div>
-                <TodoDetailInfo todo={todo} onMutateTodo={mutationHandler} isEditing={isEditing} />
+                <TodoDetailInfo
+                    todo={todo}
+                    onMutateTodo={mutationHandler}
+                    isEditing={isEditing}
+                />
                 <SubTodoList isEditing={isEditing} todoId={todo.id} />
             </div>
             <time className="text-[75%] pl-3 text-gray-400">

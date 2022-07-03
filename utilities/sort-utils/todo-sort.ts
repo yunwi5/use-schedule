@@ -19,7 +19,7 @@ function compareByCreatedOrder(
 export function sortTodos(
     todos: Todo[],
     sortingStandard: TodoSort,
-    direction: SortingDirection,
+    direction: SortingDirection = SortingDirection.Descending,
 ): Todo[] {
     const isAsc = direction === SortingDirection.Ascending;
     switch (sortingStandard) {

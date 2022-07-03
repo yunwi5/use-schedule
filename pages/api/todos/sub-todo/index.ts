@@ -25,6 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     if (req.method === 'POST') {
         const newSubTodo = req.body;
+        delete newSubTodo['id'];
 
         const { isValid, message } = validateSubTodo(newSubTodo);
         if (!isValid) {

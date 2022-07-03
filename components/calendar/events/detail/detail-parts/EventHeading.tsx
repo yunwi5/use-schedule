@@ -4,7 +4,7 @@ import { faCalendarStar } from '@fortawesome/pro-duotone-svg-icons';
 const EventHeading: React.FC<{ event: { name: string } }> = ({ event: { name } }) => {
     return (
         <h2
-            className={`text-xl md:text-2xl lg:text-3xl pb-2 border-b-2 border-sky-400/50 whitespace-nowrap overflow-hidden`}
+            className={`mr-2 px-3 sm:px-1 lg:px-3 text-xl md:text-2xl lg:text-3xl pb-2 border-b-2 border-sky-400/50 whitespace-nowrap overflow-hidden`}
         >
             <FontAwesomeIcon
                 icon={faCalendarStar}

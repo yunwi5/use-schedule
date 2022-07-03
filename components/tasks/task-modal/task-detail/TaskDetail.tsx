@@ -57,7 +57,7 @@ const TaskDetail: React.FC<Props> = (props) => {
             <h2>
                 {getItemIcon(CalendarItemType.TASK, '!mr-1 text-blue-500')} {name}
             </h2>
-            <ExitIcon onClose={onClose} className={'!bg-white !px-2 !top-4 !right-2'} />
+            <ExitIcon onClose={onClose} className={'!bg-white !px-2 !top-4 !right-4'} />
             <div className={'flex-1 flex flex-col gap-3 px-2 lg:px-3'}>
                 <TaskDetailNav
                     taskType={getTaskType(plannerType || PlannerMode.WEEKLY)}
