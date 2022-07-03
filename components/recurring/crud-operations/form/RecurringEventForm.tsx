@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
 
-import { IEvent, NoIdEvent, Participant } from '../../../../models/Event';
+import { IEvent, NoIdEvent } from '../../../../models/Event';
 import { Importance, Status } from '../../../../models/task-models/Status';
 import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 
@@ -60,7 +60,8 @@ interface Props {
 }
 
 const RecurringEventForm: React.FC<Props> = (props) => {
-    const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete, isEdit } = props;
+    const { onSubmit, initialEvent, beginningPeriod, heading, onClose, onDelete, isEdit } =
+        props;
 
     const userId = useUser().user?.sub;
 
@@ -107,7 +108,9 @@ const RecurringEventForm: React.FC<Props> = (props) => {
             ? (interval as RecurringInterval)
             : RecurringInterval.WEEK;
 
-        const participants = adjustParticipantsInput(participantsRef.current?.getParticipants());
+        const participants = adjustParticipantsInput(
+            participantsRef.current?.getParticipants(),
+        );
 
         const newEvent: NoIdRecurringEvent = {
             name,
@@ -166,7 +169,10 @@ const RecurringEventForm: React.FC<Props> = (props) => {
                         register={register}
                         label="End Date"
                         name="endDate"
-                        defaultDate={addYears(beginningPeriod, 1)}
+                        defaultDate={
+                            (initialEvent as RecurringEvent)?.endDate ||
+                            addYears(beginningPeriod, 1)
+                        }
                     />
                 </div>
 

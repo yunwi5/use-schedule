@@ -12,7 +12,9 @@ const ChartButtons: React.FC<Props> = ({
     additionalButton,
 }) => (
     <div
-        className={`order-3 max-w-[35rem] xl:max-w-none mt-5 flex flex-wrap flex-col sm:flex-row gap-4`}
+        className={`self-stretch order-3 max-w-[35rem] xl:max-w-none mt-5 flex flex-wrap flex-col sm:flex-row gap-4 ${
+            showComparison ? 'pr-5' : ''
+        }`}
     >
         <CustomMUIButton variant="text" onClick={onShowComparison}>
             {showComparison ? 'Hide Comparison' : 'Show Comparison'}

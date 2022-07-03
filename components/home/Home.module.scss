@@ -177,8 +177,6 @@ $layout-bp: 1100px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 2.5fr;
 
-    @include section-layout;
-
     .content {
         grid-row: 2 / span 1;
     }
@@ -194,6 +192,8 @@ $layout-bp: 1100px;
         @include home-image;
     }
 
+    @include section-layout;
+
     @include respond(tab-land) {
         .content {
             font-size: 1.1rem;
@@ -201,7 +201,7 @@ $layout-bp: 1100px;
     }
 
     // adjust grid layout
-    @media only screen and (max-width: 1010px) {
+    @media only screen and (max-width: $layout-bp) {
         grid-template-columns: 1fr;
         grid-template-rows: min-content 2fr max-content;
         grid-row-gap: 2rem;
