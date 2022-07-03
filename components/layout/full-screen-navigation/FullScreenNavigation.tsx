@@ -70,15 +70,9 @@ const FullScreenNavigation: React.FC<Props> = ({ onToggleSidebar, showSidebar })
                     />
                     <FullNavList
                         onNavigate={onToggleSidebar}
-                        listName={'Time Tables'}
-                        items={templateLinks}
-                    />
-                    <FullNavList
-                        onNavigate={onToggleSidebar}
                         listName={'Template Tables'}
                         items={templateLinks}
                     />
-
                     <FullNavList
                         onNavigate={onToggleSidebar}
                         listName={'Todo Lists'}
