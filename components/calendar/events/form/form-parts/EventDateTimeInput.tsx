@@ -27,15 +27,15 @@ const EventDateTimeInput: FC<Props> = ({ register, initialEvent, beginningPeriod
         : getISOTimeFormat(beginningPeriod);
 
     return (
-        <div className={`flex gap-10 items-center justify-between`}>
-            <div className={`${classes.section} w-[45%]`}>
+        <div className={`grid grid-cols-2 gap-x-6 lg:x-gap-10`}>
+            <div className={`${classes.section}`}>
                 <label htmlFor="date">
                     <FontAwesomeIcon icon={faCalendarDay} className={labelIconClass} />
                     Date
                 </label>
                 <input type="date" defaultValue={initialDateInput} {...register('date')} />
             </div>
-            <div className={`${classes.section} w-[45%]`}>
+            <div className={`${classes.section}`}>
                 <label htmlFor="time">
                     <FontAwesomeIcon icon={faAlarmClock} className={labelIconClass} />
                     Time

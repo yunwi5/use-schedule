@@ -16,7 +16,7 @@ interface Props {
 
 const EventImportanceInput: React.FC<Props> = ({ register, initialEvent }) => {
     return (
-        <div className={`${classes.section} w-[45%]`}>
+        <div className={`${classes.section}`}>
             <label htmlFor="importance">
                 <FontAwesomeIcon icon={faStarExclamation} className={labelIconClass} />
                 Importance

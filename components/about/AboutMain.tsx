@@ -33,7 +33,7 @@ const AboutMain = () => {
                     <TypeWriting />
                 </div>
                 {/* Section Documentation */}
-                <div className="mt-[.5rem]">
+                <div className="sm:mt-[.5rem] mb-[1.5rem] sm:-mb-[1rem]">
                     <CalendarDoc />
                     <DashboardDoc />
                     <RecurringScheduleDoc />

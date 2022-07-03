@@ -4,7 +4,10 @@ import { useForm } from 'react-hook-form';
 
 import { NoIdEvent, IEvent, Participant } from '../../../../models/Event';
 import { Importance, Status } from '../../../../models/task-models/Status';
-import { getISODateFormat, getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
+import {
+    getISODateFormat,
+    getISOTimeFormat,
+} from '../../../../utilities/date-utils/date-format';
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import {
     EventButtons,
@@ -80,7 +83,9 @@ const EventForm: React.FC<Props> = (props) => {
             }`,
         );
 
-        const participants = adjustParticipantsInput(participantsRef.current?.getParticipants());
+        const participants = adjustParticipantsInput(
+            participantsRef.current?.getParticipants(),
+        );
 
         const newEvent: NoIdEvent = {
             name,
@@ -104,7 +109,11 @@ const EventForm: React.FC<Props> = (props) => {
             <h2 className={classes.heading}>{headingText}</h2>
             <ExitIcon onClose={onClose} />
             <div className={classes.content}>
-                <EventNameInput register={register} initialItem={initialEvent} errors={errors} />
+                <EventNameInput
+                    register={register}
+                    initialItem={initialEvent}
+                    errors={errors}
+                />
                 <EventLocationInput register={register} initialEvent={initialEvent} />
                 <EventMeetingLink register={register} initialEvent={initialEvent} />
                 <EventParticipants initialEvent={initialEvent} ref={participantsRef} />
@@ -113,7 +122,7 @@ const EventForm: React.FC<Props> = (props) => {
                     initialEvent={initialEvent}
                     beginningPeriod={beginningPeriod}
                 />
-                <div className={`flex gap-10 justify-between`}>
+                <div className={`grid grid-cols-2 gap-x-6 lg:x-gap-10`}>
                     <EventDurationInput
                         register={register}
                         initialEvent={initialEvent}

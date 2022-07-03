@@ -6,6 +6,10 @@
     flex-direction: column;
     gap: 5rem;
 
+    @include respond(600px) {
+        gap: 1rem;
+    }
+
     // grid layout
     .video-intro {
         @include respond(1024px) {
