@@ -64,28 +64,42 @@ export function generateRecentWeeksFrequencyMap(
     const recentWeeksList: Date[] = []; // O(t) spcae
     const recentWeeksFreqMap: FrequencyMap = {}; // O(t) space
 
-    // e.g. recent 5 weeks
-    // 0 to -4 weeks
-    // O(t) time
-    for (let i = 0; i < numPeriod; i++) {
-        const weekEnding = addWeeks(getWeekEnding(currentPeriod), -i);
-        recentWeeksList.push(weekEnding);
-        recentWeeksFreqMap[weekEnding.toString()] = 0;
+    try {
+        // e.g. recent 5 weeks
+        // 0 to -4 weeks
+        // O(t) time
+        for (let i = 0; i < numPeriod; i++) {
+            const weekEnding = addWeeks(getWeekEnding(currentPeriod), -i);
+            recentWeeksList.push(weekEnding);
+            recentWeeksFreqMap[weekEnding.toString()] = 0;
+        }
+
+        // O(n) time
+        items.forEach((item) => {
+            // O(1) time
+            const itemWeekDiff = getNumberOfWeeksDiff(currentPeriod, item.dateTime);
+            if (isNaN(itemWeekDiff) || itemWeekDiff < 0) return;
+            if (itemWeekDiff >= recentWeeksList.length) return;
+
+            const weekEnding = recentWeeksList[itemWeekDiff];
+
+            if (weekEnding === undefined) {
+                // caused client side error
+                console.log('week ending:', weekEnding);
+                console.log('itemWeekDiff:', itemWeekDiff);
+                console.log('recentWeeksList:', recentWeeksList);
+            }
+
+            const weekBeginningStr = weekEnding.toString();
+            if (weekBeginningStr in recentWeeksFreqMap)
+                recentWeeksFreqMap[weekBeginningStr] += addByDuration ? item.duration : 1;
+            else recentWeeksFreqMap[weekBeginningStr] = addByDuration ? item.duration : 1;
+        });
+    } catch (err) {
+        const message =
+            err instanceof Error ? err.message : 'Error in generateRecentWeeksFrequencyMap()';
+        console.log(message);
     }
-
-    // O(n) time
-    items.forEach((item) => {
-        // O(1) time
-        const itemWeekDiff = getNumberOfWeeksDiff(currentPeriod, item.dateTime);
-        if (itemWeekDiff < 0) return;
-        if (itemWeekDiff >= recentWeeksList.length) return;
-
-        const weekEnding = recentWeeksList[itemWeekDiff];
-        const weekBeginningStr = weekEnding.toString();
-        if (weekBeginningStr in recentWeeksFreqMap)
-            recentWeeksFreqMap[weekBeginningStr] += addByDuration ? item.duration : 1;
-        else recentWeeksFreqMap[weekBeginningStr] = addByDuration ? item.duration : 1;
-    });
 
     return recentWeeksFreqMap;
 }
@@ -99,28 +113,34 @@ export function generateRecentMonthsFrequencyMap(
     const recentMonthsList: Date[] = []; // O(t) spcae
     const recentMonthsFreqMap: FrequencyMap = {}; // O(t) space
 
-    // e.g. recent 5 months
-    // 0 to -4 months
-    // O(t) time
-    for (let i = 0; i < numPeriod; i++) {
-        const monthBeginning = addMonths(currentPeriod, -i);
-        recentMonthsList.push(monthBeginning);
-        recentMonthsFreqMap[monthBeginning.toString()] = 0;
+    try {
+        // e.g. recent 5 months
+        // 0 to -4 months
+        // O(t) time
+        for (let i = 0; i < numPeriod; i++) {
+            const monthBeginning = addMonths(currentPeriod, -i);
+            recentMonthsList.push(monthBeginning);
+            recentMonthsFreqMap[monthBeginning.toString()] = 0;
+        }
+
+        // O(n) time
+        items.forEach((item) => {
+            // O(1) time
+            const itemMonthDiff = getNumberOfMonthsDiff(currentPeriod, item.dateTime);
+            if (isNaN(itemMonthDiff) || itemMonthDiff < 0) return;
+            if (itemMonthDiff >= recentMonthsList.length) return;
+
+            const monthBeginning = recentMonthsList[itemMonthDiff];
+            const monthBeginningStr = monthBeginning.toString();
+            if (monthBeginningStr in recentMonthsFreqMap)
+                recentMonthsFreqMap[monthBeginningStr] += addByDuration ? item.duration : 1;
+            else recentMonthsFreqMap[monthBeginningStr] = addByDuration ? item.duration : 1;
+        });
+    } catch (err) {
+        const message =
+            err instanceof Error ? err.message : 'error in generateRecentMonthsFrequencyMap';
+        console.log(message);
     }
-
-    // O(n) time
-    items.forEach((item) => {
-        // O(1) time
-        const itemMonthDiff = getNumberOfMonthsDiff(currentPeriod, item.dateTime);
-        if (itemMonthDiff < 0) return;
-        if (itemMonthDiff >= recentMonthsList.length) return;
-
-        const monthBeginning = recentMonthsList[itemMonthDiff];
-        const monthBeginningStr = monthBeginning.toString();
-        if (monthBeginningStr in recentMonthsFreqMap)
-            recentMonthsFreqMap[monthBeginningStr] += addByDuration ? item.duration : 1;
-        else recentMonthsFreqMap[monthBeginningStr] = addByDuration ? item.duration : 1;
-    });
 
     return recentMonthsFreqMap;
 }
@@ -134,28 +154,34 @@ export function generateRecentYearsFrequencyMap(
     const recentYearsList: Date[] = []; // O(t) spcae
     const recentYearsFreqMap: FrequencyMap = {}; // O(t) space
 
-    // e.g. recent 5 years
-    // 0 to -4 years
-    // O(t) time
-    for (let i = 0; i < numPeriod; i++) {
-        const yearBeginning = addYears(currentPeriod, -i);
-        recentYearsList.push(yearBeginning);
-        recentYearsFreqMap[yearBeginning.toString()] = 0;
+    try {
+        // e.g. recent 5 years
+        // 0 to -4 years
+        // O(t) time
+        for (let i = 0; i < numPeriod; i++) {
+            const yearBeginning = addYears(currentPeriod, -i);
+            recentYearsList.push(yearBeginning);
+            recentYearsFreqMap[yearBeginning.toString()] = 0;
+        }
+
+        // O(n) time
+        items.forEach((item) => {
+            // O(1) time
+            const itemYearDiff = getNumberOfYearsDiff(currentPeriod, item.dateTime);
+            if (isNaN(itemYearDiff) || itemYearDiff < 0) return;
+            if (itemYearDiff >= recentYearsList.length) return;
+
+            const yearBeginning = recentYearsList[itemYearDiff];
+            const yearBeginningStr = yearBeginning.toString();
+            if (yearBeginningStr in recentYearsFreqMap)
+                recentYearsFreqMap[yearBeginningStr] += addByDuration ? item.duration : 1;
+            else recentYearsFreqMap[yearBeginningStr] = addByDuration ? item.duration : 1;
+        });
+    } catch (err) {
+        const message =
+            err instanceof Error ? err.message : 'error in generateRecentYearsFrequencyMap()';
+        console.log(message);
     }
-
-    // O(n) time
-    items.forEach((item) => {
-        // O(1) time
-        const itemYearDiff = getNumberOfYearsDiff(currentPeriod, item.dateTime);
-        if (itemYearDiff < 0) return;
-        if (itemYearDiff >= recentYearsList.length) return;
-
-        const yearBeginning = recentYearsList[itemYearDiff];
-        const yearBeginningStr = yearBeginning.toString();
-        if (yearBeginningStr in recentYearsFreqMap)
-            recentYearsFreqMap[yearBeginningStr] += addByDuration ? item.duration : 1;
-        else recentYearsFreqMap[yearBeginningStr] = addByDuration ? item.duration : 1;
-    });
 
     return recentYearsFreqMap;
 }

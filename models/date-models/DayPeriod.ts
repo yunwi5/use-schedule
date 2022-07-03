@@ -1,3 +1,5 @@
+import { isInvalidDate } from '../../utilities/date-utils/date-check';
+
 export enum DayPeriod {
     AM = 'AM',
     PM = 'PM',
@@ -6,8 +8,9 @@ export enum DayPeriod {
 export const DayPeriodList = [DayPeriod.AM, DayPeriod.PM];
 
 export function getDayPeriod(date: Date): DayPeriod {
-    if (date.getHours() < 12) {
+    if (date == null || isInvalidDate(date)) {
+        console.log('Date is invalid:', date);
         return DayPeriod.AM;
     }
-    return DayPeriod.PM;
+    return date.getHours() < 12 ? DayPeriod.AM : DayPeriod.PM;
 }

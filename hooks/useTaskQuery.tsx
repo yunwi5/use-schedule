@@ -29,9 +29,7 @@ const useTaskQuery = (initialAllTasks?: Task[]) => {
     }, [allTasks]);
 
     useEffect(() => {
-        callRecurringItemUpdate().then(({ isSuccess, message }) =>
-            console.log(`success: ${isSuccess}, ${message}`),
-        );
+        callRecurringItemUpdate();
     }, []);
 
     return {

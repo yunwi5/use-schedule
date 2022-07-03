@@ -65,7 +65,14 @@ export default withApiAuthRequired(async function handler(
         const newTask = req.body;
         if (!Array.isArray(newTask)) {
             delete newTask['id'];
-            const { isValid, message } = validateTask(newTask);
+            let { isValid, message } = validateTask(newTask);
+            if (
+                !newTask.timeString ||
+                newTask.timeString?.trim().toLowerCase() === 'invalid date'
+            ) {
+                isValid = false;
+                message = 'Task timeString is invalid';
+            }
             if (!isValid) {
                 client.close();
                 return res.status(415).json({ message });

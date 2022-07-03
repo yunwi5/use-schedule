@@ -61,31 +61,18 @@ export function generateLineChartData(
     backgroundColor?: string,
     borderColor?: string,
 ): ChartData[] {
-    const trendChartData: ChartData[] = Object.entries(recentTrendMap).map(([timeLine, freq]) => {
-        const data: ChartData = {
-            label: labelCallback(new Date(timeLine)),
-            value: freq,
-            backgroundColor: backgroundColor ?? '',
-            borderColor: borderColor,
-        };
-        return data;
-    });
+    const trendChartData: ChartData[] = Object.entries(recentTrendMap).map(
+        ([timeLine, freq]) => {
+            const data: ChartData = {
+                label: labelCallback(new Date(timeLine)),
+                value: freq,
+                backgroundColor: backgroundColor ?? '',
+                borderColor: borderColor,
+            };
+            return data;
+        },
+    );
     return trendChartData;
-}
-
-// Data analysis link with initial starting date
-export function getDataAnalysisLink(plannerMode: PlannerMode | null, beginningPeriod: Date) {
-    const dateStr = beginningPeriod.toDateString();
-    switch (plannerMode) {
-        case PlannerMode.WEEKLY:
-            return `/task-planner/weekly-planner/analysis?start_date=${dateStr}`;
-        case PlannerMode.MONTLY:
-            return `/task-planner/montly-planner/analysis?start_date=${dateStr}`;
-        case PlannerMode.YEARLY:
-            return `/task-planner/yearly-planner/analysis?start_date=${dateStr}`;
-        default:
-            return `/task-planner/weekly-planner/analysis?start_date=${dateStr}`;
-    }
 }
 
 export function populateAnalyzer(
@@ -110,4 +97,19 @@ export function populateAnalyzer(
         for (const task of tasks) analyzer.addItem(task);
     }
     return analyzer;
+}
+
+// Data analysis link with initial starting date
+export function getDataAnalysisLink(plannerMode: PlannerMode | null, beginningPeriod: Date) {
+    const dateStr = beginningPeriod.toDateString();
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+            return `/task-planner/weekly-planner/analysis?start_date=${dateStr}`;
+        case PlannerMode.MONTLY:
+            return `/task-planner/montly-planner/analysis?start_date=${dateStr}`;
+        case PlannerMode.YEARLY:
+            return `/task-planner/yearly-planner/analysis?start_date=${dateStr}`;
+        default:
+            return `/task-planner/weekly-planner/analysis?start_date=${dateStr}`;
+    }
 }

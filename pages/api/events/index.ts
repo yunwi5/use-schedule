@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next/types';
 import { getEvents, insertEvent, insertEvents } from '../../../db/event-util';
 import { connectDatabase } from '../../../db/mongodb-config';
 import { IEvent } from '../../../models/Event';
+import { validateEvent } from '../../../schemas/validation';
 import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 
 type Data =
@@ -33,7 +34,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     }
 
     if (req.method === 'POST') {
-        const newEvent = req.body;
+        let newEvent = req.body;
+
+        if (!Array.isArray(newEvent)) {
+            const { isValid, message } = validateEvent(newEvent);
+            if (!isValid) {
+                return res.status(400).json({ message });
+            }
+        } else {
+            // filter out invalid events
+            newEvent = newEvent.filter((eventChild) => {
+                const { isValid, message } = validateEvent(newEvent);
+                if (!isValid) console.log(`invalid event detected:\n${message}\n`, eventChild);
+                return isValid;
+            });
+        }
 
         let result;
         if (!Array.isArray(newEvent)) {
