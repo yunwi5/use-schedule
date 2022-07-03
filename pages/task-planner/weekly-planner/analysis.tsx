@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { getSession } from '@auth0/nextjs-auth0';
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
@@ -48,40 +48,42 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { req, res, query } = context;
-    const session = getSession(req, res);
-    if (!session) {
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+    async getServerSideProps(context) {
+        const { req, res, query } = context;
+        const session = getSession(req, res);
+        const userId = session?.user.sub;
+        if (!session || !userId) {
+            return {
+                redirect: {
+                    destination: '/login',
+                    permanent: false,
+                },
+            };
+        }
+
+        const { start_date } = query;
+        const startDate: string = Array.isArray(start_date)
+            ? start_date.join(' ')
+            : start_date || getCurrentWeekBeginning().toDateString();
+        const allTasksPromise = getTasksFromAllCollection(userId);
+        const eventsPromise = getEventsFromPage(userId);
+
+        // Need to convert to App style object (i.e. id instead of _id)
+        const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
+            allTasksPromise,
+            eventsPromise,
+        ]);
+        const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
+
         return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
+            props: {
+                initialAllTasks: convertToAppObjectList(allTasks),
+                initialEvents: convertToAppObjectList(eventsData),
+                initialStartDate: startDate,
             },
         };
-    }
-    const userId = session.user.sub;
-
-    const { start_date } = query;
-    const startDate: string = Array.isArray(start_date)
-        ? start_date.join(' ')
-        : start_date || getCurrentWeekBeginning().toDateString();
-    const allTasksPromise = getTasksFromAllCollection(userId);
-    const eventsPromise = getEventsFromPage(userId);
-
-    // Need to convert to App style object (i.e. id instead of _id)
-    const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
-        allTasksPromise,
-        eventsPromise,
-    ]);
-    const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
-
-    return {
-        props: {
-            initialAllTasks: convertToAppObjectList(allTasks),
-            initialEvents: convertToAppObjectList(eventsData),
-            initialStartDate: startDate,
-        },
-    };
-};
+    },
+});
 
 export default WeeklyAnalysisPage;

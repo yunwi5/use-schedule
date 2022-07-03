@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { getSession } from '@auth0/nextjs-auth0';
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
 import { Task } from '../../../models/task-models/Task';
@@ -47,39 +47,41 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { req, res, query } = context;
-    const session = getSession(req, res);
-    if (!session) {
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+    async getServerSideProps(context) {
+        const { req, res, query } = context;
+        const session = getSession(req, res);
+        if (!session) {
+            return {
+                redirect: {
+                    destination: '/login',
+                    permanent: false,
+                },
+            };
+        }
+        const userId = session.user.sub;
+
+        const { start_date } = query;
+        const startDate: string = Array.isArray(start_date)
+            ? start_date.join(' ')
+            : start_date || getCurrentYearBeginning().toDateString();
+        const allTasksPromise = getTasksFromAllCollection(userId);
+        const eventsPromise = getEventsFromPage(userId);
+
+        const [[wTaskData, mTaskData, yTaskData], eventsData] = await Promise.all([
+            allTasksPromise,
+            eventsPromise,
+        ]);
+        const allTaskData = [...wTaskData, ...mTaskData, ...yTaskData];
+
         return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
+            props: {
+                initialAllTasks: convertToAppObjectList(allTaskData),
+                initialEvents: convertToAppObjectList(eventsData),
+                initialStartDate: startDate,
             },
         };
-    }
-    const userId = session.user.sub;
-
-    const { start_date } = query;
-    const startDate: string = Array.isArray(start_date)
-        ? start_date.join(' ')
-        : start_date || getCurrentYearBeginning().toDateString();
-    const allTasksPromise = getTasksFromAllCollection(userId);
-    const eventsPromise = getEventsFromPage(userId);
-
-    const [[wTaskData, mTaskData, yTaskData], eventsData] = await Promise.all([
-        allTasksPromise,
-        eventsPromise,
-    ]);
-    const allTaskData = [...wTaskData, ...mTaskData, ...yTaskData];
-
-    return {
-        props: {
-            initialAllTasks: convertToAppObjectList(allTaskData),
-            initialEvents: convertToAppObjectList(eventsData),
-            initialStartDate: startDate,
-        },
-    };
-};
+    },
+});
 
 export default WeeklyAnalysisPage;
