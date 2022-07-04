@@ -1,8 +1,7 @@
-import React from 'react';
-import type { GetServerSideProps, NextPage } from 'next';
+import React, { useEffect } from 'react';
+import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useQuery, useQueryClient } from 'react-query';
-import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import TodoListContainer from '../../components/todos/TodoListContainer';
 import { TodoList, TodoListProperties } from '../../models/todo-models/TodoList';
@@ -10,6 +9,10 @@ import { Todo } from '../../models/todo-models/Todo';
 import { patchTodoList } from '../../lib/todos/todo-list-api';
 import { getTodoListAndItemsFromPage } from '../../db/pages-util';
 import { AppProperty } from '../../constants/global-constants';
+import { getAllTodoLists } from '../../db/static-fetching';
+import { useUser } from '@auth0/nextjs-auth0';
+import { useRouter } from 'next/router';
+import { getLoginLink } from '../../utilities/link-utils';
 
 const API_TODO_DOMAIN = '/api/todos';
 
@@ -19,14 +22,15 @@ function getTodoList(context: any) {
 }
 
 interface Props {
-    userId: string;
-    user: Claims;
     initialList: TodoList;
     initialTodos: Todo[];
 }
 
 // This is the page for "new" todo list, so no fetching from the server.
 const NewTodoPage: NextPage<Props> = (props) => {
+    const userId = useUser().user?.sub;
+    const router = useRouter();
+
     const { initialList, initialTodos } = props;
     const listId = initialList.id;
 
@@ -60,6 +64,10 @@ const NewTodoPage: NextPage<Props> = (props) => {
 
     const invalidateTodoList = () => queryClient.invalidateQueries('todo-list');
 
+    useEffect(() => {
+        if (!userId) router.replace(getLoginLink());
+    }, [userId, router]);
+
     return (
         <div style={{ height: '100%' }}>
             <Head>
@@ -81,40 +89,39 @@ const NewTodoPage: NextPage<Props> = (props) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
-    async getServerSideProps(context) {
-        const { req, res, query, params } = context;
-        const session = getSession(req, res);
+export const getStaticPaths: GetStaticPaths = async () => {
+    const todoLists = await getAllTodoLists();
+    const ids = todoLists.map((list) => list._id.toString());
+    const pathWithParams = ids.map((id) => ({ params: { listId: id } }));
 
-        if (!session) {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            };
-        }
-        const userId = session.user.sub;
-        const { listId: initialId } = query;
-        const listId = Array.isArray(initialId) ? initialId.join('') : initialId;
+    return {
+        paths: pathWithParams,
+        fallback: true,
+    };
+};
 
-        if (!listId) {
-            return { notFound: true, message: 'List id is required.' };
-        }
-
-        const [todoList, todos] = await getTodoListAndItemsFromPage(listId);
-
-        if (!todoList) {
-            return { notFound: true, message: 'Your list is not found.' };
-        }
+export const getStaticProps: GetStaticProps = async (context) => {
+    const { params } = context;
+    if (!params)
         return {
-            props: {
-                userId,
-                initialTodos: todos,
-                initialList: todoList,
-            },
+            notFound: true,
         };
-    },
-});
+
+    let listId = params.listId;
+    listId = Array.isArray(listId) ? listId.join('') : listId;
+
+    if (!listId) return { notFound: true, message: 'List id is required.' };
+
+    const [todoList, todos] = await getTodoListAndItemsFromPage(listId);
+
+    if (!todoList) return { notFound: true, message: 'Your list is not found.' };
+    return {
+        props: {
+            initialTodos: todos,
+            initialList: todoList,
+        },
+        revalidate: 60,
+    };
+};
 
 export default NewTodoPage;

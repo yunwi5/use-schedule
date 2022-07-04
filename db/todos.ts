@@ -24,7 +24,7 @@ export async function getTodoItems(client: MongoClient, listId: string) {
     return await db.collection(TodoCollection).find({ listId }).toArray();
 }
 
-export async function getAllTodoLists(client: MongoClient, userId: string) {
+export async function getAllUserTodoLists(client: MongoClient, userId: string) {
     const db = client.db();
     const res = await db.collection(TodoListCollection).find({ userId }).toArray();
     return res;

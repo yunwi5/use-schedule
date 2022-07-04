@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@auth0/nextjs-auth0';
 
 import { connectDatabase } from '../../../../db/mongodb-config';
-import { getAllTodoLists, insertTodoList } from '../../../../db/todos';
+import { getAllUserTodoLists, insertTodoList } from '../../../../db/todos';
 import { convertToTodoListArray } from '../../../../utilities/todos-utils/todo-util';
 import { validateTodoList } from '../../../../schemas/validation';
 
@@ -32,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if (req.method === 'GET') {
         let todoListArray: TodoList[];
         try {
-            let result: any[] = await getAllTodoLists(client, userId);
+            let result: any[] = await getAllUserTodoLists(client, userId);
             todoListArray = convertToTodoListArray(result);
         } catch (err) {
             const message =

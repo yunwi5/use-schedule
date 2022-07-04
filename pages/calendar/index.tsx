@@ -65,6 +65,10 @@ const Calendar: NextPage<Props> = (props) => {
     );
 };
 
+// use getStaticPaths and getStaticProps
+// for data fetching.
+// Retrieve user ids from User table.
+
 // export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
 //     async getServerSideProps(context) {
 //         // const { req, res } = context;

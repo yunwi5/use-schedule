@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import { connectDatabase } from '../../../db/mongodb-config';
-import { getAllTodoLists, insertManyTodoLists } from '../../../db/todos';
+import { getAllUserTodoLists, insertManyTodoLists } from '../../../db/todos';
 import { InitialDefaultTodoLists, NoIdTodoList } from '../../../models/todo-models/TodoList';
 import { hasDefaultTodoLists } from '../../../utilities/todos-utils/default-todo-list';
 import {
@@ -33,7 +33,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     }));
 
     if (req.method === 'POST' || req.method === 'GET') {
-        const existingTodoLists = await getAllTodoLists(client, userId);
+        const existingTodoLists = await getAllUserTodoLists(client, userId);
         const hasDefault = hasDefaultTodoLists(convertToTodoListArray(existingTodoLists));
         if (hasDefault) {
             client.close();

@@ -2,7 +2,6 @@
 @import '../../../styles/abstract/mixins';
 
 .panel {
-    flex-basis: 0.4;
     min-height: 5rem;
     background: linear-gradient(
             217deg,
@@ -16,12 +15,14 @@
     color: $color-primary-dark-3;
     padding: 1.1rem;
     padding-bottom: 4rem;
+    position: relative;
 
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-wrap: wrap;
-    position: relative;
+    gap: 2rem;
 
     h2 {
         font-size: 1.5rem;

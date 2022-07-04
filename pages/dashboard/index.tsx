@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import { useUser } from '@auth0/nextjs-auth0';
 
