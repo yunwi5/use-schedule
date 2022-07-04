@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
+
 import { CalendarFilter, FilterStorage } from './calendar-filter';
 import ItemCreate from './item-create/ItemCreateButton';
-
 import { useAppDispatch, useAppSelector } from '../../../store/redux';
 import { calendarActions } from '../../../store/redux/calendar-slice';
 import Modal from '../../ui/modal/Modal';
@@ -9,8 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import classes from './CalendarControl.module.scss';
 import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
-import { useEffect } from 'react';
-import { checkIsMobile } from '../../../utilities/device-util';
 
 interface Props {
     onInvalidate: () => void;
@@ -37,7 +36,6 @@ const CalendarControl: React.FC<Props> = (props) => {
     useWindowInnerWidth({
         breakPoint: LAYOUT_BREAK_POINT,
         aboveBreakPointCallback: () => dispatch(calendarActions.setShowSidebar(true)),
-        belowBreakPointCallback: () => dispatch(calendarActions.setShowSidebar(false)),
     });
 
     useEffect(() => {

@@ -122,7 +122,7 @@ const EventForm: React.FC<Props> = (props) => {
                     initialEvent={initialEvent}
                     beginningPeriod={beginningPeriod}
                 />
-                <div className={`grid grid-cols-2 gap-x-6 lg:x-gap-10`}>
+                <div className={`grid grid-cols-2 gap-x-6`}>
                     <EventDurationInput
                         register={register}
                         initialEvent={initialEvent}

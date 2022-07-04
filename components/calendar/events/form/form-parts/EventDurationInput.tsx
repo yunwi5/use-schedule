@@ -18,8 +18,8 @@ const EventDurationInput: React.FC<Props> = ({ register, errors, initialEvent })
     const defaultDuration = initialEvent?.duration || 0;
 
     return (
-        <div className={`${classes.section} w-full lg:w-[45%]`}>
-            <label htmlFor="duration">
+        <div className={`${classes.section}`}>
+            <label htmlFor="duration" className={'flex items-center'}>
                 <FontAwesomeIcon icon={faHourglass} className={labelIconClass} />
                 Duration
             </label>

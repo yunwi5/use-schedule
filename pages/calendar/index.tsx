@@ -1,7 +1,7 @@
-import type { NextPage, GetServerSideProps } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0';
 
 import CalendarMain from '../../components/calendar/CalendarMain';
 import { useAppDispatch } from '../../store/redux';
@@ -10,6 +10,8 @@ import useEventQuery from '../../hooks/useEventQuery';
 import useTaskQuery from '../../hooks/useTaskQuery';
 import useTodoQuery from '../../hooks/useTodoQuery';
 import { AppProperty } from '../../constants/global-constants';
+import { useRouter } from 'next/router';
+import { getLoginLink } from '../../utilities/link-utils';
 
 interface Props {
     // tasks: Task[];
@@ -19,6 +21,8 @@ interface Props {
 
 const Calendar: NextPage<Props> = (props) => {
     // const { tasks: initialTasks, todos: initialTodos, events: initialEvents } = props;
+    const user = useUser().user?.sub;
+    const router = useRouter();
 
     const { events, invalidateEvents } = useEventQuery();
     const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery();
@@ -35,6 +39,12 @@ const Calendar: NextPage<Props> = (props) => {
     useEffect(() => {
         dispatch(plannerActions.setPlannerMode(null));
     }, [dispatch]);
+
+    useEffect(() => {
+        if (!user) {
+            router.replace(getLoginLink());
+        }
+    }, [user, router]);
 
     return (
         <div>
@@ -55,52 +65,52 @@ const Calendar: NextPage<Props> = (props) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
-    async getServerSideProps(context) {
-        // const { req, res } = context;
-        // const session = getSession(req, res);
+// export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+//     async getServerSideProps(context) {
+//         // const { req, res } = context;
+//         // const session = getSession(req, res);
 
-        // if (!session) {
-        //     return {
-        //         redirect: {
-        //             destination: '/login',
-        //             permanent: false,
-        //         },
-        //     };
-        // }
+//         // if (!session) {
+//         //     return {
+//         //         redirect: {
+//         //             destination: '/login',
+//         //             permanent: false,
+//         //         },
+//         //     };
+//         // }
 
-        // // Get all tasks and todos of the user
-        // const userId: string = session.user.sub;
-        // if (!userId) {
-        //     return {
-        //         notFound: true,
-        //         redirect: { destination: '/login', permanent: false },
-        //     };
-        // }
+//         // // Get all tasks and todos of the user
+//         // const userId: string = session.user.sub;
+//         // if (!userId) {
+//         //     return {
+//         //         notFound: true,
+//         //         redirect: { destination: '/login', permanent: false },
+//         //     };
+//         // }
 
-        // const todosPromise = getTodosFromPage(userId);
-        // const tasksPromise = getTasksFromAllCollection(userId);
-        // const eventsPromise = getEventsFromPage(userId);
+//         // const todosPromise = getTodosFromPage(userId);
+//         // const tasksPromise = getTasksFromAllCollection(userId);
+//         // const eventsPromise = getEventsFromPage(userId);
 
-        // const [userTodoDocs, [wTaskDocs, mTaskDocs, yTaskDocs], eventDocs] = await Promise.all(
-        //     [todosPromise, tasksPromise, eventsPromise],
-        // );
+//         // const [userTodoDocs, [wTaskDocs, mTaskDocs, yTaskDocs], eventDocs] = await Promise.all(
+//         //     [todosPromise, tasksPromise, eventsPromise],
+//         // );
 
-        // const taskDocs = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
-        // // make sure the converted objects are json-serializable
-        // // meaning there should be no Date object which is not json-serializable
-        // const tasks = convertToAppObjectList(taskDocs, true);
-        // const todos = convertToAppObjectList(userTodoDocs, true);
-        // const events: IEvent[] = convertToAppObjectList(eventDocs, true);
+//         // const taskDocs = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
+//         // // make sure the converted objects are json-serializable
+//         // // meaning there should be no Date object which is not json-serializable
+//         // const tasks = convertToAppObjectList(taskDocs, true);
+//         // const todos = convertToAppObjectList(userTodoDocs, true);
+//         // const events: IEvent[] = convertToAppObjectList(eventDocs, true);
 
-        return {
-            props: {
-                // todos,
-                // tasks,
-                // events,
-            },
-        };
-    },
-});
+//         return {
+//             props: {
+//                 // todos,
+//                 // tasks,
+//                 // events,
+//             },
+//         };
+//     },
+// });
 
 export default Calendar;
