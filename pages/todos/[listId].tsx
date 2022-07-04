@@ -9,10 +9,11 @@ import { Todo } from '../../models/todo-models/Todo';
 import { patchTodoList } from '../../lib/todos/todo-list-api';
 import { getTodoListAndItemsFromPage } from '../../db/pages-util';
 import { AppProperty } from '../../constants/global-constants';
-import { getAllTodoLists } from '../../db/static-fetching';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { getLoginLink } from '../../utilities/link-utils';
+import { getAllTodoLists } from '../../db/static-fetching';
+import { connectDatabase } from '../../db/mongodb-config';
 
 const API_TODO_DOMAIN = '/api/todos';
 
@@ -22,7 +23,7 @@ function getTodoList(context: any) {
 }
 
 interface Props {
-    initialList: TodoList;
+    initialList: TodoList | null;
     initialTodos: Todo[];
 }
 
@@ -31,8 +32,9 @@ const NewTodoPage: NextPage<Props> = (props) => {
     const userId = useUser().user?.sub;
     const router = useRouter();
 
-    const { initialList, initialTodos } = props;
-    const listId = initialList.id;
+    const { initialList = null, initialTodos } = props;
+
+    const listId = initialList?.id || '';
 
     const queryClient = useQueryClient();
     const { data: listData, error: listError } = useQuery(['todo-list', listId], getTodoList, {
@@ -72,7 +74,7 @@ const NewTodoPage: NextPage<Props> = (props) => {
         <div style={{ height: '100%' }}>
             <Head>
                 <title>
-                    {initialList.name} | {AppProperty.APP_NAME}
+                    {initialList?.name || ''} | {AppProperty.APP_NAME}
                 </title>
                 <meta
                     name="description"
@@ -90,9 +92,22 @@ const NewTodoPage: NextPage<Props> = (props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const todoLists = await getAllTodoLists();
-    const ids = todoLists.map((list) => list._id.toString());
-    const pathWithParams = ids.map((id) => ({ params: { listId: id } }));
+    // const API_DOMAIN = process.env.API_DOMAIN;
+    // const res = await fetch(`${API_DOMAIN}/todos/static`);
+    // const ids = await res.json();
+    const client = await connectDatabase();
+    const todoLists = await getAllTodoLists(client);
+    client.close();
+
+    let ids = todoLists.map((list) => list?._id?.toString());
+    ids = ids.filter((id) => !!id);
+    let pathWithParams: Array<{ params: { listId: string } }> = [];
+
+    if (!Array.isArray(ids)) {
+        console.log('list ids are not array:', ids);
+    } else {
+        pathWithParams = ids.map((id) => ({ params: { listId: id } }));
+    }
 
     return {
         paths: pathWithParams,
@@ -114,11 +129,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     const [todoList, todos] = await getTodoListAndItemsFromPage(listId);
 
-    if (!todoList) return { notFound: true, message: 'Your list is not found.' };
+    if (!todoList || !todoList?.id)
+        return { notFound: true, message: 'Your list is not found.' };
+
     return {
         props: {
             initialTodos: todos,
-            initialList: todoList,
+            initialList: todoList || null,
         },
         revalidate: 60,
     };

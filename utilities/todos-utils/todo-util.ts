@@ -5,8 +5,10 @@ import { isOverdue } from '../date-utils/date-check';
 
 export function convertToTodoList(listObj: any | null): TodoList | null {
     if (!listObj) return null;
-    const id = listObj._id.toString();
+    const id = listObj?._id?.toString();
+    if (!id) return null;
     delete listObj._id;
+
     const todoList: TodoList = { ...listObj, id };
     return todoList;
 }

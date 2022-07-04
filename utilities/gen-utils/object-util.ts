@@ -5,7 +5,7 @@ export function copyClassObject(orig: Object) {
 
 // Converting logic from mongodb object to app object
 export function convertToAppObject<T>(obj: any, jsonSerializable?: boolean): T {
-    if (!obj) return obj;
+    if (!obj || !obj?._id) return obj;
     const id = obj._id.toString();
     delete obj._id;
     const appObj: T = { ...obj, id };
@@ -21,7 +21,10 @@ export function convertToAppObject<T>(obj: any, jsonSerializable?: boolean): T {
     return appObj;
 }
 
-export function convertToAppObjectList<T>(array: any[], jsonSerializable: boolean = true): T[] {
-    if (!array) return array;
+export function convertToAppObjectList<T>(
+    array: any[],
+    jsonSerializable: boolean = true,
+): T[] {
+    if (!array || !array.length) return array;
     return array.map((item) => convertToAppObject(item, jsonSerializable));
 }

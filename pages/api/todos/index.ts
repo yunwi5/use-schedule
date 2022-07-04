@@ -8,6 +8,7 @@ import { convertToTodos } from '../../../utilities/todos-utils/todo-util';
 
 type Data = { message: string } | { todos: Todo[] };
 
+// Used for static generation of todo pages.
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const session = getSession(req, res);
 

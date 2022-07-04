@@ -9,6 +9,7 @@ import { getTasks } from './tasks-util';
 import { getItems } from './generic';
 import { getTodoListAndItems } from './todos';
 import { getEvents } from './event-util';
+import { convertToAppObjectList } from '../utilities/gen-utils/object-util';
 
 // Get tasks from getStaticProps or getServerSideProps
 export async function getTasksFromPage(collection: string, userId: string) {
@@ -70,7 +71,7 @@ export async function getTodoListAndItemsFromPage(
     const client = await connectDatabase();
     const [listRes, todosRes] = await getTodoListAndItems(client, listId);
     const todoList = convertToTodoList(listRes);
-    const todos = convertToTodos(todosRes);
+    const todos = convertToAppObjectList<Todo>(todosRes);
     client.close();
     return [todoList, todos];
 }
