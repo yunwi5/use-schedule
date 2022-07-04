@@ -92,7 +92,7 @@ const TemplateTable = () => {
     return (
         <TableCard className={`xl:w-[70%] min-h-[10rem] overflow-hidden !border-0`}>
             {isLoading && (
-                <div className="h-full flex-center">
+                <div className="flex-center">
                     <LoadingSpinner />
                 </div>
             )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarPlus, faFaceSmile } from '@fortawesome/pro-duotone-svg-icons';
@@ -10,6 +10,7 @@ import { getCalendarLink } from '../../utilities/link-utils';
 import CustomMUIButton from '../ui/buttons/CustomMUIButton';
 import TimeLine from './TimeLine';
 import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
+import { getInitialExpandMode } from '../../utilities/device-util';
 
 interface Props {
     items: CalendarItem[];
@@ -41,6 +42,10 @@ const TodaySchedule: React.FC<Props> = (props) => {
     const todayFormat = getFullDateFormat(new Date());
     // If the state is still loading, user may have schedules today.
     const hasNoItems = !isLoading && items.length === 0;
+
+    useEffect(() => {
+        setExpandItems(getInitialExpandMode());
+    }, []);
 
     return (
         <main className={'min-h-[78vh] py-10 px-4 lg:px-14 xl:px-[8rem] text-slate-600'}>

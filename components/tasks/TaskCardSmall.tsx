@@ -90,10 +90,10 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
                 key={task.id}
                 style={style}
                 onClick={() => setShowDetail(true)}
-                className={`z-10 absolute left-[50%] w-[94%] top-0 ${statusBgClass} ${hoverBgClass} ${borderClass} 
+                className={`z-10 absolute left-[50%] w-[94%] top-0 overflow-y-hidden ${statusBgClass} ${hoverBgClass} ${borderClass} 
                                     px-2 py-1 flex flex-col gap-2 text-slate-600 border-[1px] rounded-md cursor-pointer transition-all shadow-sm hover:!z-50 hover:shadow-lg ${classes.card}`}
             >
-                <time className={`text-sm text-gray-500 font-semibold`}>
+                <time className={`text-sm !whitespace-nowrap text-gray-500 font-semibold`}>
                     <FontAwesomeIcon
                         icon={faAlarmClock}
                         className={`text-sky-600/80 icon-medium mr-1`}
@@ -107,9 +107,9 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
                         className={classes['status-checker']}
                     />
                 )}
-                <h5 className={`text-lg !leading-[1.3rem]`}>{task.name}</h5>
+                <h5 className={`text-base sm:text-lg !leading-[1.3rem]`}>{task.name}</h5>
                 <div className={`flex flex-col gap-1`}>
-                    <p className={`text-[.9rem]`}>
+                    <p className={`text-[.9rem] hidden sm:inline-block`}>
                         <FontAwesomeIcon
                             icon={faListTree}
                             className={`icon-medium mr-1 text-blue-500`}

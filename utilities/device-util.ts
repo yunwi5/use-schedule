@@ -1,3 +1,12 @@
+export const MOBILE_BREAKPOINT = 640; // Tailwind sm breakpoint
+
+// Initial expand mode for task, event and todo cards.
+export function getInitialExpandMode(expand?: boolean | undefined) {
+    if (expand !== undefined) return expand;
+    //    mobile screen size, shrink the card by default.
+    return window.innerWidth <= MOBILE_BREAKPOINT ? false : true;
+}
+
 export function checkIsMobile() {
     let isMobile = false; //initiate as false
     // device detection

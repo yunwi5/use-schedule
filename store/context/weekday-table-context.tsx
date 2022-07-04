@@ -1,7 +1,9 @@
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
+import useWindowInnerWidth from '../../hooks/useWindowInnerWidth';
 import { WeeklyPlanner } from '../../models/planner-models/WeeklyPlanner';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import { TemplatePlanner } from '../../models/template-models/TemplatePlanner';
+import { MOBILE_BREAKPOINT } from '../../utilities/device-util';
 import {
     getInitialTimeLineFreqMap,
     TimeLineFreqMap,
@@ -35,11 +37,20 @@ interface Props {
     planner: WeeklyPlanner | TemplatePlanner;
 }
 
+const DEFAULT_CELL_HEIGHT = 10; // unit in rem
+const MOBILE_CELL_HEIGHT = 7; // in rem
+
 export const WTableContextProvider: React.FC<Props> = ({ children, planner }) => {
     // units in rem
-    const cellHeight = 10;
+    const [cellHeight, setCellHeight] = useState<number>(DEFAULT_CELL_HEIGHT);
     const minCellWidth = 8.375;
-    const emptyCellHeight = 3.5;
+    const emptyCellHeight = 3;
+
+    useWindowInnerWidth({
+        breakPoint: MOBILE_BREAKPOINT,
+        belowBreakPointCallback: () => setCellHeight(MOBILE_CELL_HEIGHT),
+        aboveBreakPointCallback: () => setCellHeight(DEFAULT_CELL_HEIGHT),
+    });
 
     // populate time lines
     const timeLineFreqMap: TimeLineFreqMap = useMemo(() => {

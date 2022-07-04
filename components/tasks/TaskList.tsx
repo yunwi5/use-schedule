@@ -7,14 +7,13 @@ import { useAppSelector } from '../../store/redux';
 import TaskCardNew from './TaskCardNew';
 
 interface Props {
-    beginningPeriod: Date;
     onMutate: () => void;
     onShrink: (shrink: boolean) => void;
     taskList: Task[];
 }
 
 const TaskList: React.FC<Props> = (props) => {
-    const { beginningPeriod, onMutate, taskList, onShrink } = props;
+    const { onMutate, taskList, onShrink } = props;
     const { searchWord, filterTarget, mainFilter, subFilter } = useAppSelector(
         (state) => state.filter,
     );

@@ -17,6 +17,7 @@ const WeeklyTable: React.FC<Props> = (props) => {
     const { weekBeginning, planner, onChangeWeek, onNavigateCurrentPeriod, onMutate } = props;
     const itemsView = useAppSelector((state) => state.fold.itemsView);
 
+    const childProps = { beginningPeriod: weekBeginning, planner, onMutate };
     return (
         <div>
             <TableNav
@@ -25,20 +26,8 @@ const WeeklyTable: React.FC<Props> = (props) => {
                 onChangePeriod={onChangeWeek}
                 onNavigateCurrentPeriod={onNavigateCurrentPeriod}
             />
-            {itemsView === ItemsView.LIST && (
-                <WeekdayList
-                    beginningPeriod={weekBeginning}
-                    planner={planner}
-                    onMutate={onMutate}
-                />
-            )}
-            {itemsView === ItemsView.TABLE && (
-                <WeekdayTableWrapper
-                    beginningPeriod={weekBeginning}
-                    planner={planner}
-                    onMutate={onMutate}
-                />
-            )}
+            {itemsView === ItemsView.LIST && <WeekdayList {...childProps} />}
+            {itemsView === ItemsView.TABLE && <WeekdayTableWrapper {...childProps} />}
         </div>
     );
 };

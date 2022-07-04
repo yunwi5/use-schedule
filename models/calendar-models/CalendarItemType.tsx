@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBallotCheck, faCalendarStar, faSquareCheck } from '@fortawesome/pro-duotone-svg-icons';
+import {
+    faBallotCheck,
+    faCalendarStar,
+    faSquareCheck,
+} from '@fortawesome/pro-duotone-svg-icons';
 
 export enum CalendarItemType {
     TASK = 'Task',
@@ -28,7 +32,7 @@ export function getItemTextColorClass(itemType: CalendarItemType) {
     }
 }
 
-export function getItemIcon(itemType: string, className: string = '') {
+export function getItemIcon(itemType: string, className: string = ''): JSX.Element {
     const iconClass = `mr-2 max-w-[1.8rem] max-h-[1.8rem] inline-block shadow-md ${className}`;
     if (itemType === CalendarItemType.EVENT) {
         return <FontAwesomeIcon icon={faCalendarStar} className={`${iconClass}`} />;

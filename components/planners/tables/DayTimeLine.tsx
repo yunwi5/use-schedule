@@ -21,7 +21,7 @@ const DayTimeLine: React.FC = () => {
                         style={{ top: topOffset, height }}
                     >
                         <time
-                            className={`py-2 px-1 flex text-center w-[2.5rem] h-full border-r-2 border-slate-300 pr-1`}
+                            className={`py-1 px-1 flex text-center w-[2.5rem] h-full border-r-2 border-slate-300 pr-1`}
                         >
                             {timeLine}
                         </time>

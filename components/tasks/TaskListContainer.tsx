@@ -118,7 +118,6 @@ const TaskListContainer: React.FC<Props> = (props) => {
                 onToggleShrink={() => setIsShrinked((prevState) => !prevState)}
             />
             <TaskList
-                beginningPeriod={beginningPeriod}
                 onMutate={onMutate}
                 onShrink={handleShrinked}
                 taskList={!isShrinked ? sortedTasksList : []}
