@@ -91,6 +91,11 @@ const TemplateTable = () => {
 
     return (
         <TableCard className={`xl:w-[70%] min-h-[10rem] overflow-hidden !border-0`}>
+            {isLoading && (
+                <div className="h-full flex-center">
+                    <LoadingSpinner />
+                </div>
+            )}
             <table className={`w-full h-full flex flex-col`}>
                 <thead>
                     <tr className={`flex text-base lg:text-lg bg-blue-100 text-slate-600/90`}>
@@ -136,12 +141,6 @@ const TemplateTable = () => {
                     {userHasNone && <UserRecommendation />}
                 </tbody>
             </table>
-
-            {isLoading && (
-                <div className="flex-center">
-                    <LoadingSpinner />
-                </div>
-            )}
         </TableCard>
     );
 };

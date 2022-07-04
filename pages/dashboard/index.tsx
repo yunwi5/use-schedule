@@ -14,14 +14,14 @@ interface Props {
 }
 
 const DashboardPage: NextPage<Props> = (props) => {
-    const user = useUser().user?.sub;
+    const user = useUser().user;
     const router = useRouter();
-    console.log('user:', user);
 
     useEffect(() => {
-        if (!user) {
-            router.replace(getLoginLink());
-        }
+        let timer = setTimeout(() => {
+            if (!user) router.replace(getLoginLink());
+        }, 1000);
+        return () => clearTimeout(timer);
     }, [user, router]);
 
     return (

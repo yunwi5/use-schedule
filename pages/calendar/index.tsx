@@ -21,7 +21,7 @@ interface Props {
 
 const Calendar: NextPage<Props> = (props) => {
     // const { tasks: initialTasks, todos: initialTodos, events: initialEvents } = props;
-    const user = useUser().user?.sub;
+    const user = useUser().user;
     const router = useRouter();
 
     const { events, invalidateEvents } = useEventQuery();
@@ -41,9 +41,14 @@ const Calendar: NextPage<Props> = (props) => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (!user) {
-            router.replace(getLoginLink());
-        }
+        let timer = setTimeout(() => {
+            // console.log('user:', user);
+            if (!user) {
+                router.replace(getLoginLink());
+            }
+        }, 1000);
+
+        return () => clearTimeout(timer);
     }, [user, router]);
 
     return (
