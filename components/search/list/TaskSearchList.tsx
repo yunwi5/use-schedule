@@ -1,76 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/pro-light-svg-icons';
-import { faCircleInfo } from '@fortawesome/pro-duotone-svg-icons';
 
 import { PlannerTask } from '../../../models/task-models/Task';
-import {
-    getCurrentMonthBeginning,
-    getCurrentWeekBeginning,
-    getCurrentYearBeginning,
-} from '../../../utilities/date-utils/date-get';
-import { TaskSort as SortingStandard } from '../../../models/sorting-models';
 import { getTaskType } from '../../../utilities/tasks-utils/task-label';
-import {
-    getDateTimeFormat,
-    getDurationFormat,
-} from '../../../utilities/date-utils/date-format';
 import TaskCardNew from '../../tasks/TaskCardNew';
 import classes from './SearchList.module.scss';
 
 interface Props {
     tasks: PlannerTask[];
-    sortingStandard: SortingStandard | null;
     onInvalidate(): void;
-}
-
-function getTaskSortingInfo(task: PlannerTask, sortingStandard: SortingStandard | null) {
-    const defaultValue = 'Not Set';
-    let showInfo = true;
-    let labelFormat: string | JSX.Element = '';
-
-    switch (sortingStandard) {
-        case SortingStandard.PLAN_DATE:
-            const dateTimeFormat = getDateTimeFormat(task.dateTime);
-            labelFormat = (
-                <>
-                    <strong>Plan Date</strong> {dateTimeFormat}
-                </>
-            );
-            break;
-        case SortingStandard.DUE_DATE:
-            const dueDateFormat = task.dueDate
-                ? getDateTimeFormat(task.dueDate)
-                : defaultValue;
-            labelFormat = (
-                <>
-                    <strong>Task Due</strong> {dueDateFormat}
-                </>
-            );
-            break;
-        case SortingStandard.DURATION:
-            const durationFormat = getDurationFormat(task.duration).trim() || 'No Duration';
-            labelFormat = (
-                <>
-                    <strong>Task Duration</strong> {durationFormat}
-                </>
-            );
-            break;
-        default:
-            showInfo = false;
-    }
-
-    return {
-        showInfo,
-        labelFormat,
-    };
+    expandMode: boolean;
 }
 
 const SearchTaskList: React.FC<Props> = (props) => {
-    const { tasks, sortingStandard, onInvalidate } = props;
-
-    const weekBeginning = getCurrentWeekBeginning();
-    const monthBeginning = getCurrentMonthBeginning();
-    const yearBeginning = getCurrentYearBeginning();
+    const { tasks, onInvalidate, expandMode } = props;
 
     return (
         <ul className={classes['search-list']}>
@@ -81,7 +24,6 @@ const SearchTaskList: React.FC<Props> = (props) => {
                 </h1>
             )}
             {tasks.map((task) => {
-                const { showInfo, labelFormat } = getTaskSortingInfo(task, sortingStandard);
                 return (
                     <div key={task.id}>
                         <div
@@ -90,19 +32,12 @@ const SearchTaskList: React.FC<Props> = (props) => {
                             }`}
                         >
                             <span>{getTaskType(task.plannerType) || '? Task'}</span>
-                            {showInfo && (
-                                <span className="ml-4">
-                                    <FontAwesomeIcon
-                                        icon={faCircleInfo}
-                                        className={classes.icon}
-                                    />
-                                    <span className={classes['sorting-label']}>
-                                        {labelFormat}
-                                    </span>
-                                </span>
-                            )}
                         </div>
-                        <TaskCardNew task={task} onInvalidate={onInvalidate} />
+                        <TaskCardNew
+                            task={task}
+                            onInvalidate={onInvalidate}
+                            expand={expandMode}
+                        />
                     </div>
                 );
             })}

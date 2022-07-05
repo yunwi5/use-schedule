@@ -8,14 +8,18 @@ import { faShuffle } from '@fortawesome/pro-duotone-svg-icons';
 import DirectionSelect from '../ui/sorting/DirectionSelect';
 import SortingStandardSelect from '../ui/sorting/SortingStandardSelect';
 import classes from './SearchMain.module.scss';
+import CustomMUIButton from '../ui/buttons/CustomMUIButton';
 
 interface Props {
     onSort: (target: string, direction: SortingDirection) => void;
     sortList: string[];
     onRandomize: () => void;
+    expandMode?: boolean;
+    onToggleExpandMode(): void;
 }
 
-const ItemSorter: React.FC<Props> = ({ onSort, onRandomize, sortList }) => {
+const ItemSorter: React.FC<Props> = (props) => {
+    const { onSort, onRandomize, sortList, expandMode, onToggleExpandMode } = props;
     const [sortTarget, setSortTarget] = useState<null | string>(null);
     const [direction, setDirection] = useState<null | SortingDirection>(null);
 
@@ -49,6 +53,11 @@ const ItemSorter: React.FC<Props> = ({ onSort, onRandomize, sortList }) => {
                 sortList={sortList}
             />
             <DirectionSelect onChange={sortDirectionHandler} direction={direction} />
+            <div className={'hidden sm:inline-block'}>
+                <CustomMUIButton className={'whitespace-nowrap'} onClick={onToggleExpandMode}>
+                    {expandMode ? 'Hide Details' : 'Show Details'}
+                </CustomMUIButton>
+            </div>
             <div onClick={randomizeHandler}>
                 <FontAwesomeIcon icon={faShuffle} className={classes.icon} />
             </div>

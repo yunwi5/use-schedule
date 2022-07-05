@@ -16,7 +16,7 @@ interface Props {
     expand?: boolean;
 }
 
-const EventCard: React.FC<Props> = ({ event, onInvalidate, expand = true }) => {
+const EventCard: React.FC<Props> = ({ event, onInvalidate, expand }) => {
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 

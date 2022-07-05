@@ -9,6 +9,8 @@ import { IEvent } from '../../models/Event';
 import { sortEvents } from '../../utilities/sort-utils/event-sort';
 import { adjustOverdueevents } from '../../utilities/event-utils/event-util';
 import EventSearchList from './list/EventSearchList';
+import CustomMUIButton from '../ui/buttons/CustomMUIButton';
+import { getInitialExpandMode } from '../../utilities/device-util';
 
 interface Props {
     searchWord: string;
@@ -25,6 +27,7 @@ const EventSearchMain: React.FC<Props> = (props) => {
     const [pageEvents, setPageEvents] = useState<IEvent[]>([]);
 
     const [sortingStandard, setSortingStandard] = useState<EventSort | null>(null);
+    const [expandMode, setExpandMode] = useState(getInitialExpandMode());
 
     const eventLength = useMemo(() => searchedEvents.length, [searchedEvents]);
 
@@ -68,22 +71,25 @@ const EventSearchMain: React.FC<Props> = (props) => {
         <main className={`mx-auto ${classes.search}`}>
             <h2 className="text-4xl text-slate-600 mb-5">
                 Events that match your search{' '}
-                <span className="text-slate-400">&quot;{searchWord}&quot;</span>
+                <span className="text-slate-500/90 font-semibold">
+                    &quot;{searchWord}&quot;
+                </span>
             </h2>
             <div className="flex flex-col sm:flex-row justify-between gap-5 mt-9">
                 <ItemSorter
                     onSort={sortingHandler}
                     sortList={EventSortList}
                     onRandomize={randomizeHandler}
+                    expandMode={expandMode}
+                    onToggleExpandMode={() => setExpandMode((ps) => !ps)}
                 />
-                {/* self-end h-[0px] max-w-xl text-right text-xl font-semibold text-slate-500 translate-y-[1.5rem] pr-2 */}
-                <h5 className="self-start sm:self-center max-w-xl sm:text-right text-xl font-semibold text-slate-500 pr-2">
+                <h5 className="ml-2 self-start sm:self-center max-w-xl sm:text-right text-xl whitespace-nowrap font-semibold text-slate-500 pr-2">
                     {eventLength} Events Found
                 </h5>
             </div>
             <EventSearchList
                 events={pageEvents}
-                sortingStandard={sortingStandard}
+                expandMode={expandMode}
                 onInvalidate={onInvalidate}
             />
             <PageNav

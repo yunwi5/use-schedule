@@ -13,6 +13,7 @@ import SearchTaskList from './list/TaskSearchList';
 import TaskSort from './ItemSorter';
 import PageNav from '../ui/navigation/PageNav';
 import classes from './SearchMain.module.scss';
+import { getInitialExpandMode } from '../../utilities/device-util';
 
 interface Props {
     searchWord: string;
@@ -28,6 +29,7 @@ const TaskSearch: React.FC<Props> = (props) => {
     const [pageTasks, setPageTasks] = useState<PlannerTask[]>([]);
 
     const [sortingStandard, setSortingStandard] = useState<SortingStandard | null>(null);
+    const [expandMode, setExpandMode] = useState(getInitialExpandMode());
 
     // onMutate function may be needed to update the task when the user edits it.
     // TaskCard component has TaskEdit componenet/functionality attached.
@@ -79,15 +81,17 @@ const TaskSearch: React.FC<Props> = (props) => {
                     onSort={sortingHandler}
                     sortList={TaskSortList}
                     onRandomize={randomizeHandler}
+                    expandMode={expandMode}
+                    onToggleExpandMode={() => setExpandMode((ps) => !ps)}
                 />
-                <h5 className="self-start sm:self-center max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
+                <h5 className="ml-2 self-start sm:self-center max-w-xl text-right text-xl font-semibold text-slate-500 pr-2">
                     {taskLength} Tasks Found
                 </h5>
             </div>
             <SearchTaskList
                 tasks={pageTasks}
-                sortingStandard={sortingStandard}
                 onInvalidate={onInvalidate}
+                expandMode={expandMode}
             />
             <PageNav
                 onChangePage={pageNavHandler}

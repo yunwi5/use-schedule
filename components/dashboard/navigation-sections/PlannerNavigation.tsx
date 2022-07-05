@@ -66,7 +66,7 @@ const PlannerNavigation: React.FC = () => {
                 {plannerLinkStyled.map((plannerLink) => (
                     <Link key={plannerLink.name} href={plannerLink.link}>
                         <a
-                            className={`px-2 py-2 rounded-sm shadow-sm hover:shadow-lg text-lg transition-all hover:-translate-y-1 ${plannerLink.className}`}
+                            className={`px-2 py-2 whitespace-nowrap overflow-hidden rounded-sm shadow-sm hover:shadow-lg text-lg transition-all hover:-translate-y-1 ${plannerLink.className}`}
                         >
                             {plannerLink.name}
                         </a>
@@ -77,7 +77,7 @@ const PlannerNavigation: React.FC = () => {
                 {analysisLinkStyled.map((link) => (
                     <Link key={link.name} href={link.link}>
                         <a
-                            className={`px-2 py-2 rounded-sm shadow-sm hover:shadow-lg text-lg transition-all hover:-translate-y-1 ${link.className}`}
+                            className={`px-2 py-2 whitespace-nowrap overflow-hidden rounded-sm shadow-sm hover:shadow-lg text-lg transition-all hover:-translate-y-1 ${link.className}`}
                         >
                             {link.name}
                         </a>

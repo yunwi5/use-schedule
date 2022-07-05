@@ -1,0 +1,16 @@
+@import '../../../styles/abstract/mixins';
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-height: 15rem;
+
+    @include respond(1400px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-height: 100%;
+    }
+
+    @include respond(700px) {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}

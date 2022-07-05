@@ -54,40 +54,42 @@ const EventDetail: React.FC<Props> = (props) => {
                         onClose={onClose}
                         className={'!-translate-y-[2px] -translate-x-[.5rem]'}
                     />
-                    <div className="px-4 sm:px-2 lg:px-4 overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 text-[1.1rem] md:text-lg">
-                        <EventLocation event={event} />
-                        <MeetingLink event={event} />
-                        {!!participants?.length && <EventParticipants event={event} />}
-                        <div
-                            className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
-                        >
-                            <EventDateTime item={event} />
+                    <section className="mt-3 sm:mt-0 flex flex-col gap-3 px-4 sm:px-2 lg:px-4">
+                        <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 text-[1.1rem] md:text-lg">
+                            <EventLocation event={event} />
+                            <MeetingLink event={event} />
+                            {!!participants?.length && <EventParticipants event={event} />}
+                            <div
+                                className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
+                            >
+                                <EventDateTime item={event} />
+                                <EventSection
+                                    label={'duration'}
+                                    value={getDurationFormat(event.duration)}
+                                    icon={faHourglass}
+                                />
+                                <EventStatus event={event} onEdit={onInvalidate} />
+                                <EventSection
+                                    label={'importance'}
+                                    value={event.importance}
+                                    icon={faStarExclamation}
+                                />
+                            </div>
                             <EventSection
-                                label={'duration'}
-                                value={getDurationFormat(event.duration)}
-                                icon={faHourglass}
-                            />
-                            <EventStatus event={event} onEdit={onInvalidate} />
-                            <EventSection
-                                label={'importance'}
-                                value={event.importance}
-                                icon={faStarExclamation}
+                                label={'description'}
+                                value={event.description}
+                                icon={faMemoPad}
                             />
                         </div>
-                        <EventSection
-                            label={'description'}
-                            value={event.description}
-                            icon={faMemoPad}
-                        />
-                    </div>
-                    <div className="mt-3 px-3 md:px-2 lg:px-3">
-                        <OperationList
-                            onEdit={() => setShowEditModal(true)}
-                            onDelete={deleteEvent}
-                            onRecurring={() => setShowRecurringModal(true)}
-                            onDuplicate={() => setShowDuplicateModal(true)}
-                        />
-                    </div>
+                        <div className="mt-5 sm:mt-3">
+                            <OperationList
+                                onEdit={() => setShowEditModal(true)}
+                                onDelete={deleteEvent}
+                                onRecurring={() => setShowRecurringModal(true)}
+                                onDuplicate={() => setShowDuplicateModal(true)}
+                            />
+                        </div>
+                    </section>
                 </article>
             </WrapperModal>
             {showEditModal && (

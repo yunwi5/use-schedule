@@ -66,52 +66,54 @@ const EventDetail: React.FC<Props> = (props) => {
     return (
         <>
             <WrapperModal onClose={onClose}>
-                <article className="min-h-[27rem] relative flex flex-col gap-3 justify-between text-slate-600">
+                <article className="px-1 lg:px-2 min-h-[27rem] relative flex flex-col gap-3 justify-between text-slate-600">
                     <EventHeading event={recEvent} />
                     <ExitIcon onClose={onClose} className={'!-translate-y-[2px]'} />
-                    <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 lg:px-3 text-lg">
-                        <RecurringItemInterval recItem={recEvent} />
-                        <EventLocation event={recEvent} />
-                        <MeetingLink event={recEvent} />
-                        <div
-                            className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
-                        >
+                    <section className="mt-3 sm:mt-0 flex flex-col gap-3 px-4 sm:px-2 lg:px-4">
+                        <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 text-lg">
+                            <RecurringItemInterval recItem={recEvent} />
+                            <EventLocation event={recEvent} />
+                            <MeetingLink event={recEvent} />
+                            <div
+                                className={`grid grid-cols-2 grid-rows-2 justify-between gap-4 gap-x-2 sm:gap-x-4`}
+                            >
+                                <EventSection
+                                    label={'start date'}
+                                    value={getFullDateFormat(recEvent.startDate)}
+                                    icon={faAlarmClock}
+                                />
+                                <EventSection
+                                    label={'end date'}
+                                    value={getFullDateFormat(recEvent.endDate)}
+                                    icon={faAlarmExclamation}
+                                />
+                                <EventSection
+                                    label={'duration'}
+                                    value={getDurationFormat(recEvent.duration)}
+                                    icon={faHourglass}
+                                />
+                                <EventSection
+                                    label={'importance'}
+                                    value={recEvent.importance}
+                                    icon={faStarExclamation}
+                                />
+                            </div>
+                            {!!participants?.length && <EventParticipants event={recEvent} />}
                             <EventSection
-                                label={'start date'}
-                                value={getFullDateFormat(recEvent.startDate)}
-                                icon={faAlarmClock}
+                                label={'description'}
+                                value={recEvent.description}
+                                icon={faMemoPad}
                             />
-                            <EventSection
-                                label={'end date'}
-                                value={getFullDateFormat(recEvent.endDate)}
-                                icon={faAlarmExclamation}
-                            />
-                            <EventSection
-                                label={'duration'}
-                                value={getDurationFormat(recEvent.duration)}
-                                icon={faHourglass}
-                            />
-                            <EventSection
-                                label={'importance'}
-                                value={recEvent.importance}
-                                icon={faStarExclamation}
+                            <RecurringDateInfo item={recEvent} />
+                        </div>
+                        <div className="mt-5 sm:mt-3">
+                            <OperationList
+                                onEdit={editModalHandler(true)}
+                                onDelete={deleteModalHandler(true)}
+                                onDuplicate={duplicateModalHandler(true)}
                             />
                         </div>
-                        {!!participants?.length && <EventParticipants event={recEvent} />}
-                        <EventSection
-                            label={'description'}
-                            value={recEvent.description}
-                            icon={faMemoPad}
-                        />
-                        <RecurringDateInfo item={recEvent} />
-                    </div>
-                    <div className="mt-3 lg:px-3">
-                        <OperationList
-                            onEdit={editModalHandler(true)}
-                            onDelete={deleteModalHandler(true)}
-                            onDuplicate={duplicateModalHandler(true)}
-                        />
-                    </div>
+                    </section>
                 </article>
             </WrapperModal>
             {showEditModal && (
