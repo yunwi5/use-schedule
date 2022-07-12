@@ -82,9 +82,6 @@ const EventForm: React.FC<Props> = (props) => {
         let dateTime = getParsedDate(dateTimeStr);
 
         // debug purpose
-        console.log('date:', date, 'time:', time);
-        console.log('form dateTimeStr:', dateTimeStr);
-        console.log('final dateTime:', dateTime);
         if (dateTime == null || isInvalidDate(dateTime)) {
             alert('Sorry, your date & time is invalid...');
             alert('beginningPeriod: ' + beginningPeriod.toString());

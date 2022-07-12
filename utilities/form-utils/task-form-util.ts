@@ -6,6 +6,7 @@ import {
     getDateTimeFormat,
     getISODateFormat,
     getISOTimeFormat,
+    getParsedDate,
 } from '../date-utils/date-format';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { WeekDay } from '../../models/date-models/WeekDay';
@@ -96,7 +97,7 @@ export function getEndTimeFormatted(watch: () => FormValues): string | null {
     const currentInputTime = watch().time;
     if (!currentInputDate || !currentInputTime) return null;
 
-    const currentDate = new Date(`${currentInputDate} ${currentInputTime}`);
+    const currentDate = getParsedDate(`${currentInputDate} ${currentInputTime}`);
     const currentDuration = getDuration(watch);
     const estimatedEndTime = addMinutes(currentDate, currentDuration);
     const endTimeFormatted = getDateTimeFormat(estimatedEndTime);
@@ -132,7 +133,7 @@ export function getFormTaskObject(
 
     if (!isTemplateTask) {
         // Not template task obj
-        timeString = new Date(
+        timeString = getParsedDate(
             `${date || beginningPeriod.toDateString()} ${
                 time || getISOTimeFormat(beginningPeriod)
             }`,
@@ -140,7 +141,7 @@ export function getFormTaskObject(
 
         // If only exists
         if (monthDateOnly && month && monthDay) {
-            timeString = new Date(
+            timeString = getParsedDate(
                 `${beginningPeriod.getFullYear()} ${month} ${monthDay}`,
             ).toString();
         }
@@ -151,7 +152,7 @@ export function getFormTaskObject(
             beginningPeriod,
             planDayOffset || 0,
         ).toDateString();
-        timeString = new Date(
+        timeString = getParsedDate(
             `${planDateString} ${time || getISOTimeFormat(beginningPeriod)}`,
         ).toString();
     }

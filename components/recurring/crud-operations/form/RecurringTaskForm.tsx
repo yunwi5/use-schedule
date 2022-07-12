@@ -15,7 +15,7 @@ import {
     RecurringTask,
 } from '../../../../models/recurring-models/RecurringTask';
 import { addYears } from '../../../../utilities/date-utils/date-control';
-import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
+import { getISOTimeFormat, getParsedDate } from '../../../../utilities/date-utils/date-format';
 import { getPlannerType } from '../../../../utilities/recurring-utils';
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import IntervalPreDisplay from './form-parts/IntervalPreDisplay';
@@ -94,13 +94,13 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
         } = data;
         const duration = parseInt(durationHours + '') * 60 + parseInt(durationMinutes + '');
 
-        const startDate = new Date(
+        const startDate = getParsedDate(
             `${startDateStr || beginningPeriod.toDateString()} ${
                 time || getISOTimeFormat(beginningPeriod)
             }`,
         );
 
-        const endDate = new Date(
+        const endDate = getParsedDate(
             `${endDateStr || addYears(beginningPeriod, 1).toDateString()} ${time || '23:59'}`,
         );
 

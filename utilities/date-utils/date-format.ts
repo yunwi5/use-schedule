@@ -87,8 +87,8 @@ export function getISOTimeFormat(date: Date): string {
 // parse date and time inputs and return Date object
 // Used to parse inputs for mobile browsers.
 export function getParsedDate(dateInputStr: string): Date {
-    var date = dateInputStr.split(' ')[0].split('-');
-    var time = dateInputStr.split(' ')[1].split(':');
+    let date = dateInputStr.split(' ')[0].split('-');
+    let time = dateInputStr.split(' ')[1].split(':');
 
     if (date.length < 3 || time.length < 2) {
         console.warn('date & time input string is invalid');
@@ -96,7 +96,14 @@ export function getParsedDate(dateInputStr: string): Date {
     }
 
     // month - 1 due to offset issue
-    var dateObj = new Date(+date[0], +date[1] - 1, +date[2], +time[0], +time[1]);
+    let dateObj = new Date(
+        +date[0],
+        +date[1] - 1,
+        +date[2],
+        +time[0],
+        +time[1],
+        +time[2] ?? 0,
+    );
     return dateObj;
 }
 

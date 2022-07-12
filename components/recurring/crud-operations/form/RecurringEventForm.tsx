@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { IEvent, NoIdEvent } from '../../../../models/Event';
 import { Importance, Status } from '../../../../models/task-models/Status';
-import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
+import { getISOTimeFormat, getParsedDate } from '../../../../utilities/date-utils/date-format';
 
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import {
@@ -94,13 +94,13 @@ const RecurringEventForm: React.FC<Props> = (props) => {
         } = data;
         const duration = parseInt(durationHours + '') * 60 + parseInt(durationMinutes + '');
 
-        const startDate = new Date(
+        const startDate = getParsedDate(
             `${startDateStr || beginningPeriod.toDateString()} ${
                 time || getISOTimeFormat(beginningPeriod)
             }`,
         );
 
-        const endDate = new Date(
+        const endDate = getParsedDate(
             `${endDateStr || addYears(beginningPeriod, 1).toDateString()} ${time || '23:59'}`,
         );
 
