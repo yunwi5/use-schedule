@@ -20,6 +20,7 @@ import {
 import { ParticipantsRef } from './form-parts/EventParticipants';
 import classes from './EventForm.module.scss';
 import { adjustParticipantsInput } from '../../../../utilities/event-utils/event-util';
+import { isInvalidDate } from '../../../../utilities/date-utils/date-check';
 
 export interface EventFormValues {
     name: string;
@@ -74,17 +75,17 @@ const EventForm: React.FC<Props> = (props) => {
         } = data;
         const duration = parseInt(durationHours + '') * 60 + parseInt(durationMinutes + '');
 
-        let dateTime = new Date(
-            `${date || beginningPeriod.toDateString()} ${
-                time || getISOTimeFormat(beginningPeriod)
-            }`,
-        );
+        const dateTimeStr = `${date || beginningPeriod.toDateString()} ${
+            time || getISOTimeFormat(beginningPeriod)
+        }`;
+        let dateTime = new Date(dateTimeStr);
 
         // debug purpose
+        console.log('date: ', date, 'time: ', time);
+        console.log('form dateTimeStr:', dateTimeStr);
         console.log('final dateTime:', dateTime);
-        if (dateTime == null) {
-            alert('Sorry, your date & time is null...');
-            alert('dateTime: ' + dateTime);
+        if (dateTime == null || isInvalidDate(dateTime)) {
+            alert('Sorry, your date & time is invalid...');
             alert('beginningPeriod: ' + beginningPeriod.toString());
             dateTime = beginningPeriod;
         }
