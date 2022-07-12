@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { NoIdEvent, IEvent } from '../../../../models/Event';
 import { Importance, Status } from '../../../../models/task-models/Status';
-import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
+import { getISOTimeFormat, getParsedDate } from '../../../../utilities/date-utils/date-format';
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import {
     EventButtons,
@@ -78,10 +78,11 @@ const EventForm: React.FC<Props> = (props) => {
         const dateTimeStr = `${date || beginningPeriod.toDateString()} ${
             time || getISOTimeFormat(beginningPeriod)
         }`;
-        let dateTime = new Date(dateTimeStr);
+        // let dateTime = new Date(dateTimeStr);
+        let dateTime = getParsedDate(dateTimeStr);
 
         // debug purpose
-        console.log('date: ', date, 'time: ', time);
+        console.log('date:', date, 'time:', time);
         console.log('form dateTimeStr:', dateTimeStr);
         console.log('final dateTime:', dateTime);
         if (dateTime == null || isInvalidDate(dateTime)) {

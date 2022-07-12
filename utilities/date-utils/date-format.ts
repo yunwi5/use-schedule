@@ -83,6 +83,23 @@ export function getISOTimeFormat(date: Date): string {
     return `${hours}:${minutes}`;
 }
 
+// allowed input string format: 2012-06-22 00:05:00
+// parse date and time inputs and return Date object
+// Used to parse inputs for mobile browsers.
+export function getParsedDate(dateInputStr: string): Date {
+    var date = dateInputStr.split(' ')[0].split('-');
+    var time = dateInputStr.split(' ')[1].split(':');
+
+    if (date.length < 3 || time.length < 2) {
+        console.warn('date & time input string is invalid');
+        return new Date();
+    }
+
+    // month - 1 due to offset issue
+    var dateObj = new Date(+date[0], +date[1] - 1, +date[2], +time[0], +time[1]);
+    return dateObj;
+}
+
 // More user friendly time display
 // format: 11:00
 export function getLongUserTimeFormat(date: Date): string {
