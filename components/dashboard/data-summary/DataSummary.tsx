@@ -6,7 +6,7 @@ import classes from './DataSummary.module.scss';
 
 const DataSummary: React.FC = () => {
     return (
-        <div className={`grid gap-x-3 gap-y-3 ${classes.grid}`}>
+        <div className={`${classes.grid}`}>
             <CompletionSummary />
             <WeekdaySummary />
             <DayPeriodSummary />

@@ -55,7 +55,7 @@ const EventDetail: React.FC<Props> = (props) => {
                         className={'!-translate-y-[2px] -translate-x-[.5rem]'}
                     />
                     <section className="mt-3 sm:mt-0 flex flex-col gap-3 px-4 sm:px-2 lg:px-4">
-                        <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 text-[1.1rem] md:text-lg">
+                        <div className="overflow-x-hidden flex-1 flex flex-col gap-3 text-[1.1rem] md:text-lg">
                             <EventLocation event={event} />
                             <MeetingLink event={event} />
                             {!!participants?.length && <EventParticipants event={event} />}

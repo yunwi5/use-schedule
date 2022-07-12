@@ -31,7 +31,7 @@ const WeekdaySummary: React.FC = () => {
                         {totalCount}
                         <span className="text-base text-slate-400">&nbsp;total</span>
                     </h2>
-                    <p className="text-slate-400 font-semibold text-sm">events/tasks</p>
+                    <p className="text-slate-400 font-semibold text-sm">schedules</p>
                 </div>
                 <MiniChart
                     dataset={{ label: 'Weekday', data: weekdayDataArray }}

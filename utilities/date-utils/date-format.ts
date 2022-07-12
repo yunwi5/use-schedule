@@ -96,14 +96,7 @@ export function getParsedDate(dateInputStr: string): Date {
     }
 
     // month - 1 due to offset issue
-    let dateObj = new Date(
-        +date[0],
-        +date[1] - 1,
-        +date[2],
-        +time[0],
-        +time[1],
-        +time[2] ?? 0,
-    );
+    let dateObj = new Date(+date[0], +date[1] - 1, +date[2], +time[0], +time[1]);
     return dateObj;
 }
 
