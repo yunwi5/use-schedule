@@ -1,13 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm } from 'react-hook-form';
 
-import { NoIdEvent, IEvent, Participant } from '../../../../models/Event';
+import { NoIdEvent, IEvent } from '../../../../models/Event';
 import { Importance, Status } from '../../../../models/task-models/Status';
-import {
-    getISODateFormat,
-    getISOTimeFormat,
-} from '../../../../utilities/date-utils/date-format';
+import { getISOTimeFormat } from '../../../../utilities/date-utils/date-format';
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import {
     EventButtons,
@@ -77,11 +74,20 @@ const EventForm: React.FC<Props> = (props) => {
         } = data;
         const duration = parseInt(durationHours + '') * 60 + parseInt(durationMinutes + '');
 
-        const dateTime = new Date(
+        let dateTime = new Date(
             `${date || beginningPeriod.toDateString()} ${
                 time || getISOTimeFormat(beginningPeriod)
             }`,
         );
+
+        // debug purpose
+        console.log('final dateTime:', dateTime);
+        if (dateTime == null) {
+            alert('Sorry, your date & time is null...');
+            alert('dateTime: ' + dateTime);
+            alert('beginningPeriod: ' + beginningPeriod.toString());
+            dateTime = beginningPeriod;
+        }
 
         const participants = adjustParticipantsInput(
             participantsRef.current?.getParticipants(),

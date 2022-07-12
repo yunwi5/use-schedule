@@ -8,7 +8,7 @@ import {
 export enum CalendarItemType {
     TASK = 'Task',
     EVENT = 'Event',
-    TODO = 'TodoList',
+    TODO = 'Todo',
 }
 
 export const CalendarItemTypeList = [

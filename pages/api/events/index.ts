@@ -34,21 +34,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     }
 
     if (req.method === 'POST') {
+        // new event can be a single event object, or can be an array of event objects
         let newEvent = req.body;
 
-        if (!Array.isArray(newEvent)) {
-            const { isValid, message } = validateEvent(newEvent);
-            if (!isValid) {
-                return res.status(400).json({ message });
-            }
-        } else {
-            // filter out invalid events
-            newEvent = newEvent.filter((eventChild) => {
-                const { isValid, message } = validateEvent(newEvent);
-                if (!isValid) console.log(`invalid event detected:\n${message}\n`, eventChild);
-                return isValid;
-            });
-        }
+        // if (!Array.isArray(newEvent)) {
+        //     const { isValid, message } = validateEvent(newEvent);
+        //     if (!isValid) {
+        //         return res.status(400).json({ message });
+        //     }
+        // } else {
+        //     // filter out invalid events
+        //     newEvent = newEvent.filter((eventChild) => {
+        //         const { isValid, message } = validateEvent(newEvent);
+        //         if (!isValid) console.log(`invalid event detected:\n${message}\n`, eventChild);
+        //         return isValid;
+        //     });
+        // }
 
         let result;
         if (!Array.isArray(newEvent)) {

@@ -71,7 +71,7 @@ export function getISODateFormat(date: Date): string {
     return dateCpy.toISOString().split('T')[0];
 }
 
-// Used for form inputs (not user friendly)
+// Used for form inputs
 export function getISOTimeFormat(date: Date): string {
     if (!date) return '';
     let hours = '' + date.getHours();

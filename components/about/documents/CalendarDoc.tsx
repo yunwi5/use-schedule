@@ -76,9 +76,13 @@ const features: FeatureBox[] = [
         image: { src: `${CalendarSection.imagePath}/calendar-agenda.jpg` },
         paragraphs: [
             <>
-                If you add wrong event or task accidently, or if you want to delete your events
-                or tasks, you can <mark>optionally delete</mark> all <mark>duplicated</mark>
-                schedules at once by deleting the one in the <mark>recurring item page</mark>.
+                Alongside with calendar grid layout, we also support agenda layout that makes
+                it easier to read the schedules <mark>day by day</mark>.
+            </>,
+            <>
+                Each calendar item contains <mark>detailed information</mark> when you{' '}
+                <mark>expand the item</mark>. Agenda layout is useful to use as an overview of
+                each day.
             </>,
         ],
     },

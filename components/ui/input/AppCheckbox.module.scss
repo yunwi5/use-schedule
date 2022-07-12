@@ -59,8 +59,8 @@
 }
 
 //List Item
-.container input:checked ~ .checkmark-TodoList {
-    background-color: item-type-bg-color(TodoList) !important;
+.container input:checked ~ .checkmark-Todo {
+    background-color: item-type-bg-color(Todo) !important;
 }
 
 // Status Open
