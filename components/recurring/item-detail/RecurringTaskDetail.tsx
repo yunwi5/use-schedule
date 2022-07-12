@@ -17,7 +17,10 @@ import { TaskHeading, TaskSection } from '../../tasks/task-modal/task-detail/tas
 import { RecurringTask } from '../../../models/recurring-models/RecurringTask';
 import RecurringTaskEdit from '../crud-operations/RecurringTaskEdit';
 import RecurringTaskDuplicate from '../crud-operations/RecurringTaskDuplicate';
-import { getDurationFormat, getFullDateFormat } from '../../../utilities/date-utils/date-format';
+import {
+    getDurationFormat,
+    getFullDateFormat,
+} from '../../../utilities/date-utils/date-format';
 import useRecurringTaskQuery from '../../../hooks/recurring-item-hooks/useRecurringTaskQuery';
 
 interface Props {
@@ -64,7 +67,7 @@ const RecurringTaskDetail: React.FC<Props> = (props) => {
                 <article className="min-h-[27rem] relative flex flex-col gap-3 justify-between text-slate-600">
                     <TaskHeading task={recTask} />
                     <ExitIcon onClose={onClose} className={'!-translate-y-[2px]'} />
-                    <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 lg:px-3 text-lg">
+                    <div className="hide-scrollbar overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 lg:px-3 text-lg">
                         <RecurringItemInterval recItem={recTask} />
                         <div
                             className={`grid grid-cols-2 grid-rows-3 justify-between gap-4 gap-x-2 sm:gap-x-4`}

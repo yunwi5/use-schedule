@@ -70,7 +70,7 @@ const EventDetail: React.FC<Props> = (props) => {
                     <EventHeading event={recEvent} />
                     <ExitIcon onClose={onClose} className={'!-translate-y-[2px]'} />
                     <section className="mt-3 sm:mt-0 flex flex-col gap-3 px-4 sm:px-2 lg:px-4">
-                        <div className="overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 text-lg">
+                        <div className="hide-scrollbar overflow-y-scroll overflow-x-hidden flex-1 flex flex-col gap-3 text-lg">
                             <RecurringItemInterval recItem={recEvent} />
                             <EventLocation event={recEvent} />
                             <MeetingLink event={recEvent} />

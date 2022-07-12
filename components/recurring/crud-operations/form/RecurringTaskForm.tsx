@@ -101,7 +101,7 @@ const RecurringTaskForm: React.FC<Props> = (props) => {
         );
 
         const endDate = getParsedDate(
-            `${endDateStr || addYears(beginningPeriod, 1).toDateString()} ${time || '23:59'}`,
+            `${endDateStr || addYears(beginningPeriod, 1).toDateString()} 23:59`,
         );
 
         const validInterval = isRecurringInterval(interval)

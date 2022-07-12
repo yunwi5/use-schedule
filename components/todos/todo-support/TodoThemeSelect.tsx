@@ -46,7 +46,7 @@ const TodoThemeSelect: React.FC<Props> = (props) => {
                     Theme
                 </Button>
                 {isSelecting && (
-                    <div className="absolute rounded-sm min-w-[16rem] top-0 left-[100%] bg-white opacity-90 px-2 py-1">
+                    <div className="absolute rounded-sm min-w-[16rem] top-[115%] bg-white opacity-90 px-2 py-1">
                         <h3 className="flex justify-between items-center pl-2 text-xl border-b-2 border-blue-300 text-slate-700">
                             <span>Select theme</span>
                             <FontAwesomeIcon

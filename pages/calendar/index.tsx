@@ -24,8 +24,8 @@ const Calendar: NextPage<Props> = (props) => {
     const user = useUser().user;
     const router = useRouter();
 
-    const { events, invalidateEvents } = useEventQuery();
     const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery();
+    const { events, invalidateEvents } = useEventQuery();
     const { todos, invalidateTodos } = useTodoQuery(null, null);
 
     const invalidateAll = () => {
