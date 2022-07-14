@@ -45,7 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         } else {
             // filter out invalid events
             newEvent = newEvent.filter((eventChild) => {
-                const { isValid, message } = validateEvent(newEvent);
+                const { isValid, message } = validateEvent(eventChild);
                 if (!isValid) console.log(`invalid event detected:\n${message}\n`, eventChild);
                 return isValid;
             });

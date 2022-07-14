@@ -85,7 +85,7 @@ const ImportModal: React.FC<Props> = (props) => {
                 inputFile.eventJSONArray,
                 userId,
             );
-
+            console.log('events:', importedEvents);
             const { isSuccess: s, message: m } = await postEvents(importedEvents);
             isSuccess = s;
             message = m;
