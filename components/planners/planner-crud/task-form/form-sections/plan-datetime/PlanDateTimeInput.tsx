@@ -80,26 +80,26 @@ const PlanDateTimeInput: React.FC<Props> = (props) => {
                 </>
             )}
 
-            <div className={classes.options}>
-                {isYearlyMode && (
-                    <div className={classes.checkbox}>
-                        <input
-                            type="checkbox"
-                            id="only-month-and-date"
-                            onChange={() => onMonthDateOnly((prev) => !prev)}
-                            checked={monthDateOnly}
-                        />
-                        <label htmlFor="only-month-and-date">
-                            <FontAwesomeIcon
-                                icon={faCalendarDay}
-                                className={'icon-medium mr-2'}
+            {plannerMode && (
+                <div className={classes.options}>
+                    {isYearlyMode && (
+                        <div className={classes.checkbox}>
+                            <input
+                                type="checkbox"
+                                id="only-month-and-date"
+                                onChange={() => onMonthDateOnly((prev) => !prev)}
+                                checked={monthDateOnly}
                             />
-                            Only Month & Date
-                        </label>
-                    </div>
-                )}
+                            <label htmlFor="only-month-and-date">
+                                <FontAwesomeIcon
+                                    icon={faCalendarDay}
+                                    className={'icon-medium mr-2'}
+                                />
+                                Only Month & Date
+                            </label>
+                        </div>
+                    )}
 
-                {plannerMode && (
                     <div className={classes.checkbox}>
                         <input
                             type="checkbox"
@@ -109,8 +109,8 @@ const PlanDateTimeInput: React.FC<Props> = (props) => {
                         />
                         <label htmlFor="no-datetime">Any time this {plannerLabel}</label>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

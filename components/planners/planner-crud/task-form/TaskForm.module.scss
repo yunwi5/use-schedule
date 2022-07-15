@@ -1,4 +1,7 @@
 @import '../../../../styles/abstract/variables';
+@import '../../../../styles/abstract/mixins';
+
+$layout-bp: 370px;
 
 .form {
     display: flex;
@@ -76,6 +79,10 @@
         input,
         textarea {
             max-width: 95%;
+
+            @include respond(phone) {
+                max-width: 100%;
+            }
         }
     }
 
@@ -97,6 +104,10 @@
         grid-column-gap: 1rem;
 
         padding: 1rem 5px;
+
+        @include respond($layout-bp) {
+            grid-template-columns: 1fr !important;
+        }
 
         label {
             display: flex;
@@ -120,6 +131,12 @@
 .datetime,
 .dueDatetime {
     flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+
+    @include respond($layout-bp) {
+        flex-direction: column;
+    }
 
     .date,
     .time,
@@ -127,9 +144,12 @@
     .day,
     .weekday {
         cursor: not-allowed;
+        flex: 1;
+
         input {
-            width: 175px;
+            max-width: 82.5%;
         }
+
         input:disabled,
         select:disabled {
             opacity: 0.5;
@@ -151,17 +171,6 @@
         select {
             order: 2;
         }
-    }
-
-    .date,
-    .month,
-    .weekday {
-        width: 50%;
-    }
-
-    .time,
-    .day {
-        margin-left: 1rem;
     }
 
     .options {
@@ -187,14 +196,16 @@
 // Duration style (complex)
 .duration {
     display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0rem;
 
-    & > *:first-child {
-        width: 50%;
-        flex: 1 0 1;
-    }
+    @media only screen and (min-width: 410px) {
+        gap: 1rem;
 
-    & > *:nth-child(2) {
-        width: 50%;
+        & > * {
+            width: 47.5%;
+        }
     }
 
     &__input {
@@ -211,14 +222,13 @@
     .numbers {
         display: flex;
 
-        // Grid element
         .number {
-            label {
-                margin-left: 0.25rem;
-            }
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
 
             input {
-                max-width: 3.8rem;
+                max-width: 4.5rem;
             }
 
             &:not(:last-child) {
@@ -254,11 +264,19 @@
     }
 
     &__endtime {
-        padding-left: 1.1rem;
         padding-top: 0.3rem;
     }
 
     &__endtime .date {
         color: $color-secondary-dark-2;
+    }
+}
+
+.duration.dayduration {
+    gap: 0rem;
+    @media only screen and (min-width: 410px) {
+        .duration__input {
+            width: max-content;
+        }
     }
 }

@@ -46,7 +46,11 @@ const DurationInput: React.FC<Props> = (props) => {
     const showEndTime = currentDuration > 0 && endTimeFormatted;
 
     return (
-        <div className={`${classes.duration} ${classes.section}`}>
+        <div
+            className={`${classes.duration} ${showDaysInput ? classes.dayduration : ''} ${
+                classes.section
+            }`}
+        >
             <div className={classes.duration__input}>
                 <p className={classes.duration__heading}>
                     <FontAwesomeIcon icon={faHourglass} className={'icon-medium mr-2'} />

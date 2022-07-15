@@ -11,7 +11,6 @@ import {
 import {
     FormValues,
     getFormTaskObject,
-    userHasInputs,
 } from '../../../../utilities/form-utils/task-form-util';
 import GeneralInputs from './form-sections/GeneralInputs';
 import DurationInput from './form-sections/DurationInput';
