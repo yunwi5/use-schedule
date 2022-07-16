@@ -58,8 +58,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Route http://localhost:3000/ is the index route located at page/index.tsx file. <br/>
 API routes are http://localhost:3000/api/ located at page/api directory.
 
+<br />
+<br />
 
 ## More About This Project
+
+<br />
 
 ### Calendar
 ![calendar-ex](https://user-images.githubusercontent.com/86972879/179355292-110c480c-c1f2-4712-89a3-ee926aee3279.jpg)
@@ -129,7 +133,6 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Each todo can have sub todos nested inside itself, in order to provide further details and flexibility.
 
 <br />
-<br />
 
 ### Import & Export
 
@@ -137,6 +140,8 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Navigate to different periods you want and see the analytics in that week, month and year.
 * Comprehensive analysis across 7 sections including trend analysis, periodic analysis and categorical analysis.
 
+<br />
+<br />
 
 ## Deploy on Vercel
 
