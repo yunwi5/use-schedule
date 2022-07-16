@@ -71,12 +71,15 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Import & Export features to let you import from and export to external applications.
 
 
+
 ### Dashboard
 ![dashboard-ex](https://user-images.githubusercontent.com/86972879/179355344-91b138c7-aacc-4a68-809a-c894701c8d9f.jpg)
 
 * Weekly data summary including weekly workload, weekly completion rate etc.
 * Allows you to time travel to different periods by simply navigating through the mini calendar on the top!
 * Your schedule trend summary and progress summary that you can check in a minute.
+
+
 
 ### Recurring Schedules
 ![recurring-ex](https://user-images.githubusercontent.com/86972879/179355364-cc6fa7f3-c871-4b14-9637-dd462755d823.jpg)
@@ -85,12 +88,16 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Customize the recurring interval according to your needs i.e. every week, month or year.
 * All the properties of your event and task will be duplicated and will be added to your calendar & planner automatically.
 
+
+
 ### Data Analysis
 ![analysis-ex](https://user-images.githubusercontent.com/86972879/179355379-53d33a5c-fb03-4105-8262-dd05dc9213ea.jpg)
 
 * Provide three different analysis modes including weekly analysis, monthly analysis and yearly analysis.
 * Navigate to different periods you want and see the analytics in that week, month and year.
 * Comprehensive analysis across 7 sections including trend analysis, periodic analysis and categorical analysis.
+
+
 
 ### Task Planners
 ![planner2-ex](https://user-images.githubusercontent.com/86972879/179355396-fec9227e-8305-41a3-b8d3-c01cc1d97c6c.jpg)
@@ -99,12 +106,16 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Weekly planner supporting both list view and time table view to suit your preference!
 * Monthly planner and yearly planner are specifically designed to let you set your monthly and yearly goals.
 
+
+
 ### Template Tables
 ![template-table](https://user-images.githubusercontent.com/86972879/179355525-bd746fa3-6c0a-4768-8c90-cd54f7518c1e.jpg)
 
 * Combined with a Weekly Planner to automate your planning process with predefined tasks in the table you create.
 * Create Once, Apply Everywhere. Apply your time tables to any weeks you want by simply importing them all at once.
 * If you have manually typed or written 10~30 repetitive tasks in your planner every week, this is the perfect option to remove all your manual work!
+
+
 
 ### Lists
 ![custom-list-ex](https://user-images.githubusercontent.com/86972879/179355550-4e9ded84-852d-4c45-ba65-d3d4562d8ad4.jpg)
@@ -113,9 +124,9 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Extremely quick to add, but tons of options to customize each todo item!
 * Each todo can have sub todos nested inside itself, in order to provide further details and flexibility.
 
+
+
 ### Import & Export
-![ical-import](https://user-images.githubusercontent.com/86972879/179355618-404b40af-c039-4cdd-bf59-892d0a33df12.jpg)
-![ical-export](https://user-images.githubusercontent.com/86972879/179355596-b9401fe2-5f99-46fa-8be0-9da9c874b2aa.jpg)
 
 * Provide three different analysis modes including weekly analysis, monthly analysis and yearly analysis.
 * Navigate to different periods you want and see the analytics in that week, month and year.
