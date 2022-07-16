@@ -3,6 +3,39 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 # [Use Schedule - personal schedular app](https://use-schedule.vercel.app/)
 ![logo](https://user-images.githubusercontent.com/86972879/176129570-9fb7c0a4-0629-4837-856c-a49a869ce22a.png)
 
+Deployed with the URL: https://use-schedule.vercel.app/.
+
+## [Features](https://use-schedule.vercel.app/about)
+
+1. [Calendar](https://use-schedule.vercel.app/about#calendar) to view & handle all the schedules 
+2. [Dashboard](https://use-schedule.vercel.app/about#dashboard) to see the summary and trends of user schedules
+3. [Recurring Schedules](https://use-schedule.vercel.app/about#recurring-schedules) to easily repeat schedules and maximize the efficiency
+4. [Data Analysis](https://use-schedule.vercel.app/about#data-analysis) to analyze trend data & categorical data of the user scheduels
+5. [Planers](https://use-schedule.vercel.app/about#planner) to plan tasks weekly, monthly and yearly
+6. [Template Tables](https://use-schedule.vercel.app/about#template-tables) to make time tables that can be imported to the planner
+7. [Import & Export](https://use-schedule.vercel.app/about#import-export) to import/export events & tasks from/to external apps like Google Calendar
+
+## Technologies
+
+### Front End
+1. TypeScript
+2. Next Js (React Js)
+3. Redux-Toolkit
+4. React Query
+5. React Hook Form
+6. Axios
+7. Chart Js (React Chart Js)
+8. Material UI
+9. Tailwind CSS
+10. Sass
+11. Ical JS Parser
+
+### Back End
+1. TypeScript
+2. Next Js (Node Js)
+3. MongoDB
+4. Auth0
+5. Joi
 
 
 ## Getting Started
