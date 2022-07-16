@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 # [Use Schedule - personal schedular app](https://use-schedule.vercel.app/)
 ![logo](https://user-images.githubusercontent.com/86972879/176129570-9fb7c0a4-0629-4837-856c-a49a869ce22a.png)
 
@@ -70,7 +68,9 @@ API routes are http://localhost:3000/api/ located at page/api directory.
 * Provide filtering options to filter the items.
 * Import & Export features to let you import from and export to external applications.
 
-
+<br />
+<br />
+<br />
 
 ### Dashboard
 ![dashboard-ex](https://user-images.githubusercontent.com/86972879/179355344-91b138c7-aacc-4a68-809a-c894701c8d9f.jpg)
