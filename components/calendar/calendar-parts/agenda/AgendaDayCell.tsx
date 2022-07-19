@@ -44,7 +44,12 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
     );
 
     const filteredItems = useMemo(() => {
-        return filterCalendarItems(sortedItems, statusFilter, importanceFilter, itemTypeFilter);
+        return filterCalendarItems(
+            sortedItems,
+            statusFilter,
+            importanceFilter,
+            itemTypeFilter,
+        );
     }, [sortedItems, statusFilter, importanceFilter, itemTypeFilter]);
 
     const showItemPromptHandler = (e: React.MouseEvent) => {
@@ -69,15 +74,16 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                     className="item-create-indicator relative transition-all"
                     onClick={showItemPromptHandler}
                 >
-                    <span className="item-create-indicator hover:font-semibold">
+                    <span className="item-create-indicator hover:font-semibold cursor-pointer">
                         {dateFormat}{' '}
-                        {isCurrentDate(date) && <span className={`text-blue-500/75`}>(Today)</span>}
+                        {isCurrentDate(date) && (
+                            <span className={`text-blue-500/75`}>(Today)</span>
+                        )}
                     </span>
                     {showItemCreatePrompt && (
                         <ItemCreatePrompt
                             onClose={setShowItemCreatePrompt.bind(null, false)}
                             beginningPeriod={date}
-                            showLeft={false}
                             onAdd={onInvalidateItems}
                             className={'top-1 translate-x-3'}
                         />

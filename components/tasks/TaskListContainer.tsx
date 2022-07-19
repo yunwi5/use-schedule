@@ -7,13 +7,14 @@ import { WeekDay, getWeekDayFromIndex } from '../../models/date-models/WeekDay';
 import { Month, getMonthFromIndex } from '../../models/date-models/Month';
 import { WeekNumber, getWeekFromIndex } from '../../models/date-models/WeekNumber';
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
-import { addDays } from '../../utilities/date-utils/date-control';
+import { addDays, addMonths, addWeeks } from '../../utilities/date-utils/date-control';
 import { getMonthName, getWeekInterval } from '../../utilities/date-utils/month-util';
 import { getShortName } from '../../utilities/gen-utils/string-util';
 import { sortTaskByTime } from '../../utilities/sort-utils/sort-util';
 import { getMonthEnding } from '../../utilities/date-utils/date-get';
 import { getDaySuffixed } from '../../utilities/gen-utils/format-util';
 import { Task } from '../../models/task-models/Task';
+import TaskAdd from '../planners/planner-crud/TaskAdd';
 
 interface Props {
     beginningPeriod: Date;
@@ -22,7 +23,7 @@ interface Props {
     tasks: Task[];
 }
 
-function getHeadingLabels(plannerMode: PlannerMode, beginningPeriod: Date, index: number) {
+function getHeadingInfo(plannerMode: PlannerMode, beginningPeriod: Date, index: number) {
     let labelMain = '',
         labelSub = '',
         headingText: string | JSX.Element = '';
@@ -31,12 +32,12 @@ function getHeadingLabels(plannerMode: PlannerMode, beginningPeriod: Date, index
             const day = getWeekDayFromIndex(index);
             const shortDay = getShortName(day);
 
-            const curr = addDays(beginningPeriod, index);
-            const currMonth = getMonthName(curr);
+            const date = addDays(beginningPeriod, index);
+            const currMonth = getMonthName(date);
 
             const isDateAny = day === WeekDay.ANY;
-            let currDate = !isDateAny ? curr.getDate().toString() : '?';
-            labelMain = currDate;
+            let dateFormat = !isDateAny ? date.getDate().toString() : '?';
+            labelMain = dateFormat;
             labelSub = currMonth;
             headingText = shortDay;
             break;
@@ -89,40 +90,72 @@ function getHeadingLabels(plannerMode: PlannerMode, beginningPeriod: Date, index
     return { labelMain, labelSub, headingText };
 }
 
+function getListDate(plannerMode: PlannerMode, beginningPeriod: Date, index: number): Date {
+    switch (plannerMode) {
+        case PlannerMode.WEEKLY:
+        case PlannerMode.TEMPLATE:
+            return addDays(beginningPeriod, index);
+        case PlannerMode.MONTLY:
+            return addWeeks(beginningPeriod, index);
+        case PlannerMode.YEARLY:
+            return addMonths(beginningPeriod, index);
+        default:
+            console.warn('PlannerMode is invalid:', plannerMode);
+            return beginningPeriod;
+    }
+}
+
 const TaskListContainer: React.FC<Props> = (props) => {
     const { beginningPeriod, index, onMutate, tasks } = props;
-    const [isShrinked, setIsShrinked] = useState(false);
 
     const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
+    const [showTaskAdd, setShowTaskAdd] = useState(false);
+    const [isShrinked, setIsShrinked] = useState(false);
 
     const handleShrinked = useCallback((shrink: boolean) => {
         setIsShrinked(shrink);
     }, []);
 
+    const handleTaskAdd = useCallback(() => {
+        onMutate();
+        setShowTaskAdd(false);
+    }, [onMutate]);
+
     // Possibly needs to be validated
     const sortedTasksList = useMemo(() => tasks.sort(sortTaskByTime), [tasks]);
 
-    const { labelMain, labelSub, headingText } = getHeadingLabels(
+    const { labelMain, labelSub, headingText } = getHeadingInfo(
         plannerMode,
         beginningPeriod,
         index,
     );
+    const listDate = getListDate(plannerMode, beginningPeriod, index);
 
     return (
-        <div className="mt-8 lg:mt-4 first:mt-0 my-4 px-3 pr-3 lg:pr-10">
-            <ListHeading
-                labelMain={labelMain}
-                labelSub={labelSub}
-                headingText={headingText}
-                isShrinked={isShrinked}
-                onToggleShrink={() => setIsShrinked((prevState) => !prevState)}
-            />
-            <TaskList
-                onMutate={onMutate}
-                onShrink={handleShrinked}
-                taskList={!isShrinked ? sortedTasksList : []}
-            />
-        </div>
+        <>
+            <div className="mt-8 lg:mt-4 first:mt-0 my-4 px-3 pr-3 lg:pr-10">
+                <ListHeading
+                    labelMain={labelMain}
+                    labelSub={labelSub}
+                    headingText={headingText}
+                    isShrinked={isShrinked}
+                    onShowTaskAdd={() => setShowTaskAdd(true)}
+                    onToggleShrink={() => setIsShrinked((prevState) => !prevState)}
+                />
+                <TaskList
+                    onMutate={onMutate}
+                    onShrink={handleShrinked}
+                    taskList={!isShrinked ? sortedTasksList : []}
+                />
+            </div>
+            {showTaskAdd && (
+                <TaskAdd
+                    beginningPeriod={listDate}
+                    onClose={() => setShowTaskAdd(false)}
+                    onAddTask={handleTaskAdd}
+                />
+            )}
+        </>
     );
 };
 

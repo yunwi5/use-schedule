@@ -92,6 +92,7 @@ const TodoListSection: React.FC<Props> = (props) => {
     };
 
     useEffect(() => {
+        // Change only if the todoList.id changes.
         setLocalTodos(todos);
     }, [todos, setLocalTodos]);
 

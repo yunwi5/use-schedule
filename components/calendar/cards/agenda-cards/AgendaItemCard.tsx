@@ -68,8 +68,8 @@ const AgendaItemCard: React.FC<Props> = (props) => {
             ? 'text-blue-600/75'
             : 'text-indigo-500/75';
 
-    const bgColor = 'bg-slate-50';
     const iconClass = `inline-block mr-2 max-w-[1.5rem] ${iconColor}`;
+    const isCompleted = status === Status.COMPLETED;
 
     const toggleDropdown = () => setShowDropdownDetail((prevState) => !prevState);
 
@@ -78,12 +78,14 @@ const AgendaItemCard: React.FC<Props> = (props) => {
             <div className={`flex items-center`}>
                 <span className={`text-xl ${iconColor}`}>{calendarIcon}</span>
                 <time
-                    className={`ml-2 md:ml-4 font-semibold text-slate-400 min-w-[5.7rem] w-[5.7rem]`}
+                    className={`ml-2 md:ml-4 font-semibold text-slate-500 min-w-[5.7rem] w-[5.7rem]`}
                 >
                     {getLongUserTimeFormat(item.dateTime)}
                 </time>
                 <h5
-                    className="ml-3 md:ml-6 font-semibold text-slate-500 cursor-pointer"
+                    className={`ml-3 md:ml-6 font-semibold text-slate-600 cursor-pointer ${
+                        isCompleted ? 'line-through opacity-70' : ''
+                    }`}
                     onClick={onShowDetail}
                 >
                     {item.name}
@@ -96,7 +98,7 @@ const AgendaItemCard: React.FC<Props> = (props) => {
             </div>
             {showDropdownDetail && (
                 <div
-                    className={`pl-2 sm:pl-11 pt-1 pb-2 border-b-2 border-slate-300 flex items-center ${bgColor}`}
+                    className={`pl-2 sm:pl-11 pt-1 pb-2 flex items-center bg-slate-50 border-b-2 border-slate-300`}
                 >
                     <div className="flex gap-3 md:gap-6 flex-wrap mr-4 lg:flex-nowrap">
                         <div>

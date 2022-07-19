@@ -6,15 +6,20 @@ interface Props {
     labelSub: string;
     headingText: string | JSX.Element;
     isShrinked: boolean;
+    onShowTaskAdd(): void;
     onToggleShrink: () => void;
 }
 
 const ListHeading: React.FC<Props> = (props) => {
-    const { labelMain, labelSub, headingText, isShrinked, onToggleShrink } = props;
+    const { labelMain, labelSub, headingText, isShrinked, onShowTaskAdd, onToggleShrink } =
+        props;
 
     return (
         <div className="mb-3 lg:mb-0 flex items-center gap-3">
-            <div className=" px-2 pt-[5px] pb-3 bg-gray-500 text-white w-14 h-14 lg:w-16 lg:h-16 rounded-md flex flex-col items-center">
+            <div
+                onClick={onShowTaskAdd}
+                className=" px-2 pt-[5px] pb-3 bg-gray-500 hover:bg-gray-700 text-white w-14 h-14 lg:w-16 lg:h-16 rounded-md flex flex-col items-center cursor-pointer"
+            >
                 <span className="text-xl lg:text-2xl">{labelMain}</span>
                 <span>{labelSub}</span>
             </div>

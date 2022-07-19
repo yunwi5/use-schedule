@@ -1,4 +1,3 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/pro-regular-svg-icons';
 import Button from '@mui/material/Button';
@@ -24,7 +23,7 @@ const CalendarAgenda: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
     const toggleCollapsed = () => dispatch(calendarActions.toggleAgendaCollapsed());
 
     return (
-        <section className="flex flex-col gap-5 bg-slate-50/70 border-t-2 border-slate-300 pt-3 pb-6 px-2 xs:px-3 md:px-5 text-lg">
+        <section className="flex flex-col gap-5 pt-3 pb-6 px-2 xs:px-3 md:px-5 max-h-[86vh] overflow-y-scroll hide-scrollbar text-lg bg-slate-50/70 border-t-2 border-slate-300">
             <div className="flex justify-between -mb-3">
                 <AgendaItemsLabel />
                 <Button onClick={toggleCollapsed}>
