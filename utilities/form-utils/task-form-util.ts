@@ -75,8 +75,10 @@ export function getInitialDateTimeInput(initialTask: Task | undefined, beginning
     if (initialTask && initialTask.timeString) {
         defaultDateTime = new Date(initialTask.timeString);
     }
-    // bug: somehow day is 1 day forward than it should be.
-    defaultDateTime = addDays(defaultDateTime, -1);
+    // bug: somehow day is 1 day forward than it should be when the month is May or forwards.
+    // month index 4 => May, month index 8 => September
+    if (beginningPeriod.getMonth() >= 4 && beginningPeriod.getMonth() <= 8)
+        defaultDateTime = addDays(defaultDateTime, -1);
     const defaultDate = getISODateFormat(defaultDateTime);
     const defaultTime = getISOTimeFormat(defaultDateTime);
     return { defaultDate, defaultTime };

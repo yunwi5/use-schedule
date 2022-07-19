@@ -96,7 +96,9 @@ function getListDate(plannerMode: PlannerMode, beginningPeriod: Date, index: num
         case PlannerMode.TEMPLATE:
             return addDays(beginningPeriod, index);
         case PlannerMode.MONTLY:
-            return addWeeks(beginningPeriod, index);
+            const weekNumber = index + 1;
+            const [beginning, _] = getWeekInterval(beginningPeriod, weekNumber);
+            return beginning;
         case PlannerMode.YEARLY:
             return addMonths(beginningPeriod, index);
         default:
