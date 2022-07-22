@@ -60,11 +60,11 @@ const SubTaskCard: React.FC<Props> = (props) => {
         return () => clearTimeout(timer);
     }, [subItem, currentText, onPatchNewProps]);
 
-    useEffect(() => {
-        setCurrentText(subItem.name);
-        setIsImportant(subItem.isImportant);
-        setIsCompleted(subItem.isCompleted);
-    }, [subItem]);
+    // useEffect(() => {
+    //     // setCurrentText(subItem.name);
+    //     // setIsImportant(subItem.isImportant);
+    //     // setIsCompleted(subItem.isCompleted);
+    // }, [subItem]);
 
     return (
         <div className="md:max-w-[99%] lg:max-w-[95%] mt-2 p-2 flex items-center justify-between shadow-md hover:shadow-xl hover:-translate-y-[2px] transition-all text-slate-600 border-slate-200 border-2 rounded-md">

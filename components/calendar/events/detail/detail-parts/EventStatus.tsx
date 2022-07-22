@@ -8,13 +8,13 @@ import { SelectChangeEvent } from '@mui/material/Select';
 
 import { Status, StatusList } from '../../../../../models/task-models/Status';
 import { patchEvent } from '../../../../../lib/events/event-apis';
-import { IEvent } from '../../../../../models/Event';
+import { EventProps, IEvent } from '../../../../../models/Event';
 import IconEdit from '../../../../ui/icons/IconEdit';
 import { eventStyles } from './common-styles';
 
 interface Props {
     event: IEvent;
-    onEdit: () => void;
+    onEdit: (eventProps: EventProps) => void;
 }
 
 const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
@@ -35,7 +35,7 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
         if (event.status === newStatus) return; // no change, no edit
         // send HTTP PATCH request
         const { isSuccess } = await patchEvent(event.id, { status: newStatus });
-        if (isSuccess) onEdit();
+        if (isSuccess) onEdit({ status: newStatus });
     };
 
     return (

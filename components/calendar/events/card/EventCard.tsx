@@ -4,7 +4,7 @@ import {
     CalendarItemType,
     getItemIcon,
 } from '../../../../models/calendar-models/CalendarItemType';
-import { IEvent } from '../../../../models/Event';
+import { EventProps, IEvent } from '../../../../models/Event';
 import EventDetail from '../detail/EventDetail';
 import EventEdit from '../EventEdit';
 import EventStatusToggler from './EventStatusToggler';
@@ -17,10 +17,15 @@ interface Props {
 }
 
 const EventCard: React.FC<Props> = ({ event, onInvalidate, expand }) => {
+    const [localEvent, setLocalEvent] = useState(event);
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
-    const { dateTime, name, importance, location, status, duration } = event;
+    const { dateTime, name, importance, location, status, duration } = localEvent;
+
+    const handleEventMutation = (eventProps: EventProps) => {
+        setLocalEvent((prevEvent) => ({ ...prevEvent, ...eventProps }));
+    };
 
     const statusToggler = <EventStatusToggler event={event} onInvalidate={onInvalidate} />;
 
@@ -43,6 +48,7 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand }) => {
             {showDetail && (
                 <EventDetail
                     event={event}
+                    onEditEvent={handleEventMutation}
                     onClose={() => setShowDetail(false)}
                     onInvalidate={onInvalidate}
                 />
@@ -52,6 +58,7 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand }) => {
                     event={event}
                     onClose={() => setShowEdit(false)}
                     onEditEvent={onInvalidate}
+                    onDeleteEvent={onInvalidate}
                 />
             )}
         </>

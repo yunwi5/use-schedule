@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
 import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
@@ -47,6 +47,16 @@ const TodoCard: React.FC<Props> = (props) => {
         });
     };
 
+    const handleMutation = (id: string, todoProps: TodoProps) => {
+        if (todoProps.isImportant != null) {
+            setIsImportant(todoProps.isImportant);
+        }
+        if (todoProps.isCompleted != null) {
+            setIsCompleted(todoProps.isCompleted);
+        }
+        onMutateTodo(id, todoProps);
+    };
+
     const showBottomInfo: boolean = !!(todo.dateTime || todo.duration);
     const showDuration: boolean = !!(todo.duration && todo.duration > 0);
 
@@ -61,7 +71,7 @@ const TodoCard: React.FC<Props> = (props) => {
                     listName={listName}
                     onClose={() => setShowDetail(false)}
                     todo={todo}
-                    onMutateTodo={onMutateTodo}
+                    onMutateTodo={handleMutation}
                     onDeleteTodo={onDeleteTodo}
                 />
             )}

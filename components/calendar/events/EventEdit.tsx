@@ -10,14 +10,15 @@ import useEventDelete from '../../../hooks/event-hooks/useEventDelete';
 
 interface Props {
     onClose: () => void;
-    onEditEvent: () => void;
+    onDeleteEvent(): void;
+    onEditEvent: (eventProps: EventProps) => void;
     event: IEvent;
 }
 
-const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
+const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, onDeleteEvent, event }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { setNotification } = useNotification();
-    const { deleteEvent } = useEventDelete({ onClose, event, onInvalidate: onEditEvent });
+    const { deleteEvent } = useEventDelete({ onClose, event, onInvalidate: onDeleteEvent });
 
     const eventEditHandler = async (editedEvent: EventProps) => {
         // Send HTTP PATCH request with given event id
@@ -26,7 +27,7 @@ const EventEdit: React.FC<Props> = ({ onClose, onEditEvent, event }) => {
         const { isSuccess, message } = await patchEvent(event.id, editedEvent);
         if (isSuccess) {
             setNotification(NotifStatus.SUCCESS, message);
-            onEditEvent();
+            onEditEvent(editedEvent);
             onClose();
         } else {
             setNotification(NotifStatus.ERROR, message);

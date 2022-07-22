@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { useQueryClient, useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 
 import { SortingDirection, SubItemSort } from '../../../models/sorting-models';
 import { NoIdSubTodo, SubTodo } from '../../../models/todo-models/SubTodo';
@@ -26,9 +26,8 @@ async function fetchSubTodos(context: any) {
 const SubTodoList: React.FC<Props> = (props) => {
     const { isEditing, todoId } = props;
 
-    const queryClient = useQueryClient();
-    const { data } = useQuery(['sub-todos', todoId], fetchSubTodos, {
-        enabled: !!todoId,
+    const { data, refetch } = useQuery(['sub-todos', todoId], fetchSubTodos, {
+        enabled: false,
     });
 
     const subTodos: SubTodo[] = useMemo(() => (data ? data.subTodos : []), [data]);
@@ -48,10 +47,7 @@ const SubTodoList: React.FC<Props> = (props) => {
         undefined,
     );
 
-    const invalidateSubTodos = useCallback(
-        () => queryClient.invalidateQueries('sub-todos'),
-        [queryClient],
-    );
+    const invalidateSubTodos = useCallback(() => refetch(), [refetch]);
 
     const postMutation = useMutation(
         (newTodo: NoIdSubTodo) => {
@@ -125,8 +121,10 @@ const SubTodoList: React.FC<Props> = (props) => {
     }, [localSubTodos, sortingStandard, sortingDirection]);
 
     useEffect(() => {
-        setLocalSubTodos(subTodos);
-    }, [subTodos, setLocalSubTodos]);
+        if (subTodos.length === localSubTodos.length) {
+            setLocalSubTodos(subTodos);
+        }
+    }, [subTodos, localSubTodos, setLocalSubTodos]);
 
     return (
         <section className="pl-[1rem] flex flex-col gap-2">

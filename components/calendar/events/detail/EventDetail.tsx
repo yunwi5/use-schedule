@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { IEvent } from '../../../../models/Event';
+import { EventProps, IEvent } from '../../../../models/Event';
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import EventEdit from '../EventEdit';
 import WrapperModal from '../../../ui/modal/wrapper/WrapperModal';
@@ -23,11 +23,12 @@ import { faHourglass, faMemoPad, faStarExclamation } from '@fortawesome/pro-duot
 interface Props {
     onClose(): void;
     onInvalidate(): void;
+    onEditEvent(eventProps: EventProps): void;
     event: IEvent;
 }
 
 const EventDetail: React.FC<Props> = (props) => {
-    const { onClose, onInvalidate, event } = props;
+    const { onClose, onInvalidate, onEditEvent, event } = props;
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [showRecurringModal, setShowRecurringModal] = useState(false);
@@ -35,9 +36,9 @@ const EventDetail: React.FC<Props> = (props) => {
 
     const { participants } = event;
 
-    const editEventHandler = () => {
+    const editEventHandler = (eventProps: EventProps) => {
         setShowEditModal(false);
-        onInvalidate();
+        onEditEvent(eventProps);
     };
 
     const eventDuplicateHandler = () => {
@@ -68,7 +69,7 @@ const EventDetail: React.FC<Props> = (props) => {
                                     value={getDurationFormat(event.duration)}
                                     icon={faHourglass}
                                 />
-                                <EventStatus event={event} onEdit={onInvalidate} />
+                                <EventStatus event={event} onEdit={editEventHandler} />
                                 <EventSection
                                     label={'importance'}
                                     value={event.importance}
@@ -95,6 +96,7 @@ const EventDetail: React.FC<Props> = (props) => {
             {showEditModal && (
                 <EventEdit
                     onClose={() => setShowEditModal(false)}
+                    onDeleteEvent={onInvalidate}
                     onEditEvent={editEventHandler}
                     event={event}
                 />

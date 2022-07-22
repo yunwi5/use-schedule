@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useQuery, useQueryClient } from 'react-query';
@@ -37,8 +37,13 @@ const NewTodoPage: NextPage<Props> = (props) => {
     const listId = initialList?.id || '';
 
     const queryClient = useQueryClient();
-    const { data: listData, error: listError } = useQuery(['todo-list', listId], getTodoList, {
+    const {
+        data: listData,
+        error: listError,
+        refetch,
+    } = useQuery(['todo-list', listId], getTodoList, {
         initialData: { list: initialList, todos: initialTodos },
+        enabled: false,
     });
 
     const todoList: TodoList | null = listData ? listData.list : null;
@@ -48,6 +53,10 @@ const NewTodoPage: NextPage<Props> = (props) => {
         console.error('TodoList query has errors!');
         console.log(listError);
     }
+
+    const invalidateTodoList = async () => {
+        refetch();
+    };
 
     const mutateList = async (
         todoListObj: TodoListProperties,
@@ -63,8 +72,6 @@ const NewTodoPage: NextPage<Props> = (props) => {
         }
         return true;
     };
-
-    const invalidateTodoList = () => queryClient.invalidateQueries('todo-list');
 
     useEffect(() => {
         if (!userId) router.replace(getLoginLink());

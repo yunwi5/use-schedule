@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
-import { IEvent } from '../../../../models/Event';
+import { EventProps, IEvent } from '../../../../models/Event';
 import { Importance } from '../../../../models/task-models/Status';
 import EventDetail from '../../events/detail/EventDetail';
 import EventEdit from '../../events/EventEdit';
@@ -12,17 +12,22 @@ interface Props {
 }
 
 const AgendaEventItem: React.FC<Props> = ({ item, onInvalidate }) => {
+    const [localEvent, setLocalEvent] = useState(item);
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+
+    const handleMutation = (eventProps: EventProps) => {
+        setLocalEvent((prevEvent) => ({ ...prevEvent, ...eventProps }));
+    };
 
     return (
         <>
             <AgendaItemCard
-                item={item}
+                item={localEvent}
                 itemType={CalendarItemType.EVENT}
-                status={item.status}
-                importance={item.importance || Importance.IMPORTANT}
-                location={item.location}
+                status={localEvent.status}
+                importance={localEvent.importance || Importance.IMPORTANT}
+                location={localEvent.location}
                 onShowDetail={() => setShowDetail(true)}
                 onShowEdit={() => setShowEdit(true)}
             />
@@ -30,13 +35,15 @@ const AgendaEventItem: React.FC<Props> = ({ item, onInvalidate }) => {
                 <EventDetail
                     onClose={() => setShowDetail(false)}
                     onInvalidate={onInvalidate}
-                    event={item}
+                    onEditEvent={handleMutation}
+                    event={localEvent}
                 />
             )}
             {showEdit && (
                 <EventEdit
-                    event={item}
-                    onEditEvent={onInvalidate}
+                    event={localEvent}
+                    onDeleteEvent={onInvalidate}
+                    onEditEvent={handleMutation}
                     onClose={() => setShowEdit(false)}
                 />
             )}

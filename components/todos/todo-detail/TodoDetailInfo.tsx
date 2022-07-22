@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faStarSolid } from '@fortawesome/pro-solid-svg-icons';
 import { faStar as faStarLight } from '@fortawesome/pro-light-svg-icons';
@@ -9,6 +9,7 @@ import TodoDuration from './TodoDuration';
 import TodoDateTime from './TodoDateTime';
 import classes from './TodoDetail.module.scss';
 import { getParsedDate } from '../../../utilities/date-utils/date-format';
+import useUpdateEffect from '../../../hooks/useUpdateEffect';
 
 interface Props {
     onMutateTodo: (id: string, todoProps: TodoProps) => void;
@@ -58,7 +59,7 @@ const TodoDetailInfo: React.FC<Props> = ({ todo, onMutateTodo, isEditing }) => {
     };
 
     // Exception
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (isEditing) return;
         // When the edit mode is turned off, send the request to update todo
         onMutateTodo(todo.id, {

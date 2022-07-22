@@ -18,6 +18,7 @@ import { isCurrentDate, isCurrentMonth } from '../../../../utilities/date-utils/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import ItemCreateBar from '../../calendar-control/item-create/ItemCreateBar';
+import useArray from '../../../../hooks/useArray';
 
 interface Position {
     x: number;

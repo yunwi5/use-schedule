@@ -13,6 +13,7 @@ interface Props {
 
 const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
     const [showDetail, setShowDetail] = useState(false);
+    // const [localTask, setLocalTask] = useState(task);
 
     return (
         <>

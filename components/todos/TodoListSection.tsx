@@ -93,8 +93,11 @@ const TodoListSection: React.FC<Props> = (props) => {
 
     useEffect(() => {
         // Change only if the todoList.id changes.
-        setLocalTodos(todos);
-    }, [todos, setLocalTodos]);
+        console.log('Effect: todos changed. Reset local todos.');
+        if (todos.length === localTodos.length) {
+            setLocalTodos(todos);
+        }
+    }, [todos, setLocalTodos, localTodos]);
 
     return (
         <section className="mt-8 flex flex-col gap-5">
