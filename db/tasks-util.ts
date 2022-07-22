@@ -2,7 +2,7 @@ import { MongoClient, ObjectId } from 'mongodb';
 
 import { SubTaskCollection } from './collections';
 import { NoIdTask, Task } from '../models/task-models/Task';
-import { TaskProperties } from '../models/task-models/TaskProperties';
+import { TaskProps } from '../models/task-models/TaskProperties';
 import { deleteAllSubTasksOfParent } from './subtask-util';
 import { connectDatabase } from './mongodb-config';
 
@@ -55,7 +55,7 @@ export async function updateTaskProperties(
     client: MongoClient,
     collection: string,
     taskId: string,
-    updateProps: TaskProperties,
+    updateProps: TaskProps,
 ) {
     const db = client.db();
     const res = await db

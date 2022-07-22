@@ -57,7 +57,7 @@ function getCardDateTimeFormat(task: AbstractTask) {
 const TaskCard: React.FC<Props> = (props) => {
     const { task: initialTask, beginningPeriod, onMutate } = props;
 
-    const [task, setTask] = useState(initialTask);
+    const [task, setTask] = useState<AbstractTask>(initialTask);
     const [isEditing, setIsEditing] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const [showComment, setShowComment] = useState(false);
@@ -65,9 +65,9 @@ const TaskCard: React.FC<Props> = (props) => {
     const { dueDate, category, subCategory, importance, status, comment } = task;
     const plannerMode = useSelector((state: RootStateOrAny) => state.planner.plannerMode);
 
-    const updateTaskHandler = (updatedTask?: AbstractTask) => {
+    const updateTaskHandler = (updatedTask: AbstractTask) => {
         onMutate();
-        if (updatedTask) setTask(updatedTask);
+        setTask(updatedTask);
     };
 
     const statusChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -115,6 +115,7 @@ const TaskCard: React.FC<Props> = (props) => {
             {isEditing && (
                 <PlannerTaskEdit
                     onClose={() => setIsEditing(false)}
+                    onDelete={onMutate}
                     onUpdate={updateTaskHandler}
                     beginningPeriod={beginningPeriod}
                     initialTask={task}
@@ -124,6 +125,7 @@ const TaskCard: React.FC<Props> = (props) => {
             {showDetail && (
                 <TaskDetail
                     onClose={setShowDetail.bind(null, false)}
+                    onEditTask={updateTaskHandler}
                     task={task}
                     onInvalidate={onMutate}
                 />

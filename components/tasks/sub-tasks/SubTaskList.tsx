@@ -74,8 +74,10 @@ const SubTaskList: React.FC<Props> = (props) => {
     );
 
     useEffect(() => {
-        setCurrentSubTasks(subTasks);
-    }, [subTasks]);
+        if (subTasks.length === currentSubTasks.length) {
+            setCurrentSubTasks(subTasks);
+        }
+    }, [currentSubTasks, subTasks]);
 
     return (
         <div className="mb-3 flex-1 flex flex-col">

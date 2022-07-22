@@ -18,6 +18,7 @@ const AgendaEventItem: React.FC<Props> = ({ item, onInvalidate }) => {
 
     const handleMutation = (eventProps: EventProps) => {
         setLocalEvent((prevEvent) => ({ ...prevEvent, ...eventProps }));
+        onInvalidate();
     };
 
     return (

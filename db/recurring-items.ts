@@ -1,8 +1,14 @@
 import { MongoClient } from 'mongodb';
 import { EventProps } from '../models/Event';
-import { NoIdRecurringEvent, RecurringEventProps } from '../models/recurring-models/RecurringEvent';
-import { NoIdRecurringTask, RecurringTaskProps } from '../models/recurring-models/RecurringTask';
-import { TaskProperties } from '../models/task-models/TaskProperties';
+import {
+    NoIdRecurringEvent,
+    RecurringEventProps,
+} from '../models/recurring-models/RecurringEvent';
+import {
+    NoIdRecurringTask,
+    RecurringTaskProps,
+} from '../models/recurring-models/RecurringTask';
+import { TaskProps } from '../models/task-models/TaskProperties';
 import { EventCollection, RecurringCollection, TaskCollection } from './collections';
 import { deleteItem, getItems, insertItem, updateItem } from './generic';
 
@@ -88,14 +94,16 @@ export async function updateRecurringTaskProps(
 export async function updateGeneratedTasks(
     client: MongoClient,
     recurringId: string,
-    taskProps: TaskProperties,
+    taskProps: TaskProps,
     collection: TaskCollection,
 ) {
     const updateProps: any = taskProps;
     delete updateProps.status; // do not update status of individual events
 
     const db = client.db();
-    const result = await db.collection(collection).updateMany({ recurringId }, { $set: taskProps });
+    const result = await db
+        .collection(collection)
+        .updateMany({ recurringId }, { $set: taskProps });
     return result;
 }
 

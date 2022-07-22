@@ -3,6 +3,7 @@ import { CalendarItemType } from '../../../../models/calendar-models/CalendarIte
 
 import { Status } from '../../../../models/task-models/Status';
 import { PlannerTask } from '../../../../models/task-models/Task';
+import { TaskProps } from '../../../../models/task-models/TaskProperties';
 import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
 import CalendarItemCard from './CalendarItemCard';
 
@@ -13,7 +14,12 @@ interface Props {
 
 const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
     const [showDetail, setShowDetail] = useState(false);
-    // const [localTask, setLocalTask] = useState(task);
+    const [localTask, setLocalTask] = useState(task);
+
+    const handleMutation = (props: TaskProps) => {
+        setLocalTask((prevTask) => new PlannerTask({ ...prevTask, ...props }));
+        onInvalidate();
+    };
 
     return (
         <>
@@ -23,17 +29,18 @@ const CalendarTaskItem: React.FC<Props> = ({ task, onInvalidate }) => {
                 hoverBgClass={'hover:bg-blue-500/70'}
                 hoverTextClass={'hover:text-blue-50'}
                 borderClass={'border-blue-500/80'}
-                dateTime={task.dateTime}
-                isCompleted={task.status === Status.COMPLETED}
-                overdue={task.status === Status.OVERDUE}
+                dateTime={localTask.dateTime}
+                isCompleted={localTask.status === Status.COMPLETED}
+                overdue={localTask.status === Status.OVERDUE}
                 itemType={CalendarItemType.TASK}
                 onClick={setShowDetail.bind(null, true)}
             >
-                {task.name}
+                {localTask.name}
             </CalendarItemCard>
             {showDetail && (
                 <TaskDetail
-                    task={task}
+                    task={localTask}
+                    onEditTask={handleMutation}
                     onClose={setShowDetail.bind(null, false)}
                     onInvalidate={onInvalidate}
                 />

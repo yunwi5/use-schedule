@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
@@ -12,37 +12,38 @@ interface Props {
 
 const UpcomingTaskItem: React.FC<Props> = ({ task }) => {
     const { onInvalidate } = useDashboardContext();
+    const [localTask, setLocalTask] = useState(task);
+
     const [showDetail, setShowDetail] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
 
-    const editHandler = useCallback(() => {
-        setShowEditForm(true);
-        setShowDetail(false);
-    }, []);
-    const updateHandler = (updateTask?: AbstractTask) => {
+    const handleMutation = (updatedTask: AbstractTask) => {
+        setLocalTask(updatedTask);
         onInvalidate();
     };
 
     return (
         <>
             <UpcomingItemCard
-                item={task}
+                item={localTask}
                 itemType={CalendarItemType.TASK}
                 onShowDetail={setShowDetail.bind(null, true)}
             />
             {showDetail && (
                 <TaskDetail
-                    task={task}
+                    task={localTask}
+                    onEditTask={handleMutation}
                     onClose={setShowDetail.bind(null, false)}
                     onInvalidate={onInvalidate}
                 />
             )}
             {showEditForm && (
                 <TaskEdit
-                    initialTask={task}
+                    initialTask={localTask}
+                    onUpdate={handleMutation}
+                    onDelete={onInvalidate}
                     onClose={setShowEditForm.bind(null, false)}
-                    beginningPeriod={task.dateTime}
-                    onUpdate={updateHandler}
+                    beginningPeriod={localTask.dateTime}
                 />
             )}
         </>

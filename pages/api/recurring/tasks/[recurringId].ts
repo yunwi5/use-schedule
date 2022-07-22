@@ -11,13 +11,13 @@ import {
     updateRecurringTaskProps,
 } from '../../../../db/recurring-items';
 import { RecurringTaskProps } from '../../../../models/recurring-models/RecurringTask';
-import { TaskProperties } from '../../../../models/task-models/TaskProperties';
+import { TaskProps } from '../../../../models/task-models/TaskProperties';
 import { parseBooleanQueryParam } from '../../../../utilities/gen-utils/query-util';
 import { getTaskCollection } from '../../../../utilities/tasks-utils/task-util';
 
 type Data = { message: string };
 
-function getUpdatedTaskProps(recurringTaskProps: RecurringTaskProps): TaskProperties {
+function getUpdatedTaskProps(recurringTaskProps: RecurringTaskProps): TaskProps {
     const taskProps: any = {};
     Object.entries(recurringTaskProps).forEach(([key, value]) => {
         if (

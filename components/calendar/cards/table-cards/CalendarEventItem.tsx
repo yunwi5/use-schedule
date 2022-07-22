@@ -15,9 +15,9 @@ const CalendarEventItem: React.FC<Props> = (props) => {
     const [localEvent, setLocalEvent] = useState(event);
     const [showDetail, setShowDetail] = useState(false);
 
-    const handleMutation = (eventProps?: EventProps) => {
-        if (!eventProps) return;
+    const handleMutation = (eventProps: EventProps) => {
         setLocalEvent((prevEvent) => ({ ...prevEvent, ...eventProps }));
+        onInvalidate();
     };
 
     return (

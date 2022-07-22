@@ -15,10 +15,12 @@ import {
 } from '../../../../models/calendar-models/CalendarItemType';
 import ExitIcon from '../../../ui/icons/ExitIcon';
 import WrapperModal from '../../../ui/modal/wrapper/WrapperModal';
+import { TaskProps } from '../../../../models/task-models/TaskProperties';
 
 interface Props {
     onClose: () => void;
     task: AbstractTask;
+    onEditTask(taskProps: TaskProps): void;
     // on Invalidate tasks items. This function prop is optional.
     onInvalidate?: () => void;
 }
@@ -33,7 +35,7 @@ async function fetchSubTasks(context: any) {
 }
 
 const TaskDetail: React.FC<Props> = (props) => {
-    const { onClose, task, onInvalidate } = props;
+    const { onClose, task, onInvalidate, onEditTask } = props;
     const [showSubTasks, setShowSubTasks] = useState(false);
 
     const { name, plannerType } = task;
@@ -76,6 +78,7 @@ const TaskDetail: React.FC<Props> = (props) => {
                     <TaskDetailInfo
                         onClose={onClose}
                         task={task}
+                        onEditTask={onEditTask}
                         onInvalidate={onInvalidate}
                     />
                 )}

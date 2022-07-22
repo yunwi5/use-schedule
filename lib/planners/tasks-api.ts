@@ -1,6 +1,6 @@
 import { PlannerMode } from '../../models/planner-models/PlannerMode';
 import { NoIdTask, Task } from '../../models/task-models/Task';
-import { TaskProperties } from '../../models/task-models/TaskProperties';
+import { TaskProps } from '../../models/task-models/TaskProperties';
 import { getTaskCollection } from '../../utilities/tasks-utils/task-util';
 
 const API_DOMAIN = `/api/planners`;
@@ -113,7 +113,7 @@ export async function deleteTask(taskId: string, plannerMode: PlannerMode) {
 
 export async function updateTaskProperties(
     taskId: string,
-    updateProps: TaskProperties,
+    updateProps: TaskProps,
     plannerMode: PlannerMode,
 ) {
     const collection = getTaskCollection(plannerMode);

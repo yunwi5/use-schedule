@@ -1,16 +1,18 @@
-import { PlannerMode } from "../planner-models/PlannerMode";
+import { PlannerMode } from '../planner-models/PlannerMode';
+import { Category, SubCategory } from './Category';
+import { Importance, Status } from './Status';
 
 // Interface for updating task obj.
-export interface TaskProperties {
+export interface TaskProps {
     name?: string;
     timeString?: string;
     description?: string;
     duration?: number;
-    category?: string;
-    subCategory?: string;
-    status?: string;
+    category?: Category;
+    subCategory?: SubCategory;
+    status?: Status;
     userId?: string;
-    importance?: string;
+    importance?: Importance;
 
     dueDateString?: string;
     plannerType?: PlannerMode;

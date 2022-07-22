@@ -16,11 +16,17 @@ interface Props {
 
 // New version of task card that is responsive
 const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand, className = '' }) => {
-    const { dateTime, name, importance, status, duration, category } = task;
+    const [localTask, setLocalTask] = useState(task);
+    const { dateTime, name, importance, status, duration, category } = localTask;
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
-    const statusToggler = <TaskStatusToggler task={task} onInvalidate={onInvalidate} />;
+    const handleMutation = (updatedTask: AbstractTask) => {
+        setLocalTask(updatedTask);
+        onInvalidate();
+    };
+
+    const statusToggler = <TaskStatusToggler task={localTask} onInvalidate={onInvalidate} />;
 
     return (
         <>
@@ -40,14 +46,16 @@ const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand, className = '' 
             />
             {showDetail && (
                 <TaskDetail
-                    task={task}
+                    task={localTask}
+                    onEditTask={handleMutation}
                     onClose={() => setShowDetail(false)}
                     onInvalidate={onInvalidate}
                 />
             )}
             {showEdit && (
                 <TaskEdit
-                    initialTask={task}
+                    initialTask={localTask}
+                    onDelete={onInvalidate}
                     onClose={() => setShowEdit(false)}
                     onUpdate={onInvalidate}
                 />

@@ -42,22 +42,28 @@ function getStyleClasses(status: string, plannerMode: PlannerMode | null) {
 }
 
 const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
+    const [localTask, setLocalTask] = useState(task);
     const [showDetail, setShowDetail] = useState(false);
-    const [localStatus, setLocalStatus] = useState(task.status);
+    const [localStatus, setLocalStatus] = useState(localTask.status);
     const plannerMode = useAppSelector((state) => state.planner.plannerMode);
 
-    const durationFormat = task.durationFormat;
+    const durationFormat = localTask.durationFormat;
     const { statusBgClass, hoverBgClass, borderClass } = getStyleClasses(
         localStatus,
         plannerMode,
     );
+
+    const handleMutation = (updatedTask: AbstractTask) => {
+        setLocalTask(updatedTask);
+        onMutate();
+    };
 
     const toggleCompletion = (e: React.MouseEvent) => {
         e.stopPropagation();
         setLocalStatus((prevState) => {
             let newStatus;
             if (prevState === Status.COMPLETED)
-                newStatus = isOverdue(task.dueDate) ? Status.OVERDUE : Status.OPEN;
+                newStatus = isOverdue(localTask.dueDate) ? Status.OVERDUE : Status.OPEN;
             else newStatus = Status.COMPLETED;
             updateStatusHandler(newStatus);
             return newStatus;
@@ -66,28 +72,26 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
 
     const updateStatusHandler = async (newStatus: Status) => {
         await updateTaskProperties(
-            task.id,
+            localTask.id,
             { status: newStatus },
-            task.plannerType || plannerMode,
+            localTask.plannerType || plannerMode,
         );
         onMutate();
     };
 
-    const taskStatus = task.status;
-
     useEffect(() => {
         const timer = setTimeout(() => {
-            setLocalStatus(taskStatus);
+            setLocalStatus(localTask.status);
         }, 1000);
         return () => clearTimeout(timer);
-    }, [taskStatus]);
+    }, [localTask.status]);
 
     const showCheckToggler = plannerMode !== PlannerMode.TEMPLATE;
 
     return (
         <>
             <article
-                key={task.id}
+                key={localTask.id}
                 style={style}
                 onClick={() => setShowDetail(true)}
                 className={`z-10 absolute left-[50%] w-[94%] top-0 overflow-y-hidden ${statusBgClass} ${hoverBgClass} ${borderClass} 
@@ -107,29 +111,30 @@ const TaskCardSmall: React.FC<Props> = ({ task, onMutate, style }) => {
                         className={classes['status-checker']}
                     />
                 )}
-                <h5 className={`text-base sm:text-lg !leading-[1.3rem]`}>{task.name}</h5>
+                <h5 className={`text-base sm:text-lg !leading-[1.3rem]`}>{localTask.name}</h5>
                 <div className={`flex flex-col gap-1`}>
                     <p className={`text-[.9rem] hidden sm:inline-block`}>
                         <FontAwesomeIcon
                             icon={faListTree}
                             className={`icon-medium mr-1 text-blue-500`}
                         />
-                        {task.category}
+                        {localTask.category}
                     </p>
                     <p>
                         <FontAwesomeIcon
                             icon={faStarExclamation}
                             className={`icon-medium text-amber-500`}
                         />{' '}
-                        {task.importance}
+                        {localTask.importance}
                     </p>
                 </div>
             </article>
             {showDetail && (
                 <TaskDetail
-                    onClose={setShowDetail.bind(null, false)}
-                    task={task}
+                    onEditTask={handleMutation}
                     onInvalidate={onMutate}
+                    onClose={setShowDetail.bind(null, false)}
+                    task={localTask}
                 />
             )}
         </>

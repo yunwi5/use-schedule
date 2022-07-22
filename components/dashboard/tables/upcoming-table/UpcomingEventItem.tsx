@@ -17,6 +17,7 @@ const UpcomingEventItem: React.FC<Props> = ({ event }) => {
 
     const handleMutation = (eventProps: EventProps) => {
         setLocalEvent((prevEvent) => ({ ...prevEvent, ...eventProps }));
+        onInvalidate();
     };
 
     return (

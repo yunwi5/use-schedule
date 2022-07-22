@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 
 import { Importance, Status } from '../../../../models/task-models/Status';
-import { PlannerTask } from '../../../../models/task-models/Task';
 import PlannerTaskEdit from '../../../planners/planner-crud/TaskEdit';
 import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
 import AgendaItemCard from './AgendaItemCard';
 
 interface Props {
-    item: PlannerTask;
+    item: AbstractTask;
     onInvalidate: () => void;
 }
 
 const AgendaTaskItem: React.FC<Props> = ({ item, onInvalidate }) => {
+    const [localTask, setLocalTask] = useState(item);
     const [showDetail, setShowDetail] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+
+    const handleMutation = (updatedTask: AbstractTask) => {
+        setLocalTask(updatedTask);
+        onInvalidate();
+    };
 
     const showDetailCurry = (show: boolean) => () => setShowDetail(show);
     const showEditCurry = (show: boolean) => () => setShowEdit(show);
@@ -22,27 +28,29 @@ const AgendaTaskItem: React.FC<Props> = ({ item, onInvalidate }) => {
     return (
         <>
             <AgendaItemCard
-                item={item}
+                item={localTask}
                 itemType={CalendarItemType.TASK}
-                status={item.status as Status}
-                importance={item.importance as Importance}
-                category={item.category}
-                subCategory={item.subCategory}
+                status={localTask.status as Status}
+                importance={localTask.importance as Importance}
+                category={localTask.category}
+                subCategory={localTask.subCategory}
                 onShowDetail={showDetailCurry(true)}
                 onShowEdit={showEditCurry(true)}
             />
             {showDetail && (
                 <TaskDetail
-                    task={item}
+                    task={localTask}
+                    onEditTask={handleMutation}
                     onClose={showDetailCurry(false)}
                     onInvalidate={onInvalidate}
                 />
             )}
             {showEdit && (
                 <PlannerTaskEdit
-                    initialTask={item}
+                    initialTask={localTask}
+                    onDelete={onInvalidate}
                     onClose={showEditCurry(false)}
-                    beginningPeriod={item.dateTime}
+                    beginningPeriod={localTask.dateTime}
                     onUpdate={onInvalidate}
                 />
             )}

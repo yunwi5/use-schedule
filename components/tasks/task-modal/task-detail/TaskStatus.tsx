@@ -11,10 +11,10 @@ import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
 
 interface Props {
     task: AbstractTask;
-    onInvalidate?: () => void;
+    onEdit: (status: Status) => void;
 }
 
-const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
+const TaskStatus: React.FC<Props> = ({ task, onEdit }) => {
     const { status: initialStatus, plannerType } = task;
     const [status, setStatus] = useState<string>(initialStatus);
     const [isEditing, setIsEditng] = useState(false);
@@ -32,12 +32,8 @@ const TaskStatus: React.FC<Props> = ({ task, onInvalidate }) => {
     const requestHandler = async (newStatus: Status) => {
         if (newStatus === initialStatus) return;
         // Send HTTP PATCH request
-        const { isSuccess } = await updateTaskProperties(
-            task.id,
-            { status: newStatus },
-            plannerType,
-        );
-        if (isSuccess && onInvalidate) onInvalidate();
+        onEdit(newStatus);
+        await updateTaskProperties(task.id, { status: newStatus }, plannerType);
     };
 
     const showEditIcon = task.plannerType !== PlannerMode.TEMPLATE;

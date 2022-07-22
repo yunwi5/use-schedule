@@ -25,6 +25,7 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand }) => {
 
     const handleEventMutation = (eventProps: EventProps) => {
         setLocalEvent((prevEvent) => ({ ...prevEvent, ...eventProps }));
+        onInvalidate();
     };
 
     const statusToggler = <EventStatusToggler event={event} onInvalidate={onInvalidate} />;

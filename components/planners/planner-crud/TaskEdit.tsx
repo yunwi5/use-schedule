@@ -17,18 +17,19 @@ import useTaskDelete from '../../../hooks/task-hooks/useTaskDelete';
 
 interface Props {
     onClose: () => void;
-    onUpdate: (updateTask?: PlannerTask) => void;
+    onDelete(): void;
+    onUpdate: (updateTask: AbstractTask) => void;
     beginningPeriod?: Date;
     initialTask: AbstractTask;
 }
 
 const TaskEdit: React.FC<Props> = (props) => {
-    const { onClose, onUpdate, beginningPeriod, initialTask } = props;
+    const { onClose, onUpdate, onDelete, beginningPeriod, initialTask } = props;
     const { user } = useUser();
     const userId = user ? user.sub : null;
 
     const { setNotification } = useNotification();
-    const { deleteTask } = useTaskDelete({ task: initialTask, onDelete: onUpdate });
+    const { deleteTask } = useTaskDelete({ task: initialTask, onDelete });
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showDiscardModal, setShowDiscardModal] = useState(false);

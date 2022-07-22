@@ -18,11 +18,14 @@ import TaskDuplicate from '../../../planners/planner-crud/TaskDuplicate';
 import TaskEdit from '../../../planners/planner-crud/TaskEdit';
 import RecurringTaskDuplicate from '../../../recurring/crud-operations/RecurringTaskDuplicate';
 import { TaskSection } from './task-parts';
+import { copyClassObject } from '../../../../utilities/gen-utils/object-util';
+import { Status } from '../../../../models/task-models/Status';
 
 interface Props {
     onClose: () => void;
     task: AbstractTask;
     onInvalidate?: () => void;
+    onEditTask(taskProps: AbstractTask): void;
 }
 
 enum ModalEventType {
@@ -32,24 +35,34 @@ enum ModalEventType {
 }
 
 const TaskDetailInfo: React.FC<Props> = (props) => {
-    const { onClose, task, onInvalidate } = props;
+    const { onClose, task, onInvalidate = () => {}, onEditTask } = props;
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showRecurringModal, setShowRecurringModal] = useState(false);
 
-    const editHandler = (eventType: ModalEventType) => {
-        if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
-            setShowEditModal(false);
-            if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
-        } else {
+    const editShowHandler = (eventType: ModalEventType) => {
+        if (eventType === ModalEventType.SHOW) {
             setShowEditModal(true);
+        } else {
+            setShowEditModal(false);
         }
+    };
+
+    const editHandler = (updateProps: AbstractTask) => {
+        setShowEditModal(false);
+        onEditTask(updateProps);
+    };
+
+    const editStatusHandler = (status: Status) => {
+        const copiedTask: AbstractTask = copyClassObject(task);
+        copiedTask.status = status;
+        onEditTask(copiedTask);
     };
 
     const recurringHandler = (eventType: ModalEventType) => {
         if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
             setShowRecurringModal(false);
-            if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
+            if (eventType === ModalEventType.UPDATE) onInvalidate();
         } else {
             setShowRecurringModal(true);
         }
@@ -58,7 +71,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
     const duplicateHandler = (eventType: ModalEventType) => {
         if (eventType === ModalEventType.UPDATE || eventType === ModalEventType.CLOSE) {
             setShowDuplicateModal(false);
-            if (eventType === ModalEventType.UPDATE) onInvalidate && onInvalidate();
+            if (eventType === ModalEventType.UPDATE) onInvalidate();
         } else {
             setShowDuplicateModal(true);
         }
@@ -68,7 +81,7 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
         task,
         onDelete: () => {
             onClose();
-            onInvalidate && onInvalidate();
+            onInvalidate();
         },
     });
 
@@ -77,15 +90,11 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
     return (
         <>
             <div className={`${classes.grid} mb-1`}>
-                <TaskStatus task={task} onInvalidate={onInvalidate} />
+                <TaskStatus task={task} onEdit={editStatusHandler} />
                 <TaskSection label="Importance" value={importance} icon={faStarExclamation} />
-
                 <TaskSection label={'Category'} value={category} icon={faListTree} />
-
                 <TaskSection label={'Sub Category'} value={subCategory} icon={faListTree} />
-
                 <TaskSection label={'Date'} value={task.planDateFormat} icon={faAlarmClock} />
-
                 <TaskSection label={'Time'} value={task.planTimeFormat} icon={faAlarmClock} />
 
                 {/* Need formatted duration in hrs & mins */}
@@ -94,20 +103,18 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
                     value={getDurationFormat(duration)}
                     icon={faHourglass}
                 />
-
                 <TaskSection
                     label="Endtime"
                     value={task.endTimeFormat}
                     icon={faHourglassEnd}
                 />
-
                 <div className={classes.longitem}>
                     <TaskSection label={'Description'} value={description} icon={faMemoPad} />
                 </div>
             </div>
 
             <OperationList
-                onEdit={editHandler.bind(null, ModalEventType.SHOW)}
+                onEdit={editShowHandler.bind(null, ModalEventType.SHOW)}
                 onDelete={deleteTask}
                 onRecurring={recurringHandler.bind(null, ModalEventType.SHOW)}
                 onDuplicate={duplicateHandler.bind(null, ModalEventType.SHOW)}
@@ -115,8 +122,9 @@ const TaskDetailInfo: React.FC<Props> = (props) => {
             />
             {showEditModal && (
                 <TaskEdit
-                    onClose={editHandler.bind(null, ModalEventType.CLOSE)}
-                    onUpdate={editHandler.bind(null, ModalEventType.UPDATE)}
+                    onClose={editShowHandler.bind(null, ModalEventType.CLOSE)}
+                    onDelete={onInvalidate}
+                    onUpdate={editHandler}
                     beginningPeriod={task.dateTime}
                     initialTask={task}
                 />
