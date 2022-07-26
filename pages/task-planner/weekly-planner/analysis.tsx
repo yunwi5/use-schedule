@@ -1,38 +1,37 @@
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
-import { Task } from '../../../models/task-models/Task';
+// import { getTasksFromAllCollection, getEventsFromPage } from '../../../db/pages-util';
+// import { Task } from '../../../models/task-models/Task';
 import {
     getCurrentWeekBeginning,
     getWeekBeginning,
 } from '../../../utilities/date-utils/date-get';
 import WeeklyAnalysis from '../../../components/analysis/analysis-main/WeeklyAnalysis';
-import { IEvent } from '../../../models/Event';
-import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
+// import { IEvent } from '../../../models/Event';
+// import { convertToAppObjectList } from '../../../utilities/gen-utils/object-util';
 import useEventQuery from '../../../hooks/useEventQuery';
 import useTaskQuery from '../../../hooks/useTaskQuery';
 import { AppProperty } from '../../../constants/global-constants';
 
 interface Props {
-    initialAllTasks: Task[];
-    initialEvents: IEvent[];
+    // initialAllTasks: Task[];
+    // initialEvents: IEvent[];
     initialStartDate: string;
 }
 
-const WeeklyAnalysisPage: NextPage<Props> = (props) => {
+const WeeklyAnalysisPage: NextPage<Props> = ({ initialStartDate }) => {
     // Initial user tasks fetched from the server
-    const { initialAllTasks, initialEvents, initialStartDate } = props;
 
     // make sure it is always beginning of week, not just random day
     const beginningDate = initialStartDate.trim()
         ? getWeekBeginning(new Date(initialStartDate))
         : getCurrentWeekBeginning();
 
-    const { allTasks } = useTaskQuery(initialAllTasks);
-    const { events } = useEventQuery(initialEvents);
+    const { allTasks } = useTaskQuery();
+    const { events } = useEventQuery();
 
     return (
         <div>
@@ -50,36 +49,28 @@ const WeeklyAnalysisPage: NextPage<Props> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
     async getServerSideProps(context) {
-        const { req, res, query } = context;
-        const session = getSession(req, res);
-        const userId = session?.user.sub;
-        if (!session || !userId) {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            };
-        }
+        const { query } = context;
+        // const session = getSession(req, res);
+        // const userId = session?.user.sub;
 
         const { start_date } = query;
         const startDate: string = Array.isArray(start_date)
             ? start_date.join(' ')
             : start_date || getCurrentWeekBeginning().toDateString();
-        const allTasksPromise = getTasksFromAllCollection(userId);
-        const eventsPromise = getEventsFromPage(userId);
+        // const allTasksPromise = getTasksFromAllCollection(userId);
+        // const eventsPromise = getEventsFromPage(userId);
 
         // Need to convert to App style object (i.e. id instead of _id)
-        const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
-            allTasksPromise,
-            eventsPromise,
-        ]);
-        const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
+        // const [[wTaskDocs, mTaskDocs, yTaskDocs], eventsData] = await Promise.all([
+        //     allTasksPromise,
+        //     eventsPromise,
+        // ]);
+        // const allTasks = [...wTaskDocs, ...mTaskDocs, ...yTaskDocs];
 
         return {
             props: {
-                initialAllTasks: convertToAppObjectList(allTasks),
-                initialEvents: convertToAppObjectList(eventsData),
+                // initialAllTasks: convertToAppObjectList(allTasks),
+                // initialEvents: convertToAppObjectList(eventsData),
                 initialStartDate: startDate,
             },
         };

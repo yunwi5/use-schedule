@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import { useQuery, useQueryClient } from 'react-query';
 import RecurringMain from '../../components/recurring/RecurringMain';

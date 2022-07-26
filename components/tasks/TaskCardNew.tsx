@@ -6,6 +6,8 @@ import TaskEdit from '../planners/planner-crud/TaskEdit';
 import { AbstractTask } from '../../models/task-models/AbstractTask';
 import TaskStatusToggler from './task-support/TaskStatusToggler';
 import ItemCard from '../ui/cards/ItemCard';
+import { Status } from '../../models/task-models/Status';
+import { copyClassObject } from '../../utilities/gen-utils/object-util';
 
 interface Props {
     task: AbstractTask;
@@ -26,7 +28,14 @@ const TaskCard: React.FC<Props> = ({ task, onInvalidate, expand, className = '' 
         onInvalidate();
     };
 
-    const statusToggler = <TaskStatusToggler task={localTask} onInvalidate={onInvalidate} />;
+    const handleStatusUpdate = (newStatus: Status) => {
+        const copied = copyClassObject(localTask);
+        copied.status = newStatus;
+        setLocalTask(copied);
+        onInvalidate();
+    };
+
+    const statusToggler = <TaskStatusToggler task={localTask} onUpdate={handleStatusUpdate} />;
 
     return (
         <>

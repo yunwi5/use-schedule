@@ -7,10 +7,10 @@ import StatusTogglerButton from '../../ui/buttons/StatusTogglerButton';
 
 interface Props {
     task: AbstractTask;
-    onInvalidate(): void;
+    onUpdate(status: Status): void;
 }
 
-const EventStatusToggler: React.FC<Props> = ({ task, onInvalidate }) => {
+const EventStatusToggler: React.FC<Props> = ({ task, onUpdate }) => {
     const [localStatus, setLocalStatus] = useState(task.status);
 
     const toggleStatus = async (e: React.MouseEvent) => {
@@ -26,7 +26,7 @@ const EventStatusToggler: React.FC<Props> = ({ task, onInvalidate }) => {
 
     const statusUpdateHandler = async (newStatus: Status) => {
         await updateTaskProperties(task.id, { status: newStatus }, task.plannerType);
-        onInvalidate();
+        onUpdate(newStatus);
     };
 
     return (

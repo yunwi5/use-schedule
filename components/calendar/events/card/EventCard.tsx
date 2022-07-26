@@ -9,6 +9,7 @@ import EventDetail from '../detail/EventDetail';
 import EventEdit from '../EventEdit';
 import EventStatusToggler from './EventStatusToggler';
 import ItemCard from '../../../ui/cards/ItemCard';
+import { Status } from '../../../../models/task-models/Status';
 
 interface Props {
     event: IEvent;
@@ -28,7 +29,10 @@ const EventCard: React.FC<Props> = ({ event, onInvalidate, expand }) => {
         onInvalidate();
     };
 
-    const statusToggler = <EventStatusToggler event={event} onInvalidate={onInvalidate} />;
+    const handleUpdateStatus = (newStatus: Status) =>
+        handleEventMutation({ status: newStatus });
+
+    const statusToggler = <EventStatusToggler event={event} onUpdate={handleUpdateStatus} />;
 
     return (
         <>

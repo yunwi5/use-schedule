@@ -38,6 +38,7 @@ export class Typewriter {
         return this;
     }
 
+    // instead of deleting the typed string, replace it.
     async replaceString(
         str: string,
         { instant = true, start = false }: ReplaceStringConfig = {
@@ -56,6 +57,8 @@ export class Typewriter {
         if (start) {
             await this.start();
         }
+
+        return this;
     }
 
     deleteChars(number: number) {
@@ -102,6 +105,11 @@ export class Typewriter {
         return this;
     }
 
+    // can only be called internally
+    private addToQueue(cb: (resolve: () => void) => void) {
+        this.queue.push(() => new Promise(cb));
+    }
+
     async start() {
         let cb = this.queue.shift();
         while (cb != null) {
@@ -111,10 +119,5 @@ export class Typewriter {
         }
 
         return this;
-    }
-
-    // can only be called internally
-    private addToQueue(cb: (resolve: () => void) => void) {
-        this.queue.push(() => new Promise(cb));
     }
 }
