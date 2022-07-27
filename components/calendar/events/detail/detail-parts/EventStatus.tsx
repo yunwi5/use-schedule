@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck } from '@fortawesome/pro-duotone-svg-icons';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { SelectChangeEvent } from '@mui/material/Select';
 
-import { Status, StatusList } from '../../../../../models/task-models/Status';
+import { Status } from '../../../../../models/task-models/Status';
 import { patchEvent } from '../../../../../lib/events/event-apis';
 import { EventProps, IEvent } from '../../../../../models/Event';
 import IconEdit from '../../../../ui/icons/IconEdit';
 import { eventStyles } from './common-styles';
+import StatusSelect from '../../../../ui/input/custom-inputs/StatusSelect';
 
 interface Props {
     event: IEvent;
@@ -18,24 +15,23 @@ interface Props {
 }
 
 const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
-    const [status, setStatus] = useState(event.status);
     const [isEditing, setIsEditing] = useState(false);
 
     const confirmHandler = () => {
         setIsEditing(false);
-        changeHandler(status);
     };
 
+    // choosing a new status automatically closes the editing mode.
     const changeHandler = (newStatus: Status) => {
-        setStatus(newStatus);
+        setIsEditing(false);
         statusRequestHandler(newStatus);
     };
 
     const statusRequestHandler = async (newStatus: Status) => {
-        if (event.status === newStatus) return; // no change, no edit
+        onEdit({ status: newStatus });
+        if (event.status === newStatus) return; // no change, no request
         // send HTTP PATCH request
-        const { isSuccess } = await patchEvent(event.id, { status: newStatus });
-        if (isSuccess) onEdit({ status: newStatus });
+        await patchEvent(event.id, { status: newStatus });
     };
 
     return (
@@ -53,23 +49,9 @@ const EventStatus: React.FC<Props> = ({ event, onEdit }) => {
                 </div>
             </span>
             {isEditing ? (
-                <FormControl size="small" sx={{ mt: 1, minWidth: 120, maxWidth: 130 }}>
-                    <Select
-                        id="status-select"
-                        value={status}
-                        onChange={(e: SelectChangeEvent) =>
-                            changeHandler(e.target.value as Status)
-                        }
-                    >
-                        {StatusList.map((s) => (
-                            <MenuItem key={s} value={s}>
-                                {s}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <StatusSelect onChange={changeHandler} value={event.status} />
             ) : (
-                <p>{status}</p>
+                <p>{event.status}</p>
             )}
         </div>
     );
