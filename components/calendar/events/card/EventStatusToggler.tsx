@@ -25,8 +25,8 @@ const EventStatusToggler: React.FC<Props> = ({ event, onUpdate }) => {
     };
 
     const statusUpdateHandler = async (newStatus: Status) => {
-        await patchEvent(event.id, { status: newStatus });
         onUpdate(newStatus);
+        await patchEvent(event.id, { status: newStatus });
     };
 
     return (
