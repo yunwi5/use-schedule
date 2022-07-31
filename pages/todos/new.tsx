@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import TodoListContainer from '../../components/todos/TodoListContainer';
 import { useQuery, useQueryClient } from 'react-query';
 import { NoIdTodoList, TodoList, TodoListProperties } from '../../models/todo-models/TodoList';
 import { Todo } from '../../models/todo-models/Todo';
-import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { patchTodoList, postTodoList } from '../../lib/todos/todo-list-api';
 import { AppProperty } from '../../constants/global-constants';
+import useAuthNavigate from '../../hooks/useAuth';
 
 const API_TODO_DOMAIN = '/api/todos';
 
@@ -17,13 +17,10 @@ function getTodoList(context: any) {
     return fetch(`${API_TODO_DOMAIN}/list/${listId}`).then((res) => res.json());
 }
 
-interface Props {
-    userId: string;
-    user: Claims;
-}
-
 // This is the page for "new" todo list, so no fetching from the server.
-const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
+const NewTodoPage: NextPage = () => {
+    const { user } = useAuthNavigate();
+    const userId = user?.sub;
     const [listId, setListId] = useState<string>('');
 
     const queryClient = useQueryClient();
@@ -44,6 +41,7 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
         todoListObj: TodoListProperties,
         isNew: boolean,
     ): Promise<boolean> => {
+        if (userId == null) return new Promise((resolve) => resolve(true));
         if (isNew) {
             const newList: NoIdTodoList = {
                 ...todoListObj,
@@ -93,27 +91,5 @@ const NewTodoPage: NextPage<Props> = ({ user, userId }) => {
         </>
     );
 };
-
-export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
-    async getServerSideProps(context) {
-        const { req, res } = context;
-        const session = getSession(req, res);
-
-        if (!session) {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            };
-        }
-        const userId = session.user.sub;
-        return {
-            props: {
-                userId,
-            },
-        };
-    },
-});
 
 export default NewTodoPage;

@@ -1,12 +1,9 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useUser } from '@auth0/nextjs-auth0';
 
 import DashboardMain from '../../components/dashboard/DashboardMain';
 import { DashboardContextProvider } from '../../store/context/dashboard-context';
-import { getLoginLink } from '../../utilities/link-utils';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import useAuthNavigate from '../../hooks/useAuth';
 
 interface Props {
     // initialTasks: Task[];
@@ -14,15 +11,8 @@ interface Props {
 }
 
 const DashboardPage: NextPage<Props> = (props) => {
-    const user = useUser().user;
-    const router = useRouter();
-
-    useEffect(() => {
-        let timer = setTimeout(() => {
-            if (!user) router.replace(getLoginLink());
-        }, 1000);
-        return () => clearTimeout(timer);
-    }, [user, router]);
+    // navigate to login if the user is not logged in.
+    useAuthNavigate();
 
     return (
         <div>

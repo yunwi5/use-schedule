@@ -99,6 +99,10 @@ const TodoListSection: React.FC<Props> = (props) => {
         }
     }, [todos, setLocalTodos, localTodos]);
 
+    useEffect(() => {
+        setLocalTodos(todos);
+    }, [todoList]);
+
     return (
         <section className="mt-8 flex flex-col gap-5">
             <div className="flex justify-between">

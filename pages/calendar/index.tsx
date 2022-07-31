@@ -1,17 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect } from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
 
 import CalendarMain from '../../components/calendar/CalendarMain';
-import { useAppDispatch } from '../../store/redux';
-import { plannerActions } from '../../store/redux/planner-slice';
 import useEventQuery from '../../hooks/useEventQuery';
 import useTaskQuery from '../../hooks/useTaskQuery';
 import useTodoQuery from '../../hooks/useTodoQuery';
 import { AppProperty } from '../../constants/global-constants';
-import { useRouter } from 'next/router';
-import { getLoginLink } from '../../utilities/link-utils';
+import useAuthNavigate from '../../hooks/useAuth';
 
 interface Props {
     // tasks: Task[];
@@ -21,8 +16,7 @@ interface Props {
 
 const Calendar: NextPage<Props> = (props) => {
     // const { tasks: initialTasks, todos: initialTodos, events: initialEvents } = props;
-    const user = useUser().user;
-    const router = useRouter();
+    useAuthNavigate();
 
     const { allTasks: tasks, invalidateAllTasks: invalidateTasks } = useTaskQuery();
     const { events, invalidateEvents } = useEventQuery();
@@ -33,23 +27,6 @@ const Calendar: NextPage<Props> = (props) => {
         invalidateTodos();
         invalidateEvents();
     };
-
-    // Need to be cleaned up.
-    const dispatch = useAppDispatch(); // dispatching plannerMode
-    useEffect(() => {
-        dispatch(plannerActions.setPlannerMode(null));
-    }, [dispatch]);
-
-    useEffect(() => {
-        let timer = setTimeout(() => {
-            // console.log('user:', user);
-            if (!user) {
-                router.replace(getLoginLink());
-            }
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    }, [user, router]);
 
     return (
         <div>

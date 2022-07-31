@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useQuery, useQueryClient } from 'react-query';

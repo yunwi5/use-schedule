@@ -37,9 +37,7 @@ const TodoListContainer: React.FC<Props> = (props) => {
     const [theme, setTheme] = useState<CustomTheme | null>(initialTheme || null);
 
     const processedTodos = processTodos(todos);
-
     const dispatch = useAppDispatch();
-    const actTheme = useAppSelector((state) => state.todoList.currentActiveTheme);
 
     const themeSelectHandler = (newTheme: CustomTheme) => {
         const themeToPatch = isDefaultTheme(newTheme) ? null : newTheme;

@@ -1,8 +1,6 @@
 // import type {NextPage} from 'next'
-import { useState, useDebugValue, useEffect } from 'react';
-import { GetServerSideProps } from 'next';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { Claims, getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useQuery, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 
@@ -17,16 +15,15 @@ import {
 } from '../../lib/templates/templates-api';
 import { templateActions } from '../../store/redux/template-slice';
 import { AppProperty } from '../../constants/global-constants';
+import useAuthNavigate from '../../hooks/useAuth';
 
-interface Props {
-    userId: string;
-    template: null;
-    user: Claims;
-}
+interface Props {}
 
-const New: React.FC<Props> = ({ userId, user }) => {
+const New: React.FC<Props> = () => {
+    const { user } = useAuthNavigate();
+    const userId = user?.sub;
+
     const [templateId, setTemplateId] = useState<string>('');
-    useDebugValue(templateId);
     const dispatch = useDispatch();
 
     const queryClient = useQueryClient();
@@ -62,6 +59,7 @@ const New: React.FC<Props> = ({ userId, user }) => {
         tempObj: TemplateFormObj,
         isNew: boolean = true,
     ): Promise<boolean> => {
+        if (userId == null) return new Promise<boolean>((resolve) => resolve(true));
         // http request to post new template.
         if (isNew) {
             const newTemplate = { ...tempObj, userId };
@@ -114,26 +112,3 @@ const New: React.FC<Props> = ({ userId, user }) => {
 };
 
 export default New;
-
-export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
-    async getServerSideProps(context) {
-        const { req, res } = context;
-        const session = getSession(req, res);
-
-        if (!session) {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            };
-        }
-        const userId = session.user.sub;
-        return {
-            props: {
-                userId,
-                template: null,
-            },
-        };
-    },
-});
