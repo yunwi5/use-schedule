@@ -9,47 +9,51 @@ import {
     TimeLineFreqMap,
 } from '../../utilities/gen-utils/time-util';
 
-interface IWTableContext {
+interface ITimeTableContext {
     cellHeight: number; // unit should be rem
     minCellWidth: number;
     emptyCellHeight: number;
-    planner: WeeklyPlanner | TemplatePlanner | null;
+    // planner: WeeklyPlanner | TemplatePlanner | null;
     getTopOffset: (hours: number, minutes?: number) => string;
     getCellHeight: (hours: number) => string;
     getTaskHeight: (task: AbstractTask) => string;
     getTotalTableHeight: () => string;
 }
 
-const WTableContext = createContext<IWTableContext>({
+const TimeTableContext = createContext<ITimeTableContext>({
     cellHeight: 10,
     minCellWidth: 8.375,
     emptyCellHeight: 2.5,
-    planner: null,
     getTopOffset: () => '0rem',
     getCellHeight: (hours: number) => '0rem',
     getTaskHeight: (task: AbstractTask) => '0rem',
     getTotalTableHeight: () => '0rem',
 });
 
-export const useWTableContext = () => useContext(WTableContext);
+export const useTimeTableContext = () => useContext(TimeTableContext);
 
 interface Props {
     planner: WeeklyPlanner | TemplatePlanner;
+    defaultCellHeight?: number;
 }
 
 const DEFAULT_CELL_HEIGHT = 10; // unit in rem
-const MOBILE_CELL_HEIGHT = 7; // in rem
 
-export const WTableContextProvider: React.FC<Props> = ({ children, planner }) => {
+export const TimeTableContextProvider: React.FC<Props> = ({
+    children,
+    planner,
+    defaultCellHeight,
+}) => {
     // units in rem
-    const [cellHeight, setCellHeight] = useState<number>(DEFAULT_CELL_HEIGHT);
+    const initialCellHeight = defaultCellHeight ?? DEFAULT_CELL_HEIGHT;
+    const [cellHeight, setCellHeight] = useState<number>(initialCellHeight);
     const minCellWidth = 8.375;
     const emptyCellHeight = 3;
 
     useWindowInnerWidth({
         breakPoint: MOBILE_BREAKPOINT,
-        belowBreakPointCallback: () => setCellHeight(MOBILE_CELL_HEIGHT),
-        aboveBreakPointCallback: () => setCellHeight(DEFAULT_CELL_HEIGHT),
+        belowBreakPointCallback: () => setCellHeight(initialCellHeight * 0.7),
+        aboveBreakPointCallback: () => setCellHeight(initialCellHeight),
     });
 
     // populate time lines
@@ -129,12 +133,11 @@ export const WTableContextProvider: React.FC<Props> = ({ children, planner }) =>
         cellHeight,
         emptyCellHeight,
         minCellWidth,
-        planner,
         getTopOffset,
         getCellHeight,
         getTaskHeight,
         getTotalTableHeight,
     };
 
-    return <WTableContext.Provider value={value}>{children}</WTableContext.Provider>;
+    return <TimeTableContext.Provider value={value}>{children}</TimeTableContext.Provider>;
 };

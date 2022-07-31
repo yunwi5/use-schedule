@@ -1,6 +1,6 @@
 import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import { TemplatePlanner } from '../../../models/template-models/TemplatePlanner';
-import { WTableContextProvider } from '../../../store/context/weekday-table-context';
+import { TimeTableContextProvider } from '../../../store/context/time-table-context';
 import WeekdayTable from './WeekdayTable';
 
 interface Props {
@@ -11,9 +11,9 @@ interface Props {
 
 const WeekTableWrapper: React.FC<Props> = (props) => {
     return (
-        <WTableContextProvider planner={props.planner}>
+        <TimeTableContextProvider planner={props.planner}>
             <WeekdayTable {...props} />
-        </WTableContextProvider>
+        </TimeTableContextProvider>
     );
 };
 

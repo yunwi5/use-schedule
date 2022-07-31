@@ -1,9 +1,9 @@
-import { useWTableContext } from '../../../store/context/weekday-table-context';
-import { generateDayTimeLine } from '../../../utilities/date-utils/timeline-util';
+import { useTimeTableContext } from '../../store/context/time-table-context';
+import { generateDayTimeLine } from '../../utilities/date-utils/timeline-util';
 
 const DayTimeLine: React.FC = () => {
     const timeLines: string[] = generateDayTimeLine();
-    const { getTopOffset, getCellHeight } = useWTableContext();
+    const { getTopOffset, getCellHeight } = useTimeTableContext();
 
     return (
         <div

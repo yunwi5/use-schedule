@@ -1,8 +1,8 @@
-import { getWeekDay } from '../../../models/date-models/WeekDay';
-import { useWTableContext } from '../../../store/context/weekday-table-context';
+import { getWeekDay } from '../../../../models/date-models/WeekDay';
+import { useTimeTableContext } from '../../../../store/context/time-table-context';
 
 const WeekdayLabel: React.FC<{ date: Date }> = ({ date }) => {
-    const { minCellWidth } = useWTableContext();
+    const { minCellWidth } = useTimeTableContext();
     const dayMember = getWeekDay(date).substring(0, 3); // e.g. Monday
 
     return (

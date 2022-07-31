@@ -1,7 +1,7 @@
 import { TemplatePlanner } from '../../models/template-models/TemplatePlanner';
 import { ItemsView } from '../../models/ui-models';
 import { useAppSelector } from '../../store/redux';
-import WeekdayTableWrapper from '../planners/tables/WeekdayTableWrapper';
+import WeekdayTableWrapper from '../calendar-layouts/weekly-layout/WeekdayTableWrapper';
 import WeekdayList from '../planners/weekly-planner/WeekdayList';
 import LoadingSpinner from '../ui/design-elements/LoadingSpinner';
 import TemplateTableNav from './TemplateTableNav';

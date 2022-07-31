@@ -5,11 +5,11 @@ import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
 import { WeekdayListMondayToSunday } from '../../../models/date-models/WeekDay';
 import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import { TemplatePlanner } from '../../../models/template-models/TemplatePlanner';
-import { useWTableContext } from '../../../store/context/weekday-table-context';
+import { useTimeTableContext } from '../../../store/context/time-table-context';
 import { addDays } from '../../../utilities/date-utils/date-control';
-import DayTimeLine from './DayTimeLine';
-import WeekdayLabel from './WeekdayLabel';
-import WeekdayLine from './WeekdayLine';
+import DayTimeLine from '../DayTimeLine';
+import WeekdayLabel from './parts/WeekdayLabel';
+import WeekdayLine from './parts/WeekdayLine';
 import classes from './WeekdayTable.module.scss';
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
 // At this breakpoint, the width of each col should not shrink anymore.
 // This means it should maintain its width, but the container should now be a horizontal scrollber
 const WeekTable: React.FC<Props> = ({ beginningPeriod, planner, onMutate }) => {
-    const { minCellWidth } = useWTableContext();
+    const { minCellWidth } = useTimeTableContext();
 
     //TODO: Need refactoring on layout control part
     const [leftPos, setLeftPos] = useState(0);
@@ -72,7 +72,7 @@ const WeekTable: React.FC<Props> = ({ beginningPeriod, planner, onMutate }) => {
             {/* Width controller */}
             <div
                 className={gridClass}
-                style={{ minWidth: `${minCellWidth * 7}rem` }}
+                style={{ minWidth: `${minCellWidth * 7.33}rem` }}
                 ref={gridRef}
             >
                 <div className={`pl-[2.55rem] border-b-2 border-slate-300 flex w-full`}>

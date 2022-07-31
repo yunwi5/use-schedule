@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { AbstractTask } from '../../../models/task-models/AbstractTask';
-import { useWTableContext } from '../../../store/context/weekday-table-context';
-import { useAppSelector } from '../../../store/redux';
-import { addHours } from '../../../utilities/date-utils/date-control';
-import { getInitialTimeLineFreqMap } from '../../../utilities/gen-utils/time-util';
-import { applyTaskFilter } from '../../../utilities/tasks-utils/filter-util';
-import TaskCardSmall from '../../tasks/TaskCardSmall';
-import DynamicStatusPalleteProvider from '../../ui/colors/DynamicStatusPalleteProvider';
-import TaskAdd from '../planner-crud/TaskAdd';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
+import { useTimeTableContext } from '../../../../store/context/time-table-context';
+import { useAppSelector } from '../../../../store/redux';
+import { addHours } from '../../../../utilities/date-utils/date-control';
+import { getInitialTimeLineFreqMap } from '../../../../utilities/gen-utils/time-util';
+import { applyTaskFilter } from '../../../../utilities/tasks-utils/filter-util';
+import TaskCardSmall from '../cards/TaskCardSmall';
+import DynamicStatusPalleteProvider from '../../../ui/colors/DynamicStatusPalleteProvider';
+import TaskAdd from '../../../planners/planner-crud/TaskAdd';
 
 interface Props {
     date: Date;
@@ -20,7 +20,7 @@ const WeekdayLine: React.FC<Props> = ({ date, tasks, onMutate }) => {
         (state) => state.filter,
     );
     const { getTopOffset, getTaskHeight, getTotalTableHeight, minCellWidth } =
-        useWTableContext();
+        useTimeTableContext();
     const [filteredTaskList, setFilteredTaskList] = useState<AbstractTask[]>(tasks);
     const [isAdding, setIsAdding] = useState(false);
 

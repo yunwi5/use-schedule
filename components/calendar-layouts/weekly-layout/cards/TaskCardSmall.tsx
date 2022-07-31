@@ -6,19 +6,19 @@ import {
     faStarExclamation,
 } from '@fortawesome/pro-duotone-svg-icons';
 
-import { updateTaskProperties } from '../../lib/planners/tasks-api';
-import { AbstractTask } from '../../models/task-models/AbstractTask';
+import { updateTaskProperties } from '../../../../lib/planners/tasks-api';
+import { AbstractTask } from '../../../../models/task-models/AbstractTask';
 import {
     getStatusBgClass,
     getStatusBorderClass,
     getStatusHoverBgClass,
     Status,
-} from '../../models/task-models/Status';
-import { useAppSelector } from '../../store/redux';
-import { isOverdue } from '../../utilities/date-utils/date-check';
-import TaskDetail from './task-modal/task-detail/TaskDetail';
-import { PlannerMode } from '../../models/planner-models/PlannerMode';
-import StatusTogglerButton from '../ui/buttons/StatusTogglerButton';
+} from '../../../../models/task-models/Status';
+import { useAppSelector } from '../../../../store/redux';
+import { isOverdue } from '../../../../utilities/date-utils/date-check';
+import TaskDetail from '../../../tasks/task-modal/task-detail/TaskDetail';
+import { PlannerMode } from '../../../../models/planner-models/PlannerMode';
+import StatusTogglerButton from '../../../ui/buttons/StatusTogglerButton';
 import classes from './TaskCardSmall.module.scss';
 
 interface Props {

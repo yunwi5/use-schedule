@@ -3,7 +3,7 @@ import { WeeklyPlanner } from '../../../models/planner-models/WeeklyPlanner';
 import { ItemsView } from '../../../models/ui-models';
 import TableNav from '../planner-nav/TableNav';
 import WeekdayList from './WeekdayList';
-import WeekdayTableWrapper from '../tables/WeekdayTableWrapper';
+import WeekdayTableWrapper from '../../calendar-layouts/weekly-layout/WeekdayTableWrapper';
 
 interface Props {
     weekBeginning: Date;
