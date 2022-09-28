@@ -22,6 +22,7 @@ const useTodoQuery = (
         isLoading,
     } = useQuery('todos', fetchAllTodos, {
         initialData: initialTodos ? { todos: initialTodos } : [],
+        refetchInterval: 1500,
     });
     if (isTodoError) {
         console.log('Todo error');

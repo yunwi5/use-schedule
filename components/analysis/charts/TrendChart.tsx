@@ -76,7 +76,8 @@ const LinearChart: React.FC<Props> = (props) => {
     const periodName = getPeriodName(plannerMode);
 
     const { labels, data: dataArray } = generateChartDataset(chartDataArray, false);
-    const backgroundColor = chartDataArray.length > 0 ? chartDataArray[0].backgroundColor : null;
+    const backgroundColor =
+        chartDataArray.length > 0 ? chartDataArray[0].backgroundColor : null;
     const borderColor = chartDataArray.length > 0 ? chartDataArray[0].borderColor : null;
 
     const data = {
@@ -120,7 +121,7 @@ const LinearChart: React.FC<Props> = (props) => {
                     />
                 </div>
             </div>
-            <div className="">
+            <div>
                 <Line options={options} data={data} />
             </div>
         </div>

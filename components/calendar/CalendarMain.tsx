@@ -11,6 +11,7 @@ import CalendarContainer from './calendar-parts/CalendarContainer';
 import CalendarControl from './calendar-control/CalendarControl';
 import PageHeading from '../ui/typography/PageHeading';
 import BackgroundImage from '../ui/design-elements/BackgroundImage';
+import { CalendarItemType } from '../../models/calendar-models/CalendarItemType';
 
 function populateCalendar(beginningPeriod: Date, calendarItems: CalendarItem[]): Calendar {
     const newCalendar = new Calendar(beginningPeriod);
@@ -25,11 +26,11 @@ interface Props {
     todos: Todo[];
     tasks: PlannerTask[];
     events: IEvent[];
-    onInvalidateAll(): void;
+    onInvalidate(target?: CalendarItemType): void;
 }
 
 const CalendarMain: React.FC<Props> = (props) => {
-    const { todos, tasks, events, onInvalidateAll } = props;
+    const { todos, tasks, events, onInvalidate } = props;
 
     const currentMonthBeginning = getCurrentMonthBeginning();
     const [calendar, setCalendar] = useState<Calendar>(new Calendar(currentMonthBeginning));
@@ -73,10 +74,10 @@ const CalendarMain: React.FC<Props> = (props) => {
                         calendar={calendar}
                         onChangeMonth={monthNaviagtionHandler}
                         onNavigateCurrentMonth={navigateCurrentMonthHandler}
-                        onInvalidateItems={onInvalidateAll}
+                        onInvalidateItems={onInvalidate}
                     />
                     <CalendarControl
-                        onInvalidate={onInvalidateAll}
+                        onInvalidate={onInvalidate}
                         beginningPeriod={beginningPeriod}
                     />
                 </div>

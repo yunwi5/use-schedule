@@ -5,10 +5,11 @@ import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 
 import TaskAdd from '../../../planners/planner-crud/TaskAdd';
 import EventAdd from '../../events/EventAdd';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 import classes from './ItemCreateButton.module.scss';
 
 interface Props {
-    onInvalidate: () => void;
+    onInvalidate: (target?: CalendarItemType) => void;
     beginningPeriod: Date;
     className?: string;
 }
@@ -19,12 +20,12 @@ const ItemCreate: React.FC<Props> = ({ onInvalidate, beginningPeriod, className 
     const [shwoEventAdd, setShowEventAdd] = useState(false);
 
     const taskAddHandler = useCallback(() => {
-        onInvalidate();
+        onInvalidate(CalendarItemType.TASK);
         setShowTaskAdd(false);
     }, [onInvalidate]);
 
     const eventAddHandler = useCallback(() => {
-        onInvalidate();
+        onInvalidate(CalendarItemType.EVENT);
         setShowEventAdd(false);
     }, [onInvalidate]);
 

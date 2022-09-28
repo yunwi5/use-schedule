@@ -7,6 +7,7 @@ import useTaskQuery from '../../hooks/useTaskQuery';
 import useTodoQuery from '../../hooks/useTodoQuery';
 import { AppProperty } from '../../constants/global-constants';
 import useAuthNavigate from '../../hooks/useAuth';
+import { CalendarItemType } from '../../models/calendar-models/CalendarItemType';
 
 interface Props {
     // tasks: Task[];
@@ -22,10 +23,10 @@ const Calendar: NextPage<Props> = (props) => {
     const { events, invalidateEvents } = useEventQuery();
     const { todos, invalidateTodos } = useTodoQuery(null, null);
 
-    const invalidateAll = () => {
-        invalidateTasks();
-        invalidateTodos();
-        invalidateEvents();
+    const invalidateQueries = (target?: CalendarItemType) => {
+        if (!target || target === CalendarItemType.EVENT) invalidateEvents();
+        if (!target || target === CalendarItemType.TASK) invalidateTasks();
+        if (!target || target === CalendarItemType.TODO) invalidateTodos();
     };
 
     return (
@@ -41,7 +42,7 @@ const Calendar: NextPage<Props> = (props) => {
                 tasks={tasks}
                 todos={todos}
                 events={events}
-                onInvalidateAll={invalidateAll}
+                onInvalidate={invalidateQueries}
             />
         </div>
     );

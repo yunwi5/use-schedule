@@ -99,9 +99,6 @@ const NewTodoPage: NextPage<Props> = (props) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    // const API_DOMAIN = process.env.API_DOMAIN;
-    // const res = await fetch(`${API_DOMAIN}/todos/static`);
-    // const ids = await res.json();
     const client = await connectDatabase();
     const todoLists = await getAllTodoLists(client);
     client.close();

@@ -6,10 +6,11 @@ import { Calendar } from '../../../../models/calendar-models/Calendar';
 import { useAppDispatch, useAppSelector } from '../../../../store/redux';
 import { calendarActions } from '../../../../store/redux/calendar-slice';
 import { AgendaDayCell, AgendaItemsLabel } from './index';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
 interface Props {
     calendar: Calendar;
-    onInvalidateItems(): void;
+    onInvalidateItems(target?: CalendarItemType): void;
 }
 
 const CalendarAgenda: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
@@ -32,7 +33,7 @@ const CalendarAgenda: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
                         className={`inline-block mr-1 max-w-[1.5rem] text-xl hover:scale-125 ml-auto cursor-pointer transition-all ${
                             showAgendaDropdown ? 'rotate-180' : ''
                         }`}
-                    />{' '}
+                    />
                     {showAgendaDropdown ? 'Collapse All' : 'Expand All'}
                 </Button>
             </div>

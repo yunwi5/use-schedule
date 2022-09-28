@@ -10,9 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import classes from './CalendarControl.module.scss';
 import useWindowInnerWidth from '../../../hooks/useWindowInnerWidth';
+import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
 
 interface Props {
-    onInvalidate: () => void;
+    onInvalidate: (target?: CalendarItemType) => void;
     beginningPeriod: Date;
 }
 

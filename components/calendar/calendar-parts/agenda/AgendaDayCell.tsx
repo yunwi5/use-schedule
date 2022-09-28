@@ -14,11 +14,12 @@ import { AgendaEventItem, AgendaTaskItem, AgendaTodoItem } from '../../cards/age
 import { isCurrentDate } from '../../../../utilities/date-utils/date-check';
 
 import classes from './AgendaDayCell.module.scss';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
 interface Props {
     date: Date;
     items: CalendarItem[];
-    onInvalidateItems(): void;
+    onInvalidateItems(target?: CalendarItemType): void;
 }
 
 function getCalendarDateFormat(date: Date) {
@@ -97,7 +98,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                             <AgendaEventItem
                                 key={item.id}
                                 item={item as IEvent}
-                                onInvalidate={onInvalidateItems}
+                                onInvalidate={() => onInvalidateItems(CalendarItemType.EVENT)}
                             />
                         );
                     } else if (isInstanceOfTask(item)) {
@@ -105,7 +106,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                             <AgendaTaskItem
                                 key={item.id}
                                 item={item as PlannerTask}
-                                onInvalidate={onInvalidateItems}
+                                onInvalidate={() => onInvalidateItems(CalendarItemType.TASK)}
                             />
                         );
                     } else if (isInstanceOfTodo(item)) {
@@ -113,7 +114,7 @@ const AgendaDayCell: React.FC<Props> = ({ date, items, onInvalidateItems }) => {
                             <AgendaTodoItem
                                 key={item.id}
                                 item={item as Todo}
-                                onInvalidate={onInvalidateItems}
+                                onInvalidate={() => onInvalidateItems(CalendarItemType.TODO)}
                             />
                         );
                     }

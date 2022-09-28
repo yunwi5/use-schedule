@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-regular-svg-icons';
 import ItemCreateBar from '../../calendar-control/item-create/ItemCreateBar';
 import useArray from '../../../../hooks/useArray';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
 interface Position {
     x: number;
@@ -29,7 +30,7 @@ interface Position {
 interface Props {
     date: Date;
     items: CalendarItem[];
-    onInvalidateItems(): void;
+    onInvalidateItems(target?: CalendarItemType): void;
     beginningPeriod: Date;
     layoutId: string;
     selectedId: string | null;
@@ -95,7 +96,7 @@ const DayCell: React.FC<Props> = (props) => {
                             <CalendarTodoItem
                                 key={item.id}
                                 todo={item as Todo}
-                                onInvalidate={onInvalidateItems}
+                                onInvalidate={() => onInvalidateItems(CalendarItemType.TODO)}
                             />
                         );
                     } else if (isInstanceOfTask(item)) {
@@ -103,7 +104,7 @@ const DayCell: React.FC<Props> = (props) => {
                             <CalendarTaskItem
                                 key={item.id}
                                 task={item as PlannerTask}
-                                onInvalidate={onInvalidateItems}
+                                onInvalidate={() => onInvalidateItems(CalendarItemType.TASK)}
                             />
                         );
                     } else if (isInstanceOfEvent(item)) {
@@ -111,7 +112,7 @@ const DayCell: React.FC<Props> = (props) => {
                             <CalendarEventItem
                                 key={item.id}
                                 event={item as IEvent}
-                                onInvalidate={onInvalidateItems}
+                                onInvalidate={() => onInvalidateItems(CalendarItemType.EVENT)}
                             />
                         );
                     }

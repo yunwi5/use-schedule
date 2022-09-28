@@ -14,6 +14,7 @@ const useTaskQuery = (initialAllTasks?: Task[]) => {
         isLoading,
     } = useQuery('all-tasks', fetchAllTasks, {
         initialData: initialAllTasks ? { tasks: initialAllTasks } : undefined,
+        refetchInterval: 1000,
     });
 
     if (allTasksError) console.error('All tasks fetching error!', allTasksError);

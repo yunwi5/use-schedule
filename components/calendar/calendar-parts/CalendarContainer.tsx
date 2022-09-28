@@ -5,12 +5,13 @@ import CalendarNavigation from './CalendarNavigation';
 import CalendarAgenda from './agenda/CalendarAgenda';
 import CalendarTable from './table/CalendarTable';
 import CalendarFooter from './CalendarFooter';
+import { CalendarItemType } from '../../../models/calendar-models/CalendarItemType';
 
 interface Props {
     calendar: Calendar;
     onChangeMonth: (direction: number) => void;
     onNavigateCurrentMonth: () => void;
-    onInvalidateItems: () => void;
+    onInvalidateItems: (target?: CalendarItemType) => void;
 }
 
 const CalendarContainer: React.FC<Props> = (props) => {

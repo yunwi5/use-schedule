@@ -12,6 +12,7 @@ const useEventQuery = (initialEvents?: IEvent[]) => {
         isLoading,
     } = useQuery('events', fetchAllEvents, {
         initialData: initialEvents ? { events: initialEvents } : undefined,
+        refetchInterval: 1000,
     });
     if (isEventError) {
         console.log('Event error');

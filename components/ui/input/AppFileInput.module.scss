@@ -26,12 +26,12 @@
 }
 
 .inputfile:focus + .label {
-    outline: 2px solid $color-primary-light-4;
-    outline: -webkit-focus-ring-color auto 5px;
     /*  
     -webkit-focus-ring-color auto 5px is a little trick for obtaining 
     default outline looks on Chrome, Opera and Safari.
     */
+    outline: 2px solid $color-primary-light-4;
+    outline: -webkit-focus-ring-color auto 5px;
 }
 
 .inputfile + .label * {

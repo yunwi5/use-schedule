@@ -8,10 +8,11 @@ import useWindowInnerWidth from '../../../../hooks/useWindowInnerWidth';
 import DayCell from './DayCell';
 import classes from './CalendarTable.module.scss';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { CalendarItemType } from '../../../../models/calendar-models/CalendarItemType';
 
 interface Props {
     calendar: Calendar;
-    onInvalidateItems(): void;
+    onInvalidateItems(target?: CalendarItemType): void;
 }
 
 const CalendarTable: React.FC<Props> = ({ calendar, onInvalidateItems }) => {
