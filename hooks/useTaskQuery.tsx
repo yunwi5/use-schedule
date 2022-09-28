@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
+import { StaticKeys } from '../constants/query-keys';
 import { fetchAllTasks } from '../lib/planners/tasks-api';
 import { callRecurringItemUpdate } from '../lib/recurring';
 import { PlannerTask, Task } from '../models/task-models/Task';
@@ -12,7 +13,7 @@ const useTaskQuery = (initialAllTasks?: Task[]) => {
         data: allTasksData,
         error: allTasksError,
         isLoading,
-    } = useQuery('all-tasks', fetchAllTasks, {
+    } = useQuery(StaticKeys.TASK_QUERY_KEY, fetchAllTasks, {
         initialData: initialAllTasks ? { tasks: initialAllTasks } : undefined,
         refetchInterval: 1000,
     });
@@ -23,7 +24,7 @@ const useTaskQuery = (initialAllTasks?: Task[]) => {
         [allTasksData],
     );
 
-    const invalidateAllTasks = () => queryClient.invalidateQueries('all-tasks');
+    const invalidateAllTasks = () => queryClient.invalidateQueries(StaticKeys.TASK_QUERY_KEY);
 
     const processedTasks: PlannerTask[] = useMemo(() => {
         return processTasks(allTasks);
