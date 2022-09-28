@@ -52,7 +52,7 @@ const useTaskAdd = ({ onAdd }: Props) => {
             queryClient.setQueryData(
                 [StaticKeys.TASK_QUERY_KEY],
                 (oldTasksData: any | undefined) => {
-                    const newTasks = [...oldTasksData.tasks, newTask];
+                    const newTasks = [...oldTasksData?.tasks, newTask];
                     return { tasks: newTasks };
                 },
             );
