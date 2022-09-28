@@ -23,10 +23,9 @@ Deployed with the URL: https://use-schedule.vercel.app/.
 5. React Hook Form
 6. Axios
 7. Chart Js (React Chart Js)
-8. Material UI
-9. Tailwind CSS
-10. Sass
-11. Ical JS Parser
+8. Tailwind CSS
+9. Sass
+10. Ical JS Parser
 
 ### Back End
 1. TypeScript
